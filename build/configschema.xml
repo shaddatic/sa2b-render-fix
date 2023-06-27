@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
+	<Groups>
+		<Group name="main" display="0 • Render Fix Settings">
+			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
+				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
+			</Property>
+			<Property name="model_tint" display="Model Tint Fix" type="eTINT" defaultvalue="2">
+				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
+			</Property>
+			<Property name="objpak" display="Screen Tint Fix" type="eOBJPAK" defaultvalue="2">
+				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values, 'Off/Disabled' performs no changes.</HelpText>
+			</Property>
+			<Property name="ripple_fix" display="Ripple Draw Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the draw order of ripples so they draw above the water's surface.</HelpText>
+			</Property>
+			<Property name="gh_clear" display="'CLEAR!' Text Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Changes the draw mode of the level 'CLEAR!' text so it renders correctly.</HelpText>
+			</Property>
+			<Property name="stgsel_stretch" display="Stage Select Stretch Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the space section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="rest" display="1 • Restoration Settings">
+			<Property name="jet" display="Restore Enemy Jet Effects" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
+			</Property>
+			<Property name="emblem" display="Restore GUN Emblems" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
+			</Property>
+			<Property name="stgsel_text" display="Restore Stage Select Text Bar" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the blue, backdrop bar in the Stage Select menu from the Dreamcast version.</HelpText>
+			</Property>
+			<Property name="ce_lightmod" display="Restore CE Lighting Modifiers" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the objects that effect character lighting in City Escape that were turned off in the GameCube version.</HelpText>
+			</Property>
+			<Property name="dc_ring" display="Restore DC Ring Shadows" type="eBOOL" defaultvalue="0">
+				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
+			</Property>
+		</Group>
+		<Group name="env" display="2 • Environment Map Settings">
+			<Property name="fix" display="Environment Map Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
+			</Property>
+			<Property name="flip" display="Flip Environment Map Textures" type="eBOOL" defaultvalue="1">
+				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="exp" display="F • Experimental Settings">
+			<Property name="enemy_shadows" display="Restore Enemy Shadows" type="eBOOL" defaultvalue="0">
+				<HelpText>Restores Enemy shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>
+			</Property>
+		</Group>
+	</Groups>
+	<Enums>
+		<Enum name="eBOOL">
+			<EnumMember name="1" display="Enabled"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="eTINT">
+			<EnumMember name="2" display="Enabled"></EnumMember>
+			<EnumMember name="1" display="Match Dreamcast"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="eOBJPAK">
+			<EnumMember name="2" display="Enabled"></EnumMember>
+			<EnumMember name="1" display="Keep Tint"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+	</Enums>
+</ConfigSchema>

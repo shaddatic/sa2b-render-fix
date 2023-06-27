@@ -1,0 +1,118 @@
+CNKOBJECT_START
+
+PLIST      strip_e_shouko_wing_starboard[]
+START
+	CnkM_DAS( FBS_SA|FBD_ISA ), 6,
+	MDiff( 255, 255, 255, 255 ),
+	MAmbi( 255, 127, 127, 127 ),
+	MSpec( 11, 255, 255, 255 ),
+	CnkT_TID( FCL_U|FCL_V|FDA_100 ), _TID( FFM_BF, 2 ),
+	CnkS_UVN( 0x0 ), 66, _NB( UFO_0, 5 ),
+	StripL(4),
+	14, 	Uvn( 192, 2 ),
+	10, 	Uvn( 192, 45 ),
+	15, 	Uvn( 40, 1 ),
+	12, 	Uvn( 40, 45 ),
+	StripR(6),
+	13, 	Uvn( 72, 255 ),
+	11, 	Uvn( 192, 43 ),
+	9, 	Uvn( 0, 255 ),
+	8, 	Uvn( 0, 43 ),
+	12, 	Uvn( 74, 255 ),
+	10, 	Uvn( 192, 43 ),
+	StripL(4),
+	15, 	Uvn( 0, 0 ),
+	13, 	Uvn( 48, 0 ),
+	14, 	Uvn( 0, 213 ),
+	11, 	Uvn( 48, 213 ),
+	StripL(3),
+	13, 	Uvn( 188, 2 ),
+	15, 	Uvn( 176, 41 ),
+	12, 	Uvn( 166, 1 ),
+	StripL(3),
+	9, 	Uvn( 58, 177 ),
+	13, 	Uvn( 48, 41 ),
+	12, 	Uvn( 70, 42 ),
+	CnkT_TID( FCL_U|FCL_V|FDA_100 ), _TID( FFM_BF, 1 ),
+	CnkS_UVN( FST_UA ), 28, _NB( UFO_0, 2 ),
+	StripL(4),
+	1, 	Uvn( 12, 0 ),
+	0, 	Uvn( 12, 247 ),
+	3, 	Uvn( 240, 0 ),
+	2, 	Uvn( 240, 247 ),
+	StripL(4),
+	7, 	Uvn( 12, 0 ),
+	6, 	Uvn( 12, 247 ),
+	5, 	Uvn( 240, 0 ),
+	4, 	Uvn( 240, 247 ),
+	CnkNull(),
+	CnkEnd()
+END
+
+VLIST      vertex_e_shouko_wing_starboard[]
+START
+	CnkV_VN(0, 97),
+	OffnbIdx(0, 16),
+	VERT( 0xc20bffa1, 0x40b40abe, 0xc210cd91 ),
+	NORM( 0x3cb902c1, 0x3f7fbb52, 0xbd230eb9 ),
+	VERT( 0xc20bffa1, 0x40c59201, 0xc1a99b1e ),
+	NORM( 0x3cb902c1, 0x3f7fbb52, 0xbd230eb8 ),
+	VERT( 0xc243ffa1, 0x40baf86a, 0xc210cd92 ),
+	NORM( 0x3cb902c2, 0x3f7fbb52, 0xbd230eb8 ),
+	VERT( 0xc243ffa1, 0x40cfb2df, 0xc1a99b1f ),
+	NORM( 0x3cb902c1, 0x3f7fbb52, 0xbd230eb8 ),
+	VERT( 0xc20bffe7, 0x409bda51, 0xc210cd45 ),
+	NORM( 0xb9487621, 0xbf7ff446, 0xbc9af207 ),
+	VERT( 0xc20bffe7, 0x40917d17, 0xc1a99a88 ),
+	NORM( 0xb9487620, 0xbf7ff446, 0xbc9af207 ),
+	VERT( 0xc243ffe7, 0x40995efd, 0xc210cd46 ),
+	NORM( 0xb9487620, 0xbf7ff446, 0xbc9af206 ),
+	VERT( 0xc243ffe7, 0x40919305, 0xc1a99a89 ),
+	NORM( 0xb9487620, 0xbf7ff446, 0xbc9af206 ),
+	VERT( 0xc1a7fffd, 0x40a33333, 0xc22b3335 ),
+	NORM( 0x3e8956d7, 0xbc7df905, 0xbf76960f ),
+	VERT( 0xc288cccc, 0x40a33333, 0xc2600004 ),
+	NORM( 0xbf0b7183, 0xbbddd3c3, 0xbf56aeb2 ),
+	VERT( 0xc1a80000, 0x40d33333, 0xc0266677 ),
+	NORM( 0xbe176d18, 0x3f79fdc4, 0x3e205cae ),
+	VERT( 0xc1a80000, 0x408b3333, 0xc0266677 ),
+	NORM( 0xbd6b7274, 0xbf7f1937, 0x3d7a091d ),
+	VERT( 0xc288cccc, 0x40c00000, 0xc226666a ),
+	NORM( 0xbf375e89, 0x3f2f9848, 0x3e035764 ),
+	VERT( 0xc288cccc, 0x409e6666, 0xc226666a ),
+	NORM( 0xbf3b2345, 0xbf2b57a8, 0x3e08128c ),
+	VERT( 0xc1a80000, 0x40a33333, 0x407ffff1 ),
+	NORM( 0xbf2a7138, 0xbd60cc17, 0x3f3e7e84 ),
+	VERT( 0xc2853332, 0x40a33333, 0xc2133337 ),
+	NORM( 0xbf36c597, 0xbdd4b71c, 0x3f314442 ),
+	CnkEnd()
+END
+
+CNKMODEL   model_e_shouko_wing_starboard[]
+START
+VList      vertex_e_shouko_wing_starboard,
+PList      strip_e_shouko_wing_starboard,
+Center    -44.699993F,  5.475000F, -26.000010F,
+Radius     38.232059F,
+END
+
+CNKOBJECT  object_e_shouko_wing_starboard[]
+START
+EvalFlags ( 0x00000017 ),
+CNKModel   model_e_shouko_wing_starboard,
+OPosition  (  0.000000F,  0.000000F,  0.000000F ),
+OAngle     (  0.000000F,  0.000000F,  0.000000F ),
+OScale     (  1.000000F,  1.000000F,  1.000000F ),
+Child       NULL,
+Sibling     NULL,
+END
+
+CNKOBJECT_END
+
+DEFAULT_START
+
+#ifndef DEFAULT_OBJECT_NAME
+#define DEFAULT_OBJECT_NAME object_e_shouko_wing_starboard
+#endif
+
+DEFAULT_END

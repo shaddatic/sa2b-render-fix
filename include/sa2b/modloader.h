@@ -1,0 +1,89 @@
+/*
+*	Sonic Adventure Mod Tools - Mod Loader Header
+*/
+
+#ifndef _SAMT_MODLOADER_H_
+#define _SAMT_MODLOADER_H_
+
+constexpr int	ModLoaderVer = 8;
+
+/*
+*	Types
+*/
+typedef int		ModInfo[10];
+typedef void	HelperFunctions;
+
+/*
+*	Functions
+*/
+int			ML_GetVersion( void );
+
+const char* ML_GetMainSavePath( void );
+const char* ML_GetChaoSavePath( void );
+
+void		ML_ReplaceFile( const char* path, const char* pathNew );
+
+void		ML_SetWindowTitle( const wchar_t* wTitle );
+
+void		ML_SetDebugFontParams( float scale, int color );
+
+void		ML_SetDebugFontScale( float scale );
+void		ML_SetDebugFontColor( int color );
+
+void		ML_DisplayDebugString( int njmLocation, const char* string );
+void		ML_DisplayDebugStringF( int njmLocation, char* buffer, const char* format, ... );
+void		ML_DisplayDebugInt( int njmLocation, int val, int nbDigits );
+
+#endif /* _SAMT_MODLOADER_H_ */
+
+/*
+*	Execute at game startup:
+*
+	extern "C" __declspec(dllexport)
+	void __cdecl
+	Init(const char* path, const HelperFunctions* pHelperFunctions)
+	{
+		SAMT_Init(path, pHelperFunctions);
+	}
+*
+*	Execute every rendered frame:
+*
+	extern "C" __declspec(dllexport)
+	void __cdecl
+	OnFrame()
+	{
+		
+	}
+*
+*	Execute before the game processes input:
+*
+	extern "C" __declspec(dllexport)
+	void __cdecl
+	OnInput()
+	{
+		
+	}
+*
+*	Execute when the game processes input:
+*
+	extern "C" __declspec(dllexport)
+	void __cdecl
+	OnControl()
+	{
+		
+	}
+*
+*	Execute on game close:
+*
+	extern "C" __declspec(dllexport)
+	void __cdecl
+	OnExit(uint32 uExitCode, int a1, int a2)
+	{
+		
+	}
+*
+*	Valid Mod Info ($ == SA2 or SADX):
+* 
+	extern "C" __declspec(dllexport)
+	ModInfo $ModInfo = { ModLoaderVer };
+*/

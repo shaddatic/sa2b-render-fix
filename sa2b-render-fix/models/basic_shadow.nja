@@ -1,0 +1,60 @@
+CNKOBJECT_START
+
+PLIST      strip_basic_shadow[]
+START
+	CnkM_DA( FBS_SA|FBD_ISA ), 4,
+	MDiff( 255, 255, 255, 255 ),
+	MAmbi( 255, 255, 255, 255 ),
+	CnkT_TID( FCL_U|FCL_V ), _TID( FFM_BF, 0 ),
+	CnkS_UVN( FST_IL|FST_UA ), 14, _NB( UFO_0, 1 ),
+	StripL(4),
+	2, 	Uvn( 2, 253 ),
+	1, 	Uvn( 2, 1 ),
+	0, 	Uvn( 254, 253 ),
+	3, 	Uvn( 254, 1 ),
+	CnkEnd()
+END
+
+VLIST      vertex_basic_shadow[]
+START
+	CnkV_VN(0, 25),
+	OffnbIdx(0, 4),
+	VERT( 0xbf800000, 0x00000000, 0x3f800000 ),
+	NORM( 0x00000000, 0x3f800000, 0x00000000 ),
+	VERT( 0x3f800000, 0x00000000, 0xbf800000 ),
+	NORM( 0x00000000, 0x3f800000, 0x00000000 ),
+	VERT( 0x3f800000, 0x00000000, 0x3f800000 ),
+	NORM( 0x00000000, 0x3f800000, 0x00000000 ),
+	VERT( 0xbf800000, 0x00000000, 0xbf800000 ),
+	NORM( 0x00000000, 0x3f800000, 0x00000000 ),
+	CnkEnd()
+END
+
+CNKMODEL   model_basic_shadow[]
+START
+VList      vertex_basic_shadow,
+PList      strip_basic_shadow,
+Center     0.000000F,  0.000000F,  0.000000F,
+Radius     3.000000F,
+END
+
+CNKOBJECT  object_basic_shadow[]
+START
+EvalFlags ( 0x000000d7 ),
+CNKModel   model_basic_shadow,
+OPosition  (  0.000000F,  0.000000F,  0.000000F ),
+OAngle     (  0.000000F,  0.000000F,  0.000000F ),
+OScale     (  1.000000F,  1.000000F,  1.000000F ),
+Child       NULL,
+Sibling     NULL,
+END
+
+CNKOBJECT_END
+
+DEFAULT_START
+
+#ifndef DEFAULT_OBJECT_NAME
+#define DEFAULT_OBJECT_NAME object_basic_shadow
+#endif
+
+DEFAULT_END
