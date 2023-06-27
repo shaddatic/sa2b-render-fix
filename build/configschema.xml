@@ -12,13 +12,13 @@
 				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values, 'Off/Disabled' performs no changes.</HelpText>
 			</Property>
 			<Property name="ripple_fix" display="Ripple Draw Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the draw order of ripples so they draw above the water's surface.</HelpText>
+				<HelpText>Fixes the draw order of water ripples so they draw above the water's surface.</HelpText>
 			</Property>
 			<Property name="gh_clear" display="'CLEAR!' Text Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Changes the draw mode of the level 'CLEAR!' text so it renders correctly.</HelpText>
+				<HelpText>Changes the draw mode of the level 'CLEAR!' text so it renders correctly with transparancy again.</HelpText>
 			</Property>
 			<Property name="stgsel_stretch" display="Stage Select Stretch Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the space section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
+				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
 			</Property>
 		</Group>
 		<Group name="rest" display="1 • Restoration Settings">
