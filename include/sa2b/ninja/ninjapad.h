@@ -135,7 +135,7 @@ extern "C" {
 #define NJD_USER_EXIT      (-1)
 
 extern const NJS_PERIPHERAL* njGetPeripheral(uint32 port);
-extern void njPrintPeripheralInfo(Int loc, uint32 port);
+extern void njPrintPeripheralInfo(sint32 loc, uint32 port);
 extern void njUserInit(void);
 extern sint32 njUserMain(void);
 extern void njUserExit(void);

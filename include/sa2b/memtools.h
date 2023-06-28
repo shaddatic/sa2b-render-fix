@@ -38,7 +38,7 @@ void	_WriteCall(void* writeaddr, void* calladdr);
 
 #define WriteMemory(WADDR, DADDR, SIZE)		if constexpr ((void*)WADDR < CONST_THREASHOLD) { WriteProtectedMemory((void*)WADDR, (void*)DADDR, (size_t)SIZE); } else { memcpy((void*)WADDR, (void*)DADDR, (size_t)SIZE); }
 
-#define WriteValue(ADDR, VAL, TYPE)		{	TYPE v = (TYPE)(VAL); WriteMemory((ADDR), &v, sizeof(TYPE));	}
+#define WriteData(addr, data, type)		{	type v = (type)(data); WriteMemory((addr), &v, sizeof(type));	}
 #define WritePointer(ADDR, PTR)				WriteValue((ADDR), (PTR), void*)
 
 #define WriteMulti(WA, VAL, NB)			{	uint8 a[NB]; memset(a, VAL, NB); WriteMemory((void*)WA, a, NB);			}
@@ -52,8 +52,8 @@ void	_WriteCall(void* writeaddr, void* calladdr);
 #define WriteArray(ADDR, ARY)				WriteMemory((void*)ADDR, (void*)ARY, sizeof(ARY))
 
 /* Legacy */
-#define WriteNoOPOld(WA, NB)				WriteMulti(WA, 0x90, NB);
-
+#define WriteNOP(WA, NB)					WriteMulti(WA, 0x90, NB);
 #define WriteClearedCall(WA, CA, NB)		WriteNoOPOld(WA, NB); _WriteCall((void*)WA, (void*)CA);
+#define WriteValue(ADDR, VAL, TYPE)			WriteData(ADDR, VAL, TYPE)
 
 #endif /* _SAMT_MEMTOOLS_H_ */

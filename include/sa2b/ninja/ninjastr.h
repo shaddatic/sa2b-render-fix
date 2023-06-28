@@ -514,9 +514,9 @@ typedef struct
 	float32		odev;           /* judgment value of devision   */
 	float32       rate;           /* attenuation rate(calculated) */
 	float32       intns;          /* Intensity (0-1)              */
-	Int         exp;            /* exponent(SGI):material       */
+	sint32         exp;            /* exponent(SGI):material       */
 /*************/
-	Int         reserve;        /*                              */
+	sint32         reserve;        /*                              */
 /*************/
 	NJS_POINT3  lpnt;           /* point vector                 */
 	NJS_VECTOR  lvctr;          /* directional vector           */
@@ -538,7 +538,7 @@ typedef struct
  * NJS_LIGHT_ATTR
  */
 typedef struct {
-	Int             lsrc;       /* the kind of light source     */
+	sint32             lsrc;       /* the kind of light source     */
 	float32           iamb;       /* ambient's intensity          */
 	float32           idif;       /* deffuse light's intensity    */
 	float32           ispc;       /* specular light's intensity   */
@@ -557,8 +557,8 @@ typedef struct {
 	NJS_MATRIX      mtrx;       /* matrix                       */
 	NJS_POINT3      pnt;        /* point vector                 */
 	NJS_VECTOR      vctr;       /* directional vector           */
-	Int             stat;       /* status                       */
-	Int             reserve;    /* reserve                      */
+	sint32             stat;       /* status                       */
+	sint32             reserve;    /* reserve                      */
 	NJS_LIGHT_CAL   ltcal;      /* calculation                  */
 	NJS_LIGHT_ATTR  attr;       /* attribute                    */
 } NJS_LIGHT, *NJS_LIGHT_PTR;

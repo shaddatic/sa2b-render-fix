@@ -18,9 +18,9 @@ extern  float32       _nj_near_clip_;
 extern  float32       _nj_far_clip_;
 extern  float32       _nj_scr_aspect_x_;
 extern  float32       _nj_scr_aspect_y_;
-extern 	Int			_nj_display_mode_;
-extern	Int			_nj_frame_mode_;
-extern	Int			_nj_waitvsync_count;
+extern 	sint32			_nj_display_mode_;
+extern	sint32			_nj_frame_mode_;
+extern	sint32			_nj_waitvsync_count;
 
 DataRef(uint32, _nj_control_3d_flag_, 0x25F02D8);
 
@@ -37,17 +37,17 @@ extern uint32 _nj_start_vertex_tp;
 extern uint32 _nj_start_vertex_tm;
 extern uint32 _nj_start_vertex_pt;
 
-extern Int _nj_frame_size_w;
-extern Int _nj_frame_size_h;
+extern sint32 _nj_frame_size_w;
+extern sint32 _nj_frame_size_h;
 
 /******************************/
 /* Global Variable for Model  */
 DataRef(NJS_VERTEX_BUF*, _nj_vertex_buf_, 0x025EFE48);
-extern	Int	_nj_vertex_num_;
+extern	sint32	_nj_vertex_num_;
 
-extern	Int	_nj_calc_vertex_;
-extern	Int	_nj_calc_polygon_;
-extern	Int	_nj_draw_polygon_;
+extern	sint32	_nj_calc_vertex_;
+extern	sint32	_nj_calc_polygon_;
+extern	sint32	_nj_draw_polygon_;
 DataRef(uint32, _nj_constant_attr_and_, 0x25F0268);
 DataRef(uint32, _nj_constant_attr_or_, 0x025F02D4);
 DataRef(NJS_ARGB, _nj_constant_material_, 0x025EFFD0);
@@ -58,9 +58,9 @@ extern	float32	_nj_depth_near_;
 extern	float32	_nj_depth_far_;
 extern	float32	_nj_depth_range_;
 extern	float32	_nj_vertex_offset_;
-extern	Int		_nj_depth_enable_;
+extern	sint32		_nj_depth_enable_;
 
-extern  Int	volatile _nj_fatal_err_callback_;
+extern  sint32	volatile _nj_fatal_err_callback_;
 
 /******************************/
 /* Global Variable for Motion */
@@ -93,8 +93,8 @@ extern uint32 _nj_tex_max_free_size;
 extern uint32 _nj_user_globalIndex;
 extern sint32 _nj_texglobal_color_;
 extern NJS_TEXERRSTAT _nj_texerr_;
-extern Int _nj_loadtexreq_mode_;
-extern Int _nj_loadtexreq_i_;
+extern sint32 _nj_loadtexreq_mode_;
+extern sint32 _nj_loadtexreq_i_;
 
 extern sint8	*_nj_texture_buffer_st;
 extern uint32 _nj_texture_buffer_max_size;

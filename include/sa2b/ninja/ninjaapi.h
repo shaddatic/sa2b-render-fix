@@ -20,6 +20,20 @@ void	njSetBackColor(uint32 col1, uint32 col2, uint32 col3);
 /************************/
 /*	Draw				*/
 /************************/
+void    njDrawPolygon(NJS_POLYGON_VTX* polygon, sint32 count, sint32 trans);
+void    njDrawTexture(NJS_TEXTURE_VTX* polygon, sint32 count, sint32 tex, sint32 flag);
+void    njDrawTextureMemList(NJS_TEXTURE_VTX* polygon, sint32 count, sint32 tex, sint32 flag);
+void    njDrawTextureH(NJS_TEXTUREH_VTX* polygon, sint32 count, sint32 tex, sint32 flag);
+
+void    njDrawPolygon3DEx(NJS_POLYGON_VTX* p, sint32 count, sint32 trans);
+void	njDrawPolygon3DExStart(sint32 trans);
+void    njDrawPolygon3DExSetData(NJS_POLYGON_VTX* p, sint32 count);
+void	njDrawPolygon3DExEnd(void);
+
+void	njDrawTexture3DEx(NJS_TEXTURE_VTX* p, sint32 count, sint32 trans);
+void	njDrawTexture3DExStart(sint32 trans);
+void	njDrawTexture3DExSetData(NJS_TEXTURE_VTX* p, sint32 count);
+void	njDrawTexture3DExEnd(void);
 
 /************************/
 /*	Model				*/
@@ -41,11 +55,11 @@ void	njCnkSetMotionCallback( void (*func)(NJS_CNK_OBJECT *cnkobj) );
 /*	Draw2D				*/
 /************************/
 
-void	njDrawPoint2D(NJS_POINT2COL *p, Int n, float32 pri, uint32 attr);
-void	njDrawLine2D(NJS_POINT2COL *p, Int n, float32 pri, uint32 attr);
-void	njDrawTriangle2D(NJS_POINT2COL *p, Int n, float32 pri, uint32 attr);
-void	njDrawPolygon2D(NJS_POINT2COL *p, Int n, float32 pri, uint32 attr);		/* Ignores 'n' argument, always uses 4 */
-void	njDrawCircle2D(NJS_POINT2COL *p, Int n, float32 pri, uint32 attr);
+void	njDrawPoint2D(NJS_POINT2COL *p, sint32 n, float32 pri, uint32 attr);
+void	njDrawLine2D(NJS_POINT2COL *p, sint32 n, float32 pri, uint32 attr);
+void	njDrawTriangle2D(NJS_POINT2COL *p, sint32 n, float32 pri, uint32 attr);
+void	njDrawPolygon2D(NJS_POINT2COL *p, sint32 n, float32 pri, uint32 attr);		/* Ignores 'n' argument, always uses 4 */
+void	njDrawCircle2D(NJS_POINT2COL *p, sint32 n, float32 pri, uint32 attr);
 
 /************************/
 /*	Math				*/
@@ -92,9 +106,9 @@ float32	njTan       (Angle n);
 /*	Matrix				*/
 /************************/
 
-void	njInitMatrix(NJS_MATRIX *m, sint32 n, Int flag);
-void	njCalcPoints(NJS_MATRIX *m, NJS_POINT3 *ps, NJS_POINT3 *pd, Int num);
-void	njCalcVectors(NJS_MATRIX *m, NJS_VECTOR *vs, NJS_VECTOR *vd, Int num);
+void	njInitMatrix(NJS_MATRIX *m, sint32 n, sint32 flag);
+void	njCalcPoints(NJS_MATRIX *m, NJS_POINT3 *ps, NJS_POINT3 *pd, sint32 num);
+void	njCalcVectors(NJS_MATRIX *m, NJS_VECTOR *vs, NJS_VECTOR *vd, sint32 num);
 void    njGetTranslation(NJS_MATRIX *m, NJS_POINT3 *p);
 void    njUnitTransPortion(NJS_MATRIX *m);
 void    njUnitRotPortion(NJS_MATRIX *m);
@@ -164,12 +178,12 @@ float32	njDistanceL2PL(NJS_LINE *l, NJS_PLANE *pl, NJS_POINT3 *cp);
 float32	njDistancePL2PL(NJS_PLANE *pl1, NJS_PLANE *pl2, NJS_LINE *l);
 void	njGetPlaneNormal(NJS_POINT3 *p, NJS_VECTOR *v);
 void	njGetPlaneNormal2(NJS_POINT3 *p0, NJS_POINT3 *p1, NJS_POINT3 *p2, NJS_VECTOR *v);
-Int     njCollisionCheckBB(NJS_BOX *h1, NJS_BOX *h2);
-Int     njCollisionCheckSS(NJS_SPHERE *sphere1, NJS_SPHERE *sphere2);
-Int     njCollisionCheckCC(NJS_CAPSULE *h1, NJS_CAPSULE *h2);
-Int     njCollisionCheckSC(NJS_SPHERE *sphere, NJS_CAPSULE *capsule);
-Int     njCollisionCheckBS(NJS_BOX *box, NJS_SPHERE *sphere);
-Int     njCollisionCheckBC(NJS_BOX *box, NJS_CAPSULE *capsule);
+sint32     njCollisionCheckBB(NJS_BOX *h1, NJS_BOX *h2);
+sint32     njCollisionCheckSS(NJS_SPHERE *sphere1, NJS_SPHERE *sphere2);
+sint32     njCollisionCheckCC(NJS_CAPSULE *h1, NJS_CAPSULE *h2);
+sint32     njCollisionCheckSC(NJS_SPHERE *sphere, NJS_CAPSULE *capsule);
+sint32     njCollisionCheckBS(NJS_BOX *box, NJS_SPHERE *sphere);
+sint32     njCollisionCheckBC(NJS_BOX *box, NJS_CAPSULE *capsule);
 
 
 /************************/
@@ -225,15 +239,15 @@ void    njUnitViewVector(NJS_VIEW *v);
 /*	Graphics3D			*/
 /************************/
 
-void    njDrawPoint3D(NJS_POINT3COL *p, Int n, uint32 attr);
-void    njDrawLine3D(NJS_POINT3COL *p, Int n, uint32 attr);
-void    njDrawTriangle3D(NJS_POINT3COL *p, Int n, uint32 attr);
-void    njDrawPolygon3D(NJS_POINT3COL *p, Int n, uint32 attr);
+void    njDrawPoint3D(NJS_POINT3COL *p, sint32 n, uint32 attr);
+void    njDrawLine3D(NJS_POINT3COL *p, sint32 n, uint32 attr);
+void    njDrawTriangle3D(NJS_POINT3COL *p, sint32 n, uint32 attr);
+void    njDrawPolygon3D(NJS_POINT3COL *p, sint32 n, uint32 attr);
 
 /************************/
 /*	 Light Funcion		*/
 /************************/
-void	njCreateLight(NJS_LIGHT_PTR, Int);
+void	njCreateLight(NJS_LIGHT_PTR, sint32);
 void	njDeleteLight(NJS_LIGHT_PTR);
 void	njLightOn(NJS_LIGHT_PTR);
 void	njLightOff(NJS_LIGHT_PTR);
@@ -348,18 +362,18 @@ void 	njInitPrint(uint32 *texture,uint32 elemsize,uint32 attr);
 void 	njExitPrint(void);
 void	njPrintSize(uint16 elemsize);
 void	njPrintColor(uint32 c);
-void	njPrintC(Int loc,const char *s);
-void	njPrintD(Int loc,Int val,Int digit);
-void	njPrintB(Int loc,uint32 val,Int digit);
-void	njPrintH(Int loc,uint32 val,Int digit);
-void	njPrintF(Int loc,float32 val,Int digit);
-void	njPrint(Int loc,const char *fmt, ...);
+void	njPrintC(sint32 loc,const char *s);
+void	njPrintD(sint32 loc,sint32 val,sint32 digit);
+void	njPrintB(sint32 loc,uint32 val,sint32 digit);
+void	njPrintH(sint32 loc,uint32 val,sint32 digit);
+void	njPrintF(sint32 loc,float32 val,sint32 digit);
+void	njPrint(sint32 loc,const char *fmt, ...);
 
 /************************/
 /*	 Sprite				*/
 /************************/
-void	njDrawSprite2D( NJS_SPRITE *sp, Int n, float32 pri, uint32 attr );
-void	njDrawSprite3D( NJS_SPRITE *sp, Int n, uint32 attr );
+void	njDrawSprite2D( NJS_SPRITE *sp, sint32 n, float32 pri, uint32 attr );
+void	njDrawSprite3D( NJS_SPRITE *sp, sint32 n, uint32 attr );
 
 /************************/
 /*	 Fog				*/

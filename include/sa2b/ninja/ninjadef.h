@@ -54,7 +54,7 @@ enum {
 /*--------------------------------------*/
 /*      Basic Define                    */
 /*--------------------------------------*/
-typedef int			Int;
+//typedef int			Int;
 
 typedef sint32		Angle;
 
