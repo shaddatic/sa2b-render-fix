@@ -20,4 +20,11 @@ GJS_OBJECT*		LoadGinjaObject(const utf8* fn);
 OBJ_LANDTABLE*	LoadChunkLandTable(const utf8* fn);
 OBJ_LANDTABLE*	LoadGinjaLandTable(const utf8* fn);
 
+NJS_OBJECT*		LoadBasicObject2(const utf8* path, const utf8* name);
+NJS_CNK_OBJECT*	LoadChunkObject2(const utf8* path, const utf8* name);
+GJS_OBJECT*		LoadGinjaObject2(const utf8* path, const utf8* name);
+
+OBJ_LANDTABLE*	LoadChunkLandTable2(const utf8* path, const utf8* name);
+OBJ_LANDTABLE*	LoadGinjaLandTable2(const utf8* path, const utf8* name);
+
 #endif /* _SAMT_MODEL_H_ */
