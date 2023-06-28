@@ -21,7 +21,8 @@
   <ItemGroup>
     <ClCompile Include="enemy-jet.cpp" />
     <ClCompile Include="gun-emblem.cpp" />
-    <ClCompile Include="models.cpp" />
+    <ClCompile Include="land-fixes.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="object-light.cpp" />
     <ClCompile Include="objpak.cpp" />
     <ClCompile Include="render-fix.cpp" />
