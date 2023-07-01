@@ -33,7 +33,7 @@ DrawMapTextBackdrop()
 
 	NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-	njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL | NJD_TRANSPARENT);
+	njDrawPolygon2D(&poly, 4, 1.0f, NJD_FILL | NJD_TRANSPARENT);
 }
 
 static void
@@ -63,7 +63,7 @@ DrawMapPurpleFill()
 
 	NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-	njDrawPolygon2D(&poly, 4, -20000.0f, NJD_FILL);
+	njDrawPolygon2D(&poly, 4, 20000.0f, NJD_FILL);
 }
 
 const int SOCDisplaySprite_p = 0x0041DC80;
