@@ -185,6 +185,8 @@ Init(const char* path, const HelperFunctions*)
 
 		DefaultGinjaDiffuseEnable();
 
+		DisableCartModelTints();
+
 		DisableTintGinjaObjectListEx(GinjaObjectList);
 		DisableTintChunkObjectListEx(ChunkObjectList);
 

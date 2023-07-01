@@ -4,6 +4,8 @@
 
 void	DefaultGinjaDiffuseEnable();
 
+void	DisableCartModelTints();
+
 void	DisableTintGinjaModel(GJS_MODEL* pModel);
 void	DisableTintGinjaObject(GJS_OBJECT* pObject);
 

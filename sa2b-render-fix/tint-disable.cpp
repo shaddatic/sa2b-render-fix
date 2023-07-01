@@ -214,3 +214,33 @@ DisableTintChunkModelList(int* pList, int nbList)
 		DisableTintChunkModel(list[i]);
 	}
 }
+
+#include <sa2b/src/misc.h>
+
+typedef struct 
+{
+	char data0[4];
+	NJS_CNK_OBJECT* pObject;
+	NJS_CNK_OBJECT* pLODObject;
+	NJS_TEXLIST* pTexlist;
+	char data1[8];
+	short shrt0;
+}
+SPECIAL_INFO;
+
+void
+DisableCartModelTints()
+{
+	SPECIAL_INFO* psi = (SPECIAL_INFO*) GetDllData("specialInfo");
+
+	if (!psi)
+		return;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		if (psi[i].pObject)
+			DisableTintChunkObject(psi[i].pObject);
+		if (psi[i].pLODObject)
+			DisableTintChunkObject(psi[i].pLODObject);
+	}
+}
