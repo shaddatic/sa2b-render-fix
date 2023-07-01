@@ -1,26 +1,19 @@
-#include <render-fix.h>
+#include <sa2b/core.h>
 
 #include <sa2b/config.h>
 #include <sa2b/memtools.h>
 #include <sa2b/user.h>
 #include <sa2b/mods.h>
+#include <sa2b/model.h>
+
+#include <sa2b/ninja/ninja.h>
 
 #include <sa2b/modloader.h>
 
-const int njCnkDrawModel_p = 0x0042E660;
-
-__declspec(naked)
-static void 
-__FixCnkDrawModel()
-{
-	__asm
-	{
-		push eax
-		call njCnkDrawModel_p
-		pop eax
-		retn
-	}
-}
+#include <render-fix.h>
+#include <objpak.h>
+#include <tint-disable.h>
+#include <tools.h>
 
 /*
 *	Ginja
@@ -77,7 +70,10 @@ static int ChunkObjectList[] =
 	0x014B69D4, // E AI
 	0x014BD4FC, // E AI Sheild
 	0x014BA0CC, // E AI Lazer
+	0x01462374, // E Unibus
+
 	/* Levelupdai Equipment models */
+
 	0x00B2190C, // Sonic Rubber Unit
 	0x00B23EC4, // Sonic Shoes
 	0x00B243C4, // Sonic Flame Ring
@@ -146,40 +142,6 @@ static int ChunkModelListExtra[] =
 };
 
 /*
-*	Environment Map Flip
-*/
-
-static void
-FlipEnv2(NJS_MATRIX* mat0, NJS_MATRIX* mat1, NJS_MATRIX* mat2)
-{
-	*mat0[0] = 0.5f;
-	gjMultiMatrix(mat0, mat1, mat2);
-}
-
-__declspec(naked)
-static void
-__FlipEnv2()
-{
-	__asm
-	{
-		push ecx
-		push edx
-		push eax
-		call FlipEnv2
-		pop eax
-		pop edx
-		pop ecx
-		retn
-	}
-}
-
-/*
-*	Define Functions
-*/
-
-#define ModConflictWarning(body) UserWarningMessageBox("Render Fix: Mod Conflict", body)
-
-/*
 *	Dll Export
 */
 
@@ -189,69 +151,26 @@ Init(const char* path, const HelperFunctions*)
 {
 	SAMT_Init(path, NULL);
 
-	config* pconf = ConfigOpen2(path, "config.ini");
+	config* conf = ConfigOpen2(path, "config.ini");
 
-	int screentint = ConfigGetInt(pconf, "main", "objpak", 2);
+	int screentint = ConfigGetInt(conf, "main", "objpak", 2);
 
 	if (screentint)
+	{
 		EditObjPak(screentint == 2, 0.5f);
-
-	if (ConfigGetInt(pconf, "main", "stgsel_stretch", 1))
-	{
-		StageMapStretchFix();
 	}
 
-	if(ConfigGetInt(pconf, "main", "gidx_ignore", 1))
+	if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
 	{
-		WriteValue(0x00431340, 0x9090, uint16);
+		WriteData(0x00431340, 0x9090, uint16);
 	}
 
-	if (ConfigGetInt(pconf, "env", "fix", 1))
+	if (ConfigGetInt(conf, "main", "ripple_fix", 1))
 	{
-		WriteJump(0x0042E6C0, __FixCnkDrawModel);
+		WriteData(0x006EDB93, 0x1C, uint8);
 	}
 
-	if (ConfigGetInt(pconf, "env", "flip", 1))
-	{
-		WriteCall(0x0042D4B0, __FlipEnv2); // Chunk
-		WriteCall(0x0042B6A4, __FlipEnv2); // Ginja
-		WriteCall(0x0056DEEB, __FlipEnv2); // chDraw
-	}
-
-	if (ConfigGetInt(pconf, "rest", "emblem", 1))
-	{
-		if(CheckForMod("RestoredGUNLogos"))
-		{
-			ModConflictWarning(
-				"The 'Restored GUN Logos' mod will conflict with Render Fix's 'GUN Emblem Fix' setting!\n\n"
-				"Please disable either the 'Restored GUN Logos' mod, or the 'GUN Emblem Fix' setting!"
-			);
-		}
-
-		GUNEmblemRestore();
-	}
-
-	if (ConfigGetInt(pconf, "rest", "jet", 1))
-	{
-		EnemyJetDisplayerFix();
-	}
-
-	if (ConfigGetInt(pconf, "rest", "dc_ring", 0))
-	{
-		DisableTintGinjaModel( (GJS_MODEL*) 0x00B58288 );
-	}
-
-	if (ConfigGetInt(pconf, "rest", "stgsel_text", 1))
-	{
-		StageMapTextBackdropRestore();
-	}
-
-	if (ConfigGetInt(pconf, "main", "ripple_fix", 1))
-	{
-		WriteValue(0x006EDB93, 0x1C, uint8);
-	}
-
-	int modeltint = ConfigGetInt(pconf, "main", "model_tint", 2);
+	int modeltint = ConfigGetInt(conf, "main", "model_tint", 2);
 
 	if (modeltint)
 	{
@@ -278,22 +197,36 @@ Init(const char* path, const HelperFunctions*)
 		}
 	}
 
-	if (ConfigGetInt(pconf, "exp", "enemy_shadows", 0) && !CheckForMod("sa2-dc-lighting"))
+	if (ConfigGetInt(conf, "main", "gh_clear", 1))
 	{
-		EnemyShadowEnable();
+		WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 	}
 
-	if (ConfigGetInt(pconf, "rest", "ce_lightmod", 1))
+	RestorationSettings(conf);
+
+	EnvMapSettings(conf);
+
+	GetEmblemSettings(conf);
+
+	StageMapSettings(conf);
+
+	CityEscapeSettings(conf);
+
+	AquaticMineSettings(conf);
+
+	CannonsCoreSettings(conf);
+
+	BossBogySettings(conf);
+
+	if (!CheckForMod("sa2-dc-lighting"))
 	{
-		LightModifierFix();
+		if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))
+		{
+			ExtraShadowEnable();
+		}
 	}
 
-	if (ConfigGetInt(pconf, "main", "gh_clear", 1))
-	{
-		WriteValue(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
-	}
-
-	ConfigClose(pconf);
+	ConfigClose(conf);
 }
 
 extern "C" __declspec(dllexport)

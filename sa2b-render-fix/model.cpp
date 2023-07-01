@@ -28,6 +28,7 @@
 
 #include <model/basic_shadow.nja>
 
+#include <model/eget.nja>
 /*
 *	Ginja
 */
