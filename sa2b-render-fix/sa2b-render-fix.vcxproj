@@ -39,6 +39,7 @@
     <ClCompile Include="tree-shadows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enemy-jet.h" />
     <ClInclude Include="objpak.h" />
     <ClInclude Include="render-fix.h" />
     <ClInclude Include="tint-disable.h" />
