@@ -70,6 +70,9 @@ void	LoadConstantMaterial();
 
 void	SetConstantMaterial(float32 a, float32 r, float32 g, float32 b);
 
+void	SaveCurrentTexList();
+void	LoadCurrentTexList();
+
 /*
 *	User Function Pointers
 */
