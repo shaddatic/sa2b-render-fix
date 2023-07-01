@@ -38,7 +38,7 @@ CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
 	njPopMatrixEx();
 }
 
-static void
+void
 ObjectTreeShadows(TASK* tp)
 {
 	if (CheckRangeOut(tp))
@@ -61,13 +61,4 @@ ObjectTreeShadows(TASK* tp)
 	CreateNewLightSW(tp, -70.0f, 165.0f, -240.0f);
 
 	njPopMatrixEx();
-}
-
-#define ReplaceObjectFunction(plist, idx, pfunc) ((OBJ_ITEMENTRY*)plist)[idx].fnExec = (task_exec)pfunc
-
-void
-LightModifierFix()
-{
-	ReplaceObjectFunction(0x0109E830, 58, ObjectLightSW);		// Light SW				(City Escape)
-	ReplaceObjectFunction(0x0109E830, 69, ObjectTreeShadows);	// ObjectTreeShadows	(City Escape)
 }
