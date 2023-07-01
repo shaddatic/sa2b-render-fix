@@ -73,7 +73,7 @@ static void
 DrawFakeShadow(NJS_POINT3* pPos, Angle3* pAng, float scl, float scl_ratio)
 {
 	Angle3 ang;
-	float floor = GetShadowPos(pPos->x, pPos->y + 2.0f, pPos->z, &ang);
+	float floor = GetShadowPos(pPos->x, pPos->y + 4.0f, pPos->z, &ang);
 
 	if (floor == -1000000.0f)
 		return;
@@ -82,8 +82,11 @@ DrawFakeShadow(NJS_POINT3* pPos, Angle3* pAng, float scl, float scl_ratio)
 
 	njPushMatrixEx();
 
+	if (pAng)
+		ang.y = pAng->y;
+
 	njTranslate(0, pPos->x, floor, pPos->z);
-	njRotateZXY(0, ang.x, pAng->y, ang.z);
+	njRotateZXY(0, ang.x, ang.y, ang.z);
 	njTranslate(0, 0.0f, 0.4f, 0.0f);
 	njScale(0, scl, 1.0f, scl * scl_ratio);
 
@@ -181,22 +184,17 @@ __DrawEnemyShadowShouku()
 	}
 }
 
-static void
-DrawEnemyShadowNamieRocket(ENEMYWK* ewp, TASKWK* twp)
-{
-	DrawFakeShadow(&twp->pos, &twp->ang, ewp->shadow_scl, ewp->shadow_scl_ratio);
-	njSetTexture((NJS_TEXLIST*)0x014D1598);
-}
-
 __declspec(naked)
 static void
-__DrawEnemyShadowNamieRocket()
+__DrawEnemyShadowResetTex()
 {
 	__asm
 	{
 		push edx
 		push eax
-		call DrawEnemyShadowNamieRocket
+		call SaveCurrentTexList
+		call DrawEnemyShadow
+		call LoadCurrentTexList
 		pop eax
 		pop edx
 		retn
@@ -222,8 +220,45 @@ __DrawEnemyShadowKyoko()
 	}
 }
 
+static void
+DrawMinimalShadow(TASK* tp)
+{
+	njSetTexture(texlist_basic_shadow);
+
+	njTranslate(0, 0.0f, 0.1f, 0.0f);
+	njScale(0, 2.0f, 1.0f, 2.0f);
+
+	SaveControl3D();
+	SaveConstantMaterial();
+
+	OnControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
+	SetConstantMaterial(0.5f, 1.0f, 1.0f, 1.0f);
+
+	njCnkDrawModel(model_basic_shadow);
+
+	LoadControl3D();
+	LoadConstantMaterial();
+}
+
+const int DrawMinimal = 0x0048A2D0;
+
+__declspec(naked)
+static void
+__DrawMinimalShadow()
+{
+	__asm
+	{
+		push eax
+		call DrawMinimal
+		call DrawMinimalShadow
+		pop eax
+		retn
+	}
+}
+
+
 void
-EnemyShadowEnable()
+ExtraShadowEnable()
 {
 	WriteJump(0x004799E0, __DrawEnemyShadow);
 
@@ -232,13 +267,17 @@ EnemyShadowEnable()
 	WriteCall(0x00506481, __DrawEnemyShadowHalf); // E_Gold
 	WriteCall(0x007A219E, __DrawEnemyShadowHalf); // E_Beeton
 	WriteCall(0x004F8F6B, __DrawEnemyShadowHalf); // E_Namie
+	WriteCall(0x007A0CEB, __DrawEnemyShadowHalf); // E_Akahige
 
 	WriteNoOP(0x004F9E7E, 0x004F9ED1);
 	WriteCall(0x004F9E7E, __DrawEnemyShadowShouku);
 
-	WriteCall(0x004F75E2, __DrawEnemyShadowNamieRocket);
+	WriteCall(0x004F75E2, __DrawEnemyShadowResetTex); // Namie Rocket
+	WriteCall(0x0079FB42, __DrawEnemyShadowResetTex); // Akahige Rocket
 
 	WriteNoOP(0x004FC47E, 0x004FC6B4);
 	WriteNoOP(0x004FC6B6, 0x004FC6BF);
 	WriteCall(0x004FC47E, __DrawEnemyShadowKyoko);
+
+	WriteCall(0x0048A425, __DrawMinimalShadow);
 }
