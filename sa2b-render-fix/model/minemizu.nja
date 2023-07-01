@@ -1,0 +1,102 @@
+CNKOBJECT_START
+
+PLIST      strip_minemizu[]
+START
+	CnkM_D( FBS_SA|FBD_ISA ), 2,
+	MDiff( 255, 178, 178, 178 ),
+	CnkT_TID( FDA_100 ), _TID( FFM_BF, 0 ),
+	CnkS_UVN( FST_IS|FST_IA ), 46, _NB( UFO_0, 2 ),
+	StripL(9),
+	4, 	Uvn( 1189, -856 ),
+	9, 	Uvn( 1371, -856 ),
+	2, 	Uvn( 2560, 255 ),
+	7, 	Uvn( 1463, -1015 ),
+	3, 	Uvn( 2560, -2304 ),
+	5, 	Uvn( 1371, -1173 ),
+	1, 	Uvn( 0, -2304 ),
+	6, 	Uvn( 1189, -1173 ),
+	8, 	Uvn( 1097, -1015 ),
+	StripR(5),
+	2, 	Uvn( 2560, 255 ),
+	4, 	Uvn( 1189, -856 ),
+	0, 	Uvn( 0, 255 ),
+	8, 	Uvn( 1097, -1015 ),
+	1, 	Uvn( 0, -2304 ),
+	CnkNull(),
+	CnkM_D( FBS_SA|FBD_ISA ), 2,
+	MDiff( 255, 178, 178, 178 ),
+	CnkT_TID( FDA_100 ), _TID( FFM_BF, 0 ),
+	CnkS_UVN( FST_IS|FST_IA|FST_UA ), 34, _NB( UFO_0, 2 ),
+	StripL(5),
+	7, 	Uvn( 1463, -1015 ),
+	9, 	Uvn( 1371, -856 ),
+	10, 	Uvn( 1371, -1173 ),
+	4, 	Uvn( 1189, -856 ),
+	8, 	Uvn( 1189, -1173 ),
+	StripR(5),
+	8, 	Uvn( 1097, -1015 ),
+	6, 	Uvn( 1097, -1015 ),
+	10, 	Uvn( 1097, -1015 ),
+	5, 	Uvn( 1097, -1015 ),
+	7, 	Uvn( 1097, -1015 ),
+	CnkNull(),
+	CnkEnd()
+END
+
+VLIST      vertex_minemizu[]
+START
+	CnkV_D8(0, 45),
+	OffnbIdx(0, 11),
+	VERT( 0xc28c0000, 0x00000000, 0xc30b0000 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0xc28c0000, 0x00000000, 0x430d0000 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x43520000, 0x00000000, 0xc30b0000 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x43520000, 0x00000000, 0x430d0000 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42700000, 0x00000000, 0xc18a9067 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42a00000, 0x00000000, 0x418a9067 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42700000, 0x00000000, 0x418a9066 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42b40000, 0x00000000, 0x00000000 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42480000, 0x00000000, 0xb5eaac7a ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x42a00000, 0x00000000, 0xc18a9066 ),
+	D8888(255, 178, 178, 178),
+	VERT( 0x00000000, 0x00000000, 0x00000000 ),
+	D8888(100, 178, 178, 178),
+	CnkEnd()
+END
+
+CNKMODEL   model_minemizu[]
+START
+VList      vertex_minemizu,
+PList      strip_minemizu,
+Center     70.000000F,  0.000000F,  1.000000F,
+Radius     197.989899F,
+END
+
+CNKOBJECT  object_minemizu[]
+START
+EvalFlags ( 0x000000d7 ),
+CNKModel   model_minemizu,
+OPosition  (  0.000000F,  0.000000F,  0.000000F ),
+OAngle     (  0.000000F,  0.000000F,  0.000000F ),
+OScale     (  1.000000F,  1.000000F,  1.000000F ),
+Child       NULL,
+Sibling     NULL,
+END
+
+CNKOBJECT_END
+
+DEFAULT_START
+
+#ifndef DEFAULT_OBJECT_NAME
+#define DEFAULT_OBJECT_NAME object_minemizu
+#endif
+
+DEFAULT_END
