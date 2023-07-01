@@ -8,6 +8,8 @@
 
 #include <sa2b/src/object/o_light.h>
 
+OBJ_CONDITION objcondition_lightsw;
+
 static void
 CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
 {
@@ -31,9 +33,7 @@ CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
 
 	ctp->twp->smode = 1;
 
-	ctp->ocp = (OBJ_CONDITION*)syCalloc(1, sizeof(OBJ_CONDITION));
-
-	ctp->ocp->unionStatus.fRangeOut = 0.0f;
+	ctp->ocp = &objcondition_lightsw;
 
 	njPopMatrixEx();
 }
