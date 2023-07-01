@@ -70,7 +70,8 @@ static int ChunkObjectList[] =
 	0x014B69D4, // E AI
 	0x014BD4FC, // E AI Sheild
 	0x014BA0CC, // E AI Lazer
-	0x01462374, // E Unibus
+	0x01462374, // E Unidus
+	0x01462664, // E Unidus Orbiter
 
 	/* Levelupdai Equipment models */
 
