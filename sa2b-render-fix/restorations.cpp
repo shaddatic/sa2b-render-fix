@@ -9,7 +9,7 @@
 #include <tint-disable.h>
 #include <tools.h>
 
-void	EnemyJetDisplayerFix();
+#include <enemy-jet.h>
 
 #define ReplaceObjectModel(pobject, pmodel)		((NJS_CNK_OBJECT*)pobject)->model = pmodel
 
