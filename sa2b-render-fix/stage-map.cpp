@@ -81,18 +81,34 @@ __DrawMapPurpleFill()
 	}
 }
 
-void
-StageMapTextBackdropRestore()
+static void
+StageMapTextBarRestore()
 {
 	WriteJump(0x00675D50, DrawMapTextBackdrop);
 }
 
 static const float posshift = -108.0f;
 
-void
+static void
 StageMapStretchFix()
 {
 	WritePointer(0x006763BB, &posshift);		/* Move icons left */
 	WritePointer(0x00676046, 0x00907420);		/* stop stretch */
 	WriteCall(0x00676080, __DrawMapPurpleFill); /* fill blank space */
+}
+
+#define SECT "stgsel"
+
+void
+StageMapSettings(const config* conf)
+{
+	if (ConfigGetInt(conf, SECT, "textbar", 1))
+	{
+		StageMapTextBarRestore();
+	}
+
+	if (ConfigGetInt(conf, SECT, "stretch", 1))
+	{
+		StageMapStretchFix();
+	}
 }
