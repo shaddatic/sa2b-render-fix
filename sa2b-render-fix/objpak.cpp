@@ -10,7 +10,7 @@ DataRef(char*, struc_36Instance, 0x01A557BC);
 #define ToFlt(val) (*(float*)(&val))
 
 int
-EditObjPak(bool tintDisable, float32 shadowOpacity)
+EditObjPak(bool tintDisable, float shadowOpacity)
 {
 	FILE* f = fopen("./resource/Shader/win32/obj.pak", "rb");
 
