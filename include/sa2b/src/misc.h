@@ -54,7 +54,7 @@ DataRef(bool, TwoPlayerMode, 0x174AFDE);
 DataRef(int, CurrentMenu, 0x1D7BB10);
 DataRef(int, CurrentSubMenu, 0x1D7BB14);
 
-FuncPtr(int, __cdecl, GetDllData, (const ansi* lpProcName), 0x77DEF0);
+FuncPtr(void*, __cdecl, GetDllData, (const ansi* lpProcName), 0x77DEF0);
 
 #define GetDllLandTable(NAME)		((_OBJ_LANDTABLE*)		GetDllData(NAME))
 #define GetDllBattleObject(NAME)	((GJS_OBJECT*)			GetDllData(NAME))
