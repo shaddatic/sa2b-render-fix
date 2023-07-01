@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="main" display="0 • Render Fix Settings">
+		<Group name="main" display="00 • Render Fix Settings">
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
@@ -17,28 +17,22 @@
 			<Property name="gh_clear" display="'CLEAR!' Text Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Changes the draw mode of the level 'CLEAR!' text so it renders correctly with transparancy again.</HelpText>
 			</Property>
-			<Property name="stgsel_stretch" display="Stage Select Stretch Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
-			</Property>
 		</Group>
-		<Group name="rest" display="1 • Restoration Settings">
+		<Group name="rest" display="01 • Restoration Settings                         ------------------------------------------------------------">
 			<Property name="jet" display="Restore Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
 			</Property>
 			<Property name="emblem" display="Restore GUN Emblems" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
-			<Property name="stgsel_text" display="Restore Stage Select Text Bar" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the blue, backdrop bar in the Stage Select menu from the Dreamcast version.</HelpText>
-			</Property>
-			<Property name="ce_lightmod" display="Restore CE Lighting Modifiers" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the objects that effect character lighting in City Escape that were turned off in the GameCube version.</HelpText>
+			<Property name="jo_tree" display="Restore Tree Jungle Object" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
 			</Property>
 			<Property name="dc_ring" display="Restore DC Ring Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
 			</Property>
 		</Group>
-		<Group name="env" display="2 • Environment Map Settings">
+		<Group name="env" display="02 • Environment Map Settings                 ------------------------------------------------------------">
 			<Property name="fix" display="Environment Map Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
 			</Property>
@@ -46,9 +40,45 @@
 				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="exp" display="F • Experimental Settings">
-			<Property name="enemy_shadows" display="Restore Enemy Shadows" type="eBOOL" defaultvalue="0">
-				<HelpText>Restores Enemy shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>
+		<Group name="stgsel" display="03 • Stage Select Settings                       ------------------------------------------------------------">
+			<Property name="stretch" display="Stretch Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
+			</Property>
+		<Property name="textbar" display="Restore Text Bar" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the blue text bar from the Dreamcast version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="eget" display="04 • Emblem Get Settings                         ------------------------------------------------------------">
+			<Property name="fadein" display="Fade Restore" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
+			</Property>
+			<Property name="sparkle" display="Fix Particles" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
+			</Property>
+		</Group>
+		<Group name="c_escape" display="05 • City Escape Settings                         ------------------------------------------------------------">
+			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="a_mine" display="06 • Aquatic Mine Settings                       ------------------------------------------------------------">
+			<Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="c_core" display="07 • Cannon's Core Settings                     ------------------------------------------------------------">
+			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="bossbogy" display="08 • Boom Boo Settings                           ------------------------------------------------------------">
+			<Property name="sundoors" display="Restore Sundoors" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="exp" display="FF • Experimental Settings                        ------------------------------------------------------------">
+			<Property name="enemy_shadows" display="Restore Extra Shadows" type="eBOOL" defaultvalue="0">
+				<HelpText>Restores Enemy and Minimal shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>
 			</Property>
 		</Group>
 	</Groups>
