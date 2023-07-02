@@ -26,6 +26,8 @@
 #include <model/e_t_emi_emblem.nja>
 #include <model/e_a_emi_emblem.nja>
 
+#include <model/ce_truck_hood.nja>
+
 #include <model/basic_shadow.nja>
 
 #include <model/eget.nja>

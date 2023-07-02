@@ -32,6 +32,8 @@ GUNEmblemRestore()
 	extern NJS_CNK_MODEL model_e_t_emi_emblem[];
 	extern NJS_CNK_MODEL model_e_a_emi_emblem[];
 
+	extern NJS_CNK_MODEL model_ce_truck_hood[];
+
 	/*  */
 
 	ReplaceObjectModel(0x014AB36C, model_e_kumi_emblem);
@@ -51,6 +53,9 @@ GUNEmblemRestore()
 
 	ReplaceObjectModel(0x014C9924, model_e_t_emi_emblem);
 	ReplaceObjectModel(0x014C7744, model_e_a_emi_emblem);
+
+	//WriteData(0x109D4B4, *model_ce_truck_hood, NJS_CNK_MODEL);
+	WriteData(0x109B2CC, *model_ce_truck_hood, NJS_CNK_MODEL);
 }
 
 static void
