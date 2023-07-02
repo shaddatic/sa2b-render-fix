@@ -18,13 +18,7 @@
     <ClCompile Include="enemy-jet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gun-emblem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="object-light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objpak.cpp">
@@ -33,18 +27,69 @@
     <ClCompile Include="render-fix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shadows.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stage-map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tint-disable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="a-mine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="boss-bogy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="c-core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="c-escape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="env-map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="extra-shadows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="get-emblem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="restorations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tree-shadows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render-fix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy-jet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objpak.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tint-disable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tree-shadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

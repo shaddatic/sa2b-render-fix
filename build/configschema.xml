@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="main" display="00 • Render Fix Settings">
+		<Group name="main" display="00 • Render Fix Settings                          ------------------------------------------------------------">
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
@@ -74,6 +74,11 @@
 		<Group name="bossbogy" display="08 • Boom Boo Settings                           ------------------------------------------------------------">
 			<Property name="sundoors" display="Restore Sundoors" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
+			</Property>
+		</Group>
+		<Group name="cart" display="09 • Cart Stages                                     ------------------------------------------------------------">
+			<Property name="seafix" display="Sea Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
 		<Group name="exp" display="FF • Experimental Settings                        ------------------------------------------------------------">

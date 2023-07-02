@@ -221,6 +221,8 @@ Init(const char* path, const HelperFunctions*)
 
 	BossBogySettings(conf);
 
+	CartSettings(conf);
+
 	if (!CheckForMod("sa2-dc-lighting"))
 	{
 		if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))
