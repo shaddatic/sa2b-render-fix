@@ -178,12 +178,12 @@ float32	njDistanceL2PL(NJS_LINE *l, NJS_PLANE *pl, NJS_POINT3 *cp);
 float32	njDistancePL2PL(NJS_PLANE *pl1, NJS_PLANE *pl2, NJS_LINE *l);
 void	njGetPlaneNormal(NJS_POINT3 *p, NJS_VECTOR *v);
 void	njGetPlaneNormal2(NJS_POINT3 *p0, NJS_POINT3 *p1, NJS_POINT3 *p2, NJS_VECTOR *v);
-sint32     njCollisionCheckBB(NJS_BOX *h1, NJS_BOX *h2);
-sint32     njCollisionCheckSS(NJS_SPHERE *sphere1, NJS_SPHERE *sphere2);
-sint32     njCollisionCheckCC(NJS_CAPSULE *h1, NJS_CAPSULE *h2);
-sint32     njCollisionCheckSC(NJS_SPHERE *sphere, NJS_CAPSULE *capsule);
-sint32     njCollisionCheckBS(NJS_BOX *box, NJS_SPHERE *sphere);
-sint32     njCollisionCheckBC(NJS_BOX *box, NJS_CAPSULE *capsule);
+sint32  njCollisionCheckBB(NJS_BOX *h1, NJS_BOX *h2);
+sint32  njCollisionCheckSS(NJS_SPHERE *sphere1, NJS_SPHERE *sphere2);
+sint32  njCollisionCheckCC(NJS_CAPSULE *h1, NJS_CAPSULE *h2);
+sint32  njCollisionCheckSC(NJS_SPHERE *sphere, NJS_CAPSULE *capsule);
+sint32  njCollisionCheckBS(NJS_BOX *box, NJS_SPHERE *sphere);
+sint32  njCollisionCheckBC(NJS_BOX *box, NJS_CAPSULE *capsule);
 
 
 /************************/
