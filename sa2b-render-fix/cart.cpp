@@ -2,21 +2,17 @@
 #include <sa2b/memtools.h>
 #include <sa2b/config.h>
 
-DataRef(int, FogEnable, 0x025EFFCC);
+#include <sa2b/ninja/ninja.h>
 
 FuncPtr(void, __cdecl, CartSeaDisplay, (), 0x00621C90);
-FuncPtr(void, __cdecl, UpdateFog, (), 0x0042A870);
+
 
 static void
 DrawCartSea()
 {
-	FogEnable = 0;
-	UpdateFog();
-
+	njFogDisable();
 	CartSeaDisplay();
-
-	FogEnable = 1;
-	UpdateFog();
+	njFogEnable();
 }
 
 static void
