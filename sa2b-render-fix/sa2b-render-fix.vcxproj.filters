@@ -72,6 +72,9 @@
     <ClCompile Include="cart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="s-rail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render-fix.h">

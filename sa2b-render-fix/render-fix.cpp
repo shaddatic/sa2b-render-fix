@@ -213,6 +213,8 @@ Init(const char* path, const HelperFunctions*)
 
 	StageMapSettings(conf);
 
+    SkyRailSettings(conf);
+
 	CityEscapeSettings(conf);
 
 	AquaticMineSettings(conf);
