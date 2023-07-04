@@ -66,11 +66,11 @@ JungleObjectTreeRestore()
 	GJS_OBJECT* object_jo_tree = LoadGinjaObject2(GetModPath(), "model/jo_tree.sa2bmdl");
 
 //	WritePointer(0x00E96454, texlist_jo_tree); // White Jungle
-	WritePointer(0x00EABD34, texlist_jo_tree); // SvS
+//	WritePointer(0x00EABD34, texlist_jo_tree); // Also White Jungle
 	WritePointer(0x01072D5C, texlist_jo_tree); // Green Forest
 	
 //	WritePointer(0x00E9663C, object_jo_tree->model); // White Jungle
-	WritePointer(0x00EABD7C, object_jo_tree->model); // SvS
+//	WritePointer(0x00EABD7C, object_jo_tree->model); // Also White Jungle
 	WritePointer(0x010737B4, object_jo_tree->model); // Green Forest
 
 //	WritePointer(0x00EA805C, object_jo_tree->model); // NJS_CNK_OBJECT
