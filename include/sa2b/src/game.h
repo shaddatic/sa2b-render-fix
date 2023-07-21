@@ -1,7 +1,24 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/game.h'
+*
+*   ~~ Under Construction ~~
+*   Contains data and functions related to core game elements
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-enum : sint32
+/************************/
+/*  Enums               */
+/************************/
+enum
 {
+    MD_GAME_FADEOUT_OVER = 0x07,
+    MD_GAME_FADEOUT_RESTART = 0x09,
 	MD_GAME_PAUSE = 0x11,
 	NUM_GAMEMD,
 };
@@ -36,7 +53,7 @@ enum : sint32
 	NUM_GAMEMD = 0x1A,
 */
 
-enum : sint32
+enum
 {
 	JAPANESE,
 	ENGLISH,
@@ -47,6 +64,9 @@ enum : sint32
 	NUM_LANGUAGE,
 };
 
+/************************/
+/*  Data                */
+/************************/
 DataRef(__int16, ulGlobalMode, 0x01934BE0);
 
 DataRef(__int16, ssGameModeChange, 0x01A558A4);
@@ -61,6 +81,9 @@ DataRef(sint8, ucPauseSelect, 0x01933EB1);
 
 DataRef(sint8, pause_flg, 0x174AFD7);
 
+/************************/
+/*  Functions           */
+/************************/
 void RestartStageWithFadeOut();
 
 bool32 ChkPause();

@@ -1,17 +1,30 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/landtable.h'
+*
+*   Contains functions and structs related to LandTables
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-/* 
-*	Abstracted Structs
-*/
-
+/************************/
+/*  Abstract types      */
+/************************/
 typedef struct task		task;
 typedef struct zxsdwstr	zxsdwstr;
 
-/*
-*	Defines
-*/
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/ninja.h>
 
-/* Non-standard defines */
+/************************/
+/*  Land Entry Flags    */
+/************************/
 #define LANDATTR_SOLID				0x00000001
 #define LANDATTR_WATER				0x00000002
 #define LANDATTR_DIGGABLE			0x00000020
@@ -29,23 +42,16 @@ typedef struct zxsdwstr	zxsdwstr;
 #define LANDATTR_UNK2				0x40000000 // Usually small-sized collisions
 #define LANDATTR_VISIBLE			0x80000000
 
-/*
-*	Includes
-*/
-
-#include <sa2b/ninja/ninja.h>
-
-/*
-*	Structs
-*/
-
+/************************/
+/*  Structures          */
+/************************/
 typedef struct _OBJ_LANDENTRY
 {
 	float32 CenterX;
 	float32 CenterY;
 	float32 CenterZ;
 	float32 Radius;
-	anyobj_p pObj;
+    ANY_OBJECT pObj;
 	int field_14;
 	int Chunks;
 	int slAttribute;
@@ -57,7 +63,7 @@ typedef struct _OBJ_MOTLANDENTRY
 	float fFrame;
 	float fStep;
 	float fMaxFrame;
-	anyobj_p pObject;
+    ANY_OBJECT pObject;
 	NJS_MOTION* pMotion;
 }
 OBJ_MOTLANDENTRY;
@@ -86,10 +92,9 @@ typedef struct _OBJ_LANDCOLL
 }
 OBJ_LANDCOLL;
 
-/*
-*	Data References
-*/
-
+/************************/
+/*  Data                */
+/************************/
 DataRef(task*, pLandTask, 0x01945A04);
 
 DataRef(bool32, boolLandTableGinja, 0x1A5A2D8);
@@ -110,31 +115,27 @@ DataRef(OBJ_LANDCOLL*, LandCollList, 0x01A5A2DC);
 DataRef(OBJ_LANDCOLL*, MobileEntry, 0x01A5A2E0);
 DataRef(sint16, numMobileEntry, 0x019459D4);
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Function Pointers   */
+/************************/
+FuncPtr(void,   __cdecl, ListGroundForCollision, (float xPosition, float yPosition, float zPosition, float fRadius), 0x0047CD60);
+FuncPtr(sint32, __cdecl, LandChangeLandTable,    (OBJ_LANDTABLE* land), 0x0047BD30);
 
-FuncPtr(void, __cdecl, ListGroundForCollision, (float xPosition, float yPosition, float zPosition, float fRadius), 0x0047CD60);
-FuncPtr(sint32, __cdecl, LandChangeLandTable, (OBJ_LANDTABLE* land), 0x47BD30);
-
-/*
-*	User Functions
-*/
-
+/************************/
+/*  User Functions      */
+/************************/
 sint32 LandChangeGinjaLandTable(OBJ_LANDTABLE* land);
 
 sint32 CL_ColPolCheckZxShadow(zxsdwstr* zssp, NJS_OBJECT* obp);
 
-/*
-*	Custom Functions
-*/
-
+/************************/
+/*  Other Functions     */
+/************************/
 sint32 LandChangeChunkLandTable(OBJ_LANDTABLE* land);
 
-/*
-*	User Function Pointers
-*/
-
+/************************/
+/*  User Function Ptrs  */
+/************************/
 #ifdef SAMT_INCLUDE_USER_PTRS
 
 extern const void* LandChangeGinjaLandTable_p;

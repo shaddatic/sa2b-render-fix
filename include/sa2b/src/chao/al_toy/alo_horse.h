@@ -11,7 +11,7 @@ typedef struct taskwk	TASKWK;
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 /*
 *	Task Function Pointers

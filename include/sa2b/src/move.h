@@ -1,21 +1,29 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/move.h'
+*
+*   Contains structs and functions related to MOVE_WORK
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-/*
-*	Abstracted Structs
-*/
+/************************/
+/*  Abstracted Types    */
+/************************/
+typedef struct task		TASK;
 
-typedef struct task		task;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/src/shadow.h>
 
-/*
-*	Structs
-*/
-
+/************************/
+/*  Structures          */
+/************************/
 struct XYZ_SHADOW_WORK
 {
 	NJS_POINT3 pos;
@@ -23,77 +31,73 @@ struct XYZ_SHADOW_WORK
 	xssunit pre_hit[6];
 };
 
-#define GET_MOVEWORK(TP) (MOVE_WORK*)TP->mwp
+#define GET_MOVE_WORK(tp) (MOVE_WORK*)(tp->mwp)
 
 struct MOVE_WORK
 {
-	NJS_POINT3 Velo;
-	NJS_POINT3 Acc;
-	Angle3 AimAng;
-	Angle3 RotSpd;
-	int btlonlygap; // Not sure what this is, but this is what I called it
-	float rad;
-	float height;
-	float weight;
-	unsigned __int16 Flag;
-	unsigned __int16 Timer;
-	float Spd;
-	float Gravity;
-	int ViewAngle;
-	float ViewRange;
-	NJS_POINT3 AimPos;
-	NJS_POINT3 PrePos;
-	NJS_POINT3 HomePos;
-	Angle3 HomeAng;
-	Angle3 Phase;
-	NJS_LINE FrontWall;
-	NJS_POINT3 Offset;
-	float Top;
-	float Side;
-	float Bottom;
-	float CliffHeight;
-	float BoundSide;
-	float BoundFloor;
-	float BoundCeiling;
-	float BoundFriction;
-	float TopY;
-	float BottomY;
-	float WaterY;
+	NJS_VECTOR  Velo;
+	NJS_VECTOR  Acc;
+	Angle3      AimAng;
+	Angle3      RotSpd;
+	sint32      unk;
+	float32     rad;
+	float32     height;
+	float32     weight;
+	uint16      Flag;
+	uint16      Timer;
+	float32     Spd;
+	float32     Gravity;
+	sint32      ViewAngle;
+	float32     ViewRange;
+	NJS_POINT3  AimPos;
+	NJS_POINT3  PrePos;
+	NJS_POINT3  HomePos;
+	Angle3      HomeAng;
+	Angle3      Phase;
+	NJS_LINE    FrontWall;
+	NJS_POINT3  Offset;
+	float32     Top;
+	float32     Side;
+	float32     Bottom;
+	float32     CliffHeight;
+	float32     BoundSide;
+	float32     BoundFloor;
+	float32     BoundCeiling;
+	float32     BoundFriction;
+	float32     TopY;
+	float32     BottomY;
+	float32     WaterY;
 	XYZ_SHADOW_WORK Shadow;
 };
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Function Pointers   */
+/************************/
+FuncPtr(MOVE_WORK*, __cdecl, MOV_Init, (TASK* tp), 0x007966D0);
 
-FuncPtr(MOVE_WORK*, __cdecl, MOV_Init, (task* tp), 0x007966D0);
+FuncPtr(Angle, __fastcall, MOV_CalcPlayerAngle, (TASK* tp, int player_num), 0x007969B0);
 
-FuncPtr(Angle, __fastcall, MOV_CalcPlayerAngle, (task* tp, int player_num), 0x007969B0);
+/************************/
+/*  User Functions      */
+/************************/
+sint32	MOV_GetShadowPosXYZ(TASK* tp);
 
-/*
-*	User Functions
-*/
+void	MOV_CheckFloor(TASK* tp);
+void	MOV_CheckWall(TASK* tp);
 
-sint32	MOV_GetShadowPosXYZ(task* tp);
+sint32	MOV_TurnToPlayer2(TASK* tp, Angle rot_spd, int player_num);
 
-void	MOV_CheckFloor(task* tp);
-void	MOV_CheckWall(task* tp);
+/************************/
+/*  Functions           */
+/************************/
+void	MOV_ClearVelo(TASK* tp);
+void	MOV_ClearAcc(TASK* tp);
 
-sint32	MOV_TurnToPlayer2(task* tp, Angle rot_spd, int player_num);
+sint32	MOV_DetectCollision(TASK* tp);
 
-/*
-*	Remade Functions
-*/
-
-void	MOV_ClearVelo(task* tp);
-void	MOV_ClearAcc(task* tp);
-
-sint32	MOV_DetectCollision(task* tp);
-
-/*
-*	User Function Pointers
-*/
-
+/************************/
+/*  User Functions Ptrs */
+/************************/
 #ifdef SAMT_INCLUDE_USER_PTRS
 
 extern const void* MOV_GetShadowPosXYZ_p;

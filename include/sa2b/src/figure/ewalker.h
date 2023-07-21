@@ -1,10 +1,28 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/figure/ewalker.h'
+*
+*   ~~ Under Construction ~~
+*   Contains functions, structs, and data for the Egg Walker
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-#include <sa2b/ninja/ninja.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
 #include <sa2b/src/player.h>
 
-struct EWALKER_WORK
+/************************/
+/*  Structures          */
+/************************/
+typedef struct walkerwk
 {
 	playerwk pwk;
 	char field_1BC[128];
@@ -58,9 +76,13 @@ struct EWALKER_WORK
 	NJS_TEXLIST* TextureList;
 	CHAR_OBJECT* ModelList;
 	player_mot* MotionList;
-};
+}
+WALKERWK;
 
-DataRef(EWALKER_WORK*, pEWalkerWork, 0x01A51F0C);
+/************************/
+/*  Data                */
+/************************/
+DataRef(WALKERWK*, pEWalkerWork, 0x01A51F0C);
 
 DataRef(NJS_MATRIX, mtx_EWalkerLaserBlaster, 0x01A51EAC);
 DataRef(NJS_MATRIX, mtx_EWalkerLargeCannon, 0x01A51D2C);
@@ -68,4 +90,7 @@ DataRef(NJS_MATRIX, mtx_EWalkerJetEngineL, 0x01A52000);
 DataRef(NJS_MATRIX, mtx_EWalkerJetEngineR, 0x01A52060);
 DataRef(NJS_MATRIX, mtx_EWalkerProtectiveArmor, 0x01A520C0);
 
+/************************/
+/*  Function Pointers   */
+/************************/
 FuncPtr(void, __cdecl, EggWalkerMotionCallBack, (NJS_CNK_OBJECT*), 0x00744020);

@@ -1,42 +1,58 @@
 /*
-	Ninja Library
-	
-	COPYRIGHT (C) SEGA ENTERSRISES,LTD.
+*   Sonic Adventure Mod Tools (SA2B) - '/ninja/ninja.h'
+*
+*   Ninja is the rendering API used for both adventure games
+*
+*   Contributors:
+*   -   SEGA,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
-
 #ifndef	_NJNJA_H_
 #define	_NJNJA_H_
 
-//#include <sg_xpt.h>				/* Contains Global Defines, sa2b/core.h already has these */
-#include <sa2b/ninja/NinjaDef.h>
-#include <sa2b/ninja/NinjaStr.h>
-#include <sa2b/ninja/NinjaCnk.h>
-#include <sa2b/ninja/NinjaVal.h>
-#include <sa2b/ninja/NinjaApi.h>
-#include <sa2b/ninja/NinjaPtcl.h>
+EXTERN_START
 
-#include <sa2b/ninja/Ginja.h>		/* Custom made for toolkit */
-#include <sa2b/ninja/NinjaMisc.h>	/* ^ */
+#include <sa2b/ninja/njcommon.h>
+
+#include <sa2b/ninja/njsystem.h>
+#include <sa2b/ninja/njmath.h>
+
+#include <sa2b/ninja/njchunk.h>
+
+#include <sa2b/ninja/njmatrix.h>
+#include <sa2b/ninja/njcamera.h>
+#include <sa2b/ninja/njLight.h>
+#include <sa2b/ninja/njmotion.h>
+#include <sa2b/ninja/njtexture.h>
+#include <sa2b/ninja/njdraw.h>
+#include <sa2b/ninja/njeffect.h>
+#include <sa2b/ninja/njcollision.h>
+
+#include <sa2b/ninja/njparticle.h>
+
+#include <sa2b/ninja/njdebug.h>
+
+#include <sa2b/ninja/njbasic.h>
+#include <sa2b/ninja/ginja.h>
+
+#include <sa2b/ninja/njother.h>
+
+EXTERN_END
 
 #include <stdio.h>
-#include <float.h>
 #include <stdlib.h>
-#include <math.h>
-#include <sa2b/ninja/NinjaPad.h>
 
-typedef union anyobj_p
+/** ANY_OBJECT is SAMT specific, and is to be used when 
+    a pointer can represent more than one Object type **/
+typedef union anyobj
 {
-	void*			ptr;
-	NJS_OBJECT*		obj;
-	NJS_CNK_OBJECT*	cnk;
-	GJS_OBJECT*		gjs;
+    void* ptr;              /* raw pointer */
+    NJS_OBJECT* obj;        /* basic object */
+    NJS_CNK_OBJECT* cnk;    /* chunk object */
+    GJS_OBJECT* gjs;        /* ginja object */
 }
-anyobj_p;
+ANY_OBJECT;
 
-typedef struct 
-{
-	Angle x, y, z;
-}
-Angle3;
-
-#endif
+#endif /* _NJNJA_H_ */

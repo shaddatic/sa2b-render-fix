@@ -4,7 +4,7 @@
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 #include <sa2b/src/Chao/al_chao_info.h>
 #include <sa2b/src/Chao/chao.h>

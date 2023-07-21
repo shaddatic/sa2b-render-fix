@@ -12,7 +12,7 @@ typedef struct al_object	AL_OBJECT;
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 /*
 *	Structs

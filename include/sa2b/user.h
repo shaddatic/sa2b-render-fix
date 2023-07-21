@@ -1,5 +1,12 @@
 /*
-*	Sonic Adventure Mod Tools - User Tools Header
+*   Sonic Adventure Mod Tools (SA2B) - '/user.h'
+*
+*   Contains functions for interacting with the user
+*
+*   Contributors:
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
 
 #ifndef _SAMT_USER_H_

@@ -1,26 +1,16 @@
-/*****************************************************************************
- * Copyright(C)SEGA 1997-2000/SYSTEM R&D DEPT                                *
- *                                                                           *
- *     VERSION: 1.02                                                         *
- *     DATE:    2000/01/25                                                   *
- *****************************************************************************/
-
-#include <sa2b/ninja/ninjacnk.h>
-
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/ninja/njdef.h'
+*
+*   Contains macros and defines for interpreting Ninja Ascii files
+*
+*   Contributors:
+*   -   SEGA,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #ifndef _NJDEF_H_
 #define _NJDEF_H_
-
-#if 0
-#define USE_CAST_OBJTYPE
-#if 1
-#define USE_CHUNK_MODEL
-#endif
-#endif
-
-/* if you want to use old nja file, Pease set 1. */
-#if 0
-#define USE_OLD_ANGLE
-#endif
 
 /********************************************************
  *
@@ -30,22 +20,11 @@
 /*--------------*/
 /* cast OBJTYPE */
 /*--------------*/
-#if defined(USE_CAST_OBJTYPE) && defined(_cplusplus)
-
-#ifdef USE_CHUNK_MODEL
-#define _OBJPOINTERTYPE (NJS_CNK_OBJECT *)
-#else
-#define _OBJPOINTERTYPE (NJS_OBJECT *)
-#endif
-
-#else /* !USE_CAST_OBJTYPE */
 #define _OBJPOINTERTYPE
-#endif /* USE_CAST_OBJTYPE */
 
 /*-----------*/
 /* Start/End */
 /*-----------*/
-/* Basic/Chunk */
 #define START          ={
 #define END            };
 
@@ -62,26 +41,23 @@
 /*-------*/
 /* Angle */
 /*-------*/
-/* Basic/Chunk */
 #define _NJAVAL             (65536.0F/360.0000F)
-#define _NJANG1(_a) (long)(_NJAVAL*(_a))
+#define _NJANG1(_a)         (sint32)(_NJAVAL*(_a))
 #define _NJANG( _x, _y, _z)                               \
-    {(long)(_NJAVAL*(_x)), (long)(_NJAVAL*(_y)), (long)(_NJAVAL*(_z))}
+    {(sint32)(_NJAVAL*(_x)), (sint32)(_NJAVAL*(_y)), (sint32)(_NJAVAL*(_z))}
 
 /*------*/
 /* ARGB */
 /*------*/
-/* Basic/Chunk */
 #define _ARGB( _a, _r, _g, _b)                                           \
-                ( (unsigned long)((_a)<<24)|(unsigned long)((_r)<<16)    \
-                 |(unsigned long)((_g)<<8)|(_b) )
+                ( (uint32)((_a)<<24)|(uint32)((_r)<<16)    \
+                 |(uint32)((_g)<<8)|(_b) )
 #define ARGB( _a, _r, _g, _b) _ARGB( _a, _r, _g, _b)
 #define _NJARGB( _a, _r, _g, _b) _ARGB( _a, _r, _g, _b)
 
 /*---------*/
 /* TexList */
 /*---------*/
-/* Basic/Chunk */
 #define TEXN(_texname)     {(void*)(_texname), 0x0, 0}
 #define TEXN3(_texname, _attr, _texaddr) {(void*)(_texname), _attr, _texaddr}
 #define TEXTURE_START
@@ -92,7 +68,7 @@
 #define TextureList
 #define TextureNum
 
-/* palette Basic/Chunk */
+/* palette */
 #define _SET_CNT(_f) (_f ? NJD_TEXATTR_TEXCONTINUE : 0)
 #define _SET_BNK(_b) (((_b) << NJD_TEXBANK_SHIFT) & NJD_TEXBANK_MASK)
 #define _SET_BNK2(_b, _g) (_SET_BNK(_b)|((_g) & ~NJD_TEXBANK_MASK))
@@ -134,29 +110,23 @@
 /* Basic/Chunk */
 #define VERT( _x, _y, _z)   (_x), (_y), (_z)
 #define NORM( _x, _y, _z)   (_x), (_y), (_z)
-#define POINT		    NJS_POINT3
-#define NORMAL		    NJS_VECTOR
+#define POINT           NJS_POINT3
+#define NORMAL          NJS_VECTOR
 
 /* Chunk */
-#define VERT_SH( _x, _y, _z)    (_x), (_y), (_z), 0x3f800000
-#define NORM_SH( _x, _y, _z)    (_x), (_y), (_z), 0x0
 #define NORM32( _x, _y, _z)     ((_x)<<20|(_y)<<10|(_z))
 #define D8888( _a, _r, _g, _b)  _ARGB(_a, _r, _g, _b)
 #define UFlags( _f)             (_f)
 #define NFlags( _f)             (_f)
-#define _WPCa( _p)              ((unsigned long)(((_p)*255.0F)/100.0F+0.5F))
+#define _WPCa( _p)              ((uint32)(((_p)*255.0F)/100.0F+0.5F))
 #define NFlagsW( _idx, _wp)     (((_WPCa(_wp) & 0xffff)<<16)|((_idx) & 0xffff))
+#define _WPCa2( _p)              ((uint32)(((_p)*65535.0F)/100.0F+0.5F))
+#define NFlagsW2( _idx, _wp)     (((_WPCa2(_wp) & 0xffff)<<16)|((_idx) & 0xffff))
 
 #define _RGB565( _r, _g, _b)                                           \
  ( (((_r) & 0x1f)<<11)|(((_g) & 0x3f)<<5)|((_b) & 0x1f) )
 #define _ARGB4444( _a, _r, _g, _b)                                     \
  ( (((_a) & 0xf)<<12)|(((_r) & 0xf)<<8)|(((_g) & 0xf)<<4)|((_b) & 0xf) )
-#define D565S565( _r, _g, _b, _sr, _sg, _sb)                           \
- (_RGB565(_r, _g, _b) << 16)|_RGB565(_sr, _sg, _sb)
-#define D4444S565( _a, _r, _g, _b, _sr, _sg, _sb)                      \
- (_ARGB4444(_a, _r, _g, _b) << 16)|_RGB565(_sr, _sg, _sb)
-
-#define D16S16(_d, _s)       (((_d)<<16)|(_s))
 
 /*---------*/
 /* Polygon */
@@ -194,14 +164,7 @@
 /*---------------------*/
 #define _PVN_MAX 32767.0F
 
-#define FtoU(_a_)        ((long)((_a_) * _PVN_MAX) & 0xffffU)
-
-/* Chunk */
-#ifdef USE_UNSIGNED_TYPE
-#define Pvn( _x, _y, _z) FtoU(_x), FtoU(_y), FtoU(_z)
-#else
 #define Pvn( _x, _y, _z) (_x)*_PVN_MAX, (_y)*_PVN_MAX, (_z)*_PVN_MAX
-#endif
 
 /*------*/
 /* Bump */
@@ -234,7 +197,6 @@
 /*-------*/
 /* Model */
 /*-------*/
-/* Basic/Chunk */
 #define Center
 #define Radius
 
@@ -256,13 +218,9 @@
 
 #define VList
 #define PList
-#ifdef USE_UNSIGNED_TYPE
-#define VLIST                Uint32
-#define PLIST                Uint16
-#else
-#define VLIST                sint32
-#define PLIST                sint16
-#endif
+
+#define VLIST                Sint32
+#define PLIST                Sint16
 
 /*--------*/
 /* Object */
@@ -273,12 +231,14 @@
 #define OBJECT_START
 #define OBJECT_END
 
+/* Chunk */
+#define CNKOBJECT            NJS_CNK_OBJECT
+
+#define CNKOBJECT_START
+#define CNKOBJECT_END
+
+/* Basic/Chunk */
 #define EvalFlags( _ef)        (_ef)
-#ifdef USE_OLD_ANGLE
-#define Position( _x, _y, _z)  (_x), (_y), (_z)
-#define Angle( _x, _y, _z)     _NJANG(_x, _y, _z)
-#define Scale( _x,  _y,  _z)   (_x), (_y), (_z)
-#endif
 #define Child               _OBJPOINTERTYPE
 #define Sibling             _OBJPOINTERTYPE
 
@@ -286,57 +246,54 @@
 #define OAngle(_x, _y, _z)     _NJANG(_x, _y, _z)
 #define OScale(_x, _y, _z)     (_x), (_y), (_z)
 
-/* Chunk */
-#define CNKOBJECT            NJS_CNK_OBJECT
-
-#define CNKOBJECT_START
-#define CNKOBJECT_END
+#define OQuatIm(_x, _y, _z)    (_x), (_y), (_z)
+#define OQuatRe(_c)            (_c)
 
 /*--------*/
 /* Motion */
 /*--------*/
-/* Basic/Chunk */
-#define _KEYVAL                (65535.0f/360.0000F)
+#define _KEYVAL                (65536.0F/360.0000F)
 #define MKEYF( _k, _x, _y, _z)                                      \
-    {((uint32)(_k)), ((float)(_x)), ((float)(_y)), ((float)(_z))}
+    {((Uint32)(_k)), ((float)(_x)), ((float)(_y)), ((float)(_z))}
 #define MKEYF1( _k, _a)                                             \
-    {((uint32)(_k)), ((float)(_a))}
+    {((Uint32)(_k)), ((float)(_a))}
 #define MKEYF2( _k, _n, _f)                                         \
-    {((uint32)(_k)), ((float)(_n)), ((float)(_f))}
+    {((Uint32)(_k)), ((float)(_n)), ((float)(_f))}
 #define MKEYA( _k, _x, _y, _z)                                      \
-    {((uint32)(_k)), ((long)(_KEYVAL*(_x))),                        \
-     ((long)(_KEYVAL*(_y))),((long)(_KEYVAL*(_z)))}
-#define MKEYA1(_k, _v)        {((Uint32)(_k)),((long)(_KEYVAL*(_v)))}
+    {((Uint32)(_k)), ((Angle)(_KEYVAL*(_x))),                       \
+     ((Angle)(_KEYVAL*(_y))),((Angle)(_KEYVAL*(_z)))}
+#define MKEYSA( _k, _x, _y, _z)                                     \
+    {((Uint16)(_k)), ((Sangle)(_KEYVAL*(_x))),                      \
+     ((Sangle)(_KEYVAL*(_y))), ((Sangle)(_KEYVAL*(_z)))}
+#define MKEYA1(_k, _v)        {((Uint32)(_k)),((Angle)(_KEYVAL*(_v)))}
+#define MKEYSA1(_k, _v)       {((Uint16)(_k)),((Sangle)(_KEYVAL*(_v)))}
 #define MKEYAX( _k, _a, _x, _y, _z)                                 \
-    {((uint32)(_k)), ((float)((_a))),                               \
+    {((Uint32)(_k)), ((float)((_a))),                               \
      ((float)(_x)), ((float)(_y)), ((float)(_z))}
 #define MKEYQ( _k, _a, _x, _y, _z)                                  \
-    {((uint32)(_k)), ((float)((_a))),                               \
+    {((Uint32)(_k)), ((float)((_a))),                               \
      ((float)(_x)), ((float)(_y)), ((float)(_z))}
 #define MKEYP(k,x)            {((Uint32)(k)),((void *)(x))}
-#define MKEYUI32(_k, _v)      {((Uint32)(_k)),((unsigned long)(_v))}
-#define MKEYSI32(_k, _v)      {((Uint32)(_k)),((long)(_v))}
-#define MKEYSPOT(_k, _n, _f, _ia, _oa)                              \
-    {((uint32)(_k)), ((float)(_n)),                                 \
-    ((float)(_f)), ((long)(_KEYVAL*(_ia))), ((long)(_KEYVAL*(_oa)))}
+#define MKEYUI32(_k, _v)      {((Uint32)(_k)),((uint32)(_v))}
+#define MKEYSI32(_k, _v)      {((Uint32)(_k)),((sint32)(_v))}
+#define MKEYUI16(_k, _v)      {((Uint16)(_k)),((Uint16)(_v))}
+#define MKEYSHID(_k, _id)     {((Uint32)(_k)), ((Uint32)(_id))}
 
 #define MOTION_START
 #define SHAPE_MOTION_START
-#define POSITION	NJS_MKEY_F
-#define XROTATION	NJS_MKEY_AX
-#define QROTATION       NJS_MKEY_QUAT
-#define ROTATION	NJS_MKEY_A
-#define SCALE		NJS_MKEY_F
-#define SCALE2D		NJS_MKEY_F2
-#define AXEVECT		NJS_MKEY_AX
-#define POINTER		NJS_MKEY_P
-#define MDATA1		NJS_MDATA1
-#define MDATA2		NJS_MDATA2
-#define MDATA3		NJS_MDATA3
-#define MDATA4		NJS_MDATA4
-#define MDATA5		NJS_MDATA5
-#define MOTION		NJS_MOTION
-#define ACTION		NJS_ACTION
+#define POSITION    NJS_MKEY_F
+#define QROTATION   NJS_MKEY_QUAT
+#define ROTATION    NJS_MKEY_A
+#define SROTATION   NJS_MKEY_SA
+#define SCALE       NJS_MKEY_F
+#define SCALE2D     NJS_MKEY_F2
+#define EVENTBITS   NJS_MKEY_UI16
+#define MDATA1      NJS_MDATA1
+#define MDATA2      NJS_MDATA2
+#define MDATA3      NJS_MDATA3
+#define MDATA4      NJS_MDATA4
+#define MDATA5      NJS_MDATA5
+#define MOTION      NJS_MOTION
 #define MOTION_END
 #define SHAPE_MOTION_END
 
@@ -344,8 +301,43 @@
 #define MFrameNum
 #define MotionBit
 #define InterpolFct
+#define MotionBitF(_f)      (_f)
+#define InterpolFctF(_f)    (_f)
 #define ObjectHead     _OBJPOINTERTYPE
 #define Motion
+
+/* Flag Motion Key */
+#define FMK_POS0    NJD_MTYPE_POS_0
+#define FMK_ANG1    NJD_MTYPE_ANG_1
+#define FMK_SCA2    NJD_MTYPE_SCL_2
+#define FMK_VEC3    NJD_MTYPE_VEC_3
+#define FMK_VEC0    NJD_MTYPE_VEC_0
+#define FMK_SAN1    NJD_MTYPE_SANG_1
+#define FMK_TAR3    NJD_MTYPE_TARGET_3
+#define FMK_ROL6    NJD_MTYPE_ROLL_6
+#define FMK_ANG7    NJD_MTYPE_ANGLE_7
+#define FMK_RGB8    NJD_MTYPE_RGB_8
+#define FMK_INT9    NJD_MTYPE_INTENSITY_9
+#define FMK_POI9    NJD_MTYPE_POINT_9
+#define FMK_QUA1    NJD_MTYPE_QUAT_1
+#define FMK_SHID    NJD_MTYPE_SHAPEID
+#define FMK_EVE4    NJD_MTYPE_EVENT_4
+
+/* Flag Motion Type */
+#define FMT_L       NJD_MTYPE_LINER
+#define FMT_S       NJD_MTYPE_SPLINE
+#define FMT_U       NJD_MTYPE_USER
+
+/* Flag MDATA */
+#define FMD_1       (1)
+#define FMD_2       (2)
+#define FMD_3       (3)
+#define FMD_4       (4)
+#define FMD_5       (5)
+
+/* Flag Event Motion */
+#define FEM_NONE    (0)
+#define FEM_HD      (NJD_EVENT_HIDE)
 
 /*---------*/
 /* DEFAULT */
@@ -360,6 +352,20 @@
 /*------------*/
 /* Chunk Bits */
 /*------------*/
+/** EvalFlags **/
+#define FEV_UT    NJD_EVAL_UNIT_POS
+#define FEV_UR    NJD_EVAL_UNIT_ANG
+#define FEV_US    NJD_EVAL_UNIT_SCL
+#define FEV_HD    NJD_EVAL_HIDE
+#define FEV_BR    NJD_EVAL_BREAK
+#define FEV_ZXY   NJD_EVAL_ZXY_ANG
+#define FEV_SK    NJD_EVAL_SKIP
+#define FEV_SSK   NJD_EVAL_SHAPE_SKIP
+#define FEV_CL    NJD_EVAL_CLIP
+#define FEV_MD    NJD_EVAL_MODIFIER
+#define FEV_QU    NJD_EVAL_QUATERNION
+#define FEV_EN    NJD_EVAL_ENVELOPE
+
 /** Flags Blending SRC **/
 /* Flag Blending Src */
 #define FBS_ZER   NJD_FBS_ZER
@@ -370,6 +376,10 @@
 #define FBS_ISA   NJD_FBS_ISA
 #define FBS_DA    NJD_FBS_DA
 #define FBS_IDA   NJD_FBS_IDA
+
+/* Flag Buffer Src SELect */
+#define FBS_SEL   NJD_FBS_SEL
+
 /* Flag Blending Dst */
 #define FBD_ZER   NJD_FBD_ZER
 #define FBD_ONE   NJD_FBD_ONE
@@ -379,6 +389,9 @@
 #define FBD_ISA   NJD_FBD_ISA
 #define FBD_DA    NJD_FBD_DA
 #define FBD_IDA   NJD_FBD_IDA
+
+/* Flag Buffer Dst SELect */
+#define FBD_SEL   NJD_FBD_SEL
 
 /** Flag 'D' Adjust **/
 #define FDA_025   NJD_FDA_025
@@ -429,7 +442,8 @@
 /* Flag Filter Mode<texbits> */
 #define FFM_PS   NJD_FFM_PS
 #define FFM_BF   NJD_FFM_BF
-#define FFM_TF   NJD_FFM_TF
+#define FFM_TFA  NJD_FFM_TF_A
+#define FFM_TFB  NJD_FFM_TF_B
 /* Flag Super Sample<texbits> */
 #define FSS      NJD_FSS
 
@@ -437,12 +451,15 @@
 /* Chunk Vertex */
 /*--------------*/
 /** Flag WeightStatus (NF only) **/
-#define FW_START  NJD_FW_START
-#define FW_MIDDLE NJD_FW_MIDDLE
-#define FW_END    NJD_FW_END
+#define FW_START    NJD_FW_START
+#define FW_MIDDLE   NJD_FW_MIDDLE
+#define FW_END      NJD_FW_END
 
 /** Flag Vertex **/
-#define FV_CONT    NJD_FV_CONT
+#define FV_CONT     NJD_FV_CONT
+
+/* Flag Compact Shape */
+#define FV_SHAPE    NJD_FV_SHAPE
 
 /*-------------*/
 /* Chunk Strip */
@@ -515,28 +532,23 @@
 /* Chunk Vertex */
 #define _CkV(_f,_s)       (((_s)<<16)|(_f))
 
-#define CnkV_SH(_f,_s)    (_CkV(_f,_s)|NJD_CV_SH)     /* x,y,z,1.0F, ...          */
-#define CnkV_VN_SH(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_SH)  /*x,y,z,1.0F,nx,ny,nz,0.0F...*/
-
 #define CnkV(_f,_s)       (_CkV(_f,_s)|NJD_CV)        /* x,y,z, ...               */
 #define CnkV_D8(_f,_s)    (_CkV(_f,_s)|NJD_CV_D8)     /* x,y,z,D8888,...          */
 #define CnkV_UF(_f,_s)    (_CkV(_f,_s)|NJD_CV_UF)     /* x,y,z,UserFlags32,...    */
 #define CnkV_NF(_f,_s)    (_CkV(_f,_s)|NJD_CV_NF)     /* x,y,z,NinjaFlags32,...   */
-#define CnkV_S5(_f,_s)    (_CkV(_f,_s)|NJD_CV_S5)     /* x,y,z,D565|S565,...      */
-#define CnkV_S4(_f,_s)    (_CkV(_f,_s)|NJD_CV_S4)     /* x,y,z,D4444|S565,...     */
-#define CnkV_IN(_f,_s)    (_CkV(_f,_s)|NJD_CV_IN)     /* x,y,z,D16|S16,...        */
 
 #define CnkV_VN(_f, _s)   (_CkV(_f,_s)|NJD_CV_VN)     /* x,y,z, ...               */
 #define CnkV_VN_D8(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_D8)  /* x,y,z,nx,ny,nz,D8888,... */
 #define CnkV_VN_UF(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_UF)  /* x,y,z,nx,ny,nz,UFlags32, */
 #define CnkV_VN_NF(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_NF)  /* x,y,z,nx,ny,nz,NFlags32, */
-#define CnkV_VN_S5(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_S5)  /* x,y,z,nx,ny,nz,D565|S565,*/
-#define CnkV_VN_S4(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_S4)  /* x,y,z,nx,ny,nz,D4444|S565,*/
-#define CnkV_VN_IN(_f,_s) (_CkV(_f,_s)|NJD_CV_VN_IN)  /* x,y,z,nx,ny,nz,D16|S16,  */
 
-#define CnkV_VNX(_f,_s)    (_CkV(_f,_s)|NJD_CV_VNX)   /* x,y,z,nxyz32,...         */
-#define CnkV_VNX_D8(_f,_s) (_CkV(_f,_s)|NJD_CV_VNX_D8)/* x,y,z,nxyz32,D8888,...   */
-#define CnkV_VNX_UF(_f,_s) (_CkV(_f,_s)|NJD_CV_VNX_UF)/* x,y,z,nxyz32,UserFlags32,*/
+#define CnkV_D8_S8(_f,_s) (_CkV(_f,_s)|NJD_CV_D8_S8)  /* x,y,z,D8888,S8888,...        for Ninja2   */
+#define CnkV_NF_D8(_f,_s) (_CkV(_f,_s)|NJD_CV_NF_D8)  /* x,y,z,NinjaFlags32,D8888,... for Ninja2   */
+
+/* Chunk Vertex for CompactShape */
+#define CnkVN(_f,_s)      (_CkV(_f,_s)|NJD_VN)        /* nx,ny,nz,...             */
+#define CnkVN_D8(_f,_s)   (_CkV(_f,_s)|NJD_VN_D8)     /* nx,ny,nz,D8888,...       */
+#define CnkD8(_f,_s)      (_CkV(_f,_s)|NJD_D8)        /* D8888,...                */
 
 #define OffnbIdx( _off, _nb) ((_nb)<<16)|(_off)
 
@@ -546,92 +558,117 @@
 #define CnkO_ST(_bits)     NJD_CO_ST /* volume strip                  */
 
 /* Chunk Strip */
-#define CnkS(_bits)        (_bits)|NJD_CS       
-#define CnkS_UVN(_bits)    (_bits)|NJD_CS_UVN   
-#define CnkS_UVH(_bits)    (_bits)|NJD_CS_UVH   
+#define CnkS(_bits)        (_bits)|NJD_CS
+#define CnkS_UVN(_bits)    (_bits)|NJD_CS_UVN
+#define CnkS_UVH(_bits)    (_bits)|NJD_CS_UVH
 
-#define CnkS_VN(_bits)     (_bits)|NJD_CS_VN    
-#define CnkS_UVN_VN(_bits) (_bits)|NJD_CS_UVN_VN 
+#define CnkS_VN(_bits)     (_bits)|NJD_CS_VN
+#define CnkS_UVN_VN(_bits) (_bits)|NJD_CS_UVN_VN
 #define CnkS_UVH_VN(_bits) (_bits)|NJD_CS_UVH_VN
 
-#define CnkS_D8(_bits)     (_bits)|NJD_CS_D8    
-#define CnkS_UVN_D8(_bits) (_bits)|NJD_CS_UVN_D8 
+#define CnkS_D8(_bits)     (_bits)|NJD_CS_D8
+#define CnkS_UVN_D8(_bits) (_bits)|NJD_CS_UVN_D8
 #define CnkS_UVH_D8(_bits) (_bits)|NJD_CS_UVH_D8
 
 /* Chunk Strip for 2 parameter modifier data */
 #define CnkS_2(_bits)      (_bits)|NJD_CS_2
-#define CnkS_UVN2(_bits)   (_bits)|NJD_CS_UVN2  
-#define CnkS_UVH2(_bits)   (_bits)|NJD_CS_UVH2 
+#define CnkS_UVN2(_bits)   (_bits)|NJD_CS_UVN2
+#define CnkS_UVH2(_bits)   (_bits)|NJD_CS_UVH2
 
-/********************************************************
- * CAMERA
- ********************************************************/
-#define CAMERA                 NJS_CAMERA
-#define CAMERA_START           ={
-#define CAMERA_END             0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
-#define CPosition( _x, _y, _z) (_x), (_y), (_z)
-#define CInterest( _x, _y, _z) (_x), (_y), (_z)
-#define CRoll( _ang)           (_KEYVAL*(_ang))
-#define CAngle( _ang)          (_KEYVAL*(_ang))
-#define CNearClip( _n)         (_n)
-#define CFarClip( _f)          (_f)
-#define CAMERA_ACTION          NJS_CACTION
-#define CameraObj
+/************************************************************************
+ * COMPACTSHAPE
+ ************************************************************************/
+#define CSHAPE_LIST_START
+#define CSHAPE_LIST_END
 
-#define CPOSITION	       NJS_MKEY_F
-#define CTARGET                NJS_MKEY_F
-#define CVECTOR                NJS_MKEY_F
-#define CROLL                  NJS_MKEY_A1
-#define CANGLE                 NJS_MKEY_A1
+#define CVLIST                  NJS_CSHAPECV
+#define CSHAPEKGLIST            NJS_CSHAPE_KEYGROUP
+#define CSHAPEKG(_e, _g)        (_e), (_g), 0
+
+#define CSHAPELIST              NJS_CSHAPELIST
+#define CShapeKgList
+#define CShapeNum
+
+#define CSHAPE_MOTION_START
+#define CSHAPE_MOTION_END
+
+#define CSHAPE                  NJS_MKEY_SHAPEID
+#define CSHAPEDATA              NJS_CSHAPEDATA
+
+ /********************************************************
+  * CAMERA
+  ********************************************************/
+#define CAMERA                  NJS_CAMERA
+#define CAMERA_START
+#define CAMERA_END
+
+#define CPosition(_x, _y, _z)   (_x), (_y), (_z)
+#define CVector(_x, _y, _z)     (_x), (_y), (_z)
+#define CTarget(_x, _y, _z)     (_x), (_y), (_z)
+#define CRoll(_ang)             ((Sangle)(_KEYVAL*(_ang)))
+#define CAngle(_ang)            ((Sangle)(_KEYVAL*(_ang)))
+#define CType(_t)               (_t)
+
+  /* Flag Camera Type */
+#define FCT_VECTOR              NJD_CTYPE_VECTOR
+#define FCT_TARGET              NJD_CTYPE_TARGET
+
+/* Camera Motion */
+#define CAMERA_MOTION_START
+#define CAMERA_MOTION_END
+
+#define CPOSITION               NJS_MKEY_F
+#define CTARGET                 NJS_MKEY_F
+#define CVECTOR                 NJS_MKEY_F
+#define CROLL                   NJS_MKEY_SA1
+#define CANGLE                  NJS_MKEY_SA1
 
 /********************************************************
  * LIGHT
  ********************************************************/
-#define LIGHT NJS_LIGHT
-#define LIGHT_START             = { 0.f, 0.f, 0.f, 0.f,\
-                                    0.f, 0.f, 0.f, 0.f,\
-                                    0.f, 0.f, 0.f, 0.f,\
-                                    0.f, 0.f, 0.f, 0.f,
+#define LIGHT                   NJS_LIGHT
+#define LIGHT_START
+#define LIGHT_END
 
-#define LIGHT_END               };
-#define LATTR_START             1, 0,\
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, 0, 0,\
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f, 0.f, 0.f, 0.f, \
-                                0.f, 0.f,
-#define LATTR_END
-#define LStatus( _st)           (_st)
-#define LPosition( _x, _y, _z)  (_x), (_y), (_z)
-#define LVector( _x, _y, _z)    (_x), (_y), (_z)
-#define LType( _t)              (_t)
-#define LIntensity( _i)         (_i), (_i), 0.3f
-#define LNRange( _n)            (_n)
-#define LFRange( _f)            (_f), NULL
-#define LIAngle( _i)            (_KEYVAL*(_i))
-#define LOAngle( _o)            (_KEYVAL*(_o))
-#define LColor( _a, _r, _g, _b) (_a/255.0F), (_r/255.0F), (_g/255.0F), (_b/255.0F)
+#define LVector(_x, _y, _z)     (_x), (_y), (_z)
+#define LPosition(_x, _y, _z)   (_x), (_y), (_z)
+#define LColor(_r, _g, _b)      (_r), (_g), (_b)
+#define LIntensity(_f)          (_f)
+#define LAmbient(_f)            (_f)
+#define LNRange(_f)             (_f)
+#define LFRange(_f)             (_f)
+#define LFunc(_t)               (_t)            /* func type */
+#define LType(_t)               (_t)            /* light type */
+#define LNoopF(_x, _y, _z)      (_x), (_y), (_z)
+#define LNoopF1(_f)             (_f)
 
-#define LIGHT_ACTION            NJS_LACTION
-#define LightObj
+ /* Flag Light Func */
+#define FLF_UNDEFINE            NJD_MFUNC_UNDEFINE
+#define FLF_EASY                NJD_MFUNC_EASY
+#define FLF_SIMPLE              NJD_MFUNC_SIMPLE
+#define FLF_EASY_MULTI          NJD_MFUNC_EASY_MULTI
+#define FLF_SIMPLE_MULTI        NJD_MFUNC_SIMPLE_MULTI
+
+/* Flag Light Type */
+#define FLT_POINT               NJD_LTYPE_POINT
+#define FLT_VECTOR              NJD_LTYPE_VECTOR
+#define FLT_AMBIENT             NJD_LTYPE_AMBIENT
+
+/* Light Motion */
+#define LIGHT_MOTION_START
+#define LIGHT_MOTION_END
+
 #define LPOSITION               NJS_MKEY_F
 #define LVECTOR                 NJS_MKEY_F
-#define LTARGET                 NJS_MKEY_F
-#define LCOLOR                  NJS_MKEY_UI32
-#define LINTENSITY              NJS_MKEY_F1
-#define LSPOT_FACTORS           NJS_MKEY_SPOT
+#define LCOLOR                  NJS_MKEY_F
+#define LINTENSITY              NJS_MKEY_F2
 #define LPOINT_FACTORS          NJS_MKEY_F2
 
 /********************************************************
  * CellSprite
  ********************************************************/
-/**** Flag Cell Attr (for attr member) ****/
-/* Flag Blending Src(13-11) */
+ /**** Flag Cell Attr (for attr member) ****/
+ /* Flag Blending Src(13-11) */
 #define FCS_ZER                 NJD_FCS_ZER
 #define FCS_ONE                 NJD_FCS_ONE
 #define FCS_OC                  NJD_FCS_OC
@@ -675,7 +712,7 @@
 #define CellAttr(_attr)         (_attr)
 #define CellOffset(_ox, _oy)    (_ox), (_oy)
 #define CellSize(_sx, _sy)      (_sx), (_sy)
-#define CellZAng(_ang)          (_ang)
+#define CellZAng(_ang)          (_NJANG1(_ang) & 0xffff)
 #define CellPriority(_cp)       (_cp)
 #define CellCenter(_cx, _cy)    (_cx), (_cy)
 #define CellVColor0(_a, _r, _g, _b) _ARGB(_a, _r, _g, _b)
@@ -781,7 +818,7 @@
 #define TD_C_MASK               0x0000ffff     /* cp mask    */
 #define TD_SHIFT                16
 #define TD_MASK                 0x0fff0000
-    
+
 #define CCnk_TD(_eid, _tid)                                           \
     (NJD_CC_TD|(((_eid)<<TD_SHIFT)&TD_MASK)|((_tid) & TD_T_MASK))
 #define CCnk_AT(_eid, _att)                                           \
@@ -821,62 +858,47 @@
 /********************************************************
  * Binary
  ********************************************************/
-/*
- * chunk name
- */
-#define iff_NJINFO  'NJIN'     /* data infomation             */
+ /*
+  * chunk name
+  */
+#define iff_NJINFO  'NJIN'     /* data information            */
 
 #define iff_NJCM    'NJCM'     /* ninja chunk model tree      */
 #define iff_NJBM    'NJBM'     /* ninja basic model tree      */
+#define iff_N2CM    'N2CM'     /* ninja2 chunk model tree     */
 #define iff_NJTL    'NJTL'     /* ninja texlist               */
-#define iff_NJLI    'NJLI'     /* ninja light                 */ 
-#define iff_NJCA    'NJCA'     /* ninja camera                */ 
+#define iff_NJLI    'NJLI'     /* ninja light                 */
+#define iff_NJCA    'NJCA'     /* ninja camera                */
 
-#define iff_NMDM    'NMDM'     /* ninja model motion          */ 
-#define iff_NLIM    'NLIM'     /* ninja light motion          */ 
-#define iff_NCAM    'NCAM'     /* ninja camera motion         */ 
-#define iff_NSSM    'NSSM'     /* ninja simple shape motion   */ 
+#define iff_NMDM    'NMDM'     /* ninja model motion          */
+#define iff_NLIM    'NLIM'     /* ninja light motion          */
+#define iff_NCAM    'NCAM'     /* ninja camera motion         */
+#define iff_NSSM    'NSSM'     /* ninja simple shape motion   */
 
 #define iff_NJSP    'NJSP'     /* ninja cell sprite           */
 #define iff_NJCS    'NJCS'     /* ninja cell stream           */
 #define iff_NCSM    'NCSM'     /* ninja cell sprite motion    */
 
 #define iff_NJAD    'NJAD'     /* absolute address            */
-#define iff_POF0    'POF0'     /* pointer offset list type 0  */ 
-#define iff_POF1    'POF1'     /* pointer offset list type 1  */ 
+#define iff_POF0    'POF0'     /* pointer offset list type 0  */
+#define iff_POF1    'POF1'     /* pointer offset list type 1  */
+
+#define iff_CPSM    'CPSM'     /* ninja compact shape motion  */
+#define iff_NJSL    'NJSL'     /* ninja compact shape list    */
 
 /*
  * texture chunk name
  */
 /* pvr */
-#define iff_PVRT    'PVRT'     /* PowerVR texture             */ 
-#define iff_GBIX    'GBIX'     /* globalIndex                 */ 
-#define iff_PVRI    'PVRI'     /* texture Info                */ 
+#define iff_PVRT    'PVRT'     /* PowerVR texture             */
+#define iff_GBIX    'GBIX'     /* globalIndex                 */
+#define iff_PVRI    'PVRI'     /* texture Info                */
 
 /* pvm */
-#define iff_PVMH    'PVMH'     /* PVM hedder                  */ 
-#define iff_COMM    'COMM'     /* Comment                     */ 
-#define iff_CONV    'CONV'     /* PVM Converter               */ 
-#define iff_MDLN    'MDLN'     /* model name                  */ 
-#define iff_IMGC    'IMGC'     /* Image Container             */ 
-
-/********************************************************
- *      SYSTEM CONFIGURATION
- ********************************************************/
-#define USE_ALIGNDATA           aligndata8
-
-#define USE_FREE_ALIGN	(0)
-#define USE_02_ALIGN	(1)
-#define USE_04_ALIGN	(2)
-#define USE_08_ALIGN	(3)
-#define USE_16_ALIGN	(4)
-#define USE_32_ALIGN	(5)
-
-#ifndef USE_MATRIX_ALIGN
-#define USE_MATRIX_ALIGN 	1
-#endif
-#ifndef USE_LIGHT_ALIGN
-#define USE_LIGHT_ALIGN 	1
-#endif
+#define iff_PVMH    'PVMH'     /* PVM hedder                  */
+#define iff_COMM    'COMM'     /* Comment                     */
+#define iff_CONV    'CONV'     /* PVM Converter               */
+#define iff_MDLN    'MDLN'     /* model name                  */
+#define iff_IMGC    'IMGC'     /* Image Container             */
 
 #endif /* _NJDEF_H_ */

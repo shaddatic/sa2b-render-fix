@@ -1,6 +1,12 @@
 /*
-*	Contains the calls to the d3d9 render device
-*	
+*   Sonic Adventure Mod Tools (SA2B) - '/magic/rendercore.h'
+*
+*   ~~ Under Construction ~~
+*
+*   Contributors:
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
 
 #ifndef _MAGIC_RENDERDEVICE_H_

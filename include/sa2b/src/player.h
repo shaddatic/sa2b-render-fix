@@ -1,50 +1,79 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/player.h'
+*
+*   ~~ Under Construction ~~
+*   Contains structs and functions related to player and characters data
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-#define PlayerPos playertwp[0]->campos
-#define pHeldTask playerpwp[0]->HeldObject
+/************************/
+/*  Abstracted Types    */
+/************************/
+typedef struct task     TASK;
+typedef struct taskwk   TASKWK;
+typedef struct motionwk MOTIONWK;
 
+/************************/
+/*  Typedefs            */
+/************************/
+typedef void(__cdecl* task_exec)(TASK*);
+
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/ninja.h>
 
-#include <sa2b/src/task.h>
 #include <sa2b/src/shadow.h>
 
-#define PL_EQUIP_SONIC_SHOES				0x00000001
-#define PL_EQUIP_SONIC_SPARKLE				0x00000002
-#define PL_EQUIP_SONIC_MAGICWRIST			0x00000004
-#define PL_EQUIP_SONIC_FLAMERING			0x00000008
-#define PL_EQUIP_SONIC_RUBBERUNIT			0x00000010
-#define PL_EQUIP_SONIC_MELODY				0x00000020
+/************************/
+/*  Equipment Flags     */
+/************************/
+#define EQUIP_SONIC_SHOES			(0x00000001)
+#define EQUIP_SONIC_SPARKLE			(0x00000002)
+#define EQUIP_SONIC_MAGICWRIST		(0x00000004)
+#define EQUIP_SONIC_FLAMERING		(0x00000008)
+#define EQUIP_SONIC_RUBBERUNIT	    (0x00000010)
+#define EQUIP_SONIC_MELODY			(0x00000020)
 
-#define PL_EQUIP_MILES_BOOSTER				0x00000040
-#define PL_EQUIP_MILES_HYPERCANNON			0x00000080
-#define PL_EQUIP_MILES_LASERBALSTER			0x00000100
-#define PL_EQUIP_MILES_MELODY				0x00000200
+#define EQUIP_MILES_BOOSTER			(0x00000040)
+#define EQUIP_MILES_HYPERCANNON		(0x00000080)
+#define EQUIP_MILES_LASERBALSTER    (0x00000100)
+#define EQUIP_MILES_MELODY			(0x00000200)
 
-#define PL_EQUIP_KNUCKLES_CLAW				0x00000400
-#define PL_EQUIP_KNUCKLES_SUNGLASS			0x00000800
-#define PL_EQUIP_KNUCKLES_GROVES			0x00001000
-#define PL_EQUIP_KNUCKLES_AIR				0x00002000
-#define PL_EQUIP_KNUCKLES_MELODY			0x00004000
+#define EQUIP_KNUCKLES_CLAW			(0x00000400)
+#define EQUIP_KNUCKLES_SUNGLASS		(0x00000800)
+#define EQUIP_KNUCKLES_GROVES		(0x00001000)
+#define EQUIP_KNUCKLES_AIR			(0x00002000)
+#define EQUIP_KNUCKLES_MELODY		(0x00004000)
 
-#define PL_EQUIP_SUPERSONIC					0x00008000
+#define EQUIP_SUPERSONIC            (0x00008000)
 
-#define PL_EQUIP_SHADOW_SHOES				0x00010000
-#define PL_EQUIP_SHADOW_SPARKLE				0x00020000
-#define PL_EQUIP_SHADOW_FLAMERING			0x00040000
-#define PL_EQUIP_SHADOW_MELODY				0x00080000
+#define EQUIP_SHADOW_SHOES			(0x00010000)
+#define EQUIP_SHADOW_SPARKLE		(0x00020000)
+#define EQUIP_SHADOW_FLAMERING		(0x00040000)
+#define EQUIP_SHADOW_MELODY			(0x00080000)
 
-#define PL_EQUIP_EGGMAN_JETENGINE			0x00100000
-#define PL_EQUIP_EGGMAN_BAZOOKA				0x00200000
-#define PL_EQUIP_EGGMAN_POWERGUN			0x00400000
-#define PL_EQUIP_EGGMAN_EXTRASHIELD			0x00800000
-#define PL_EQUIP_EGGMAN_MELODY				0x01000000
+#define EQUIP_EGGMAN_JETENGINE		(0x00100000)
+#define EQUIP_EGGMAN_BAZOOKA		(0x00200000)
+#define EQUIP_EGGMAN_POWERGUN		(0x00400000)
+#define EQUIP_EGGMAN_EXTRASHIELD	(0x00800000)
+#define EQUIP_EGGMAN_MELODY			(0x01000000)
 
-#define PL_EQUIP_ROUGE_NAILS				0x02000000
-#define PL_EQUIP_ROUGE_SCOPE				0x04000000
-#define PL_EQUIP_ROUGE_BOOTS				0x08000000
-#define PL_EQUIP_ROUGE_MELODY				0x10000000
+#define EQUIP_ROUGE_NAILS			(0x02000000)
+#define EQUIP_ROUGE_SCOPE			(0x04000000)
+#define EQUIP_ROUGE_BOOTS			(0x08000000)
+#define EQUIP_ROUGE_MELODY			(0x10000000)
 
-enum : sint32
+/************************/
+/*  Enums               */
+/************************/
+enum
 {
 	ADV2_PLNO_SONIC,
 	ADV2_PLNO_SHADOW,
@@ -66,7 +95,10 @@ enum : sint32
 	NB_ADV2_PLNO,
 };
 
-struct PL_ACTION
+/************************/
+/*  Structures          */
+/************************/
+typedef struct
 {
 	__int16 actnum;
 	__int16 objnum;
@@ -74,9 +106,10 @@ struct PL_ACTION
 	__int16 next;
 	float frame;
 	float racio;
-};
+}
+PL_ACTION;
 
-struct mtnnjvwk
+typedef struct mtnnjvwk
 {
 	__int16 mtnmode;
 	__int16 Next;
@@ -100,10 +133,11 @@ struct mtnnjvwk
 	char field_23;
 	PL_ACTION* plactptr;
 	NJS_MOTION* plmtnptr;
-};
+}
+MOTION_NJV_WORK;
 
 // Contains input (first 4 variables) and output information for the dynamic collision system.
-struct csts
+typedef struct csts
 {
 	float radius;
 	NJS_POINT3 campos;
@@ -121,9 +155,10 @@ struct csts
 	NJS_POINT3 pshbk;
 	NJS_POINT3 anaspdh;
 	NJS_POINT3 anaspdv;
-};
+}
+CSTS;
 
-struct player_parameter
+typedef struct player_parameter
 {
 	int jump2_timer;
 	float pos_error;
@@ -158,7 +193,8 @@ struct player_parameter
 	float weight;
 	float eyes_height;
 	float center_height;
-};
+}
+PLAYER_PARAM;
 
 
 struct LoopPoint
@@ -178,12 +214,13 @@ struct LoopHead
 	void(__cdecl* Object)(task* tp);
 };
 
-struct PL_FACE
+typedef struct 
 {
 
-};
+}
+PL_FACE;
 
-struct PL_LANDPOSI
+typedef struct 
 {
 	float x;
 	float y;
@@ -193,10 +230,11 @@ struct PL_LANDPOSI
 	float h;
 	int angy_dif;
 	int angy_aim;
-};
+}
+PL_LANDPOSI;
 
 #pragma pack(push, 1)
-struct playerwk
+typedef struct playerwk
 {
 	sint8 pl_num;
 	sint8 ch_num0;
@@ -226,17 +264,19 @@ struct playerwk
 	int field_144[12];
 	mtnnjvwk mj;
 	int field_1A0[7];
-};
+}
+PLAYERWK;
 #pragma pack(pop)
 
-struct player_mot
+typedef struct player_mot
 {
 	sint16 index;
 	sint16 count;
 	NJS_MOTION* motion;
-};
+}
+PLAYER_MOTION;
 
-struct player_objdata
+typedef struct player_objdata
 {
 	char data0[2];
 	__int16 vlistSize;
@@ -251,23 +291,28 @@ struct player_objdata
 	char data2[16];
 	char data3[84];
 	int intAry[45];
-};
+}
+PLAYER_OBJECT;
 
-struct CHAR_OBJECT
+typedef struct
 {
-	int index;
+	sint32 index;
 	NJS_CNK_OBJECT* pObject;
-};
+}
+CHAR_OBJECT;
 
+/************************/
+/*  Data                */
+/************************/
 DataAry(CHAR_OBJECT, CHAR_OBJECTS, 0x01DE9620, [532]);
 
 DataRef(sint32, usPlayer, 0x01934B80);
 DataRef(sint32, usPlayer2, 0x01934BE4);
 
-DataAry(motionwk*,	playermwp,	0x1DE95E0, [8]);
-DataAry(playerwk*,	playerpwp,	0x1DE9600, [8]);
-DataAry(taskwk*,	playertwp,	0x1DEA6C0, [8]);
-DataAry(task*,		playertp,	0x1DEA6E0, [8]);
+DataAry(MOTIONWK*,	playermwp,	0x1DE95E0, [8]);
+DataAry(PLAYERWK*,	playerpwp,	0x1DE9600, [8]);
+DataAry(TASKWK*,	playertwp,	0x1DEA6C0, [8]);
+DataAry(TASK*,		playertp,	0x1DEA6E0, [8]);
 
 DataAry(task_exec, pExecSave,	0x019458F0, [8]);
 DataAry(task_exec, pDispSave,	0x01945960, [8]);
@@ -277,5 +322,8 @@ DataAry(task_exec, pDisp3Save,	0x01945940, [8]);
 DataAry(task_exec, pDisp4Save,	0x019458B0, [8]);
 DataAry(task_exec, pShadSave,	0x01945980, [8]);
 
+/************************/
+/*  Functions           */
+/************************/
 void PlayerDisable(int pno);
 void PlayerEnable(int pno);

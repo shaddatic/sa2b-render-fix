@@ -10,7 +10,7 @@ typedef struct task	TASK;
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 /*
 *	Data References

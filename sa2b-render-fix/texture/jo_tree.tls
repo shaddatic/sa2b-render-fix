@@ -2,10 +2,10 @@ TEXTURE_START
 
 TEXTURENAME	texture_jo_tree[]
 START
-	TEXN ( (void*) "miu128_green007" ),
-	TEXN ( (void*) "miu64_green002" ),
-	TEXN ( (void*) "miu64_green004" ),
-	TEXN ( (void*) "miu64_kage001" ),
+	TEXN ( "miu128_green007" ),
+	TEXN ( "miu64_green002" ),
+	TEXN ( "miu64_green004" ),
+	TEXN ( "miu64_kage001" ),
 END
 
 TEXTURELIST	texlist_jo_tree[]

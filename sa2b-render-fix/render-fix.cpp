@@ -237,4 +237,4 @@ Init(const char* path, const HelperFunctions*)
 }
 
 extern "C" __declspec(dllexport)
-ModInfo SA2ModInfo = { ModLoaderVer };
+ModInfo SA2ModInfo = { MOD_LOADER_VER };

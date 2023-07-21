@@ -1,6 +1,12 @@
 /*
-*	SOC audio system header
+*   Sonic Adventure Mod Tools (SA2B) - '/soc/audiosystem.h'
 *
+*   ~~ Under Construction ~~
+*
+*   Contributors:
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
 
 #ifndef _SOC_AUDIOSYS_H_

@@ -1,15 +1,25 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/c_colli.h'
+*
+*   Contains structs, enums, and functions related to the game's collision engine
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-/*
-*	Includes
-*/
+/************************/
+/*  Abstracted Types    */
+/************************/
+typedef task    TASK;
+typedef taskwk  TASKWK;
 
-#include <sa2b/src/task.h>
-
-/*
-*	Enums
-*/
-
+/************************/
+/*  Enums               */
+/************************/
 enum
 {
 	CI_FORM_SPHERE,
@@ -39,11 +49,10 @@ enum
 	CID_CHAO,
 };
 
-/*
-*	Structs
-*/
-
-struct CCL_INFO
+/************************/
+/*  Structures          */
+/************************/
+typedef struct
 {
 	sint8		kind;
 	uint8		form;
@@ -58,14 +67,15 @@ struct CCL_INFO
 	sint32		angx;
 	sint32		angy;
 	sint32		angz;
-};
+}
+CCL_INFO;
 
 typedef struct c_colli_hit_info
 {
 	sint8	my_num;
 	sint8	hit_num;
 	uint16	flag;
-	taskwk* hit_twp;
+    TASKWK* hit_twp;
 }
 CCL_HIT_INFO;
 
@@ -79,39 +89,35 @@ typedef struct colliwk
 	CCL_INFO* info;
 	CCL_HIT_INFO hit_info[16];
 	NJS_POINT3 normal;
-	task* mytask;
+	TASK* mytask;
 	sint16 my_num;
 	sint16 hit_num;
 	struct colliwk* hit_cwp;
 }
 COLLIWK;
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Function Pointers   */
+/************************/
+FuncPtr(CCL_HIT_INFO*, __cdecl, CCL_IsHitKindEx, (TASK* tp, uint8 kind), 0x486760);
 
-FuncPtr(CCL_HIT_INFO*, __cdecl, CCL_IsHitKindEx, (task* tp, uint8 kind), 0x486760);
+/************************/
+/*  User Functions      */
+/************************/
+sint32	CCL_Init(TASK* tp, CCL_INFO* info, sint32 nbInfo, uint8 id);
+void	CCL_Entry(TASK* tp);
 
-/*
-*	User Functions
-*/
+/************************/
+/*  Functions           */
+/************************/
+TASKWK* CCL_IsHitKind(TASK* tp, uint8 kind);
+TASK*	CCL_IsHitKind2(TASK* tp, uint8 kind);
 
-sint32	CCL_Init(task* tp, CCL_INFO* info, sint32 nbInfo, uint8 id);
-void	CCL_Entry(task* tp);
+bool32	CCL_IsPushed(TASKWK* twp);
 
-/*
-*	Recreated Functions
-*/
-
-taskwk* CCL_IsHitKind(task* tp, uint8 kind);
-task*	CCL_IsHitKind2(task* tp, uint8 kind);
-
-bool32	CCL_IsPushed(taskwk* twp);
-
-/*
-*	User Function Pointers
-*/
-
+/************************/
+/*  User Function Ptrs  */
+/************************/
 #ifdef SAMT_INCLUDE_USER_PTRS
 
 extern const void* CCL_Init_p;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 enum eLANDMARK_ATTR
 {

@@ -53,6 +53,6 @@ EnemyJetDisplayerFix()
 {
     WriteNoOP(0x00511271, 0x00511278);      // NOP EnableFog = 0;
     WriteCall(0x00511271, EnemyJetSetup);   // Replace with call
-    WriteValue(0x00511252, 0x25, uint8);    // Jump 5 bytes shorter
+    WriteData(0x00511252, 0x25, uint8);     // Jump 5 bytes shorter
     WriteCall(0x00511278, __EnemyJetDraw);  // ... to call this
 }

@@ -6,11 +6,13 @@
 
 typedef struct task		task;
 
+typedef struct cnkobj   NJS_CNK_OBJECT;
+
 /*
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
+#include <sa2b/ninja/njcommon.h>
 
 /*
 *	Enums

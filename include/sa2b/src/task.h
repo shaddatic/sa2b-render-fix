@@ -1,38 +1,44 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/task.h'
+*
+*   Contains defines, structs, functions, and enums related to the TASK system
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-/*
-*	Abstract Structs
-*/
-
+/************************/
+/*  Abstracted Types    */
+/************************/
 typedef struct colliwk			COLLIWK;
 typedef struct OBJ_CONDITION	OBJ_CONDITION;
 
-/*
-*	Includes
-*/
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
-#include <sa2b/ninja/ninja.h>
-
-/*
-*	Header types
-*/
-
+/************************/
+/*  Header Types        */
+/************************/
 typedef struct task		TASK;
 typedef struct taskwk	TASKWK;
 typedef struct motionwk	MOTIONWK;
 typedef struct forcewk	FORCEWK;
 typedef struct anywk	ANYWK;
 
-/*
-*	Typedefs
-*/
-
+/************************/
+/*  Typedefs            */
+/************************/
 typedef void(__cdecl* task_exec)(TASK*);
 
-/*
-*	Enums
-*/
-
+/************************/
+/*  Enums               */
+/************************/
 enum tasklevel
 {
 	LEV_0,
@@ -44,12 +50,12 @@ enum tasklevel
 	LEV_6,
 	LEV_C,
 	LEV_M
-};
+}
+;
 
-/*
-*	Structs
-*/
-
+/************************/
+/*  Structures          */
+/************************/
 typedef struct taskwk
 {
 	sint8 mode;
@@ -115,7 +121,7 @@ typedef struct task
 	task_exec		disp3;		/* Displayer 3 */
 	task_exec		disp4;		/* Displayer 4 */
 	task_exec		shad;		/* Shadow Displayer */
-	OBJ_CONDITION*	ocp;
+	OBJ_CONDITION*	ocp;        /* Set Data */
 	TASKWK*			twp;		/* Task Work */
 	MOTIONWK*		mwp;		/* Motion Work */
 	FORCEWK*		fwp;		/* Force Work */
@@ -126,24 +132,21 @@ typedef struct task
 }
 TASK;
 
-/*
-*	Data Arrays
-*/
+/************************/
+/*  Data                */
+/************************/
+DataAry(TASK*, btp, 0x1A5A254, [8]); /* Task lists */
 
-DataAry(TASK*, btp, 0x1A5A254, [8]);
-
-/*
-*	Function Pointers
-*/
-
+/************************/
+/*  Function Pointers   */
+/************************/
 FuncPtr(TASK*,	__cdecl, CreateChildTask,	(sint16 im, task_exec exec, TASK* tp),	0x470C00);
 
 FuncPtr(void,	__cdecl, DestroyTask,		(TASK* tp),								0x046F720);
 
-/*
-*	User Functions
-*/
-
+/************************/
+/*  Task Element Flags  */
+/************************/
 #define TELE_NUL	(0)
 #define TELE_MWK	(1<<0)
 #define TELE_TWK	(1<<1)
@@ -151,20 +154,21 @@ FuncPtr(void,	__cdecl, DestroyTask,		(TASK* tp),								0x046F720);
 #define TELE_AWK	(1<<3)
 #define TELE_ALL	(1<<4)
 
-TASK*	CreateElementalTask(uint8 im, sint32 level, task_exec exec, const ansi* name);
+/************************/
+/*  User Functions      */
+/************************/
+TASK*	CreateElementalTask(uint8 im, sint32 level, task_exec exec, const char* name);
 
-/*
-*	Recreated Functions
-*/
-
+/************************/
+/*  Functions           */
+/************************/
 void	FreeTask(TASK* tp);
 
 void	no_op(TASK* tp);
 
-/*
-*	User Function Pointers
-*/
-
+/************************/
+/*  User Function Ptrs  */
+/************************/
 #ifdef SAMT_INCLUDE_USER_PTRS
 
 extern const void* CreateElementalTask_p;

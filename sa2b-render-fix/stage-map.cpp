@@ -4,15 +4,15 @@
 
 #include <sa2b/ninja/ninja.h>
 
-#include <sa2b/src/misc.h>
+#include <sa2b/src/display.h>
 
 static void
 DrawMapTextBackdrop()
 {
-	NJS_COLOR colors[4];
-	NJS_POINT2 points[4];
+	NJS_COLOR   colors[4];
+	NJS_POINT2  points[4];
 
-	float screenratio = (ScreenRatioX / 640.0f / (ScreenRatioY / 480.0f) - 1.0f) * 320.0f;
+	float screenratio = (GetDisplayRatio() - 1.0f) * (320.0f);
 
 	colors[0].color = 0x600000FF;
 	colors[1].color = 0x600000FF;
@@ -39,10 +39,10 @@ DrawMapTextBackdrop()
 static void
 DrawMapPurpleFill()
 {
-	NJS_COLOR colors[4];
-	NJS_POINT2 points[4];
+	NJS_COLOR   colors[4];
+	NJS_POINT2  points[4];
 
-	float screenratio = (ScreenRatioX / 640.0f / (ScreenRatioY / 480.0f) - 1.0f) * 320.0f;
+	float screenratio = (GetDisplayRatio() - 1.0f) * 320.0f;
 
 	colors[0].color = 0xFF210C29;
 	colors[1].color = 0xFF210C29;

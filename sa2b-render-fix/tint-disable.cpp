@@ -36,21 +36,21 @@ DefaultGinjaDiffuseEnable()
 }
 
 static void
-DisableTintGinjaMesh(GJS_MESHDATA* pGinjaMesh, int nbMesh)
+DisableTintGinjaMesh(GJS_MESHSET* pGinjaMesh, int nbMesh)
 {
 	while (nbMesh--)
 	{
-		GJS_MESHPARAM* pparam = pGinjaMesh->ParameterOffset;
-		const int nbparam = pGinjaMesh->ParameterCount;
+		GJS_MESHPARAM* param = pGinjaMesh->params;
+		const int nbparam = pGinjaMesh->nbParam;
 
 		for (int i = 0; i < nbparam; ++i)
 		{
-			if (pparam->type == GJS_PARAMKIND_DIFFUSE)
+			if (param->type == GJD_MESH_DIFFUSE)
 			{
-				pparam->param = 0xFFFFFFFF;
+				param->data = 0xFFFFFFFF;
 				break;
 			}
-			++pparam;
+			++param;
 		}
 		++pGinjaMesh;
 	}
@@ -59,10 +59,10 @@ DisableTintGinjaMesh(GJS_MESHDATA* pGinjaMesh, int nbMesh)
 void
 DisableTintGinjaModel(GJS_MODEL* pModel)
 {
-	if (pModel->nbOpaque)
-		DisableTintGinjaMesh(pModel->opaqueMeshes, pModel->nbOpaque);
-	if (pModel->nbTransparent)
-		DisableTintGinjaMesh(pModel->transparentMeshes, pModel->nbTransparent);
+	if (pModel->nbSolid)
+		DisableTintGinjaMesh(pModel->meshsolid, pModel->nbSolid);
+	if (pModel->nbTrans)
+		DisableTintGinjaMesh(pModel->meshtrans, pModel->nbTrans);
 }
 
 void
@@ -215,7 +215,7 @@ DisableTintChunkModelList(int* pList, int nbList)
 	}
 }
 
-#include <sa2b/src/misc.h>
+#include <sa2b/src/datadll.h>
 
 typedef struct 
 {
@@ -231,7 +231,7 @@ SPECIAL_INFO;
 void
 DisableCartModelTints()
 {
-	SPECIAL_INFO* psi = (SPECIAL_INFO*) GetDllData("specialInfo");
+	SPECIAL_INFO* psi = GetDataDllAddr(SPECIAL_INFO, "specialInfo");
 
 	if (!psi)
 		return;

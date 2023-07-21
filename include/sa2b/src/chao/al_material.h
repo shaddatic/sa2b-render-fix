@@ -1,12 +1,19 @@
 #pragma once
 
 /*
+*	Abstracted structs
+*/
+
+typedef struct task			TASK;
+
+typedef struct al_model		AL_MODEL;
+typedef struct al_object	AL_OBJECT;
+
+/*
 *	Includes
 */
 
-#include <sa2b/ninja/ninja.h>
-
-#include <sa2b/src/chao/al_shape.h>
+#include <sa2b/ninja/njcommon.h>
 
 /*
 *	Data Arrays
@@ -26,15 +33,15 @@ FuncPtr(void,			 __cdecl, AL_FreeObject, (NJS_CNK_OBJECT* pObject), 0x0055EDF0);
 *	User Functions
 */
 
-int		AL_MatSetChaoColor(task* tp, __int16 ColorNum);
+int		AL_MatSetChaoColor(TASK* tp, __int16 ColorNum);
 
-void	AL_MatChangeModelTexture(al_model* pModel, uint16 TexID);
+void	AL_MatChangeModelTexture(AL_MODEL* pModel, uint16 TexID);
 
 /*
 *	Remade Functions
 */
 
-void	AL_MatChangeObjectTexture(al_object* pObject, uint16 TexID);
+void	AL_MatChangeObjectTexture(AL_OBJECT* pObject, uint16 TexID);
 
 /*
 *	User Function Pointers

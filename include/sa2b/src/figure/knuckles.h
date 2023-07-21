@@ -1,10 +1,28 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/figure/knuckles.h'
+*
+*   ~~ Under Construction ~~
+*   Contains functions, structs, and data for Knuckles
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-#include <sa2b/ninja/ninja.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
 #include <sa2b/src/player.h>
 
-struct KNUCKLES_WORK
+/************************/
+/*  Structures          */
+/************************/
+typedef struct knuckleswk
 {
 	playerwk pwk;
 	char field_1BC[492];
@@ -24,13 +42,20 @@ struct KNUCKLES_WORK
 	player_mot* MotionList;
 	NJS_MOTION_LINK pMotionLink;
 	char field_400[16];
-};
+}
+KNUCKLESWK;
 
-DataRef(KNUCKLES_WORK*, pKnucklesWork, 0x01A51C88);
+/************************/
+/*  Data                */
+/************************/
+DataRef(KNUCKLESWK*, pKnucklesWork, 0x01A51C88);
 
 DataRef(NJS_MATRIX, mtx_KnucklesHead, 0x01A51CBC);
 DataRef(NJS_MATRIX, mtx_KnucklesBody, 0x01A51B3C);
 DataRef(NJS_MATRIX, mtx_KnucklesHandL, 0x01A51C58);
 DataRef(NJS_MATRIX, mtx_KnucklesHandR, 0x01A51C8C);
 
+/************************/
+/*  Function Pointers   */
+/************************/
 FuncPtr(void, __cdecl, KnucklesMotionCallBack, (NJS_CNK_OBJECT*), 0x0072EAA0);

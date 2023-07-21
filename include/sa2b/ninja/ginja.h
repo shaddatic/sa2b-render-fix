@@ -1,108 +1,128 @@
 /*
-	Custom Ninja Library
-
-	COPYRIGHT No-one probably lol
+*   Sonic Adventure Mod Tools (SA2B) - '/ninja/ginja.h'
+*
+*   Ginja is a modified version of Ninja used for the GameCube
+*   We have no symbols for these, so a lot of this is guess work
+*
+*   Contributors:
+*   -   SEGA,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
-
-/*
-*	Ginja is a modified version of Ninja used for the GameCube and beyond (basically post Dreamcast)
-*	We have no symbols for these (yet!), so a lot of this is guess work.
-*/
-
 #ifndef _GINJA_H_
 #define _GINJA_H_
 
-enum eGJS_VERTKIND
-{
-	GJS_VERTKIND_MATRIX,
-	GJS_VERTKIND_VERTEX,
-	GJS_VERTKIND_NORMAL,
-	GJS_VERTKIND_COLOR,
-	GJS_VERTKIND_COLOR2,
-	GJS_VERTKIND_UV,
-	GJS_VERTKIND_END = -1,
-};
+/* Vertex info type */
+#define GJD_VERT_MATRIX			0
+#define GJD_VERT_VERTEX			1
+#define GJD_VERT_NORMAL			2
+#define GJD_VERT_COLOR			3
+#define GJD_VERT_COLOR2			4
+#define GJD_VERT_UV				5
+#define GJD_VERTEND		      255
 
-enum eGJS_PARAMKIND
-{
-	GJS_PARAMKIND_VTXATTR,
-	GJS_PARAMKIND_ATTR,
-	GJS_PARAMKIND_LIGHTING,
-	GJS_PARAMKIND_UNUSED0,
-	GJS_PARAMKIND_ALPHABLEND,
-	GJS_PARAMKIND_DIFFUSE,
-	GJS_PARAMKIND_UNUSED1,
-	GJS_PARAMKIND_UNUSED2,
-	GJS_PARAMKIND_TEXID,
-	GJS_PARAMKIND_UNUSED3,
-	GJS_PARAMKIND_TEXCOORDGEN
-};
+/* Mesh param type */
+#define GJD_MESH_VTXATTR		0
+#define GJD_MESH_ATTR			1
+#define GJD_MESH_LIGHTING		2
+#define GJD_MESH_UNUSED0		3
+#define GJD_MESH_ALPHABLEND		4
+#define GJD_MESH_DIFFUSE		5
+#define GJD_MESH_UNUSED1		6
+#define GJD_MESH_UNUSED2		7
+#define GJD_MESH_TEXID			8
+#define GJD_MESH_UNUSED3		9
+#define GJD_MESH_TEXCOORDGEN   10
 
-struct GJS_VERTDATA
-{
-	sint8			DataType; // 1 = Vertex, 3 = VColor?, 5 = UV?, 0xFF = end list
-	sint8			ElementSize;
-	sint16			ElementCount;
-	sint32			attr;
-	void*			Data;
-	sint32			DataSize;
-};
+/* Ginja flags */
+// none yet
 
-struct GJS_MESHPARAM
+/*
+ * GJS_MODEL
+ */
+typedef union
 {
-	sint32 type;
-	sint32 param;
-};
+    void*           matrix;
+    NJS_POINT3*     points;
+    NJS_VECTOR*     normals;
+    NJS_COLOR*      vertcolor;
+    NJS_TEX*        vertuv;
+    void*           vp;
+}
+GJS_VERTDATA;
 
-struct GJS_MESHDATA
+typedef struct
 {
-	GJS_MESHPARAM*	ParameterOffset;
-	sint32			ParameterCount;
-	uint8*			PrimitiveOffset;
-	sint32			PrimitiveCount;
-};
+    Uint8			type;		/* vertex info type				*/
+    Sint8			datasize;	/* vertex data size				*/
+    Sint16			nbData;		/* vertex data count			*/
+    Sint32			attr;		/* vertex attribute				*/
+    GJS_VERTDATA	data;		/* vertex data array			*/
+    Sint32			size;		/* total array size				*/
+}
+GJS_VERTINFO;
 
-struct GJS_MODEL
+typedef struct
 {
-	GJS_VERTDATA*	vertexData;
-	sint32			nbVertexData; // unknown
-	GJS_MESHDATA*	opaqueMeshes;
-	GJS_MESHDATA*	transparentMeshes;
-	sint16			nbOpaque;
-	sint16			nbTransparent;
-	NJS_POINT3		center;
-	float32			r;
-};
+    Sint8			type;		/* parameter type				*/
+    Sint32			data;		/* parameter data				*/
+}
+GJS_MESHPARAM;
 
+typedef struct
+{
+    GJS_MESHPARAM*  params;		/* parameter list				*/
+    Sint32			nbParam;	/* parameter count				*/
+    Sint8*          meshes;		/* mesh array					*/
+    Sint32			nbMesh;		/* mesh count					*/
+}
+GJS_MESHSET;
+
+typedef struct
+{
+    GJS_VERTINFO*   vertinfo;	/* vertex info list				*/
+    void*           vp;			/* unkown pointer				*/
+    GJS_MESHSET*    meshsolid;	/* solid mesh set list			*/
+    GJS_MESHSET*    meshtrans;	/* transparent mesh set list	*/
+    Sint16			nbSolid;	/* solid mesh set count			*/
+    Sint16			nbTrans;	/* transparent mesh set count	*/
+    NJS_POINT3		center;		/* model center					*/
+    Float			r;			/* model radius					*/
+}
+GJS_MODEL;
+
+/*
+ * GJS_OBJECT
+ */
 typedef struct gjsobj
 {
-	uint32          evalflags;
-	GJS_MODEL*		model;
-	float32         pos[3];
-	Angle           ang[3];
-	float32         scl[3];
-	struct gjsobj*	child;
-	struct gjsobj*	sibling;
+    Uint32          evalflags;	/* evalation flags              */
+    GJS_MODEL*      model;		/* model data pointer           */
+    Float           pos[3];		/* translation                  */
+    Angle           ang[3];		/* rotation or im part of quat  */
+    Float           scl[3];		/* scaling                      */
+    struct gjsobj*  child;		/* child object                 */
+    struct gjsobj*  sibling;	/* sibling object               */
+    Float           re_quat;	/* re part of quat              */
 }
 GJS_OBJECT;
 
-/*
-*	Data Refs
-*/
-
+/************************/
+/*  Data                */
+/************************/
 DataRef(void*, _gj_motion_callback_, 0x01D19C48);
 
-/*
-*	Function Pointers
-*/
-
-FuncPtr(void, __cdecl, _gjTransformObject, (GJS_OBJECT* object, int(__cdecl* callback)(GJS_MODEL*)), 0x0042DC20);
+/************************/
+/*  Function Pointers   */
+/************************/
+FuncPtr(void, __cdecl, gjTransformObject, (GJS_OBJECT* object, int(__cdecl* callback)(GJS_MODEL*)), 0x0042DC20);
 
 FuncPtr(void, __cdecl, gjDrawObject, (GJS_OBJECT* object), 0x0042B530);
 
-/*
-*	User Functions
-*/
+/************************/
+/*  User Functions      */
+/************************/
 void	gjCalcPoint(NJS_MATRIX* m, NJS_VECTOR* vs, NJS_VECTOR* vd, char b);
 
 void	gjDrawMotion(GJS_OBJECT* object, NJS_MOTION* motion, float32 frame);
@@ -112,10 +132,9 @@ void	gjMultiMatrix(NJS_MATRIX* md, NJS_MATRIX* md2, NJS_MATRIX* ms);
 
 void	gjDrawModel(GJS_MODEL* model);
 
-/*
-*	Remade Functions
-*/
-
+/************************/
+/*  Functions           */
+/************************/
 void	gjSetMotionCallback(void (*func)(GJS_OBJECT* gjsobj));
 
 #endif /* _GINJA_H_ */

@@ -1,12 +1,30 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/figure/sonic.h'
+*
+*   ~~ Under Construction ~~
+*   Contains functions, structs, and data for Sonic
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-#include <sa2b/ninja/ninja.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
 #include <sa2b/src/player.h>
 
-struct SONIC_WORK
+/************************/
+/*  Structures          */
+/************************/
+typedef struct sonicwk
 {
-	playerwk pwk;
+	PLAYERWK pwk;
 	char field_1BC[428];
 	__int16 SpindashCounter;
 	int field_36A;
@@ -21,14 +39,21 @@ struct SONIC_WORK
 	float* field_390;
 	NJS_TEXLIST* TextureList;
 	CHAR_OBJECT* ModelList;
-	player_mot* MotionList;
-};
+	PLAYER_MOTION* MotionList;
+}
+SONICWK;
 
-DataRef(SONIC_WORK*, pSonicWork, 0x01A51A9C);
+/************************/
+/*  Data                */
+/************************/
+DataRef(SONICWK*, pSonicWork, 0x01A51A9C);
 
 DataRef(NJS_MATRIX, mtx_SonicHandL, 0x01A51A3C);
 DataRef(NJS_MATRIX, mtx_SonicHandR, 0x01A51AA0);
 DataRef(NJS_MATRIX, mtx_SonicFootL, 0x01A51A6C);
 DataRef(NJS_MATRIX, mtx_SonicFootR, 0x01A519D0);
 
+/************************/
+/*  Function Pointers   */
+/************************/
 FuncPtr(void, __cdecl, SonicMotionCallBack, (NJS_CNK_OBJECT*), 0x0071EAA0);

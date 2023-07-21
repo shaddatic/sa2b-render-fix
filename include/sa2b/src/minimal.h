@@ -1,16 +1,27 @@
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/minimal.h'
+*
+*   Contains data and functions related to Minimals in the main game
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
 #pragma once
 
-/*
-*	Structs
-*/
-
-struct EXTRA
+/************************/
+/*  Structures          */
+/************************/
+typedef struct 
 {
 	sint32 num;
 	sint32 timer;
-};
+}
+EXTRA;
 
-struct EXTRA_LIST
+typedef struct
 {
 	EXTRA overflow[10];
 	EXTRA list[10];
@@ -19,30 +30,27 @@ struct EXTRA_LIST
 	float32 velo;
 	float32 shiftx;
 	sint32 timer;
-};
+}
+EXTRA_LIST;
 
-/*
-*	Data Arrays
-*/
-
+/************************/
+/*  Data                */
+/************************/
 DataAry(EXTRA_LIST, extra_lists, 0x01946EC8, [3]);
 
-/*
-*	Function Pointers
-*/
-
+/************************/
+/*  Function Pointers   */
+/************************/
 FuncPtr(EXTRA_LIST*, __fastcall, Extra_Get, (sint32 pno), 0x00487260);
 
-/*
-*	User Functions
-*/
-
+/************************/
+/*  User Functions      */
+/************************/
 void	AddExtraDisplay(sint32 num, sint32 pno);
 
-/*
-*	User Function Pointers
-*/
-
+/************************/
+/*  User Function Ptrs  */
+/************************/
 #ifdef SAMT_INCLUDE_USER_PTRS
 
 extern const void* AddExtraDisplay_p;

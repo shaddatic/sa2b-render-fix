@@ -1,6 +1,7 @@
 #include <sa2b/core.h>
 #include <sa2b/memtools.h>
 
+#include <sa2b/ninja/ninja.h>
 #include <sa2b/src/task.h>
 #include <sa2b/src/set.h>
 #include <sa2b/src/c_colli.h>
@@ -48,7 +49,7 @@ ObjectTreeShadows(TASK* tp)
 
 	TASKWK* twp = tp->twp;
 
-	njPushMatrix(_nj_unit_matrix_);
+	njPushMatrix(&_nj_unit_matrix_);
 
 	njTranslateEx(&twp->pos);
 	njRotateY(0, twp->ang.y);

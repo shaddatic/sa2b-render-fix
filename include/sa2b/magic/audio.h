@@ -1,6 +1,12 @@
 /*
-*	Magic audio stuff
+*   Sonic Adventure Mod Tools (SA2B) - '/magic/audio.h'
 *
+*   ~~ Under Construction ~~
+*
+*   Contributors:
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
 
 #ifndef _MAGIC_AUDIO_H_

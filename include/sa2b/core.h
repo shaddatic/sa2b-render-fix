@@ -1,9 +1,17 @@
 /*
-*	Sonic Adventure Mod Tools - Core Header
+*   Sonic Adventure Mod Tools (SA2B) - '/core.h'
+*
+*   Contains the essential Library, Defines, Typedefs, Macros, and Functions
+*   Should always be included first
+*
+*   Contributors:
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
 
-#ifndef _SAMT_CORE_
-#define _SAMT_CORE_
+#ifndef _SAMT_CORE_H_
+#define _SAMT_CORE_H_
 
 #pragma comment(lib, "sa2b-mod-toolkit.lib")
 
@@ -15,60 +23,72 @@ static_assert(false, "You cannot use x64 to build a mod for SA2 or SADX");
 static_assert(false, "C++20 is required for this mod toolkit");
 #endif
 
-/*
-*	Integer types
-*/
-typedef unsigned __int8		uint8;		/*  unsigned 1 byte integer	*/
-typedef signed	 __int8		sint8;		/*  signed 1 byte integer	*/
-typedef unsigned __int16	uint16;		/*  unsigned 2 byte integer	*/
-typedef signed	 __int16	sint16;		/*  signed 2 byte integer	*/
-typedef unsigned __int32	uint32;		/*  unsigned 4 byte integer	*/
-typedef signed	 __int32	sint32;		/*  signed 4 byte integer	*/
-typedef unsigned __int64	uint64;		/*  unsigned 8 byte integer	*/
-typedef signed	 __int64	sint64;		/*  signed 8 byte integer	*/
+/************************/
+/*  Extern              */
+/************************/
+#ifdef __cplusplus
+#define EXTERN          extern "C"
+#define EXTERN_START	EXTERN {
+#define EXTERN_END		}
+#else
+#define EXTERN          extern
+#define EXTERN_START
+#define EXTERN_END
+#endif /* __cplusplus */
 
-typedef signed	   int		sint;
-typedef unsigned   int		uint;
+/************************/
+/*  Core Functions      */
+/************************/
+EXTERN_START
 
-/*
-*	Floating Point types
-*/
-typedef float				float32;	/*  4 byte real number		*/
-typedef double				float64;	/*  8 byte real number		*/
+/** Initializes the Toolkit, *always*
+    call this first before anything else **/
+    void    SAMT_Init(const char* pOptPath, const void* pOptHelperFunctions);
 
-/*
-*	String and Character types & defines
-*/
-typedef char				ansi;		/*  ANSI character (none)			*/
-typedef char				utf8;		/*  UTF-8 character (u8)			*/
+/** Retrieves the path of this mod **/
+const char* GetModPath();
 
-/*
-*	Other
-*/
-typedef sint32				bool32;		/*  4 byte boolean          */
+EXTERN_END
 
-/*
-*	Game Data References
-*/
-#define DataRef(TYPE, NAME, ADDR)	  inline TYPE&	     NAME = *(TYPE*)ADDR
-#define DataPtr(TYPE, NAME, ADDR)	  inline TYPE* const NAME =  (TYPE*)ADDR
-#define DataAry(TYPE, NAME, ADDR, NB) typedef TYPE NAME##_t NB; DataRef(NAME##_t, NAME, ADDR)
+/************************/
+/*  Global Typedefs     */
+/************************/
+/**	Integer types **/
+typedef unsigned __int8		uint8;		/*  unsigned 1 byte integer		*/
+typedef signed	 __int8		sint8;		/*  signed 1 byte integer		*/
+typedef unsigned __int16	uint16;		/*  unsigned 2 byte integer		*/
+typedef signed	 __int16	sint16;		/*  signed 2 byte integer		*/
+typedef unsigned __int32	uint32;		/*  unsigned 4 byte integer		*/
+typedef signed	 __int32	sint32;		/*  signed 4 byte integer		*/
+typedef unsigned __int64	uint64;		/*  unsigned 8 byte integer		*/
+typedef signed	 __int64	sint64;		/*  signed 8 byte integer		*/
 
-/*
-*	Game Function References
-*/
-#define FuncPtr(TYPE, METH, NAME, ARGS, ADDR) inline TYPE (METH *const NAME)ARGS = (TYPE (METH *const)ARGS)ADDR
+typedef signed	   int		sint;		/*  signed default integer		*/
+typedef unsigned   int		uint;		/*  unsigned default integer	*/
 
-/*
-*	Game Task Function References
-*/
-#define TaskFuncPtr(NAME, ADDR) FuncPtr(void, __cdecl, NAME, (TASK* tp), ADDR)
+/** Floating Point types **/
+typedef float				float32;	/*  4 byte real number			*/
+typedef double				float64;	/*  8 byte real number			*/
 
-/*
-*	Core Functions
-*/
-void		SAMT_Init(const char* pOptPath, const void* pOptHelperFunctions);
+/** Character types **/
+typedef char				ansi;		/*  ANSI character (none)		*/
+typedef char				utf8;		/*  UTF-8 character (u8)		*/
 
-const char*	GetModPath();
+/**	Boolean **/
+typedef sint32				bool32;		/*  4 byte boolean				*/
 
-#endif /* _SAMT_CORE_ */
+/************************/
+/*  Data Map Macros     */
+/************************/
+/** Data **/
+#define DataRef(type, name, addr)		static type&	   name = *(type*)addr
+#define DataPtr(type, name, addr)		static type* const name =  (type*)addr
+#define DataAry(type, name, addr, nb)	typedef type name##_t nb; DataRef(name##_t, name, addr)
+
+/** Functions **/
+#define FuncPtr(type, meth, name, args, addr) static type (meth *const name)args = (type (meth *const)args)addr
+
+/** Task Functions **/
+#define TaskFuncPtr(name, addr)			FuncPtr(void, __cdecl, name, (struct task* tp), addr)
+
+#endif /* _SAMT_CORE_H_ */
