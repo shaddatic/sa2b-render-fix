@@ -243,4 +243,9 @@ DisableCartModelTints()
 		if (psi[i].pLODObject)
 			DisableTintChunkObject(psi[i].pLODObject);
 	}
+
+    NJS_CNK_OBJECT* object_limo = GetDataDllAddr(NJS_CNK_OBJECT, "object_chara_limoall_limoall");
+    DisableTintChunkObject(object_limo);
+    object_limo = GetDataDllAddr(NJS_CNK_OBJECT, "object_tornado_3rd_tornado_3rd");
+    DisableTintChunkObject(object_limo);
 }
