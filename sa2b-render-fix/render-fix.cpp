@@ -94,6 +94,8 @@ static int ChunkObjectList[] =
 	0x00B351EC, // Rouge Boots
 	0x00B24B24, // Sonic Magic Wrist
 	0x00B30744, // Knuckles Sunglasses
+
+    0x0101DAEC, // Big Bogy
 };
 
 static int ChunkModelList[] =
@@ -111,6 +113,7 @@ static int ChunkModelList[] =
 	0x00B492EC, // Itembox Air (Base)
 	0x00B48F64, // Itembox Air (Top)
 //	0x00B48B44,	// Itembox Air (Glass)	// Too bright
+    0x00B1988C, // Balloon
 	0x00B11ECC, // Solidbox
 	0x00B4EC6C, // Goalring (text)
 	0x00B4EE0C, // Goalring (text restart)
@@ -122,6 +125,7 @@ static int ChunkModelList[] =
 	0x00B20C04, // Levelupdai (base)
 	0x00B20CF4, // Levelupdai (glow)
 	0x00B21124, // Levelupdai (light)
+    0x0162E024, // Minemizu
 };
 
 /*
