@@ -16,6 +16,6 @@ BossBogySettings(const config* conf)
 {
 	if (ConfigGetInt(conf, SECT, "sundoors", 1))
 	{
-		SunDoorsFix();
+        SwapGVMTableIndex(0x0103622C, 2, 4);
 	}
 }
