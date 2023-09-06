@@ -9,6 +9,9 @@
 			<Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
 				<HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
 			</Property>
+			<Property name="ptcl_scl" display="Fix Particle Scale" type="eBOOL" defaultvalue="1">
+				<HelpText>Locks the polygon-particle's scale to the game world instead of screen resolution, and fixes the sprite-particle's scale being halved since Dreamcast.</HelpText>
+			</Property>
 			<Property name="model_tint" display="Fix Model Tints" type="eTINT" defaultvalue="2">
 				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
 			</Property>
