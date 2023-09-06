@@ -185,7 +185,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
 	if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
 	{
-		WriteData(0x00431340, 0x9090, uint16);
+		WriteData(0x00431340, 0x9090, uint16); // NOP
 	}
 
     if (ConfigGetInt(conf, "main", "backface_cull", 1))
