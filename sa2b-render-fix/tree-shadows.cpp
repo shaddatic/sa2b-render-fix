@@ -2,10 +2,10 @@
 #include <sa2b/memtools.h>
 
 #include <sa2b/ninja/ninja.h>
+
 #include <sa2b/src/task.h>
 #include <sa2b/src/set.h>
 #include <sa2b/src/c_colli.h>
-#include <sa2b/src/memoryalloc.h>
 
 #include <sa2b/src/object/o_light.h>
 
@@ -20,9 +20,9 @@ CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
 
 	njPushMatrixEx();
 
-	njTranslate(0, posX, posY, posZ);
+	njTranslate(NULL, posX, posY, posZ);
 
-	njCalcPoint(0, &point, &point);
+	njCalcPointEx(&point, &point);
 
 	ctp->twp->pos.x = point.x;
 	ctp->twp->pos.y = point.y + 24.0f;
