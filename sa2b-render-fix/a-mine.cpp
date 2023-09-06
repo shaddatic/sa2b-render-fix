@@ -6,12 +6,12 @@
 
 #define SECT "a_mine"
 
-extern NJS_CNK_MODEL model_minemizu[];
+extern Sint32 vertex_minemizu[];
 
 static void
 MurkyWaterRestore()
 {
-	WritePointer(0x0162E024, model_minemizu->vlist);
+	WritePointer(0x0162E024, vertex_minemizu);
 }
 
 void
