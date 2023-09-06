@@ -170,7 +170,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 	SAMT_Init(path, pHelpFunc);
 
 	config* conf = ConfigOpen2(path, "config.ini");
-
+    
     /** ALWAYS ON **/
     {
         SwitchDisplayer(0x006EDB91, DISP_SORT); // Water Ripples
@@ -190,7 +190,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
     }
 
-	int screentint = ConfigGetInt(conf, "main", "objpak", 2);
+    int screentint = ConfigGetInt(conf, "main", "objpak", 2);
 
 	if (screentint)
 	{
@@ -203,9 +203,9 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 	}
 
     if (ConfigGetInt(conf, "main", "backface_cull", 1))
-	{
+    {
         EnableBackfaceCulling();
-	}
+    }
 
     if (ConfigGetInt(conf, "main", "backcolor", 1))
     {
@@ -288,7 +288,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 		{
 			DisableTintGinjaModelListEx(GinjaModelListExtra);
 			DisableTintChunkModelListEx(ChunkModelListExtra);
-		}
+        }
 	}
 
 	RestorationSettings(conf);

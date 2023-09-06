@@ -17,7 +17,7 @@ static LIGHT lights_bigbogy[] =
 };
 
 static uint8 GlowPulseParams[] = 
-{
+{ 
     0x32, 0xB4, 0x32, 0x0, 0xB4, 0x0, 0x0, 0x0 
 };
 
@@ -48,7 +48,7 @@ BossBogySettings(const config* conf)
     if (ConfigGetInt(conf, SECT, "lights", 1))
     {
         memcpy((void*)0x01036738, lights_bigbogy, sizeof(lights_bigbogy));
-}
+    }
 
     if (ConfigGetInt(conf, SECT, "glowpulse", 1))
     {
