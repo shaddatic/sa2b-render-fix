@@ -193,6 +193,11 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         EnableBackfaceCulling();
 	}
 
+    if (ConfigGetInt(conf, "main", "backcolor", 1))
+    {
+        FixNinjaBackColor();
+    }
+
     if (ConfigGetInt(conf, "main", "ptcl_scl", 1))
     {
         static const double ptcldbl00 = 1.5;
