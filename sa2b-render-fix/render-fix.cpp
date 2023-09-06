@@ -230,6 +230,8 @@ Init(const char* path, const HelperFunctions*)
 
 	CartSettings(conf);
 
+    EventSettings(conf);
+
 	if (!CheckForMod("sa2-dc-lighting"))
 	{
 		if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))

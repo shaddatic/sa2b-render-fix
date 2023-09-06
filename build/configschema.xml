@@ -95,6 +95,11 @@
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
+		<Group name="event" display="0B • Events                                            ------------------------------------------------------------">
+			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
+				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
+			</Property>
+		</Group>
 		<Group name="exp" display="FF • Experimental Settings                        ------------------------------------------------------------">
 			<Property name="enemy_shadows" display="Restore Extra Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores Enemy and Minimal shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>

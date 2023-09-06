@@ -27,3 +27,5 @@ void	CannonsCoreSettings(const config* conf);
 void	BossBogySettings(const config* conf);
 
 void	CartSettings(const config* conf);
+
+void    EventSettings(const config* conf);
