@@ -6,6 +6,9 @@
 
 #include <sa2b/ninja/ninja.h>
 
+#include <sa2b/src/task.h>
+#include <sa2b/src/score.h>
+
 #include <tint-disable.h>
 #include <tools.h>
 
@@ -59,6 +62,51 @@ GUNEmblemRestore()
 }
 
 static void
+UdreelFlashDraw(GJS_MODEL* model, TASK* tp)
+{
+    SaveControl3D();
+    OnControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
+
+    SaveConstantMaterial();
+
+    if (GameTimer % 0x2Eu >= 0x17 && !(tp->twp->mode & 1))
+    {
+        SetConstantMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    else
+    {
+        SetConstantMaterial(1.0f, 0.7f, 0.7f, 0.7f);
+    }
+
+    gjDrawModel(model);
+
+    LoadConstantMaterial();
+    LoadControl3D();
+}
+
+__declspec(naked)
+static void
+__UdreelFlashDraw()
+{
+    __asm
+    {
+        push [esp+4Ch]  // tp
+        push ebx        // model
+        call UdreelFlashDraw
+        pop ebx
+        add esp, 4
+        retn
+    }
+}
+
+static void
+UdreelFlashRestore()
+{
+    WriteCall(0x006E62E7, __UdreelFlashDraw);
+    WritePointer(0x00B143B0, LoadGinjaObject2(GetModPath(), "model/udreel.sa2bmdl"));
+}
+
+static void
 JungleObjectTreeRestore()
 {
 	extern NJS_TEXLIST texlist_jo_tree[];
@@ -108,4 +156,9 @@ RestorationSettings(const config* conf)
 	{
 		DisableTintGinjaModel((GJS_MODEL*)0x00B58288);
 	}
+
+    if (ConfigGetInt(conf, SECT, "udreel", 1))
+    {
+        UdreelFlashRestore();
+    }
 }

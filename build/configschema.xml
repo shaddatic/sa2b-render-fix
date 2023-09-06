@@ -31,6 +31,9 @@
 			<Property name="dc_ring" display="Restore DC Ring Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
 			</Property>
+			<Property name="udreel" display="Flashing Pulley" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the Dreamcast flashing pulley effect.</HelpText>
+			</Property>
 		</Group>
 		<Group name="env" display="02 • Environment Map Settings                 ------------------------------------------------------------">
 			<Property name="fix" display="Environment Map Fix" type="eBOOL" defaultvalue="1">
