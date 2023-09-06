@@ -182,6 +182,8 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         SwitchDisplayer(0x005113AA, DISP_SORT); // Enemy Jet
         SwitchDisplayer(0x00511422, DISP_SORT); // ^
 
+        SwitchDisplayer(0x004B39CD, DISP_SORT); // P-Hill clouds
+
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
     }
 
