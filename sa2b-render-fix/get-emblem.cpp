@@ -4,12 +4,14 @@
 
 #include <sa2b/ninja/ninja.h>
 
+#include <tools.h>
+
 static void
 ParticleFix()
 {
 	extern NJS_CNK_OBJECT object_eget[];
 
-	WriteData(0x00798611, 0x14, uint8); /* disp4 -> disp */
+	SwitchDisplayer(0x0079860F, DISP_SORT);
 	WriteData(0x0096DE1C, *object_eget, NJS_CNK_OBJECT);
 }
 
