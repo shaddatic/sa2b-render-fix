@@ -133,6 +133,12 @@ static int ChunkModelList[] =
 	0x00B20CF4, // Levelupdai (glow)
 	0x00B21124, // Levelupdai (light)
     0x0162E024, // Minemizu
+
+    0x00A2F034, // Tsubo
+    0x0167856C, // PH Train Bed
+    0x0167AD44, // PH Train
+    0x016782E4, // PH Train Cylnder
+    0x009B046C, // Poison
 };
 
 /*
