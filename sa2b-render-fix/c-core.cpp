@@ -7,7 +7,7 @@
 
 #define SECT "c_core"
 
-#define ReplaceLandObject(pland, idx, pobj) ((OBJ_LANDTABLE*)pland)->pLandEntry[idx].pObj.gjs = pobj
+#define ReplaceLandObject(pland, idx, pobj) ((OBJ_LANDTABLE*)pland)->pLandEntry[idx].pObject.gjs = pobj
 
 static void
 PitFallRougeRestore()
