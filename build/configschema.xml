@@ -97,6 +97,9 @@
 			</Property>
 		</Group>
 		<Group name="cart" display="0A • Cart Stages                                     ------------------------------------------------------------">
+			<Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
+			</Property>
 			<Property name="seafix" display="Sea Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>

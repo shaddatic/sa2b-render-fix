@@ -24,4 +24,9 @@ CartSettings(const config* conf)
 	{
         WriteJump(0x00622075, DrawCartSea);
 	}
+
+    if (ConfigGetInt(conf, SECT, "kanban", 1))
+    {
+        WriteNoOP(0x006220CE, 0x006220E5);
+    }
 }
