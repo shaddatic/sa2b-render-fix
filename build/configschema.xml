@@ -86,6 +86,9 @@
 			</Property>
 		</Group>
 		<Group name="bossbogy" display="09 • King Boom Boo Settings                    ------------------------------------------------------------">
+			<Property name="lights" display="Restore Lighting" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the less-beta lighting parameters from the Dreamcast version.</HelpText>
+			</Property>
 			<Property name="sundoors" display="Restore Sundoors" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
 			</Property>
