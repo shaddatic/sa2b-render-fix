@@ -6,6 +6,8 @@
 #include <sa2b/mods.h>
 #include <sa2b/model.h>
 
+#include <sa2b/modloader.h>
+
 #include <sa2b/ninja/ninja.h>
 
 #include <sa2b/modloader.h>
@@ -153,9 +155,9 @@ static int ChunkModelListExtra[] =
 
 extern "C" __declspec(dllexport)
 void __cdecl
-Init(const char* path, const HelperFunctions*)
+Init(const char* path, const HelperFunctions* pHelpFunc)
 {
-	SAMT_Init(path, NULL);
+	SAMT_Init(path, pHelpFunc);
 
 	config* conf = ConfigOpen2(path, "config.ini");
 
