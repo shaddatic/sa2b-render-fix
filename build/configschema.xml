@@ -28,7 +28,15 @@
 			<Property name="emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
-			<Property name="jo_tree" display="Restore Tree Jungle Object" type="eBOOL" defaultvalue="1">
+			<Property name="chaos_trans" display="Artificial Chaos Transparency" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores Artificial Chaos Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+			</Property>
+			<Property name="bloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+			</Property>
+			<Property name="goal_trans" display="Goal Ring Transparency" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores Goal Ring Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
 			</Property>

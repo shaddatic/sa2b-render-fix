@@ -137,6 +137,49 @@ RestorationSettings(const config* conf)
 		GUNEmblemRestore();
 	}
 
+    if (ConfigGetInt(conf, SECT, "chaos_trans", 1))
+    {
+#define CHAOS_ALPHA 0xBB
+
+        CnkMaterialDiffuse(0x01470D58, 0, CHAOS_ALPHA, -1, -1, -1);
+        CnkMaterialDiffuse(0x01481448, 0, CHAOS_ALPHA, -1, -1, -1);
+        CnkMaterialDiffuse(0x0147A608, 0, CHAOS_ALPHA, -1, -1, -1);
+        CnkMaterialDiffuse(0x014869A0, 0, CHAOS_ALPHA, -1, -1, -1);
+        CnkMaterialDiffuse(0x01476D78, 0, CHAOS_ALPHA, -1, -1, -1);
+        CnkMaterialDiffuse(0x0148BE88, 0, CHAOS_ALPHA, -1, -1, -1);
+
+        CnkMaterialFlagOn(0x01470D58, 0, NJD_FST_UA);
+        CnkMaterialFlagOn(0x01481448, 0, NJD_FST_UA);
+        CnkMaterialFlagOn(0x0147A608, 0, NJD_FST_UA);
+        CnkMaterialFlagOn(0x014869A0, 0, NJD_FST_UA);
+        CnkMaterialFlagOn(0x01476D78, 0, NJD_FST_UA);
+        CnkMaterialFlagOn(0x0148BE88, 0, NJD_FST_UA);
+
+        /** They won't draw correctly unless we set it to use disp_sort **/
+
+        SwitchDisplayer(0x00508358, DISP_SORT);
+    }
+
+    if (ConfigGetInt(conf, SECT, "bloon_trans", 1))
+    {
+        WriteNoOP(0x006DB64D, 0x006DB656); // Balloon
+        WriteRetn(0x6DB3B0);
+    }
+
+    if (ConfigGetInt(conf, SECT, "goal_trans", 1))
+    {
+        CnkModelMaterialFlagOn(0x00B4EACC, 1, NJD_FST_UA);
+
+        CnkModelMaterialFlagOff(0x00B4EC6C, 0, NJD_FST_DB); // GOAL text
+        CnkModelMaterialFlagOff(0x00B4EE0C, 0, NJD_FST_DB); // BACK text
+
+        /** It won't draw correctly unless we set it to use disp_sort,
+            this flips things around so "it just works!" **/
+
+        SwitchDisplayer(0x006C651E, DISP_SORT);
+        SwitchDisplayer(0x006C6525, DISP);
+    }
+
 	if (ConfigGetInt(conf, SECT, "jet", 1))
 	{
 		EnemyJetDisplayerFix();
