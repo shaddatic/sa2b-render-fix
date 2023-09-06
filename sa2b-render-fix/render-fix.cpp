@@ -18,6 +18,7 @@
 #include <objpak.h>
 #include <tint-disable.h>
 #include <backcolor.h>
+#include <backface-cull.h>
 #include <explosion.h>
 #include <tools.h>
 

@@ -5,7 +5,9 @@
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
-			<Property name="model_tint" display="Model Tint Fix" type="eTINT" defaultvalue="2">
+			<Property name="backface_cull" display="Back-Face Culling" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores a standard technique called 'back-face culling,' where the back-side of models are made invisible. This was lost in the GameCube port, and has caused many issues since. Required for many fixes.</HelpText>
+			</Property>
 			<Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
 				<HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
 			</Property>
