@@ -10,7 +10,7 @@
 
 #include <sa2b/ninja/ninja.h>
 
-#include <sa2b/modloader.h>
+#include <sa2b/src/display.h>
 
 #include <render-fix.h>
 #include <objpak.h>
