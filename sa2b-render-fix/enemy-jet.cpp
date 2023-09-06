@@ -7,21 +7,36 @@
 
 DataPtr(NJS_TEXLIST, texlist_e_jet1, 0x0145F5D4);
 
-NJS_TEXANIM texanim_e_jet1[] = { 30, 30, 15, 15, 0, 0, 0xFF, 0xFF, 0, 0 };
-NJS_SPRITE sprite_e_jet1[] = { { { 0.0f, 0.0f, 0.0f }, 1.0f, 1.0f, 0, texlist_e_jet1, texanim_e_jet1 } };
-
 static void 
 EnemyJetDraw(TASK* tp)
 {
     TASKWK* twp = tp->twp;
 
+    NJS_TEXANIM texanim;
+
+    texanim.sx = 32;
+    texanim.sy = 32;
+    texanim.cx = 16;
+    texanim.cy = 16;
+    texanim.u1 = 0;
+    texanim.v1 = 0;
+    texanim.u2 = 256;
+    texanim.v2 = 256;
+    texanim.texid = 0;
+    texanim.attr = 0;
+
+    NJS_SPRITE sprite;
+
+    sprite.p = twp->pos;
+    sprite.sx = twp->scl.z;
+    sprite.sy = twp->scl.z;
+    sprite.ang = 0;
+    sprite.tlist = texlist_e_jet1;
+    sprite.tanim = &texanim;
+
     SetConstantMaterial(twp->scl.x, 1.0f, 1.0f, 1.0f);
 
-    sprite_e_jet1->sx = twp->scl.z;
-    sprite_e_jet1->sy = twp->scl.z;
-    sprite_e_jet1->p = twp->pos;
-
-    njDrawSprite3D(sprite_e_jet1, 0, NJD_SPRITE_COLOR | NJD_SPRITE_SCALE | NJD_SPRITE_ALPHA);
+    njDrawSprite3D(&sprite, 0, NJD_SPRITE_COLOR | NJD_SPRITE_SCALE | NJD_SPRITE_ALPHA);
 
     SetConstantMaterial(0.0f, 0.0f, 0.0f, 0.0f);
 }
