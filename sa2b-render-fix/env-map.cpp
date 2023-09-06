@@ -43,6 +43,22 @@ __FlipEnv2()
 	}
 }
 
+/** Drawing Ginja models as shadows for some reason breaks env maps.
+    So, we just replace said draw functions with Cnk equivelants **/
+void
+BunchinShadowDraw() // The crushers
+{
+    extern NJS_CNK_MODEL model_bunchin_shadow[];
+    njCnkDrawModel(model_bunchin_shadow);
+}
+
+void
+OmochaoShadowDraw()
+{
+    extern NJS_CNK_MODEL model_basic_shadow[];
+    njCnkDrawModel(model_basic_shadow);
+}
+
 #define SECT "env"
 
 void
@@ -51,6 +67,9 @@ EnvMapSettings(const config* conf)
 	if (ConfigGetInt(conf, SECT, "fix", 1))
 	{
 		WriteJump(0x0042E6C0, __FixCnkDrawModel);
+
+        WriteCall(0x006DCD5D, BunchinShadowDraw);
+        WriteCall(0x006C0E6F, OmochaoShadowDraw);
 	}
 
 	if (ConfigGetInt(conf, SECT, "flip", 1))
