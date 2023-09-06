@@ -6,6 +6,9 @@
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
 			<Property name="model_tint" display="Model Tint Fix" type="eTINT" defaultvalue="2">
+			<Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
+				<HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
+			</Property>
 				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
 			</Property>
 			<Property name="objpak" display="Screen Tint Fix" type="eOBJPAK" defaultvalue="2">

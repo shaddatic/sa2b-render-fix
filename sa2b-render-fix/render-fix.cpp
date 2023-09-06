@@ -13,6 +13,7 @@
 #include <render-fix.h>
 #include <objpak.h>
 #include <tint-disable.h>
+#include <backcolor.h>
 #include <tools.h>
 
 /*
@@ -170,9 +171,9 @@ Init(const char* path, const HelperFunctions*)
 		WriteData(0x00431340, 0x9090, uint16);
 	}
 
-	if (ConfigGetInt(conf, "main", "ripple_fix", 1))
+    if (ConfigGetInt(conf, "main", "backface_cull", 1))
 	{
-		WriteData(0x006EDB93, 0x1C, uint8);
+        EnableBackfaceCulling();
 	}
 
 	int modeltint = ConfigGetInt(conf, "main", "model_tint", 2);
