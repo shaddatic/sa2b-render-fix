@@ -35,6 +35,8 @@ GetMatAlphaPointer(NJS_CNK_OBJECT* pObject)
     return p + 7;
 }
 
+#define SECT "bossbogy"
+
 void
 BossBogySettings(const config* conf)
 {
