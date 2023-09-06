@@ -38,7 +38,6 @@
     <ClCompile Include="objpak.cpp" />
     <ClCompile Include="render-fix.cpp" />
     <ClCompile Include="restorations.cpp" />
-    <ClCompile Include="s-rail.cpp" />
     <ClCompile Include="stage-map.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="tint-disable.cpp" />

@@ -74,11 +74,6 @@
 				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
 			</Property>
 		</Group>
-		<Group name="s_rail" display="05 • Sky Rail Settings                              ------------------------------------------------------------">
-			<Property name="clouds" display="Restore Cloud Layers" type="eBOOL" defaultvalue="1">
-				<HelpText>Re-orders the cloud layers so the faster moving layer isn't hidden behind the slower moving layer.</HelpText>
-			</Property>
-		</Group>
 		<Group name="c_escape" display="06 • City Escape Settings                         ------------------------------------------------------------">
 			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>

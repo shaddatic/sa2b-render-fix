@@ -182,6 +182,9 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         SwitchDisplayer(0x005113AA, DISP_SORT); // Enemy Jet
         SwitchDisplayer(0x00511422, DISP_SORT); // ^
 
+        WritePointer(0x005BA0F6, 0x0117EEEC); // Sky Rail clouds
+        WritePointer(0x005BA13E, 0x0117EE34); // ^
+
         SwitchDisplayer(0x004B39CD, DISP_SORT); // P-Hill clouds
 
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
@@ -295,8 +298,6 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 	GetEmblemSettings(conf);
 
 	StageMapSettings(conf);
-
-    SkyRailSettings(conf);
 
 	CityEscapeSettings(conf);
 

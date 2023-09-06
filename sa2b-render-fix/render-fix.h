@@ -16,8 +16,6 @@ void	GetEmblemSettings(const config* conf);
 
 void	StageMapSettings(const config* conf);
 
-void    SkyRailSettings(const config* conf);
-
 void	CityEscapeSettings(const config* conf);
 
 void	AquaticMineSettings(const config* conf);
