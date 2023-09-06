@@ -15,12 +15,6 @@ DrawCartSea()
 	njFogEnable();
 }
 
-static void
-CartSeaFix()
-{
-	WriteJump(0x00622075, DrawCartSea);
-}
-
 #define SECT "cart"
 
 void
@@ -28,6 +22,6 @@ CartSettings(const config* conf)
 {
 	if (ConfigGetInt(conf, SECT, "seafix", 1))
 	{
-		CartSeaFix();
+        WriteJump(0x00622075, DrawCartSea);
 	}
 }
