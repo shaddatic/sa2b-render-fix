@@ -13,6 +13,7 @@
 #include <tools.h>
 
 #include <enemy-jet.h>
+#include <mizugomi.h>
 
 #define ReplaceObjectModel(pobject, pmodel)		((NJS_CNK_OBJECT*)pobject)->model = pmodel
 
@@ -145,6 +146,11 @@ RestorationSettings(const config* conf)
 	{
 		JungleObjectTreeRestore();
 	}
+
+    if (ConfigGetInt(conf, SECT, "mizugomi", 1))
+    {
+        FixMizugomi();
+    }
 
 	if (ConfigGetInt(conf, SECT, "dc_ring", 0))
 	{
