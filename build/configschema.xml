@@ -74,22 +74,22 @@
 				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_escape" display="06 • City Escape Settings                         ------------------------------------------------------------">
+		<Group name="c_escape" display="05 • City Escape Settings                         ------------------------------------------------------------">
 			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="a_mine" display="07 • Aquatic Mine Settings                       ------------------------------------------------------------">
+		<Group name="a_mine" display="06 • Aquatic Mine Settings                       ------------------------------------------------------------">
 			<Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_core" display="08 • Cannon's Core Settings                     ------------------------------------------------------------">
+		<Group name="c_core" display="07 • Cannon's Core Settings                     ------------------------------------------------------------">
 			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="bossbogy" display="09 • King Boom Boo Settings                    ------------------------------------------------------------">
+		<Group name="bossbogy" display="08 • King Boom Boo Settings                    ------------------------------------------------------------">
 			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
 			</Property>
@@ -100,7 +100,7 @@
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="cart" display="0A • Cart Stages                                     ------------------------------------------------------------">
+		<Group name="cart" display="09 • Cart Stages                                     ------------------------------------------------------------">
 			<Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
 			</Property>
@@ -108,7 +108,7 @@
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="event" display="0B • Events                                            ------------------------------------------------------------">
+		<Group name="event" display="0A • Events                                            ------------------------------------------------------------">
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
