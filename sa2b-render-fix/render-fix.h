@@ -1,7 +1,5 @@
 #pragma once
 
-#define arylen(arry)	(sizeof(arry) / sizeof(*arry))
-
 void	ExtraShadowEnable();
 
 /*
