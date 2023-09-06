@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="main" display="00 • Render Fix Settings                          ------------------------------------------------------------">
+		<Group name="main" display="00 • Global Render Settings                          ------------------------------------------------------------">
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
@@ -9,20 +9,22 @@
 			<Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
 				<HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
 			</Property>
+			<Property name="model_tint" display="Fix Model Tints" type="eTINT" defaultvalue="2">
 				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
 			</Property>
-			<Property name="objpak" display="Screen Tint Fix" type="eOBJPAK" defaultvalue="2">
+			<Property name="objpak" display="Fix Screen Tint" type="eOBJPAK" defaultvalue="2">
 				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values, 'Off/Disabled' performs no changes.</HelpText>
 			</Property>
 		</Group>
 		<Group name="rest" display="01 • Restoration Settings                         ------------------------------------------------------------">
-			<Property name="jet" display="Restore Enemy Jet Effects" type="eBOOL" defaultvalue="1">
+			<Property name="jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
 			</Property>
-			<Property name="emblem" display="Restore GUN Emblems" type="eBOOL" defaultvalue="1">
+			<Property name="emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
 			<Property name="jo_tree" display="Restore Tree Jungle Object" type="eBOOL" defaultvalue="1">
+			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
 			</Property>
 			<Property name="mizugomi" display="Water Particulates" type="eBOOL" defaultvalue="1">
