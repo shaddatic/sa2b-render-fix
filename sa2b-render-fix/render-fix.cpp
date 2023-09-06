@@ -16,6 +16,7 @@
 #include <objpak.h>
 #include <tint-disable.h>
 #include <backcolor.h>
+#include <explosion.h>
 #include <tools.h>
 
 /*
@@ -161,6 +162,20 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
 	config* conf = ConfigOpen2(path, "config.ini");
 
+    /** ALWAYS ON **/
+    {
+        SwitchDisplayer(0x006EDB91, DISP_SORT); // Water Ripples
+        SwitchDisplayer(0x0075A166, DISP_DELY); // Bubble draw fix
+        SwitchDisplayer(0x006FD65E, DISP_SORT); // PC Wall
+        
+        FixExplosionSorting();
+
+        SwitchDisplayer(0x005113AA, DISP_SORT); // Enemy Jet
+        SwitchDisplayer(0x00511422, DISP_SORT); // ^
+
+        WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
+    }
+
 	int screentint = ConfigGetInt(conf, "main", "objpak", 2);
 
 	if (screentint)
@@ -205,11 +220,6 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 			DisableTintGinjaModelListEx(GinjaModelListExtra);
 			DisableTintChunkModelListEx(ChunkModelListExtra);
 		}
-	}
-
-	if (ConfigGetInt(conf, "main", "gh_clear", 1))
-	{
-		WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 	}
 
 	RestorationSettings(conf);
