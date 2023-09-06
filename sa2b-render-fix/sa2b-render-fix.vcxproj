@@ -20,16 +20,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="a-mine.cpp" />
+    <ClCompile Include="backface-cull.cpp" />
     <ClCompile Include="boss-bogy.cpp" />
     <ClCompile Include="c-core.cpp" />
     <ClCompile Include="c-escape.cpp" />
     <ClCompile Include="cart.cpp" />
     <ClCompile Include="enemy-jet.cpp" />
     <ClCompile Include="env-map.cpp" />
+    <ClCompile Include="event.cpp" />
+    <ClCompile Include="explosion.cpp" />
     <ClCompile Include="extra-shadows.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="get-emblem.cpp" />
+    <ClCompile Include="mizugomi.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="backcolor.cpp" />
     <ClCompile Include="objpak.cpp" />
     <ClCompile Include="render-fix.cpp" />
     <ClCompile Include="restorations.cpp" />
@@ -41,7 +46,11 @@
     <ClCompile Include="tree-shadows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="backcolor.h" />
+    <ClInclude Include="backface-cull.h" />
     <ClInclude Include="enemy-jet.h" />
+    <ClInclude Include="explosion.h" />
+    <ClInclude Include="mizugomi.h" />
     <ClInclude Include="objpak.h" />
     <ClInclude Include="render-fix.h" />
     <ClInclude Include="tint-disable.h" />
@@ -62,6 +71,24 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
+    <None Include="model\basic_shadow.nja" />
+    <None Include="model\bunchin_shadow.nja" />
+    <None Include="model\ce_truck_hood.nja" />
+    <None Include="model\eget.nja" />
+    <None Include="model\e_a_emi_emblem.nja" />
+    <None Include="model\e_b_kumi_emblem.nja" />
+    <None Include="model\e_b_pathkumi_emblem.nja" />
+    <None Include="model\e_gold_emblem.nja" />
+    <None Include="model\e_g_kumi_emblem.nja" />
+    <None Include="model\e_g_pathkumi_emblem.nja" />
+    <None Include="model\e_kumi_emblem.nja" />
+    <None Include="model\e_kyoko_emblem.nja" />
+    <None Include="model\e_shouko_aft.nja" />
+    <None Include="model\e_shouko_wing_port.nja" />
+    <None Include="model\e_shouko_wing_starboard.nja" />
+    <None Include="model\e_t_emi_emblem.nja" />
+    <None Include="model\minemizu.nja" />
+    <None Include="texture\jo_tree.tls" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -116,11 +143,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\build\</OutDir>
-    <IntDir>$(SolutionDir)\obj\</IntDir>
+    <OutDir>$(SolutionDir)build\</OutDir>
+    <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>sa2-render-fix</TargetName>
-    <IncludePath>$(SolutionDir)\include\;$(SolutionDir)\sa2b-render-fix\</IncludePath>
-    <LibraryPath>$(SolutionDir)\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include\;$(SolutionDir)\sa2b-render-fix\</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\build\</OutDir>

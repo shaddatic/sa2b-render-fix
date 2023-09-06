@@ -75,6 +75,21 @@
     <ClCompile Include="s-rail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="backcolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mizugomi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="backface-cull.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render-fix.h">
@@ -95,6 +110,18 @@
     <ClInclude Include="tree-shadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mizugomi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backcolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="backface-cull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />
@@ -110,5 +137,23 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
+    <None Include="model\basic_shadow.nja" />
+    <None Include="model\bunchin_shadow.nja" />
+    <None Include="model\ce_truck_hood.nja" />
+    <None Include="model\e_a_emi_emblem.nja" />
+    <None Include="model\e_b_kumi_emblem.nja" />
+    <None Include="model\e_b_pathkumi_emblem.nja" />
+    <None Include="model\e_g_kumi_emblem.nja" />
+    <None Include="model\e_g_pathkumi_emblem.nja" />
+    <None Include="model\e_gold_emblem.nja" />
+    <None Include="model\e_kumi_emblem.nja" />
+    <None Include="model\e_kyoko_emblem.nja" />
+    <None Include="model\e_shouko_aft.nja" />
+    <None Include="model\e_shouko_wing_port.nja" />
+    <None Include="model\e_shouko_wing_starboard.nja" />
+    <None Include="model\e_t_emi_emblem.nja" />
+    <None Include="model\eget.nja" />
+    <None Include="model\minemizu.nja" />
+    <None Include="texture\jo_tree.tls" />
   </ItemGroup>
 </Project>
