@@ -86,6 +86,9 @@
 			</Property>
 		</Group>
 		<Group name="bossbogy" display="09 • King Boom Boo Settings                    ------------------------------------------------------------">
+			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
+			</Property>
 			<Property name="lights" display="Restore Lighting" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the less-beta lighting parameters from the Dreamcast version.</HelpText>
 			</Property>
