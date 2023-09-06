@@ -162,7 +162,6 @@ static int ChunkModelListExtra[] =
 /*
 *	Dll Export
 */
-
 extern "C" __declspec(dllexport)
 void __cdecl
 Init(const char* path, const HelperFunctions* pHelpFunc)
