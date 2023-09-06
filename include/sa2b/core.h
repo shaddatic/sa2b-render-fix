@@ -43,12 +43,19 @@ EXTERN_START
 
 /** Initializes the Toolkit, *always*
     call this first before anything else **/
-    void    SAMT_Init(const char* pOptPath, const void* pOptHelperFunctions);
+void    SAMT_Init(const char* pOptPath, const void* pOptHelperFunctions);
 
 /** Retrieves the path of this mod **/
 const char* GetModPath();
 
 EXTERN_END
+
+/************************/
+/*  Core Defines        */
+/************************/
+#ifndef arylen
+#define arylen(ary) (sizeof(ary) / sizeof(*ary))
+#endif
 
 /************************/
 /*  Global Typedefs     */
@@ -77,13 +84,16 @@ typedef char				utf8;		/*  UTF-8 character (u8)		*/
 /**	Boolean **/
 typedef sint32				bool32;		/*  4 byte boolean				*/
 
+/** Pointer **/
+typedef uint32              ptr;       /*  Int-Based 32bit Pointer	    */
+
 /************************/
 /*  Data Map Macros     */
 /************************/
 /** Data **/
-#define DataRef(type, name, addr)		static type&	   name = *(type*)addr
-#define DataPtr(type, name, addr)		static type* const name =  (type*)addr
-#define DataAry(type, name, addr, nb)	typedef type name##_t nb; DataRef(name##_t, name, addr)
+#define DataRef(type, name, addr)		static  type&	    name = *(type*)addr
+#define DataPtr(type, name, addr)		static  type* const name =  (type*)addr
+#define DataAry(type, name, addr, nb)	typedef type  name##_t nb; DataRef(name##_t, name, addr)
 
 /** Functions **/
 #define FuncPtr(type, meth, name, args, addr) static type (meth *const name)args = (type (meth *const)args)addr

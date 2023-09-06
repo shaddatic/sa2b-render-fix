@@ -114,13 +114,13 @@ typedef struct task
 	struct task*	ptp;		/* Parent Task */
 	struct task*	ctp;		/* Child Task */
 	task_exec		exec;		/* Executor */
-	task_exec		disp;		/* Displayer */
+	task_exec		disp;		/* Displayer (Drawn 1st) */
 	task_exec		dest;		/* Destructor */
-	task_exec		disp1;		/* Displayer 1 */
-	task_exec		disp2;		/* Displayer 2 (Sorted) */
-	task_exec		disp3;		/* Displayer 3 */
-	task_exec		disp4;		/* Displayer 4 */
-	task_exec		shad;		/* Shadow Displayer */
+    task_exec       disp_dely;  /* Delayed Displayer (Drawn 3rd) */
+    task_exec       disp_sort;  /* Sorted Displayer (Drawn 2nd) */
+    task_exec       disp_late;  /* Late Displayer (Drawn 4th) */
+    task_exec       disp_last;  /* Last Displayer (Drawn 5th) */
+	task_exec		disp_shad;  /* Shadow Displayer */
 	OBJ_CONDITION*	ocp;        /* Set Data */
 	TASKWK*			twp;		/* Task Work */
 	MOTIONWK*		mwp;		/* Motion Work */
@@ -152,7 +152,6 @@ FuncPtr(void,	__cdecl, DestroyTask,		(TASK* tp),								0x046F720);
 #define TELE_TWK	(1<<1)
 #define TELE_FWK	(1<<2)
 #define TELE_AWK	(1<<3)
-#define TELE_ALL	(1<<4)
 
 /************************/
 /*  User Functions      */

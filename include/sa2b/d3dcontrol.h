@@ -164,6 +164,12 @@ void    D3D_AlphaBlendDisable();
 /************************/
 void    D3D_ColorWrite(const int flags);
 
+/************************/
+/*  Depth Bias          */
+/************************/
+void    D3D_SlopeScaledDepthBias(const float bias);
+void    D3D_DepthBias(const float bias);
+
 EXTERN_END
 
 #endif /* _SAMT_D3DCONTROL_H_ */

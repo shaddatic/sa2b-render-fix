@@ -71,7 +71,7 @@ DataRef(void*,      _nj_vertex_buf_,        0x025EFE48);
 extern	Int	        _nj_calc_vertex_;       // MIA
 extern	Int	        _nj_calc_polygon_;      // MIA
 extern	Int	        _nj_draw_polygon_;      // MIA
-DataRef(Uint32,     _nj_constant_attr_and_, 0x25F0268);
+DataRef(Uint32,     _nj_constant_attr_and_, 0x025F0268);
 DataRef(Uint32,     _nj_constant_attr_or_,  0x025F02D4);
 DataRef(NJS_ARGB,   _nj_constant_material_, 0x025EFFD0); 
 DataRef(Uint32,     _nj_cnk_blend_mode_,    0x025F0264);

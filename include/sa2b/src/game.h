@@ -15,10 +15,58 @@
 /************************/
 /*  Enums               */
 /************************/
-enum
+enum /* ulGlobalMode */
 {
-    MD_GAME_FADEOUT_OVER = 0x07,
-    MD_GAME_FADEOUT_RESTART = 0x09,
+    MD_ACTION_INIT = 0x04,
+    MD_ACTION,
+    MD_MOVIE_INIT = 0x07,
+    MD_MOVIE,
+    MD_ADVERTISE_INIT = 0xD,
+    MD_ADVERTISE,
+    MD_ENDING = 0x10,
+    MD_EGET_INIT = 0x11,
+    MD_EGET,
+    MD_MCWARN_INIT = 0x18,
+    MD_MCWARN,
+    NUM_MODE,
+};
+
+/*
+    MD_START = 0x0,
+    MD_LOGO = 0x1,
+    MD_TITLE = 0x2,
+    MD_SELECTPLAYER = 0x3,
+    MD_ACTION = 0x4,
+    MD_ADVENTURE = 0x5,
+    MD_CONTINUE = 0x6,
+    MD_END = 0x7,
+    MD_MOVIE = 0x8,
+    MD_TRIAL = 0x9,
+    MD_MISSION = 0xA,
+    MD_TITLE2_INIT = 0xB,
+    MD_TITLE2 = 0xC,
+    MD_NOVMSWND_INIT = 0xD,
+    MD_NOVMSWND = 0xE,
+    MD_CHARA_SELECT_INIT = 0xF,
+    MD_CHARA_SELECT = 0x10,
+    MD_SUMMARY_INIT = 0x11,
+    MD_SUMMARY = 0x12,
+    MD_TUTORIAL_INIT = 0x13,
+    MD_TUTORIAL = 0x14,
+    MD_STAFFROLL_INIT = 0x15,
+    MD_STAFFROLL = 0x16,
+    MD_TVSETTING_END = 0x17,
+    MD_LOGO_INIT = 0x18,
+    NUM_MODE = 0x19,
+*/
+
+enum /* ssGameMode */
+{
+    MD_GAME_INIT,
+    MD_GAME_FADEIN = 0x07,
+    MD_GAME_FADEOUT_CLEAR = 0x08,
+    MD_GAME_FADEOUT_MISS,
+    MD_GAME_FADEOUT_RESTART = 0x0D,
 	MD_GAME_PAUSE = 0x11,
 	NUM_GAMEMD,
 };
@@ -67,9 +115,11 @@ enum
 /************************/
 /*  Data                */
 /************************/
-DataRef(__int16, ulGlobalMode, 0x01934BE0);
+DataRef(uint32, ulGlobalMode, 0x0174B040);
 
-DataRef(__int16, ssGameModeChange, 0x01A558A4);
+DataRef(sint16, ssGameMode, 0x01934BE0);
+
+DataRef(sint16, ssGameModeChange, 0x01A558A4);
 
 DataRef(sint16, ssStageNumber, 0x01934B70);
 DataRef(uint8, ssActNumber, 0x0174AFE3);
@@ -84,9 +134,9 @@ DataRef(sint8, pause_flg, 0x174AFD7);
 /************************/
 /*  Functions           */
 /************************/
-void RestartStageWithFadeOut();
+void    RestartStageWithFadeOut();
 
-bool32 ChkPause();
+bool32  ChkPause();
 
 /*
 ssLastActNumber

@@ -45,50 +45,51 @@ typedef struct zxsdwstr	zxsdwstr;
 /************************/
 /*  Structures          */
 /************************/
+/** Chunk LandTable **/
 typedef struct _OBJ_LANDENTRY
 {
-	float32 CenterX;
-	float32 CenterY;
-	float32 CenterZ;
-	float32 Radius;
-    ANY_OBJECT pObj;
-	int field_14;
-	int Chunks;
-	int slAttribute;
+	float32         CenterX;
+	float32         CenterY;
+	float32         CenterZ;
+	float32         Radius;
+    ANY_OBJECT      pObject;
+	sint32          field_14;
+	sint32          Chunks;
+	sint32          slAttribute;
 }
 OBJ_LANDENTRY;
 
 typedef struct _OBJ_MOTLANDENTRY
 {
-	float fFrame;
-	float fStep;
-	float fMaxFrame;
-    ANY_OBJECT pObject;
-	NJS_MOTION* pMotion;
+	float32         fFrame;
+	float32         fStep;
+	float32         fMaxFrame;
+    ANY_OBJECT      pObject;
+	NJS_MOTION*     pMotion;
 }
 OBJ_MOTLANDENTRY;
 
 typedef struct _OBJ_LANDTABLE
 {
-	sint16 ssCount;
-	sint16 ssVisibleCount;
-	sint16 ssUnkown;		// I assume
-	sint16 ssMotCount;
-	sint16 ssAttribute;
-	sint16 ssLoadFlag;
-	float32 fFarClipping;
-	OBJ_LANDENTRY* pLandEntry;
-	OBJ_MOTLANDENTRY* pMotLandEntry;
-	char* TexName;
-	NJS_TEXLIST* TexList;
+	sint16              ssCount;
+	sint16              ssVisibleCount;
+	sint16              ssUnkown; // ??
+	sint16              ssMotCount;
+	sint16              ssAttribute;
+	sint16              ssLoadFlag;
+	float32             fFarClipping;
+	OBJ_LANDENTRY*      pLandEntry;
+	OBJ_MOTLANDENTRY*   pMotLandEntry;
+	char*               TexName;
+	NJS_TEXLIST*        TexList;
 }
 OBJ_LANDTABLE;
 
 typedef struct _OBJ_LANDCOLL
 {
-	int slAttribute;
-	NJS_OBJECT* pObject;
-	task* pTask;
+    int         slAttribute;
+    NJS_OBJECT* pObject;
+    task*       pTask;
 }
 OBJ_LANDCOLL;
 
