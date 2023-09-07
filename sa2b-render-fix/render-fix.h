@@ -1,10 +1,14 @@
 #pragma once
 
+float   GetShadowOpacitySetting();
+
 void	ExtraShadowEnable();
 
 /*
 *	Sections
 */
+
+void    ShadowSettings(const config* pConf);
 
 void	RestorationSettings(const config* conf);
 

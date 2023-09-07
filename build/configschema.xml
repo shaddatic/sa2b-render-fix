@@ -21,7 +21,20 @@
 				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values, 'Off/Disabled' performs no changes.</HelpText>
 			</Property>
 		</Group>
-		<Group name="rest" display="01 • Restoration Settings                         ------------------------------------------------------------">
+		<Group name="shadows" display="01 • Shadow Settings                         ------------------------------------------------------------">
+			<Property name="enable" display="Enable Shadows" type="eSHAD_MODE" defaultvalue="2">
+				<HelpText>If the shadows should be visible at all.</HelpText>
+			</Property>
+			<Property name="equipment" display="Enable Upgrade Shadows" type="eBOOL" defaultvalue="1">
+				<HelpText>If upgrade shadows should be visible. NOTE: Requires Enhanced Shadows.</HelpText>
+			</Property>
+			<Property name="resolution" display="Shadow Resolution" type="eSHAD_RES" defaultvalue="1">
+				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
+			</Property>
+			<Property name="opacity" display="Shadow Opacity" type="eSHAD_OPACITY" defaultvalue="0">
+				<HelpText>Changes the darkness/opacity of the shadows. While Dreamcast's opacity can be fully recreated, GameCube's opacity sadly can't be due to blending differences - so an aproximation is used instead.</HelpText>
+			</Property>
+		</Group>
 			<Property name="jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
 			</Property>

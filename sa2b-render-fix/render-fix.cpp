@@ -288,6 +288,8 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         }
 	}
 
+    ShadowSettings(conf);
+
 	RestorationSettings(conf);
 
 	EnvMapSettings(conf);
