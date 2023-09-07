@@ -45,11 +45,11 @@ EditObjPak(bool tintDisable, float shadowOpacity)
 
 	float tintvalue = tintDisable ? 1.0f : 0.909090936183929f;
 
-	if (ToFlt(buffer[0x07D9]) == tintvalue)
+    bool changed = false;
+
+    if (ToFlt(buffer[0x07D9]) != tintvalue)
 	{
-		free(buffer);
-		return 0;
-	}
+        changed = true;
 
 	ToFlt(buffer[0x07D9]) = tintvalue;
 	ToFlt(buffer[0x0E21]) = tintvalue;
@@ -60,6 +60,23 @@ EditObjPak(bool tintDisable, float shadowOpacity)
 	ToFlt(buffer[0x2399]) = tintvalue;
 	ToFlt(buffer[0x2A5D]) = tintvalue;
 	ToFlt(buffer[0x3145]) = tintvalue;
+    }
+
+    if (shadowOpacity > 0.0f && ToFlt(buffer[0x1949]) != shadowOpacity)
+    {
+        changed = true;
+
+        ToFlt(buffer[0x1949]) = shadowOpacity;
+        ToFlt(buffer[0x2385]) = shadowOpacity;
+        ToFlt(buffer[0x2A2D]) = shadowOpacity;
+        ToFlt(buffer[0x312D]) = shadowOpacity;
+    }
+
+    if (!changed)
+    {
+        free(buffer);
+        return 0;
+    }
 
 	puts("Render Fix: Writing to obj.pak...");
 
