@@ -284,6 +284,17 @@ CnkModelMaterialFlagOn(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag)
 }
 
 void
+CnkObjectMaterialFlagOn(NJS_CNK_OBJECT* pObject, uint32 flag)
+{
+    if (pObject->model)
+        CnkModelMaterialFlagOn(pObject->model, -1, flag);
+    if (pObject->child)
+        CnkObjectMaterialFlagOn(pObject->child, flag);
+    if (pObject->sibling)
+        CnkObjectMaterialFlagOn(pObject->sibling, flag);
+}
+
+void
 CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag)
 {
     NJS_CNK_MODEL* models[32] = {};

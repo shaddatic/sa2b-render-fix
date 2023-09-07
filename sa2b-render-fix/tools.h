@@ -39,6 +39,10 @@ void    CnkMaterialFlagOff(Sint16* pPList, int idxMat, uint32 flag);
 void    CnkModelMaterialFlagOn(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag);
 void    CnkModelMaterialFlagOff(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag);
 
+/** Chunk Object Materials **/
+void    CnkObjectMaterialFlagOn(NJS_CNK_OBJECT* pObject, uint32 flag);
+void    CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32 flag); // MIA
+
 /** Chunk LandTable Materials **/
 void    CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag);
 void    CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag); // MIA
