@@ -299,6 +299,12 @@ EnableBackfaceCulling()
         CnkLandTableMaterialFlagOn(pltable, NJD_FST_DB);
     }
 
+    /** Final Chase BgDisplayer LT **/
+    {
+        OBJ_LANDTABLE* pltable = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0040_uv");
+
+        CnkLandTableMaterialFlagOn(pltable, NJD_FST_DB);
+    }
     /** Cannons Core Sonic Tubes **/
     NJS_CNK_MODEL** mdl_list;
     
