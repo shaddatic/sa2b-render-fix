@@ -244,6 +244,21 @@ EnableBackfaceCulling()
     }
     }
 
+    /** Hata (Sand Ocean) **/
+    {
+        DataAry(NJS_CNK_MODEL*, HataListSO, 0x00CDE5B0, [90]);
+
+        for (int i = 0; i < arylen(HataListSO); ++i)
+        {
+            CnkModelMaterialFlagOn(HataListSO[i], 0, NJD_FST_DB);
+        }
+    }
+
+    /** Pots (Sand Ocean) **/
+    {
+        CnkModelMaterialFlagOn(0xCFCCA4, 0, NJD_FST_DB);
+    }
+
     /** Wild Canyon Wind Tunnel **/
     WriteData(0x006A2F9A, 0x8300 | NJD_FST_DB, uint32);
 
@@ -266,6 +281,13 @@ EnableBackfaceCulling()
     CnkModelMaterialFlagOn(0x0167AD44, 2, NJD_FST_DB);
     CnkModelMaterialFlagOn(0x0167AD44, 5, NJD_FST_DB);
     CnkModelMaterialFlagOn(0x0167AD44, 8, NJD_FST_DB);
+
+    /** Security Hall Money **/
+    CnkModelMaterialFlagOn(0x00E76994, 0, NJD_FST_DB);
+
+    /** White Jungle Fixes **/
+    FlipCnkModelWinding(0x00EADA7C);
+    FlipCnkModelWinding(0x00EAD2A4);
 
     /** Crazy Gadget Matrix Effects **/
     {
