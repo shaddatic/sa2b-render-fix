@@ -305,6 +305,14 @@ EnableBackfaceCulling()
 
         CnkLandTableMaterialFlagOn(pltable, NJD_FST_DB);
     }
+
+    /** Cart Stage Objects **/
+    {
+        NJS_CNK_OBJECT* poster = GetDataDllAddr(NJS_CNK_OBJECT, "object_poster_body_body");
+
+        CnkObjectMaterialFlagOn(poster, NJD_FST_DB);
+    }
+
     /** Cannons Core Sonic Tubes **/
     NJS_CNK_MODEL** mdl_list;
     
