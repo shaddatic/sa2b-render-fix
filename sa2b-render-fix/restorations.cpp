@@ -164,6 +164,13 @@ RestorationSettings(const config* conf)
     {
         WriteNoOP(0x006DB64D, 0x006DB656); // Balloon
         WriteRetn(0x6DB3B0);
+
+        WriteData(0x00624E45, DISP_SORT, uint8); // Baloon (Cart)
+        WriteNoOP(0x00625199, 0x0062519B);
+
+        static const double bloondbl = 85.0;
+
+        ReplaceFloat(0x006251EE, &bloondbl);
     }
 
     if (ConfigGetInt(conf, SECT, "goal_trans", 1))
