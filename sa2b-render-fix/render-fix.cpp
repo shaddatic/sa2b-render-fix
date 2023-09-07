@@ -139,6 +139,7 @@ static int ChunkModelList[] =
     0x0167AD44, // PH Train
     0x016782E4, // PH Train Cylnder
     0x009B046C, // Poison
+    0x00CFCCA4, // Tsubo (Sand Ocean)
 };
 
 /*
