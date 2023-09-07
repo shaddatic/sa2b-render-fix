@@ -228,18 +228,20 @@ EnableBackfaceCulling()
     CnkModelMaterialFlagOn(0x00A31BA4, 0, NJD_FST_DB);
 
     /** Hata (Desert Banners) **/
-    DataAry(NJS_CNK_MODEL*, HataList1, 0xA7E9F0, [74]);
+    {
+        DataAry(NJS_CNK_MODEL*, HataList1, 0x00A7E9F0, [74]);
 
     for (int i = 0; i < arylen(HataList1); ++i)
     {
         CnkModelMaterialFlagOn(HataList1[i], 0, NJD_FST_DB);
     }
 
-    DataAry(NJS_CNK_MODEL*, HataList2, 0xA7E888, [90]);
+        DataAry(NJS_CNK_MODEL*, HataList2, 0x00A7E888, [90]);
 
     for (int i = 0; i < arylen(HataList2); ++i)
     {
         CnkModelMaterialFlagOn(HataList2[i], 0, NJD_FST_DB);
+    }
     }
 
     /** Wild Canyon Wind Tunnel **/
