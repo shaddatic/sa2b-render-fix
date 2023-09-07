@@ -17,8 +17,8 @@
 			<Property name="model_tint" display="Fix Model Tints" type="eTINT" defaultvalue="2">
 				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
 			</Property>
-			<Property name="objpak" display="Fix Screen Tint" type="eOBJPAK" defaultvalue="2">
-				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values, 'Off/Disabled' performs no changes.</HelpText>
+			<Property name="screen_tint" display="Fix Screen Tint" type="eSTINT" defaultvalue="1">
+				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values.</HelpText>
 			</Property>
 		</Group>
 		<Group name="shadows" display="01 • Shadow Settings                         ------------------------------------------------------------">
@@ -126,9 +126,14 @@
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
 		</Group>
-		<Group name="exp" display="FF • Experimental Settings                        ------------------------------------------------------------">
+		<Group name="exp" display="FE • Experimental Settings                       ------------------------------------------------------------">
 			<Property name="enemy_shadows" display="Restore Extra Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores Enemy and Minimal shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>
+			</Property>
+		</Group>
+		<Group name="debug" display="FF • Debug Settings                                ------------------------------------------------------------">
+			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
+				<HelpText>Allow writing to the obj.pak file. It's very unlikely this feature will need to be disabled, however the option is here if needed.</HelpText>
 			</Property>
 		</Group>
 	</Groups>
@@ -142,10 +147,28 @@
 			<EnumMember name="1" display="Match Dreamcast"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
-		<Enum name="eOBJPAK">
-			<EnumMember name="2" display="Enabled"></EnumMember>
-			<EnumMember name="1" display="Keep Tint"></EnumMember>
+		<Enum name="eSTINT">
+			<EnumMember name="1" display="Enabled"></EnumMember>
+			<EnumMember name="0" display="Keep Tint"></EnumMember>
+		</Enum>
+		<Enum name="eSHAD_MODE">
+			<EnumMember name="2" display="Enhanced"></EnumMember>
+			<EnumMember name="1" display="Vanilla"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="eSHAD_RES">
+			<EnumMember name="5" display="8192 x 8192 - (Imperceivable)"></EnumMember>
+			<EnumMember name="4" display="4096 x 4096 - (Ultra)"></EnumMember>
+			<EnumMember name="3" display="2048 x 2048 - (High)"></EnumMember>
+			<EnumMember name="2" display="1024 x 1024 - (Medium)"></EnumMember>
+			<EnumMember name="1" display="512 x 512 ----- (Low/Vanilla)"></EnumMember>
+			<EnumMember name="0" display="256 x 256 ----- (Very Low)"></EnumMember>
+		</Enum>
+		<Enum name="eSHAD_OPACITY">
+			<EnumMember name="3" display="50.0% - (Dreamcast: Chao Garden)"></EnumMember>
+			<EnumMember name="2" display="62.5% - (Dreamcast)"></EnumMember>
+			<EnumMember name="1" display="70.0% - (GameCube: Aproximate)"></EnumMember>
+			<EnumMember name="0" display="75.0% - (PC/Vanilla)"></EnumMember>
 		</Enum>
 	</Enums>
 </ConfigSchema>

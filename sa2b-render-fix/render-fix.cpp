@@ -190,13 +190,6 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
     }
 
-    int screentint = ConfigGetInt(conf, "main", "objpak", 2);
-
-	if (screentint)
-	{
-		EditObjPak(screentint == 2, 0.5f);
-	}
-
 	if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
 	{
 		WriteData(0x00431340, 0x9090, uint16); // NOP
@@ -318,6 +311,13 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 			ExtraShadowEnable();
 		}
 	}
+
+    if (ConfigGetInt(conf, "debug", "objpak_write", 1))
+    {
+        int screentint = ConfigGetInt(conf, "main", "screen_tint", 1);
+
+        EditObjPak(screentint, GetShadowOpacitySetting());
+    }
 
 	ConfigClose(conf);
 }
