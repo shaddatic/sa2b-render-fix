@@ -21,6 +21,8 @@ typedef struct _OBJ_LANDTABLE   OBJ_LANDTABLE;
 
 #define SwitchDisplayer(addr, disp) WriteData(addr + 2, disp, uint8) /* Use this on 'mov dword ptr' operations */
 
+#define ReplaceFloat(addr, pflt) WritePointer(addr + 2, pflt)
+
 /*
 *   Chunk Tri Strip Winding
 */

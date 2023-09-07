@@ -226,8 +226,6 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         /** Some particles were made 2x as big to counteract 
             the halvaning, this reverts that **/
 
-#define ReplaceFloat(addr, pflt) WritePointer(addr + 2, pflt)
-
         ReplaceFloat(0x006D6117, &ptcldbl00); // RocketRocket
         ReplaceFloat(0x006D611D, &ptcldbl01); // ^
 
