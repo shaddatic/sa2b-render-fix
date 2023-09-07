@@ -48,18 +48,18 @@ EditObjPak(bool tintDisable, float shadowOpacity)
     bool changed = false;
 
     if (ToFlt(buffer[0x07D9]) != tintvalue)
-	{
+    {
         changed = true;
 
-	ToFlt(buffer[0x07D9]) = tintvalue;
-	ToFlt(buffer[0x0E21]) = tintvalue;
-	ToFlt(buffer[0x11ED]) = tintvalue;
-	ToFlt(buffer[0x15B5]) = tintvalue;
-	ToFlt(buffer[0x1961]) = tintvalue;
-	ToFlt(buffer[0x1E4D]) = tintvalue;
-	ToFlt(buffer[0x2399]) = tintvalue;
-	ToFlt(buffer[0x2A5D]) = tintvalue;
-	ToFlt(buffer[0x3145]) = tintvalue;
+        ToFlt(buffer[0x07D9]) = tintvalue;
+        ToFlt(buffer[0x0E21]) = tintvalue;
+        ToFlt(buffer[0x11ED]) = tintvalue;
+        ToFlt(buffer[0x15B5]) = tintvalue;
+        ToFlt(buffer[0x1961]) = tintvalue;
+        ToFlt(buffer[0x1E4D]) = tintvalue;
+        ToFlt(buffer[0x2399]) = tintvalue;
+        ToFlt(buffer[0x2A5D]) = tintvalue;
+        ToFlt(buffer[0x3145]) = tintvalue;
     }
 
     if (shadowOpacity > 0.0f && ToFlt(buffer[0x1949]) != shadowOpacity)
