@@ -178,8 +178,8 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         
         FixExplosionSorting();
 
-        SwitchDisplayer(0x005113AA, DISP_SORT); // Enemy Jet
-        SwitchDisplayer(0x00511422, DISP_SORT); // ^
+        SwitchDisplayer(0x005113AA, DISP_DELY); // Enemy Jet
+        SwitchDisplayer(0x00511422, DISP_DELY); // ^
 
         WritePointer(0x005BA0F6, 0x0117EEEC); // Sky Rail clouds
         WritePointer(0x005BA13E, 0x0117EE34); // ^
