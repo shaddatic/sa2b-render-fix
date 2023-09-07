@@ -35,6 +35,7 @@
 				<HelpText>Changes the darkness/opacity of the shadows. While Dreamcast's opacity can be fully recreated, GameCube's opacity sadly can't be due to blending differences - so an aproximation is used instead.</HelpText>
 			</Property>
 		</Group>
+		<Group name="rest" display="02 • Restoration Settings                         ------------------------------------------------------------">
 			<Property name="jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
 			</Property>
@@ -42,13 +43,13 @@
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
 			<Property name="chaos_trans" display="Artificial Chaos Transparency" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores Artificial Chaos Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+				<HelpText>Restores Artificial Chaos Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
 			<Property name="bloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
 			<Property name="goal_trans" display="Goal Ring Transparency" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores Goal Ring Transparency effects from Dreamcast. NOTE: Requires Back-Face culling.</HelpText>
+				<HelpText>Restores Goal Ring Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
@@ -63,7 +64,7 @@
 				<HelpText>Restores the Dreamcast flashing pulley effect.</HelpText>
 			</Property>
 		</Group>
-		<Group name="env" display="02 • Environment Map Settings                 ------------------------------------------------------------">
+		<Group name="env" display="03 • Environment Map Settings                 ------------------------------------------------------------">
 			<Property name="fix" display="Environment Map Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
 			</Property>
@@ -71,7 +72,7 @@
 				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="stgsel" display="03 • Stage Select Settings                       ------------------------------------------------------------">
+		<Group name="stgsel" display="04 • Stage Select Settings                       ------------------------------------------------------------">
 			<Property name="stretch" display="Stretch Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
 			</Property>
@@ -79,7 +80,7 @@
 				<HelpText>Restores the blue text bar from the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="eget" display="04 • Emblem Get Settings                         ------------------------------------------------------------">
+		<Group name="eget" display="05 • Emblem Get Settings                         ------------------------------------------------------------">
 			<Property name="fadein" display="Fade Restore" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
 			</Property>
@@ -87,22 +88,22 @@
 				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_escape" display="05 • City Escape Settings                         ------------------------------------------------------------">
+		<Group name="c_escape" display="06 • City Escape Settings                         ------------------------------------------------------------">
 			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="a_mine" display="06 • Aquatic Mine Settings                       ------------------------------------------------------------">
+		<Group name="a_mine" display="07 • Aquatic Mine Settings                       ------------------------------------------------------------">
 			<Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_core" display="07 • Cannon's Core Settings                     ------------------------------------------------------------">
+		<Group name="c_core" display="08 • Cannon's Core Settings                     ------------------------------------------------------------">
 			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="bossbogy" display="08 • King Boom Boo Settings                    ------------------------------------------------------------">
+		<Group name="bossbogy" display="09 • King Boom Boo Settings                    ------------------------------------------------------------">
 			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
 			</Property>
@@ -113,7 +114,7 @@
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="cart" display="09 • Cart Stages                                     ------------------------------------------------------------">
+		<Group name="cart" display="0A • Cart Stages                                     ------------------------------------------------------------">
 			<Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
 			</Property>
@@ -121,7 +122,7 @@
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="event" display="0A • Events                                            ------------------------------------------------------------">
+		<Group name="event" display="0B • Events                                            ------------------------------------------------------------">
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
