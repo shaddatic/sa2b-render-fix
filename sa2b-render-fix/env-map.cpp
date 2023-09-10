@@ -64,7 +64,7 @@ OmochaoShadowDraw()
 void
 EnvMapSettings(const config* conf)
 {
-	if (ConfigGetInt(conf, SECT, "fix", 1))
+	if (ConfigGetInt(conf, "debug", "env_fix", 1))
 	{
 		WriteJump(0x0042E6C0, __FixCnkDrawModel);
 
@@ -72,7 +72,7 @@ EnvMapSettings(const config* conf)
         WriteCall(0x006C0E6F, OmochaoShadowDraw);
 	}
 
-	if (ConfigGetInt(conf, SECT, "flip", 1))
+    if (ConfigGetInt(conf, "main", "env_flip", 1))
 	{
 		WriteCall(0x0042D4B0, __FlipEnv2); // Chunk
 		WriteCall(0x0042B6A4, __FlipEnv2); // Ginja

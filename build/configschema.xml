@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="main" display="00 • Global Render Settings                          ------------------------------------------------------------">
+		<Group name="main" display="00 • Global Render Settings                     ------------------------------------------------------------">
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
@@ -20,8 +20,11 @@
 			<Property name="screen_tint" display="Fix Screen Tint" type="eSTINT" defaultvalue="1">
 				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values.</HelpText>
 			</Property>
+			<Property name="env_flip" display="Flip Environment Map Textures" type="eBOOL" defaultvalue="1">
+				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
+			</Property>
 		</Group>
-		<Group name="shadows" display="01 • Shadow Settings                         ------------------------------------------------------------">
+		<Group name="shadows" display="01 • Shadow Settings                              ------------------------------------------------------------">
 			<Property name="enable" display="Enable Shadows" type="eSHAD_MODE" defaultvalue="2">
 				<HelpText>If the shadows should be visible at all.</HelpText>
 			</Property>
@@ -64,15 +67,7 @@
 				<HelpText>Restores the Dreamcast flashing pulley effect.</HelpText>
 			</Property>
 		</Group>
-		<Group name="env" display="03 • Environment Map Settings                 ------------------------------------------------------------">
-			<Property name="fix" display="Environment Map Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
-			</Property>
-			<Property name="flip" display="Flip Environment Map Textures" type="eBOOL" defaultvalue="1">
-				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
-			</Property>
-		</Group>
-		<Group name="stgsel" display="04 • Stage Select Settings                       ------------------------------------------------------------">
+		<Group name="stgsel" display="03 • Stage Select Settings                       ------------------------------------------------------------">
 			<Property name="stretch" display="Stretch Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
 			</Property>
@@ -80,7 +75,7 @@
 				<HelpText>Restores the blue text bar from the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="eget" display="05 • Emblem Get Settings                         ------------------------------------------------------------">
+		<Group name="eget" display="04 • Emblem Get Settings                         ------------------------------------------------------------">
 			<Property name="fadein" display="Fade Restore" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
 			</Property>
@@ -88,22 +83,22 @@
 				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_escape" display="06 • City Escape Settings                         ------------------------------------------------------------">
+		<Group name="c_escape" display="05 • City Escape Settings                         ------------------------------------------------------------">
 			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="a_mine" display="07 • Aquatic Mine Settings                       ------------------------------------------------------------">
+		<Group name="a_mine" display="06 • Aquatic Mine Settings                       ------------------------------------------------------------">
 			<Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_core" display="08 • Cannon's Core Settings                     ------------------------------------------------------------">
+		<Group name="c_core" display="07 • Cannon's Core Settings                     ------------------------------------------------------------">
 			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="bossbogy" display="09 • King Boom Boo Settings                    ------------------------------------------------------------">
+		<Group name="bossbogy" display="08 • King Boom Boo Settings                    ------------------------------------------------------------">
 			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
 			</Property>
@@ -114,7 +109,7 @@
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="cart" display="0A • Cart Stages                                     ------------------------------------------------------------">
+		<Group name="cart" display="09 • Cart Stages                                     ------------------------------------------------------------">
 			<Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
 			</Property>
@@ -122,7 +117,7 @@
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="event" display="0B • Events                                            ------------------------------------------------------------">
+		<Group name="event" display="0A • Events                                            ------------------------------------------------------------">
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
@@ -135,6 +130,9 @@
 		<Group name="debug" display="FF • Debug Settings                                ------------------------------------------------------------">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
 				<HelpText>Allow writing to the obj.pak file. It's very unlikely this feature will need to be disabled, however the option is here if needed.</HelpText>
+			</Property>
+			<Property name="env_fix" display="Fix Environment Map Rendering" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
 			</Property>
 			<Property name="jmp_aura" display="Force Jump Aura DB Flag" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
