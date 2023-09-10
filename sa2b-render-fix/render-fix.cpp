@@ -140,6 +140,10 @@ static int ChunkModelList[] =
     0x016782E4, // PH Train Cylnder
     0x009B046C, // Poison
     0x00CFCCA4, // Tsubo (Sand Ocean)
+
+    0x00B18ECC, // Bunchin (Under)
+    0x00B18E0C, // Bunchin (Rims)
+    0x00B18094, // Bunchin (Handle)
 };
 
 /*
