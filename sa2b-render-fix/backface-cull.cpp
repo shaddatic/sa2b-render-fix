@@ -199,6 +199,57 @@ EnableJumpAuraFix()
     WriteJump(0x00756A56, JumpAuraFixFlagOff);
 }
 
+static void
+BGDisp_CCKFix(task* tp)
+{
+    TaskFuncPtr(BgDisp_CCK, 0x65F6D0);
+
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    njSetConstantAttr(NJD_FST_MASK, NJD_FST_DB);
+
+    BgDisp_CCK(tp);
+
+    LoadConstantAttr();
+    LoadControl3D();
+}
+
+static void
+BGDisp_CCRFix(task* tp)
+{
+    TaskFuncPtr(BgDisp_CCR, 0x4DC140);
+
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    njSetConstantAttr(NJD_FST_MASK, NJD_FST_DB);
+
+    BgDisp_CCR(tp);
+
+    LoadConstantAttr();
+    LoadControl3D();
+}
+
+static void
+BGDisp_CCSFix(task* tp)
+{
+    TaskFuncPtr(BgDisp_CCS, 0x4CB840);
+
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    njSetConstantAttr(NJD_FST_MASK, NJD_FST_DB);
+
+    BgDisp_CCS(tp);
+
+    LoadConstantAttr();
+    LoadControl3D();
+}
+
 void
 EnableBackfaceCulling()
 {
@@ -368,6 +419,8 @@ EnableBackfaceCulling()
     }
 
     /** Cannons Core Sonic Tubes **/
+    /** Cannons Core Sonic **/
+    {
     NJS_CNK_MODEL** mdl_list;
     
     mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro0"); // I hope I never see these models again
@@ -389,5 +442,14 @@ EnableBackfaceCulling()
     for (int i = 0; i < 16; ++i)
     {
         FlipCnkModelWinding(mdl_list[i]);
+    }
+
+        WritePointer(0x004CADBA, BGDisp_CCSFix); // Ick
+    }
+
+    /** Cannons Core Rouge/Knuckles **/
+    {
+        WritePointer(0x0065F18A, BGDisp_CCKFix); // I don't really like these fixes
+        WritePointer(0x004DB82A, BGDisp_CCRFix); // ^
     }
 }
