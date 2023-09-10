@@ -41,11 +41,11 @@ void    CnkModelMaterialFlagOff(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag);
 
 /** Chunk Object Materials **/
 void    CnkObjectMaterialFlagOn(NJS_CNK_OBJECT* pObject, uint32 flag);
-void    CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32 flag); // MIA
+void    CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32 flag);
 
 /** Chunk LandTable Materials **/
 void    CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag);
-void    CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag); // MIA
+void    CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag);
 
 /** Use '-1' for params you don't wish to change, 
     those values won't be applied at all to the model **/

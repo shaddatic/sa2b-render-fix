@@ -354,6 +354,51 @@ CnkModelMaterialFlagOff(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag)
 }
 
 void
+CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32 flag)
+{
+    if (pObject->model)
+        CnkModelMaterialFlagOff(pObject->model, -1, flag);
+    if (pObject->child)
+        CnkObjectMaterialFlagOff(pObject->child, flag);
+    if (pObject->sibling)
+        CnkObjectMaterialFlagOff(pObject->sibling, flag);
+}
+
+void
+CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag)
+{
+    NJS_CNK_MODEL* models[32] = {};
+
+    OBJ_LANDENTRY* plentry = pLand->pLandEntry;
+
+    const sint16 nb = pLand->ssCount;
+
+    for (int i = 0; i < nb; ++i)
+    {
+        NJS_CNK_OBJECT* object = plentry->pObject.cnk;
+
+        for (int j = 0; j < arylen(models); ++j)
+        {
+            if (models[j] == NULL)
+            {
+                models[j] = object->model;
+                CnkModelMaterialFlagOff(object->model, -1, NJD_FST_DB);
+                goto LOOP;
+            }
+
+            if (models[j] == object->model)
+                goto LOOP;
+        }
+
+        CnkModelMaterialFlagOff(object->model, -1, NJD_FST_DB); // Backup in case 'models' is full
+
+    LOOP:
+
+        ++plentry;
+    }
+}
+
+void
 CnkMaterialDiffuse(Sint16* pPList, int idxMat, int a, int r, int g, int b)
 {
     Sint16* plist = pPList;
