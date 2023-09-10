@@ -11,70 +11,15 @@
 void
 FlipCnkModelWinding(NJS_CNK_MODEL* pModel)
 {
-    sint16* plist = pModel->plist;
-    int type;
-
-    while (1)
-    {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((uint8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
+    FlipCnkModelStripWinding(pModel, -1, -1);
                         }
 
-                        if (type >= NJD_TINYOFF)
-                            break;
+#define plist (*ppPList)
+#define idxTri (*pIdxTri)
 
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
-
-        if (type == NJD_ENDOFF)
-            break;
-
+static void
+FlipTriStrip(Sint16** ppPList, int* pIdxTri)
+{
         int nbstrip = plist[2] & 0x3FFF;
 
         plist += 3;
@@ -83,7 +28,15 @@ FlipCnkModelWinding(NJS_CNK_MODEL* pModel)
         {
             int len = *plist;
 
+        if (idxTri < 0)
+        {
             *plist = -len;
+        }
+        else if (idxTri-- == 0)
+        {
+            *plist = -len;
+            return;
+        }
 
             ++plist;
 
@@ -93,7 +46,9 @@ FlipCnkModelWinding(NJS_CNK_MODEL* pModel)
             plist += len * 3;
         }
     }
-}
+
+#undef plist
+#undef idxTri
 
 void
 FlipCnkModelStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
@@ -162,39 +117,22 @@ FlipCnkModelStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
         if (type == NJD_ENDOFF)
             break;
 
-        if (idxStrip-- == 0)
+        if (idxStrip < 0)
         {
-            int nbstrip = plist[2] & 0x3FFF;
-
-            plist += 3;
-
-            while (nbstrip--)
+            int tmp = -1;
+            FlipTriStrip(&plist, &tmp);
+        }
+        else if (idxStrip-- == 0)
             {
-                int len = *plist;
-
-                if (idxTri-- == 0)
-                {
-                    *plist = -len;
+            FlipTriStrip(&plist, &idxTri);
                     return;
                 }
-
-                ++plist;
-
-                if (len < 0)
-                    len = -len;
-
-                plist += len * 3;
+        else
+        {
+            plist += ((uint16*)plist)[1] + 2;
             }
-
-            ModNonFatalFuncError("'idxTri' param is out of range!");
-            return;
         }
-
-        plist += ((uint16*)plist)[1] + 2;
     }
-
-    ModNonFatalFuncError("'idxStrip' param is out of range!");
-}
 
 void
 CnkMaterialFlagOn(Sint16* pPList, int idxMat, uint32 flag)
