@@ -39,11 +39,11 @@ void    CnkMaterialFlagOff(Sint16* pPList, int idxMat, uint32 flag);
 void    CnkModelMaterialFlagOn(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag);
 void    CnkModelMaterialFlagOff(NJS_CNK_MODEL* pModel, int idxMat, uint32 flag);
 
-/** Chunk Object Materials **/
+/** Chunk Object Materials (Applies to all materials in all models) **/
 void    CnkObjectMaterialFlagOn(NJS_CNK_OBJECT* pObject, uint32 flag);
 void    CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32 flag);
 
-/** Chunk LandTable Materials **/
+/** Chunk LandTable Materials (Applies to all materials in all models) **/
 void    CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag);
 void    CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag);
 
@@ -74,6 +74,8 @@ void	ModConflictWarning(const char* body);
 
 /*
 *   Raw Pointer (ptr) Variants
+* 
+*   because C++ is too good for uint->ptr conversions >:(
 */
 #ifdef __cplusplus
 
@@ -92,18 +94,6 @@ FlipCnkModelStripWinding(ptr pModel, int idxStrip, int idxTri)
 
 /** Chunk Material Params **/
 inline void
-CnkModelMaterialFlagOn(ptr pModel, int idxStrip, uint32 flag)
-{
-    return CnkModelMaterialFlagOn((NJS_CNK_MODEL*)pModel, idxStrip, flag);
-}
-
-inline void
-CnkModelMaterialFlagOff(ptr pModel, int idxStrip, uint32 flag)
-{
-    return CnkModelMaterialFlagOff((NJS_CNK_MODEL*)pModel, idxStrip, flag);
-}
-
-inline void
 CnkMaterialFlagOn(ptr pPList, int idxStrip, uint32 flag)
 {
     return CnkMaterialFlagOn((Sint16*)pPList, idxStrip, flag);
@@ -115,16 +105,40 @@ CnkMaterialFlagOff(ptr pPList, int idxStrip, uint32 flag)
     return CnkMaterialFlagOff((Sint16*)pPList, idxStrip, flag);
 }
 
-inline void 
-CnkModelMaterialDiffuse(ptr pModel, int idxMat, int a, int r, int g, int b)
+inline void
+CnkModelMaterialFlagOn(ptr pModel, int idxStrip, uint32 flag)
 {
-    return CnkModelMaterialDiffuse((NJS_CNK_MODEL*)pModel, idxMat, a, r, g, b);
+    return CnkModelMaterialFlagOn((NJS_CNK_MODEL*)pModel, idxStrip, flag);
+}
+
+inline void
+CnkModelMaterialFlagOff(ptr pModel, int idxStrip, uint32 flag)
+{
+    return CnkModelMaterialFlagOff((NJS_CNK_MODEL*)pModel, idxStrip, flag);
+}
+
+inline void 
+CnkObjectMaterialFlagOn(ptr pObject, uint32 flag)
+{
+    return CnkObjectMaterialFlagOn((NJS_CNK_OBJECT*)pObject, flag);
+}
+
+inline void
+CnkObjectMaterialFlagOff(ptr pObject, uint32 flag)
+{
+    return CnkObjectMaterialFlagOff((NJS_CNK_OBJECT*)pObject, flag);
 }
 
 inline void
 CnkMaterialDiffuse(ptr pPList, int idxMat, int a, int r, int g, int b)
 {
     return CnkMaterialDiffuse((Sint16*)pPList, idxMat, a, r, g, b);
+}
+
+inline void 
+CnkModelMaterialDiffuse(ptr pModel, int idxMat, int a, int r, int g, int b)
+{
+    return CnkModelMaterialDiffuse((NJS_CNK_MODEL*)pModel, idxMat, a, r, g, b);
 }
 
 /** GVM Tables **/
