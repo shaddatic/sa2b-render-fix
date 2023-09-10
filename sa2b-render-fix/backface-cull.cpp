@@ -169,6 +169,36 @@ StripFlags(uint8 flag)
     DoStripFlags(flag);
 }
 
+FuncPtr(void, __cdecl, UpdateFog, (), 0x0042A870);
+
+static void
+JumpAuraFixFlagOn()
+{
+    UpdateFog();
+
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    njSetConstantAttr(NJD_FST_MASK, NJD_FST_DB);
+}
+
+static void
+JumpAuraFixFlagOff()
+{
+    LoadConstantAttr();
+    LoadControl3D();
+    
+    UpdateFog();
+}
+
+void
+EnableJumpAuraFix()
+{
+    WriteCall(0x00756984, JumpAuraFixFlagOn);
+    WriteJump(0x00756A56, JumpAuraFixFlagOff);
+}
+
 void
 EnableBackfaceCulling()
 {
