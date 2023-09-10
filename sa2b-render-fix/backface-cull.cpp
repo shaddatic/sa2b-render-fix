@@ -340,22 +340,51 @@ EnableBackfaceCulling()
         CnkModelMaterialFlagOn(0xCFCCA4, 0, NJD_FST_DB);
     }
 
-    /** Wild Canyon Wind Tunnel **/
-    WriteData(0x006A2F9A, 0x8300 | NJD_FST_DB, uint32);
-
-    /** Wild Canyon Wind Flags **/
-    DataAry(NJS_CNK_MODEL*, LowFlagList0, 0x00BC0B98, [24]);
-
-    for (int i = 0; i < arylen(LowFlagList0); ++i)
+    /** Wild Canyon **/
     {
-        CnkModelMaterialFlagOn(LowFlagList0[i], 0, NJD_FST_DB);
+        WriteData(0x006A2F9A, 0x8300 | NJD_FST_DB, uint32); // Wind Tunnel
+
+        DataAry(NJS_CNK_MODEL*, LowFlagList, 0x00BC0B98, [48]);
+
+        for (int i = 0; i < arylen(LowFlagList); ++i)
+        {
+            CnkModelMaterialFlagOn(LowFlagList[i], 0, NJD_FST_DB);
+        }
+
+        DataAry(NJS_CNK_MODEL*, FlagList, 0x00BD3560, [48]);
+
+        for (int i = 0; i < arylen(FlagList); ++i)
+        {
+            CnkModelMaterialFlagOn(FlagList[i], 0, NJD_FST_DB);
+        }
+
+        CnkModelMaterialFlagOn(0x00BD92F4, 2, NJD_FST_DB); // Fans  (Light)
+        CnkModelMaterialFlagOn(0x00BDA924, 2, NJD_FST_DB); // ^     (Dark)
     }
 
-    DataAry(NJS_CNK_MODEL*, LowFlagList1, 0x00BC0BF8, [24]);
-
-    for (int i = 0; i < arylen(LowFlagList1); ++i)
+    /** Dry Lagoon **/
     {
-        CnkModelMaterialFlagOn(LowFlagList1[i], 0, NJD_FST_DB);
+        WriteData(0x0063DEB7, 0x8300 | NJD_FST_DB, uint32); // Water currents
+        WriteData(0x0063E0AA, 0x8300 | NJD_FST_DB, uint32); // ^
+        WriteData(0x0063E317, 0x8300 | NJD_FST_DB, uint32); // ^
+
+        CnkModelMaterialFlagOn(0x00E3524C, 0, NJD_FST_DB); // Fish
+        CnkModelMaterialFlagOn(0x00E3539C, 0, NJD_FST_DB); // ^
+        CnkModelMaterialFlagOn(0x00E352F4, 0, NJD_FST_DB); // ^
+
+        DataAry(NJS_CNK_MODEL*, ButterflyList, 0x00DDB64C, [9]);
+
+        for (int i = 0; i < arylen(ButterflyList); ++i)
+        {
+            CnkModelMaterialFlagOn(ButterflyList[i], 0, NJD_FST_DB);
+        }
+
+        CnkModelMaterialFlagOn(0x00DF8C3C, -1, NJD_FST_DB); // Red Flowers
+        CnkModelMaterialFlagOn(0x00DFDF54, -1, NJD_FST_DB); // ^
+        
+        CnkModelMaterialFlagOn(0x00DEC1B4, -1, NJD_FST_DB); // Leaf
+        CnkModelMaterialFlagOn(0x00DED694, -1, NJD_FST_DB); // ^
+        
     }
 
     /** Pumpkin Hill Train **/
@@ -366,6 +395,10 @@ EnableBackfaceCulling()
     /** Security Hall Money **/
     CnkModelMaterialFlagOn(0x00E76994, 0, NJD_FST_DB);
 
+    /** Iron Gate / Prison Lane Sirens **/
+    CnkModelMaterialFlagOn(0x01043FBC, 1, NJD_FST_DB); // PL
+    CnkModelMaterialFlagOn(0x00BF5BC4, 1, NJD_FST_DB); // IG
+    
     /** White Jungle Fixes **/
     FlipCnkModelWinding(0x00EADA7C);
     FlipCnkModelWinding(0x00EAD2A4);
@@ -418,31 +451,35 @@ EnableBackfaceCulling()
         CnkObjectMaterialFlagOn(poster, NJD_FST_DB);
     }
 
-    /** Cannons Core Sonic Tubes **/
+    /** Time Stop Switches **/
+    {
+        CnkObjectMaterialFlagOn(0x163FA74, NJD_FST_DB);
+    }
+
     /** Cannons Core Sonic **/
     {
-    NJS_CNK_MODEL** mdl_list;
-    
-    mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro0"); // I hope I never see these models again
+        NJS_CNK_MODEL** mdl_list;
 
-    for (int i = 0; i < 16; ++i)
-    {
-        FlipCnkModelWinding(mdl_list[i]);
-    }
+        mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro0"); // I hope I never see these models again
 
-    mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro1");
+        for (int i = 0; i < 16; ++i)
+        {
+            FlipCnkModelWinding(mdl_list[i]);
+        }
 
-    for (int i = 0; i < 16; ++i)
-    {
-        FlipCnkModelWinding(mdl_list[i]);
-    }
+        mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro1");
 
-    mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro2");
+        for (int i = 0; i < 16; ++i)
+        {
+            FlipCnkModelWinding(mdl_list[i]);
+        }
 
-    for (int i = 0; i < 16; ++i)
-    {
-        FlipCnkModelWinding(mdl_list[i]);
-    }
+        mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro2");
+
+        for (int i = 0; i < 16; ++i)
+        {
+            FlipCnkModelWinding(mdl_list[i]);
+        }
 
         WritePointer(0x004CADBA, BGDisp_CCSFix); // Ick
     }
