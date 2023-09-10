@@ -191,6 +191,8 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
         SwitchDisplayer(0x004B39CD, DISP_SORT); // P-Hill clouds
 
+        SwitchDisplayer(0x006A5338, DISP_SORT); // W-Canyon Fans
+
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
     }
 
