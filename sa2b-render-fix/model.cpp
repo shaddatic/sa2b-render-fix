@@ -35,6 +35,7 @@
 #include <model/minemizu.nja>
 
 #include <model/bunchin_shadow.nja>
+#include <model/msger_shadow.nja>
 
 /*
 *	Ginja

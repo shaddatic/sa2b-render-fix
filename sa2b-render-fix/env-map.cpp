@@ -55,8 +55,8 @@ BunchinShadowDraw() // The crushers
 void
 OmochaoShadowDraw()
 {
-    extern NJS_CNK_MODEL model_basic_shadow[];
-    njCnkDrawModel(model_basic_shadow);
+    extern NJS_CNK_MODEL model_msger_shadow[];
+    njCnkDrawModel(model_msger_shadow);
 }
 
 #define SECT "env"
