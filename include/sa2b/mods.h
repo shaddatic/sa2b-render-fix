@@ -12,8 +12,8 @@
 #ifndef _SAMT_MODS_H_
 #define _SAMT_MODS_H_
 
-typedef void        mod_handle;
-typedef _config     config;
+typedef void                mod_handle;
+typedef struct _config      config;
 
 mod_handle*	GetModHandle(const char* pDllName);
 mod_handle*	GetModHandleW(const wchar_t* pDllName);
