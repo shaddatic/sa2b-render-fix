@@ -9,7 +9,6 @@
 #include <sa2b/src/task.h>
 #include <sa2b/src/score.h>
 
-#include <tint-disable.h>
 #include <tools.h>
 
 #include <enemy-jet.h>
@@ -204,7 +203,7 @@ RestorationSettings(const config* conf)
 
 	if (ConfigGetInt(conf, SECT, "dc_ring", 0))
 	{
-		DisableTintGinjaModel((GJS_MODEL*)0x00B58288);
+		GjsModelTintFix((GJS_MODEL*)0x00B58288);
 	}
 
     if (ConfigGetInt(conf, SECT, "udreel", 1))

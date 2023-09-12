@@ -8,6 +8,146 @@
 
 #include <tools.h>
 
+static void
+GjsMeshTintFix(GJS_MESHSET* pGinjaMesh, int nbMesh)
+{
+    while (nbMesh--)
+    {
+        GJS_MESHPARAM* param = pGinjaMesh->params;
+        const int nbparam = pGinjaMesh->nbParam;
+
+        for (int i = 0; i < nbparam; ++i)
+        {
+            if (param->type == GJD_MESH_DIFFUSE)
+            {
+                param->data = 0xFFFFFFFF;
+                break;
+            }
+            ++param;
+        }
+        ++pGinjaMesh;
+    }
+}
+
+void
+GjsModelTintFix(GJS_MODEL* pModel)
+{
+    if (pModel->nbSolid)
+        GjsMeshTintFix(pModel->meshsolid, pModel->nbSolid);
+    if (pModel->nbTrans)
+        GjsMeshTintFix(pModel->meshtrans, pModel->nbTrans);
+}
+
+void
+GjsObjectTintFix(GJS_OBJECT* pObject)
+{
+    if (pObject->model)
+        GjsModelTintFix(pObject->model);
+    if (pObject->child)
+        GjsObjectTintFix(pObject->child);
+    if (pObject->sibling)
+        GjsObjectTintFix(pObject->sibling);
+}
+
+void
+CnkTintFix(Sint16* pPList)
+{
+    Sint16* plist = pPList;
+    int type;
+
+    while (1)
+    {
+        while (1)
+        {
+            while (1)
+            {
+                while (1)
+                {
+                    while (1)
+                    {
+                        while (1)
+                        {
+                            type = ((uint8*)plist)[0];
+
+                            if (type >= NJD_BITSOFF)
+                                break;
+
+                            ++plist;
+                        }
+
+                        if (type >= NJD_TINYOFF)
+                            break;
+
+                        ++plist;
+                    }
+
+                    if (type >= NJD_MATOFF)
+                        break;
+
+                    plist += 2;
+                }
+
+                if (type >= NJD_VERTOFF)
+                    break;
+
+                plist += 2;
+
+                switch (type) {
+                case NJD_CM_D:
+                    plist[0] = (sint16)0xFFFF;
+                    plist[1] = (sint16)0xFFFF;
+                case NJD_CM_A:
+                case NJD_CM_S:
+                    plist += 2;
+                    break;
+                case NJD_CM_DA:
+                case NJD_CM_DS:
+                    plist[0] = (sint16)0xFFFF;
+                    plist[1] = (sint16)0xFFFF;
+                case NJD_CM_AS:
+                    plist += 4;
+                    break;
+                case NJD_CM_DAS:
+                    plist[0] = (sint16)0xFFFF;
+                    plist[1] = (sint16)0xFFFF;
+                    plist += 6;
+                    break;
+                }
+            }
+
+            if (type >= NJD_STRIPOFF)
+                break;
+        }
+
+        if (type == NJD_ENDOFF)
+            break;
+
+        plist += ((uint16*)plist)[1] + 2;
+    }
+}
+
+void
+CnkModelTintFix(NJS_CNK_MODEL* pModel)
+{
+    if (pModel->plist)
+        CnkTintFix(pModel->plist);
+}
+
+void
+CnkObjectTintFix(NJS_CNK_OBJECT* pObject)
+{
+    if (pObject->model)
+        CnkModelTintFix(pObject->model);
+    if (pObject->child)
+        CnkObjectTintFix(pObject->child);
+    if (pObject->sibling)
+        CnkObjectTintFix(pObject->sibling);
+}
+
+/*
+*   Triangle Strip Winding
+*/
+
 void
 CnkModelFlipWinding(NJS_CNK_MODEL* pModel)
 {
@@ -133,6 +273,10 @@ CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
         }
     }
 }
+
+/*
+*   Strip Flags
+*/
 
 void
 CnkMaterialFlagOn(Sint16* pPList, int idxMat, uint32 flag)
@@ -398,6 +542,10 @@ CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32 flag)
     }
 }
 
+/*
+*   Material Params
+*/
+
 void
 CnkMaterialDiffuse(Sint16* pPList, int idxMat, int a, int r, int g, int b)
 {
@@ -507,6 +655,11 @@ CnkModelMaterialDiffuse(NJS_CNK_MODEL* pModel, int idxMat, int a, int r, int g, 
     CnkMaterialDiffuse(pModel->plist, idxMat, a, r, g, b);
 }
 
+
+/*
+*   GVM Tables
+*/
+
 void
 SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2)
 {
@@ -514,6 +667,10 @@ SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2)
     pGvmTable[idx1] = pGvmTable[idx2];
     pGvmTable[idx2] = tmp;
 }
+
+/*
+*   Mod Tools
+*/
 
 void
 __ModNonFatalFuncError(const char* func, const char* body)

@@ -24,6 +24,16 @@ typedef struct _OBJ_LANDTABLE   OBJ_LANDTABLE;
 #define ReplaceFloat(addr, pflt) WritePointer(addr + 2, pflt)
 
 /*
+*   Remove Material Diffuse (Tint)
+*/
+void	GjsModelTintFix(GJS_MODEL* pModel);
+void	GjsObjectTintFix(GJS_OBJECT* pObject);
+
+void    CnkTintFix(Sint16* pPList);
+void	CnkModelTintFix(NJS_CNK_MODEL* pModel);
+void	CnkObjectTintFix(NJS_CNK_OBJECT* pObject);
+
+/*
 *   Chunk Tri Strip Winding
 */
 void    CnkModelFlipWinding(NJS_CNK_MODEL* pModel);
