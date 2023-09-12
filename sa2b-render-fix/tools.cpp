@@ -9,9 +9,9 @@
 #include <tools.h>
 
 void
-FlipCnkModelWinding(NJS_CNK_MODEL* pModel)
+CnkModelFlipWinding(NJS_CNK_MODEL* pModel)
 {
-    FlipCnkModelStripWinding(pModel, -1, -1);
+    CnkModelFlipStripWinding(pModel, -1, -1);
 }
 
 #define plist (*ppPList)
@@ -51,7 +51,7 @@ FlipTriStrip(Sint16** ppPList, int* pIdxTri)
 #undef idxTri
 
 void
-FlipCnkModelStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
+CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
 {
     sint16* plist = pModel->plist;
     int type;

@@ -26,8 +26,8 @@ typedef struct _OBJ_LANDTABLE   OBJ_LANDTABLE;
 /*
 *   Chunk Tri Strip Winding
 */
-void    FlipCnkModelWinding(NJS_CNK_MODEL* pModel);
-void    FlipCnkModelStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri);
+void    CnkModelFlipWinding(NJS_CNK_MODEL* pModel);
+void    CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri);
 
 /*
 *   Chunk Material Params
@@ -81,15 +81,15 @@ void	ModConflictWarning(const char* body);
 
 /** Chunk Tri Strip Winding **/
 inline void
-FlipCnkModelWinding(ptr pModel)
+CnkModelFlipWinding(ptr pModel)
 {
-    return FlipCnkModelWinding((NJS_CNK_MODEL*)pModel);
+    return CnkModelFlipWinding((NJS_CNK_MODEL*)pModel);
 }
 
 inline void
-FlipCnkModelStripWinding(ptr pModel, int idxStrip, int idxTri)
+CnkModelFlipStripWinding(ptr pModel, int idxStrip, int idxTri)
 {
-    return FlipCnkModelStripWinding((NJS_CNK_MODEL*)pModel, idxStrip, idxTri);
+    return CnkModelFlipStripWinding((NJS_CNK_MODEL*)pModel, idxStrip, idxTri);
 }
 
 /** Chunk Material Params **/

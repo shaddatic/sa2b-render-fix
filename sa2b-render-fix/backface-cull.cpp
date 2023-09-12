@@ -282,24 +282,24 @@ EnableBackfaceCulling()
     CnkModelMaterialFlagOn(0x00A34B74, 0, NJD_FST_DB);
 
     /** Mine Mizu **/
-    FlipCnkModelStripWinding(0x0162E024, 0, 0);
-    FlipCnkModelStripWinding(0x0162E024, 0, 1);
-    FlipCnkModelStripWinding(0x0162E024, 1, 0);
+    CnkModelFlipStripWinding(0x0162E024, 0, 0);
+    CnkModelFlipStripWinding(0x0162E024, 0, 1);
+    CnkModelFlipStripWinding(0x0162E024, 1, 0);
 
     /** Bg Models **/
-    FlipCnkModelWinding(0x0168B354); // Pumpkin Hill
-    FlipCnkModelWinding(0x015A16BC); // Radical Highway
-    FlipCnkModelWinding(0x00BECE74); // Wild Canyon
-    FlipCnkModelWinding(0x011B98E4); // Mission Street
-    FlipCnkModelWinding(0x0115C4B4); // Meteor Herd
-    FlipCnkModelWinding(0x0115B68C); // ^
-    FlipCnkModelWinding(0x00DD1354); // Knux Vs Rouge
-    FlipCnkModelWinding(0x00DD0524); // ^
-    FlipCnkModelWinding(0x0097085C); // Mission Street 2P
-    FlipCnkModelWinding(0x016555B4); // Sonic Vs Shadow 2
-    FlipCnkModelWinding(0x00C7CEFC); // Planet Quest
-    FlipCnkModelWinding(0x00C7C0D4); // ^
-    FlipCnkModelWinding(0x01710B54); // Finalhazard
+    CnkModelFlipWinding(0x0168B354); // Pumpkin Hill
+    CnkModelFlipWinding(0x015A16BC); // Radical Highway
+    CnkModelFlipWinding(0x00BECE74); // Wild Canyon
+    CnkModelFlipWinding(0x011B98E4); // Mission Street
+    CnkModelFlipWinding(0x0115C4B4); // Meteor Herd
+    CnkModelFlipWinding(0x0115B68C); // ^
+    CnkModelFlipWinding(0x00DD1354); // Knux Vs Rouge
+    CnkModelFlipWinding(0x00DD0524); // ^
+    CnkModelFlipWinding(0x0097085C); // Mission Street 2P
+    CnkModelFlipWinding(0x016555B4); // Sonic Vs Shadow 2
+    CnkModelFlipWinding(0x00C7CEFC); // Planet Quest
+    CnkModelFlipWinding(0x00C7C0D4); // ^
+    CnkModelFlipWinding(0x01710B54); // Finalhazard
 
     /** Goal Ring **/
     CnkModelMaterialFlagOn(0x00B4EACC, 1, NJD_FST_DB);
@@ -400,8 +400,8 @@ EnableBackfaceCulling()
     CnkModelMaterialFlagOn(0x00BF5BC4, 1, NJD_FST_DB); // IG
     
     /** White Jungle Fixes **/
-    FlipCnkModelWinding(0x00EADA7C);
-    FlipCnkModelWinding(0x00EAD2A4);
+    CnkModelFlipWinding(0x00EADA7C);
+    CnkModelFlipWinding(0x00EAD2A4);
 
     /** Crazy Gadget Matrix Effects **/
     {
@@ -464,21 +464,21 @@ EnableBackfaceCulling()
 
         for (int i = 0; i < 16; ++i)
         {
-            FlipCnkModelWinding(mdl_list[i]);
+            CnkModelFlipWinding(mdl_list[i]);
         }
 
         mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro1");
 
         for (int i = 0; i < 16; ++i)
         {
-            FlipCnkModelWinding(mdl_list[i]);
+            CnkModelFlipWinding(mdl_list[i]);
         }
 
         mdl_list = GetDataDllAddr(NJS_CNK_MODEL*, "sUn0Tuuro2");
 
         for (int i = 0; i < 16; ++i)
         {
-            FlipCnkModelWinding(mdl_list[i]);
+            CnkModelFlipWinding(mdl_list[i]);
         }
 
         WritePointer(0x004CADBA, BGDisp_CCSFix); // Ick
