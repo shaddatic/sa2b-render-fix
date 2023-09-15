@@ -117,12 +117,18 @@ FixNinjaBackColor()
     WriteJump(0x00426540, __njSetBackColor2);
     WriteJump(0x00426620, __SetBackColor);
 
+    /** SOC SetBackColor calls **/
+    KillCall(0x0043AA73); // King Boom Boo
+    KillCall(0x0043AC81); // ^
+    KillCall(0x0043BACF); // Wild Canyon
+    KillCall(0x0043B4A7); // ^
+    KillCall(0x0043AE09); // Pause
+    KillCall(0x0043B2C4); // Unpause
+    KillCall(0x0043B146); // Unk Menu
+
     //WriteNoOP(0x00426540, 0x00426547); // Set color to 0
     //WriteNoOP(0x0042654A, 0x00426550);
     //WriteNoOP(0x0046FF50, 0x0046FF8F);
     //WriteNoOP(0x0046FF97, 0x0046FF9D);
     //WriteNoOP(0x0046FD87, 0x0046FDC2);
-
-    KillCall(0x0043AE09); // Pause
-    KillCall(0x0043B2C4); // Unpause
 }
