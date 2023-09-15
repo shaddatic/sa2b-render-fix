@@ -384,7 +384,6 @@ EnableBackfaceCulling()
         
         CnkModelMaterialFlagOn(0x00DEC1B4, -1, NJD_FST_DB); // Leaf
         CnkModelMaterialFlagOn(0x00DED694, -1, NJD_FST_DB); // ^
-        
     }
 
     /** Pumpkin Hill Train **/
@@ -401,6 +400,7 @@ EnableBackfaceCulling()
     
     /** White Jungle Fixes **/
     CnkModelFlipWinding(0x00EADA7C);
+    CnkModelFlipWinding(0x00EAD2A4);
     CnkModelFlipWinding(0x00EAD2A4);
 
     /** Crazy Gadget Matrix Effects **/
