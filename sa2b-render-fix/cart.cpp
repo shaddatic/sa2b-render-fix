@@ -10,9 +10,9 @@ FuncPtr(void, __cdecl, CartSeaDisplay, (), 0x00621C90);
 static void
 DrawCartSea()
 {
-	njFogDisable();
-	CartSeaDisplay();
-	njFogEnable();
+    njFogDisable();
+    CartSeaDisplay();
+    njFogEnable();
 }
 
 #define SECT "cart"
@@ -20,10 +20,10 @@ DrawCartSea()
 void
 CartSettings(const config* conf)
 {
-	if (ConfigGetInt(conf, SECT, "seafix", 1))
-	{
+    if (ConfigGetInt(conf, SECT, "seafix", 1))
+    {
         WriteJump(0x00622075, DrawCartSea);
-	}
+    }
 
     if (ConfigGetInt(conf, SECT, "kanban", 1))
     {

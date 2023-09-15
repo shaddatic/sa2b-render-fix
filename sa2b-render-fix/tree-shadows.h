@@ -2,4 +2,4 @@
 
 typedef struct task TASK;
 
-void	ObjectTreeShadows(TASK* tp);
+void    ObjectTreeShadows(TASK* tp);

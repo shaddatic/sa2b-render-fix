@@ -12,38 +12,38 @@ DataRef(char*, struc_36Instance, 0x01A557BC);
 int
 EditObjPak(bool tintDisable, float shadowOpacity)
 {
-	FILE* f = fopen("./resource/Shader/win32/obj.pak", "rb");
+    FILE* f = fopen("./resource/Shader/win32/obj.pak", "rb");
 
-	if (!f)
-		return 1;
+    if (!f)
+        return 1;
 
-	fseek(f, 0, SEEK_END);
+    fseek(f, 0, SEEK_END);
 
-	size_t size = ftell(f);
+    size_t size = ftell(f);
 
-	if (size != 0x57BD)
-	{
-		puts("Render Fix: obj.pak is not original, aborting changes!");
-		fclose(f);
-		return 1;
-	}
+    if (size != 0x57BD)
+    {
+        puts("Render Fix: obj.pak is not original, aborting changes!");
+        fclose(f);
+        return 1;
+    }
 
-	fseek(f, 0, SEEK_SET);
+    fseek(f, 0, SEEK_SET);
 
-	char* buffer = (char*)malloc(size);
+    char* buffer = (char*)malloc(size);
 
-	/* If this fails, something really bad happened */
-	if (!buffer)
-	{
-		fclose(f);
-		return 1;
-	}
+    /* If this fails, something really bad happened */
+    if (!buffer)
+    {
+        fclose(f);
+        return 1;
+    }
 
-	fread(buffer, size, 1, f);
+    fread(buffer, size, 1, f);
 
-	fclose(f);
+    fclose(f);
 
-	float tintvalue = tintDisable ? 1.0f : 0.909090936183929f;
+    float tintvalue = tintDisable ? 1.0f : 0.909090936183929f;
 
     bool changed = false;
 
@@ -78,23 +78,23 @@ EditObjPak(bool tintDisable, float shadowOpacity)
         return 0;
     }
 
-	puts("Render Fix: Writing to obj.pak...");
+    puts("Render Fix: Writing to obj.pak...");
 
-	f = fopen("./resource/Shader/win32/obj.pak", "wb");
+    f = fopen("./resource/Shader/win32/obj.pak", "wb");
 
-	if (!f)
-	{
-		free(buffer);
-		return 1;
-	}
+    if (!f)
+    {
+        free(buffer);
+        return 1;
+    }
 
-	fwrite(buffer, size, 1, f);
+    fwrite(buffer, size, 1, f);
 
-	fclose(f);
+    fclose(f);
 
-	free(buffer);
+    free(buffer);
 
-	*(struc_36Instance + 0x644) = 1; // Reload shaders
+    *(struc_36Instance + 0x644) = 1; // Reload shaders
 
-	return 0;
+    return 0;
 }

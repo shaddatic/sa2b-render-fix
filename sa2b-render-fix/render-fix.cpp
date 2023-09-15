@@ -23,15 +23,15 @@
 #include <tools.h>
 
 /*
-*	Dll Export
+*    Dll Export
 */
 extern "C" __declspec(dllexport)
 void __cdecl
 Init(const char* path, const HelperFunctions* pHelpFunc)
 {
-	SAMT_Init(path, pHelpFunc);
+    SAMT_Init(path, pHelpFunc);
 
-	config* conf = ConfigOpen2(path, "config.ini");
+    config* conf = ConfigOpen2(path, "config.ini");
     
     /** ALWAYS ON **/
     {
@@ -56,10 +56,10 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         FixWhiteJungleWater();
     }
 
-	if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
-	{
-		WriteData(0x00431340, 0x9090, uint16); // NOP
-	}
+    if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
+    {
+        WriteData(0x00431340, 0x9090, uint16); // NOP
+    }
 
     if (ConfigGetInt(conf, "main", "backface_cull", 1))
     {
@@ -122,45 +122,45 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         ReplaceFloat(0x007801A6, &ptclpolyscl);
     }
 
-	int modeltint = ConfigGetInt(conf, "main", "model_tint", 2);
+    int modeltint = ConfigGetInt(conf, "main", "model_tint", 2);
 
-	if (modeltint)
-	{
+    if (modeltint)
+    {
         FixModelTints();
 
-		if (modeltint == 2)
+        if (modeltint == 2)
             FixExtraModelTints();
-	}
+    }
 
     ShadowSettings(conf);
 
-	RestorationSettings(conf);
+    RestorationSettings(conf);
 
-	EnvMapSettings(conf);
+    EnvMapSettings(conf);
 
-	GetEmblemSettings(conf);
+    GetEmblemSettings(conf);
 
-	StageMapSettings(conf);
+    StageMapSettings(conf);
 
-	CityEscapeSettings(conf);
+    CityEscapeSettings(conf);
 
-	AquaticMineSettings(conf);
+    AquaticMineSettings(conf);
 
-	CannonsCoreSettings(conf);
+    CannonsCoreSettings(conf);
 
-	BossBogySettings(conf);
+    BossBogySettings(conf);
 
-	CartSettings(conf);
+    CartSettings(conf);
 
     EventSettings(conf);
 
-	if (!CheckForMod("sa2-dc-lighting"))
-	{
-		if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))
-		{
-			ExtraShadowEnable();
-		}
-	}
+    if (!CheckForMod("sa2-dc-lighting"))
+    {
+        if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))
+        {
+            ExtraShadowEnable();
+        }
+    }
 
     if (ConfigGetInt(conf, "debug", "objpak_write", 1))
     {
@@ -169,7 +169,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         EditObjPak(screentint, GetShadowOpacitySetting());
     }
 
-	ConfigClose(conf);
+    ConfigClose(conf);
 }
 
 extern "C" __declspec(dllexport)

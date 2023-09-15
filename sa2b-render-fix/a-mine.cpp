@@ -11,14 +11,14 @@ extern Sint32 vertex_minemizu[];
 static void
 MurkyWaterRestore()
 {
-	WritePointer(0x0162E024, vertex_minemizu);
+    WritePointer(0x0162E024, vertex_minemizu);
 }
 
 void
 AquaticMineSettings(const config* conf)
 {
-	if (ConfigGetInt(conf, SECT, "murky", 1))
-	{
-		MurkyWaterRestore();
-	}
+    if (ConfigGetInt(conf, SECT, "murky", 1))
+    {
+        MurkyWaterRestore();
+    }
 }

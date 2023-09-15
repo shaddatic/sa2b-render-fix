@@ -26,12 +26,12 @@ typedef struct _OBJ_LANDTABLE   OBJ_LANDTABLE;
 /*
 *   Remove Material Diffuse (Tint)
 */
-void	GjsModelTintFix(GJS_MODEL* pModel);
-void	GjsObjectTintFix(GJS_OBJECT* pObject);
+void    GjsModelTintFix(GJS_MODEL* pModel);
+void    GjsObjectTintFix(GJS_OBJECT* pObject);
 
 void    CnkTintFix(Sint16* pPList);
-void	CnkModelTintFix(NJS_CNK_MODEL* pModel);
-void	CnkObjectTintFix(NJS_CNK_OBJECT* pObject);
+void    CnkModelTintFix(NJS_CNK_MODEL* pModel);
+void    CnkObjectTintFix(NJS_CNK_OBJECT* pObject);
 
 /*
 *   Chunk Tri Strip Winding
@@ -72,13 +72,13 @@ void    CnkModelMaterialSpecular(NJS_CNK_MODEL* pModel, int idxMat, int i, int r
 */
 typedef struct gvmtable TEX_GVMTABLE;
 
-void	SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2);
+void    SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2);
 
 /*
 *   Mod Tools
 */
 void    __ModNonFatalFuncError(const char* func, const char* body);
-void	ModConflictWarning(const char* body);
+void    ModConflictWarning(const char* body);
 
 #define ModNonFatalFuncError(body) __ModNonFatalFuncError(__func__, body)
 

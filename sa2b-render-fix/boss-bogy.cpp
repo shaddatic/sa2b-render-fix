@@ -40,10 +40,10 @@ GetMatAlphaPointer(NJS_CNK_OBJECT* pObject)
 void
 BossBogySettings(const config* conf)
 {
-	if (ConfigGetInt(conf, SECT, "sundoors", 1))
-	{
+    if (ConfigGetInt(conf, SECT, "sundoors", 1))
+    {
         SwapGVMTableIndex(0x0103622C, 2, 4);
-	}
+    }
 
     if (ConfigGetInt(conf, SECT, "lights", 1))
     {

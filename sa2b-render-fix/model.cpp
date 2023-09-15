@@ -4,11 +4,11 @@
 #include <sa2b/ninja/njdef.h>
 
 #pragma warning( push )
-#pragma warning( disable : 4838 )	/* conversion from '$type' to '$type' requires a narrowing conversion */
-#pragma warning( disable : 4309 )	/* 'initializing': truncation of constant value */
+#pragma warning( disable : 4838 )    /* conversion from '$type' to '$type' requires a narrowing conversion */
+#pragma warning( disable : 4309 )    /* 'initializing': truncation of constant value */
 
 /*
-*	Models
+*    Models
 */
 #include <model/e_kumi_emblem.nja>
 #include <model/e_g_kumi_emblem.nja>
@@ -38,7 +38,7 @@
 #include <model/msger_shadow.nja>
 
 /*
-*	Ginja
+*    Ginja
 */
 
 

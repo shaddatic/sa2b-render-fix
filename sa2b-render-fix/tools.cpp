@@ -663,7 +663,7 @@ CnkModelMaterialDiffuse(NJS_CNK_MODEL* pModel, int idxMat, int a, int r, int g, 
 void
 SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2)
 {
-	TEX_GVMTABLE tmp = pGvmTable[idx1];
+    TEX_GVMTABLE tmp = pGvmTable[idx1];
     pGvmTable[idx1] = pGvmTable[idx2];
     pGvmTable[idx2] = tmp;
 }
@@ -685,5 +685,5 @@ __ModNonFatalFuncError(const char* func, const char* body)
 void
 ModConflictWarning(const char* body)
 {
-	UserWarningMessageBox("Render Fix: Mod Conflict", body);
+    UserWarningMessageBox("Render Fix: Mod Conflict", body);
 }

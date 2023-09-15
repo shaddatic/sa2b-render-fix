@@ -1,4 +1,4 @@
 #pragma once
 
-void	FixModelTints();
+void    FixModelTints();
 void    FixExtraModelTints();

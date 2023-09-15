@@ -1,3 +1,3 @@
 #pragma once
 
-int		EditObjPak(bool tintDisable, float shadowOpacity);
+int        EditObjPak(bool tintDisable, float shadowOpacity);

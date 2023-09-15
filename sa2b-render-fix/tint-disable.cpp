@@ -13,8 +13,8 @@ FuncPtr(void, __cdecl, gjDiffuse, (NJS_BGRA color), 0x0042BA60);
 static void
 SetDefaultGinjaDiffuse()
 {
-	NJS_BGRA set = { 255, 255, 255, 255 };
-	gjDiffuse(set);
+    NJS_BGRA set = { 255, 255, 255, 255 };
+    gjDiffuse(set);
 }
 
 static const void* gjSetModelParams_p = (void*)0x0042BDB0;
@@ -23,75 +23,75 @@ __declspec(naked)
 static void
 __SetDefaultGinjaDiffuse()
 {
-	__asm
-	{
-		push eax
-		call SetDefaultGinjaDiffuse
-		pop eax
-		call gjSetModelParams_p
-		retn
-	}
+    __asm
+    {
+        push eax
+        call SetDefaultGinjaDiffuse
+        pop eax
+        call gjSetModelParams_p
+        retn
+    }
 }
 
 static void
 DefaultGinjaDiffuseEnable()
 {
-	WriteCall(0x0042BF32, __SetDefaultGinjaDiffuse);
-	WriteCall(0x0042BF72, __SetDefaultGinjaDiffuse);
+    WriteCall(0x0042BF32, __SetDefaultGinjaDiffuse);
+    WriteCall(0x0042BF72, __SetDefaultGinjaDiffuse);
 }
 
 static void
 _DisableTintGinjaObjectList(int* pList, int nbList)
 {
-	GJS_OBJECT** list = (GJS_OBJECT**)pList;
+    GJS_OBJECT** list = (GJS_OBJECT**)pList;
 
-	for (int i = 0; i < nbList; ++i)
-	{
-		GjsObjectTintFix(list[i]);
-	}
+    for (int i = 0; i < nbList; ++i)
+    {
+        GjsObjectTintFix(list[i]);
+    }
 }
 
 static void
 _DisableTintGinjaModelList(int* pList, int nbList)
 {
-	GJS_MODEL** list = (GJS_MODEL**)pList;
+    GJS_MODEL** list = (GJS_MODEL**)pList;
 
-	for (int i = 0; i < nbList; ++i)
-	{
-		GjsModelTintFix(list[i]);
-	}
+    for (int i = 0; i < nbList; ++i)
+    {
+        GjsModelTintFix(list[i]);
+    }
 }
 
 static void 
 _DisableTintChunkObjectList(int* pList, int nbList)
 {
-	NJS_CNK_OBJECT** list = (NJS_CNK_OBJECT**)pList;
+    NJS_CNK_OBJECT** list = (NJS_CNK_OBJECT**)pList;
 
-	for (int i = 0; i < nbList; ++i)
-	{
-		CnkObjectTintFix(list[i]);
-	}
+    for (int i = 0; i < nbList; ++i)
+    {
+        CnkObjectTintFix(list[i]);
+    }
 }
 
 static void 
 _DisableTintChunkModelList(int* pList, int nbList)
 {
-	NJS_CNK_MODEL** list = (NJS_CNK_MODEL**)pList;
+    NJS_CNK_MODEL** list = (NJS_CNK_MODEL**)pList;
 
-	for (int i = 0; i < nbList; ++i)
-	{
-		CnkModelTintFix(list[i]);
-	}
+    for (int i = 0; i < nbList; ++i)
+    {
+        CnkModelTintFix(list[i]);
+    }
 }
 
-#define DisableTintGinjaObjectList(list)	_DisableTintGinjaObjectList(list, arylen(list))
-#define DisableTintGinjaModelList(list)	    _DisableTintGinjaModelList(list, arylen(list))
+#define DisableTintGinjaObjectList(list)    _DisableTintGinjaObjectList(list, arylen(list))
+#define DisableTintGinjaModelList(list)        _DisableTintGinjaModelList(list, arylen(list))
 
-#define DisableTintChunkObjectList(list)	_DisableTintChunkObjectList(list, arylen(list))
-#define DisableTintChunkModelList(list)	    _DisableTintChunkModelList(list, arylen(list))
+#define DisableTintChunkObjectList(list)    _DisableTintChunkObjectList(list, arylen(list))
+#define DisableTintChunkModelList(list)        _DisableTintChunkModelList(list, arylen(list))
 
 /*
-*	Ginja Lists
+*    Ginja Lists
 */
 static int GinjaObjectList[] =
 {
@@ -107,8 +107,8 @@ static int GinjaModelList[] =
     0x00B1ED2C, // 3SPRING (base)
     0x00B1E6AC, // 3SPRING 1
     0x00B54504, // SPRINGA (base)
-    0x00B54214,	// SPRINGA (spring)
-    0x00B53E34,	// SPRINGA (face)
+    0x00B54214,    // SPRINGA (spring)
+    0x00B53E34,    // SPRINGA (face)
     0x00B56160, // SPRINGB (base)
     0x00B54A4C, // SPRINGB (spring)
     0x00B5495C, // SPRINGB (face)
@@ -125,15 +125,15 @@ static int GinjaModelList[] =
 };
 
 /*
-*	Chunk Lists
+*    Chunk Lists
 */
 static int ChunkObjectList[] =
 {
     0x00B39E7C, // Rocket
     0x00B452AC, // Rocket Missile
     0x014D05AC, // E Shouku // Jet planes
-//	0x00B00B3C, // mhmissile (idle)		// Causes shadows to go white
-//	0x00AFE18C, // mhmissile (takeoff)	// ^
+//    0x00B00B3C, // mhmissile (idle)        // Causes shadows to go white
+//    0x00AFE18C, // mhmissile (takeoff)    // ^
     0x00EA2D00, // Rolling Tuta // Swing vine (horizontal)
     0x0104FC38, // Rolling Tuta Tate // Swing vine (vertical)
     0x01071FD0, // Bangie Tuta // Bungie vine
@@ -175,23 +175,23 @@ static int ChunkModelList[] =
 {
     0x00B5674C, // SGRing
     0x00B43E1C, // Dash Panel (anim)
-//	0x00B43C54, // Dash Panel (body)	// Absolutely too bright
+//    0x00B43C54, // Dash Panel (body)    // Absolutely too bright
     0x00B1CBDC, // Save Point Something
     0x00B1BD1C, // Save Point R
     0x00B1B564, // Save Point L
-//	0x00B459CC, // Rocket Missile (Button) // Goes black
+//    0x00B459CC, // Rocket Missile (Button) // Goes black
     0x00B35DC4, // Big Jump
     0x00B3589C, // Big Jump (Screen)
-//	0x00B497C4, // Itembox (Glass)		// Too bright
+//    0x00B497C4, // Itembox (Glass)        // Too bright
     0x00B492EC, // Itembox Air (Base)
     0x00B48F64, // Itembox Air (Top)
-//	0x00B48B44,	// Itembox Air (Glass)	// Too bright
+//    0x00B48B44,    // Itembox Air (Glass)    // Too bright
     0x00B1988C, // Balloon
     0x00B11ECC, // Solidbox
     0x00B4EC6C, // Goalring (text)
     0x00B4EE0C, // Goalring (text restart)
     0x00B1DE5C, // Chao Pipe
-//	0x01681D28, // Fire Skull
+//    0x01681D28, // Fire Skull
     0x00B3C53C, // Basic Skull
     0x00B17AA4, // Switch (base)
     0x00BD3F54, // Bone (Cow Skull)
@@ -213,7 +213,7 @@ static int ChunkModelList[] =
 };
 
 /*
-*	Extra Lists
+*    Extra Lists
 */
 static int GinjaModelListExtra[] =
 {
@@ -261,18 +261,18 @@ FixModelTints()
     }
     SPECIAL_INFO;
 
-	SPECIAL_INFO* psi = GetDataDllAddr(SPECIAL_INFO, "specialInfo");
+    SPECIAL_INFO* psi = GetDataDllAddr(SPECIAL_INFO, "specialInfo");
 
-	if (!psi)
-		return;
+    if (!psi)
+        return;
 
-	for (int i = 0; i < 8; ++i)
-	{
-		if (psi[i].pObject)
-			CnkObjectTintFix(psi[i].pObject);
-		if (psi[i].pLODObject)
-			CnkObjectTintFix(psi[i].pLODObject);
-	}
+    for (int i = 0; i < 8; ++i)
+    {
+        if (psi[i].pObject)
+            CnkObjectTintFix(psi[i].pObject);
+        if (psi[i].pLODObject)
+            CnkObjectTintFix(psi[i].pLODObject);
+    }
 
     NJS_CNK_OBJECT* object_limo = GetDataDllAddr(NJS_CNK_OBJECT, "object_chara_limoall_limoall");
     CnkObjectTintFix(object_limo);

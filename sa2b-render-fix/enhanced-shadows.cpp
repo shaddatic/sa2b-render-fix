@@ -365,7 +365,7 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
         if (blaster)
         {
             njSetMatrix(NULL, &mtx_EWalkerLaserBlaster);
-            while (blaster)	// laser blaster
+            while (blaster)    // laser blaster
             {
                 njTranslateEx((NJS_POINT3*)&blaster->pos);
                 njRotateEx(blaster->ang, 0);
@@ -509,14 +509,14 @@ njCnkDrawMotionHook()
     __asm
     {
         push[esp + 08h] // frame
-        push ecx		// motion
+        push ecx        // motion
         push[esp + 0Ch] // object
 
         call _CnkDrawMotionHook
 
-        add esp, 4		// object
-        pop ecx			// motion
-        add esp, 4		// frame
+        add esp, 4        // object
+        pop ecx            // motion
+        add esp, 4        // frame
         retn
     }
 }
@@ -581,8 +581,8 @@ ShadowSettings(const config* pConf)
 
         WriteCall(0x0075013B, njCnkDrawMotionHook); // Miles
         WriteCall(0x00750196, njCnkDrawMotionHook);
-        WritePointer(0x007501B2, &mtx_MilesTails);	// Point shader tails matrix to actual tails matrix
-        WritePointer(0x00750230, &mtx_MilesTails);	// ^
+        WritePointer(0x007501B2, &mtx_MilesTails);    // Point shader tails matrix to actual tails matrix
+        WritePointer(0x00750230, &mtx_MilesTails);    // ^
 
         if (ConfigGetInt(pConf, SECT, "equipment", 1))
         {
