@@ -4,6 +4,8 @@ float   GetShadowOpacitySetting();
 
 void	ExtraShadowEnable();
 
+void    FixWhiteJungleWater();
+
 /*
 *	Sections
 */

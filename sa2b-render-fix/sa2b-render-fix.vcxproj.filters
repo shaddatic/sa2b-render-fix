@@ -90,6 +90,9 @@
     <ClCompile Include="enhanced-shadows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="w-jungle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render-fix.h">

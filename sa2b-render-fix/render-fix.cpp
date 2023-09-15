@@ -52,6 +52,8 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         SwitchDisplayer(0x006A5338, DISP_SORT); // W-Canyon Fans
 
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
+
+        FixWhiteJungleWater();
     }
 
 	if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
