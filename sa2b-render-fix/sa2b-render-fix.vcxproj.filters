@@ -158,5 +158,6 @@
     <None Include="model\eget.nja" />
     <None Include="model\minemizu.nja" />
     <None Include="texture\jo_tree.tls" />
+    <None Include="model\msger_shadow.nja" />
   </ItemGroup>
 </Project>
