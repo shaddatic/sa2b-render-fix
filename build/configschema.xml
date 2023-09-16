@@ -63,8 +63,8 @@
 			<Property name="dc_ring" display="DC Ring Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
 			</Property>
-			<Property name="udreel" display="Flashing Pulley" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the Dreamcast flashing pulley effect.</HelpText>
+			<Property name="udreel" display="Flashing Pulley" type="eBOOL" defaultvalue="0">
+				<HelpText>Restores the Dreamcast flashing pulley effect. NOTE: Occasionally slightly buggy.</HelpText>
 			</Property>
 		</Group>
 		<Group name="stgsel" display="03 • Stage Select Settings                       ------------------------------------------------------------">

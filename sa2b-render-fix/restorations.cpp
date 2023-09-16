@@ -206,7 +206,7 @@ RestorationSettings(const config* conf)
         GjsModelTintFix((GJS_MODEL*)0x00B58288);
     }
 
-    if (ConfigGetInt(conf, SECT, "udreel", 1))
+    if (ConfigGetInt(conf, SECT, "udreel", 0))
     {
         UdreelFlashRestore();
     }
