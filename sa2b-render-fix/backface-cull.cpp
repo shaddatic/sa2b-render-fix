@@ -277,9 +277,24 @@ EnableBackfaceCulling()
     /** Levelup Dai Light **/
     WriteData(0x006D8DA8, 0x800 | NJD_FST_DB, uint32);
 
-    /** Pyramid Cave Weed **/
-    CnkModelMaterialFlagOn(0x00A34744, 0, NJD_FST_DB);
-    CnkModelMaterialFlagOn(0x00A34B74, 0, NJD_FST_DB);
+    /** Weeds **/
+    {
+        CnkModelMaterialFlagOn(0x00A34744, 0, NJD_FST_DB); // Common Weed
+        CnkModelMaterialFlagOn(0x00A34B74, 0, NJD_FST_DB); // ^
+
+        CnkModelMaterialFlagOn(0x00AB754C, 0, NJD_FST_DB); // P-Cave Weed
+        CnkModelMaterialFlagOn(0x00AB824C, 0, NJD_FST_DB); // ^
+    }
+
+    /** Pyramid Cave **/
+    {
+        CnkModelMaterialFlagOn(0x00AACBEC, 0, NJD_FST_DB); // Spiderweb
+
+        CnkModelMaterialFlagOn(0x00AA28A4, 1, NJD_FST_DB); // Iron Bar Chains
+        CnkModelMaterialFlagOn(0x00AA28A4, 2, NJD_FST_DB); // ^
+
+        CnkModelMaterialFlagOn(0x00AA21A4, 1, NJD_FST_DB); // Snake Dish Chain
+    }
 
     /** Mine Mizu **/
     CnkModelFlipStripWinding(0x0162E024, 0, 0);
