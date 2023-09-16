@@ -51,6 +51,17 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
         SwitchDisplayer(0x006A5338, DISP_SORT); // W-Canyon Fans
 
+        SwitchDisplayer(0x007048E6, DISP_SORT); // P-Cave Spiderwebs
+        SwitchDisplayer(0x0070248C, DISP_SORT); // P-Cave Wall Eyes
+        SwitchDisplayer(0x006FC851, DISP_SORT); // P-Cave Chimney
+        SwitchDisplayer(0x00701F3E, DISP_SORT); // P-Cave Firepot Fire
+        SwitchDisplayer(0x00707826, DISP_SORT); // P-Cave Snakedish Fire
+        SwitchDisplayer(0x007042E7, DISP_SORT); // P-Cave Awning Fire
+        SwitchDisplayer(0x00707E27, DISP_SORT); // P-Cave Snake Head Fire
+        SwitchDisplayer(0x006FE59E, DISP_SORT); // P-Cave Torch Cup Fire
+
+        SwitchDisplayer(0x00501BA5, DISP_SORT); // Enemy Ghosts
+
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 
         FixWhiteJungleWater();
