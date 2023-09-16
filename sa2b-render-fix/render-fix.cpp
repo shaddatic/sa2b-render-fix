@@ -60,7 +60,12 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         SwitchDisplayer(0x00707E27, DISP_SORT); // P-Cave Snake Head Fire
         SwitchDisplayer(0x006FE59E, DISP_SORT); // P-Cave Torch Cup Fire
 
+        SwitchDisplayer(0x00762D75, DISP_LAST); // Boss Title Text
+
         SwitchDisplayer(0x00501BA5, DISP_SORT); // Enemy Ghosts
+
+        SwitchDisplayer(0x0060B5CE, DISP_SORT); // Boss Bogy
+        SwitchDisplayer(0x00761C04, DISP_LAST); // Boss Bogy Powergauge
 
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 
