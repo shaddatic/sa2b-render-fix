@@ -154,42 +154,60 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 
     if (DrawKnuxSunglass && kwp->pwk.equipment & EQUIP_KNUCKLES_SUNGLASS)
     {
-        NJS_CNK_OBJECT* pobj = CHAR_OBJECTS[161].pObject->child;
+        if (CHAR_OBJECTS[161].pObject)
+        {
+            NJS_CNK_OBJECT* pobj = CHAR_OBJECTS[161].pObject->child;
 
-        njSetMatrix(NULL, &mtx_KnucklesHead);
-        njTranslateEx((NJS_VECTOR*)pobj->pos);
+            njSetMatrix(NULL, &mtx_KnucklesHead);
+            njTranslateEx((NJS_VECTOR*)pobj->pos);
 
-        if (kwp->someHeadAng != 0x2000)
-            njRotateZ(0, kwp->someHeadAng - 0x2000);
+            if (kwp->someHeadAng != 0x2000)
+                njRotateZ(0, kwp->someHeadAng - 0x2000);
 
-        njCnkDrawModel(pobj->model);
+            njCnkDrawModel(pobj->model);
+        }
     }
 
     if (DrawKnuxAir && kwp->pwk.equipment & EQUIP_KNUCKLES_AIR)
     {
-        njSetMatrix(NULL, &mtx_KnucklesBody);
-        njCnkDrawObject(CHAR_OBJECTS[168].pObject);
+        if (CHAR_OBJECTS[168].pObject)
+        {
+            njSetMatrix(NULL, &mtx_KnucklesBody);
+            njCnkDrawObject(CHAR_OBJECTS[168].pObject);
+        }
     }
 
     if ((DrawKnuxClaw || DrawKnuxGloves) && kwp->pwk.equipment & (EQUIP_KNUCKLES_GROVES | EQUIP_KNUCKLES_CLAW))
     {
         njSetMatrix(NULL, &mtx_KnucklesHandL);
-        if (DrawKnuxClaw && kwp->pwk.equipment & EQUIP_KNUCKLES_CLAW && CHAR_OBJECTS[162].pObject)
+        if (DrawKnuxClaw && kwp->pwk.equipment & EQUIP_KNUCKLES_CLAW)
         {
-            njCnkDrawObject(CHAR_OBJECTS[162].pObject);
+            if (CHAR_OBJECTS[162].pObject)
+            {
+                njCnkDrawObject(CHAR_OBJECTS[162].pObject);
+            }   
         }
-        if (DrawKnuxGloves && kwp->pwk.equipment & EQUIP_KNUCKLES_GROVES && CHAR_OBJECTS[164].pObject)
+        if (DrawKnuxGloves && kwp->pwk.equipment & EQUIP_KNUCKLES_GROVES)
         {
-            njCnkDrawObject(CHAR_OBJECTS[164].pObject);
+            if (CHAR_OBJECTS[164].pObject)
+            {
+                njCnkDrawObject(CHAR_OBJECTS[164].pObject);
+            }
         }
         njSetMatrix(NULL, &mtx_KnucklesHandR);
-        if (DrawKnuxClaw && kwp->pwk.equipment & EQUIP_KNUCKLES_CLAW && CHAR_OBJECTS[163].pObject)
+        if (DrawKnuxClaw && kwp->pwk.equipment & EQUIP_KNUCKLES_CLAW)
         {
-            njCnkDrawObject(CHAR_OBJECTS[163].pObject);
+            if (CHAR_OBJECTS[163].pObject)
+            {
+                njCnkDrawObject(CHAR_OBJECTS[163].pObject);
+            }
         }
-        if (DrawKnuxGloves && kwp->pwk.equipment & EQUIP_KNUCKLES_GROVES && CHAR_OBJECTS[165].pObject)
+        if (DrawKnuxGloves && kwp->pwk.equipment & EQUIP_KNUCKLES_GROVES)
         {
-            njCnkDrawObject(CHAR_OBJECTS[165].pObject);
+            if (CHAR_OBJECTS[165].pObject)
+            {
+                njCnkDrawObject(CHAR_OBJECTS[165].pObject);
+            }
         }
     }
 
