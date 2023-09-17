@@ -75,11 +75,14 @@ EndiswapEventTexAnim(EventTexAnim* p)
     if (p->something)
         *(sint*)&p->something -= 2132869184;
 
-    for (int i = 0; i < p->count; ++i)
+    for (EventTexAnimSub1* ptexanim = p->somethingelse; ptexanim->entries; ++ptexanim)
     {
         if (p->somethingelse)
-            EndiswapEventTexAnim1(&p->somethingelse[i]);
+            EndiswapEventTexAnim1(ptexanim);
+    }
 
+    for (int i = 0; i < p->count; ++i)
+    {
         if (p->something)
             EndiswapEventTexAnim0(&p->something[i]);
     }
