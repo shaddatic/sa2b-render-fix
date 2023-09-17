@@ -67,6 +67,11 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
         SwitchDisplayer(0x0060B5CE, DISP_SORT); // Boss Bogy
         SwitchDisplayer(0x00761C04, DISP_LAST); // Boss Bogy Powergauge
 
+        if (ConfigGetInt(conf, "debug", "dcshadpatch", 1))
+        {
+            WriteNoOP(0x00612C86, 0x00612CAA);      // DC Shadows crash patch for Boss Bogy
+        }
+
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 
         FixWhiteJungleWater();
