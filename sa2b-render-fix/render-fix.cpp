@@ -72,6 +72,12 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
             WriteNoOP(0x00612C86, 0x00612CAA);      // DC Shadows crash patch for Boss Bogy
         }
 
+        SwitchDisplayer(0x0044F845, DISP_LAST); // Results Score Text
+        SwitchDisplayer(0x00450805, DISP_LAST); // Results Time Text
+        SwitchDisplayer(0x0044F65B, DISP_LATE); // Results Window
+        SwitchDisplayer(0x004531DF, DISP_LATE); // Results Ring Window
+        SwitchDisplayer(0x004531E6, DISP_LAST); // Results Ring Window
+
         WriteData(0x0044FE36, 0x1, uint8); // Fix green hill "CLEAR!" text
 
         FixWhiteJungleWater();
