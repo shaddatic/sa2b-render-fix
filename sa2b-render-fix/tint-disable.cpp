@@ -132,8 +132,8 @@ static int ChunkObjectList[] =
     0x00B39E7C, // Rocket
     0x00B452AC, // Rocket Missile
     0x014D05AC, // E Shouku // Jet planes
-//    0x00B00B3C, // mhmissile (idle)        // Causes shadows to go white
-//    0x00AFE18C, // mhmissile (takeoff)    // ^
+    0x00B00B3C, // mhmissile (idle)
+    0x00AFE18C, // mhmissile (takeoff)
     0x00EA2D00, // Rolling Tuta // Swing vine (horizontal)
     0x0104FC38, // Rolling Tuta Tate // Swing vine (vertical)
     0x01071FD0, // Bangie Tuta // Bungie vine
@@ -175,23 +175,23 @@ static int ChunkModelList[] =
 {
     0x00B5674C, // SGRing
     0x00B43E1C, // Dash Panel (anim)
-//    0x00B43C54, // Dash Panel (body)    // Absolutely too bright
+//  0x00B43C54, // Dash Panel (body)        // Absolutely too bright
     0x00B1CBDC, // Save Point Something
     0x00B1BD1C, // Save Point R
     0x00B1B564, // Save Point L
-//    0x00B459CC, // Rocket Missile (Button) // Goes black
+    0x00B459CC, // Rocket Missile (Button)
     0x00B35DC4, // Big Jump
     0x00B3589C, // Big Jump (Screen)
-//    0x00B497C4, // Itembox (Glass)        // Too bright
+//  0x00B497C4, // Itembox (Glass)          // Too bright
     0x00B492EC, // Itembox Air (Base)
     0x00B48F64, // Itembox Air (Top)
-//    0x00B48B44,    // Itembox Air (Glass)    // Too bright
+//  0x00B48B44, // Itembox Air (Glass)      // Too bright
     0x00B1988C, // Balloon
     0x00B11ECC, // Solidbox
     0x00B4EC6C, // Goalring (text)
     0x00B4EE0C, // Goalring (text restart)
     0x00B1DE5C, // Chao Pipe
-//    0x01681D28, // Fire Skull
+//  0x01681D28, // Fire Skull
     0x00B3C53C, // Basic Skull
     0x00B17AA4, // Switch (base)
     0x00BD3F54, // Bone (Cow Skull)
