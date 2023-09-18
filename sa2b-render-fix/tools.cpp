@@ -49,6 +49,24 @@ GjsObjectTintFix(GJS_OBJECT* pObject)
         GjsObjectTintFix(pObject->sibling);
 }
 
+static void
+TintCheckAndFix(Sint16* pDif)
+{
+    NJS_BGRA* col = (NJS_BGRA*)pDif;
+
+    /** 0xB2 is the default parameter for diffuse. We have to check for this as
+        non-tex materials had their diffuse values read unlike other mat types, where
+        they then would change the diffuse values away from the default. Alpha is always read.
+        A better solution is to check if the mat has a texture, so I did this instead. **/
+
+    if (col->r == 0xB2 && col->g == 0xB2 && col->b == 0xB2)
+    {
+        col->r = 0xFF;
+        col->g = 0xFF;
+        col->b = 0xFF;
+    }
+}
+
 void
 CnkTintFix(Sint16* pPList)
 {
@@ -94,22 +112,19 @@ CnkTintFix(Sint16* pPList)
 
                 switch (type) {
                 case NJD_CM_D:
-                    plist[0] = (sint16)0xFFFF;
-                    plist[1] = (sint16)0xFFFF;
+                    TintCheckAndFix(plist);
                 case NJD_CM_A:
                 case NJD_CM_S:
                     plist += 2;
                     break;
                 case NJD_CM_DA:
                 case NJD_CM_DS:
-                    plist[0] = (sint16)0xFFFF;
-                    plist[1] = (sint16)0xFFFF;
+                    TintCheckAndFix(plist);
                 case NJD_CM_AS:
                     plist += 4;
                     break;
                 case NJD_CM_DAS:
-                    plist[0] = (sint16)0xFFFF;
-                    plist[1] = (sint16)0xFFFF;
+                    TintCheckAndFix(plist);
                     plist += 6;
                     break;
                 }
