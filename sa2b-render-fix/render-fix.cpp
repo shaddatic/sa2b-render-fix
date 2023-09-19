@@ -94,6 +94,9 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
         if (ConfigGetInt(conf, "debug", "jmp_aura", 1))
             EnableJumpAuraFix();
+
+        if (ConfigGetInt(conf, "debug", "bfc_event", 1))
+            EnableBackfaceCullingWithEventDisabled();
     }
 
     if (ConfigGetInt(conf, "main", "backcolor", 1))

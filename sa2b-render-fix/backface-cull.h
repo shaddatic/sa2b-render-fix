@@ -3,3 +3,5 @@
 void    EnableJumpAuraFix();
 
 void    EnableBackfaceCulling();
+
+void    EnableBackfaceCullingWithEventDisabled();

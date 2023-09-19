@@ -137,6 +137,9 @@
 			<Property name="jmp_aura" display="Force Jump Aura DB Flag" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
 			</Property>
+			<Property name="bfc_event" display="Disable Back-Face Culling in Events" type="eBOOL" defaultvalue="1">
+				<HelpText>Disables back-face culling in events/cutscenes.</HelpText>
+			</Property>
 			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="1">
 				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight. Unlikely to cause issues, but is here if it does.</HelpText>
 			</Property>

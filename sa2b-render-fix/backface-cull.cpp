@@ -169,6 +169,16 @@ StripFlags(uint8 flag)
     DoStripFlags(flag);
 }
 
+DataRef(bool, isInCutscene, 0x01934B60); // Found it in sa2b-volume-controls
+
+static void
+StripFlagsEventCheck(uint8 flag)
+{
+    GX_SetCullMode(((flag & 0x10) || isInCutscene) ? GXD_CULLMODE_NONE : GXD_CULLMODE_CW);
+
+    DoStripFlags(flag);
+}
+
 FuncPtr(void, __cdecl, UpdateFog, (), 0x0042A870);
 
 static void
@@ -504,4 +514,10 @@ EnableBackfaceCulling()
         WritePointer(0x0065F18A, BGDisp_CCKFix); // I don't really like these fixes
         WritePointer(0x004DB82A, BGDisp_CCRFix); // ^
     }
+}
+
+void 
+EnableBackfaceCullingWithEventDisabled()
+{
+    WriteCall(0x0042CCA5, StripFlagsEventCheck);
 }
