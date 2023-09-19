@@ -469,6 +469,11 @@ EnableBackfaceCulling()
         CnkLandTableMaterialFlagOn(pltable, NJD_FST_DB);
     }
 
+    /** Big Foot Arena **/
+    {
+        CnkModelMaterialFlagOn(0x0093D6EC, 1, NJD_FST_DB); // Tree object
+    }
+
     /** Cart Stage Objects **/
     {
         NJS_CNK_OBJECT* poster = GetDataDllAddr(NJS_CNK_OBJECT, "object_poster_body_body");
