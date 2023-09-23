@@ -409,7 +409,7 @@ CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag)
             if (models[j] == NULL)
             {
                 models[j] = object->model;
-                CnkModelMaterialFlagOn(object->model, -1, NJD_FST_DB);
+                CnkModelMaterialFlagOn(object->model, -1, flag);
                 goto LOOP;
             }
 
@@ -417,7 +417,7 @@ CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32 flag)
                 goto LOOP;
         }
 
-        CnkModelMaterialFlagOn(object->model, -1, NJD_FST_DB); // Backup in case 'models' is full
+        CnkModelMaterialFlagOn(object->model, -1, flag); // Backup in case 'models' is full
 
     LOOP:
 
