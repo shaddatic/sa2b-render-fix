@@ -9,9 +9,11 @@
 #include <sa2b/src/task.h>
 #include <sa2b/src/score.h>
 #include <sa2b/src/njctrl.h>
+#include <sa2b/src/texture.h>
+
+#include <stdio.h>
 
 #include <tools.h>
-
 #include <enemy-jet.h>
 #include <mizugomi.h>
 
@@ -58,6 +60,23 @@ GUNEmblemRestore()
 
     //WriteData(0x109D4B4, *model_ce_truck_hood, NJS_CNK_MODEL);
     WriteData(0x109B2CC, *model_ce_truck_hood, NJS_CNK_MODEL);
+}
+
+#define CurrentLevel            DataRef(sint16, 0x01934B70)
+
+static int __fastcall
+EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
+{
+    char strbuf[260];
+
+    snprintf(strbuf, 260, "%s_stg%02i", fname, CurrentLevel);
+
+    const int err = texLoadTextureFile(strbuf, ptlo);
+
+    if (err == -1)
+        return texLoadTextureFile(fname, ptlo);
+
+    return err;
 }
 
 static void
@@ -133,6 +152,11 @@ RestorationSettings(const config* conf)
         }
 
         GUNEmblemRestore();
+    }
+
+    if (ConfigGetInt(conf, SECT, "enemy_stg_tex", 1))
+    {
+        WriteCall(0x004FE3E6, EnemyLoadTextureStage);
     }
 
     if (ConfigGetInt(conf, SECT, "chaos_trans", 1))
