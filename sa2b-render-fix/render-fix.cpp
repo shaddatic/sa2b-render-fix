@@ -22,6 +22,12 @@
 #include <explosion.h>
 #include <tools.h>
 
+static int __cdecl
+njSearchTexMemList_()
+{
+    return -1;
+}
+
 /*
 *    Dll Export
 */
@@ -85,7 +91,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
     if(ConfigGetInt(conf, "main", "gidx_ignore", 1))
     {
-        WriteData(0x00431340, 0x9090, uint16); // NOP
+        WriteJump(0x0042FAD0, njSearchTexMemList_);
     }
 
     if (ConfigGetInt(conf, "main", "backface_cull", 1))
