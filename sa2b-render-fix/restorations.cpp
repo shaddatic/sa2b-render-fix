@@ -17,29 +17,27 @@
 
 #define ReplaceObjectModel(pobject, pmodel)        ((NJS_CNK_OBJECT*)pobject)->model = pmodel
 
+EXTERN NJS_CNK_MODEL model_e_kumi_emblem[];
+EXTERN NJS_CNK_MODEL model_e_g_kumi_emblem[];
+EXTERN NJS_CNK_MODEL model_e_b_kumi_emblem[];
+EXTERN NJS_CNK_MODEL model_e_gold_emblem[];
+EXTERN NJS_CNK_MODEL model_e_kyoko_emblem[];
+
+EXTERN NJS_CNK_MODEL model_e_shouko_wing_port[];
+EXTERN NJS_CNK_MODEL model_e_shouko_wing_starboard[];
+EXTERN NJS_CNK_MODEL model_e_shouko_aft[];
+
+EXTERN NJS_CNK_MODEL model_e_g_pathkumi_emblem[];
+EXTERN NJS_CNK_MODEL model_e_b_pathkumi_emblem[];
+
+EXTERN NJS_CNK_MODEL model_e_t_emi_emblem[];
+EXTERN NJS_CNK_MODEL model_e_a_emi_emblem[];
+
+EXTERN NJS_CNK_MODEL model_ce_truck_hood[];
+
 static void
 GUNEmblemRestore()
 {
-    extern NJS_CNK_MODEL model_e_kumi_emblem[];
-    extern NJS_CNK_MODEL model_e_g_kumi_emblem[];
-    extern NJS_CNK_MODEL model_e_b_kumi_emblem[];
-    extern NJS_CNK_MODEL model_e_gold_emblem[];
-    extern NJS_CNK_MODEL model_e_kyoko_emblem[];
-
-    extern NJS_CNK_MODEL model_e_shouko_wing_port[];
-    extern NJS_CNK_MODEL model_e_shouko_wing_starboard[];
-    extern NJS_CNK_MODEL model_e_shouko_aft[];
-
-    extern NJS_CNK_MODEL model_e_g_pathkumi_emblem[];
-    extern NJS_CNK_MODEL model_e_b_pathkumi_emblem[];
-
-    extern NJS_CNK_MODEL model_e_t_emi_emblem[];
-    extern NJS_CNK_MODEL model_e_a_emi_emblem[];
-
-    extern NJS_CNK_MODEL model_ce_truck_hood[];
-
-    /*  */
-
     ReplaceObjectModel(0x014AB36C, model_e_kumi_emblem);
     ReplaceObjectModel(0x014ACF5C, model_e_g_kumi_emblem);
     ReplaceObjectModel(0x014AF6B4, model_e_b_kumi_emblem);
@@ -107,11 +105,11 @@ UdreelFlashRestore()
     WritePointer(0x00B143B0, LoadGinjaObject2(GetModPath(), "model/udreel.sa2bmdl"));
 }
 
+EXTERN NJS_TEXLIST texlist_jo_tree[];
+
 static void
 JungleObjectTreeRestore()
 {
-    extern NJS_TEXLIST texlist_jo_tree[];
-
     GJS_OBJECT* object_jo_tree = LoadGinjaObject2(GetModPath(), "model/jo_tree.sa2bmdl");
 
     WritePointer(0x01072D5C, texlist_jo_tree); // Green Forest

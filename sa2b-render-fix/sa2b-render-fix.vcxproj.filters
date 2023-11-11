@@ -18,7 +18,7 @@
     <ClCompile Include="enemy-jet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objpak.cpp">
@@ -60,7 +60,7 @@
     <ClCompile Include="restorations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="texture.cpp">
+    <ClCompile Include="texture.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tools.cpp">
@@ -91,6 +91,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="w-jungle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_tex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

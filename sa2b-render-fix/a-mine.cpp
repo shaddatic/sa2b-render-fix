@@ -6,7 +6,7 @@
 
 #define SECT "a_mine"
 
-extern Sint32 vertex_minemizu[];
+EXTERN Sint32 vertex_minemizu[];
 
 static void
 MurkyWaterRestore()

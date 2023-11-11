@@ -45,17 +45,19 @@ __FlipEnv2()
 
 /** Drawing Ginja models as shadows for some reason breaks env maps.
     So, we just replace said draw functions with Cnk equivelants **/
+EXTERN NJS_CNK_MODEL model_bunchin_shadow[];
+
 void
 BunchinShadowDraw() // The crushers
 {
-    extern NJS_CNK_MODEL model_bunchin_shadow[];
     njCnkDrawModel(model_bunchin_shadow);
 }
+
+EXTERN NJS_CNK_MODEL model_msger_shadow[];
 
 void
 OmochaoShadowDraw()
 {
-    extern NJS_CNK_MODEL model_msger_shadow[];
     njCnkDrawModel(model_msger_shadow);
 }
 

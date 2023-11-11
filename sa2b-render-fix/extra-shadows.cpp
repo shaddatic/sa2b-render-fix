@@ -67,7 +67,7 @@ ENEMYWK;
 
 #define texlist_basic_shadow    DataPtr(NJS_TEXLIST, 0x00B56374)
 
-extern NJS_CNK_MODEL model_basic_shadow[];
+EXTERN NJS_CNK_MODEL model_basic_shadow[];
 
 static void
 DrawFakeShadow(NJS_POINT3* pPos, Angle3* pAng, float scl, float scl_ratio)
