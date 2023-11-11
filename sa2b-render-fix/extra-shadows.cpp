@@ -5,8 +5,8 @@
 
 #include <sa2b/src/task.h>
 #include <sa2b/src/shadow.h>
-
 #include <sa2b/src/texture.h>
+#include <sa2b/src/njctrl.h>
 
 struct xyyzzxsdwstr
 {
@@ -65,7 +65,7 @@ typedef struct enemywk
 }
 ENEMYWK;
 
-DataPtr(NJS_TEXLIST, texlist_basic_shadow, 0x00B56374);
+#define texlist_basic_shadow    DataPtr(NJS_TEXLIST, 0x00B56374)
 
 extern NJS_CNK_MODEL model_basic_shadow[];
 

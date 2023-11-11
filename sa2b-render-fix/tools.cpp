@@ -6,6 +6,8 @@
 #include <sa2b/src/texture.h>
 #include <sa2b/src/landtable.h>
 
+#include <stdio.h>
+
 #include <tools.h>
 
 static void
@@ -676,11 +678,11 @@ CnkModelMaterialDiffuse(NJS_CNK_MODEL* pModel, int idxMat, int a, int r, int g, 
 */
 
 void
-SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2)
+SwapTexFileTableIndex(TEX_FILETABLE* pTexTable, int idx1, int idx2)
 {
-    TEX_GVMTABLE tmp = pGvmTable[idx1];
-    pGvmTable[idx1] = pGvmTable[idx2];
-    pGvmTable[idx2] = tmp;
+    TEX_FILETABLE tmp = pTexTable[idx1];
+    pTexTable[idx1] = pTexTable[idx2];
+    pTexTable[idx2] = tmp;
 }
 
 /*

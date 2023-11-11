@@ -8,7 +8,7 @@
 
 #include <tools.h>
 
-FuncPtr(void, __cdecl, gjDiffuse, (NJS_BGRA color), 0x0042BA60);
+#define gjDiffuse   FuncPtr(void, __cdecl, (NJS_BGRA color), 0x0042BA60)
 
 static void
 SetDefaultGinjaDiffuse()
@@ -232,7 +232,7 @@ static int ChunkModelListExtra[] =
 void
 FixModelTints()
 {
-    if (CheckForMod("NoTinting"))
+    if (ModCheckDll("NoTinting"))
     {
         ModConflictWarning(
             "The 'No Model Tinting' mod is obsolete and will conflict with Render Fix's 'Model Tint Fix' setting!\n\n"

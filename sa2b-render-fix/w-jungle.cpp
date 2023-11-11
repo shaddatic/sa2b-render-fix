@@ -8,15 +8,15 @@
 #include <sa2b/src/camera.h>
 #include <sa2b/src/score.h>
 
-DataRef(uint8, byte_174AFFD, 0x174AFFD);
+#define byte_174AFFD                DataRef(uint8, 0x174AFFD)
 
-DataPtr(NJS_TEXLIST, texlist_mist_w_jungle, 0xEAD30C);
+#define texlist_mist_w_jungle       DataPtr(NJS_TEXLIST, 0xEAD30C)
 
-DataPtr(NJS_CNK_MODEL, model_mist_w_jungle, 0xEADA7C);
+#define model_mist_w_jungle         DataPtr(NJS_CNK_MODEL, 0xEADA7C)
 
-DataAry(NJS_TEXNAME, TextureWJungleWaterList, 0xEACD58, [10]);
+#define TextureWJungleWaterList     DataAry(NJS_TEXNAME, 0xEACD58, [10])
 
-DataPtr(NJS_CNK_OBJECT, object_water_w_jungle, 0xEAD2BC);
+#define object_water_w_jungle       DataPtr(NJS_CNK_OBJECT, 0xEAD2BC)
 
 static void
 BgDispSort(TASK* tp)
@@ -31,7 +31,7 @@ BgDispSort(TASK* tp)
     njFogDisable();
 
     njPushMatrixEx();
-    NJS_POINT3* pcampos = &cameraControlWorkList[cameraControlWorkIndex]->campos;
+    NJS_POINT3* pcampos = &cameraControlWork[cameraControlWorkIndex]->campos;
 
     njTranslate(NULL, pcampos->x, 0.0f, pcampos->z);
 

@@ -25,14 +25,14 @@
 /*
 *    Dll Export
 */
-extern "C" __declspec(dllexport)
+EXTERN __declspec(dllexport)
 void __cdecl
 Init(const char* path, const HelperFunctions* pHelpFunc)
 {
     SAMT_Init(path, pHelpFunc);
 
     config* conf = ConfigOpen2(path, "config.ini");
-    
+
     /** ALWAYS ON **/
     {
         SwitchDisplayer(0x006EDB91, DISP_SORT); // Water Ripples
@@ -69,7 +69,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
         if (ConfigGetInt(conf, "debug", "dcshadpatch", 1))
         {
-            WriteNoOP(0x00612C86, 0x00612CAA);      // DC Shadows crash patch for Boss Bogy
+            WriteNoOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
         }
 
         SwitchDisplayer(0x0044F845, DISP_LAST); // Results Score Text
@@ -184,7 +184,7 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 
     EventSettings(conf);
 
-    if (!CheckForMod("sa2-dc-lighting"))
+    if (!ModCheckDll("sa2-dc-lighting"))
     {
         if (ConfigGetInt(conf, "exp", "enemy_shadows", 0))
         {
@@ -203,4 +203,4 @@ Init(const char* path, const HelperFunctions* pHelpFunc)
 }
 
 extern "C" __declspec(dllexport)
-ModInfo SA2ModInfo = { MOD_LOADER_VER };
+ModInfo SA2ModInfo = { MODLOADER_VER };

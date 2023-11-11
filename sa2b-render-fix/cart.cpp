@@ -4,7 +4,7 @@
 
 #include <sa2b/ninja/ninja.h>
 
-FuncPtr(void, __cdecl, CartSeaDisplay, (), 0x00621C90);
+#define CartSeaDisplay      FuncPtr(void, __cdecl, (), 0x00621C90)
 
 
 static void

@@ -3,29 +3,15 @@
 
 #include <sa2b/ninja/ninja.h>
 
+#include <sa2b/gx/gx.h>
+
 #include <sa2b/src/landtable.h>
 #include <sa2b/src/datadll.h>
+#include <sa2b/src/njctrl.h>
+
+#include <string.h>
 
 #include <tools.h>
-
-#define GXD_CULLMODE_NONE   0
-#define GXD_CULLMODE_CW     1
-#define GXD_CULLMODE_CCW    2
-
-FuncPtr(int, __thiscall, GX_SetCullMode, (Int mode), 0x00420440);
-
-DataRef(int, GX_Cull, 0x01933F14);
-DataRef(int, GX_vtxcount, 0x01933F04);
-
-DataRef(int, VertexBuffer, 0x01933EF8);
-
-DataRef(int, VertexBufferStart, 0x01933F08);
-DataRef(int, VertexBufferOffset, 0x01933F0C);
-DataRef(int, VertexBuffOffCopy, 0x01933F10);
-
-DataRef(int, GX_PrimType, 0x01933EFC);
-
-DataRef(int, dword_1933F00, 0x01933F00);
 
 struct __declspec(align(4)) VertexDeclarationInfo
 {
@@ -44,18 +30,18 @@ struct __declspec(align(4)) VertexDeclarationInfo
     int field_30;
 };
 
-DataRef(VertexDeclarationInfo*, VertexDeclInfo, 0x0174F7E8);
+#define VertexDeclInfo      DataRef(VertexDeclarationInfo*, 0x0174F7E8)
 
 static void
 CopyLastVertex()
 {
     int stride = VertexDeclInfo->StrideSize;
-    int vtxbuf = VertexBuffer;
-    int lastvtx = VertexBufferOffset - stride;
+    int vtxbuf = _gx_vtx_buf_base_;
+    int lastvtx = _gx_vtx_buf_offset_ - stride;
 
-    memcpy((char*)vtxbuf + VertexBufferOffset, (char*)vtxbuf + lastvtx, stride);
-    ++GX_vtxcount;
-    VertexBufferOffset += stride;
+    memcpy((char*)vtxbuf + _gx_vtx_buf_offset_, (char*)vtxbuf + lastvtx, stride);
+    ++_gx_nb_vtx_;
+    _gx_vtx_buf_offset_ += stride;
 }
 
 static void
@@ -71,28 +57,28 @@ SetCull(sint16 vtxCount)
 
     int stride = VertexDeclInfo->StrideSize;
     
-    if (!GX_vtxcount)
+    if (!_gx_nb_vtx_)
     {
-        VertexBuffOffCopy = 0;
-        GX_PrimType = 0x98;
-        VertexBufferStart = VertexBufferOffset;
-        GX_Cull = ccw;
-        GX_vtxcount += vtxCount;
+        _gx_vtx_buf_offset_cpy_ = 0;
+        _gx_prim_type_ = 0x98;
+        _gx_vtx_buf_start_ = _gx_vtx_buf_offset_;
+        _gx_cull_ = ccw;
+        _gx_nb_vtx_ += vtxCount;
 
         if (ccw)
         {
-            VertexBuffOffCopy = VertexBufferOffset;
-            ++GX_vtxcount;
-            VertexBufferOffset += stride;
+            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
+            ++_gx_nb_vtx_;
+            _gx_vtx_buf_offset_ += stride;
         }
 
         return;
     }
 
-    int v6 = (GX_vtxcount - 2) & 0x80000001;
+    int v6 = (_gx_nb_vtx_ - 2) & 0x80000001;
 
-    int lastvtx = VertexBufferOffset - stride;
-    int vtxbuf = VertexBuffer;
+    int lastvtx = _gx_vtx_buf_offset_ - stride;
+    int vtxbuf = _gx_vtx_buf_base_;
 
     if (v6 == 0)
     {
@@ -100,10 +86,10 @@ SetCull(sint16 vtxCount)
         {
             CopyLastVertex();
             CopyLastVertex();
-            VertexBuffOffCopy = VertexBufferOffset;
-            GX_Cull = ccw;
-            VertexBufferOffset += stride;
-            GX_vtxcount += vtxCount + 1;
+            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
+            _gx_cull_ = ccw;
+            _gx_vtx_buf_offset_ += stride;
+            _gx_nb_vtx_ += vtxCount + 1;
             return;
         }
     }
@@ -113,20 +99,20 @@ SetCull(sint16 vtxCount)
         {
             CopyLastVertex();
             CopyLastVertex();
-            VertexBuffOffCopy = VertexBufferOffset;
-            GX_Cull = ccw;
-            VertexBufferOffset += stride;
-            GX_vtxcount += vtxCount + 1;
+            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
+            _gx_cull_ = ccw;
+            _gx_vtx_buf_offset_ += stride;
+            _gx_nb_vtx_ += vtxCount + 1;
             return;
         }
     }
 
     CopyLastVertex();
 
-    VertexBuffOffCopy = VertexBufferOffset;
-    GX_Cull = ccw;
-    VertexBufferOffset += stride;
-    GX_vtxcount += vtxCount + 1;
+    _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
+    _gx_cull_ = ccw;
+    _gx_vtx_buf_offset_ += stride;
+    _gx_nb_vtx_ += vtxCount + 1;
 }
 
 __declspec(naked)
@@ -159,7 +145,7 @@ __GXEndEnd()
     }
 }
 
-FuncPtr(void, __cdecl, DoStripFlags, (uint8), 0x42CA20);
+#define DoStripFlags    FuncPtr(void, __cdecl, (uint8), 0x42CA20)
 
 static void
 StripFlags(uint8 flag)
@@ -169,7 +155,7 @@ StripFlags(uint8 flag)
     DoStripFlags(flag);
 }
 
-DataRef(bool, isInCutscene, 0x01934B60); // Found it in sa2b-volume-controls
+#define isInCutscene DataRef(bool, 0x01934B60) // Found it in sa2b-volume-controls
 
 static void
 StripFlagsEventCheck(uint8 flag)
@@ -179,12 +165,10 @@ StripFlagsEventCheck(uint8 flag)
     DoStripFlags(flag);
 }
 
-FuncPtr(void, __cdecl, UpdateFog, (), 0x0042A870);
-
 static void
 JumpAuraFixFlagOn()
 {
-    UpdateFog();
+    gjUpdateFog();
 
     SaveControl3D();
     SaveConstantAttr();
@@ -199,7 +183,7 @@ JumpAuraFixFlagOff()
     LoadConstantAttr();
     LoadControl3D();
     
-    UpdateFog();
+    gjUpdateFog();
 }
 
 void
@@ -209,11 +193,11 @@ EnableJumpAuraFix()
     WriteJump(0x00756A56, JumpAuraFixFlagOff);
 }
 
+#define BgDisp_CCK      FuncPtr(void, __cdecl, (TASK*), 0x65F6D0)
+
 static void
 BGDisp_CCKFix(task* tp)
 {
-    TaskFuncPtr(BgDisp_CCK, 0x65F6D0);
-
     SaveControl3D();
     SaveConstantAttr();
 
@@ -226,11 +210,11 @@ BGDisp_CCKFix(task* tp)
     LoadControl3D();
 }
 
+#define BgDisp_CCR      FuncPtr(void, __cdecl, (TASK*), 0x4DC140)
+
 static void
 BGDisp_CCRFix(task* tp)
 {
-    TaskFuncPtr(BgDisp_CCR, 0x4DC140);
-
     SaveControl3D();
     SaveConstantAttr();
 
@@ -243,11 +227,11 @@ BGDisp_CCRFix(task* tp)
     LoadControl3D();
 }
 
+#define BgDisp_CCS      FuncPtr(void, __cdecl, (TASK*), 0x4CB840)
+
 static void
 BGDisp_CCSFix(task* tp)
 {
-    TaskFuncPtr(BgDisp_CCS, 0x4CB840);
-
     SaveControl3D();
     SaveConstantAttr();
 
@@ -259,6 +243,14 @@ BGDisp_CCSFix(task* tp)
     LoadConstantAttr();
     LoadControl3D();
 }
+
+#define HataList1               DataAry(NJS_CNK_MODEL* , 0x00A7E9F0, [74]) // Desert Banners
+#define HataList2               DataAry(NJS_CNK_MODEL* , 0x00A7E888, [90]) // ^
+#define HataListSO              DataAry(NJS_CNK_MODEL* , 0x00CDE5B0, [90]) // ^ (Sand Ocean)
+#define LowFlagList             DataAry(NJS_CNK_MODEL* , 0x00BC0B98, [48]) // Wild Canyon Wind Flags
+#define FlagList                DataAry(NJS_CNK_MODEL* , 0x00BD3560, [48]) // ^
+#define ButterflyList           DataAry(NJS_CNK_MODEL* , 0x00DDB64C, [9])  // Dry Lagoon Butterflies
+#define PoisonHazardList        DataAry(NJS_CNK_OBJECT*, 0x009CAD88, [22]) // Crazy Gadget Poison Objects
 
 void
 EnableBackfaceCulling()
@@ -335,14 +327,10 @@ EnableBackfaceCulling()
 
     /** Hata (Desert Banners) **/
     {
-        DataAry(NJS_CNK_MODEL*, HataList1, 0x00A7E9F0, [74]);
-
         for (int i = 0; i < arylen(HataList1); ++i)
         {
             CnkModelMaterialFlagOn(HataList1[i], 0, NJD_FST_DB);
         }
-
-        DataAry(NJS_CNK_MODEL*, HataList2, 0x00A7E888, [90]);
 
         for (int i = 0; i < arylen(HataList2); ++i)
         {
@@ -352,8 +340,6 @@ EnableBackfaceCulling()
 
     /** Hata (Sand Ocean) **/
     {
-        DataAry(NJS_CNK_MODEL*, HataListSO, 0x00CDE5B0, [90]);
-
         for (int i = 0; i < arylen(HataListSO); ++i)
         {
             CnkModelMaterialFlagOn(HataListSO[i], 0, NJD_FST_DB);
@@ -369,14 +355,10 @@ EnableBackfaceCulling()
     {
         WriteData(0x006A2F9A, 0x8300 | NJD_FST_DB, uint32); // Wind Tunnel
 
-        DataAry(NJS_CNK_MODEL*, LowFlagList, 0x00BC0B98, [48]);
-
         for (int i = 0; i < arylen(LowFlagList); ++i)
         {
             CnkModelMaterialFlagOn(LowFlagList[i], 0, NJD_FST_DB);
         }
-
-        DataAry(NJS_CNK_MODEL*, FlagList, 0x00BD3560, [48]);
 
         for (int i = 0; i < arylen(FlagList); ++i)
         {
@@ -396,8 +378,6 @@ EnableBackfaceCulling()
         CnkModelMaterialFlagOn(0x00E3524C, 0, NJD_FST_DB); // Fish
         CnkModelMaterialFlagOn(0x00E3539C, 0, NJD_FST_DB); // ^
         CnkModelMaterialFlagOn(0x00E352F4, 0, NJD_FST_DB); // ^
-
-        DataAry(NJS_CNK_MODEL*, ButterflyList, 0x00DDB64C, [9]);
 
         for (int i = 0; i < arylen(ButterflyList); ++i)
         {
@@ -446,8 +426,6 @@ EnableBackfaceCulling()
     {
         CnkModelMaterialFlagOn(0x009B046C, -1, NJD_FST_DB); // POISON Object
         CnkModelMaterialFlagOn(0x009B03CC, -1, NJD_FST_DB); // POISON Object Cap
-
-        DataAry(NJS_CNK_OBJECT*, PoisonHazardList, 0x009CAD88, [22]);
 
         for (int i = 0; i < arylen(PoisonHazardList); ++i)
         {

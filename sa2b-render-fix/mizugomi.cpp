@@ -5,9 +5,7 @@
 
 #include <sa2b/src/task.h>
 
-
-
-FuncPtr(void, __cdecl, njDrawSomethingStart, (int), 0x00491160);
+#define njDrawSomethingStart    FuncPtr(void, __cdecl, (int), 0x00491160)
 
 const int njDrawSomeSprite_p = 0x00491600;
 static void
@@ -52,7 +50,7 @@ __DrawMizugomiAM()
     }
 }
 
-DataRef(TASK*, pMizugomiEQ, 0x01AEFC18);
+#define pMizugomiEQ DataRef(TASK*, 0x01AEFC18)
 
 static void
 BGMizugomiEQ()
@@ -74,9 +72,9 @@ __BGMizugomiEQ()
     }
 }
 
-DataPtr(NJS_TEXLIST, texlist_mizugomi_dc, 0x00B6F51C);
+#define texlist_mizugomi_dc     DataPtr(NJS_TEXLIST, 0x00B6F51C)
 
-DataRef(TASK*, pMizugomiCCK, 0x01AEE2B0);
+#define pMizugomiCCK            DataRef(TASK*, 0x01AEE2B0)
 
 static void
 BGMizugomiDCOff()
@@ -116,7 +114,7 @@ __BGMizugomiDCOn()
     }
 }
 
-FuncPtr(void, __cdecl, MizugomiCreateCCK, (), 0x006605D0);
+#define MizugomiCreateCCK   FuncPtr(void, __cdecl, (), 0x006605D0)
 
 static void
 BGMizugomiDCBegin()

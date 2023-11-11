@@ -8,6 +8,7 @@
 
 #include <sa2b/src/task.h>
 #include <sa2b/src/score.h>
+#include <sa2b/src/njctrl.h>
 
 #include <tools.h>
 
@@ -125,7 +126,7 @@ RestorationSettings(const config* conf)
 {
     if (ConfigGetInt(conf, SECT, "emblem", 1))
     {
-        if (CheckForMod("RestoredGUNLogos"))
+        if (ModCheckDll("RestoredGUNLogos"))
         {
             ModConflictWarning(
                 "The 'Restored GUN Logos' mod will conflict with Render Fix's 'GUN Emblem Fix' setting!\n\n"

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-DataRef(char*, struc_36Instance, 0x01A557BC);
+#define struc_36Instance    DataRef(char*, 0x01A557BC)
 
 #define ToFlt(val) (*(float*)(&val))
 

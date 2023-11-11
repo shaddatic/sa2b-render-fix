@@ -6,6 +6,8 @@
 
 #include <sa2b/src/light.h>
 
+#include <string.h>
+
 #include <tools.h>
 
 static LIGHT lights_bigbogy[] =
@@ -42,7 +44,7 @@ BossBogySettings(const config* conf)
 {
     if (ConfigGetInt(conf, SECT, "sundoors", 1))
     {
-        SwapGVMTableIndex(0x0103622C, 2, 4);
+        SwapTexFileTableIndex(0x0103622C, 2, 4);
     }
 
     if (ConfigGetInt(conf, SECT, "lights", 1))

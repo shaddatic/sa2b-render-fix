@@ -1,5 +1,7 @@
 #pragma once
 
+typedef uint32  ptr;
+
 #include <sa2b/memtools.h>
 
 #include <sa2b/ninja/ninja.h>
@@ -68,11 +70,11 @@ void    CnkModelMaterialAmbient(NJS_CNK_MODEL* pModel, int idxMat, int a, int r,
 void    CnkModelMaterialSpecular(NJS_CNK_MODEL* pModel, int idxMat, int i, int r, int g, int b);// MIA
 
 /*
-*   GVM Tables
+*   Texture File Tables
 */
-typedef struct gvmtable TEX_GVMTABLE;
+typedef struct textable     TEX_FILETABLE;
 
-void    SwapGVMTableIndex(TEX_GVMTABLE* pGvmTable, int idx1, int idx2);
+void    SwapTexFileTableIndex(TEX_FILETABLE* pTexTable, int idx1, int idx2);
 
 /*
 *   Mod Tools
@@ -153,9 +155,9 @@ CnkModelMaterialDiffuse(ptr pModel, int idxMat, int a, int r, int g, int b)
 
 /** GVM Tables **/
 inline void
-SwapGVMTableIndex(ptr pGvmTable, int idx1, int idx2)
+SwapTexFileTableIndex(ptr pTexTable, int idx1, int idx2)
 {
-    return SwapGVMTableIndex((TEX_GVMTABLE*)pGvmTable, idx1, idx2);
+    return SwapTexFileTableIndex((TEX_FILETABLE*)pTexTable, idx1, idx2);
 }
 
 #endif /* __cplusplus */

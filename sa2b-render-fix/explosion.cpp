@@ -5,10 +5,10 @@
 
 #include <tools.h>
 
-TaskFuncPtr(EnemyExplosionExecutor, 0x004F7020);
-TaskFuncPtr(EnemyExplosionDisplayer, 0x004F6350);
+#define EnemyExplosionExecutor      FuncPtr(void, __cdecl, (TASK*), 0x004F7020)
+#define EnemyExplosionDisplayer     FuncPtr(void, __cdecl, (TASK*), 0x004F6350)
 
-FuncPtr(void, __cdecl, sub_4F70E0, (), 0x4F70E0);
+#define sub_4F70E0      FuncPtr(void, __cdecl, (), 0x4F70E0)
 
 static TASK*
 EnemyExplosionCreateTask()

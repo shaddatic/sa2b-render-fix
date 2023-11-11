@@ -9,6 +9,7 @@
 
 #include <sa2b/src/player.h>
 
+#define SAMT_INCLUDE_FUNC_PTRS
 #include <sa2b/src/figure/sonic.h>
 #include <sa2b/src/figure/shadow.h>
 #include <sa2b/src/figure/miles.h>
@@ -16,6 +17,7 @@
 #include <sa2b/src/figure/rouge.h>
 #include <sa2b/src/figure/ewalker.h>
 #include <sa2b/src/figure/twalker.h>
+#undef  SAMT_INCLUDE_FUNC_PTRS
 
 #include <tools.h>
 
@@ -57,7 +59,7 @@ DrawSonicShadow(NJS_MOTION* motion, float frame)
     SONICWK* spwp = (SONICWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_SONIC)];
     pSonicWork = spwp;
 
-    njCnkSetMotionCallback(SonicMotionCallBack);
+    njCnkSetMotionCallback(SonicMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[0].pObject, motion, frame);
 
     if (DrawSonicFlameRing && spwp->pwk.equipment & EQUIP_SONIC_FLAMERING)
@@ -111,7 +113,7 @@ DrawShadowShadow(NJS_MOTION* motion, float frame)
     SONICWK* spwp = (SONICWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_SHADOW)];
     pSonicWork = spwp;
 
-    njCnkSetMotionCallback(ShadowMotionCallBack);
+    njCnkSetMotionCallback(ShadowMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[65].pObject, motion, frame);
 
     if (DrawShadowFlameRing && spwp->pwk.equipment & EQUIP_SHADOW_FLAMERING) // Flame Ring
@@ -147,7 +149,7 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
     KNUCKLESWK* kwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_KNUCKLES)];
     pKnucklesWork = kwp;
 
-    njCnkSetMotionCallback(KnucklesMotionCallBack);
+    njCnkSetMotionCallback(KnucklesMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[142].pObject, motion, frame);
 
     njPushMatrixEx();
@@ -222,7 +224,7 @@ DrawRougeShadow(NJS_MOTION* motion, float frame)
     KNUCKLESWK* rwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_ROUGE)];
     pKnucklesWork = rwp;
 
-    njCnkSetMotionCallback(RougeMotionCallBack);
+    njCnkSetMotionCallback(RougeMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[171].pObject, motion, frame);
 
     njPushMatrixEx();
@@ -288,7 +290,7 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
     WALKERWK* ewwp = (WALKERWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_EGGWALKER)];
     pEWalkerWork = ewwp;
 
-    njCnkSetMotionCallback(EggWalkerMotionCallBack);
+    njCnkSetMotionCallback(EggWalkerMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[248].pObject, motion, frame);
 
     if (DrawEggmanPowerGun)
@@ -371,7 +373,7 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
     WALKERWK* ewwp = (WALKERWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_TORNADO)];
     pEWalkerWork = ewwp;
 
-    njCnkSetMotionCallback(TornadoMotionCallBack);
+    njCnkSetMotionCallback(TornadoMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[293].pObject, motion, frame);
 
     if (DrawMilesLazerBlaster)
@@ -463,7 +465,7 @@ DrawMilesShadow(NJS_MOTION* motion, float frame)
 {
     pMilesWork = (MILESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_TAILS)];
 
-    njCnkSetMotionCallback(MilesMotionCallBack);
+    njCnkSetMotionCallback(MilesMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[208].pObject, motion, frame);
 }
 
@@ -542,12 +544,12 @@ njCnkDrawMotionHook()
 static config*
 GetDisableUpgradeModelsConfig()
 {
-    mod_handle* shadow = GetModHandle("SA2DisableUpgradeModels");
+    mod_handle* shadow = ModGetHandleDll("SA2DisableUpgradeModels");
 
     if (!shadow)
         return NULL;
 
-    return GetModConfig(shadow);
+    return ModGetConfig(shadow);
 }
 
 static float OpacityList[] = { 0.25f, 0.3f, 0.375f, 0.5f };
@@ -567,7 +569,7 @@ GetShadowOpacitySetting()
 void
 ShadowSettings(const config* pConf)
 {
-    if (CheckForMod("enhanced-shadows"))
+    if (ModCheckDll("enhanced-shadows"))
     {
         ModConflictWarning("The 'Enhanced Shadows' mod is obsolete and will conflict with Render Fix!\n\n"
             "Please disable the 'Enhanced Shadows' mod!");

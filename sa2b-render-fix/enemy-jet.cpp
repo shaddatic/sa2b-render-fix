@@ -4,8 +4,9 @@
 #include <sa2b/ninja/ninja.h>
 
 #include <sa2b/src/task.h>
+#include <sa2b/src/njctrl.h>
 
-DataPtr(NJS_TEXLIST, texlist_e_jet1, 0x0145F5D4);
+#define texlist_e_jet1      DataPtr(NJS_TEXLIST, 0x0145F5D4)
 
 static void 
 EnemyJetDraw(TASK* tp)
@@ -41,14 +42,11 @@ EnemyJetDraw(TASK* tp)
     SetConstantMaterial(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-DataRef(char, EnableFog, 0x025EFFCC);
-FuncPtr(void, __cdecl, UpdateFog, (), 0x0042A870);
-
 static void
 EnemyJetSetup()
 {
-    EnableFog = 0;
-    UpdateFog();
+    gjDisableFog();
+    gjUpdateFog();
 }
 
 static void __declspec(naked)

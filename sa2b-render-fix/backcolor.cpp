@@ -9,7 +9,7 @@ Uint32 _nj_back_color_0_;
 Uint32 _nj_back_color_1_;
 Uint32 _nj_back_color_2_;
 
-DataRef(NJS_COLOR, FadeColor, 0x0171CDA0);
+#define FadeColor DataRef(NJS_COLOR, 0x0171CDA0)
 
 void
 njDrawBackColor2()
