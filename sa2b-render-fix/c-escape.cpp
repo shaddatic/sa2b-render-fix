@@ -16,8 +16,8 @@
 static void
 LightModRestore()
 {
-    ReplaceObjectFunction(0x0109E830, 58, ObjectLightSW);        // Light SW                (City Escape)
-    ReplaceObjectFunction(0x0109E830, 69, ObjectTreeShadows);    // ObjectTreeShadows    (City Escape)
+    ReplaceObjectFunction(0x0109E830, 58, ObjectLightSW);     // Light SW          (City Escape)
+    ReplaceObjectFunction(0x0109E830, 69, ObjectTreeShadows); // ObjectTreeShadows (City Escape)
 }
 
 #define SECT "c_escape"
