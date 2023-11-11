@@ -71,7 +71,7 @@ EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
 {
     char strbuf[260];
 
-    snprintf(strbuf, 260, "%s_stg%02i", fname, CurrentLevel);
+    snprintf(strbuf, 260, "%s_STG%02i", fname, CurrentLevel);
 
     const int err = texLoadTextureFile(strbuf, ptlo);
 
