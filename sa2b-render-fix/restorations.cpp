@@ -37,6 +37,8 @@ EXTERN NJS_CNK_MODEL model_e_a_emi_emblem[];
 
 EXTERN NJS_CNK_MODEL model_ce_truck_hood[];
 
+EXTERN NJS_CNK_MODEL model_e_s_ai_shield[];
+
 static void
 GUNEmblemRestore()
 {
@@ -152,6 +154,11 @@ RestorationSettings(const config* conf)
         }
 
         GUNEmblemRestore();
+    }
+
+    if (ConfigGetInt(conf, SECT, "ai_shield", 1))
+    {
+        ReplaceObjectModel(0x014BC1A4, model_e_s_ai_shield);
     }
 
     if (ConfigGetInt(conf, SECT, "enemy_stg_tex", 1))

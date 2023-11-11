@@ -1,0 +1,145 @@
+CNKOBJECT_START
+
+PLIST      strip_e_s_ai_shield[]
+START
+	CnkM_DAS( FBS_SA|FBD_ISA ), 6,
+	MDiff( 255, 255, 255, 255 ),
+	MAmbi( 255, 127, 127, 127 ),
+	MSpec( 11, 255, 255, 255 ),
+	CnkT_TID( FCL_U|FCL_V|FDA_100 ), _TID( FFM_BF, 2 ),
+	CnkS_UVN( FST_DB ), 86, _NB( UFO_0, 7 ),
+	StripL(3),
+	8, 	Uvn( 68, 3 ),
+	9, 	Uvn( 4, 3 ),
+	11, 	Uvn( 4, 251 ),
+	StripL(4),
+	9, 	Uvn( 164, 3 ),
+	10, 	Uvn( 164, 251 ),
+	11, 	Uvn( 252, 3 ),
+	8, 	Uvn( 164, 3 ),
+	StripL(3),
+	16, 	Uvn( 164, 251 ),
+	12, 	Uvn( 120, 91 ),
+	17, 	Uvn( 120, 243 ),
+	StripL(3),
+	12, 	Uvn( 120, 91 ),
+	16, 	Uvn( 120, 251 ),
+	15, 	Uvn( 164, 247 ),
+	StripL(6),
+	20, 	Uvn( 160, 251 ),
+	19, 	Uvn( 116, 251 ),
+	12, 	Uvn( 160, 3 ),
+	13, 	Uvn( 116, 3 ),
+	17, 	Uvn( 160, 251 ),
+	18, 	Uvn( 116, 251 ),
+	StripL(4),
+	19, 	Uvn( 120, 243 ),
+	14, 	Uvn( 164, 251 ),
+	13, 	Uvn( 120, 91 ),
+	18, 	Uvn( 120, 243 ),
+	StripL(3),
+	12, 	Uvn( 120, 39 ),
+	15, 	Uvn( 164, 251 ),
+	20, 	Uvn( 120, 247 ),
+	CnkM_DAS( FBS_SA|FBD_ISA ), 6,
+	MDiff( 255, 255, 255, 255 ),
+	MAmbi( 255, 127, 127, 127 ),
+	MSpec( 11, 255, 255, 255 ),
+	CnkT_TID( FCL_U|FCL_V|FDA_100 ), _TID( FFM_BF, 4 ),
+	CnkS_UVN( FST_UA ), 14, _NB( UFO_0, 1 ),
+	StripL(4),
+	7, 	Uvn( 256, 255 ),
+	6, 	Uvn( 256, 0 ),
+	5, 	Uvn( 0, 255 ),
+	4, 	Uvn( 0, 0 ),
+	CnkM_DAS( FBS_SA|FBD_ISA ), 6,
+	MDiff( 255, 255, 255, 255 ),
+	MAmbi( 255, 127, 127, 127 ),
+	MSpec( 11, 255, 255, 255 ),
+	CnkT_TID( FCL_U|FCL_V|FDA_100 ), _TID( FFM_BF, 3 ),
+	CnkS_UVN( FST_UA ), 14, _NB( UFO_0, 1 ),
+	StripL(4),
+	3, 	Uvn( 256, 255 ),
+	2, 	Uvn( 256, 0 ),
+	1, 	Uvn( 0, 255 ),
+	0, 	Uvn( 0, 0 ),
+	CnkEnd()
+END
+
+VLIST      vertex_e_s_ai_shield[]
+START
+	CnkV_VN(0, 127),
+	OffnbIdx(0, 21),
+	VERT( 0x4120493a, 0x3fd9d8df, 0xbfe6627e ),
+	NORM( 0x3f6f3ab4, 0x3d821f4f, 0x3eb3573f ),
+	VERT( 0x41144999, 0x412708b1, 0xbfb12bd0 ),
+	NORM( 0x3f6f3ab4, 0x3d821f4f, 0x3eb3573e ),
+	VERT( 0x40dad462, 0x3f8281ea, 0x40d9ccd8 ),
+	NORM( 0x3f6f3ab4, 0x3d821f50, 0x3eb3573f ),
+	VERT( 0x40c2d52a, 0x411c1dcb, 0x40e71a81 ),
+	NORM( 0x3f6f3ab4, 0x3d821f50, 0x3eb3573f ),
+	VERT( 0x40f8f88d, 0xc0f32ddd, 0xbfaa9b03 ),
+	NORM( 0x3f691b7b, 0xbe88e7f5, 0x3ea16222 ),
+	VERT( 0x41142df7, 0xbfa99d5c, 0xbe939d36 ),
+	NORM( 0x3f691b7b, 0xbe88e7f5, 0x3ea16222 ),
+	VERT( 0x40ab8ef7, 0xc101e570, 0x40a6e3a9 ),
+	NORM( 0x3f691b7b, 0xbe88e7f5, 0x3ea16222 ),
+	VERT( 0x40daf251, 0xbfec11a7, 0x40c85096 ),
+	NORM( 0x3f691b7b, 0xbe88e7f5, 0x3ea16222 ),
+	VERT( 0x4116bce4, 0xbea89f6f, 0xbe83ae2d ),
+	NORM( 0xbd25510e, 0xbeed54dd, 0xbf6299ac ),
+	VERT( 0x40e01029, 0xbf59383d, 0x40c94f83 ),
+	NORM( 0xbf144b07, 0xbf14460f, 0x3f12d562 ),
+	VERT( 0x40ece06b, 0x411734d6, 0x4060e410 ),
+	NORM( 0xbf38bb79, 0x3f2883ed, 0xbe5b8c04 ),
+	VERT( 0xbe074d45, 0x3d28b848, 0xbc8008ba ),
+	NORM( 0xbf670bb1, 0xbe7c9c03, 0xbeb4ba71 ),
+	VERT( 0x412115c4, 0xbe5efae4, 0xbfdc2375 ),
+	NORM( 0x3f7ac6f6, 0xbe44cfc3, 0x3d7076f3 ),
+	VERT( 0x40cf2838, 0xbf7d356f, 0x41002436 ),
+	NORM( 0x3f3dba3b, 0xbde89d33, 0x3f2964a4 ),
+	VERT( 0x404ecf10, 0xbf80a193, 0x41196d47 ),
+	NORM( 0x3edf2ae2, 0xbde34152, 0x3f64a4e2 ),
+	VERT( 0x4120146f, 0x3ee5c246, 0xc10bee20 ),
+	NORM( 0x3f7a8b9d, 0xbe504972, 0xbce5c3f2 ),
+	VERT( 0x41021e39, 0xbf7066c1, 0xc0786e7c ),
+	NORM( 0x3f2f37eb, 0xbf19f78e, 0xbed2fc25 ),
+	VERT( 0x40e0ce97, 0xc1405a2c, 0xc048db3f ),
+	NORM( 0x3f7121e6, 0xbe88d1fd, 0x3e5046f2 ),
+	VERT( 0x4073eaf9, 0xc14b636b, 0x40b1f624 ),
+	NORM( 0x3f5d8581, 0xbe90da2e, 0x3ed3d627 ),
+	VERT( 0x40a8d0f1, 0x41818eb9, 0x40f13eb4 ),
+	NORM( 0x3f67157f, 0x3d98a385, 0x3ed8ffc9 ),
+	VERT( 0x411986b7, 0x4188f97a, 0xc084ef46 ),
+	NORM( 0x3f75c654, 0x3d83dcab, 0x3e8b6a22 ),
+	CnkEnd()
+END
+
+CNKMODEL   model_e_s_ai_shield[]
+START
+VList      vertex_e_s_ai_shield,
+PList      strip_e_s_ai_shield,
+Center     4.967842F,  2.205021F,  0.421772F,
+Radius     16.274660F,
+END
+
+CNKOBJECT  object_e_s_ai_shield[]
+START
+EvalFlags ( 0x00000014 ),
+CNKModel   model_e_s_ai_shield,
+OPosition  (  5.807051F,  0.000013F, -0.000044F ),
+OAngle     (  0.000000F,  0.000000F, -39.770603F ),
+OScale     (  1.000000F,  1.000000F,  1.000000F ),
+Child       NULL,
+Sibling     NULL,
+END
+
+CNKOBJECT_END
+
+DEFAULT_START
+
+#ifndef DEFAULT_OBJECT_NAME
+#define DEFAULT_OBJECT_NAME object_e_s_ai_sheild
+#endif
+
+DEFAULT_END

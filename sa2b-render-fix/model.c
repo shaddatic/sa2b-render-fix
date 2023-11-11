@@ -37,6 +37,8 @@
 #include <model/bunchin_shadow.nja>
 #include <model/msger_shadow.nja>
 
+#include <model/e_s_ai_shield.nja>
+
 /*
 *    Ginja
 */
