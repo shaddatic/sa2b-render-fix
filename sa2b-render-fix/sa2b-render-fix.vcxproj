@@ -26,7 +26,6 @@
     <ClCompile Include="c-escape.cpp" />
     <ClCompile Include="cart.cpp" />
     <ClCompile Include="enemy-jet.cpp" />
-    <ClCompile Include="enemy_tex.c" />
     <ClCompile Include="enhanced-shadows.cpp" />
     <ClCompile Include="env-map.cpp" />
     <ClCompile Include="event.cpp" />

@@ -93,9 +93,6 @@
     <ClCompile Include="w-jungle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_tex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="render-fix.h">
