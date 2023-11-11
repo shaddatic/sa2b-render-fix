@@ -1,12 +1,54 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_parameter.h'
+*
+*   Contains functions related to the Chao parameters.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_PARAMETER_H_
+#define _SA2B_CHAO_PARAMETER_H_
 
-typedef struct task task;
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task     TASK;
 
-bool32	AL_IsHero(uint8 type);
-bool32	AL_IsHero2(task* pChaoTask);
-bool32	AL_IsDark(uint8 type);
-bool32	AL_IsDark2(task* pChaoTask);
+/************************/
+/*  Enums               */
+/************************/
+enum
+{
+    SKILL_SWIM,
+    SKILL_FLY,
+    SKILL_RUN,
+    SKILL_POWER,
+    SKILL_STAMINA,
+    SKILL_GUTS,
+    SKILL_INTELLECT,
+    SKILL_EMPTY,
+    NB_SKILL,
+};
 
-void	AL_ParameterControlInit();
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/** Check alignment **/
+bool32  AL_IsHero(uint8 type);
+bool32  AL_IsHero2(TASK* pChaoTask);
+bool32  AL_IsDark(uint8 type);
+bool32  AL_IsDark2(TASK* pChaoTask);
 
-uint32	AL_ParameterGetSkill(task* tp, uint16 SkillKind);
+/** Get Chao skill points adjusted by stage **/
+uint32  AL_ParameterGetSkill(TASK* tp, uint16 SkillKind);
+
+/** Set param control timers to 0 **/
+void    AL_ParameterControlInit(void);
+
+EXTERN_END
+
+#endif /* _SA2B_CHAO_PARAMETER_H_ */

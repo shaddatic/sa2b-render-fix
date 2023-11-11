@@ -12,19 +12,13 @@
 #ifndef _NJEFFECT_H_
 #define _NJEFFECT_H_
 
-typedef Float	NJS_FOG_TABLE[128];
-
-extern	Float	_nj_depth_near_;    // MIA
-extern	Float	_nj_depth_far_;     // MIA
-extern	Float	_nj_depth_range_;   // MIA
-extern	Int		_nj_depth_enable_;  // MIA
-
-DataRef(Int,    _nj_fog_enable_, 0x025EFFCC);
+typedef Float    NJS_FOG_TABLE[128];
 
 /************************/
-/*	 Fog				*/
+/*  Fog                 */
 /************************/
-void	njFogEnable(void);
-void	njFogDisable(void);
+/** Calls Ginja Fog Functions **/
+void    njFogEnable(void);
+void    njFogDisable(void);
 
 #endif

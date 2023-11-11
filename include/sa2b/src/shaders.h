@@ -1,36 +1,52 @@
-#pragma once
-
 /*
-*	Data References
+*   Sonic Adventure Mod Tools (SA2B) - '/src/shaders.h'
+*
+*   Contains data and functions related to SOC's shader engine.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_SHADERS_H_
+#define _SA2B_SHADERS_H_
 
-#define SHADERMODE_NONE		0
-#define SHADERMODE_SHADOW	1
-#define SHADERMODE_FOG		2
-#define SHADERMODE_PALLETE	4
+/************************/
+/*  Defines             */
+/************************/
+#define SHADERMODE_NONE        0
+#define SHADERMODE_SHADOW    1
+#define SHADERMODE_FOG        2
+#define SHADERMODE_PALLETE    4
 
-DataRef(bool,	LockShaders,	0x01A55709);
-DataRef(sint32, ShaderMode,		0x01AF1960);
-DataRef(sint32, ShaderLast,		0x01A5579C);
+/************************/
+/*  Data                */
+/************************/
+#define LockShaders     DataRef(bool,   0x01A55709)
+#define ShaderMode      DataRef(sint32, 0x01AF1960)
+#define ShaderLast      DataRef(sint32, 0x01A5579C)
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void SetShaders(sint32 idx);
 
-FuncPtr(void, __stdcall, SetAndLoadShader, (sint32 idx), 0x00424050);
+void SetAndLoadShader(sint32 idx);
 
-/*
-*	User Functions
-*/
+EXTERN_END
 
-void SetShaders(sint32 id);
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function Ptrs **/
+#define SetAndLoadShader_p      FuncPtr(void, __stdcall, (sint32), 0x00424050);
 
-/*
-*	User Function Pointers
-*/
+/** User-Function Ptrs **/
+EXTERN const void* SetShaders_p;
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-extern const void* SetShaders_p;
-
-#endif
+#endif /* _SA2B_SHADERS_H_ */

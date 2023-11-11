@@ -1,48 +1,55 @@
-#pragma once
-
 /*
-*	Abstracted Structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_path.h'
+*
+*   Contains data and functions related to Chao race paths.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_PARTS_H_
+#define _SA2B_CHAO_PARTS_H_
 
-typedef struct task		task;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/ninja.h>
 
-/*
-*	Data References
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task        TASK;
 
-DataRef(sint32, CurrPathNum, 0x01A5D13C);
+/************************/
+/*  Data                */
+/************************/
+#define CurrPathNum         DataRef(sint32, 0x01A5D13C)
 
-/*
-*	Data Arrays
-*/
+#define PathMotionList      DataAry(NJS_MOTION*, 0x01353278, [10])
+#define PathMKeyList        DataAry(NJS_MKEY_F*, 0x013532A0, [10][2])
 
-DataAry(NJS_MOTION*, PathMotionList,	0x01353278, [10]);
-DataAry(NJS_MKEY_F*, PathMKeyList,		0x013532A0, [10][2]);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+sint32  AL_PathSearch(TASK* tp);
 
-/*
-*	Function Pointers
-*/
+void    CrossProduct(NJS_POINT3* pPos0, NJS_POINT3* pPos1, NJS_POINT3* pPos2, NJS_POINT3* pAnswer);
 
-FuncPtr(sint32, __cdecl, AL_PathSearch, (task* tp), 0x0053E3E0);
+EXTERN_END
 
-/*
-*	User Functions
-*/
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_PathSearch_p     FuncPtr(sint32, __cdecl, (TASK* tp), 0x0053E3E0)
 
-void	CrossProduct(NJS_POINT3* pPos0, NJS_POINT3* pPos1, NJS_POINT3* pPos2, NJS_POINT3* pAnswer);
+/** User-Function ptrs **/
+EXTERN const void* CrossProduct_p;
 
-/*
-*	User Function Pointers
-*/
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-#ifdef SAMT_INCLUDE_USER_PTRS
-
-extern const void* CrossProduct_p;
-
-#endif
+#endif /* _SA2B_CHAO_PARTS_H_ */

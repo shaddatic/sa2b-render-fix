@@ -8,7 +8,6 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-
 #ifndef _SAMT_D3DCONTROL_H_
 #define _SAMT_D3DCONTROL_H_
 
@@ -51,6 +50,12 @@ typedef enum
 D3D_StencilOp;
 
 EXTERN_START
+
+/************************/
+/*  Get Device          */
+/************************/
+/** Get IDirect3DDevice9 **/
+void*   D3D_GetDirect3DDevice();
 
 /************************/
 /*  Render State        */

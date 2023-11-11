@@ -1,9 +1,28 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/stg_kinder/alg_kinder.h'
+*
+*   Contains defines, typedefs, and functions for the Chao behavior system.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_KINDER_KINDER_H_
+#define _SA2B_CHAO_KINDER_KINDER_H_
 
-struct SAlItem;
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/src/chao/al_itemshop.h>
 
-DataAry(SAlItem, gAlItemBuyList, 0x01DBEDC0, [15]);
-DataRef(sint32, gAlItemBuyNum, 0x01DBEDC0);
+/************************/
+/*  Data                */
+/************************/
+#define gAlItemBuyList              DataAry(SAlItem, 0x01DBEDC0, [15])
+#define gAlItemBuyNum               DataRef(sint32, 0x01DBEDC0)
 
-DataRef(sint32, NextBuyListChangeTime, 0x01DBED8C);
+#define NextBuyListChangeTime       DataRef(sint32, 0x01DBED8C)
 
+#endif /* _SA2B_CHAO_KINDER_KINDER_H_ */

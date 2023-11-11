@@ -1,63 +1,69 @@
-#pragma once
-
 /*
-*	Data References
+*   Sonic Adventure Mod Tools (SA2B) - '/src/score.h'
+*
+*   Contains data and functions related to player's game & stage scores
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_SCORE_H_
+#define _SA2B_SCORE_H_
 
-DataRef(sint32, loop_const, 0x01DEB50C);
-DataRef(uint32, ulGlobalTimer, 0x0174B038);
+/************************/
+/*  Data                */
+/************************/
+#define ssNumPlayer     DataAry(sint16, 0x0174B024, [2])
 
-DataRef(sint32, GameTimer, 0x0174B03C);
+#define ssNumRing       DataAry(sint16, 0x0174B028, [2])
 
-DataRef(uint8, ucFrames, 0x0174AFDD);
-DataRef(uint8, ucSeconds, 0x0174AFDC);
-DataRef(uint8, ucMinutes, 0x0174AFDB);
+#define loop_const      DataRef(sint32, 0x01DEB50C)
+#define ulGlobalTimer   DataRef(uint32, 0x0174B038)
 
-DataRef(bool, bWake, 0x0174AFF7);
+#define GameTimer       DataRef(sint32, 0x0174B03C)
 
-DataRef(uint32, gu32TotalRing, 0x174B05C);
+#define ucFrames        DataRef(uint8,  0x0174AFDD)
+#define ucSeconds       DataRef(uint8,  0x0174AFDC)
+#define ucMinutes       DataRef(uint8,  0x0174AFDB)
 
-/*
-*	Data Arrays
-*/
+#define bWake           DataRef(bool,   0x0174AFF7)
 
-DataAry(sint16, ssNumPlayer, 0x0174B024, [2]);
+#define gu32TotalRing   DataRef(uint32, 0x174B05C)
 
-DataAry(sint16, ssNumRing, 0x0174B028, [2]);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    AdvanceGlobalTime(void);
+uint32  GetGlobalTime(void);
 
-/*
-*	User Functions
-*/
-void	AddNumRing(sint8 player, sint16 ssNumber);
-void	AddNumPlayer(sint8 player, sint16 ssNumber);
+void    SetTime(uint8 minutes, uint8 second);
+void    GetTime(uint8* minutes, uint8* second);
 
-/*
-*	Recreated Functions
-*/
+void    SetTimeFrame(uint8 minutes, uint8 second, uint8 frame);
+void    GetTimeFrame(uint8* minutes, uint8* second, uint8* frame);
 
-void	AdvanceGlobalTime();
-uint32	GetGlobalTime();
+void    SetTotalRing(uint32 num);
+uint32  GetTotalRing(void);
 
-void	SetTime(uint8 minutes, uint8 second);
-void	GetTime(uint8* minutes, uint8* second);
+sint32  GetNumRing(sint8 player);
+void    ResetNumRing(sint8 player);
 
-void	SetTimeFrame(uint8 minutes, uint8 second, uint8 frame);
-void	GetTimeFrame(uint8* minutes, uint8* second, uint8* frame);
+void    AddNumRing(sint8 player, sint16 ssNumber);
+void    AddNumPlayer(sint8 player, sint16 ssNumber);
 
-void	SetTotalRing(uint32 num);
-uint32	GetTotalRing();
+EXTERN_END
 
-sint32	GetNumRing(sint8 player);
-
-void	ResetNumRing(sint8 player);
-
-/*
-*	User Function Pointers
-*/
-
-#ifdef SAMT_INCLUDE_USER_PTRS
-
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** User-Function ptr **/
 extern const void* AddNumRing_p;
 extern const void* AddNumPlayer_p;
 
-#endif
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_SCORE_H_ */

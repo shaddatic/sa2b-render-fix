@@ -10,7 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_CAMERA_H_
+#define _SA2B_CAMERA_H_
 
 /************************/
 /*  Includes            */
@@ -20,26 +21,32 @@
 /************************/
 /*  Defines             */
 /************************/
-#define CurrentCameraWork cameraControlWorkList[cameraControlWorkIndex] // Called camera_twp in symbols
+#define cameraCurrentWork           cameraControlWork[cameraControlWorkIndex]
 
 /************************/
 /*  Structures          */
 /************************/
 typedef struct _camcontwork
 {
-	NJS_POINT3 campos;
-	Angle ang[3];
-	NJS_POINT3 relpos; // pos Relative to target
-	NJS_POINT3 tgtpos;
-	NJS_POINT3 spd;
-	float32 tgtdist;
-	NJS_POINT3 prevcampos; // pos again
-	Angle ang_spd[3];
+    NJS_POINT3 campos;
+    Angle angx;
+    Angle angy;
+    Angle angz;
+    NJS_POINT3 relpos; // pos Relative to target
+    NJS_POINT3 tgtpos;
+    NJS_POINT3 spd;
+    float32 tgtdist;
+    NJS_POINT3 prevcampos; // pos again
+    Angle angx_spd;
+    Angle angy_spd;
+    Angle angz_spd;
 }
-camcontwork;
+CAMERA_CONTROL_WORK;
 
 /************************/
 /*  Data                */
 /************************/
-DataRef(int, cameraControlWorkIndex, 0x01DD92A0);
-DataAry(camcontwork*, cameraControlWorkList, 0x01DD92B0, [2]);
+#define cameraControlWorkIndex      DataRef(sint32              , 0x01DD92A0)
+#define cameraControlWork           DataAry(CAMERA_CONTROL_WORK*, 0x01DD92B0, [2])
+
+#endif /* _SA2B_CAMERA_H_ */

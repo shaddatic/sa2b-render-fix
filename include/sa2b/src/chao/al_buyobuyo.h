@@ -1,84 +1,84 @@
-#pragma once
-
 /*
-*	Abstracted Structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_buyobuyo.h'
+*
+*   Contains functions and data related to the Chao jiggle engine.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_BUYOBUYO_H_
+#define _SA2B_CHAO_BUYOBUYO_H_
 
-typedef struct task			task;
-
-typedef struct al_object	AL_OBJECT;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/njcommon.h>
 
-/*
-*	Structs
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task         TASK;
+typedef struct al_object    AL_OBJECT;
 
-struct AL_MOTION_INFO
+/************************/
+/*  Structures          */
+/************************/
+typedef struct 
 {
-	void*	mdata;
-	float32 CurrFrame;
-	uint32	nbFrame;
-	void*	mdataLink;
-	float32 CurrFrameLink;
-	uint32	nbFrameLink;
-	float32 LinkRatio;
-};
+    void*    mdata;
+    float32 CurrFrame;
+    uint32    nbFrame;
+    void*    mdataLink;
+    float32 CurrFrameLink;
+    uint32    nbFrameLink;
+    float32 LinkRatio;
+}
+AL_MOTION_INFO;
 
-/*
-*	Data References
-*/
+/************************/
+/*  Data                */
+/************************/
+#define tree_counter    DataRef(sint16        , 0x01AED2D4)
+#define MtnInfo         DataRef(AL_MOTION_INFO, 0x01A276A8)
 
-DataRef(sint16,			tree_counter,	0x01AED2D4);
-DataRef(AL_MOTION_INFO, MtnInfo,		0x01A276A8);
+#define VertexVelo      DataAry(NJS_VECTOR    , 0x01DBD960, [256])
 
-/*
-*	Data Arrays
-*/
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    AL_InitCalcMotionMatrix(TASK* tp);
+void    AL_CalcMotionMatrixTranslate(AL_OBJECT* pObject);
+void    AL_CalcMotionMatrixRotation(AL_OBJECT* pObject);
+void    AL_CalcMotionMartix(AL_OBJECT* pObject); /* Not a typo */
+void    AL_SetCurrMatrixSub(AL_OBJECT* pObject);
+void    AL_SetCurrMatrix(TASK* tp);
+void    AL_CalcShadowPos(TASK* tp);
+void    AL_BuyoBuyoObject(TASK* tp, AL_OBJECT* pObject);
+void    AL_BuyoBuyoControl(TASK* tp);
 
-DataAry(NJS_VECTOR,		VertexVelo,		0x01DBD960, [256]);
+EXTERN_END
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_SetCurrMatrixSub_p       FuncPtr(void, __cdecl, (AL_OBJECT*)       , 0x0056F010)
+#define AL_BuyoBuyoObject_p         FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0056F5C0)
+#define AL_BuyoBuyoControl_p        FuncPtr(void, __cdecl, (TASK*)            , 0x0056FC20)
 
-FuncPtr(void, __cdecl, AL_SetCurrMatrixSub, (AL_OBJECT* pObject),			0x0056F010);
+/** User-Function ptrs **/
+EXTERN const void* AL_InitCalcMotionMatrix_p;
+EXTERN const void* AL_CalcMotionMartix_p;
+EXTERN const void* AL_CalcMotionMartixTranslate_p;
+EXTERN const void* AL_CalcMotionMartixRotation_p;
+EXTERN const void* AL_SetCurrMatrix_p;
+EXTERN const void* AL_CalcShadowPos_p;
 
-FuncPtr(void, __cdecl, AL_BuyoBuyoControl, (task* tp),						0x0056FC20);
-FuncPtr(void, __cdecl, AL_BuyoBuyoObject, (task* tp, AL_OBJECT* pObject),	0x0056F5C0);
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-/*
-*	User Functions
-*/
-
-void	AL_InitCalcMotionMatrix(task* tp);
-
-void	AL_CalcMotionMartix(AL_OBJECT* pObject); // Not a typo
-void	AL_CalcMotionMatrixTranslate(AL_OBJECT* pObject);
-void	AL_CalcMotionMatrixRotation(AL_OBJECT* pObject);
-
-void	AL_SetCurrMatrix(task* tp);
-
-void	AL_CalcShadowPos(task* tp);
-
-/*
-*	User Function Pointers
-*/
-
-#ifdef SAMT_INCLUDE_USER_PTRS
-
-extern const void* AL_InitCalcMotionMatrix_p;
-
-extern const void* AL_CalcMotionMartix_p;
-extern const void* AL_CalcMotionMartixTranslate_p;
-extern const void* AL_CalcMotionMartixRotation_p;
-
-extern const void* AL_SetCurrMatrix_p;
-
-extern const void* AL_CalcShadowPos_p;
-
-#endif
+#endif /* _SA2B_CHAO_BUYOBUYO_H_ */

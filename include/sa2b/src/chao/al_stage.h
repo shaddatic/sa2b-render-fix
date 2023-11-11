@@ -1,55 +1,75 @@
-#pragma once
-
 /*
-*	Define Functions
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_stage.h'
+*
+*   Contains enums, data, and functions related to Chao stages.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_STAGE_H_
+#define _SA2B_CHAO_STAGE_H_
 
-#define AL_IsGarden() (ChaoStageNumber >= CHAO_STG_NEUT && ChaoStageNumber <= CHAO_STG_DARK)
+/************************/
+/*  Enums               */
+/************************/
+typedef enum 
+{    
+    CHAO_STG_NONE,
+    CHAO_STG_NEUT,
+    CHAO_STG_HERO,
+    CHAO_STG_DARK,
+    CHAO_STG_RACE,
+    CHAO_STG_ENTRANCE,
+    CHAO_STG_KINDER,
+    CHAO_STG_LOBBY,
+    CHAO_STG_ENTRANCE_2P,
+    CHAO_STG_STADIUM,
+    CHAO_STG_KARATE,
+    CHAO_STG_KARATE_2P,
+    CHAO_STG_ODEKAKE,
+}
+eCHAO_STAGE_NUMBER;
 
-/*
-*	Enums
-*/
+/************************/
+/*  Data                */
+/************************/
+#define ChaoOldStageNumber      DataRef(eCHAO_STAGE_NUMBER, 0x13402AC)
+#define ChaoStageNumber         DataRef(eCHAO_STAGE_NUMBER, 0x134046C)
+#define ChaoNextStageNumber     DataRef(eCHAO_STAGE_NUMBER, 0x134062C)
 
-enum eCHAO_STAGE_NUMBER
-{	
-	CHAO_STG_NONE = 0,
-	CHAO_STG_NEUT = 1,
-	CHAO_STG_HERO = 2,
-	CHAO_STG_DARK = 3,
-	CHAO_STG_RACE = 4,
-	CHAO_STG_ENTRANCE = 5,
-	CHAO_STG_KINDER = 6,
-	CHAO_STG_LOBBY = 7,
-	CHAO_STG_ENTRANCE_2P = 8,
-	CHAO_STG_STADIUM = 9,
-	CHAO_STG_KARATE = 10,
-	CHAO_STG_KARATE_2P = 11,
-	CHAO_STG_ODEKAKE = 12
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    AL_ChangeStage(eCHAO_STAGE_NUMBER NextStage);
 
-/*	SADX ENUM
-* 
-* 	CHAO_STG_NONE = 0x0,
-*	CHAO_STG_RACE = 0x1,
-*	CHAO_STG_ENTRANCE = 0x2,
-*	CHAO_STG_ODEKAKE = 0x3,
-*	CHAO_STG_SS = 0x4,
-*	CHAO_STG_EC = 0x5,
-*	CHAO_STG_MR = 0x6,
-*	CHAO_STG_BLACKMARKET = 0x7,
-*	CHAO_STG_QUIT = 0x8,
-*/
-};
+eCHAO_STAGE_NUMBER  AL_GetLastStageNumber(void);
+eCHAO_STAGE_NUMBER  AL_GetStageNumber(void);
+eCHAO_STAGE_NUMBER  AL_GetNextStageNumber(void);
 
-DataRef(eCHAO_STAGE_NUMBER, ChaoOldStageNumber, 0x13402AC);
-DataRef(eCHAO_STAGE_NUMBER, ChaoStageNumber, 0x134046C);
-DataRef(eCHAO_STAGE_NUMBER, ChaoNextStageNumber, 0x134062C);
+sint32  AL_GetLocalChaoCount(sint32 stage);
+sint32  AL_GetCurrGardenChaoCount(void);
 
-FuncPtr(void, __cdecl, AL_ChangeStage, (sint32 NextStage), 0x0052B5B0);
+EXTERN_END
 
-eCHAO_STAGE_NUMBER AL_GetLastStageNumber();
-eCHAO_STAGE_NUMBER AL_GetStageNumber();
-eCHAO_STAGE_NUMBER AL_GetNextStageNumber();
+/************************/
+/*  Macros              */
+/************************/
+#define AL_IsGarden()       (AL_GetStageNumber() >= CHAO_STG_NEUT && AL_GetStageNumber() <= CHAO_STG_DARK)
+#define AL_IsLoaded()       (AL_GetStageNumber() == AL_GetNextStageNumber())
 
-sint32	AL_GetLocalChaoCount(sint32 stage);
+#define AL_IsGarden2(stg)   (stg >= CHAO_STG_NEUT && stg <= CHAO_STG_DARK)
 
-sint32	AL_GetCurrGardenChaoCount();
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_ChangeStage_p        FuncPtr(void, __cdecl, (eCHAO_STAGE_NUMBER), 0x0052B5B0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_STAGE_H_ */

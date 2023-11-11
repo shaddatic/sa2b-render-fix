@@ -1,20 +1,39 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/display.h'
+*
+*   Contains data and Toolkit-custom functions related to the display
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_DISPLAY_H_
+#define _SA2B_DISPLAY_H_
 
+/************************/
+/*  Data                */
+/************************/
+#define DisplayResolutionX  DataRef(float32, 0x174BA64)
+#define DisplayResolutionY  DataRef(float32, 0x174BA68)
+
+/************************/
+/*  Functions           */
+/************************/
 EXTERN_START
+/** Returns the difference in aspect ratio, as a ratio, compared to 4:3 **/
+float   GetDisplayRatio(void);
 
-DataRef(float32, DisplayResolutionX, 0x174BA64);
-DataRef(float32, DisplayResolutionY, 0x174BA68);
+/** Returns the difference in resolution, as a ratio, compared to 640x480 **/
+float   GetDisplayRatioX(void);
+float   GetDisplayRatioY(void);
 
-/* Returns the difference in aspect ratio, as a ratio, compared to 4:3 */
-float   GetDisplayRatio();
-
-/* Returns the difference in resolution, as a ratio, compared to 640x480 */
-float   GetDisplayRatioX();
-float   GetDisplayRatioY();
-
-/* Get Display Info */
-float   GetDisplayAspectRatio();
-int     GetDisplayRefreshRate();
-bool32  GetDisplayIsFullscreen();
+/** Get Display Info **/
+float   GetDisplayAspectRatio(void);
+int     GetDisplayRefreshRate(void);
+bool32  GetDisplayIsFullscreen(void);
 
 EXTERN_END
+
+#endif /* _SA2B_DISPLAY_H_ */

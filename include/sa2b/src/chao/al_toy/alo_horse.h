@@ -1,36 +1,49 @@
-#pragma once
-
 /*
-*	Abstracted Structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_toy/alo_horse.h'
+*
+*   Contains functions and data related to the horse garden object.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_TOY_HORSE_H_
+#define _SA2B_CHAO_TOY_HORSE_H_
 
-typedef struct task		TASK;
-typedef struct taskwk	TASKWK;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/njcommon.h>
 
-/*
-*	Task Function Pointers
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task         TASK;
+typedef struct taskwk       TASKWK;
 
-TaskFuncPtr(ALO_HorseExecutor, 0x00580BC0);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+TASKWK* ALO_HorseCreateTask(NJS_POINT3* pPos);
 
-/*
-*	User Functions
-*/
+/** Internal task functions **/
+void    ALO_HorseExecutor(TASK* tp);
 
-TASKWK*		ALO_HorseCreateTask(NJS_POINT3* pPos);
+EXTERN_END
 
-/*
-*	User Function Pointers
-*/
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ALO_HorseExecutor_p     FuncPtr(void, __cdecl, (TASK*), 0x00580BC0)
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+/** User-Function ptrs **/
+EXTERN const void* ALO_HorseCreateTask_p;
 
-extern const void* ALO_HorseCreateTask_p;
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-#endif
+#endif /* _SA2B_CHAO_TOY_HORSE_H_ */

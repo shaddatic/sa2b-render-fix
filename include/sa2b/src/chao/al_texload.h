@@ -1,40 +1,68 @@
-#pragma once
-
 /*
-*	Includes
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_texload.h'
+*
+*   Contains enums, structs, data, and functions related to Chao World's texture loading engine.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_TEXLOAD_H_
+#define _SA2B_CHAO_TEXLOAD_H_
 
-#include <sa2b/ninja/ninja.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
-/*
-*	Enums
-*/
-
+/************************/
+/*  Enums               */
+/************************/
 enum 
 { 
-	TEX_LEV_COMMON, 
-	TEX_LEV_STAGE, 
-	TEX_LEV_LAND, 
-	TEX_LEV_OTHER, 
-	NB_TEX_LEV, 
+    TEX_LEV_COMMON,
+    TEX_LEV_STAGE,
+    TEX_LEV_LAND,
+    TEX_LEV_OTHER,
+    NB_TEX_LEV,
 };
 
-/*
-*	User Functions
-*/
+/************************/
+/*  Structures          */
+/************************/
+typedef struct 
+{
+    char* filename;
+    NJS_TEXLIST* pTexlist;
+}
+LOADED_TEX_INFO;
 
-sint32	AL_LoadTex(const ansi* filename, NJS_TEXLIST* pTexlist, uint16 lev);
+/************************/
+/*  Data                */
+/************************/
+#define TexEntry        DataAry(LOADED_TEX_INFO, 0x01DCD600, [4][256])
 
-sint32	AL_ReleaseTex(uint16 lev);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/** Load textures at a given level **/
+sint32    AL_LoadTex(const char* filename, NJS_TEXLIST* pTexlist, uint16 lev);
+/** Release all textures at the given level **/
+sint32    AL_ReleaseTex(uint16 lev);
 
-/*
-*	User Function Pointers
-*/
+EXTERN_END
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** User-Function ptrs **/
+EXTERN const void* AL_LoadTex_p;
+EXTERN const void* AL_ReleaseTex_p;
 
-extern const void* AL_LoadTex_p;
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-extern const void* AL_ReleaseTex_p;
-
-#endif
+#endif /* _SA2B_CHAO_TEXLOAD_H_ */

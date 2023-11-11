@@ -10,7 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_FIGURE_MILES_H_
+#define _SA2B_FIGURE_MILES_H_
 
 /************************/
 /*  Includes            */
@@ -24,31 +25,46 @@
 /************************/
 typedef struct mileswk
 {
-	PLAYERWK pwk;
-	char field_1BC[364];
-	void* texData;
-	float pSomeFloat;
-	char field_38A[120];
-	PLAYER_OBJECT* pObject0;
+    PLAYERWK pwk;
+    char field_1BC[364];
+    void* texData;
+    float pSomeFloat;
+    char field_38A[120];
+    PLAYER_OBJECT* pObject0;
     PLAYER_OBJECT* pObject1;
-	NJS_TEXLIST* TextureList;
-	CHAR_OBJECT* ModelList;
-	PLAYER_MOTION* MotionList;
-	shadowwk shadow;
+    NJS_TEXLIST* TextureList;
+    CHAR_OBJECT* ModelList;
+    PLAYER_MOTION* MotionList;
+    SHADOWWK shadow;
 }
 MILESWK;
 
 /************************/
 /*  Data                */
 /************************/
-DataRef(MILESWK*, pMilesWork, 0x01A521EC);
+#define pMilesWork              DataRef(MILESWK*, 0x01A521EC)
 
-DataRef(NJS_MATRIX, mtx_MilesInv, 0x01A521BC);
-DataRef(NJS_MATRIX, mtx_MilesTails, 0x01A5215C);
-DataRef(NJS_MATRIX, mtx_MilesShaderTails, 0x01A5218C);
+#define mtx_MilesInv            DataRef(NJS_MATRIX, 0x01A521BC)
+#define mtx_MilesTails          DataRef(NJS_MATRIX, 0x01A5215C)
+#define mtx_MilesShaderTails    DataRef(NJS_MATRIX, 0x01A5218C)
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(void, __cdecl, MilesMotionCallBack, (NJS_CNK_OBJECT*), 0x00750320);
-FuncPtr(void, __cdecl, MilesShaderMotionCallBack, (NJS_CNK_OBJECT*), 0x0074FEF0);
+EXTERN_START
+void    MilesMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+void    MilesShadowMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define MilesMotionCallBack_p           FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x00750320)
+#define MilesShadowMotionCallBack_p     FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0074FEF0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_FIGURE_MILES_H_  */

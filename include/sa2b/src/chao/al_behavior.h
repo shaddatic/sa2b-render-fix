@@ -1,70 +1,62 @@
-#pragma once
-
 /*
-*	Define Functions
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_behavior.h'
+*
+*   Contains defines, typedefs, and functions for the Chao behavior system.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_ALBVH_H_
+#define _SA2B_CHAO_ALBVH_H_
 
-#define BhavFuncPtr(NAME, ADDR) FuncPtr(sint32, __cdecl, NAME, (task* tp), ADDR)
+/************************/
+/*  Defines             */
+/************************/
+#define BhvFuncPtr(ADDR)   FuncPtr(sint32, __cdecl, (TASK*), ADDR)
 
-/*
-*	Abstracted Structs
-*/
+/************************/
+/*  Absract Types       */
+/************************/
+typedef struct task     TASK;
 
-typedef struct task TASK;
-
-/*
-*	Typedefs
-*/
-
+/************************/
+/*  Typedefs             */
+/************************/
 typedef sint32(__cdecl* BHV_FUNC)(TASK*);
 
-/*
-*	Enums
-*/
-
-enum  : sint32
+/************************/
+/*  Enums               */
+/************************/
+enum
 {
-	BHV_RET_CONTINUE,
-	BHV_RET_FINISH,
-	BHV_RET_THINK,
-	BHV_RET_BREAK,
+    BHV_RET_CONTINUE,
+    BHV_RET_FINISH,
+    BHV_RET_THINK,
+    BHV_RET_BREAK,
 };
 
-/*
-*	User Functions
-*/
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    AL_SetBehavior(TASK* tp, BHV_FUNC bhav);
+void    AL_SetBehaviorWithTimer(TASK* tp, BHV_FUNC bhav, int timer);
 
-void	AL_SetBehaviorWithTimer(TASK* tp, BHV_FUNC bhav, int timer);
+void    AL_SetNextBehavior(TASK* tp, BHV_FUNC bhav);
 
-void	AL_SetNextBehavior(TASK* tp, BHV_FUNC bhav);
+EXTERN_END
 
-/*
-*	Recreated Functions
-*/
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** User-Function ptrs **/
+EXTERN const void* AL_SetBehaviorWithTimer_p;
+EXTERN const void* AL_SetNextBehavior_p;
 
-void	AL_SetBehavior(TASK* tp, BHV_FUNC bhav);
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-/* BEHAVIOR FUNCTIONS : MOVE THESE LATER */
-
-BhavFuncPtr(ALBHV_Climb, 0x00562EB0);
-BhavFuncPtr(ALBHV_Swim, 0x00562330);
-BhavFuncPtr(ALBHV_JumpToPond, 0x005A0F40);
-BhavFuncPtr(ALBHV_Glide, 0x005630C0);
-BhavFuncPtr(ALBHV_SwimPuha, 0x00562160);
-
-BhavFuncPtr(ALBHV_NoticePlayer, 0x005634D0);
-BhavFuncPtr(ALBHV_Eat, 0x005607C0);
-
-BhavFuncPtr(ALBHV_TurnToFruit, 0x00569240);
-
-/*
-*	User Function Pointers
-*/
-
-#ifdef SAMT_INCLUDE_USER_PTRS
-
-extern const void* AL_SetBehaviorWithTimer_p;
-
-extern const void* AL_SetNextBehavior_p;
-
-#endif
+#endif /* _SA2B_CHAO_ALBVH_H_ */

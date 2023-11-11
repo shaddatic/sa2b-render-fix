@@ -1,7 +1,7 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/adx.h'
 *
-*   Contains functions for playing ADX files
+*   Contains functions for playing ADX files.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -9,30 +9,38 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_ADX_H_
+#define _SA2B_ADX_H_
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(void, __cdecl, BGM_SetRound, (), 0x00442D90);
-FuncPtr(void, __cdecl, BGM_Stop, (), 0x00442F50);
-
-/************************/
-/*  User Functions      */
-/************************/
+EXTERN_START
+/** Play ADX file **/
 void    BGM_Play(const char* f);
+/** Set ADX to loop **/
+void    BGM_SetRound(void);
+/** Stop ADX **/
+void    BGM_Stop(void);
 
 /** Plays an ADX for one-loop, while stopping the current 
     BGM and resuming it after **/
 void    Jingle_Play(const char* f);
 
+EXTERN_END
+
 /************************/
-/*  User Functions Ptrs */
+/*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_USER_PTRS
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define BGM_SetRound_p        FuncPtr(void, __cdecl, (void), 0x00442D90)
+#define BGM_Stop_p            FuncPtr(void, __cdecl, (void), 0x00442F50)
 
-extern const void* BGM_Play_p;
+/** User-Function ptrs **/
+EXTERN const void* BGM_Play_p;
+EXTERN const void* Jingle_Play_p;
 
-extern const void* Jingle_Play_p;
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-#endif
+#endif /* _SA2B_ADX_H_ */

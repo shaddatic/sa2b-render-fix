@@ -9,12 +9,12 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#ifndef	_NJ_CAMERA_H_
-#define	_NJ_CAMERA_H_
+#ifndef _NJ_CAMERA_H_
+#define _NJ_CAMERA_H_
 
 /* Camera Motion type */
-#define NJD_CTYPE_VECTOR		1		/* camera vector */
-#define NJD_CTYPE_TARGET		2		/* camera target position */
+#define NJD_CTYPE_VECTOR        1       /* camera vector */
+#define NJD_CTYPE_TARGET        2        /* camera target position */
 
 /*--------------------------------------*/
 /*      Camera Structure                */
@@ -27,4 +27,4 @@ typedef struct {
     Uint32 type;
 } NJS_CAMERA;
 
-#endif	/*_NJ_CAMERA_H_*/
+#endif    /*_NJ_CAMERA_H_*/

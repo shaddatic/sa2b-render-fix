@@ -9,7 +9,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_EFFECTWATER_H_
+#define _SA2B_EFFECTWATER_H_
 
 /************************/
 /*  Includes            */
@@ -17,15 +18,36 @@
 #include <sa2b/ninja/njcommon.h>
 
 /************************/
+/*  Typedefs            */
+/************************/
+typedef void(__cdecl CreateWaterRipple_t)(NJS_POINT3*, NJS_POINT3*, float32);
+typedef void(__cdecl CreateWater_t)(NJS_POINT3*, Angle3*, float32, float32);
+
+/************************/
 /*  Data                */
 /************************/
-DataPtr(NJS_TEXLIST, texlist_bsplash, 0xB09818);
+#define texlist_bsplash         DataPtr(NJS_TEXLIST         , 0x00B09818)
 
-DataRef(void*, CreateWaterRipple_p, 0x1A5A2A8);
-DataRef(void*, CreateWater_p, 0x01A5A2B0);
+#define pCreateWaterRipple      DataRef(CreateWaterRipple_t*, 0x01A5A2A8)
+#define pCreateWater            DataRef(CreateWater_t*      , 0x01A5A2B0)
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(void, __cdecl, CreateWaterRipple, (NJS_POINT3* pos, NJS_POINT3* vec, float scl), 0x006EDAF0);
-FuncPtr(void, __cdecl, CreateWater, (NJS_POINT3* pPos, Angle3* pAng, float scl, float elemsize), 0x006EDEE0);
+EXTERN_START
+void    CreateWaterRipple(NJS_POINT3* pPos, NJS_POINT3* pParam, float32 scl);
+void    CreateWater(NJS_POINT3* pPos, Angle3* pAng, float32 scl, float32 elemsize);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptr **/
+#define CreateWaterRipple_p     FuncPtr(void, __cdecl, (NJS_POINT3*, NJS_POINT3*, float32)   , 0x006EDAF0)
+#define CreateWater_p           FuncPtr(void, __cdecl, (NJS_POINT3*, Angle3*, float32, float32), 0x006EDEE0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_EFFECTWATER_H_ */

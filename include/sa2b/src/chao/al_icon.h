@@ -1,16 +1,37 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_icon.h'
+*
+*   Contains functions related to Chao icons.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_ICON_H_
+#define _SA2B_CHAO_ICON_H_
 
-struct task;
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task     TASK;
 
-FuncUsr(AL_CalcIconColor, 0x0053B940);
-inline sint32 AL_CalcIconColor(task* tp)
-{
-	sint32 result;
-	__asm
-	{
-		mov eax, [tp]
-		call ptrs::AL_CalcIconColor
-		mov [result], eax
-	}
-	return result;
-}
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+sint32  AL_CalcIconColor(TASK* tp);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** User-Function ptrs **/
+EXTERN const void* AL_CalcIconColor_p;
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_ICON_H_ */

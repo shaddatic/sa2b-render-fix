@@ -53,11 +53,11 @@
 /*--------------------------------------*/
 /*      Basic Define                    */
 /*--------------------------------------*/
-typedef Sint32	Angle;
-typedef Sint16	Sangle;
-typedef Float	NJS_MATRIX[12];     // 3x4 (SA2B Only)
-typedef Sint8	NJS_SYS_ATTR[64];
-typedef void	(*NJS_INT_FUNC)(void);
+typedef Sint32  Angle;
+typedef Sint16  Sangle;
+typedef Float   NJS_MATRIX[12];     // 3x4 (SA2B Only)
+typedef Sint8   NJS_SYS_ATTR[64];
+typedef void  (*NJS_INT_FUNC)(void);
 
 typedef Float   NJS_MATRIX_16[16];  // SA2B Only
 
@@ -97,55 +97,55 @@ Angle3;
 #define NJD_MAP_W_MAX           0xFF    /* the maximum of map's width   */
 #define NJD_MAP_H_MAX           0xFF    /* the muximum of map's height  */
 #define NJD_MAP_MAX             (NJD_MAP_W_MAX*NJD_MAP_H_MAX)
-										/* the muximum of map           */
+                                        /* the muximum of map           */
 
 /* 3d control */
-#define	NJD_CONTROL_3D_DISP_AXIS					BIT_0
-#define	NJD_CONTROL_3D_NO_CLIP_CHECK				BIT_1
-#define	NJD_CONTROL_3D_CONSTANT_ATTR				BIT_2
-#define	NJD_CONTROL_3D_ENABLE_ALPHA					BIT_3
-#define	NJD_CONTROL_3D_CONSTANT_MATERIAL			BIT_4
-#define	NJD_CONTROL_3D_OFFSET_MATERIAL				BIT_5
-#define	NJD_CONTROL_3D_DEPTH_QUEUE					BIT_6
-#define	NJD_CONTROL_3D_VERTEX_OFFSET				BIT_7
-#define	NJD_CONTROL_3D_MODEL_CLIP					BIT_8
-#define	NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL	BIT_9
-#define	NJD_CONTROL_3D_SHADOW						BIT_10
-#define	NJD_CONTROL_3D_CNK_CONSTANT_ATTR			BIT_11
-#define	NJD_CONTROL_3D_SHADOW_OPAQUE				BIT_12
-#define	NJD_CONTROL_3D_TRANS_MODIFIER				BIT_13
-#define	NJD_CONTROL_3D_USE_PUNCHTHROUGH				BIT_14
-#define	NJD_CONTROL_3D_CNK_BLEND_MODE				BIT_15
-#define	NJD_CONTROL_3D_DISABLE_NEAR_CLIP			BIT_16
-#define	NJD_CONTROL_3D_ENV_UV_SCROLL				BIT_17
-#define	NJD_CONTROL_3D_DISABLE_OPAQUE_MODIFIER		BIT_18
-#define	NJD_CONTROL_3D_MIRROR_MODEL					BIT_31
+#define    NJD_CONTROL_3D_DISP_AXIS                    BIT_0
+#define    NJD_CONTROL_3D_NO_CLIP_CHECK                BIT_1
+#define    NJD_CONTROL_3D_CONSTANT_ATTR                BIT_2
+#define    NJD_CONTROL_3D_ENABLE_ALPHA                    BIT_3
+#define    NJD_CONTROL_3D_CONSTANT_MATERIAL            BIT_4
+#define    NJD_CONTROL_3D_OFFSET_MATERIAL                BIT_5
+#define    NJD_CONTROL_3D_DEPTH_QUEUE                    BIT_6
+#define    NJD_CONTROL_3D_VERTEX_OFFSET                BIT_7
+#define    NJD_CONTROL_3D_MODEL_CLIP                    BIT_8
+#define    NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL    BIT_9
+#define    NJD_CONTROL_3D_SHADOW                        BIT_10
+#define    NJD_CONTROL_3D_CNK_CONSTANT_ATTR            BIT_11
+#define    NJD_CONTROL_3D_SHADOW_OPAQUE                BIT_12
+#define    NJD_CONTROL_3D_TRANS_MODIFIER                BIT_13
+#define    NJD_CONTROL_3D_USE_PUNCHTHROUGH                BIT_14
+#define    NJD_CONTROL_3D_CNK_BLEND_MODE                BIT_15
+#define    NJD_CONTROL_3D_DISABLE_NEAR_CLIP            BIT_16
+#define    NJD_CONTROL_3D_ENV_UV_SCROLL                BIT_17
+#define    NJD_CONTROL_3D_DISABLE_OPAQUE_MODIFIER        BIT_18
+#define    NJD_CONTROL_3D_MIRROR_MODEL                    BIT_31
 
 /* sprite */
-#define	NJD_SPRITE_ANGLE			BIT_0
-#define	NJD_SPRITE_COLOR			BIT_1
-#define	NJD_SPRITE_HFLIP			BIT_2
-#define	NJD_SPRITE_VFLIP			BIT_3
-#define	NJD_SPRITE_HVFLIP			( NJD_SPRITE_HFLIP | NJD_SPRITE_VFLIP )
-#define	NJD_SPRITE_SCALE			BIT_4
-#define	NJD_SPRITE_ALPHA			BIT_5
+#define    NJD_SPRITE_ANGLE            BIT_0
+#define    NJD_SPRITE_COLOR            BIT_1
+#define    NJD_SPRITE_HFLIP            BIT_2
+#define    NJD_SPRITE_VFLIP            BIT_3
+#define    NJD_SPRITE_HVFLIP            ( NJD_SPRITE_HFLIP | NJD_SPRITE_VFLIP )
+#define    NJD_SPRITE_SCALE            BIT_4
+#define    NJD_SPRITE_ALPHA            BIT_5
 
 /*--------------------------------------*/
 /*      MACRO                           */
 /*--------------------------------------*/
 #define NJD_PI  3.141592f
 
-#define NJM_DEG_RAD(n)  ((n) * (NJD_PI / 180.f))					/*  deg → rad  */
-#define NJM_DEG_ANG(n)  ((Angle)((n) * (65536.f / 360.f)))			/*  deg → ang  */
-#define NJM_RAD_ANG(n)  ((Angle)((n) * (65536.f / (2.f * NJD_PI))))	/*  rad → ang  */
-#define NJM_RAD_DEG(n)  ((n) * (180.f / NJD_PI))					/*  rad → deg  */
-#define NJM_ANG_DEG(n)  ((n) * (360.f / 65536.f))					/*  ang → deg  */
-#define NJM_ANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))			/*  ang → rad  */
+#define NJM_DEG_RAD(n)  ((n) * (NJD_PI / 180.f))                    /*  deg → rad  */
+#define NJM_DEG_ANG(n)  ((Angle)((n) * (65536.f / 360.f)))            /*  deg → ang  */
+#define NJM_RAD_ANG(n)  ((Angle)((n) * (65536.f / (2.f * NJD_PI))))    /*  rad → ang  */
+#define NJM_RAD_DEG(n)  ((n) * (180.f / NJD_PI))                    /*  rad → deg  */
+#define NJM_ANG_DEG(n)  ((n) * (360.f / 65536.f))                    /*  ang → deg  */
+#define NJM_ANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))            /*  ang → rad  */
 
-#define NJM_DEG_SANG(n)  ((Sangle)((n) * (65536.f / 360.f)))			/*  deg → ang  */
-#define NJM_RAD_SANG(n)  ((Sangle)((n) * (65536.f / (2.f * NJD_PI))))	/*  rad → ang  */
-#define NJM_SANG_DEG(n)  ((n) * (360.f / 65536.f))						/*  ang → deg  */
-#define NJM_SANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))				/*  ang → rad  */
+#define NJM_DEG_SANG(n)  ((Sangle)((n) * (65536.f / 360.f)))            /*  deg → ang  */
+#define NJM_RAD_SANG(n)  ((Sangle)((n) * (65536.f / (2.f * NJD_PI))))    /*  rad → ang  */
+#define NJM_SANG_DEG(n)  ((n) * (360.f / 65536.f))                        /*  ang → deg  */
+#define NJM_SANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))                /*  ang → rad  */
 
 #define NJM_MAX(a,b) ((a)>(b)?(a):(b))
 #define NJM_MIN(a,b) ((a)<(b)?(a):(b))
@@ -154,44 +154,44 @@ Angle3;
 /*      Structer                        */
 /*--------------------------------------*/
 typedef struct {
-	Sint16  u;
-	Sint16  v;
+    Sint16  u;
+    Sint16  v;
 } NJS_TEX;
 
-typedef	struct {
-	Uint8   b;
-	Uint8   g;
-	Uint8   r;
-	Uint8   a;
+typedef    struct {
+    Uint8   b;
+    Uint8   g;
+    Uint8   r;
+    Uint8   a;
 } NJS_BGRA;
 
 typedef union {
-	Uint32  color;
-	NJS_TEX tex;
-	NJS_BGRA argb;
+    Uint32  color;
+    NJS_TEX tex;
+    NJS_BGRA argb;
 } NJS_COLOR;
 
 typedef struct {
-	Float   a;
-	Float   r;
-	Float   g;
-	Float   b;
+    Float   a;
+    Float   r;
+    Float   g;
+    Float   b;
 } NJS_ARGB;
 
 typedef struct {
-	Sint16  x;
-	Sint16  y;
+    Sint16  x;
+    Sint16  y;
 } NJS_POINT2I;
 
 typedef struct {
-	Float  x;
-	Float  y;
+    Float  x;
+    Float  y;
 } NJS_POINT2;
 
 typedef struct {
-	Float   x;
-	Float   y;
-	Float   z;
+    Float   x;
+    Float   y;
+    Float   z;
 } NJS_POINT3, NJS_VECTOR;
 
 typedef struct {
@@ -209,53 +209,53 @@ typedef struct {
 } NJS_POINT3COL;
 
 typedef struct {
-	Float   px, py, pz;
-	Float   vx, vy, vz;
+    Float   px, py, pz;
+    Float   vx, vy, vz;
 } NJS_LINE, NJS_PLANE, NJS_PVECTOR;
 
-typedef	struct {
-	float	re;	                /* real (or scalor) part of quaternion		*/
-	float	im[3];              /* imaginary (or vector) part of quaternion	*/
+typedef    struct {
+    float    re;                    /* real (or scalor) part of quaternion        */
+    float    im[3];              /* imaginary (or vector) part of quaternion    */
 } NJS_QUATERNION;
 
 typedef struct {
-	void            *filename;  /* texture filename strings     */
-	Uint32               attr;  /* texture attribute            */
-	Uint32            texaddr;  /* texture memory list address  */
+    void            *filename;  /* texture filename strings     */
+    Uint32               attr;  /* texture attribute            */
+    Uint32            texaddr;  /* texture memory list address  */
 } NJS_TEXNAME;
 
 typedef struct {
-	NJS_TEXNAME     *textures;  /* texture array                */
-	Uint32          nbTexture;  /* texture count                */
+    NJS_TEXNAME     *textures;  /* texture array                */
+    Uint32          nbTexture;  /* texture count                */
 } NJS_TEXLIST;
 
 /*--------------------------------------*/
 /*      Low Level                       */
 /*--------------------------------------*/
 typedef struct {
-	Float	x;
-	Float	y;
-	Float	z;
-	Uint32	col;
+    Float    x;
+    Float    y;
+    Float    z;
+    Uint32    col;
 } NJS_POLYGON_VTX;
 
 typedef struct {
-	Float	x;
-	Float	y;
-	Float	z;
-	Float	u;
-	Float	v;
-	Uint32	col;
+    Float    x;
+    Float    y;
+    Float    z;
+    Float    u;
+    Float    v;
+    Uint32    col;
 } NJS_TEXTURE_VTX;
 
 typedef struct {
-	Float	x;
-	Float	y;
-	Float	z;
-	Float	u;
-	Float	v;
-	Uint32	bcol;
-	Uint32	ocol;
+    Float    x;
+    Float    y;
+    Float    z;
+    Float    u;
+    Float    v;
+    Uint32    bcol;
+    Uint32    ocol;
 } NJS_TEXTUREH_VTX;
 
 #endif

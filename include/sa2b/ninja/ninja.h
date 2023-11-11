@@ -9,8 +9,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#ifndef	_NJNJA_H_
-#define	_NJNJA_H_
+#ifndef    _NJNJA_H_
+#define    _NJNJA_H_
 
 EXTERN_START
 
@@ -37,12 +37,9 @@ EXTERN_START
 #include <sa2b/ninja/njbasic.h>
 #include <sa2b/ninja/ginja.h>
 
-#include <sa2b/ninja/njother.h>
-
 EXTERN_END
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <sa2b/extern/stdlib.h>
 
 /** ANY_OBJECT is SAMT specific, and is to be used when 
     a pointer can represent more than one Object type **/

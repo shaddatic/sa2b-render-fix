@@ -1,7 +1,41 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_behavior/albhv_common.h'
+*
+*   Contains functions related to the Chao common behaviors.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_ALBVH_COMMON_H_
+#define _SA2B_CHAO_ALBVH_COMMON_H_
 
-#include <sa2b/src/Chao/al_behavior.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/src/chao/al_behavior.h>
 
-BhavFuncPtr(ALBHV_Turn, 0x0056B740);
-BhavFuncPtr(ALBHV_TurnRandom, 0x0056B960);
-BhavFuncPtr(ALBHV_GoToLockOn, 0x0056BA80);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+sint32  ALBHV_Turn(TASK* tp);
+sint32  ALBHV_TurnRandom(TASK* tp);
+sint32  ALBHV_GoToLockOn(TASK* tp);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ALBHV_Turn_p            BhvFuncPtr(0x0056B740)
+#define ALBHV_TurnRandom_p      BhvFuncPtr(0x0056B960)
+#define ALBHV_GoToLockOn_p      BhvFuncPtr(0x0056BA80)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_ALBVH_COMMON_H_ */

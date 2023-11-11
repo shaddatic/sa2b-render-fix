@@ -1,56 +1,86 @@
-#pragma once
-
 /*
-*	Abstracted Structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_odekake.h'
+*
+*   Contains enums and functions related to Odekake machine.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_ODEKAKE_H_
+#define _SA2B_CHAO_ODEKAKE_H_
 
-typedef struct task		TASK;
-typedef struct taskwk	TASKWK;
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/ninja.h>
 
-/*
-*	Structs
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task        TASK;
+typedef struct taskwk    TASKWK;
 
-struct ODAKAKE_WORK // anywk
+/************************/
+/*  Structures          */
+/************************/
+#define GET_ODEKAKE_WORK(tp) ((ODAKAKE_WORK*)tp->awp)
+
+typedef struct // ANYWK
 {
-	sint32 ButtonState;
-	sint32 CoverMode;
-	float32 CoverFrame;
-	float32 ButtonPos;
-	struct task* pChaoTask;
-	sint32 FileFlag;
-	sint32 BuyoFlag;
-	sint32 BuyoPhase;
-	sint32 MonitorMode;
-	sint32 MonitorCount;
-	sint32 MonitorTimer;
-	sint32 ring;
-};
+    sint32 ButtonState;
+    sint32 CoverMode;
+    float32 CoverFrame;
+    float32 ButtonPos;
+    TASK* pChaoTask;
+    sint32 FileFlag;
+    sint32 BuyoFlag;
+    sint32 BuyoPhase;
+    sint32 MonitorMode;
+    sint32 MonitorCount;
+    sint32 MonitorTimer;
+    sint32 ring;
+}
+ODAKAKE_WORK;
 
-/*
-*	Data References
-*/
+/************************/
+/*  Data                */
+/************************/
+#define OdekakeTaskPointer      DataRef(TASK*, 0x01AED318)
+#define EnteringOdekake         DataRef(bool32, 0x01AED31C)
 
-DataRef(struct task*, OdekakeTaskPointer, 0x01AED318);
+/** Crappy, half-baked, replacement case model by SOC **/
+#define pSOCOdekakeModel        DataRef(void*, 0x1AED320)
 
-DataRef(sint32, CrappyReplacementDepartureMachine, 0x1AED320);
-DataRef(sint32, EnteringOdekake, 0x01AED31C);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    ALO_OdekakeMachineCreate(NJS_POINT3* pPos, Angle angy);
 
-/*
-*	Task Functions
-*/
+/** Task functions **/
+void    ALO_OdekakeMachine(TASK* tp);
+void    ALO_OdekakeMachineExecutor(TASK* tp);
+void    ALO_OdekakeMachineDisplayerNeut(TASK* tp);
+void    ALO_OdekakeMachineDestructor(TASK* tp);
 
-TaskFuncPtr(ALO_OdekakeMachine, 0x0057E460);
-TaskFuncPtr(ALO_OdekakeMachineExecutor, 0x0057D540);
-TaskFuncPtr(ALO_OdekakeMachineDestructor, 0x0057E040);
-TaskFuncPtr(ALO_OdekakeMachineDisplayerNeut, 0x0057E060);
+EXTERN_END
 
-/*
-*	User Functions
-*/
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ALO_OdekakeMachine_p                    FuncPtr(void, __cdecl, (TASK*), 0x0057E460)
+#define ALO_OdekakeMachineExecutor_p            FuncPtr(void, __cdecl, (TASK*), 0x0057D540)
+#define ALO_OdekakeMachineDisplayerNeut_p       FuncPtr(void, __cdecl, (TASK*), 0x0057E060)
+#define ALO_OdekakeMachineDestructor_p          FuncPtr(void, __cdecl, (TASK*), 0x0057E040)
 
-TASKWK* ALO_OdekakeMachineCreate(NJS_POINT3* pPos, Angle angy);
+/** User-Function ptrs **/
+EXTERN const void* ALO_OdekakeMachineCreate_p;
 
-/*
-*	User Function Pointers
-*/
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_ODEKAKE_H_ */

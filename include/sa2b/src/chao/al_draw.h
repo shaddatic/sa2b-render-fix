@@ -1,50 +1,79 @@
-#pragma once
-
 /*
-*	Abstracted Structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_draw.h'
+*
+*   Contains functions and data related to Chao drawing.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_DRAW_H_
+#define _SA2B_CHAO_DRAW_H_
 
-typedef struct task	TASK;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/njcommon.h>
 
-/*
-*	Data References
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task         TASK;
+typedef struct al_object    AL_OBJECT;
 
-DataRef(task*, ManagerTp, 0x01A5D144);
+/************************/
+/*  Data                */
+/************************/
+/** Refers to Chao tree nodes - called 'tree_count' in symbols **/
+#define tree_count_draw         DataRef(sint16     , 0x01A259D8)
 
-/*
-*	Function Pointers
-*/
+/** Pointer to Chao shadow task **/
+#define ShadowTexTp             DataRef(TASK*      , 0x01A5D144)
 
-FuncPtr(void, __cdecl, AL_CreateShadowTex, (), 0x00540F70);
-FuncPtr(NJS_CNK_OBJECT*, __cdecl, AL_AllocateShadowTex, (), 0x00541020); // Be careful of this one...
+#define texlist_al_mm_kage      DataPtr(NJS_TEXLIST, 0x01349ED4)
 
-/*
-*	Task Function Pointers
-*/
-
-TaskFuncPtr(AL_ExecShadowTex, 0x005412E0);
-TaskFuncPtr(AL_DisplayShadowTex, 0x00541370);
-TaskFuncPtr(AL_DestructShadowTex, 0x00541250);
-
-/*
-*	User Functions
-*/
-
-void AL_EntryShadowTex(NJS_POINT3* pos, float scl);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/** Chao Draw **/
+void    AL_Draw(TASK* tp);
+void    AL_DrawSub(TASK* tp, AL_OBJECT* pObject);
 
 /*
-*	User Function Pointers
+*   Chao Shadow Engine 
 */
+void    AL_CreateShadowTex(void);
+void    AL_EntryShadowTex(NJS_POINT3* pos, float scl);
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+/** Task functions **/
+void    AL_ExecShadowTex(TASK* tp);
+void    AL_DisplayShadowTex(TASK* tp);
+void    AL_DestructShadowTex(TASK* tp);
 
-extern const void* AL_EntryShadowTex_p;
+/** Internal functions **/
+void    AL_AllocateShadowTex(void);
 
-#endif
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_Draw_p                   FuncPtr(void, __cdecl, (TASK*)            , 0x00540B60)
+#define AL_DrawSub_p                FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0053FCF0)
+#define AL_CreateShadowTex_p        FuncPtr(void, __cdecl, (void)             , 0x00540F70)
+#define AL_ExecShadowTex_p          FuncPtr(void, __cdecl, (TASK*)            , 0x005412E0)
+#define AL_DisplayShadowTex_p       FuncPtr(void, __cdecl, (TASK*)            , 0x00541370)
+#define AL_DestructShadowTex_p      FuncPtr(void, __cdecl, (TASK*)            , 0x00541250)
+#define AL_AllocateShadowTex_p      FuncPtr(void, __cdecl, (void)             , 0x00541020)
+
+/** User-Function ptrs **/
+EXTERN const void* AL_EntryShadowTex_p;
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_DRAW_H_ */

@@ -1,43 +1,62 @@
-#pragma once
-
 /*
-*	Enums
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_module.h'
+*
+*   Contains enums, structs, data, and functions related to Chao World modules.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_MODULE_H_
+#define _SA2B_CHAO_MODULE_H_
 
-enum EChaoModuleEntry
+/************************/
+/*  Enums               */
+/************************/
+typedef enum
 {
-	CHAO_MODULE_HEAD,
-	CHAO_MODULE_STAGE,
-	CHAO_MODULE_LAND,
-	CHAO_MODULE_ETC,
-	MAX_CHAO_MODULE
-};
+    CHAO_MODULE_HEAD,
+    CHAO_MODULE_STAGE,
+    CHAO_MODULE_LAND,
+    CHAO_MODULE_ETC,
+    MAX_CHAO_MODULE
+}
+EChaoModuleEntry;
 
-/*
-*	Structs
-*/
-
-struct CHAO_MODULE
+/************************/
+/*  Structures          */
+/************************/
+typedef struct
 {
-	char* name;
-	void(__cdecl* prolog)();
-	void(__cdecl* epilog)();
-};
+    const char* name;
+    void(__cdecl* prolog)();
+    void(__cdecl* epilog)();
+}
+AL_SUBPRG_HEADER;
 
-/*
-*	Data References
-*/
+/************************/
+/*  Data                */
+/************************/
+#define ModuleCtrl      DataRef(AL_SUBPRG_HEADER, 0x01A0F950)
+#define ChaoModules     DataAry(AL_SUBPRG_HEADER, 0x01366580, [48])
 
-DataRef(CHAO_MODULE, ModuleCtrl, 0x01A0F950);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+void    AL_LoadModule(const char* name, EChaoModuleEntry kind);
 
-/*
-*	Data Arrays
-*/
+EXTERN_END
 
-DataAry(CHAO_MODULE, ChaoModules, 0x1366580, [48]);
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_LoadModule_p     FuncPtr(void, __cdecl, (const char*, EChaoModuleEntry), 0x00530C20)
 
-/*
-*	Function Pointers
-*/
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-FuncPtr(void, __cdecl, AL_LoadModule, (const char* name, EChaoModuleEntry kind), 0x00530C20);
+#endif /* _SA2B_CHAO_MODULE_H_ */

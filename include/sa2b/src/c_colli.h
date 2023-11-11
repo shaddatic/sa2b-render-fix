@@ -9,44 +9,45 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_CCOLLI_H_
+#define _SA2B_CCOLLI_H_
 
 /************************/
 /*  Abstracted Types    */
 /************************/
-typedef task    TASK;
-typedef taskwk  TASKWK;
+typedef struct task     TASK;
+typedef struct taskwk   TASKWK;
 
 /************************/
 /*  Enums               */
 /************************/
 enum
 {
-	CI_FORM_SPHERE,
-	CI_FORM_CYLINDER,
-	CI_FORM_CYLINDER2,
-	CI_FORM_RECTANGLE,
-	CI_FORM_RECTANGLE2,
-	CI_FORM_RECTANGLE3,
-	CI_FORM_CAPSULE,
-	CI_FORM_PERSON,
-	CI_FORM_LINE,
-	CI_FORM_WALL_PLANE,
-	CI_FORM_WALL_CIRCLE
+    CI_FORM_SPHERE,
+    CI_FORM_CYLINDER,
+    CI_FORM_CYLINDER2,
+    CI_FORM_RECTANGLE,
+    CI_FORM_RECTANGLE2,
+    CI_FORM_RECTANGLE3,
+    CI_FORM_CAPSULE,
+    CI_FORM_PERSON,
+    CI_FORM_LINE,
+    CI_FORM_WALL_PLANE,
+    CI_FORM_WALL_CIRCLE
 };
 
 enum
 {
-	CID_PLAYER,
-	CID_BULLET,
-	CID_ENEMY,
-	CID_ENEMY2,
-	CID_OBJECT,
-	CID_OBJECT2,
-	CID_ITEM,
-	CID_ITEM2,
-	CID_WALL,
-	CID_CHAO,
+    CID_PLAYER,
+    CID_BULLET,
+    CID_ENEMY,
+    CID_ENEMY2,
+    CID_OBJECT,
+    CID_OBJECT2,
+    CID_ITEM,
+    CID_ITEM2,
+    CID_WALL,
+    CID_CHAO,
 };
 
 /************************/
@@ -54,73 +55,90 @@ enum
 /************************/
 typedef struct
 {
-	sint8		kind;
-	uint8		form;
-	sint8		push;
-	sint8		damage;
-	uint32		attr;
-	NJS_POINT3	center;
-	float32		a;
-	float32		b;
-	float32		c;
-	float32		d;
-	sint32		angx;
-	sint32		angy;
-	sint32		angz;
+    TASK*   pTask;
+    void*   FuncAddr;
+    sint32  CurrNum;
+    sint32  Kind;
+}
+CCL_SEARCH;
+
+typedef struct ccl_info
+{
+    sint8       kind;
+    uint8       form;
+    sint8       push;
+    sint8       damage;
+    uint32      attr;
+    NJS_POINT3  center;
+    float32     a;
+    float32     b;
+    float32     c;
+    float32     d;
+    sint32      angx;
+    sint32      angy;
+    sint32      angz;
 }
 CCL_INFO;
 
 typedef struct c_colli_hit_info
 {
-	sint8	my_num;
-	sint8	hit_num;
-	uint16	flag;
-    TASKWK* hit_twp;
+    sint8   my_num;
+    sint8   hit_num;
+    uint16  flag;
+    TASK*   hit_tp;
 }
 CCL_HIT_INFO;
 
 typedef struct colliwk
 {
-	uint16 id;
-	sint16 nbHit;
-	uint16 flag;
-	uint16 nbInfo;
-	float32 colli_range;
-	CCL_INFO* info;
-	CCL_HIT_INFO hit_info[16];
-	NJS_POINT3 normal;
-	TASK* mytask;
-	sint16 my_num;
-	sint16 hit_num;
-	struct colliwk* hit_cwp;
+    uint16          id;
+    sint16          nbHit;
+    uint16          flag;
+    uint16          nbInfo;
+    float32         colli_range;
+    CCL_INFO*       info;
+    CCL_HIT_INFO    hit_info[16];
+    NJS_POINT3      normal;
+    TASK*           mytask;
+    sint16          my_num;
+    sint16          hit_num;
+    struct colliwk* hit_cwp;
 }
 COLLIWK;
 
 /************************/
-/*  Function Pointers   */
+/*  Data                */
 /************************/
-FuncPtr(CCL_HIT_INFO*, __cdecl, CCL_IsHitKindEx, (TASK* tp, uint8 kind), 0x486760);
-
-/************************/
-/*  User Functions      */
-/************************/
-sint32	CCL_Init(TASK* tp, CCL_INFO* info, sint32 nbInfo, uint8 id);
-void	CCL_Entry(TASK* tp);
+#define Search      DataRef(CCL_SEARCH, 0x019468A0)
 
 /************************/
 /*  Functions           */
 /************************/
-TASKWK* CCL_IsHitKind(TASK* tp, uint8 kind);
-TASK*	CCL_IsHitKind2(TASK* tp, uint8 kind);
+EXTERN_START
+sint32  CCL_Init(TASK* tp, CCL_INFO* info, sint32 nbInfo, uint8 id);
+void    CCL_Entry(TASK* tp);
 
-bool32	CCL_IsPushed(TASKWK* twp);
+TASK*   CCL_IsHitKind(TASK* tp, uint8 kind);
+
+bool32  CCL_IsPushed(TASKWK* twp);
+
+CCL_HIT_INFO* CCL_IsHitKindEx(TASK* tp, uint8 kind);
+
+void    CCL_ClearSearch(void);
+
+EXTERN_END
 
 /************************/
-/*  User Function Ptrs  */
+/*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_USER_PTRS
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define CCL_IsHitKindEx_p   FuncPtr(CCL_HIT_INFO*, __cdecl, (TASK*, uint8), 0x486760)
 
-extern const void* CCL_Init_p;
-extern const void* CCL_Entry_p;
+/** User-Function ptrs **/
+EXTERN const void* CCL_Init_p;
+EXTERN const void* CCL_Entry_p;
 
-#endif
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CCOLLI_H_ */

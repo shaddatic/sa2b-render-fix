@@ -1,34 +1,97 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_chaosdrive.h'
+*
+*   ~~~ Under Construction ~~~
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_CHAOSDRIVE_H_
+#define _SA2B_CHAO_CHAOSDRIVE_H_
 
-#include <sa2b/src/task.h>
-#include <sa2b/src/Chao/al_garden_info.h>
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
-struct ALO_ChaosDriveWork
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task             TASK;
+typedef struct colliwk          COLLIWK;
+typedef struct item_save_info   ITEM_SAVE_INFO;
+
+/************************/
+/*  Enums               */
+/************************/
+typedef enum /* Toolkit addition */
 {
-	taskwk twk;
-	char kind;
-	char gap_31[3];
-	int field_34;
-	char gap_38[4];
-	int field_3C;
-	int field_40;
-	char gap_44[4];
-	int field_48;
-	int field_4C;
-	int field_50;
-};
+    AL_DRIVE_YELLOW = 0x15,
+    AL_DRIVE_GREEN = 0x16,
+    AL_DRIVE_RED = 0x17,
+    AL_DRIVE_PURPLE = 0x18
+}
+eAL_DRIVES;
 
-enum eAL_DRIVES : sint32 // Non-standard
+/************************/
+/*  Structures          */
+/************************/
+#define GET_AL_CHAOSDRIVE_WORK(tp) ((AL_CHAOSDRIVE_WORK*)tp->twp)
+
+typedef struct // TASKWK
 {
-	AL_DRIVE_YELLOW = 0x15,
-	AL_DRIVE_GREEN = 0x16,
-	AL_DRIVE_RED = 0x17,
-	AL_DRIVE_PURPLE = 0x18
-};
+    sint8 mode;
+    sint8 smode;
+    sint8 id;
+    sint8 btimer;
+    sint16 flag;
+    sint16 wtimer;
+    Angle3 ang;
+    NJS_POINT3 pos;
+    NJS_POINT3 scl;
+    COLLIWK* cwp;
 
-TaskFuncPtr(ALO_ChaosDriveExecutor, 0x005450C0);
-TaskFuncPtr(ALO_ChaosDriveDestructor, 0x005455B0);
-TaskFuncPtr(ALO_ChaosDriveDisplayer, 0x00545150);
-TaskFuncPtr(ALO_ChaosDriveDisp1, 0x00545430);
+    char kind;
+    char gap_31[3];
+    int field_34;
+    char gap_38[4];
+    int field_3C;
+    int field_40;
+    char gap_44[4];
+    int field_48;
+    int field_4C;
+    int field_50;
+}
+AL_CHAOSDRIVE_WORK;
 
-FuncPtr(task*, __cdecl, ALO_ChaosDriveCreate, (uint8 kind, NJS_POINT3* pPos, NJS_VECTOR* idkvector, ITEM_SAVE_INFO* a4), 0x00545600);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+TASK*   ALO_ChaosDriveCreate(uint8 kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+
+/** Task functions **/
+void    ALO_ChaosDriveExecutor(TASK* tp);
+void    ALO_ChaosDriveDisplayer(TASK* tp);
+void    ALO_ChaosDriveDestructor(TASK* tp);
+void    ALO_ChaosDriveDisplayerDelayed(TASK* tp);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** User-Function ptrs **/
+#define ALO_ChaosDriveCreate_p              FuncPtr(TASK*, __cdecl, (uint8 kind, NJS_POINT3* pPos, NJS_VECTOR* idkvector, ITEM_SAVE_INFO* a4), 0x00545600)
+#define ALO_ChaosDriveExecutor_p            FuncPtr(void, __cdecl, (TASK*), 0x005450C0)
+#define ALO_ChaosDriveDisplayer_p           FuncPtr(void, __cdecl, (TASK*), 0x00545150)
+#define ALO_ChaosDriveDestructor_p          FuncPtr(void, __cdecl, (TASK*), 0x005455B0)
+#define ALO_ChaosDriveDisplayerDelayed_p    FuncPtr(void, __cdecl, (TASK*), 0x00545430)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_CHAOSDRIVE_H_ */

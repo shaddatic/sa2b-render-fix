@@ -10,7 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_LIGHT_H_
+#define _SA2B_LIGHT_H_
 
 /************************/
 /*  Includes            */
@@ -22,9 +23,9 @@
 /************************/
 typedef struct light
 {
-	NJS_VECTOR  vec;
-	float32     dif;
-	float32     amb;
+    NJS_VECTOR  vec;
+    float32     dif;
+    float32     amb;
     float32     r;
     float32     g;
     float32     b;
@@ -33,15 +34,15 @@ LIGHT;
 
 typedef struct lightgc
 {
-	NJS_VECTOR  vec;
+    NJS_VECTOR  vec;
     float32     r;
     float32     g;
     float32     b;
     float32     amb_r;
     float32     amb_g;
     float32     amb_b;
-	uint32      flag;
-	uint32      unused[2];
+    uint32      flag;
+    uint32      unused[2];
 }
 LIGHT_GC;
 
@@ -49,50 +50,58 @@ LIGHT_GC;
 /*  Data                */
 /************************/
 /** Lights used by the player **/
-DataAry(uint8,      PlayerLight,   0x01DE4664, [2]);
+#define PlayerLight             DataAry(uint8     , 0x01DE4664, [2])
 
 /** Lights used by the player when swinging on bars, always 0 **/
-DataAry(uint8,      IronBarLights,  0x01DE4662, [2]);
+#define IronBarLights           DataAry(uint8     , 0x01DE4662, [2])
 
 /** Stage lights, GC is only used if (flag & BIT_0) **/
-DataAry(LIGHT,      Lights,         0x01DE4280, [12]);
-DataAry(LIGHT_GC,   LightsGC,       0x01DE4420, [12]);
+#define Lights                  DataAry(LIGHT     , 0x01DE4280, [12])
+#define LightsGC                DataAry(LIGHT_GC  , 0x01DE4420, [12])
 
 /** Default light indexes, some objects use player light **/
-DataRef(uint8,      DefaultPlayerLight,     0x01DE4660);
-DataRef(uint8,      DefaultLight,           0x01DE4400);
+#define DefaultPlayerLight      DataRef(uint8     , 0x01DE4660)
+#define DefaultLight            DataRef(uint8     , 0x01DE4400)
 
-/************************/
-/*  Function Pointers   */
-/************************/
-FuncPtr(sint32, __fastcall, LoadStageLight, (const char* filename), 0x006C3AE0);
-
-/************************/
-/*  User Functions      */
-/************************/
-void    SetLighting(int light);
+/** An unused vector that's set whenever the lights are set **/
+#define UnusedLightVec          DataRef(NJS_VECTOR, 0x1DD94A0)
 
 /************************/
 /*  Functions           */
 /************************/
-void    SetLight(int light, const LIGHT* pLight);
-void    SetLightGC(int light, const LIGHT_GC* pLightDataGC);
+EXTERN_START
+/** Set current light for drawing via index **/
+void    SetLighting(int light);
 
+/** Load light file into 'Lights' or 'LightsGC' **/
+sint32  LoadStageLight(const char* filename);
+
+/** Manually change light entry via index **/
+void    SetLight(int light, const LIGHT* pLight);
+void    SetLightGC(int light, const LIGHT_GC* pLightGC);
+
+/** Set default light index for most objects **/
 void    SetDefaultLight(int light);
 
+/** Set default and draw light index for the players **/
 void    SetPlayerLight(int player, int light);
 void    SetDefaultPlayerLight(int light);
 
-/************************/
-/*  User Function Ptrs  */
-/************************/
-#ifdef SAMT_INCLUDE_USER_PTRS
+/** SAMT function to convert DC lights to GC lights **/
+void    ConvertLight(LIGHT_GC* pLightGC, const LIGHT* pLight);
 
-extern const void* SetLighting_p;
-
-#endif
+EXTERN_END
 
 /************************/
-/*  SAMT Functions      */
+/*  Function Ptrs       */
 /************************/
-EXTERN void ConvertLight(const LIGHT* pLight, LIGHT_GC* pLightGC);
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define LoadStageLight_p    FuncPtr(sint32, __fastcall, (const char*), 0x006C3AE0)
+
+/** User-Function ptrs **/
+EXTERN const void* SetLighting_p;
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_LIGHT_H_ */

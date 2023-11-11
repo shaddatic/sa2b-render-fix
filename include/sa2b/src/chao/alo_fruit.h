@@ -1,40 +1,85 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_fruit.h'
+*
+*   Contains enums and functions related to Chao World fruits.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_FRUIT_H_
+#define _SA2B_CHAO_FRUIT_H_
 
-struct task;
-struct ITEM_SAVE_INFO;
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
-enum eFRUIT_KIND : sint32
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task             TASK;
+typedef struct item_save_info   ITEM_SAVE_INFO;
+
+/************************/
+/*  Enums               */
+/************************/
+typedef enum
 {
-	FRUIT_NEUT_LOCAL = 0x0,
-	FRUIT_HERO_LOCAL = 0x1,
-	FRUIT_DARK_LOCAL = 0x2,
-	FRUIT_MORIMORI = 0x3,
-	FRUIT_PAKUPAKU = 0x4,
-	FRUIT_HERO = 0x5,
-	FRUIT_DARK = 0x6,
-	FRUIT_MARU = 0x7,
-	FRUIT_SANKAKU = 0x8,
-	FRUIT_SIKAKU = 0x9,
-	FRUIT_HEART = 0xA,
-	FRUIT_CHAO = 0xB,
-	FRUIT_ORIKOU = 0xC,
-	FRUIT_GBA_A = 0xD,
-	FRUIT_GBA_B = 0xE,
-	FRUIT_GBA_C = 0xF,
-	FRUIT_GBA_D = 0x10,
-	FRUIT_GBA_E = 0x11,
-	FRUIT_GBA_F = 0x12,
-	FRUIT_GBA_G = 0x13,
-	FRUIT_KINOKO_A = 0x14,
-	FRUIT_KINOKO_B = 0x15,
-	FRUIT_MINTCANDY = 0x16,
-	FRUIT_GRAPE = 0x17,
-	FRUIT_DX_DEFAULT = 0x18,
-	FRUIT_END = 0x19,
-};
+    FRUIT_NEUT_LOCAL,
+    FRUIT_HERO_LOCAL,
+    FRUIT_DARK_LOCAL,
+    FRUIT_MORIMORI,
+    FRUIT_PAKUPAKU,
+    FRUIT_HERO,
+    FRUIT_DARK,
+    FRUIT_MARU,
+    FRUIT_SANKAKU,
+    FRUIT_SIKAKU,
+    FRUIT_HEART,
+    FRUIT_CHAO,
+    FRUIT_ORIKOU,
+    FRUIT_GBA_A,
+    FRUIT_GBA_B,
+    FRUIT_GBA_C,
+    FRUIT_GBA_D,
+    FRUIT_GBA_E,
+    FRUIT_GBA_F,
+    FRUIT_GBA_G,
+    FRUIT_KINOKO_A,
+    FRUIT_KINOKO_B,
+    FRUIT_MINTCANDY,
+    FRUIT_GRAPE,
+    FRUIT_DX_DEFAULT,
+    FRUIT_END,
+}
+eFRUIT_KIND;
 
-TaskFuncPtr(ALO_FruitExecutor, 0x545E40);
-TaskFuncPtr(ALO_FruitDisplayer, 0x545EE0);
-TaskFuncPtr(ALO_FruitDestructor, 0x0057B9B0); // Same function as many other ALO objects
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+TASK*   ALO_FruitCreate(eFRUIT_KIND kind, NJS_POINT3* pPos, sint32 AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
 
-FuncPtr(task*, __cdecl, ALO_FruitCreate, (eFRUIT_KIND kind, NJS_POINT3* pPos, sint32 AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x546180);
+/** Task functions **/
+void    ALO_FruitExecutor(TASK* tp);
+void    ALO_FruitDisplayer(TASK* tp);
+void    ALO_FruitDestructor(TASK* tp); /* Same destructor as many other Chao objects */
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ALO_FruitCreate_p           FuncPtr(TASK*, __cdecl, (eFRUIT_KIND, NJS_POINT3*, sint32, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00546180)
+#define ALO_FruitExecutor_p         FuncPtr(void , __cdecl, (TASK*)                                                         , 0x00545E40)
+#define ALO_FruitDisplayer_p        FuncPtr(void , __cdecl, (TASK*)                                                         , 0x00545EE0)
+#define ALO_FruitDestructor_p       FuncPtr(void , __cdecl, (TASK*)                                                         , 0x0057B9B0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_FRUIT_H_ */

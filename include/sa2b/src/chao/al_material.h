@@ -1,56 +1,62 @@
-#pragma once
-
 /*
-*	Abstracted structs
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_material.h'
+*
+*   Contains structs, data, and functions related to Chao landmarks.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_MATERIAL_H_
+#define _SA2B_CHAO_MATERIAL_H_
 
-typedef struct task			TASK;
-
-typedef struct al_model		AL_MODEL;
-typedef struct al_object	AL_OBJECT;
-
-/*
-*	Includes
-*/
-
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/njcommon.h>
 
-/*
-*	Data Arrays
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task         TASK;
+typedef struct al_model     AL_MODEL;
+typedef struct al_object    AL_OBJECT;
 
-DataAry(int, ChaoColorList, 0x01298448, [16]);
-DataAry(int, EggColorList, 0x01298414, [13]);
+/************************/
+/*  Data                */
+/************************/
+#define ChaoColorList       DataAry(sint32, 0x01298448, [16])
+#define EggColorList        DataAry(sint32, 0x01298414, [13])
 
-/*
-*	Function Pointers
-*/
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+sint32  AL_MatSetChaoColor(TASK* tp, sint16 ColorNum);
 
-FuncPtr(NJS_CNK_OBJECT*, __cdecl, AL_CopyObject, (NJS_CNK_OBJECT* pObject), 0x0055EBD0);	// no official names yet
-FuncPtr(void,			 __cdecl, AL_FreeObject, (NJS_CNK_OBJECT* pObject), 0x0055EDF0);	// ^
+void    AL_MatChangeModelTexture(AL_MODEL* pModel, uint16 TexID);
+void    AL_MatChangeObjectTexture(AL_OBJECT* pObject, uint16 TexID);
 
-/*
-*	User Functions
-*/
+/** Create and free copies of objects (no official names yet) **/
+NJS_CNK_OBJECT* AL_CopyObject(NJS_CNK_OBJECT* pObject);
+void            AL_FreeObject(NJS_CNK_OBJECT* pObject);
 
-int		AL_MatSetChaoColor(TASK* tp, __int16 ColorNum);
+EXTERN_END
 
-void	AL_MatChangeModelTexture(AL_MODEL* pModel, uint16 TexID);
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_CopyObject_p     FuncPtr(NJS_CNK_OBJECT*, __cdecl, (NJS_CNK_OBJECT*), 0x0055EBD0)
+#define AL_FreeObject_p     FuncPtr(void           , __cdecl, (NJS_CNK_OBJECT*), 0x0055EDF0)
 
-/*
-*	Remade Functions
-*/
+/** User-Function ptrs **/
+EXTERN const void* AL_MatSetChaoColor_p;
+EXTERN const void* AL_MatChangeModelTexture_p;
 
-void	AL_MatChangeObjectTexture(AL_OBJECT* pObject, uint16 TexID);
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-/*
-*	User Function Pointers
-*/
-
-#ifdef SAMT_INCLUDE_USER_PTRS
-
-extern const void* AL_MatSetChaoColor_p;
-
-extern const void* AL_MatChangeModelTexture_p;
-
-#endif
+#endif /* _SA2B_CHAO_MATERIAL_H_ */

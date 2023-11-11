@@ -1,71 +1,151 @@
-#pragma once
-
 /*
-*	Includes
+*   Sonic Adventure Mod Tools (SA2B) - '/src/sound.h'
+*
+*   Contains structs, data, and functions related to the sound engine.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_SOUND_H_
+#define _SA2B_SOUND_H_
 
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/njcommon.h>
 
-/*
-*	Structs
-*/
-
+/************************/
+/*  Structures          */
+/************************/
 typedef struct bankentry
 {
-	sint8 memBank;
-	sint8 index;
-	sint8 seBank;
-	sint8 flags;
-	sint16 unk;
-	sint16 dist;
+    sint8 memBank;
+    sint8 index;
+    sint8 seBank;
+    sint8 flags;
+    sint16 unk;
+    sint16 dist;
 }
 BANK_ENTRY;
 
 typedef struct banklist
 {
-	sint32 nbEntry;
-	BANK_ENTRY* pList;
+    sint32 nbEntry;
+    BANK_ENTRY* pEntry;
 }
 BANK_LIST;
 
-/*
-*	User Functions
-*/
+typedef struct 
+{
+    sint8 gap0;
+    sint8 gap1;
+    sint8 unkPri;
+    sint8 pan;
+    sint8 gap4;
+    sint8 volume;
+    sint8 volumeMax;
+    sint8 gap7;
+    uint16 flag;
+    sint16 pitch;
+    sint16 timer;
+    uint16 flag2;
+    void* pTask;
+    uint16 soundID;
+    NJS_VECTOR* pPos;
+    NJS_VECTOR position;
+    float32 distMax;
+    float32 distLast;
+}
+SOUND_ENTRY;
 
-#define SE(bank, idx) ((bank * 0x1000) + idx)
+typedef struct 
+{
+    char unk0[3];
+    char idxEntry0;
+    char idxEntry1;
+    char unk1[3];
+    int unkInt0;
+    char unk2[4];
+    SOUND_ENTRY entries[43];
+    char unk3[32];
+    BANK_LIST* pBanks[8];
+}
+SOUND_QUEUE;
 
-void	SE_Call(int SoundID, void* ptask, char unk, char volume);
+/************************/
+/*  Data                */
+/************************/
+#define SoundQueue      DataRef(SOUND_QUEUE*, 0x01A55874)
 
-void	SE_Call_TIMER(int SoundID, void* pTask, char Unk, signed char Volume, __int16 PlayTime);
+/************************/
+/*  Functions           */
+/************************/
+/** Sound Effect macro, use this for 'se' params **/
+#define SE(bank, idx)   ((sint32)((bank*0x1000)+idx))
 
-sint8	SE_CallV2(int SoundID, NJS_POINT3* Location, void* pTask, char a4, char Volume);
+/** The 'pTask' param is only used as an identifier for the sound entry, and can be NULL.
+    The 'pri' param is used for some sort of priority bank sort, but should usually be left as 0. **/
 
-sint8	SE_CallV2_TIMER(void* pTask, int SoundID, NJS_POINT3* pPos, char a4, char Volume, __int16 TimerSomething);
+EXTERN_START
+void    SE_Call(sint32 se, void* pTask, sint8 pri, sint8 volume);
+void    SE_CallV2(sint32 se, void* pTask, NJS_POINT3* pPos, sint8 pri, sint8 volume);
 
-char	SE_CallV2_Loop(void* task, int SoundID, NJS_POINT3* pPos, sint8 volume);
+/** The 'timer' param controls how long the sound should play before stopping. Playing 
+    the same sound twice with the same 'pTask' will update the timer value, which allows
+    variable length sound effects to be played, like grinding or hover boosters. **/
 
-uint32* SE_Add_Volume(__int8 a1, void* a2, int a3);
+void    SE_Call_Timer(sint32 se, void* pTask, sint8 pri, sint8 volume, sint16 timer);
+void    SE_CallV2_Timer(sint32 se, void* pTask, NJS_POINT3* pPos, sint8 pri, sint8 volume, sint16 timer);
 
-uint32* SE_Add_Pitch(signed __int16 Pitch, void* pTask, int SoundID);
+void    SE_Call_Loop(sint32 se, void* pTask, sint8 volume);
+void    SE_CallV2_Loop(sint32 se, void* pTask, NJS_POINT3* pPos, sint8 volume);
 
-/*
-*	User Function Pointers
-*/
+/** The 'Add' functions can modify sound entry params. Match 'se' and 'pTask' with the 
+    sound entry to be modified. 'se' can be -1, and only 'pTask' will be matched **/
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+void    SE_Add_Volume(sint32 se, void* pTask, sint8 volume);
+void    SE_Add_Pitch(sint32 se, void* pTask, sint16 pitch);
+void    SE_Add_Pan(sint32 se, void* pTask, sint8 pan);
 
-extern const void* SE_Call_p;
+/** Only bosses call these, their exact function isn't fully understood yet. Perhaps, 
+    'SC' stands for SpeCial? **/
 
-extern const void* SE_Call_TIMER_p;
+void    SE_Call_SCLoop(void* pTask, uint16 flags);
+void    SE_CallV2_SCLoop(sint32 se, void* pTask,  NJS_POINT3* pPos, sint8 pri, sint8 volume, sint16 timer);
 
-extern const void* SE_CallV2_p;
+/** As the name suggests, this is only used once in the entire codebase in the 'event' code. **/
+void    SE_Call_One(sint32 se);
 
-extern const void* SE_CallV2_TIMER_p;
+/** Specifically plays the ring collect jingle. 'pno' controls which players ring count 
+    to read for the sound LR pan control. **/
+sint8   SE_Call_SEQ(sint8 pno);
 
-extern const void* SE_CallV2_Loop_p;
+EXTERN_END
 
-extern const void* SE_Add_Volume_p;
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptr **/
+#define SE_Call_SEQ_p       FuncPtr(sint8, __cdecl, (sint8), 0x004377D0)
 
-extern const void* SE_Add_Pitch_p;
+/** User-Function ptr **/
+EXTERN const void* SE_Call_p;
+EXTERN const void* SE_CallV2_p;
+EXTERN const void* SE_Call_Timer_p;
+EXTERN const void* SE_CallV2_Timer_p;
+EXTERN const void* SE_Call_Loop_p;
+EXTERN const void* SE_CallV2_Loop_p;
+EXTERN const void* SE_Add_Volume_p;
+EXTERN const void* SE_Add_Pitch_p;
+EXTERN const void* SE_Add_Pan_p;
+EXTERN const void* SE_Call_SCLoop_p;
+EXTERN const void* SE_CallV2_SCLoop_p;
+EXTERN const void* SE_Call_One_p;
 
-#endif
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_SOUND_H_ */

@@ -1,7 +1,7 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/object/o_messenger.h'
 *
-*   Contains functions for Omochao
+*   Contains functions for Omochao.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -9,30 +9,42 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_OBJECT_MSGER_H_
+#define _SA2B_OBJECT_MSGER_H_
 
 /************************/
-/*  Task Functions      */
+/*  Abstract Types      */
 /************************/
-TaskFuncPtr(ObjectMessengerCreate, 0x6C0780);
-TaskFuncPtr(ObjectMessengerExec, 0x006BE2E0);
-TaskFuncPtr(ObjectMessengerDestructor, 0x006C0970);
+typedef struct task     TASK;
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(int, __cdecl, FreeMessengerFile, (), 0x006BD5D0);
+EXTERN_START
+/** Load Omochao dialog file **/
+sint32  LoadMessengerFile(const char* f);
+sint32  FreeMessengerFile(void);
+
+/** Task functions **/
+void    ObjectMessengerCreate(TASK* tp);
+void    ObjectMessengerExec(TASK* tp);
+void    ObjectMessengerDestructor(TASK* tp);
+
+EXTERN_END
 
 /************************/
-/*  User Functions      */
+/*  Function Ptrs       */
 /************************/
-sint32	LoadMessengerFile(const char* f);
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptr **/
+#define ObjectMessengerCreate_p         FuncPtr(void, __cdecl, (TASK*), 0x6C0780)
+#define ObjectMessengerExec_p           FuncPtr(void, __cdecl, (TASK*), 0x006BE2E0)
+#define ObjectMessengerDestructor_p     FuncPtr(void, __cdecl, (TASK*), 0x006C0970)
+#define FreeMessengerFile_p             FuncPtr(sint32, __cdecl, (), 0x006BD5D0)
 
-/************************/
-/*  User Function Ptrs  */
-/************************/
-#ifdef SAMT_INCLUDE_USER_PTRS
+/** User-Function ptr **/
+EXTERN const void* LoadMessengerFile_p;
 
-extern const void* LoadMessengerFile_p;
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-#endif
+#endif /* _SA2B_OBJ_MSGER_H_ */

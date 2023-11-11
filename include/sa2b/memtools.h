@@ -8,15 +8,13 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-
 #ifndef _SAMT_MEMTOOLS_H_
 #define _SAMT_MEMTOOLS_H_
 
 /************************/
 /*  External Functions  */
 /************************/
-EXTERN void* __cdecl memset(void* _Dst, int         _Val,   size_t _Size);
-EXTERN void* __cdecl memcpy(void* _Dst, void const* _Src,   size_t _Size);
+EXTERN void* MemSet(void* p, int val, size_t size);
 
 /************************/
 /*  Constants           */
@@ -29,10 +27,10 @@ EXTERN void* __cdecl memcpy(void* _Dst, void const* _Src,   size_t _Size);
 /************************/
 EXTERN_START
 
-void	WriteProtectedMemory(void* writeaddr, void* dataaddr, size_t elemsize);
+void    WriteProtectedMemory(void* writeaddr, const void* dataaddr, size_t elemsize);
 
-void	_WriteJump(void* writeaddr, void* jumpaddr);
-void	_WriteCall(void* writeaddr, void* calladdr);
+void    WriteInstructionJump(void* writeaddr, const void* jumpaddr);
+void    WriteInstructionCall(void* writeaddr, const void* calladdr);
 
 void    SwapEndianness64(void* p);
 void    SwapEndianness32(void* p);
@@ -43,32 +41,28 @@ EXTERN_END
 /************************/
 /*  Function Macros     */
 /************************/
-#define WriteMemory(WADDR, DADDR, SIZE)		WriteProtectedMemory((void*)WADDR, (void*)DADDR, (size_t)SIZE)
+#define WriteMemory(waddr, daddr, size)     WriteProtectedMemory((void*)(waddr), (void*)(daddr), (size_t)(size))
 
-#define WriteData(addr, data, type)		{	type v = (type)(data); WriteMemory((addr), &v, sizeof(type));	}
-#define WritePointer(ADDR, PTR)				WriteData((ADDR), (PTR), void*)
+#define WriteData(addr, data, type)       { type _v_ = (type)(data); WriteMemory((addr), &_v_, sizeof(type));            }
+#define WritePointer(addr, ptr)             WriteData((addr), (ptr), void*)
 
-#define WriteMulti(WA, VAL, NB)			{	uint8 a[NB]; memset(a, VAL, NB); WriteMemory((void*)WA, a, NB);	}
+#define WriteMulti(waddr, val, nb)        { uint8 _a_[nb]; MemSet(_a_, val, nb); WriteMemory((void*)(waddr), _a_, (nb)); }
 
-#define WriteNoOP(from, to)					WriteMulti(from, 0x90, (to - from));
-#define KillCall(WA)						WriteMulti(WA, 0x90, 0x05);
+#define WriteNoOP(from, to)                 WriteMulti((from), 0x90, ((to) - (from)));
+#define KillCall(waddr)                     WriteMulti((waddr), 0x90, 0x05);
 
-#define WriteJump(ADDR, JUMP)				_WriteJump((void*)ADDR, (void*)JUMP)
-#define WriteCall(ADDR, CALL)				_WriteCall((void*)ADDR, (void*)CALL)
-#define WriteRetn(addr)                     WriteData(addr, 0xC3, uint8)
+#define WriteJump(waddr, jaddr)             WriteInstructionJump((void*)(waddr), (void*)(jaddr))
+#define WriteCall(waddr, caddr)             WriteInstructionCall((void*)(waddr), (void*)(caddr))
+#define WriteRetn(addr)                     WriteData((addr), 0xC3, uint8)
 
-#define WriteArray(ADDR, ARY)				WriteMemory((void*)ADDR, (void*)ARY, sizeof(ARY))
+#define WriteArray(waddr, ary)              WriteMemory((void*)(waddr), (void*)(ary), sizeof((ary)))
 
 /** Check for Stack Pointer **/
-#define IsOnStack(p)                        (((void*)p) < STACK_THRESHOLD)
-
-/** Legacy Macro **/
-#define WriteNOP(WA, NB)					WriteMulti(WA, 0x90, NB);
+#define IsOnStack(p)                        (((void*)(p)) < STACK_THRESHOLD)
 
 /** Endiness Macro **/
-#define SwapEndianness(ptr)                 if constexpr (sizeof(*ptr) == 8) { SwapEndianness64(ptr); } else if constexpr (sizeof(*ptr) == 4) { SwapEndianness32(ptr); } else if constexpr (sizeof(*ptr) == 2) { SwapEndianness16(ptr); }
-
-/** Get Call Address **/
-#define GetCallAddress(addr)		        (void*)((int)(addr) + 5 + *(int*)((int)addr + 1))
+#define SwapEndianness(ptr)                 if (sizeof(*ptr) == 8) { SwapEndianness64(ptr); } else \
+                                            if (sizeof(*ptr) == 4) { SwapEndianness32(ptr); } else \
+                                            if (sizeof(*ptr) == 2) { SwapEndianness16(ptr); }
 
 #endif /* _SAMT_MEMTOOLS_H_ */

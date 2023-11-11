@@ -9,29 +9,29 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#ifndef	_NJ_MOTION_H_
-#define	_NJ_MOTION_H_
+#ifndef    _NJ_MOTION_H_
+#define    _NJ_MOTION_H_
 
 /*--------------------------------------*/
 /*      Motion define                   */
 /*--------------------------------------*/
 /* motion type bits */
 
-#define NJD_MTYPE_POS_0			BIT_0
-#define NJD_MTYPE_ANG_1			BIT_1
-#define NJD_MTYPE_SCL_2			BIT_2
-#define NJD_MTYPE_VEC_3			BIT_3
-#define NJD_MTYPE_VEC_0			BIT_4
-#define NJD_MTYPE_SANG_1		BIT_5
-#define	NJD_MTYPE_TARGET_3		BIT_6
-#define	NJD_MTYPE_ROLL_6		BIT_7
-#define	NJD_MTYPE_ANGLE_7		BIT_8
-#define	NJD_MTYPE_RGB_8			BIT_9
-#define	NJD_MTYPE_INTENSITY_9	BIT_10
-#define	NJD_MTYPE_POINT_9		BIT_12
+#define NJD_MTYPE_POS_0         BIT_0
+#define NJD_MTYPE_ANG_1         BIT_1
+#define NJD_MTYPE_SCL_2         BIT_2
+#define NJD_MTYPE_VEC_3         BIT_3
+#define NJD_MTYPE_VEC_0         BIT_4
+#define NJD_MTYPE_SANG_1        BIT_5
+#define NJD_MTYPE_TARGET_3      BIT_6
+#define NJD_MTYPE_ROLL_6        BIT_7
+#define NJD_MTYPE_ANGLE_7       BIT_8
+#define NJD_MTYPE_RGB_8         BIT_9
+#define NJD_MTYPE_INTENSITY_9   BIT_10
+#define NJD_MTYPE_POINT_9       BIT_12
 #define NJD_MTYPE_QUAT_1        BIT_13
-#define NJD_MTYPE_SHAPEID		BIT_14    /* compact shape            */
-#define NJD_MTYPE_EVENT_4		BIT_15
+#define NJD_MTYPE_SHAPEID       BIT_14    /* compact shape            */
+#define NJD_MTYPE_EVENT_4       BIT_15
 
 #define NJD_MTYPE_LINER         0x0000    /* use liner                */
 #define NJD_MTYPE_SPLINE        0x0040    /* use spline               */
@@ -40,13 +40,13 @@
 
 
 
-/*	Rotate Type of the return code of njGetMotionNodeData function */
-#define	NJD_MROT_ANGLEXYZ		0
-#define	NJD_MROT_ANGLEZXY		1
-#define	NJD_MROT_QUATERNION		2
+/*    Rotate Type of the return code of njGetMotionNodeData function */
+#define NJD_MROT_ANGLEXYZ       0
+#define NJD_MROT_ANGLEZXY       1
+#define NJD_MROT_QUATERNION     2
 
 /* Motion event flag */
-#define	NJD_EVENT_HIDE			BIT_0
+#define NJD_EVENT_HIDE          BIT_0
 
 /*
  * NJS_MOTION
@@ -175,8 +175,8 @@ typedef struct {
 
 typedef struct
 {
-    NJS_MOTION*     motion[2];		/* motion's pointers */
-    Float			frame[2];		/* current frames */
+    NJS_MOTION*     motion[2];      /* motion's pointers */
+    Float           frame[2];       /* current frames */
 } NJS_MOTION_LINK;
 
 
@@ -184,14 +184,14 @@ typedef struct {
     NJS_CNK_OBJECT*     object;    /* Object Tree top pointer      */
     NJS_MOTION*         motion;    /* motion                       */
 #if 0
-    NJS_TEXLIST* texlist;   /* current texture list         */
+    NJS_TEXLIST*        texlist;   /* current texture list         */
 #endif
 } NJS_ACTION;
 
 typedef struct
 {
-    NJS_CNK_OBJECT*  object;		/* object's pointer */
-    NJS_MOTION_LINK* motionlink;	/* motion-link's pointer */
+    NJS_CNK_OBJECT*  object;        /* object's pointer */
+    NJS_MOTION_LINK* motionlink;    /* motion-link's pointer */
 } NJS_ACTION_LINK;
 
 
@@ -215,7 +215,7 @@ typedef struct {
 
 typedef struct {
     NJS_CSHAPE_KEYGROUP* shapes;    /* key frame groups         */
-    Uint32              nbShape;    /* key frame group count    */
+    Uint32               nbShape;   /* key frame group count    */
 } NJS_CSHAPELIST;
 
 
@@ -224,7 +224,7 @@ typedef struct {
 /*--------------------------------------*/
 
 typedef struct {
-    NJS_LIGHT* light;
+    NJS_LIGHT*  light;
     NJS_MOTION* motion;
 } NJS_LACTION;
 
@@ -234,106 +234,106 @@ typedef struct {
 } NJS_CACTION;
 
 typedef struct {
-    Float* pos;
-    Angle* ang;
-    Float* scl;
+    Float*  pos;
+    Angle*  ang;
+    Float*  scl;
 } NJS_MOTION_DATA;
 
 typedef struct {
-    Float* pos;
-    Float* vect;
+    Float*  pos;
+    Float*  vect;
     Sangle* roll;
     Sangle* ang;
 } NJS_CMOTION_DATA;
 
 typedef struct {
-    Float* pos;
-    Float* rgb;
-    Float* rang;
+    Float*  pos;
+    Float*  rgb;
+    Float*  rang;
 } NJS_LMOTION_DATA;
 
 typedef struct {
-    Int 		n;
-    NJS_LIGHT** lights;
+    Int          n;
+    NJS_LIGHT**  lights;
     NJS_MOTION** motions;
 }NJS_MLIGHT_MOTION;
-/*		prototype declarations			*/
+/*        prototype declarations            */
 
 /*
     High level motion functions
 */
 
-DataRef(void*, _nj_cnk_motion_callback_, 0x01A55834);
+#define _nj_cnk_motion_callback_        DataRef(void*, 0x01A55834)
 
-/*	set shape buffer	*/
-void	njInitShape(void* buf, Sint32 size);
-void	njSetShapeList(const NJS_CSHAPELIST* shape_list);
-void	njCnkSetMotionCallback(void (*func)(NJS_CNK_OBJECT* obj));
-void	njInitShapeLink(void* buf, Sint32 size);
-void	njSetShapeLinkList(const NJS_CSHAPELIST* shape_list);
+/*  set shape buffer    */
+void    njInitShape(void* buf, Sint32 size);
+void    njSetShapeList(const NJS_CSHAPELIST* shape_list);
+void    njCnkSetMotionCallback(void (*func)(NJS_CNK_OBJECT* obj));
+void    njInitShapeLink(void* buf, Sint32 size);
+void    njSetShapeLinkList(const NJS_CSHAPELIST* shape_list);
 
-/*	get draw motion	*/
-void	njCnkGetDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, NJS_MOTION_DATA* data, Float frame);
+/*  get draw motion */
+void    njCnkGetDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, NJS_MOTION_DATA* data, Float frame);
 
-/*	camera motion	*/
-void	njCameraAction(const NJS_CACTION* caction, Float frame);
-void	njCameraMotion(const NJS_CAMERA* camera, const NJS_MOTION* motion, Float frame);
+/*  camera motion   */
+void    njCameraAction(const NJS_CACTION* caction, Float frame);
+void    njCameraMotion(const NJS_CAMERA* camera, const NJS_MOTION* motion, Float frame);
 
-/*	get camera motion	*/
-void	njGetCameraAction(const NJS_CACTION* caction, NJS_CMOTION_DATA* data, Float frame);
-void	njGetCameraMotion(const NJS_CAMERA* camera, const NJS_MOTION* motion, NJS_CMOTION_DATA* data, Float frame);
+/*  get camera motion   */
+void    njGetCameraAction(const NJS_CACTION* caction, NJS_CMOTION_DATA* data, Float frame);
+void    njGetCameraMotion(const NJS_CAMERA* camera, const NJS_MOTION* motion, NJS_CMOTION_DATA* data, Float frame);
 
-/*	light motion	*/
-void	njLightAction(Int light_num, const NJS_LACTION* laction, Float frame);
-void	njLightMotion(Int light_num, const NJS_LIGHT* light, const NJS_MOTION* motion, Float frame);
+/*  light motion    */
+void    njLightAction(Int light_num, const NJS_LACTION* laction, Float frame);
+void    njLightMotion(Int light_num, const NJS_LIGHT* light, const NJS_MOTION* motion, Float frame);
 
-/*	get light motion	*/
-void	njGetLightAction(const NJS_LACTION* laction, NJS_LMOTION_DATA* data, Float frame);
-void	njGetLightMotion(const NJS_LIGHT* light, const NJS_MOTION* motion, NJS_LMOTION_DATA* data, Float frame);
+/*  get light motion    */
+void    njGetLightAction(const NJS_LACTION* laction, NJS_LMOTION_DATA* data, Float frame);
+void    njGetLightMotion(const NJS_LIGHT* light, const NJS_MOTION* motion, NJS_LMOTION_DATA* data, Float frame);
 
-/* multilight motion */
-void	njMultiLightMotion(const NJS_MLIGHT_MOTION* mlight, Float frame);
+/*  multilight motion */
+void    njMultiLightMotion(const NJS_MLIGHT_MOTION* mlight, Float frame);
 
 /*
     Low level motion functions
 */
 
-//	motion core
-void	njStartMotionEx(const NJS_MOTION* motion, Float frame);
-void	njSetNextMotionNodeEx(void);
-void	njSetCurMotionInfoSlot(int Slot);
+//  motion core
+void    njStartMotionEx(const NJS_MOTION* motion, Float frame);
+void    njSetNextMotionNodeEx(void);
+void    njSetCurMotionInfoSlot(int Slot);
 
-//	object motion
-void	njStartMotionObj(const NJS_MOTION* motion, Float frame);
-void	njStartMotionObjEx(const NJS_MOTION* motion, Float frame);
-int		njGetMotionNodeData(const NJS_CNK_OBJECT* cnkobj, Float pos[3], Angle ang[3], Float scl[3], NJS_QUATERNION* qua);
-void	njMotionTransformEx(const NJS_CNK_OBJECT* cnkobj);
-void	njChangeMotionObject(NJS_CNK_OBJECT* cnkobj);
-Sint32	njGetMotionEventFlag(void);
+//  object motion
+void    njStartMotionObj(const NJS_MOTION* motion, Float frame);
+void    njStartMotionObjEx(const NJS_MOTION* motion, Float frame);
+int     njGetMotionNodeData(const NJS_CNK_OBJECT* cnkobj, Float pos[3], Angle ang[3], Float scl[3], NJS_QUATERNION* qua);
+void    njMotionTransformEx(const NJS_CNK_OBJECT* cnkobj);
+void    njChangeMotionObject(NJS_CNK_OBJECT* cnkobj);
+Sint32  njGetMotionEventFlag(void);
 
-//	motion link
-void	njStartMotionLink(const NJS_MOTION_LINK* motion_link, Float rate);
-int		njGetMotionLinkNodeData(const NJS_CNK_OBJECT* cnkobj, Float pos[3], Angle ang[3], Float scl[3], NJS_QUATERNION* qua);
-void	njMotionLinkTransformEx(const NJS_CNK_OBJECT* cnkobj);
-void	njSetNextMotionLinkNode(void);
+//  motion link
+void    njStartMotionLink(const NJS_MOTION_LINK* motion_link, Float rate);
+int     njGetMotionLinkNodeData(const NJS_CNK_OBJECT* cnkobj, Float pos[3], Angle ang[3], Float scl[3], NJS_QUATERNION* qua);
+void    njMotionLinkTransformEx(const NJS_CNK_OBJECT* cnkobj);
+void    njSetNextMotionLinkNode(void);
 
-//	shape motion
-void	njSetCurShapeInfoSlot(int Slot);
-void	njStartShapeEx(const NJS_MOTION* shape, Float frame);
-void	njSetNextShapeNodeEx(void);
-void	njCalcShapeVlist(const NJS_CNK_MODEL* cnkmodel);
-void	njGetShapeGroupID(void);
-void	njSetShapeVlist(Uint32* vlist, Uint32 vtype);
+//  shape motion
+void    njSetCurShapeInfoSlot(int Slot);
+void    njStartShapeEx(const NJS_MOTION* shape, Float frame);
+void    njSetNextShapeNodeEx(void);
+void    njCalcShapeVlist(const NJS_CNK_MODEL* cnkmodel);
+void    njGetShapeGroupID(void);
+void    njSetShapeVlist(Uint32* vlist, Uint32 vtype);
 
-//	shape link
-void	njStartShapeLink(const NJS_MOTION_LINK* shape_link, Float rate);
-void	njSetNextShapeLinkNode(void);
-void	njCalcShapeLinkVlist(const NJS_CNK_MODEL* cnkmodel);
+//  shape link
+void    njStartShapeLink(const NJS_MOTION_LINK* shape_link, Float rate);
+void    njSetNextShapeLinkNode(void);
+void    njCalcShapeLinkVlist(const NJS_CNK_MODEL* cnkmodel);
 
-//	Motion, Shape, MotionLink, ShapeLink with a specified function.
-void	njCnkDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
-void	njCnkDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate);
-void	njCnkDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame, Float sframe);
-void	njCnkDrawShapeLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate);
+//  Motion, Shape, MotionLink, ShapeLink with a specified function.
+void    njCnkDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
+void    njCnkDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate);
+void    njCnkDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame, Float sframe);
+void    njCnkDrawShapeLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate);
 
-#endif	/*_NJ_MOTION_H_*/
+#endif    /*_NJ_MOTION_H_*/

@@ -1,7 +1,7 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/texture.h'
 *
-*   Contains structs and functions related to texture loading
+*   Contains structs and functions related to texture loading.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -9,7 +9,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_TEXTURE_H_
+#define _SA2B_TEXTURE_H_
 
 /************************/
 /*  Includes            */
@@ -19,42 +20,54 @@
 /************************/
 /*  Structures          */
 /************************/
-typedef struct gvmtable
+typedef struct textable
 {
-	char* pname;
-	NJS_TEXLIST* ptexlist;
+    char* pname;
+    NJS_TEXLIST* ptexlist;
 }
-TEX_GVMTABLE;
-
-/************************/
-/*  Function Pointers   */
-/************************/
-FuncPtr(sint32,         __fastcall, texLoadTextureGvmFile, (const char* fname, NJS_TEXLIST* ptlo), 0x0044C350);
-
-/** Loads file and creates a correctly sized TexList, use 'texFreeTexture()' to release **/
-FuncPtr(NJS_TEXLIST*,   __thiscall, texCreateTextureGvmFile, (const char* fname), 0x0044C510);
-
-/************************/
-/*  User Functions      */
-/************************/
-/** Loads Gvm Table then copies TexName entries with matching filenames into pTexLists **/
-void    texLoadTextureGvmTable(TEX_GVMTABLE* pGvmTable, NJS_TEXLIST*** pTexLists);
-
-/** Copies TexName entries with matching filenames from Src to Dst **/
-void    texCopyTexture(NJS_TEXLIST* pTexDst, NJS_TEXLIST* pTexSrc);
+TEX_FILETABLE;
 
 /************************/
 /*  Functions           */
 /************************/
-void    texFreeTexture(NJS_TEXLIST* ptlo);
+EXTERN_START
+/** Returns 'true' if the texture file was a .PAK **/
+bool32  texLoadTextureFile(const char* fname, NJS_TEXLIST* ptlo);
+
+/** Loads each 'pTexTables' entry, then copies its TexNames into every TexList in 'pTexListLists'.
+    All arrays must end with a NULL entry. Free also NULLs texture info inside 'pTexListLists'. **/
+void    texLoadTextureLists(TEX_FILETABLE* pTexTables, NJS_TEXLIST*** pTextureLists);
+void    texFreeTextureLists(TEX_FILETABLE* pTexTables, NJS_TEXLIST*** pTextureLists);
+
+/** Copies TexName entries with matching filenames from Src to Dst **/
+void    texCopyTexture(NJS_TEXLIST* pTexDst, const NJS_TEXLIST* pTexSrc);
+
+/** Loads file and creates a correctly sized TexList, use 'texFreeTexture()' to release **/
+NJS_TEXLIST*    texCreateTextureFile(const char* fname);
+void            texFreeTexture(NJS_TEXLIST* ptlo);
+
+/** Internal Funcs **/
+/** Returns 'true' if .PAK was found **/
+bool32  texLoadTexturePakFile(const char* fname, NJS_TEXLIST* ptlo);
+void    texLoadTexturePrsFile(const char* fname, NJS_TEXLIST* ptlo);
+
+EXTERN_END
 
 /************************/
-/*  User Function Ptrs  */
+/*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_USER_PTRS
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptr **/
+#define texLoadTextureFile_p        FuncPtr(sint32      , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
+#define texCreateTextureFile_p      FuncPtr(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
-extern const void* texLoadTextureGvmTable_p;
+/** User-Function ptr **/
+EXTERN const void* texLoadTextureLists_p;
+EXTERN const void* texFreeTextureLists_p;
+EXTERN const void* texCopyTexture_p;
+EXTERN const void* texLoadTexturePakFile_p;
+EXTERN const void* texLoadTexturePrsFile_p;
 
-extern const void* texCopyTexture_p;
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-#endif
+#endif /* _SA2B_TEXTURE_H_ */

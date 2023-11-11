@@ -347,23 +347,23 @@
 /* Chunk Multi Lights */
 /*--------------------*/
 
-#define	NJD_CNK_EASY_MULTILIGHT_1			1
-#define	NJD_CNK_EASY_MULTILIGHT_2			2
-#define	NJD_CNK_EASY_MULTILIGHT_3			3
-#define	NJD_CNK_EASY_MULTILIGHT_4			4
-#define	NJD_CNK_EASY_MULTILIGHT_5			5
-#define	NJD_CNK_EASY_MULTILIGHT_6			6
+#define    NJD_CNK_EASY_MULTILIGHT_1            1
+#define    NJD_CNK_EASY_MULTILIGHT_2            2
+#define    NJD_CNK_EASY_MULTILIGHT_3            3
+#define    NJD_CNK_EASY_MULTILIGHT_4            4
+#define    NJD_CNK_EASY_MULTILIGHT_5            5
+#define    NJD_CNK_EASY_MULTILIGHT_6            6
 
-#define	NJD_CNK_EASY_MULTILIGHT_ALL			0
+#define    NJD_CNK_EASY_MULTILIGHT_ALL          0
 
-#define	NJD_CNK_SIMPLE_MULTILIGHT_1			1
-#define	NJD_CNK_SIMPLE_MULTILIGHT_2			2
-#define	NJD_CNK_SIMPLE_MULTILIGHT_3			3
-#define	NJD_CNK_SIMPLE_MULTILIGHT_4			4
-#define	NJD_CNK_SIMPLE_MULTILIGHT_5			5
-#define	NJD_CNK_SIMPLE_MULTILIGHT_6			6
+#define    NJD_CNK_SIMPLE_MULTILIGHT_1          1
+#define    NJD_CNK_SIMPLE_MULTILIGHT_2          2
+#define    NJD_CNK_SIMPLE_MULTILIGHT_3          3
+#define    NJD_CNK_SIMPLE_MULTILIGHT_4          4
+#define    NJD_CNK_SIMPLE_MULTILIGHT_5          5
+#define    NJD_CNK_SIMPLE_MULTILIGHT_6          6
 
-#define	NJD_CNK_SIMPLE_MULTILIGHT_ALL		0
+#define    NJD_CNK_SIMPLE_MULTILIGHT_ALL        0
 
 
 /*------------*/
@@ -445,24 +445,24 @@
 #define NJD_UFO_3         (3<<NJD_UFO_SHIFT)
 #define NJD_UFO_MASK      (0x3<<NJD_UFO_SHIFT) /* 0 - 3 */
 
-#define NJD_EVAL_UNIT_POS		BIT_0     /* ignore translation */
-#define NJD_EVAL_UNIT_ANG		BIT_1     /* ignore rotation */
-#define NJD_EVAL_UNIT_SCL		BIT_2     /* ignore scaling */
-#define NJD_EVAL_HIDE			BIT_3     /* do not draw model */
-#define NJD_EVAL_BREAK			BIT_4     /* terminate tracing children */
-#define NJD_EVAL_ZXY_ANG		BIT_5 
-#define NJD_EVAL_SKIP			BIT_6
-#define NJD_EVAL_SHAPE_SKIP		BIT_7
-#define NJD_EVAL_CLIP			BIT_8
-#define NJD_EVAL_MODIFIER		BIT_9
-#define NJD_EVAL_QUATERNION		BIT_10
-#define NJD_EVAL_ROTATE_BASE	BIT_11
-#define NJD_EVAL_ROTATE_SET		BIT_12
-#define NJD_EVAL_ENVELOPE		BIT_13
-#define NJD_EVAL_MASK			0x3fff 
+#define NJD_EVAL_UNIT_POS       BIT_0   /* ignore translation */
+#define NJD_EVAL_UNIT_ANG       BIT_1   /* ignore rotation */
+#define NJD_EVAL_UNIT_SCL       BIT_2   /* ignore scaling */
+#define NJD_EVAL_HIDE           BIT_3   /* do not draw model */
+#define NJD_EVAL_BREAK          BIT_4   /* terminate tracing children */
+#define NJD_EVAL_ZXY_ANG        BIT_5 
+#define NJD_EVAL_SKIP           BIT_6
+#define NJD_EVAL_SHAPE_SKIP     BIT_7
+#define NJD_EVAL_CLIP           BIT_8
+#define NJD_EVAL_MODIFIER       BIT_9
+#define NJD_EVAL_QUATERNION     BIT_10
+#define NJD_EVAL_ROTATE_BASE    BIT_11
+#define NJD_EVAL_ROTATE_SET     BIT_12
+#define NJD_EVAL_ENVELOPE       BIT_13
+#define NJD_EVAL_MASK           0x3fff 
 
 /*------------------*/
-/*	Structure		*/
+/*  Structure       */
 /*------------------*/
 /*
  * NJS_CNK_MODEL
@@ -485,53 +485,53 @@ typedef struct cnkobj {
     Float           scl[3];     /* scaling                      */
     struct cnkobj*  child;      /* child object                 */
     struct cnkobj*  sibling;    /* sibling object               */
-    Float			re_quat;    /* re part of quat              */
+    Float           re_quat;    /* re part of quat              */
 } NJS_CNK_OBJECT;
 
 typedef struct {
-    Float		dmy[16];
-} NJS_VERTEX_BUF;			/* TotalSize		: 64		*/
+    Float       dmy[16];
+} NJS_VERTEX_BUF;           /* TotalSize        : 64        */
 
 
-void	njInit3D(NJS_VERTEX_BUF* vbuf, Int vn);     // MIA
-void	njControl3D(Uint32 flag);
-void	njSetConstantAttr(Uint32 and_attr, Uint32 or_attr);
-void	njSetConstantMaterial(NJS_ARGB* mat);
-void	njSetDepthQueue(Float dnear, Float dfar);   // MIA
+void    njInit3D( NJS_VERTEX_BUF* vbuf, Int vn );     // MIA
+void    njControl3D( Uint32 flag );
+void    njSetConstantAttr( Uint32 and_attr, Uint32 or_attr );
+void    njSetConstantMaterial( NJS_ARGB* mat );
+void    njSetDepthQueue( Float dnear, Float dfar );   // MIA
 
 /*
     Internals
 */
-Bool    njCnkModelClip(NJS_CNK_MODEL* model);
-void    njCnkTransformObject(NJS_CNK_OBJECT* object, int(__cdecl* callback)(NJS_CNK_MODEL*));
+Bool    njCnkModelClip( NJS_CNK_MODEL* model );
+void    njCnkTransformObject( NJS_CNK_OBJECT* object, int(__cdecl* callback)(NJS_CNK_MODEL*) );
 
 /*
     Internal Draw
 */
-void    _njCnkDrawModel(NJS_CNK_MODEL* model);
+void    _njCnkDrawModel( NJS_CNK_MODEL* model );
 
 /*
     Draw
 */
-void    njCnkDrawModel(NJS_CNK_MODEL* model);
-void    njCnkDrawObject(NJS_CNK_OBJECT* object);
+void    njCnkDrawModel( NJS_CNK_MODEL* model );
+void    njCnkDrawObject( NJS_CNK_OBJECT* object );
 
-void    njCnkDrawModel_Broken(NJS_CNK_MODEL* model);
+void    njCnkDrawModel_Broken( NJS_CNK_MODEL* model );
 
 /*
     Blending mode
 */
-void	njSetCnkBlendMode(Uint32 attr);
+void    njSetCnkBlendMode( Uint32 attr );
 
 /*
     Environment mapping uv scroll
 */
-void	njCnkSetUvScroll(Float u, Float v);     // MIA
+void    njCnkSetUvScroll( Float u, Float v );     // MIA
 
 /*
     Envelope weight value set
 */
-void	njSetEnvelopeWeightValue(Float value);  // MIA
+void    njSetEnvelopeWeightValue( Float value );  // MIA
 
 #endif /* _NINJA_CHUNK_H_ */
 

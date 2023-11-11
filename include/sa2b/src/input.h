@@ -9,7 +9,8 @@
 * 
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_INPUT_H_
+#define _SA2B_INPUT_H_
 
 /************************/
 /*  Includes            */
@@ -44,28 +45,57 @@ SONIC_INPUT;
 /*  Data                */
 /************************/
 /*  
-*   External data is affected by ucInputStatus, Internal data is not
-*   'G' is internal
+*   'G' & external data is affected by 'ucInputStatus'
 */
 /** Disable/Enable Input **/
-DataRef(uint8, ucInputStatus,               0x0174AFFE);
-DataAry(uint8, ucInputStatusForEachPlayer,  0x0174AFFF, [2]);
+#define ucInputStatus               DataRef(uint8          , 0x0174AFFE)
+#define ucInputStatusForEachPlayer  DataAry(uint8          , 0x0174AFFF, [2])
+
+/** Controller Input **/
+#define per                         DataAry(PDS_PERIPHERAL*, 0x01DEFB60, [8])
+#define perG                        DataAry(PDS_PERIPHERAL , 0x01DEFC00, [8])
 
 /** Analog Input **/
-DataAry(SONIC_INPUT, input_data,    0x01DEFAC0, [8]);
-DataAry(SONIC_INPUT, input_dataG,   0x01DEFBA0, [8]);
+#define input_data                  DataAry(SONIC_INPUT    , 0x01DEFAC0, [8])
+#define input_dataG                 DataAry(SONIC_INPUT    , 0x01DEFBA0, [8])
 
-/** Switch Input **/
-DataAry(PDS_PERIPHERAL*,    per,    0x01DEFB60, [8]);
-DataAry(PDS_PERIPHERAL,     perG,   0x01DEFC00, [8]);
+/** Jump Input **/
+#define jump_held                   DataAry(bool           , 0x01DEFAA4, [2])
+#define jump_press                  DataAry(bool           , 0x01DEFB80, [2])
+#define jump_off                    DataAry(bool           , 0x01DEFAA6, [2])
+#define jump_release                DataAry(bool           , 0x01DEFB40, [2])
+
+/** Action Input **/
+#define action_held                 DataAry(bool           , 0x01DEFBF0, [2])
+#define action_press                DataAry(bool           , 0x01DEFB00, [2])
+#define action_off                  DataAry(bool           , 0x01DEFB20, [2])
+#define action_release              DataAry(bool           , 0x01DEFB42, [2])
 
 /** Advertize Switch Input Internal **/
-DataAry(uint32, SWDATA,     0x01DEFB10, [4]);
-DataAry(uint32, SWDATAE,    0x01DEFAB0, [4]);
+#define SWDATA                      DataAry(uint32         , 0x01DEFB10, [4])
+#define SWDATAE                     DataAry(uint32         , 0x01DEFAB0, [4])
 
 /** Advertize Switch Input External **/
-DataAry(uint32, swdata,     0x01DEFBE0, [4]);
-DataAry(uint32, swdatae,    0x01DEFB50, [4]);
+#define swdata                      DataAry(uint32         , 0x01DEFBE0, [4])
+#define swdatae                     DataAry(uint32         , 0x01DEFB50, [4])
 
 /** Advertize Repeat Timer Internal **/
-DataAry(sint32, SW_REP,     0x01934BF0, [4]);
+#define SW_REP                      DataAry(sint32         , 0x01934BF0, [4])
+
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/** Global pad read set and check **/
+void    PadReadOn(void);
+void    PadReadOff(void);
+bool32  CheckPadReadMode(void);
+
+/** Player specific pad read set and check **/
+void    PadReadOnP(uint8 pno);
+void    PadReadOffP(uint8 pno);
+bool32  CheckPadReadModeP(uint8 pno);
+
+EXTERN_END
+
+#endif /* _SA2B_INPUT_H_ */

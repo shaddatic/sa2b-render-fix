@@ -1,31 +1,63 @@
-#pragma once
+/*
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_flower.h'
+*
+*   Contains functions related to Chao mating nests and flowers.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
+*/
+#ifndef _SA2B_CHAO_FLOWER_H_
+#define _SA2B_CHAO_FLOWER_H_
 
-TaskFuncPtr(ALO_NestFlowerExecutor, 0x005AABF0);
-TaskFuncPtr(ALO_NestFlowerDisplayer, 0x005AAC60);
+/************************/
+/*  Includes            */
+/************************/
+#include <sa2b/ninja/njcommon.h>
 
-FuncUsr(task*, ALO_NestFlowerCreate, (task* pNestTask, NJS_POINT3* pPos), 0x005AAD90)
-{
-	task* result;
-	__asm
-	{
-		mov eax, [pNestTask]
-		mov ebx, [pPos]
-		call ptrs::ALO_CreateNest
-		mov[result], eax
-	}
-	return result;
-}
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task     TASK;
 
-TaskFuncPtr(ALO_NestExecutor, 0x005AAE20);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/*
+*   Chao Nest
+*/
+TASK*   ALO_CreateNest(TASK* pChaoTask);
 
-FuncUsr(task*, ALO_CreateNest, (task* pChaoTask), 0x005AAF60)
-{
-	task* result;
-	__asm 
-	{
-		mov esi, [pChaoTask]
-		call ptrs::ALO_CreateNest
-		mov [result], eax
-	}
-	return result;
-}
+/** Task functions **/
+void    ALO_NestExecutor(TASK* tp);
+
+/*
+*   Chao Nest Flowers
+*/
+TASK*   ALO_NestFlowerCreate(TASK* pNestTask, NJS_POINT3* pPos);
+
+/** Task functions **/
+void    ALO_NestFlowerExecutor(TASK* tp);
+void    ALO_NestFlowerDisplayer(TASK* tp);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ALO_NestExecutor_p              FuncPtr(void, __cdecl, (TASK*), 0x005AAE20)
+#define ALO_NestFlowerExecutor_p        FuncPtr(void, __cdecl, (TASK*), 0x005AABF0)
+#define ALO_NestFlowerDisplayer_p       FuncPtr(void, __cdecl, (TASK*), 0x005AAC60)
+
+/** User-Function ptrs **/
+EXTERN const void* ALO_CreateNest_p;
+EXTERN const void* ALO_NestFlowerCreate_p;
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_CHAO_FLOWER_H_ */

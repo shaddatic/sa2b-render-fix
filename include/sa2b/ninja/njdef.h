@@ -444,6 +444,7 @@
 #define FFM_BF   NJD_FFM_BF
 #define FFM_TFA  NJD_FFM_TF_A
 #define FFM_TFB  NJD_FFM_TF_B
+#define FFM_TF   NJD_FFM_TF_A // Legacy
 /* Flag Super Sample<texbits> */
 #define FSS      NJD_FSS
 

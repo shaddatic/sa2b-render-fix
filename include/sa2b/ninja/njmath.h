@@ -24,9 +24,9 @@ enum {
 };
 
 typedef struct {
-    int		keys;			/* keyframes between two points which must be interpolated */
-    int     *iparam;		/* attribute data (integer) */
-    float   *fparam;		/* attribute data (float) */
+    int        keys;            /* keyframes between two points which must be interpolated */
+    int     *iparam;        /* attribute data (integer) */
+    float   *fparam;        /* attribute data (float) */
 } NJS_SPLINE;
 
 #define njAbs(n)         ((Float)fabsf   ((Float)(n)))
@@ -52,28 +52,28 @@ typedef struct {
 #define njSech(n)        ((Float)( 1.0 / coshf((Float)NJM_ANG_RAD(n)) ))
 #define njSinh(n)        ((Float)sinhf   ((Float)NJM_ANG_RAD(n)))
 #define njTanh(n)        ((Float)tanhf   ((Float)NJM_ANG_RAD(n)))
-#define njRandom()       ((Float)rand() * (INVRANDMAX))
-#define njRandomSeed(n)  (srand((Uint32)(n)))
+#define njRandom()       ((Float)__rand() * (INVRANDMAX))
+#define njRandomSeed(n)  (__srand((Uint32)(n)))
 
-Float	njCos(Angle n);
-Float	njCosec(Angle n);
-Float	njCot(Angle n);
-Float	njFraction(Float n);
-Float	njInvertSqrt(Float n);
-Float	njRoundOff(Float n);
-Float	njRoundUp(Float n);
-Float	njSec(Angle n);
-Float	njSin(Angle n);
-Float	njSqrt(Float n);
-Float	njTan(Angle n);
+Float   njCos       (Angle n);
+Float   njCosec     (Angle n);
+Float   njCot       (Angle n);
+Float   njFraction  (Float n);
+Float   njInvertSqrt(Float n);
+Float   njRoundOff  (Float n);
+Float   njRoundUp   (Float n);
+Float   njSec       (Angle n);
+Float   njSin       (Angle n);
+Float   njSqrt      (Float n);
+Float   njTan       (Angle n);
 
-Sint32	njCombination(Sint32 n, Sint32 k);
-void	njLinear(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njHermiteSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njCardinalSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njOverhauserSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njKochanekSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njCubicBezierSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
-void	njBezierSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+Sint32  njCombination(Sint32 n, Sint32 k);
+void    njLinear(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njHermiteSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njCardinalSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njOverhauserSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njKochanekSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njCubicBezierSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
+void    njBezierSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
 
 #endif

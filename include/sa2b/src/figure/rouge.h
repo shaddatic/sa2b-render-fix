@@ -10,7 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_FIGURE_ROUGE_H_
+#define _SA2B_FIGURE_ROUGE_H_
 
 /************************/
 /*  Includes            */
@@ -20,10 +21,24 @@
 /************************/
 /*  Data                */
 /************************/
-DataRef(NJS_MATRIX, mtx_RougeBootL, 0x01A51BBC);
-DataRef(NJS_MATRIX, mtx_RougeBootR, 0x01A51C1C);
+#define mtx_RougeBootL      DataRef(NJS_MATRIX, 0x01A51BBC)
+#define mtx_RougeBootR      DataRef(NJS_MATRIX, 0x01A51C1C)
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(void, __cdecl, RougeMotionCallBack, (NJS_CNK_OBJECT*), 0x007304D0);
+EXTERN_START
+void    RougeMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define RougeMotionCallBack_p       FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x007304D0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_FIGURE_ROUGE_H_ */

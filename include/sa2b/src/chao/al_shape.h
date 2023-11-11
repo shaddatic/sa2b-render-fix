@@ -1,177 +1,205 @@
-#pragma once
-
 /*
-*	Includes
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_shape.h'
+*
+*   Contains structs, data, and functions related to Chao models.
+*
+*   Contributors:
+*   -   SEGA - Sonic Team,
+*   -   Shaddatic
+*
+*   Only for use with Sonic Adventure 2 for PC.
 */
+#ifndef _SA2B_CHAO_SHAPE_H_
+#define _SA2B_CHAO_SHAPE_H_
 
+/************************/
+/*  Includes            */
+/************************/
 #include <sa2b/ninja/ninja.h>
 
-/*
-*	Abstracted Types
-*/
+/************************/
+/*  Abstract Types      */
+/************************/
+typedef struct task        TASK;
 
-typedef struct task task;
-
-/*
-*	Structs
-*/
-
-struct CNK_VN_VERTEX
+/************************/
+/*  Structures          */
+/************************/
+typedef struct
 {
-	NJS_POINT3 Pos;
-	NJS_POINT3 Normal;
-};
+    NJS_POINT3 Pos;
+    NJS_POINT3 Normal;
+}
+CNK_VN_VERTEX;
 
-struct AL_VERTEX_INFO
+typedef struct
 {
-	NJS_POINT3 Velo;
-	float Weight;
-	float Spring;
-	float Friction;
-};
+    NJS_POINT3 Velo;
+    float Weight;
+    float Spring;
+    float Friction;
+}
+AL_VERTEX_INFO;
 
 typedef struct al_model
 {
-	int* VList;
-	__int16* PList;
-	NJS_POINT3 Center;
-	float Radius;
-	__int16 OrgTexId[4];
-	int PListSize;
-	int nbVertex;
-	CNK_VN_VERTEX* pVertex;
-	NJS_POINT3* pOrgVertexPos;
-	NJS_POINT3* pOrgVertexNormal;
-	AL_VERTEX_INFO* pVertexInfo;
+    int* VList;
+    __int16* PList;
+    NJS_POINT3 Center;
+    float Radius;
+    __int16 OrgTexId[4];
+    int PListSize;
+    int nbVertex;
+    CNK_VN_VERTEX* pVertex;
+    NJS_POINT3* pOrgVertexPos;
+    NJS_POINT3* pOrgVertexNormal;
+    AL_VERTEX_INFO* pVertexInfo;
 }
 AL_MODEL;
 
-struct AL_BUYO_PARAM
+typedef struct
 {
-	float Spring1;
-	float Spring2;
-	float Friction1;
-	float Friction2;
-	float MaxDiff;
-	float MaxSpd;
-	float Weight1;
-	float Weight2;
-	float Weight3;
-	NJS_POINT3 Center;
-};
+    float Spring1;
+    float Spring2;
+    float Friction1;
+    float Friction2;
+    float MaxDiff;
+    float MaxSpd;
+    float Weight1;
+    float Weight2;
+    float Weight3;
+    NJS_POINT3 Center;
+}
+AL_BUYO_PARAM;
 
 typedef struct al_object
 {
-	uint32 EvalFlags;
-	al_model* pModel;
-	float Pos[3];
-	sint32 Ang[3];
-	float Scl[3];
-	al_object* pChild;
-	al_object* pSibling;
-	al_object* pParent;
-	NJS_POINT3 diff;
-	NJS_POINT3 GlobalAimPos;
-	NJS_POINT3 OrgPos;
-	NJS_POINT3 Velo;
-	NJS_POINT3 OrgAng;
-	NJS_POINT3 AngSpd;
-	float Weight;
-	float Spring;
-	float Friction;
-	sint32 NoBuyoFlag;
-	sint32 CalcBuyoPosFlag;
-	cnkobj* pPartsObject;
-	cnkobj* pItemObject;
-	NJS_TEXLIST* pItemTexlist;
-	float ItemScale;
-	sint32 ItemActiveFlag;
-	sint32 ItemOffsetFlag;
-	NJS_POINT3 ItemOffsetPos;
-	Angle3 ItemOffsetAng;
-	float(*pOldMatrix)[16];
-	AL_BUYO_PARAM* pBuyoParam;
-	void* DisplayList;
+    uint32 EvalFlags;
+    AL_MODEL* pModel;
+    float Pos[3];
+    sint32 Ang[3];
+    float Scl[3];
+    struct al_object* pChild;
+    struct al_object* pSibling;
+    struct al_object* pParent;
+    NJS_POINT3 diff;
+    NJS_POINT3 GlobalAimPos;
+    NJS_POINT3 OrgPos;
+    NJS_POINT3 Velo;
+    NJS_POINT3 OrgAng;
+    NJS_POINT3 AngSpd;
+    float Weight;
+    float Spring;
+    float Friction;
+    sint32 NoBuyoFlag;
+    sint32 CalcBuyoPosFlag;
+    NJS_CNK_OBJECT* pPartsObject;
+    NJS_CNK_OBJECT* pItemObject;
+    NJS_TEXLIST* pItemTexlist;
+    float ItemScale;
+    sint32 ItemActiveFlag;
+    sint32 ItemOffsetFlag;
+    NJS_POINT3 ItemOffsetPos;
+    Angle3 ItemOffsetAng;
+    float(*pOldMatrix)[16];
+    AL_BUYO_PARAM* pBuyoParam;
+    void* DisplayList;
 }
 AL_OBJECT;
 
-struct AL_GROUP_OBJECT_LIST
+typedef struct al_group_object_list
 {
-	cnkobj* child[40];
-	cnkobj* normal[40];
-	cnkobj* swim[40];
-	cnkobj* fly[40];
-	cnkobj* run[40];
-	cnkobj* power[40];
-};
+    NJS_CNK_OBJECT* child[40];
+    NJS_CNK_OBJECT* normal[40];
+    NJS_CNK_OBJECT* swim[40];
+    NJS_CNK_OBJECT* fly[40];
+    NJS_CNK_OBJECT* run[40];
+    NJS_CNK_OBJECT* power[40];
+}
+AL_GROUP_OBJECT_LIST;
 
-/*
-*	Data References
-*/
+/************************/
+/*  Data                */
+/************************/
+typedef NJS_CNK_OBJECT* AL_RootObject_t[144];
 
-DataRef(float32, ratio_h, 0x01DB1068);
-DataRef(float32, inv_ratio_h, 0x01DB1088);
+/** Chao root models - points into 'Data.dll' **/
+#define AL_RootObject           (**(AL_RootObject_t**)    0x01AED294)
 
-DataRef(float32, ratio_v, 0x01DB1084);
-DataRef(float32, inv_ratio_v, 0x01DB1070);
+/** Internal data **/
+#define ratio_h                 DataRef(float32         , 0x01DB1068)
+#define inv_ratio_h             DataRef(float32         , 0x01DB1088)
 
-DataRef(float32, ratio_g, 0x01DB102C);
-DataRef(float32, inv_ratio_g, 0x01DB1028);
+#define ratio_v                 DataRef(float32         , 0x01DB1084)
+#define inv_ratio_v             DataRef(float32         , 0x01DB1070)
 
-DataRef(float32, div_ratio_h, 0x01DB109C);
-DataRef(float32, div_ratio_v, 0x01DB108C);
+#define ratio_g                 DataRef(float32         , 0x01DB102C)
+#define inv_ratio_g             DataRef(float32         , 0x01DB1028)
 
-DataRef(float32, col_ratio_h, 0x01DB1038);
-DataRef(float32, col_ratio_v, 0x01DB1060);
-DataRef(float32, col_ratio_g, 0x01DB1054);
+#define div_ratio_h             DataRef(float32         , 0x01DB109C)
+#define div_ratio_v             DataRef(float32         , 0x01DB108C)
 
-DataRef(float32, col_inv_ratio_h, 0x01DB1098);
-DataRef(float32, col_inv_ratio_v, 0x01DB106C);
-DataRef(float32, col_inv_ratio_g, 0x01DB1078);
+#define col_ratio_h             DataRef(float32         , 0x01DB1038)
+#define col_ratio_v             DataRef(float32         , 0x01DB1060)
+#define col_ratio_g             DataRef(float32         , 0x01DB1054)
 
-DataRef(float32, col_div_ratio_h, 0x01DB1034);
-DataRef(float32, col_div_ratio_v, 0x01DB1030);
+#define col_inv_ratio_h         DataRef(float32         , 0x01DB1098)
+#define col_inv_ratio_v         DataRef(float32         , 0x01DB106C)
+#define col_inv_ratio_g         DataRef(float32         , 0x01DB1078)
 
-DataRef(AL_OBJECT**, CurrObjectList, 0x01DB1074);
+#define col_div_ratio_h         DataRef(float32         , 0x01DB1034)
+#define col_div_ratio_v         DataRef(float32         , 0x01DB1030)
 
-DataRef(NJS_CNK_OBJECT**, ZeroObjectList, 0x01DB1050);
-DataRef(NJS_CNK_OBJECT**, NormalObjectList, 0x01DB105C);
-DataRef(NJS_CNK_OBJECT**, HorizonObjectList, 0x01DB107C);
-DataRef(NJS_CNK_OBJECT**, VerticalObjectList, 0x01DB1064);
+/** Object lists **/
+#define CurrObjectList          DataRef(AL_OBJECT**     , 0x01DB1074)
 
-DataRef(NJS_CNK_OBJECT**, ZeroObjectListH, 0x01DB1048);
-DataRef(NJS_CNK_OBJECT**, NormalObjectListH, 0x01DB1058);
-DataRef(NJS_CNK_OBJECT**, HorizonObjectListH, 0x01DB103C);
-DataRef(NJS_CNK_OBJECT**, VerticalObjectListH, 0x01DB1090);
+#define ZeroObjectList          DataRef(NJS_CNK_OBJECT**, 0x01DB1050)
+#define NormalObjectList        DataRef(NJS_CNK_OBJECT**, 0x01DB105C)
+#define HorizonObjectList       DataRef(NJS_CNK_OBJECT**, 0x01DB107C)
+#define VerticalObjectList      DataRef(NJS_CNK_OBJECT**, 0x01DB1064)
 
-DataRef(NJS_CNK_OBJECT**, ZeroObjectListD, 0x01DB1080);
-DataRef(NJS_CNK_OBJECT**, NormalObjectListD, 0x01DB1044);
-DataRef(NJS_CNK_OBJECT**, HorizonObjectListD, 0x01DB1094);
-DataRef(NJS_CNK_OBJECT**, VerticalObjectListD, 0x01DB104C);
+#define ZeroObjectListH         DataRef(NJS_CNK_OBJECT**, 0x01DB1048)
+#define NormalObjectListH       DataRef(NJS_CNK_OBJECT**, 0x01DB1058)
+#define HorizonObjectListH      DataRef(NJS_CNK_OBJECT**, 0x01DB103C)
+#define VerticalObjectListH     DataRef(NJS_CNK_OBJECT**, 0x01DB1090)
 
-/*
-*	Function Pointers
-*/
+#define ZeroObjectListD         DataRef(NJS_CNK_OBJECT**, 0x01DB1080)
+#define NormalObjectListD       DataRef(NJS_CNK_OBJECT**, 0x01DB1044)
+#define HorizonObjectListD      DataRef(NJS_CNK_OBJECT**, 0x01DB1094)
+#define VerticalObjectListD     DataRef(NJS_CNK_OBJECT**, 0x01DB104C)
 
-FuncPtr(sint32,	__cdecl, GetList, (AL_OBJECT* pSrcObject, AL_OBJECT** List, int num), 0x0056BC90);
+/************************/
+/*  Functions           */
+/************************/
+EXTERN_START
+/** Initialize Chao shape data **/
+sint32  AL_ShapeInit(TASK* tp);
 
-FuncPtr(AL_OBJECT*, __cdecl, AL_CopyChaoObject, (NJS_CNK_OBJECT* pSrcObject, NJS_CNK_OBJECT* pChildObject, AL_OBJECT* pParentObject), 0x0056BED0);
-FuncPtr(sint32,		__cdecl, AL_CreateOrgVertexList, (AL_OBJECT* pObject), 0x0056C800);
+/** Copy and free chao object **/
+AL_OBJECT*  AL_CopyChaoObject(NJS_CNK_OBJECT* pSrcObject, NJS_CNK_OBJECT* pChildObject, AL_OBJECT* pParentObject);
+void        AL_FreeChaoObject(AL_OBJECT* pObject);
 
-FuncPtr(sint32,	__cdecl, AL_ShapeInit, (task* tp), 0x0056C9D0);
+/** Internal functions **/
+sint32  AL_CreateOrgVertexList(AL_OBJECT* pObject);
+sint32  GetList(AL_OBJECT* pSrcObject, AL_OBJECT** List, sint32 num);
+void    AL_GetObjectList(AL_OBJECT* pSrcObject, AL_OBJECT** List);
 
-/* 
-*	User Functions 
-*/
+EXTERN_END
 
-void	AL_GetObjectList(AL_OBJECT* pSrcObject, AL_OBJECT** List);
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define AL_ShapeInit_p              FuncPtr(sint32    , __cdecl, (TASK*)                                       , 0x0056C9D0)
+#define AL_CopyChaoObject_p         FuncPtr(AL_OBJECT*, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, AL_OBJECT*), 0x0056BED0)
+#define AL_FreeChaoObject_p         FuncPtr(void      , __cdecl, (AL_OBJECT*)                                  , 0x0056BD40)
+#define AL_CreateOrgVertexList_p    FuncPtr(sint32    , __cdecl, (AL_OBJECT*)                                  , 0x0056C800)
+#define GetList_p                   FuncPtr(sint32    , __cdecl, (AL_OBJECT*, AL_OBJECT**, sint32)             , 0x0056BC90)
 
-/*
-*	User Function Pointers
-*/
+/** User-Function ptrs **/
+EXTERN const void* AL_GetObjectList_p;
 
-#ifdef SAMT_INCLUDE_USER_PTRS
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
 
-extern const void* AL_GetObjectList_p;
-
-#endif
+#endif /* _SA2B_CHAO_SHAPE_H_ */

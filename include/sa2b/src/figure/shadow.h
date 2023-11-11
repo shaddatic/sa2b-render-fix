@@ -10,7 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
-#pragma once
+#ifndef _SA2B_FIGURE_SHADOW_H_
+#define _SA2B_FIGURE_SHADOW_H_
 
 /************************/
 /*  Includes            */
@@ -20,9 +21,23 @@
 /************************/
 /*  Data                */
 /************************/
-DataRef(NJS_MATRIX, mtx_ShadowFootR, 0x01A51894);
+#define mtx_ShadowFootR          DataRef(NJS_MATRIX, 0x01A51894)
 
 /************************/
-/*  Function Pointers   */
+/*  Functions           */
 /************************/
-FuncPtr(void, __cdecl, ShadowMotionCallBack, (NJS_CNK_OBJECT*), 0x0071F5E0);
+EXTERN_START
+void    ShadowMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+
+EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#define ShadowMotionCallBack_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F5E0)
+
+#endif /* SAMT_INCLUDE_FUNC_PTRS */
+
+#endif /* _SA2B_FIGURE_SHADOW_H_ */
