@@ -251,6 +251,7 @@ BGDisp_CCSFix(task* tp)
 #define FlagList                DataAry(NJS_CNK_MODEL* , 0x00BD3560, [48]) // ^
 #define ButterflyList           DataAry(NJS_CNK_MODEL* , 0x00DDB64C, [9])  // Dry Lagoon Butterflies
 #define PoisonHazardList        DataAry(NJS_CNK_OBJECT*, 0x009CAD88, [22]) // Crazy Gadget Poison Objects
+#define BatModelList            DataAry(NJS_CNK_MODEL* , 0x00B6AD04, [6])
 
 void
 EnableBackfaceCulling()
@@ -277,7 +278,10 @@ EnableBackfaceCulling()
     CnkModelMaterialFlagOn(0x00B1DE5C, 0, NJD_FST_DB);
 
     /** Levelup Dai Light **/
-    WriteData(0x006D8DA8, 0x800 | NJD_FST_DB, uint32);
+    WriteData(0x006D8DA8, 0x0800 | NJD_FST_DB, uint32);
+
+    /** Crash 3D Displayer **/
+    WriteData(0x006E2441, 0x0A00 | NJD_FST_DB, uint32);
 
     /** Weeds **/
     {
@@ -389,6 +393,9 @@ EnableBackfaceCulling()
         
         CnkModelMaterialFlagOn(0x00DEC1B4, -1, NJD_FST_DB); // Leaf
         CnkModelMaterialFlagOn(0x00DED694, -1, NJD_FST_DB); // ^
+
+        CnkObjectMaterialFlagOn(0x00E2DBDC, NJD_FST_DB);    // PLANT2
+        CnkObjectMaterialFlagOn(0x00DEEE6C, NJD_FST_DB);    // PLANT3
     }
 
     /** Pumpkin Hill Train **/
@@ -430,6 +437,14 @@ EnableBackfaceCulling()
         for (int i = 0; i < arylen(PoisonHazardList); ++i)
         {
             CnkModelMaterialFlagOn(PoisonHazardList[i]->model, -1, NJD_FST_DB);
+        }
+    }
+
+    /** Death Chamber Bats **/
+    {
+        for (int i = 0; i < arylen(BatModelList); ++i)
+        {
+            CnkModelMaterialFlagOn(BatModelList[i], -1, NJD_FST_DB);
         }
     }
 
