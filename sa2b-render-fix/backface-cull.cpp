@@ -440,6 +440,9 @@ EnableBackfaceCulling()
         }
     }
 
+    /** Crazy Gadget LIGHT_A **/
+    CnkModelFlipWinding(0x009A4D84);
+
     /** Death Chamber Bats **/
     {
         for (int i = 0; i < arylen(BatModelList); ++i)
