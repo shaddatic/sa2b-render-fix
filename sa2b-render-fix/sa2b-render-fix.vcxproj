@@ -87,6 +87,7 @@
     <None Include="model\e_shouko_aft.nja" />
     <None Include="model\e_shouko_wing_port.nja" />
     <None Include="model\e_shouko_wing_starboard.nja" />
+    <None Include="model\e_s_ai_shield.nja" />
     <None Include="model\e_t_emi_emblem.nja" />
     <None Include="model\minemizu.nja" />
     <None Include="model\msger_shadow.nja" />

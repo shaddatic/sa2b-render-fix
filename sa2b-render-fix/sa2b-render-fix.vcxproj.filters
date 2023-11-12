@@ -159,5 +159,6 @@
     <None Include="model\minemizu.nja" />
     <None Include="texture\jo_tree.tls" />
     <None Include="model\msger_shadow.nja" />
+    <None Include="model\e_s_ai_shield.nja" />
   </ItemGroup>
 </Project>
