@@ -35,7 +35,7 @@ EXTERN_END
 #define ALBHV_Move_p        BhvFuncPtr(0x00562D20)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_WalkSelect_p;
+EXTERN const void* const AL_WalkSelect_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

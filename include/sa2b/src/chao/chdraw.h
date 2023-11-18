@@ -66,11 +66,11 @@ EXTERN_END
 #define _chCnkDrawObject_p          FuncPtr(void  , __cdecl, (NJS_CNK_OBJECT*), 0x0056DF50)
 
 /** User-Function ptrs **/
-EXTERN const void* chSetRareMaterial_p;
-EXTERN const void* chRareEggDrawModel_p;
-EXTERN const void* chRareEggDrawObject_p;
-EXTERN const void* chRareEggDrawMotion_p;
-EXTERN const void* chCnkDrawObject_p;
+EXTERN const void* const chSetRareMaterial_p;
+EXTERN const void* const chRareEggDrawModel_p;
+EXTERN const void* const chRareEggDrawObject_p;
+EXTERN const void* const chRareEggDrawMotion_p;
+EXTERN const void* const chCnkDrawObject_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

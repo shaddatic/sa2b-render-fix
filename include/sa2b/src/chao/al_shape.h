@@ -198,7 +198,7 @@ EXTERN_END
 #define GetList_p                   FuncPtr(sint32    , __cdecl, (AL_OBJECT*, AL_OBJECT**, sint32)             , 0x0056BC90)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_GetObjectList_p;
+EXTERN const void* const AL_GetObjectList_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

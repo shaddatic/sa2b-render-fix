@@ -69,8 +69,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptrs **/
-EXTERN const void* SetMotionLink_p;
-EXTERN const void* SetMotionLinkStep_p;
+EXTERN const void* const SetMotionLink_p;
+EXTERN const void* const SetMotionLinkStep_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

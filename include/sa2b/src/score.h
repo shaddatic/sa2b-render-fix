@@ -61,8 +61,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptr **/
-extern const void* AddNumRing_p;
-extern const void* AddNumPlayer_p;
+EXTERN const void* const AddNumRing_p;
+EXTERN const void* const AddNumPlayer_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

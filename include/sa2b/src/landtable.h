@@ -141,8 +141,8 @@ EXTERN_END
 #define LandChangeLandTable_p       FuncPtr(sint32, __cdecl, (OBJ_LANDTABLE*)                    , 0x0047BD30)
 
 /** User-Function ptrs **/
-EXTERN const void* LandChangeGinjaLandTable_p;
-EXTERN const void* CL_ColPolCheckZxShadow_p;
+EXTERN const void* const LandChangeGinjaLandTable_p;
+EXTERN const void* const CL_ColPolCheckZxShadow_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

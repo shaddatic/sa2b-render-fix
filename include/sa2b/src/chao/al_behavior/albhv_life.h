@@ -44,7 +44,7 @@ EXTERN_END
 #define MayuDisplayer_p     FuncPtr(void, __cdecl, (TASK*), 0x568A70)
 
 /** User-Function ptrs **/
-EXTERN const void* CreateMayu_p;
+EXTERN const void* const CreateMayu_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

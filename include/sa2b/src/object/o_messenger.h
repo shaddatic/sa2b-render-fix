@@ -43,7 +43,7 @@ EXTERN_END
 #define FreeMessengerFile_p             FuncPtr(sint32, __cdecl, (), 0x006BD5D0)
 
 /** User-Function ptr **/
-EXTERN const void* LoadMessengerFile_p;
+EXTERN const void* const LoadMessengerFile_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

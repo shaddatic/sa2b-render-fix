@@ -108,10 +108,10 @@ EXTERN_END
 #define MOV_CalcPlayerAngle_p       FuncPtr(Angle, __fastcall, (TASK*, int), 0x007969B0)
 
 /** User-Function ptrs **/
-extern const void* MOV_GetShadowPosXYZ_p;
-extern const void* MOV_CheckFloor_p;
-extern const void* MOV_CheckWall_p;
-extern const void* MOV_TurnToPlayer2_p;
+EXTERN const void* const MOV_GetShadowPosXYZ_p;
+EXTERN const void* const MOV_CheckFloor_p;
+EXTERN const void* const MOV_CheckWall_p;
+EXTERN const void* const MOV_TurnToPlayer2_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

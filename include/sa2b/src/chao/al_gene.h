@@ -39,8 +39,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-EXTERN const void* AL_GeneCreate_p;
-EXTERN const void* AL_GeneAnalyzeCommon_p;
+EXTERN const void* const AL_GeneCreate_p;
+EXTERN const void* const AL_GeneAnalyzeCommon_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

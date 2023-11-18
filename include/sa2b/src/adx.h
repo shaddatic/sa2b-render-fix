@@ -38,8 +38,8 @@ EXTERN_END
 #define BGM_Stop_p            FuncPtr(void, __cdecl, (void), 0x00442F50)
 
 /** User-Function ptrs **/
-EXTERN const void* BGM_Play_p;
-EXTERN const void* Jingle_Play_p;
+EXTERN const void* const BGM_Play_p;
+EXTERN const void* const Jingle_Play_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

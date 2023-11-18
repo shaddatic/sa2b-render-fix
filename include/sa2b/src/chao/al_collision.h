@@ -30,7 +30,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptrs **/
-EXTERN const void* AL_DetectCollisionStandard_p;
+EXTERN const void* const AL_DetectCollisionStandard_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

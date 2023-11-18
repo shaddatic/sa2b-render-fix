@@ -58,7 +58,7 @@ EXTERN_END
 #define Extra_Get_p        FuncPtr(EXTRA_LIST*, __fastcall, (sint32), 0x00487260)
 
 /** User-Function ptrs **/
-EXTERN const void* AddExtraDisplay_p;
+EXTERN const void* const AddExtraDisplay_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

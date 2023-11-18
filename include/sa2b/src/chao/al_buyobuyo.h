@@ -72,12 +72,12 @@ EXTERN_END
 #define AL_BuyoBuyoControl_p        FuncPtr(void, __cdecl, (TASK*)            , 0x0056FC20)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_InitCalcMotionMatrix_p;
-EXTERN const void* AL_CalcMotionMartix_p;
-EXTERN const void* AL_CalcMotionMartixTranslate_p;
-EXTERN const void* AL_CalcMotionMartixRotation_p;
-EXTERN const void* AL_SetCurrMatrix_p;
-EXTERN const void* AL_CalcShadowPos_p;
+EXTERN const void* const AL_InitCalcMotionMatrix_p;
+EXTERN const void* const AL_CalcMotionMartix_p;
+EXTERN const void* const AL_CalcMotionMartixTranslate_p;
+EXTERN const void* const AL_CalcMotionMartixRotation_p;
+EXTERN const void* const AL_SetCurrMatrix_p;
+EXTERN const void* const AL_CalcShadowPos_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

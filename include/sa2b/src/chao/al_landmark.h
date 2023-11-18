@@ -92,8 +92,8 @@ EXTERN_END
 #define AL_InitLandMark_p       FuncPtr(void, __cdecl, (void), 0x00534EF0)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_GetCurrLandAttr_p;
-EXTERN const void* AL_GetRandomAttrPos_inl_p;
+EXTERN const void* const AL_GetCurrLandAttr_p;
+EXTERN const void* const AL_GetRandomAttrPos_inl_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

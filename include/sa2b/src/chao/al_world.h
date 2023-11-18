@@ -146,7 +146,7 @@ EXTERN_END
 #define ALW_Create_p        FuncPtr(void, __cdecl, (void), 0x00530B80)
 
 /** User-Function ptrs **/
-EXTERN const void* ALW_Entry2_p;
+EXTERN const void* const ALW_Entry2_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

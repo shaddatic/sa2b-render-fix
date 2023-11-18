@@ -55,8 +55,8 @@ EXTERN_END
 #define ALO_NestFlowerDisplayer_p       FuncPtr(void, __cdecl, (TASK*), 0x005AAC60)
 
 /** User-Function ptrs **/
-EXTERN const void* ALO_CreateNest_p;
-EXTERN const void* ALO_NestFlowerCreate_p;
+EXTERN const void* const ALO_CreateNest_p;
+EXTERN const void* const ALO_NestFlowerCreate_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

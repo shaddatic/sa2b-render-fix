@@ -15,10 +15,10 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-int     __strcmp(const char* _Str1, const char* _Str2);
+int     ___strcmp(const char* _Str1, const char* _Str2);
 
-void*   __memset(void* _Dst, int _Val, size_t _Size);
-void*   __memcpy(void* _Dst, const void* _Src, size_t _Size);
+void*   ___memset(void* _Dst, int _Val, size_t _Size);
+void*   ___memcpy(void* _Dst, const void* _Src, size_t _Size);
 
 EXTERN_END
 
@@ -27,11 +27,11 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptr **/
-#define __strcmp_p      FuncPtr(int   , __cdecl, (const char*, const char*)  , 0x007ACED0)
-#define __memset_p      FuncPtr(void* , __cdecl, (void*, int, size_t)        , 0x007ACDE0)
-#define __strncat_p     FuncPtr(char* , __cdecl, (char*, const char*, size_t), 0x007ACED0)
-#define __strlen_p      FuncPtr(size_t, __cdecl, (const char*)               , 0x007A8C00)
-#define __memcpy_p      FuncPtr(void* , __cdecl, (void*, const void*, size_t), 0x007AB860)
+#define ___strcmp_p         FuncPtr(int   , __cdecl, (const char*, const char*)  , 0x007ACED0)
+#define ___memset_p         FuncPtr(void* , __cdecl, (void*, int, size_t)        , 0x007ACDE0)
+#define ___strncat_p        FuncPtr(char* , __cdecl, (char*, const char*, size_t), 0x007ACED0)
+#define ___strlen_p         FuncPtr(size_t, __cdecl, (const char*)               , 0x007A8C00)
+#define ___memcpy_p         FuncPtr(void* , __cdecl, (void*, const void*, size_t), 0x007AB860)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

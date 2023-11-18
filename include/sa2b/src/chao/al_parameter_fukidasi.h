@@ -94,7 +94,7 @@ EXTERN_END
 #define ParamFukidasiDestructor_p       FuncPtr(void, __cdecl   , (TASK*), 0x005659C0)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_OpenParameterFukidasi_p;
+EXTERN const void* const AL_OpenParameterFukidasi_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

@@ -45,7 +45,7 @@ EXTERN_END
 #define SetAndLoadShader_p      FuncPtr(void, __stdcall, (sint32), 0x00424050);
 
 /** User-Function Ptrs **/
-EXTERN const void* SetShaders_p;
+EXTERN const void* const SetShaders_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

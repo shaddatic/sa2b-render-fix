@@ -145,11 +145,11 @@ EXTERN_END
 #define AL_InterpolateObject_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, float32), 0x0054AEB0)
 
 /** User-Function ptrs **/
-EXTERN const void* ___njUnitVector_p;
-EXTERN const void* AL_IsOnScreen3_p;
-EXTERN const void* AL_IsHitKindWithNum_p;
-EXTERN const void* AL_InterpolateAngle_p;
-EXTERN const void* AL_InterpolateSAngle_p;
+EXTERN const void* const ___njUnitVector_p;
+EXTERN const void* const AL_IsOnScreen3_p;
+EXTERN const void* const AL_IsHitKindWithNum_p;
+EXTERN const void* const AL_InterpolateAngle_p;
+EXTERN const void* const AL_InterpolateSAngle_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

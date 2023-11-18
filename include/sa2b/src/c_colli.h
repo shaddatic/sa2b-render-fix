@@ -136,8 +136,8 @@ EXTERN_END
 #define CCL_IsHitKindEx_p   FuncPtr(CCL_HIT_INFO*, __cdecl, (TASK*, uint8), 0x486760)
 
 /** User-Function ptrs **/
-EXTERN const void* CCL_Init_p;
-EXTERN const void* CCL_Entry_p;
+EXTERN const void* const CCL_Init_p;
+EXTERN const void* const CCL_Entry_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

@@ -54,8 +54,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptrs **/
-EXTERN const void* AL_SetBehaviorWithTimer_p;
-EXTERN const void* AL_SetNextBehavior_p;
+EXTERN const void* const AL_SetBehaviorWithTimer_p;
+EXTERN const void* const AL_SetNextBehavior_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

@@ -23,6 +23,7 @@ size_t  StringLength(const utf8* pStr, size_t len);
 
 utf8*   StringDupe(const utf8* pStr);
 utf8*   StringCopy(utf8* pDest, const utf8* pStr, size_t lenDest);
+utf8*   StringAppend(utf8* pDest, const utf8* pStr, size_t lenDest);
 
 /************************/
 /*  UTF-16 Funcs        */
@@ -34,6 +35,7 @@ size_t  StringLengthW(const wchar_t* pStr, size_t len);
 
 wchar_t* StringDupeW(const wchar_t* pStr);
 wchar_t* StringCopyW(wchar_t* pDest, const wchar_t* pStr, size_t lenDest);
+wchar_t* StringAppendW(wchar_t* pDest, const wchar_t* pStr, size_t lenDest);
 
 /************************/
 /*  Code-Page Convert   */

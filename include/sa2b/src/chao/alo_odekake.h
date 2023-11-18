@@ -79,7 +79,7 @@ EXTERN_END
 #define ALO_OdekakeMachineDestructor_p          FuncPtr(void, __cdecl, (TASK*), 0x0057E040)
 
 /** User-Function ptrs **/
-EXTERN const void* ALO_OdekakeMachineCreate_p;
+EXTERN const void* const ALO_OdekakeMachineCreate_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

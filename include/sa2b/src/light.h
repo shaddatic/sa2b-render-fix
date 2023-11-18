@@ -100,7 +100,7 @@ EXTERN_END
 #define LoadStageLight_p    FuncPtr(sint32, __fastcall, (const char*), 0x006C3AE0)
 
 /** User-Function ptrs **/
-EXTERN const void* SetLighting_p;
+EXTERN const void* const SetLighting_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

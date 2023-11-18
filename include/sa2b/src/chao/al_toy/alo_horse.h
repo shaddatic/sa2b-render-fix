@@ -42,7 +42,7 @@ EXTERN_END
 #define ALO_HorseExecutor_p     FuncPtr(void, __cdecl, (TASK*), 0x00580BC0)
 
 /** User-Function ptrs **/
-EXTERN const void* ALO_HorseCreateTask_p;
+EXTERN const void* const ALO_HorseCreateTask_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

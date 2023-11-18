@@ -133,18 +133,18 @@ EXTERN_END
 #define SE_Call_SEQ_p       FuncPtr(sint8, __cdecl, (sint8), 0x004377D0)
 
 /** User-Function ptr **/
-EXTERN const void* SE_Call_p;
-EXTERN const void* SE_CallV2_p;
-EXTERN const void* SE_Call_Timer_p;
-EXTERN const void* SE_CallV2_Timer_p;
-EXTERN const void* SE_Call_Loop_p;
-EXTERN const void* SE_CallV2_Loop_p;
-EXTERN const void* SE_Add_Volume_p;
-EXTERN const void* SE_Add_Pitch_p;
-EXTERN const void* SE_Add_Pan_p;
-EXTERN const void* SE_Call_SCLoop_p;
-EXTERN const void* SE_CallV2_SCLoop_p;
-EXTERN const void* SE_Call_One_p;
+EXTERN const void* const SE_Call_p;
+EXTERN const void* const SE_CallV2_p;
+EXTERN const void* const SE_Call_Timer_p;
+EXTERN const void* const SE_CallV2_Timer_p;
+EXTERN const void* const SE_Call_Loop_p;
+EXTERN const void* const SE_CallV2_Loop_p;
+EXTERN const void* const SE_Add_Volume_p;
+EXTERN const void* const SE_Add_Pitch_p;
+EXTERN const void* const SE_Add_Pan_p;
+EXTERN const void* const SE_Call_SCLoop_p;
+EXTERN const void* const SE_CallV2_SCLoop_p;
+EXTERN const void* const SE_Call_One_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

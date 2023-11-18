@@ -96,8 +96,8 @@ EXTERN_END
 #define ObjectGenericExec_p        FuncPtr(void, __cdecl, (TASK* tp), 0x005B4250)
 
 /** User-Function ptr **/
-extern const void* CheckRangeOut_p;
-extern const void* CheckRangeOutWithR_p;
+extern const void* const CheckRangeOut_p;
+extern const void* const CheckRangeOutWithR_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

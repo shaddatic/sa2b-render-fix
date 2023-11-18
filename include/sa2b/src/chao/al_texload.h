@@ -60,8 +60,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptrs **/
-EXTERN const void* AL_LoadTex_p;
-EXTERN const void* AL_ReleaseTex_p;
+EXTERN const void* const AL_LoadTex_p;
+EXTERN const void* const AL_ReleaseTex_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

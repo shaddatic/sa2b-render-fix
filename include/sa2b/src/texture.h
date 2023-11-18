@@ -31,8 +31,8 @@ TEX_FILETABLE;
 /*  Functions           */
 /************************/
 EXTERN_START
-/** Returns 'true' if the texture file was a .PAK **/
-bool32  texLoadTextureFile(const char* fname, NJS_TEXLIST* ptlo);
+/** Returns '-1' on failure, or '1' on success **/
+sint32  texLoadTextureFile(const char* fname, NJS_TEXLIST* ptlo);
 
 /** Loads each 'pTexTables' entry, then copies its TexNames into every TexList in 'pTexListLists'.
     All arrays must end with a NULL entry. Free also NULLs texture info inside 'pTexListLists'. **/
@@ -47,9 +47,10 @@ NJS_TEXLIST*    texCreateTextureFile(const char* fname);
 void            texFreeTexture(NJS_TEXLIST* ptlo);
 
 /** Internal Funcs **/
-/** Returns 'true' if .PAK was found **/
-bool32  texLoadTexturePakFile(const char* fname, NJS_TEXLIST* ptlo);
-void    texLoadTexturePrsFile(const char* fname, NJS_TEXLIST* ptlo);
+/** Returns '0' on failure, '1' on success **/
+sint32  texLoadTexturePakFile(const char* fname, NJS_TEXLIST* ptlo);
+/** Returns '-1' on failure, or '1' on success **/
+sint32  texLoadTexturePrsFile(const char* fname, NJS_TEXLIST* ptlo);
 
 EXTERN_END
 
@@ -62,11 +63,11 @@ EXTERN_END
 #define texCreateTextureFile_p      FuncPtr(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
 /** User-Function ptr **/
-EXTERN const void* texLoadTextureLists_p;
-EXTERN const void* texFreeTextureLists_p;
-EXTERN const void* texCopyTexture_p;
-EXTERN const void* texLoadTexturePakFile_p;
-EXTERN const void* texLoadTexturePrsFile_p;
+EXTERN const void* const texLoadTextureLists_p;
+EXTERN const void* const texFreeTextureLists_p;
+EXTERN const void* const texCopyTexture_p;
+EXTERN const void* const texLoadTexturePakFile_p;
+EXTERN const void* const texLoadTexturePrsFile_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

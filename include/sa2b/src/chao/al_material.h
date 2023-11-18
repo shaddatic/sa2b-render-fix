@@ -15,7 +15,7 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/njcommon.h>
+#include <sa2b/ninja/ninja.h>
 
 /************************/
 /*  Abstract Types      */
@@ -54,8 +54,8 @@ EXTERN_END
 #define AL_FreeObject_p     FuncPtr(void           , __cdecl, (NJS_CNK_OBJECT*), 0x0055EDF0)
 
 /** User-Function ptrs **/
-EXTERN const void* AL_MatSetChaoColor_p;
-EXTERN const void* AL_MatChangeModelTexture_p;
+EXTERN const void* const AL_MatSetChaoColor_p;
+EXTERN const void* const AL_MatChangeModelTexture_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

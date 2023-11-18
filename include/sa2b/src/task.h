@@ -184,7 +184,7 @@ EXTERN_END
 #define DestroyTask_p       FuncPtr(void , __cdecl, (TASK*)                   , 0x046F720)
 
 /** User-Function ptr **/
-EXTERN const void* CreateElementalTask_p;
+EXTERN const void* const CreateElementalTask_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 
