@@ -300,7 +300,7 @@ RFM_EventInit()
         EV_ModifierInit();
     }
 
-    EventEnforce43 = RF_ConfigGetInt(CNF_EVENT_43MD) == 1 ? EV_43MD_ALWAYS : EV_43MD_NEVER;
+    EventEnforce43 = (RF_ConfigGetInt(CNF_EVENT_43MD) == 1) ? EV_43MD_ALWAYS : EV_43MD_NEVER;
 
     //WriteJump(0x005FA4D0, EventEntrySetLight);
     //WriteData(0x005FA404, 4, uint8_t);
