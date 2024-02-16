@@ -133,7 +133,7 @@ Draw43Bars()
         NJS_COLOR   colors[4];
         NJS_POINT2  points[4];
 
-        float screenratio = (disp_ratio - 1.0f) * (320.0f) + 1.0f;
+        const float screenratio = (disp_ratio - 1.0f) * (320.0f) + 1.0f;
 
         colors[0].color = 0xFF000000;
         colors[1].color = 0xFF000000;
@@ -161,10 +161,10 @@ Draw43Bars()
 
         njDrawPolygon2D(&poly, 4, 1.0f, NJD_FILL);
 
-        points[0].x = 640.0f + screenratio;
-        points[1].x = 640.0f + screenratio;
-        points[2].x = 640.0f;
-        points[3].x = 640.0f;
+        points[0].x = 640.0f;
+        points[1].x = 640.0f;
+        points[2].x = 640.0f + screenratio;
+        points[3].x = 640.0f + screenratio;
 
         njDrawPolygon2D(&poly, 4, 1.0f, NJD_FILL);
     }
@@ -295,10 +295,12 @@ RFM_EventInit()
 
     EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
 
-    ___VITAL("Make optional");
-    EV_ModifierInit();
+    if (RF_ConfigGetInt(CNF_EVENT_DRAWMOD))
+    {
+        EV_ModifierInit();
+    }
 
-    EventEnforce43 = EV_43MD_ALWAYS;
+    EventEnforce43 = RF_ConfigGetInt(CNF_EVENT_43MD) == 1 ? EV_43MD_NEVER : EV_43MD_ALWAYS;
 
     //WriteJump(0x005FA4D0, EventEntrySetLight);
     //WriteData(0x005FA404, 4, uint8_t);
