@@ -108,6 +108,8 @@
 #define CNF_CART_SEAFIX         CNF_SECT_CART       , "seafix"              , 1         /* Sea Fix */
 
 /** Event section **/
+#define CNF_EVENT_DISPREPLCE    CNF_SECT_EVENT      , "disp_replace"        , 1         /* Enhanced Displayer */
+#define CNF_EVENT_DRAWEQUIP     CNF_SECT_EVENT      , "draw_equip"          , 1         /* Draw Player Equipment */
 #define CNF_EVENT_TEXANIM       CNF_SECT_EVENT      , "texanim"             , 1         /* Fix Texture Animations */
 
 /** Experimental Section **/

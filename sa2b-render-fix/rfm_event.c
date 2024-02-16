@@ -20,9 +20,6 @@
 #include <rfm_event.h>
 #include <rfm_event/ev_internal.h>
 
-/** Constants **/
-#define SECT    CNF_SECT_EVENT
-
 const int EventAnimateTexture_p = 0x006021A0;
 void
 EventAnimateTexture(EventTexAnimSub1* a1, int a2, int a3)
@@ -290,13 +287,13 @@ RFM_EventInit()
         WriteCall(0x005FEFF7, __EndiswapEventTexAnim);
     }
 
-    if (RF_ConfigGetInt(SECT, "draw_fix", 1))
+    if (RF_ConfigGetInt(CNF_EVENT_DISPREPLCE))
     {
         WriteJump(0x005FABF0, EventDisplayerHook);
         WriteJump(0x005FAD20, EventDisplayerDelayHook);
     }
 
-    EventEquipmentEnable = RF_ConfigGetInt(SECT, "draw_equip", 1);
+    EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
 
     ___VITAL("Make optional");
     EV_ModifierInit();
