@@ -493,6 +493,12 @@ RFG_BackfaceCullingInit()
         }
     }
 
+    /** Tails v Eggman 2 Skybox **/
+    {
+        CnkModelFlipWinding(0x00C881A4);
+        CnkModelFlipWinding(0x00C88FCC);
+    }
+
     /** Final Rush BgDisplayer LT **/
     {
         OBJ_LANDTABLE* pltable = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0030_uv");
@@ -561,6 +567,8 @@ RFG_BackfaceCullingInit()
         {
             CnkModelMaterialFlagOn(CCRBgWaterList[i], -1, NJD_FST_DB);
         }
+
+        CnkModelFlipWinding(0x0095F74C); // Goal Door
     }
 
     /** Debug settings **/
