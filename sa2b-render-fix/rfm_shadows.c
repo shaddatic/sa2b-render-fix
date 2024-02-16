@@ -154,8 +154,6 @@ RFM_ShadowsInit(void)
 
         if (chs_mode != CHSMD_OFF)
         {
-            ___VITAL("Double check feature name");
-
             /** Mod check and warning **/
             if (ModCheckDll("sa2-dc-lighting"))
                 RF_ModConflictEx("DC Shadows", "Modifer Shadows");
