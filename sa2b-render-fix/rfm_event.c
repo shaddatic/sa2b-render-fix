@@ -303,6 +303,6 @@ RFM_EventInit()
 
     EventEnforce43 = EV_43MD_ALWAYS;
 
-    WriteJump(0x005FA4D0, EventEntrySetLight);
-    WriteData(0x005FA404, 4, uint8_t);
+    //WriteJump(0x005FA4D0, EventEntrySetLight);
+    //WriteData(0x005FA404, 4, uint8_t);
 }
