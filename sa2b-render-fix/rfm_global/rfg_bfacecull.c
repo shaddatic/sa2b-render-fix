@@ -440,6 +440,10 @@ RFG_BackfaceCullingInit()
     CnkModelMaterialFlagOn(0x0167AD44, 5, NJD_FST_DB);
     CnkModelMaterialFlagOn(0x0167AD44, 8, NJD_FST_DB);
 
+    /** Pumpkin Hill Shed **/
+    CnkModelMaterialFlagOn(0x0167C644, 1, NJD_FST_DB);
+    CnkModelMaterialFlagOn(0x0167C644, 3, NJD_FST_DB);
+
     /** Security Hall Money **/
     CnkModelMaterialFlagOn(0x00E76994, 0, NJD_FST_DB);
 
