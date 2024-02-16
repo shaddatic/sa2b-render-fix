@@ -273,6 +273,7 @@ BGDisp_CCSFix(TASK* tp)
 #define ButterflyList           DataAry(NJS_CNK_MODEL* , 0x00DDB64C, [9])  // Dry Lagoon Butterflies
 #define PoisonHazardList        DataAry(NJS_CNK_OBJECT*, 0x009CAD88, [22]) // Crazy Gadget Poison Objects
 #define BatModelList            DataAry(NJS_CNK_MODEL* , 0x00B6AD04, [6])
+#define CCRBgWaterList          DataAry(NJS_CNK_MODEL* , 0x01612CF8, [20])
 
 static bool CullEnabled;
 
@@ -555,6 +556,11 @@ RFG_BackfaceCullingInit()
     {
         WritePointer(0x0065F18A, BGDisp_CCKFix); // I don't really like these fixes
         WritePointer(0x004DB82A, BGDisp_CCRFix); // ^
+
+        for (int i = 0; i < arylen(CCRBgWaterList); ++i)
+        {
+            CnkModelMaterialFlagOn(CCRBgWaterList[i], -1, NJD_FST_DB);
+        }
     }
 
     /** Debug settings **/
