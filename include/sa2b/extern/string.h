@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/extern/string.h'
 *
-*   Contains functions and pointers to the game's std string imports.
+*   Description:
+*       Contains functions and pointers to the game's standard
+*   string imports.
 *
 *   Contributors:
 *   -   Shaddatic

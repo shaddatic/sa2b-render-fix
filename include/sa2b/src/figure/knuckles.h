@@ -23,12 +23,16 @@
 /************************/
 /*  Structures          */
 /************************/
+#define GET_KNUCKLESWK(_tp)     ((KNUCKLESWK*)tp->awp)
+
 typedef struct knuckleswk
 {
-    PLAYERWK pwk;
-    char field_1BC[492];
-    Angle someAng0;
-    __int16 someShrt;
+    PLAYERWK pw;
+
+    char field_308[78];
+    signed __int16 someAng0;
+    signed __int16 someAng1;
+    __int16 chaos0_texid;
     int someAnimationIndex;
     char field_3B0[4];
     float someFlt;
@@ -39,18 +43,19 @@ typedef struct knuckleswk
     PLAYER_OBJECT* pObjectData2;
     NJS_TEXLIST* TextureList;
     NJS_TEXLIST* EffectTextureList;
-    CHAR_OBJECT* ModelList;
-    PLAYER_MOTION* MotionList;
+    PL_OBJECT* ModelList;
+    PL_MOTION* MotionList;
     NJS_MOTION_LINK pMotionLink;
-    char field_400[16];
+    char field_410[16];
 }
 KNUCKLESWK;
 
 /************************/
 /*  Data                */
 /************************/
-#define pKnucklesWork           DataRef(KNUCKLESWK*, 0x01A51C88)
+#define KnucklesWorkPointer     DataRef(KNUCKLESWK*, 0x01A51C88)
 
+#define mtx_KnucklesBase        DataRef(NJS_MATRIX , 0x01A51BEC)
 #define mtx_KnucklesHead        DataRef(NJS_MATRIX , 0x01A51CBC)
 #define mtx_KnucklesBody        DataRef(NJS_MATRIX , 0x01A51B3C)
 #define mtx_KnucklesHandL       DataRef(NJS_MATRIX , 0x01A51C58)

@@ -65,7 +65,7 @@ enum {
 /*      Sprite                          */
 /*--------------------------------------*/
 typedef struct {
-    Sint16      sx, sy;         /* size                */
+    Sint16      sx, sy;         /* size             */
     Sint16      cx, cy;         /* center           */
     Sint16      u1, v1;         /* upper left       */
     Sint16      u2, v2;         /* lower right      */

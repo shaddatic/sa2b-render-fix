@@ -15,7 +15,7 @@
 /************************/
 /*  Data                */
 /************************/
-#define alCtrlMove      DataRef(bool32, 0x01DBE634)
+#define alCtrlMove      DataRef(bool32_t, 0x01DBE634)
 
 /************************/
 /*  Functions           */
@@ -23,7 +23,7 @@
 EXTERN_START
 void    AL_EnableMove(void);
 void    AL_DisableMove(void);
-bool32  AL_IsMovable(void);
+bool32_t  AL_IsMovable(void);
 
 EXTERN_END
 

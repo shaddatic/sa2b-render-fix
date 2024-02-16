@@ -29,7 +29,7 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-void    TornadoMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+void    TornadoWalkerMotionCallBack(NJS_CNK_OBJECT* cnkobj);
 
 EXTERN_END
 
@@ -38,7 +38,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define TornadoMotionCallBack_p     FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x00747940)
+#define TornadoWalkerMotionCallBack_p     FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x00747940)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

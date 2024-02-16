@@ -21,16 +21,18 @@
 /*  Abstract Types      */
 /************************/
 typedef struct task         TASK;
-typedef struct taskwk       TASKWK;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-TASKWK* ALO_HorseCreateTask(NJS_POINT3* pPos);
+void    ALO_HorseCreate(NJS_POINT3* pPos);
 
 /** Internal task functions **/
+void    ALO_Horse(TASK* tp);
 void    ALO_HorseExecutor(TASK* tp);
+void    ALO_HorseDisplayer(TASK* tp);
+void    ALO_HorseDestructor(TASK* tp); // Same function as many other ALO objects
 
 EXTERN_END
 
@@ -39,10 +41,13 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
+#define ALO_Horse_p             FuncPtr(void, __cdecl, (TASK*), 0x00580E80)
 #define ALO_HorseExecutor_p     FuncPtr(void, __cdecl, (TASK*), 0x00580BC0)
+#define ALO_HorseDisplayer_p    FuncPtr(void, __cdecl, (TASK*), 0x00580CA0)
+#define ALO_HorseDestructor_p   FuncPtr(void, __cdecl, (TASK*), 0x0057B9B0)
 
 /** User-Function ptrs **/
-EXTERN const void* const ALO_HorseCreateTask_p;
+EXTERN const void* const ALO_HorseCreate_p;
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

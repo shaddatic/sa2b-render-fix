@@ -2,7 +2,9 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/src/camera.h'
 *
 *   ~~ Under Construction ~~
-*   Contains structs and data related to the camera
+* 
+*   Description:
+*       Contains structs and data related to the camera.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -35,7 +37,7 @@ typedef struct _camcontwork
     NJS_POINT3 relpos; // pos Relative to target
     NJS_POINT3 tgtpos;
     NJS_POINT3 spd;
-    float32 tgtdist;
+    float32_t tgtdist;
     NJS_POINT3 prevcampos; // pos again
     Angle angx_spd;
     Angle angy_spd;
@@ -46,7 +48,7 @@ CAMERA_CONTROL_WORK;
 /************************/
 /*  Data                */
 /************************/
-#define cameraControlWorkIndex      DataRef(sint32              , 0x01DD92A0)
+#define cameraControlWorkIndex      DataRef(int32_t             , 0x01DD92A0)
 #define cameraControlWork           DataAry(CAMERA_CONTROL_WORK*, 0x01DD92B0, [2])
 
-#endif /* _SA2B_CAMERA_H_ */
+#endif/*_SA2B_CAMERA_H_*/

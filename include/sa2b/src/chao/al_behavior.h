@@ -15,7 +15,7 @@
 /************************/
 /*  Defines             */
 /************************/
-#define BhvFuncPtr(ADDR)   FuncPtr(sint32, __cdecl, (TASK*), ADDR)
+#define BhvFuncPtr(ADDR)   FuncPtr(int32_t, __cdecl, (TASK*), ADDR)
 
 /************************/
 /*  Absract Types       */
@@ -25,7 +25,7 @@ typedef struct task     TASK;
 /************************/
 /*  Typedefs             */
 /************************/
-typedef sint32(__cdecl* BHV_FUNC)(TASK*);
+typedef int32_t(__cdecl* BHV_FUNC)(TASK*);
 
 /************************/
 /*  Enums               */

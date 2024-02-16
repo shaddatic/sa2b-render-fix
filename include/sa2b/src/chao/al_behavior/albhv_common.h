@@ -21,9 +21,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_Turn(TASK* tp);
-sint32  ALBHV_TurnRandom(TASK* tp);
-sint32  ALBHV_GoToLockOn(TASK* tp);
+int32_t  ALBHV_Turn(TASK* tp);
+int32_t  ALBHV_TurnRandom(TASK* tp);
+int32_t  ALBHV_GoToLockOn(TASK* tp);
 
 EXTERN_END
 

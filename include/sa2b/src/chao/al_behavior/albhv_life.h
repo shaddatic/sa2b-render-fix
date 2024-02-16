@@ -21,8 +21,8 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_Mayu(TASK* tp);
-sint32  ALBHV_Dead(TASK* tp);
+int32_t  ALBHV_Mayu(TASK* tp);
+int32_t  ALBHV_Dead(TASK* tp);
 
 /*
 *   Mayu Functions

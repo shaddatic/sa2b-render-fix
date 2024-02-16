@@ -34,13 +34,13 @@
 EXTERN_START
 /** Set random seeds **/
 void    mtRandAutoSeeds();            /* Automatically set seeds to CPU tick */
-void    mtRandSetSeeds(uint64 seed);
+void    mtRandSetSeeds(uint64_t seed);
 
 /** Get random integer **/
-uint64  mtRand64();     /* 0 - 18,446,744,073,709,551,615 */
-uint32  mtRand32();     /* 0 -  4,294,967,295 */
-uint16  mtRand16();     /* 0 - 65,535 */
-sint32  mtRand15();     /* 0 - 32,767           (Mimicks standard 'rand()' function) */
+uint64_t mtRand64();     /* 0 - 18,446,744,073,709,551,615 */
+uint32_t mtRand32();     /* 0 -  4,294,967,295 */
+uint16_t mtRand16();     /* 0 - 65,535 */
+int32_t  mtRand15();     /* 0 - 32,767           (Mimicks standard 'rand()' function) */
 
 EXTERN_END
 

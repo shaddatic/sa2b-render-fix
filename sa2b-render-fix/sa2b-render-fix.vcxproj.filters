@@ -15,114 +15,300 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="enemy-jet.cpp">
+    <ClCompile Include="rfm_common\rfc_e_jet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model.c">
+    <ClCompile Include="rf_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="objpak.cpp">
+    <ClCompile Include="rf_objpak.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="render-fix.cpp">
+    <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stage-map.cpp">
+    <ClCompile Include="rfm_menus.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tint-disable.cpp">
+    <ClCompile Include="rfm_global\rfg_mdltint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="a-mine.cpp">
+    <ClCompile Include="rfm_b_bigbogy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boss-bogy.cpp">
+    <ClCompile Include="rfm_ccore.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="c-core.cpp">
+    <ClCompile Include="rfm_global\rfg_envmap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="c-escape.cpp">
+    <ClCompile Include="rf_texture.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="env-map.cpp">
+    <ClCompile Include="rfm_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="extra-shadows.cpp">
+    <ClCompile Include="rfm_global\rfg_backcolor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="font.cpp">
+    <ClCompile Include="rfm_event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="get-emblem.cpp">
+    <ClCompile Include="rfm_common\rfc_mizugomi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="restorations.cpp">
+    <ClCompile Include="rfm_wjungle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="texture.c">
+    <ClCompile Include="rfm_shadows\chs_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools.cpp">
+    <ClCompile Include="rf_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tree-shadows.cpp">
+    <ClCompile Include="rfm_global\rfg_taskdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cart.cpp">
+    <ClCompile Include="rf_draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="backcolor.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_board.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="event.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_modmod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mizugomi.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_messenger.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="backface-cull.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_bunchin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="explosion.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_udreel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="enhanced-shadows.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_searchbox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="w-jungle.cpp">
+    <ClCompile Include="rfm_shadows\chs_o_goalring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_enemy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_ironball.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_eq_robot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_ce_truck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_chaosdrive.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_udreel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_minimal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_pickup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_car.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_md_tank.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_md_contbox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_md_meteo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_o_cc_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_boss.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_mod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_dxvk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_usermsg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_cart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\chs_chaoworld.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_cescape\ce_o_ce_tree_shadows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_cescape.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_global\rfg_bfacecull.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_mdlutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_modifier.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_amine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_e_explosion.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_eget.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_cull.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_itembox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_chaos0tex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_shadows\shd_player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_global.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_global\rfg_spotlight_fix.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_shader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="render-fix.h">
+    <ClInclude Include="rf_objpak.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="enemy-jet.h">
+    <ClInclude Include="rfm_common\rfc_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="objpak.h">
+    <ClInclude Include="rf_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tint-disable.h">
+    <ClInclude Include="rf_mod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tools.h">
+    <ClInclude Include="rf_draw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tree-shadows.h">
+    <ClInclude Include="rf_enemywk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mizugomi.h">
+    <ClInclude Include="rf_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="backcolor.h">
+    <ClInclude Include="rf_eventinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="backface-cull.h">
+    <ClInclude Include="rf_usermsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="explosion.h">
+    <ClInclude Include="rfm_shadows\chs_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_menus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_cescape\ce_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_cescape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_mdlutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_shadows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_event\ev_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_amine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_b_bigbogy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_cart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_cull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_shadows\shd_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_global\rfg_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_feature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_eget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_ccore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_wjungle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,25 +326,26 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
-    <None Include="model\basic_shadow.nja" />
-    <None Include="model\bunchin_shadow.nja" />
-    <None Include="model\ce_truck_hood.nja" />
-    <None Include="model\e_a_emi_emblem.nja" />
-    <None Include="model\e_b_kumi_emblem.nja" />
-    <None Include="model\e_b_pathkumi_emblem.nja" />
-    <None Include="model\e_g_kumi_emblem.nja" />
-    <None Include="model\e_g_pathkumi_emblem.nja" />
-    <None Include="model\e_gold_emblem.nja" />
-    <None Include="model\e_kumi_emblem.nja" />
-    <None Include="model\e_kyoko_emblem.nja" />
-    <None Include="model\e_shouko_aft.nja" />
-    <None Include="model\e_shouko_wing_port.nja" />
-    <None Include="model\e_shouko_wing_starboard.nja" />
-    <None Include="model\e_t_emi_emblem.nja" />
-    <None Include="model\eget.nja" />
-    <None Include="model\minemizu.nja" />
-    <None Include="texture\jo_tree.tls" />
-    <None Include="model\msger_shadow.nja" />
-    <None Include="model\e_s_ai_shield.nja" />
+    <None Include="rf_model\basic_shadow.nja" />
+    <None Include="rf_model\bunchin_shadow.nja" />
+    <None Include="rf_model\ce_truck_hood.nja" />
+    <None Include="rf_model\e_a_emi_emblem.nja" />
+    <None Include="rf_model\e_b_kumi_emblem.nja" />
+    <None Include="rf_model\e_b_pathkumi_emblem.nja" />
+    <None Include="rf_model\e_g_kumi_emblem.nja" />
+    <None Include="rf_model\e_g_pathkumi_emblem.nja" />
+    <None Include="rf_model\e_gold_emblem.nja" />
+    <None Include="rf_model\e_kumi_emblem.nja" />
+    <None Include="rf_model\e_kyoko_emblem.nja" />
+    <None Include="rf_model\e_shouko_aft.nja" />
+    <None Include="rf_model\e_shouko_wing_port.nja" />
+    <None Include="rf_model\e_shouko_wing_starboard.nja" />
+    <None Include="rf_model\e_t_emi_emblem.nja" />
+    <None Include="rf_model\eget.nja" />
+    <None Include="rf_model\minemizu.nja" />
+    <None Include="rf_texture\jo_tree.tls" />
+    <None Include="rf_model\msger_shadow.nja" />
+    <None Include="rf_model\e_s_ai_shield.nja" />
+    <None Include=".editorconfig" />
   </ItemGroup>
 </Project>

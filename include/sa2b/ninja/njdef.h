@@ -42,16 +42,16 @@
 /* Angle */
 /*-------*/
 #define _NJAVAL             (65536.0F/360.0000F)
-#define _NJANG1(_a)         (sint32)(_NJAVAL*(_a))
+#define _NJANG1(_a)         (int32_t)(_NJAVAL*(_a))
 #define _NJANG( _x, _y, _z)                               \
-    {(sint32)(_NJAVAL*(_x)), (sint32)(_NJAVAL*(_y)), (sint32)(_NJAVAL*(_z))}
+    {(int32_t)(_NJAVAL*(_x)), (int32_t)(_NJAVAL*(_y)), (int32_t)(_NJAVAL*(_z))}
 
 /*------*/
 /* ARGB */
 /*------*/
 #define _ARGB( _a, _r, _g, _b)                                           \
-                ( (uint32)((_a)<<24)|(uint32)((_r)<<16)    \
-                 |(uint32)((_g)<<8)|(_b) )
+                ( (uint32_t)((_a)<<24)|(uint32_t)((_r)<<16)    \
+                 |(uint32_t)((_g)<<8)|(_b) )
 #define ARGB( _a, _r, _g, _b) _ARGB( _a, _r, _g, _b)
 #define _NJARGB( _a, _r, _g, _b) _ARGB( _a, _r, _g, _b)
 
@@ -118,9 +118,9 @@
 #define D8888( _a, _r, _g, _b)  _ARGB(_a, _r, _g, _b)
 #define UFlags( _f)             (_f)
 #define NFlags( _f)             (_f)
-#define _WPCa( _p)              ((uint32)(((_p)*255.0F)/100.0F+0.5F))
+#define _WPCa( _p)              ((uint32_t)(((_p)*255.0F)/100.0F+0.5F))
 #define NFlagsW( _idx, _wp)     (((_WPCa(_wp) & 0xffff)<<16)|((_idx) & 0xffff))
-#define _WPCa2( _p)              ((uint32)(((_p)*65535.0F)/100.0F+0.5F))
+#define _WPCa2( _p)              ((uint32_t)(((_p)*65535.0F)/100.0F+0.5F))
 #define NFlagsW2( _idx, _wp)     (((_WPCa2(_wp) & 0xffff)<<16)|((_idx) & 0xffff))
 
 #define _RGB565( _r, _g, _b)                                           \
@@ -274,8 +274,8 @@
     {((Uint32)(_k)), ((float)((_a))),                               \
      ((float)(_x)), ((float)(_y)), ((float)(_z))}
 #define MKEYP(k,x)            {((Uint32)(k)),((void *)(x))}
-#define MKEYUI32(_k, _v)      {((Uint32)(_k)),((uint32)(_v))}
-#define MKEYSI32(_k, _v)      {((Uint32)(_k)),((sint32)(_v))}
+#define MKEYUI32(_k, _v)      {((Uint32)(_k)),((uint32_t)(_v))}
+#define MKEYSI32(_k, _v)      {((Uint32)(_k)),((int32_t)(_v))}
 #define MKEYUI16(_k, _v)      {((Uint16)(_k)),((Uint16)(_v))}
 #define MKEYSHID(_k, _id)     {((Uint32)(_k)), ((Uint32)(_id))}
 

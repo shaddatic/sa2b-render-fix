@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/extra.h'
 *
-*   Contains data and functions related to Minimals in the main game
+*   Description:
+*       Structs, data, and functions for the Minimal inventory
+*   system.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -17,8 +19,8 @@
 /************************/
 typedef struct 
 {
-    sint32 num;
-    sint32 timer;
+    int32_t num;
+    int32_t timer;
 }
 EXTRA;
 
@@ -26,11 +28,11 @@ typedef struct
 {
     EXTRA overflow[10];
     EXTRA list[10];
-    sint32 nbExtra;
-    float32 posx;
-    float32 velo;
-    float32 shiftx;
-    sint32 timer;
+    int32_t nbExtra;
+    float32_t posx;
+    float32_t velo;
+    float32_t shiftx;
+    int32_t timer;
 }
 EXTRA_LIST;
 
@@ -44,9 +46,10 @@ EXTRA_LIST;
 /************************/
 EXTERN_START
 /** Get EXTRA_LIST via player's character alignment **/
-EXTRA_LIST* Extra_Get(sint32 pno);
+EXTRA_LIST* Extra_Get( int32_t pno );
+
 /** Add minimal to extra list **/
-void        AddExtraDisplay(sint32 num, sint32 pno);
+void        AddExtraDisplay( int32_t num, int32_t pno );
 
 EXTERN_END
 
@@ -55,11 +58,11 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define Extra_Get_p        FuncPtr(EXTRA_LIST*, __fastcall, (sint32), 0x00487260)
+#   define Extra_Get_p             FuncPtr(EXTRA_LIST*, __fastcall, (int32_t), 0x00487260)
 
 /** User-Function ptrs **/
-EXTERN const void* const AddExtraDisplay_p;
+#   define AddExtraDisplay_p       ((void*)0x004872F0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
 
-#endif /* _SA2B_EXTRA_H_ */
+#endif/*_SA2B_EXTRA_H_*/

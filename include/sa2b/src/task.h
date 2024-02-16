@@ -15,22 +15,19 @@
 /************************/
 /*  Includes            */
 /************************/
+/** Ninja **/
 #include <sa2b/ninja/njcommon.h>
 
-/************************/
-/*  Abstracted Types    */
-/************************/
-typedef struct colliwk          COLLIWK;
-typedef struct _OBJ_CONDITION   OBJ_CONDITION;
+/** Task Work **/
+#include <sa2b/src/task/taskwk.h>
+#include <sa2b/src/task/motionwk.h>
+#include <sa2b/src/task/forcewk.h>
+#include <sa2b/src/task/anywk.h>
 
 /************************/
-/*  Header Types        */
+/*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
-typedef struct taskwk   TASKWK;
-typedef struct motionwk MOTIONWK;
-typedef struct forcewk  FORCEWK;
-typedef struct anywk    ANYWK;
+typedef struct _OBJ_CONDITION   OBJ_CONDITION;
 
 /************************/
 /*  Typedefs            */
@@ -57,87 +54,39 @@ TASKLEVEL;
 /************************/
 /*  Structures          */
 /************************/
-#define TO_TASKWK(p) ((TASKWK*)p)
-
-typedef struct taskwk
-{
-    sint8 mode;
-    sint8 smode;
-    sint8 id;
-    sint8 btimer;
-    sint16 flag;
-    sint16 wtimer;
-    Angle3 ang;
-    NJS_POINT3 pos;
-    NJS_POINT3 scl;
-    COLLIWK* cwp;
-}
-TASKWK;
-
-#define TO_MOTIONWK(p) ((MOTIONWK*)p)
-
-typedef struct motionwk
-{
-    NJS_POINT3 spd;
-    NJS_POINT3 acc;
-    Angle3 ang_aim;
-    Angle3 ang_spd;
-    float32 force;
-    float32 accel;
-    float32 frict;
-}
-MOTIONWK;
-
-#define TO_FORCEWK(p) ((FORCEWK*)p)
-
-typedef struct forcewk
-{
-    void(__cdecl* call_back)(TASK*, TASKWK*, FORCEWK*);
-    Angle3 ang_spd;
-    NJS_POINT3 pos_spd;
-}
-FORCEWK;
-
-#define TO_ANYWK(p) ((ANYWK*)p)
-
-typedef struct anywk
-{
-    union {
-        uint8 ub[16];
-        sint8 sb[16];
-        uint16 uw[8];
-        sint16 sw[8];
-        uint32 ul[4];
-        sint32 sl[4];
-        float32 f[4];
-        void* ptr[4];
-    }
-    work;
-}
-ANYWK;
-
 typedef struct task
 {
-    struct task*    next;        /* Next Task */
-    struct task*    last;        /* Last Task */
-    struct task*    ptp;        /* Parent Task */
-    struct task*    ctp;        /* Child Task */
-    task_exec       exec;        /* Executor */
-    task_exec       disp;        /* Displayer (Drawn 1st) */
-    task_exec       dest;        /* Destructor */
-    task_exec       disp_dely;  /* Delayed Displayer (Drawn 3rd) */
-    task_exec       disp_sort;  /* Sorted Displayer (Drawn 2nd) */
-    task_exec       disp_late;  /* Late Displayer (Drawn 4th) */
-    task_exec       disp_last;  /* Last Displayer (Drawn 5th) */
+    struct task*    next;       /* Next Task                        */
+    struct task*    last;       /* Last Task                        */
+    struct task*    ptp;        /* Parent Task                      */
+    struct task*    ctp;        /* Child Task                       */
+
+    /** Task Executors **/
+    task_exec       exec;       /* Executor                         */
+    task_exec       disp;       /* Displayer            (Drawn 1st) */
+    task_exec       dest;       /* Destructor                       */
+    task_exec       disp_dely;  /* Delayed Displayer    (Drawn 3rd) */
+    task_exec       disp_sort;  /* Sorted Displayer     (Drawn 2nd) */
+    task_exec       disp_late;  /* Late Displayer       (Drawn 4th) */
+    task_exec       disp_last;  /* Last Displayer       (Drawn 5th) */
     task_exec       disp_shad;  /* Shadow Displayer */
-    OBJ_CONDITION*  ocp;        /* Set Data */
-    TASKWK*         twp;        /* Task Work */
-    MOTIONWK*       mwp;        /* Motion Work */
-    FORCEWK*        fwp;        /* Force Work */
-    ANYWK*          awp;        /* Any Work */
-    char*           name;
-    char*           name2;
-    void*           sdp;        /* Shadow Work */
+
+    /** Task Work Pointers **/
+    OBJ_CONDITION*  ocp;        /* Set Data                         */
+    TASKWK*         twp;        /* Task Work                        */
+    MOTIONWK*       mwp;        /* Motion Work                      */
+    FORCEWK*        fwp;        /* Force Work          (Array of 2) */
+    ANYWK*          awp;        /* Any Work                         */
+    char*           name;       /* Task Name                        */
+    char*           name2;      /* Task Name       (Copy of 'name') */
+
+    union {
+        int8_t    b[4];
+        int16_t   w[2];
+        int32_t   l;
+        float32_t f;
+        void* ptr;
+    } thp;                      /* Needs more research              */
 }
 TASK;
 
@@ -160,9 +109,9 @@ TASK;
 /************************/
 EXTERN_START
 /** Create new TASK **/
-TASK*   CreateElementalTask(uint8 im, sint32 level, task_exec exec, const char* name);
+TASK*   CreateElementalTask(uint8_t im, int32_t level, task_exec exec, const char* name);
 /** Create new task as a child of another TASK **/
-TASK*   CreateChildTask(sint16 im, task_exec exec, TASK* tp);
+TASK*   CreateChildTask(int16_t im, task_exec exec, TASK* tp);
 
 /** Queue TASK for freeing **/
 void    FreeTask(TASK* tp);
@@ -180,12 +129,12 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptr **/
-#define CreateChildTask_p   FuncPtr(TASK*, __cdecl, (sint16, task_exec, TASK*), 0x0470C00)
+#define CreateChildTask_p   FuncPtr(TASK*, __cdecl, (int16_t, task_exec, TASK*), 0x0470C00)
 #define DestroyTask_p       FuncPtr(void , __cdecl, (TASK*)                   , 0x046F720)
 
 /** User-Function ptr **/
 EXTERN const void* const CreateElementalTask_p;
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
 
-#endif /* _SA2B_TASK_H_ */
+#endif/*_SA2B_TASK_H_*/

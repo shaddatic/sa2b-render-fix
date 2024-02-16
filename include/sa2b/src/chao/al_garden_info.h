@@ -17,71 +17,89 @@
 /************************/
 #include <sa2b/ninja/njcommon.h>
 
-#include <sa2b/src/chao/al_chao_info.h>
 #include <sa2b/src/chao/chao.h>
+#include <sa2b/src/chao/al_chao_info.h>
 #include <sa2b/src/chao/al_itemshop.h>
+
+/************************/
+/*  Defines             */
+/************************/
+#define FLAG_GARDEN_PLAY            (0x01)
+#define FLAG_GARDEN_NEUT_PLAY       (0x02)
+#define FLAG_GARDEN_KINDER_OPEN     (0x04)
+#define FLAG_GARDEN_KINDER_PLAY     (0x08)
+#define FLAG_GARDEN_HERO_OPEN       (0x10)
+#define FLAG_GARDEN_HERO_PLAY       (0x20)
+#define FLAG_GARDEN_DARK_OPEN       (0x40)
+#define FLAG_GARDEN_DARK_PLAY       (0x80)
+
+#define FLAG_TOY_TV                 (0x01)
+#define FLAG_TOY_RADICASE           (0x02)
+#define FLAG_TOY_BOX                (0x04)
+#define FLAG_TOY_BALL_N             (0x08)
+#define FLAG_TOY_BALL_H             (0x10)
+#define FLAG_TOY_BALL_D             (0x20)
+#define FLAG_TOY_HORSE              (0x40)
 
 /************************/
 /*  Structures          */
 /************************/
 typedef struct
 {
-    sint32 id[2];
+    int32_t id[2];
 }
 GARDEN_ID;
 
 typedef struct item_save_info
 {
-    sint16 kind; // kind
-    sint16 place; // area
-    sint16 status; // scl
-    sint16 nbVisit; // age
+    int16_t kind; // kind
+    int16_t place; // area
+    int16_t status; // scl
+    int16_t nbVisit; // age
     NJS_POINT3 pos;
 }
 ITEM_SAVE_INFO;
 
 typedef struct
 {
-    sint8 LessonNum[4];
-    sint32 LessonStartTime[4];
-    uint8 free[8];
-    sint32 NextBuyListChangeTime;
-    sint32 gAlItemBuyNum;
-    sint32 gAlItemHaveNum;
+    int8_t LessonNum[4];
+    int32_t LessonStartTime[4];
+    uint8_t free[8];
+    int32_t NextBuyListChangeTime;
+    int32_t gAlItemBuyNum;
+    int32_t gAlItemHaveNum;
     SAlItem gAlItemBuyList[32];
-    uint8 dummy[10];
-    uint8 UNDEF0;
-    uint8 UNDEF1;
+    uint8_t dummy[10];
 }
 KINDER_SAVE_INFO;
 
 typedef struct
 {
-    uint8 crc1;
-    uint8 pre0;
-    uint8 crc3;
-    uint8 post;
-    uint8 pre1;
-    uint8 crc0;
-    uint8 pre2;
-    uint8 crc2;
+    uint8_t crc1;
+    uint8_t pre0;
+    uint8_t crc3;
+    uint8_t stPost;
+    uint8_t pre1;
+    uint8_t crc0;
+    uint8_t pre2;
+    uint8_t crc2;
 }
 SAVE_DATA_CRC;
 
 typedef struct tree_save_info
 {
-    uint8 kind; // kind
-    uint8 state; // stage
-    uint8 param; // growth
-    uint8 water;
-    sint8 FruitGrowth[3];
-    uint8 angy_pos; // up to 240
+    uint8_t kind; // kind
+    uint8_t state; // stage
+    uint8_t param; // growth
+    uint8_t water;
+    int8_t FruitGrowth[3];
+    uint8_t angy_pos; // up to 240
 }
 TREE_SAVE_INFO;
 
 typedef struct
 {
-    sint8 RecordFlag;
+    int8_t RecordFlag;
     AL_TIME time;
     AL_SHAPE_ELEMENT ShapeElement;
 }
@@ -89,32 +107,32 @@ AL_RECORD;
 
 typedef struct race_save_info
 {
-    sint8 RaceActiveFlag[6];
-    sint8 CourseChallengedLevel[13];
-    sint8 BeginnerClearedLevel[4];
-    sint8 JewelClearedLevel[6];
-    sint8 ChallengeClearedLevel;
-    sint8 HeroClearedLevel;
-    sint8 DarkClearedLevel;
+    int8_t RaceActiveFlag[6];
+    int8_t CourseChallengedLevel[13];
+    int8_t BeginnerClearedLevel[4];
+    int8_t JewelClearedLevel[6];
+    int8_t ChallengeClearedLevel;
+    int8_t HeroClearedLevel;
+    int8_t DarkClearedLevel;
     AL_RECORD CourseRecord[10];
 }
 RACE_SAVE_INFO;
 
 typedef struct
 {
-    uint8 free[32];
+    uint8_t free[32];
 }
 KARATE_SAVE_INFO;
 
 typedef struct chao_garden_info
 {
     GARDEN_ID GardenID;
-    uint8 padding[4];
-    sint32 flag;
-    sint32 ToyGetFlag;
-    sint32 timer;
-    sint32 nbVisit;
-    sint32 nbBorn;
+    uint8_t padding[4];
+    int32_t flag;
+    int32_t ToyGetFlag;
+    int32_t timer;
+    int32_t nbVisit;
+    int32_t nbBorn;
     TREE_SAVE_INFO tree[3][7];
     ITEM_SAVE_INFO fruit[40];
     ITEM_SAVE_INFO seed[12];
@@ -130,7 +148,7 @@ CHAO_GARDEN_INFO;
 
 typedef struct
 {
-    sint32 category;
+    int32_t category;
     ITEM_SAVE_INFO* pSaveInfo;
 }
 AL_HOLDING_ITEM_INFO;
@@ -143,31 +161,35 @@ AL_HOLDING_ITEM_INFO;
 #define GardenInfoList      DataAry(CHAO_GARDEN_INFO    , 0x019F6460, [2])
 
 #define gAlItemInvList      DataAry(SAlItem             , 0x01DBEDA0, [6])
-#define gAlItemInvNum       DataRef(sint32              , 0x01DBEDAC)
+#define gAlItemInvNum       DataRef(int32_t              , 0x01DBEDAC)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Memory card slot **/
-uint32  ALMC_GetSystemSlot(void);
+uint32_t    ALMC_GetSystemSlot(void);
 
 /** Constants **/
-sint32  AL_GetMaxChao(void);
+int32_t     AL_GetMaxChao(void);
 
 /** Get info **/
 CHAO_GARDEN_INFO*   AL_GetCurrGardenInfo(void);
-CHAO_GARDEN_INFO*   AL_GetGardenInfo2(sint32 slot);
+CHAO_GARDEN_INFO*   AL_GetGardenInfo2(int32_t slot);
 RACE_SAVE_INFO*     AL_GetRaceSaveInfo(void);
 
+/** Flag info **/
+void        AL_OnGardenFlag(uint32_t flag);
+bool32_t    AL_CheckGardenFlag(uint32_t flag);
+
 /** New info **/
-ITEM_SAVE_INFO*     AL_GetNewItemSaveInfo(sint32 category);
+ITEM_SAVE_INFO*     AL_GetNewItemSaveInfo(int32_t category);
 
 /** Holding info **/
 ITEM_SAVE_INFO*     AL_GetHoldingItemSaveInfo(void);
-sint32              AL_GetHoldingItemKind(void);
-sint32              AL_GetHoldingItemCategory(void);
-void                AL_SetHoldingItemInfo(sint32 category, ITEM_SAVE_INFO* pSaveInfo);
+int32_t             AL_GetHoldingItemKind(void);
+int32_t             AL_GetHoldingItemCategory(void);
+void                AL_SetHoldingItemInfo(int32_t category, ITEM_SAVE_INFO* pSaveInfo);
 void                AL_ClearHoldingItemInfo(void);
 
 /** Garden init **/
@@ -176,10 +198,10 @@ void    AL_CreateHoldingItem(void);
 
 /** Package save info for saving to file **/
 void    AL_PackageAllSaveInfo(void);
-void    AL_PackageItemSaveInfo(sint32 category);
+void    AL_PackageItemSaveInfo(int32_t category);
 
 /** Internal functions **/
-bool32  AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
+bool32_t    AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
 
 EXTERN_END
 
@@ -188,12 +210,12 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define AL_GetNewItemSaveInfo_p         FuncPtr(ITEM_SAVE_INFO*  , __fastcall, (sint32)           , 0x0052F9E0)
+#define AL_GetNewItemSaveInfo_p         FuncPtr(ITEM_SAVE_INFO*  , __fastcall, (int32_t)           , 0x0052F9E0)
 #define AL_GetCurrGardenInfo_p          FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E440)
 #define AL_GetAnotherGardenInfo_p       FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E460)
 #define AL_PackageAllSaveInfo_p         FuncPtr(void             , __cdecl   , (void)             , 0x0052F090)
-#define AL_PackageItemSaveInfo_p        FuncPtr(void             , __cdecl   , (sint32)           , 0x0052E710)
-#define AL_CheckSaveDataCrc2_p          FuncPtr(bool32           , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
+#define AL_PackageItemSaveInfo_p        FuncPtr(void             , __cdecl   , (int32_t)           , 0x0052E710)
+#define AL_CheckSaveDataCrc2_p          FuncPtr(bool32_t           , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
 #define AL_SetObjectOnTheGarden_p       FuncPtr(void             , __cdecl   , (void)             , 0x0052EB70)
 #define AL_CreateHoldingItem_p          FuncPtr(void             , __cdecl   , (void)             , 0x0052F2A0)
 

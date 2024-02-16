@@ -22,10 +22,10 @@ typedef struct _XINPUT_VIBRATION    XINPUT_VIBRATION;
 /*  Functions           */
 /************************/
 EXTERN_START
-uint32  ___XInputGetCapabilities(uint32 dwUserIndex, uint32 dwFlags, XINPUT_CAPABILITIES* pCapabilities);
+uint32_t  ___XInputGetCapabilities(uint32_t dwUserIndex, uint32_t dwFlags, XINPUT_CAPABILITIES* pCapabilities);
 
-uint32  ___XInputGetState(uint32 dwUserIndex, XINPUT_STATE* pState);
-uint32  ___XInputSetState(uint32 dwUserIndex, XINPUT_VIBRATION* pVibration);
+uint32_t  ___XInputGetState(uint32_t dwUserIndex, XINPUT_STATE* pState);
+uint32_t  ___XInputSetState(uint32_t dwUserIndex, XINPUT_VIBRATION* pVibration);
 
 EXTERN_END
 
@@ -34,9 +34,9 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptr **/
-#define ___XInputGetCapabilities_p   FuncPtr(uint32, __stdcall, (uint32, uint32, XINPUT_CAPABILITIES*), 0x007C0CCE)
-#define ___XInputGetState_p          FuncPtr(uint32, __stdcall, (uint32, XINPUT_STATE*)               , 0x007C0CD4)
-#define ___XInputSetState_p          FuncPtr(uint32, __stdcall, (uint32, XINPUT_VIBRATION*)           , 0x007C0CDA)
+#define ___XInputGetCapabilities_p   FuncPtr(uint32_t, __stdcall, (uint32_t, uint32_t, XINPUT_CAPABILITIES*), 0x007C0CCE)
+#define ___XInputGetState_p          FuncPtr(uint32_t, __stdcall, (uint32_t, XINPUT_STATE*)                 , 0x007C0CD4)
+#define ___XInputSetState_p          FuncPtr(uint32_t, __stdcall, (uint32_t, XINPUT_VIBRATION*)             , 0x007C0CDA)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

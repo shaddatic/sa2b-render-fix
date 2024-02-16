@@ -27,12 +27,12 @@ typedef struct al_object    AL_OBJECT;
 /*  Data                */
 /************************/
 /** Refers to Chao tree nodes - called 'tree_count' in symbols **/
-#define tree_count_draw         DataRef(sint16     , 0x01A259D8)
+#define tree_count_draw         DataRef(int16_t     , 0x01A259D8)
 
 /** Pointer to Chao shadow task **/
 #define ShadowTexTp             DataRef(TASK*      , 0x01A5D144)
 
-#define texlist_al_mm_kage      DataPtr(NJS_TEXLIST, 0x01349ED4)
+#define texlist_al_mm_kage      DataAry(NJS_TEXLIST, 0x01349ED4, [1])
 
 /************************/
 /*  Functions           */

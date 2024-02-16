@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/extern/cpp.h'
 *
-*   Contains functions and pointers to the game's C++ std operators.
+*   Description:
+*       Contains functions and pointers to the game's C++
+*   standard operators.
 *
 *   Contributors:
 *   -   Shaddatic

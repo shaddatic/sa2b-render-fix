@@ -22,13 +22,13 @@ typedef enum
     CHAO_STG_HERO,
     CHAO_STG_DARK,
     CHAO_STG_RACE,
-    CHAO_STG_ENTRANCE,
+    CHAO_STG_ENTRANCE1P,
     CHAO_STG_KINDER,
     CHAO_STG_LOBBY,
-    CHAO_STG_ENTRANCE_2P,
+    CHAO_STG_ENTRANCE2P,
     CHAO_STG_STADIUM,
-    CHAO_STG_KARATE,
-    CHAO_STG_KARATE_2P,
+    CHAO_STG_KARATE1P,
+    CHAO_STG_KARATE2P,
     CHAO_STG_ODEKAKE,
 }
 eCHAO_STAGE_NUMBER;
@@ -50,8 +50,8 @@ eCHAO_STAGE_NUMBER  AL_GetLastStageNumber(void);
 eCHAO_STAGE_NUMBER  AL_GetStageNumber(void);
 eCHAO_STAGE_NUMBER  AL_GetNextStageNumber(void);
 
-sint32  AL_GetLocalChaoCount(sint32 stage);
-sint32  AL_GetCurrGardenChaoCount(void);
+int32_t  AL_GetLocalChaoCount(int32_t stage);
+int32_t  AL_GetCurrGardenChaoCount(void);
 
 EXTERN_END
 

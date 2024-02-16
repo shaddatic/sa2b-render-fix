@@ -40,14 +40,14 @@ eLANDMARK_ATTR;
 /************************/
 typedef struct
 {
-    sint32 x;
-    sint32 z;
+    int32_t x;
+    int32_t z;
 }
 POS_XZ;
 
 typedef struct
 {
-    sint32 nbIndex;
+    int32_t nbIndex;
     POS_XZ pos[512]; /* SADX = 1024 */
 }
 LAND_ATTR_INDEX;
@@ -57,9 +57,9 @@ LAND_ATTR_INDEX;
 /************************/
 #define AttrIndexList       DataAry(LAND_ATTR_INDEX, 0x01A15938, [16])
 
-#define LandAttrNeut        DataAry(sint32         , 0x01362130, [1280])
-#define LandAttrHero        DataAry(sint32         , 0x01363530, [1280])
-#define LandAttrDark        DataAry(sint32         , 0x01364930, [1280])
+#define LandAttrNeut        DataAry(int32_t         , 0x01362130, [1280])
+#define LandAttrHero        DataAry(int32_t         , 0x01363530, [1280])
+#define LandAttrDark        DataAry(int32_t         , 0x01364930, [1280])
 
 /************************/
 /*  Functions           */
@@ -69,18 +69,18 @@ EXTERN_START
 void    AL_InitLandMark(void);
 
 /** Put random position of a landmark, of kind 'attr,' into 'pPos' **/
-bool32  AL_GetRandomAttrPos(eLANDMARK_ATTR attr, NJS_POINT3* pPos);
+bool32_t  AL_GetRandomAttrPos(eLANDMARK_ATTR attr, NJS_POINT3* pPos);
 
 /** Get landmark attribute kind at position **/
-sint32  AL_GetCurrLandAttr(NJS_POINT3* pPos);
+int32_t  AL_GetCurrLandAttr(NJS_POINT3* pPos);
 
 /************************/
 /*  Inline Functions    */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_INLINES
-void    AL_GetRandomAttrPos_inl(LAND_ATTR_INDEX* pAttrIndex, NJS_VECTOR* pPos, sint32 nbIndex);
+#ifdef  SAMT_INCLUDE_FUNC_INLINES
+void    AL_GetRandomAttrPos_inl(LAND_ATTR_INDEX* pAttrIndex, NJS_VECTOR* pPos, int32_t nbIndex);
 
-#endif /* SAMT_INCLUDE_FUNC_INLINES */
+#endif/*SAMT_INCLUDE_FUNC_INLINES*/
 
 EXTERN_END
 

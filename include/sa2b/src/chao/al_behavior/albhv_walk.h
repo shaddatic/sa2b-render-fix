@@ -23,7 +23,7 @@
 EXTERN_START
 void    AL_WalkSelect(TASK* tp);
 
-sint32  ALBHV_Move(TASK* tp);
+int32_t  ALBHV_Move(TASK* tp);
 
 EXTERN_END
 

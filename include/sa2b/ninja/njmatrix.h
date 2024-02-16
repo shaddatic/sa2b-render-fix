@@ -23,22 +23,10 @@ enum {
     M02, M12, M22, M32
 };
 
-enum {
-    M16_00, M16_01, M16_02, M16_03,
-    M16_10, M16_11, M16_12, M16_13,
-    M16_20, M16_21, M16_22, M16_23,
-    M16_30, M16_31, M16_32, M16_33
-};
-
 /*******************************/
 /* Global Variables for Matrix */
 /*******************************/
-#define _nj_unit_matrix_            DataRef(NJS_MATRIX , 0x025F02A0)
-
-#define _nj_current_matrix_ptr_     DataRef(NJS_MATRIX*, 0x01A557FC)
-
-#define _nj_base_matrix_ptr_        DataRef(NJS_MATRIX*, 0x0267053C)
-#define _nj_max_matrix_ptr_         DataRef(NJS_MATRIX*, 0x0267053C)
+#define _nj_unit_matrix_            DataRef(GJS_MATRIX, 0x025F02A0)
 
 /*
     Prototype Declarations
@@ -61,7 +49,7 @@ void    njUnitMatrix(NJS_MATRIX* m);
 
 /*  Multiply two specified matrices */
 void    njMultiMatrix(NJS_MATRIX* md, const NJS_MATRIX* ms);
-void    njPostMultiMatrix(NJS_MATRIX* md, const NJS_MATRIX* ms);    // MIA
+void    njPostMultiMatrix(NJS_MATRIX* md, const NJS_MATRIX* ms);
 
 
 /*
@@ -83,13 +71,13 @@ void    njScaleV(NJS_MATRIX* m, NJS_VECTOR* v);
 
 
 /*  Make an invert or transpose matrix  */
-Bool    njInvertMatrix(NJS_MATRIX* m);      // MIA
+Bool    njInvertMatrix(NJS_MATRIX* m);
 void    njTransposeMatrix(NJS_MATRIX* m);   // MIA
 
 /*  Get some part of a sepcified matrix     */
 void    njGetTranslation(NJS_MATRIX* m, NJS_POINT3* p);
 void    njUnitTransPortion(NJS_MATRIX* m);
-void    njUnitRotPortion(NJS_MATRIX* m);    // MIA
+void    njUnitRotPortion(NJS_MATRIX* m);
 
 /*  Calculate the determinant of a specified matrix */
 Float    njDetMatrix(NJS_MATRIX* m);         // MIA
@@ -113,7 +101,7 @@ Float    njUnitVector(NJS_VECTOR* v);
 
 /*  Calculate the length of a specified vector  */
 Float    njScalor(NJS_VECTOR* v);
-Float    njScalor2(NJS_VECTOR* v);   // MIA
+Float    njScalor2(NJS_VECTOR* v);
 
 /*  Calculate the inner product or outer product of specified vectors   */
 Float    njInnerProduct(NJS_VECTOR* v1, NJS_VECTOR* v2);
@@ -181,16 +169,5 @@ void    njAddMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
 void    njSubMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
 
 void    njClearMatrix();
-
-/********************************/
-/*  Matrix Convert Function     */
-/********************************/
-
-/*
-    Convert and transpose Ninja 3x4 matrix to Ninja 4x4 matrix.
-    Functions return non-const argument.
-*/
-NJS_MATRIX*     njMatrix16To12(const NJS_MATRIX_16* m16, NJS_MATRIX* m12);
-NJS_MATRIX_16*  njMatrix12To16(const NJS_MATRIX* m12, NJS_MATRIX_16* m16);
 
 #endif    /* _NJ_MATRIX_H_ */

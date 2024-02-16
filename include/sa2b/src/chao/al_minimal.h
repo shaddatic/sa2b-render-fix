@@ -21,7 +21,9 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct colliwk        COLLIWK;
+typedef struct task             TASK;
+typedef struct item_save_info   ITEM_SAVE_INFO;
+typedef struct colliwk          COLLIWK;
 
 /************************/
 /*  Enums                */
@@ -88,21 +90,21 @@ enum
 
 typedef struct // TASKWK
 {
-    sint8 mode;
-    sint8 smode;
-    sint8 id;
-    sint8 btimer;
-    sint16 flag;
-    sint16 wtimer;
-    Angle3 ang;
-    NJS_POINT3 pos;
-    NJS_POINT3 scl;
-    COLLIWK* cwp;
-    float spd;
-    sint32 RangeOutTimer;
-    MOTION_CTRL MtnCtrl;
+    int8_t       mode;
+    int8_t       smode;
+    int8_t       id;
+    int8_t       btimer;
+    int16_t      flag;
+    int16_t      wtimer;
+    Angle3       ang;
+    NJS_POINT3   pos;
+    NJS_POINT3   scl;
+    COLLIWK*     cwp;
+    float32_t    spd;
+    int32_t      RangeOutTimer;
+    MOTION_CTRL  MtnCtrl;
     MOTION_TABLE MtnTable[4];
-    sint32 CaptureFlag;
+    int32_t      CaptureFlag;
 }
 MINIMAL_WORK;
 
@@ -112,6 +114,12 @@ MINIMAL_WORK;
 EXTERN_START
 void    AL_CreateMinimalCreateManager(void);
 
+TASK*   AL_MinimalCreate(int8_t num, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+
+void    AL_MinimalExecutor(TASK* tp);
+void    AL_MinimalDisplayer(TASK* tp);
+void    AL_MinimalDestructor(TASK* tp);
+
 EXTERN_END
 
 /************************/
@@ -119,7 +127,11 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define AL_CreateMinimalCreateManager_p     FuncPtr(void, __cdecl, (void), 0x00549490)
+#define AL_CreateMinimalCreateManager_p     FuncPtr(void , __cdecl, (void)                                                    , 0x00549490)
+#define AL_MinimalCreate_p                  FuncPtr(TASK*, __cdecl, (int8_t, NJS_POINT3*, Angle, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00548D30)
+#define AL_MinimalExecutor_p                FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C50)
+#define AL_MinimalDisplayer_p               FuncPtr(void , __cdecl, (TASK*)                                                   , 0x005489D0)
+#define AL_MinimalDestructor_p              FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C30)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

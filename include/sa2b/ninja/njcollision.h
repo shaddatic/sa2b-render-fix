@@ -1,4 +1,4 @@
-﻿/*
+/*
 *   Sonic Adventure Mod Tools (SA2B) - '/ninja/njcollision.h'
 *
 *   Contains structs and functions for the Ninja built in collision system

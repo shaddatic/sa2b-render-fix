@@ -22,65 +22,97 @@ typedef struct task TASK;
 /************************/
 typedef enum
 {
-    AL_EYE_NUM_NORMAL = 0x0,
-    AL_EYE_NUM_KYA = 0x1,
-    AL_EYE_NUM_NAMU = 0x2,
-    AL_EYE_NUM_TOHOHO = 0x3,
-    AL_EYE_NUM_NIKO = 0x4,
-    AL_EYE_NUM_BIKKURI = 0x5,
-    AL_EYE_NUM_GURUGURU = 0x6,
-    AL_EYE_NUM_SUYASUYA = 0x7,
-    AL_EYE_NUM_SHIROME = 0x8,
-    AL_EYE_NUM_TRON = 0x9,
-    AL_EYE_NUM_ANGER = 0xA,
-    AL_EYE_NUM_NCHAOS = 0xB,
-    AL_EYE_NUM_HCHAOS = 0xC,
-    AL_EYE_NUM_DCHAOS = 0xD,
-    AL_EYE_NUM_END = 0xE,
+    AL_EYE_TEXID_NORMAL,
+    AL_EYE_TEXID_KYA,
+    AL_EYE_TEXID_NAMU,
+    AL_EYE_TEXID_TOHOHO,
+    AL_EYE_TEXID_NIKO,
+    AL_EYE_TEXID_BIKKURI,
+    AL_EYE_TEXID_GURUGURU,
+    AL_EYE_TEXID_SUYASUYA,
+    AL_EYE_TEXID_DARK,
+    AL_EYE_TEXID_HERO,
+    AL_EYE_TEXID_NCHAOS,
+    AL_EYE_TEXID_HCHAOS,
+    AL_EYE_TEXID_DCHAOS,
+}
+eAL_EYE_TEXNUM;
+
+typedef enum
+{
+    AL_EYE_COLOR_NEUT,
+    AL_EYE_COLOR_HERO,
+    AL_EYE_COLOR_DARK,
+    AL_EYE_COLOR_N_CHAOS,
+    AL_EYE_COLOR_H_CHAOS,
+    AL_EYE_COLOR_D_CHAOS,
+    AL_EYE_COLOR_BLUE,
+    AL_EYE_COLOR_GREEN,
+    AL_EYE_COLOR_RED,
+}
+eAL_EYE_COLOR;
+
+typedef enum
+{
+    AL_EYE_NUM_NORMAL,
+    AL_EYE_NUM_KYA,
+    AL_EYE_NUM_NAMU,
+    AL_EYE_NUM_TOHOHO,
+    AL_EYE_NUM_NIKO,
+    AL_EYE_NUM_BIKKURI,
+    AL_EYE_NUM_GURUGURU,
+    AL_EYE_NUM_SUYASUYA,
+    AL_EYE_NUM_SHIROME,
+    AL_EYE_NUM_TRON,
+    AL_EYE_NUM_ANGER,
+    AL_EYE_NUM_NCHAOS,
+    AL_EYE_NUM_HCHAOS,
+    AL_EYE_NUM_DCHAOS,
+    AL_EYE_NUM_END,
 }
 eAL_EYE_NUM;
 
 typedef enum
 {
-    AL_MOUTH_NUM_NONE = 0x0,
-    AL_MOUTH_NUM_SHARK = 0x1,    // "TOOTHY GRIN"
-    AL_MOUTH_NUM_HOYO = 0x2,    // "OPEN"
-    AL_MOUTH_NUM_NIKO = 0x3,    // "V SMILE"
-    AL_MOUTH_NUM_MUSU = 0x4,    // "V FROWN"
-    AL_MOUTH_NUM_WAAI = 0x5,    // "OPEN SMILE"
-    AL_MOUTH_NUM_UEEN = 0x6,    // "OPEN FROWN"
-    AL_MOUTH_NUM_NEE = 0x7,
-    AL_MOUTH_NUM_KOIKE = 0x8,    // "SQUIGGLE"
-    AL_MOUTH_NUM_GEE = 0x9,        // "TOOTHY FROWN"
-    AL_MOUTH_NUM_MUU = 0xA,
-    AL_MOUTH_NUM_UWAAN = 0xB,    // "WIDE OPEN"
-    AL_MOUTH_NUM_INO = 0xC,
-    AL_MOUTH_NUM_END = 0xD,
+    AL_MOUTH_NUM_NONE,
+    AL_MOUTH_NUM_SHARK,
+    AL_MOUTH_NUM_HOYO,
+    AL_MOUTH_NUM_NIKO,
+    AL_MOUTH_NUM_MUSU,
+    AL_MOUTH_NUM_WAAI,
+    AL_MOUTH_NUM_UEEN,
+    AL_MOUTH_NUM_NEE,
+    AL_MOUTH_NUM_KOIKE,
+    AL_MOUTH_NUM_GEE,
+    AL_MOUTH_NUM_MUU,
+    AL_MOUTH_NUM_UWAAN,
+    AL_MOUTH_NUM_INO,
+    AL_MOUTH_NUM_END,
 }
 eAL_MOUTH_NUM;
 
 /************************/
 /*  Data                */
 /************************/
-#define AL_EyeTexIdList         DataAry(sint16, 0x008A7A70, [14])
-#define EyeColorTexIdList       DataAry(sint16, 0x008A7AC0, [12])
+#define AL_EyeTexIdList         DataAry(int16_t, 0x008A7A70, [14])
+#define EyeColorTexIdList       DataAry(int16_t, 0x008A7AC0, [12])
 
-#define AL_MouthTexIdList       DataAry(sint16, 0x008A7A8C, [13][2])
+#define AL_MouthTexIdList       DataAry(int16_t, 0x008A7A8C, [13][2])
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Set eye for number of frames **/
-void    AL_FaceSetEye(TASK* tp, eAL_EYE_NUM EyeNum, sint32 timer);
-/** Change eye perminantly **/
+void    AL_FaceSetEye(TASK* tp, eAL_EYE_NUM EyeNum, int32_t timer);
+/** Change eye permanently **/
 void    AL_FaceChangeEye(TASK* tp, eAL_EYE_NUM EyeNum);
 /** Return eye to Chao's default **/
 void    AL_FaceReturnDefaultEye(TASK* tp);
 
 /** Set mouth for number of frames **/
-void    AL_FaceSetMouth(TASK* tp, eAL_MOUTH_NUM MouthNum, sint32 timer);
-/** Change mouth perminantly **/
+void    AL_FaceSetMouth(TASK* tp, eAL_MOUTH_NUM MouthNum, int32_t timer);
+/** Change mouth permanently **/
 void    AL_FaceChangeMouth(TASK* tp, eAL_MOUTH_NUM MouthNum);
 /** Return mouth to Chao's default **/
 void    AL_FaceReturnDefaultMouth(TASK* tp);

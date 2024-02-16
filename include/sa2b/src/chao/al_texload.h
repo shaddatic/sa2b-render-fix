@@ -49,9 +49,9 @@ LOADED_TEX_INFO;
 /************************/
 EXTERN_START
 /** Load textures at a given level **/
-sint32    AL_LoadTex(const char* filename, NJS_TEXLIST* pTexlist, uint16 lev);
+int32_t    AL_LoadTex(const char* filename, NJS_TEXLIST* pTexlist, uint16_t lev);
 /** Release all textures at the given level **/
-sint32    AL_ReleaseTex(uint16 lev);
+int32_t    AL_ReleaseTex(uint16_t lev);
 
 EXTERN_END
 

@@ -362,12 +362,14 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# SA2 Render Fix specific
-/obj/
-/build/sa2-render-fix.dll
-/build/sa2-render-fix.pdb
-/build/sa2-render-fix.exp
-/build/sa2-render-fix.lib
-/build/config.ini
-/build/mod.manifest
-/build/mod.version
+# SA2B-Mod files
+build/*.dll
+build/*.pdb
+build/*.exp
+build/*.lib
+build/config.ini
+build/mod.manifest
+build/mod.version
+
+# SA2 Render Fix Specific
+build/gd_PC/PRS/

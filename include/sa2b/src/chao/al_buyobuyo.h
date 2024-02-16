@@ -29,19 +29,19 @@ typedef struct al_object    AL_OBJECT;
 typedef struct 
 {
     void*    mdata;
-    float32 CurrFrame;
-    uint32    nbFrame;
+    float32_t CurrFrame;
+    uint32_t    nbFrame;
     void*    mdataLink;
-    float32 CurrFrameLink;
-    uint32    nbFrameLink;
-    float32 LinkRatio;
+    float32_t CurrFrameLink;
+    uint32_t    nbFrameLink;
+    float32_t LinkRatio;
 }
 AL_MOTION_INFO;
 
 /************************/
 /*  Data                */
 /************************/
-#define tree_counter    DataRef(sint16        , 0x01AED2D4)
+#define tree_counter    DataRef(int16_t        , 0x01AED2D4)
 #define MtnInfo         DataRef(AL_MOTION_INFO, 0x01A276A8)
 
 #define VertexVelo      DataAry(NJS_VECTOR    , 0x01DBD960, [256])

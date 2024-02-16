@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/shinobi/sg_xpt.h'
 *
-*   Contains Shinobi global defines and types
+*   Definition:
+*       Shinobi global types.
 *
 *   Contributors:
 *   -   SEGA,
@@ -13,53 +14,27 @@
 #ifndef _SG_XPT_H_
 #define _SG_XPT_H_
 
-/****** GLOBAL DECLARATION **********************************************/
-typedef uint8           Uint8;          /*  unsigned 1 byte integer     */
+/************************/
+/*  Shinobi Types       */
+/************************/
+typedef uint8_t         Uint8;          /*  unsigned 1 byte integer     */
 
-typedef sint8           Sint8;          /*  signed 1 byte integer       */
+typedef int8_t          Sint8;          /*  signed 1 byte integer       */
 
-typedef uint16          Uint16;         /*  unsigned 2 byte integer     */
+typedef uint16_t        Uint16;         /*  unsigned 2 byte integer     */
 
-typedef sint16          Sint16;         /*  signed 2 byte integer       */
+typedef int16_t         Sint16;         /*  signed 2 byte integer       */
 
-typedef uint32          Uint32;         /*  unsigned 4 byte integer     */
+typedef uint32_t        Uint32;         /*  unsigned 4 byte integer     */
 
-typedef sint32          Sint32;         /*  signed 4 byte integer       */
+typedef int32_t         Sint32;         /*  signed 4 byte integer       */
 
-typedef sint32          Int;            /*  default integer             */
+typedef int32_t         Int;            /*  default integer             */
 
-typedef float32         Float;          /*  4 byte real number          */
+typedef float32_t       Float;          /*  4 byte real number          */
 
 typedef void            Void;           /*  void                        */
 
-typedef bool32          Bool;           /*  Bool                        */
+typedef bool32_t        Bool;           /*  Bool                        */
 
-/****** GLOBAL CONSTANT *************************************************/
-#ifndef FALSE
-#define FALSE           (0)
-#endif
-#ifndef TRUE
-#define TRUE            (1)
-#endif
-
-#ifndef ON
-#define ON              (1)
-#endif
-#ifndef OFF
-#define OFF             (0)
-#endif
-
-/****** GLOBAL MACRO ****************************************************/
-#ifndef MAX
-#define MAX(x, y)       ((x) > (y) ? (x) : (y))             /* maximum  */
-#endif
-#ifndef MIN
-#define MIN(x, y)       ((x) < (y) ? (x) : (y))             /* minimum  */
-#endif
-#ifndef ABS
-#define ABS(x)          ((x) < 0 ? -(x) : (x))              /* absolute */
-#endif
-
-
-#endif
-/****** End of file *****************************************************/
+#endif/*_SG_XPT_H_*/

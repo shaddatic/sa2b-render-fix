@@ -21,8 +21,8 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_Eat(TASK* tp);
-sint32  ALBHV_TurnToFruit(TASK* tp);
+int32_t  ALBHV_Eat(TASK* tp);
+int32_t  ALBHV_TurnToFruit(TASK* tp);
 
 EXTERN_END
 

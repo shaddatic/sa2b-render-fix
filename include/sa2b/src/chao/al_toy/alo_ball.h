@@ -30,8 +30,8 @@ typedef struct task     TASK;
 typedef struct 
 {
     float inv_radius;
-    sint32 HeldAng;
-    sint32 RotSpd;
+    int32_t HeldAng;
+    int32_t RotSpd;
     NJS_POINT3 axis;
     NJS_MATRIX mat;
 }
@@ -40,14 +40,14 @@ BALL_WORK;
 /************************/
 /*  Data                */
 /************************/
-#define BallUsable              DataRef(sint32, 0x01DBE574)
+#define BallUsable              DataRef(int32_t, 0x01DBE574)
 #define ALO_BallTaskPointer     DataRef(TASK* , 0x01DBE570)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ALO_BallCreateTask(NJS_POINT3* pPos, NJS_VECTOR* pVelo);
+void    ALO_BallCreate(NJS_POINT3* pPos, NJS_VECTOR* pVelo);
 
 /** Internal task functions **/
 void    ALO_Ball(TASK* tp);
@@ -62,11 +62,11 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define ALO_BallCreateTask_p    FuncPtr(void, __cdecl, (NJS_POINT3*, NJS_VECTOR*), 0x0055D6B0)
+#define ALO_BallCreate_p        FuncPtr(void, __cdecl, (NJS_POINT3*, NJS_VECTOR*), 0x0055D6B0)
 #define ALO_Ball_p              FuncPtr(void, __cdecl, (TASK*)                   , 0x0055D640)
 #define ALO_BallExecutor_p      FuncPtr(void, __cdecl, (TASK*)                   , 0x0055D310)
-#define ALO_BallDestructor_p    FuncPtr(void, __cdecl, (TASK*)                   , 0x0057B9B0)
 #define ALO_BallDisplayer_p     FuncPtr(void, __cdecl, (TASK*)                   , 0x0055D3B0)
+#define ALO_BallDestructor_p    FuncPtr(void, __cdecl, (TASK*)                   , 0x0057B9B0)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

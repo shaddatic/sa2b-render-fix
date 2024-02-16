@@ -23,28 +23,32 @@
 /************************/
 /*  Structures          */
 /************************/
+#define GET_MILESWK(_tp)    ((MILESWK*)tp->awp)
+
 typedef struct mileswk
 {
-    PLAYERWK pwk;
-    char field_1BC[364];
-    void* texData;
-    float pSomeFloat;
-    char field_38A[120];
+    PLAYERWK pw;
+
+    char field_38A[16];
+    Angle TailsAngX;
+    Angle TailsAngZ;
+    Angle3 SomeAng;
+    char field_3AC[40];
     PLAYER_OBJECT* pObject0;
     PLAYER_OBJECT* pObject1;
     NJS_TEXLIST* TextureList;
-    CHAR_OBJECT* ModelList;
-    PLAYER_MOTION* MotionList;
-    SHADOWWK shadow;
+    PL_OBJECT* ModelList;
+    PL_MOTION* MotionList;
+    SHADOWWK shadow_tails;
 }
 MILESWK;
 
 /************************/
 /*  Data                */
 /************************/
-#define pMilesWork              DataRef(MILESWK*, 0x01A521EC)
+#define MilesWorkPointer        DataRef(MILESWK*, 0x01A521EC)
 
-#define mtx_MilesInv            DataRef(NJS_MATRIX, 0x01A521BC)
+#define mtx_MilesBase           DataRef(NJS_MATRIX, 0x01A521BC)
 #define mtx_MilesTails          DataRef(NJS_MATRIX, 0x01A5215C)
 #define mtx_MilesShaderTails    DataRef(NJS_MATRIX, 0x01A5218C)
 

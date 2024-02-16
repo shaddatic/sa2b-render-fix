@@ -2,7 +2,9 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/src/game.h'
 *
 *   ~~ Under Construction ~~
-*   Contains data and functions related to core game elements
+* 
+*   Description:
+*       Contains data and functions related to core game elements.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -18,17 +20,32 @@
 /************************/
 enum /* ulGlobalMode */
 {
-    MD_ACTION_INIT = 0x04,
+    MD_START,
+    MD_LOGO,
+    MD_TITLE,
+    MD_UNKOWN_03,
+    MD_ACTION_INIT,
     MD_ACTION,
-    MD_MOVIE_INIT = 0x07,
-    MD_MOVIE,
-    MD_ADVERTISE_INIT = 0xD,
+    MD_UNKOWN_06,
+    MD_EVENT_INIT,
+    MD_EVENT,
+    MD_UNKOWN_09,
+    MD_UNKOWN_10,
+    MD_UNKOWN_11,
+    MD_UNKOWN_12,
+    MD_ADVERTISE_INIT,
     MD_ADVERTISE,
-    MD_ENDING = 0x10,
-    MD_EGET_INIT = 0x11,
-    MD_EGET,
-    MD_MCWARN_INIT = 0x18,
+    MD_ENDING_INIT,
+    MD_ENDING,
+    MD_EMBLEMGET_INIT,
+    MD_EMBLEMGET,
+    MD_MCWARN_INIT,
     MD_MCWARN,
+    MD_OTHERPRINT_INIT,
+    MD_OTHERPRINT,
+    MD_MCWARN2_INIT,
+    MD_MCWARN2,
+    MD_UNKNOWN_25,
     NUM_MODE,
 };
 
@@ -57,35 +74,36 @@ enum
 /************************/
 /*  Data                */
 /************************/
-#define ulGlobalMode        DataRef(uint32, 0x0174B040)
+#define ulGlobalMode        DataRef(uint32_t, 0x0174B040)
+#define ulNextGlobalMode    DataRef(uint32_t, 0x0174B044)
 
-#define ssGameMode          DataRef(sint16, 0x01934BE0)
+#define ssGameMode          DataRef(int16_t , 0x01934BE0)
 
-#define ssGameModeChange    DataRef(sint16, 0x01A558A4)
+#define ssGameModeChange    DataRef(int16_t , 0x01A558A4)
 
-#define ssStageNumber       DataRef(sint16, 0x01934B70)
-#define ssActNumber         DataRef(uint8,  0x0174AFE3)
+#define ssStageNumber       DataRef(int16_t , 0x01934B70)
+#define ssActNumber         DataRef(uint8_t , 0x0174AFE3)
 
-#define Language            DataRef(sint8,  0x0174AFD1)
-#define Speech              DataRef(sint8,  0x0174AFD2)
+#define Language            DataRef(int8_t  , 0x0174AFD1)
+#define Speech              DataRef(int8_t  , 0x0174AFD2)
 
-#define ucPauseSelect       DataRef(sint8,  0x01933EB1)
+#define ucPauseSelect       DataRef(int8_t  , 0x01933EB1)
 
-#define bPauseDisable       DataRef(sint8,  0x0174AFD6)
+#define bPauseDisable       DataRef(int8_t  , 0x0174AFD6)
 
-#define pause_flg           DataRef(sint8,  0x0174AFD7)
+#define pause_flg           DataRef(int8_t  , 0x0174AFD7)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void    RestartStageWithFadeOut(void);
+void        RestartStageWithFadeOut( void );
 
-void    PauseEnable(void);
-void    PauseDisable(void);
+void        PauseEnable( void );
+void        PauseDisable( void );
 
-bool32  ChkPause(void);
+bool32_t    ChkPause( void );
 
 EXTERN_END
 
-#endif /* _SA2B_GAME_H_ */
+#endif/*_SA2B_GAME_H_*/

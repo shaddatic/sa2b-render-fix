@@ -30,18 +30,18 @@ typedef struct taskwk    TASKWK;
 
 typedef struct // ANYWK
 {
-    sint32 ButtonState;
-    sint32 CoverMode;
-    float32 CoverFrame;
-    float32 ButtonPos;
+    int32_t ButtonState;
+    int32_t CoverMode;
+    float32_t CoverFrame;
+    float32_t ButtonPos;
     TASK* pChaoTask;
-    sint32 FileFlag;
-    sint32 BuyoFlag;
-    sint32 BuyoPhase;
-    sint32 MonitorMode;
-    sint32 MonitorCount;
-    sint32 MonitorTimer;
-    sint32 ring;
+    int32_t FileFlag;
+    int32_t BuyoFlag;
+    int32_t BuyoPhase;
+    int32_t MonitorMode;
+    int32_t MonitorCount;
+    int32_t MonitorTimer;
+    int32_t ring;
 }
 ODAKAKE_WORK;
 
@@ -49,7 +49,7 @@ ODAKAKE_WORK;
 /*  Data                */
 /************************/
 #define OdekakeTaskPointer      DataRef(TASK*, 0x01AED318)
-#define EnteringOdekake         DataRef(bool32, 0x01AED31C)
+#define EnteringOdekake         DataRef(bool32_t, 0x01AED31C)
 
 /** Crappy, half-baked, replacement case model by SOC **/
 #define pSOCOdekakeModel        DataRef(void*, 0x1AED320)

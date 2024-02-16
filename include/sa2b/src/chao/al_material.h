@@ -27,17 +27,17 @@ typedef struct al_object    AL_OBJECT;
 /************************/
 /*  Data                */
 /************************/
-#define ChaoColorList       DataAry(sint32, 0x01298448, [16])
-#define EggColorList        DataAry(sint32, 0x01298414, [13])
+#define ChaoColorList       DataAry(int32_t, 0x01298448, [16])
+#define EggColorList        DataAry(int32_t, 0x01298414, [13])
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  AL_MatSetChaoColor(TASK* tp, sint16 ColorNum);
+int32_t  AL_MatSetChaoColor(TASK* tp, int16_t ColorNum);
 
-void    AL_MatChangeModelTexture(AL_MODEL* pModel, uint16 TexID);
-void    AL_MatChangeObjectTexture(AL_OBJECT* pObject, uint16 TexID);
+void    AL_MatChangeModelTexture(AL_MODEL* pModel, uint16_t TexID);
+void    AL_MatChangeObjectTexture(AL_OBJECT* pObject, uint16_t TexID);
 
 /** Create and free copies of objects (no official names yet) **/
 NJS_CNK_OBJECT* AL_CopyObject(NJS_CNK_OBJECT* pObject);

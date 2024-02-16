@@ -14,8 +14,6 @@
 
 #include <math.h>
 
-#define INVRANDMAX (1.f / (Float)(___RAND_MAX+1))
-
 enum {
     IP00, IP01, IP02,
     IP10, IP11, IP12,
@@ -24,7 +22,7 @@ enum {
 };
 
 typedef struct {
-    int        keys;            /* keyframes between two points which must be interpolated */
+    int        keys;        /* keyframes between two points which must be interpolated */
     int     *iparam;        /* attribute data (integer) */
     float   *fparam;        /* attribute data (float) */
 } NJS_SPLINE;
@@ -52,8 +50,9 @@ typedef struct {
 #define njSech(n)        ((Float)( 1.0 / coshf((Float)NJM_ANG_RAD(n)) ))
 #define njSinh(n)        ((Float)sinhf   ((Float)NJM_ANG_RAD(n)))
 #define njTanh(n)        ((Float)tanhf   ((Float)NJM_ANG_RAD(n)))
-#define njRandom()       ((Float)___rand() * (INVRANDMAX))
-#define njRandomSeed(n)  (___srand((Uint32)(n)))
+
+Float   njRandom();
+void    njRandomSeed(Uint32 n);
 
 Float   njCos       (Angle n);
 Float   njCosec     (Angle n);

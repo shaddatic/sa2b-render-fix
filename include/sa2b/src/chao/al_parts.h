@@ -100,27 +100,27 @@ AL_ITEM_INFO;
 /************************/
 /*  Data                */
 /************************/
-#define PartsObjectTreeNumber   DataAry(sint32          , 0x012F59A8, [8][2])
-#define PartsObjectListNumber   DataAry(sint32          , 0x012F59E8, [8][2])
+#define PartsObjectTreeNumber   DataAry(int32_t          , 0x012F59A8, [8][2])
+#define PartsObjectListNumber   DataAry(int32_t          , 0x012F59E8, [8][2])
 
 #define pPartsObjectListChild   DataAry(NJS_CNK_OBJECT**, 0x012E59A0, [20])
 #define pPartsObjectListAdult   DataAry(NJS_CNK_OBJECT**, 0x012E5938, [20])
 
-#define AL_PartAttr             DataAry(sint16          , 0x011C47D0, [40])
+#define AL_PartAttr             DataAry(int16_t          , 0x011C47D0, [40])
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Place an item/object, like a toy, onto a part of the Chao **/
-void    AL_SetItem(TASK* tp, sint32 TreeNum, NJS_CNK_OBJECT* pObject);
-void    AL_SetItemOffset(TASK* tp, sint32 TreeNum, AL_ITEM_INFO* pInfo);
+void    AL_SetItem(TASK* tp, int32_t TreeNum, NJS_CNK_OBJECT* pObject);
+void    AL_SetItemOffset(TASK* tp, int32_t TreeNum, AL_ITEM_INFO* pInfo);
 
 /** Clear items **/
 void    AL_RemoveItemAll(TASK* tp);
 
 /** Set minimal part **/
-void    AL_SetMiminalParts(TASK* tp, sint32 PartsKind, sint32 MinimalType);
+void    AL_SetMiminalParts(TASK* tp, int32_t PartsKind, int32_t MinimalType);
 /** Clear minimal parts **/
 void    AL_ClearParts(TASK* tp);
 

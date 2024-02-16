@@ -25,7 +25,7 @@ typedef struct task        TASK;
 /************************/
 /*  Data                */
 /************************/
-#define CurrPathNum         DataRef(sint32, 0x01A5D13C)
+#define CurrPathNum         DataRef(int32_t, 0x01A5D13C)
 
 #define PathMotionList      DataAry(NJS_MOTION*, 0x01353278, [10])
 #define PathMKeyList        DataAry(NJS_MKEY_F*, 0x013532A0, [10][2])
@@ -34,7 +34,7 @@ typedef struct task        TASK;
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  AL_PathSearch(TASK* tp);
+int32_t  AL_PathSearch(TASK* tp);
 
 void    CrossProduct(NJS_POINT3* pPos0, NJS_POINT3* pPos1, NJS_POINT3* pPos2, NJS_POINT3* pAnswer);
 
@@ -45,7 +45,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define AL_PathSearch_p     FuncPtr(sint32, __cdecl, (TASK* tp), 0x0053E3E0)
+#define AL_PathSearch_p     FuncPtr(int32_t, __cdecl, (TASK* tp), 0x0053E3E0)
 
 /** User-Function ptrs **/
 EXTERN const void* const CrossProduct_p;

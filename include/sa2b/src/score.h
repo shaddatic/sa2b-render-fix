@@ -15,44 +15,52 @@
 /************************/
 /*  Data                */
 /************************/
-#define ssNumPlayer     DataAry(sint16, 0x0174B024, [2])
+#define ssNumPlayer     DataAry(int16_t , 0x0174B024, [2])
 
-#define ssNumRing       DataAry(sint16, 0x0174B028, [2])
+#define ssNumRing       DataAry(int16_t , 0x0174B028, [2])
 
-#define loop_const      DataRef(sint32, 0x01DEB50C)
-#define ulGlobalTimer   DataRef(uint32, 0x0174B038)
+#define loop_const      DataRef(int32_t , 0x01DEB50C)
+#define ulGlobalTimer   DataRef(uint32_t, 0x0174B038)
 
-#define GameTimer       DataRef(sint32, 0x0174B03C)
+#define GameTimer       DataRef(int32_t , 0x0174B03C)
 
-#define ucFrames        DataRef(uint8,  0x0174AFDD)
-#define ucSeconds       DataRef(uint8,  0x0174AFDC)
-#define ucMinutes       DataRef(uint8,  0x0174AFDB)
+#define ucFrames        DataRef(uint8_t , 0x0174AFDD)
+#define ucSeconds       DataRef(uint8_t , 0x0174AFDC)
+#define ucMinutes       DataRef(uint8_t , 0x0174AFDB)
 
-#define bWake           DataRef(bool,   0x0174AFF7)
+#define bWake           DataRef(bool    , 0x0174AFF7)
 
-#define gu32TotalRing   DataRef(uint32, 0x174B05C)
+#define gu32TotalRing   DataRef(uint32_t, 0x0174B05C)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AdvanceGlobalTime(void);
-uint32  GetGlobalTime(void);
+/** Global Time **/
+void     AdvanceGlobalTime( void );
+uint32_t GetGlobalTime( void );
 
-void    SetTime(uint8 minutes, uint8 second);
-void    GetTime(uint8* minutes, uint8* second);
+/** Game time **/
+int32_t  GetGameTime( void );
 
-void    SetTimeFrame(uint8 minutes, uint8 second, uint8 frame);
-void    GetTimeFrame(uint8* minutes, uint8* second, uint8* frame);
+/** Game time (minutes & seconds) **/
+void     SetTime( uint8_t  minutes, uint8_t  second );
+void     GetTime( uint8_t* minutes, uint8_t* second );
 
-void    SetTotalRing(uint32 num);
-uint32  GetTotalRing(void);
+void     SetTimeFrame( uint8_t  minutes, uint8_t  second, uint8_t  frame );
+void     GetTimeFrame( uint8_t* minutes, uint8_t* second, uint8_t* frame );
 
-sint32  GetNumRing(sint8 player);
-void    ResetNumRing(sint8 player);
+/** Set/Get total rings **/
+void     SetTotalRing( uint32_t num );
+uint32_t GetTotalRing( void );
 
-void    AddNumRing(sint8 player, sint16 ssNumber);
-void    AddNumPlayer(sint8 player, sint16 ssNumber);
+/** Set/Get rings **/
+int32_t  GetNumRing(   int8_t player );
+void     ResetNumRing( int8_t player );
+
+/** Add rings/lives **/
+void     AddNumRing(   int8_t player, int16_t ssNumber );
+void     AddNumPlayer( int8_t player, int16_t ssNumber );
 
 EXTERN_END
 

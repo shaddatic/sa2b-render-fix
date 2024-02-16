@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_egg.h'
 *
-*   Contains functions, data, and enums related to Chao eggs.
+*   Description:
+*       Contains functions, data, and enums related to Chao
+*   eggs.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -15,7 +17,11 @@
 /************************/
 /*  Includes            */
 /************************/
+/** Ninja **/
 #include <sa2b/ninja/ninja.h>
+
+/** Colli Info **/
+#include <sa2b/src/c_colli/ccl_info.h>
 
 /************************/
 /*  Abstract Types      */
@@ -23,7 +29,6 @@
 typedef struct task             TASK;
 typedef struct al_gene          AL_GENE;
 typedef struct chao_param_gc    CHAO_PARAM_GC;
-typedef struct ccl_info         CCL_INFO;
 
 /************************/
 /*  Enums               */
@@ -111,17 +116,17 @@ enum EggColor
 
 typedef struct // ANYWK
 {
-    sint32 type;
-    sint32 SwingFlag;
-    sint32 nbSwing;
-    sint32 HeldAng;
-    float32 frame;
-    sint32 BornTimer;
-    float32 ScaleAll;
-    float32 BuyoScale;
-    float32 BuyoVelo;
-    sint32 NoColliTimer;
-    sint32 Color;
+    int32_t type;
+    int32_t SwingFlag;
+    int32_t nbSwing;
+    int32_t HeldAng;
+    float32_t frame;
+    int32_t BornTimer;
+    float32_t ScaleAll;
+    float32_t BuyoScale;
+    float32_t BuyoVelo;
+    int32_t NoColliTimer;
+    int32_t Color;
 }
 EGG_WORK;
 
@@ -129,18 +134,18 @@ EGG_WORK;
 /*  Data                */
 /************************/
 /** Objects **/
-#define object_alm_egg_egg              DataPtr(NJS_CNK_OBJECT, 0x0125CC64)
-#define object_alm_egg_eggtop           DataPtr(NJS_CNK_OBJECT, 0x0125CC2C) /* Child of ^ */
-#define object_alm_egg_eggbottom        DataPtr(NJS_CNK_OBJECT, 0x0125C68C) /* Sibling of ^ */
+#define object_alm_egg_egg              DataAry(NJS_CNK_OBJECT, 0x0125CC64, [1])
+#define object_alm_egg_eggtop           DataAry(NJS_CNK_OBJECT, 0x0125CC2C, [1]) /* Child of ^ */
+#define object_alm_egg_eggbottom        DataAry(NJS_CNK_OBJECT, 0x0125C68C, [1]) /* Sibling of ^ */
 
 /** Model is used in the Black Market **/
-#define object_alo_dummyegg_dummyegg    DataPtr(NJS_CNK_OBJECT, 0x0125D334)
-#define model_alo_dummyegg_dummyegg     DataPtr(NJS_CNK_MODEL , 0x0125D31C)
+#define object_alo_dummyegg_dummyegg    DataAry(NJS_CNK_OBJECT, 0x0125D334, [1])
+#define model_alo_dummyegg_dummyegg     DataAry(NJS_CNK_MODEL , 0x0125D31C, [1])
 
 /** Motions **/
-#define motion_alm_egg_pon              DataPtr(NJS_MOTION    , 0x0125C6C4)
-#define motion_alm_egg_kyoro            DataPtr(NJS_MOTION    , 0x0125CC9C)
-#define motion_alo_dummyegg             DataPtr(NJS_MOTION    , 0x0125C11C)
+#define motion_alm_egg_pon              DataAry(NJS_MOTION    , 0x0125C6C4, [1])
+#define motion_alm_egg_kyoro            DataAry(NJS_MOTION    , 0x0125CC9C, [1])
+#define motion_alo_dummyegg             DataAry(NJS_MOTION    , 0x0125C11C, [1])
 
 /** Collision info **/
 #define colli_info_egg                  DataAry(CCL_INFO      , 0x008A5840, [3])
@@ -149,7 +154,7 @@ EGG_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   CreateEgg(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, sint32 IsParamCopy, const NJS_POINT3* pPos, sint32 type);
+TASK*   CreateEgg(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, const NJS_POINT3* pPos, int32_t type);
 
 /** Task functions **/
 void    AL_EggExecutor(TASK* tp);
@@ -163,7 +168,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define CreateEgg_p             FuncPtr(TASK*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, sint32, const NJS_POINT3*, sint32), 0x0057B9C0)
+#define CreateEgg_p             FuncPtr(TASK*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, int32_t, const NJS_POINT3*, int32_t), 0x0057B9C0)
 #define AL_EggExecutor_p        FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B520)
 #define AL_EggDisplayer_p       FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B640)
 #define AL_EggDestructor_p      FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B9B0)

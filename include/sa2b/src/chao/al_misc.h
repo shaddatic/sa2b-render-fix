@@ -113,7 +113,7 @@ enum
 /************************/
 typedef struct
 {
-    uint16 x, y, z;
+    uint16_t x, y, z;
 }
 SAngle3;
 
@@ -121,19 +121,19 @@ SAngle3;
 /*  Functions           */
 /************************/
 EXTERN_START
-float32 ___njUnitVector(NJS_POINT3* p);
+float32_t ___njUnitVector(NJS_POINT3* p);
 
 /** Calculate if position is on screen **/
-bool32  AL_IsOnScreen2(TASK* tp, float32 radius, float32 OffsetY);
-bool32  AL_IsOnScreen3(TASK* tp, float32 radius, float32 HalfHeight, float32 OffsetY);
+bool32_t  AL_IsOnScreen2(TASK* tp, float32_t radius, float32_t OffsetY);
+bool32_t  AL_IsOnScreen3(TASK* tp, float32_t radius, float32_t HalfHeight, float32_t OffsetY);
 
 /** Clear CCL 'Search' and get task of first hit **/
-TASK*   AL_IsHitKindWithNum(TASK* tp, sint32 info_num, uint8 kind);
+TASK*   AL_IsHitKindWithNum(TASK* tp, int32_t info_num, uint8_t kind);
 
 /** Interpolate 'p1' & 'p2' into 'pAnswer' at 'ratio' **/
-void    AL_InterpolateAngle(Angle3* pAng1, Angle3* pAng2, Angle3* pAnswer, float32 ratio);
-void    AL_InterpolateSAngle(SAngle3* pAng1, SAngle3* pAng2, SAngle3* pAnswer, float32 ratio);
-void    AL_InterpolateObject(NJS_CNK_OBJECT* pObj1, NJS_CNK_OBJECT* pObj2, NJS_CNK_OBJECT* pAnswer, float32 ratio);
+void    AL_InterpolateAngle(Angle3* pAng1, Angle3* pAng2, Angle3* pAnswer, float32_t ratio);
+void    AL_InterpolateSAngle(SAngle3* pAng1, SAngle3* pAng2, SAngle3* pAnswer, float32_t ratio);
+void    AL_InterpolateObject(NJS_CNK_OBJECT* pObj1, NJS_CNK_OBJECT* pObj2, NJS_CNK_OBJECT* pAnswer, float32_t ratio);
 
 EXTERN_END
 
@@ -142,7 +142,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define AL_InterpolateObject_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, float32), 0x0054AEB0)
+#define AL_InterpolateObject_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, float32_t), 0x0054AEB0)
 
 /** User-Function ptrs **/
 EXTERN const void* const ___njUnitVector_p;

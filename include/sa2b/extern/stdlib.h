@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/extern/stdlib.h'
 *
-*   Contains functions and pointers to the game's stdlib imports.
+*   Description:
+*       Contains functions and pointers to the game's stdlib
+*   imports.
 *
 *   Contributors:
 *   -   Shaddatic
@@ -24,10 +26,10 @@ void*   ___malloc(size_t _Size);
 void    ___free(void* _Block);
 void*   ___realloc(void* _Block, size_t _Size);
 
-sint32  ___rand(void);
-void    ___srand(uint32 _Seed);
+int32_t  ___rand(void);
+void    ___srand(uint32_t _Seed);
 
-void    ___exit(sint32);
+void    ___exit(int32_t);
 
 EXTERN_END
 
@@ -39,9 +41,9 @@ EXTERN_END
 #define ___malloc_p         FuncPtr(void* , __cdecl, (size_t)       , 0x007A84A5)
 #define ___free_p           FuncPtr(void  , __cdecl, (void*)        , 0x007A80DD)
 #define ___realloc_p        FuncPtr(void* , __cdecl, (void*, size_t), 0x007A8607)
-#define ___rand_p           FuncPtr(sint32, __cdecl, (void)         , 0x007A89D8)
-#define ___srand_p          FuncPtr(void  , __cdecl, (uint32)       , 0x007A89C6)
-#define ___exit_p           FuncPtr(void  , __cdecl, (sint32)       , 0x007ACB70)
+#define ___rand_p           FuncPtr(int32_t, __cdecl, (void)         , 0x007A89D8)
+#define ___srand_p          FuncPtr(void  , __cdecl, (uint32_t)       , 0x007A89C6)
+#define ___exit_p           FuncPtr(void  , __cdecl, (int32_t)       , 0x007ACB70)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

@@ -20,9 +20,9 @@
 /************************/
 /*  Data                */
 /************************/
-#define CnkOffsetAlpha      DataRef(float32, 0x01AED2D0)
+#define CnkOffsetAlpha      DataRef(float32_t, 0x01AED2D0)
 
-#define RareColorTable      DataAry(sint32, 0x01298448, [13])
+#define RareColorTable      DataAry(int32_t, 0x01298448, [13])
 
 /************************/
 /*  Functions           */
@@ -31,15 +31,15 @@ EXTERN_START
 /*
 *   Param
 */
-void    chSetRareMaterial(sint32 jewel, sint32 color, bool32 multi, bool32 nontex, NJS_CNK_MODEL* pModel);
-void    chCnkSetOffsetAlpha(float32 alpha);
+void    chSetRareMaterial(int32_t jewel, int32_t color, bool32_t multi, bool32_t nontex, NJS_CNK_MODEL* pModel);
+void    chCnkSetOffsetAlpha(float32_t alpha);
 
 /*
 *   Egg Draw
 */
-void    chRareEggDrawModel(NJS_CNK_MODEL* pModel, sint32 Color);
-void    chRareEggDrawObject(NJS_CNK_OBJECT* pObject, sint32 Color);
-void    chRareEggDrawMotion(NJS_CNK_OBJECT* pObject, sint32 Color, NJS_MOTION* pMotion, float32 frame);
+void    chRareEggDrawModel(NJS_CNK_MODEL* pModel, int32_t Color);
+void    chRareEggDrawObject(NJS_CNK_OBJECT* pObject, int32_t Color);
+void    chRareEggDrawMotion(NJS_CNK_OBJECT* pObject, int32_t Color, NJS_MOTION* pMotion, float32_t frame);
 
 /*
 *   Chunk Draw
@@ -50,7 +50,7 @@ void    chCnkDrawModel(NJS_CNK_MODEL* model);
 void    chCnkDrawObject(NJS_CNK_OBJECT* object);
 
 /** Internal functions **/
-sint32  _chCnkDrawModel(NJS_CNK_MODEL* model);
+int32_t  _chCnkDrawModel(NJS_CNK_MODEL* model);
 void    _chCnkDrawObject(NJS_CNK_OBJECT* object);
 
 EXTERN_END
@@ -62,7 +62,7 @@ EXTERN_END
 /** Function ptrs **/
 #define chBeginDrawCnkModel_p       FuncPtr(void  , __cdecl, (void)           , 0x0056E0B0)
 #define chCnkDrawModel_p            FuncPtr(void  , __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
-#define _chCnkDrawModel_p           FuncPtr(sint32, __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
+#define _chCnkDrawModel_p           FuncPtr(int32_t, __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
 #define _chCnkDrawObject_p          FuncPtr(void  , __cdecl, (NJS_CNK_OBJECT*), 0x0056DF50)
 
 /** User-Function ptrs **/

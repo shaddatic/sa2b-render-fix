@@ -1,4 +1,4 @@
-﻿/*
+/*
 *   Sonic Adventure Mod Tools (SA2B) - '/ninja/njcommon.h'
 *
 *   Contains structs, flags, and typedefs common to Ninja
@@ -55,11 +55,11 @@
 /*--------------------------------------*/
 typedef Sint32  Angle;
 typedef Sint16  Sangle;
-typedef Float   NJS_MATRIX[12];     // 3x4 (SA2B Only)
+typedef Float   GJS_MATRIX[12];
 typedef Sint8   NJS_SYS_ATTR[64];
 typedef void  (*NJS_INT_FUNC)(void);
 
-typedef Float   NJS_MATRIX_16[16];  // SA2B Only
+typedef GJS_MATRIX NJS_MATRIX;
 
 typedef struct
 {
@@ -100,35 +100,35 @@ Angle3;
                                         /* the muximum of map           */
 
 /* 3d control */
-#define    NJD_CONTROL_3D_DISP_AXIS                    BIT_0
-#define    NJD_CONTROL_3D_NO_CLIP_CHECK                BIT_1
-#define    NJD_CONTROL_3D_CONSTANT_ATTR                BIT_2
-#define    NJD_CONTROL_3D_ENABLE_ALPHA                    BIT_3
-#define    NJD_CONTROL_3D_CONSTANT_MATERIAL            BIT_4
-#define    NJD_CONTROL_3D_OFFSET_MATERIAL                BIT_5
-#define    NJD_CONTROL_3D_DEPTH_QUEUE                    BIT_6
-#define    NJD_CONTROL_3D_VERTEX_OFFSET                BIT_7
-#define    NJD_CONTROL_3D_MODEL_CLIP                    BIT_8
-#define    NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL    BIT_9
-#define    NJD_CONTROL_3D_SHADOW                        BIT_10
-#define    NJD_CONTROL_3D_CNK_CONSTANT_ATTR            BIT_11
-#define    NJD_CONTROL_3D_SHADOW_OPAQUE                BIT_12
-#define    NJD_CONTROL_3D_TRANS_MODIFIER                BIT_13
-#define    NJD_CONTROL_3D_USE_PUNCHTHROUGH                BIT_14
-#define    NJD_CONTROL_3D_CNK_BLEND_MODE                BIT_15
-#define    NJD_CONTROL_3D_DISABLE_NEAR_CLIP            BIT_16
-#define    NJD_CONTROL_3D_ENV_UV_SCROLL                BIT_17
-#define    NJD_CONTROL_3D_DISABLE_OPAQUE_MODIFIER        BIT_18
-#define    NJD_CONTROL_3D_MIRROR_MODEL                    BIT_31
+#define NJD_CONTROL_3D_DISP_AXIS                    BIT_0
+#define NJD_CONTROL_3D_NO_CLIP_CHECK                BIT_1
+#define NJD_CONTROL_3D_CONSTANT_ATTR                BIT_2
+#define NJD_CONTROL_3D_ENABLE_ALPHA                 BIT_3
+#define NJD_CONTROL_3D_CONSTANT_MATERIAL            BIT_4
+#define NJD_CONTROL_3D_OFFSET_MATERIAL              BIT_5
+#define NJD_CONTROL_3D_DEPTH_QUEUE                  BIT_6
+#define NJD_CONTROL_3D_VERTEX_OFFSET                BIT_7
+#define NJD_CONTROL_3D_MODEL_CLIP                   BIT_8
+#define NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL    BIT_9
+#define NJD_CONTROL_3D_SHADOW                       BIT_10
+#define NJD_CONTROL_3D_CNK_CONSTANT_ATTR            BIT_11
+#define NJD_CONTROL_3D_SHADOW_OPAQUE                BIT_12
+#define NJD_CONTROL_3D_TRANS_MODIFIER               BIT_13
+#define NJD_CONTROL_3D_USE_PUNCHTHROUGH             BIT_14
+#define NJD_CONTROL_3D_CNK_BLEND_MODE               BIT_15
+#define NJD_CONTROL_3D_DISABLE_NEAR_CLIP            BIT_16
+#define NJD_CONTROL_3D_ENV_UV_SCROLL                BIT_17
+#define NJD_CONTROL_3D_DISABLE_OPAQUE_MODIFIER      BIT_18
+#define NJD_CONTROL_3D_MIRROR_MODEL                 BIT_31
 
 /* sprite */
-#define    NJD_SPRITE_ANGLE            BIT_0
-#define    NJD_SPRITE_COLOR            BIT_1
-#define    NJD_SPRITE_HFLIP            BIT_2
-#define    NJD_SPRITE_VFLIP            BIT_3
-#define    NJD_SPRITE_HVFLIP            ( NJD_SPRITE_HFLIP | NJD_SPRITE_VFLIP )
-#define    NJD_SPRITE_SCALE            BIT_4
-#define    NJD_SPRITE_ALPHA            BIT_5
+#define NJD_SPRITE_ANGLE            BIT_0
+#define NJD_SPRITE_COLOR            BIT_1
+#define NJD_SPRITE_HFLIP            BIT_2
+#define NJD_SPRITE_VFLIP            BIT_3
+#define NJD_SPRITE_HVFLIP           ( NJD_SPRITE_HFLIP | NJD_SPRITE_VFLIP )
+#define NJD_SPRITE_SCALE            BIT_4
+#define NJD_SPRITE_ALPHA            BIT_5
 
 /*--------------------------------------*/
 /*      MACRO                           */
@@ -136,16 +136,16 @@ Angle3;
 #define NJD_PI  3.141592f
 
 #define NJM_DEG_RAD(n)  ((n) * (NJD_PI / 180.f))                    /*  deg → rad  */
-#define NJM_DEG_ANG(n)  ((Angle)((n) * (65536.f / 360.f)))            /*  deg → ang  */
-#define NJM_RAD_ANG(n)  ((Angle)((n) * (65536.f / (2.f * NJD_PI))))    /*  rad → ang  */
+#define NJM_DEG_ANG(n)  ((Angle)((n) * (65536.f / 360.f)))          /*  deg → ang  */
+#define NJM_RAD_ANG(n)  ((Angle)((n) * (65536.f / (2.f * NJD_PI)))) /*  rad → ang  */
 #define NJM_RAD_DEG(n)  ((n) * (180.f / NJD_PI))                    /*  rad → deg  */
-#define NJM_ANG_DEG(n)  ((n) * (360.f / 65536.f))                    /*  ang → deg  */
-#define NJM_ANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))            /*  ang → rad  */
+#define NJM_ANG_DEG(n)  ((n) * (360.f / 65536.f))                   /*  ang → deg  */
+#define NJM_ANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))          /*  ang → rad  */
 
 #define NJM_DEG_SANG(n)  ((Sangle)((n) * (65536.f / 360.f)))            /*  deg → ang  */
-#define NJM_RAD_SANG(n)  ((Sangle)((n) * (65536.f / (2.f * NJD_PI))))    /*  rad → ang  */
-#define NJM_SANG_DEG(n)  ((n) * (360.f / 65536.f))                        /*  ang → deg  */
-#define NJM_SANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))                /*  ang → rad  */
+#define NJM_RAD_SANG(n)  ((Sangle)((n) * (65536.f / (2.f * NJD_PI))))   /*  rad → ang  */
+#define NJM_SANG_DEG(n)  ((n) * (360.f / 65536.f))                      /*  ang → deg  */
+#define NJM_SANG_RAD(n)  ((n) * ((2.f * NJD_PI) / 65536.f))             /*  ang → rad  */
 
 #define NJM_MAX(a,b) ((a)>(b)?(a):(b))
 #define NJM_MIN(a,b) ((a)<(b)?(a):(b))
@@ -158,7 +158,7 @@ typedef struct {
     Sint16  v;
 } NJS_TEX;
 
-typedef    struct {
+typedef struct {
     Uint8   b;
     Uint8   g;
     Uint8   r;
@@ -213,9 +213,9 @@ typedef struct {
     Float   vx, vy, vz;
 } NJS_LINE, NJS_PLANE, NJS_PVECTOR;
 
-typedef    struct {
-    float    re;                    /* real (or scalor) part of quaternion        */
-    float    im[3];              /* imaginary (or vector) part of quaternion    */
+typedef struct {
+    float    re;                /* real (or scalor) part of quaternion        */
+    float    im[3];             /* imaginary (or vector) part of quaternion    */
 } NJS_QUATERNION;
 
 typedef struct {

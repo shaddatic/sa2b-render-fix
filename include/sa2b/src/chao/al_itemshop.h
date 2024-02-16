@@ -17,32 +17,32 @@
 /************************/
 typedef struct
 {
-    sint8 mCategory;
-    sint8 mId;
+    int8_t mCategory;
+    int8_t mId;
 }
 SAlItem;
 
 typedef struct
 {
-    sint32 mPriceBuy;
-    sint32 mPriceSell;
-    sint16 mEmblem;
-    sint16 mName;
-    sint16 mExpl;
+    int32_t mPriceBuy;
+    int32_t mPriceSell;
+    int16_t mEmblem;
+    int16_t mName;
+    int16_t mExpl;
 }
 SAlItemInfo;
 
 typedef struct
 {
     SAlItemInfo* mList;
-    sint32 mLen;
+    int32_t      mLen;
 }
 SAlItemTable;
 
 typedef struct
 {
     SAlItemTable* mList;
-    sint32 mLen;
+    int32_t       mLen;
 }
 SAlItemTableTable;
 

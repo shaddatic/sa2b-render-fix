@@ -24,16 +24,16 @@
 /*  Data                */
 /************************/
 #define LockShaders     DataRef(bool,   0x01A55709)
-#define ShaderMode      DataRef(sint32, 0x01AF1960)
-#define ShaderLast      DataRef(sint32, 0x01A5579C)
+#define ShaderMode      DataRef(int32_t, 0x01AF1960)
+#define ShaderLast      DataRef(int32_t, 0x01A5579C)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void SetShaders(sint32 idx);
+void SetShaders(int32_t idx);
 
-void SetAndLoadShader(sint32 idx);
+void SetAndLoadShader(int32_t idx);
 
 EXTERN_END
 
@@ -42,7 +42,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function Ptrs **/
-#define SetAndLoadShader_p      FuncPtr(void, __stdcall, (sint32), 0x00424050);
+#define SetAndLoadShader_p      FuncPtr(void, __stdcall, (int32_t), 0x00424050)
 
 /** User-Function Ptrs **/
 EXTERN const void* const SetShaders_p;

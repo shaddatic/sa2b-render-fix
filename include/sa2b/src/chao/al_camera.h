@@ -15,13 +15,19 @@
 /************************/
 /*  Includes            */
 /************************/
+/** Ninja **/
 #include <sa2b/ninja/njcommon.h>
+
+/** Task Work **/
+#include <sa2b/src/task/taskwk.h>
+
+/** Colli Info **/
+#include <sa2b/src/c_colli/ccl_info.h>
 
 /************************/
 /*  Abstract Types      */
 /************************/
 typedef struct task         TASK;
-typedef struct ccl_info     CCL_INFO;
 typedef struct colliwk      COLLIWK;
 
 /************************/
@@ -29,33 +35,23 @@ typedef struct colliwk      COLLIWK;
 /************************/
 #define GET_AL_CAMERA_WORK(tp)  ((AL_CAMERA_WORK*)tp->twp)
 
-typedef struct // TASKWK
+typedef struct
 {
-    sint8 mode; // Action
-    sint8 smode; // Next Action
-    sint8 id;
-    sint8 btimer; // Index
-    sint16 flag;
-    sint16 wtimer;
-    Angle3 ang;
-    NJS_POINT3 pos;
-    NJS_POINT3 scl;
-    COLLIWK* cwp;
-    uint16 type;
-    uint8 UNDEF0;
-    uint8 UNDEF1;
+    TASKWK();
+
+    uint16_t type;
     NJS_POINT3 spd;
     NJS_POINT3 AimPos;
     Angle3 AngSpd;
     NJS_POINT3 tgtpos;
     NJS_POINT3 AimTarget;
-    float32 tgtdist;
-    sint32 ViewAngle;
-    float32 TargetNormalOffsetY;
-    float32 TargetTreeOffsetY;
-    float32 PosOffsetY;
-    float32 PosItpRatio;
-    sint32 StopFlag;
+    float32_t tgtdist;
+    int32_t ViewAngle;
+    float32_t TargetNormalOffsetY;
+    float32_t TargetTreeOffsetY;
+    float32_t PosOffsetY;
+    float32_t PosItpRatio;
+    int32_t StopFlag;
 }
 AL_CAMERA_WORK;
 
@@ -103,6 +99,6 @@ EXTERN_END
 #define AL_NormalCameraExecutor_p           FuncPtr(void , __cdecl, (TASK*), 0x0057CD50)
 #define AL_NormalCameraDestructor_p         FuncPtr(void , __cdecl, (TASK*), 0x0057D2D0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
 
-#endif /* _SA2B_CHAO_CAMERA_H_ */
+#endif/*_SA2B_CHAO_CAMERA_H_*/

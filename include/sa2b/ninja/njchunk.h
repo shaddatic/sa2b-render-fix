@@ -523,16 +523,6 @@ void    njCnkDrawModel_Broken( NJS_CNK_MODEL* model );
 */
 void    njSetCnkBlendMode( Uint32 attr );
 
-/*
-    Environment mapping uv scroll
-*/
-void    njCnkSetUvScroll( Float u, Float v );     // MIA
-
-/*
-    Envelope weight value set
-*/
-void    njSetEnvelopeWeightValue( Float value );  // MIA
-
 #endif /* _NINJA_CHUNK_H_ */
 
 /*

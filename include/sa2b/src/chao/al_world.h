@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_world.h'
 *
-*   Contains enums, structs, data, and functions related to Chao World's texture loading engine.
+*   Description:
+*       Contains enums, structs, data, and functions related to
+*   Chao World communications & general execution.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -59,9 +61,9 @@ enum
 /************************/
 typedef struct
 {
-    sint16 mood;
-    sint16 belly;
-    sint16 addexp[8];
+    int16_t mood;
+    int16_t belly;
+    int16_t addexp[8];
 }
 GROW_PARAM;
 
@@ -69,20 +71,20 @@ GROW_PARAM;
 
 typedef struct al_entry_work
 {
-    uint16 category;
-    uint16 num;
-    uint16 kind;
-    uint16 flag;
+    uint16_t category;
+    uint16_t num;
+    uint16_t kind;
+    uint16_t flag;
     void* pSaveInfo;
-    sint32 CommuID;
+    int32_t CommuID;
     NJS_POINT3 pos;
     Angle3 ang;
-    float32 radius;
-    float32 offset;
-    float32 CamDist;
-    sint16 command;
-    sint16 command_value;
-    sint16 state;
+    float32_t radius;
+    float32_t offset;
+    float32_t CamDist;
+    int16_t command;
+    int16_t command_value;
+    int16_t state;
     TASK* tp;
     struct al_entry_work* pCommu;
     struct al_entry_work* pLockOn;
@@ -92,49 +94,49 @@ ALW_ENTRY_WORK;
 /************************/
 /*  Data                */
 /************************/
-#define ChaoWorldLoadFlag       DataRef(bool32        , 0x01A5AF0C)
+#define ChaoWorldLoadFlag       DataRef(bool32_t      , 0x01A5AF0C)
 
 #define WorldMasterTask         DataRef(TASK*         , 0x01A0F94C)
 
 #define WorldEntryList          DataAry(ALW_ENTRY_WORK, 0x01DC0FC0, [11][64])
-#define nbWorldEntry            DataAry(sint32        , 0x01DC0F80, [11])
-#define nbMaxEntry              DataAry(sint32        , 0x008AB838, [11])
+#define nbWorldEntry            DataAry(int32_t       , 0x01DC0F80, [11])
+#define nbMaxEntry              DataAry(int32_t       , 0x008AB838, [11])
 
 #define FruitGrowParam          DataAry(GROW_PARAM    , 0x008A6448, [24])
 #define MinimalGrowParam        DataAry(GROW_PARAM    , 0x008A6240, [26])
 
-#define Clock                   DataRef(sint32        , 0x01DBED74)
-#define gBusy_0                 DataRef(sint32        , 0x019F6440)
-#define gLoaded_0               DataRef(sint32        , 0x019F6444)
-#define gCommuID                DataRef(uint16        , 0x01A5B5EC)
+#define Clock                   DataRef(int32_t       , 0x01DBED74)
+#define gBusy_0                 DataRef(int32_t       , 0x019F6440)
+#define gLoaded_0               DataRef(int32_t       , 0x019F6444)
+#define gCommuID                DataRef(uint16_t      , 0x01A5B5EC)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  AL_ConfirmLoadIsBusy(void);
+int32_t AL_ConfirmLoadIsBusy(void);
 
 /** Initialize and reset ALW module params for new stage **/
 void    ALW_Create(void);
 
-sint32  ALW_Entry(uint16 category, TASK* tp, uint16 kind);
-sint32  ALW_Entry2(uint16 category, TASK* tp, uint16 kind, void* pSaveInfo);
+int32_t ALW_Entry(uint16_t category, TASK* tp, uint16_t kind);
+int32_t ALW_Entry2(uint16_t category, TASK* tp, uint16_t kind, void* pSaveInfo);
 
-sint32  ALW_GetMaxEntry(uint16 category); /* Toolkit addition */
+int32_t ALW_GetMaxEntry(uint16_t category); /* Toolkit addition */
 
-TASK*   ALW_GetTask(sint32 category, uint16 num);
-sint32  ALW_GetCategory(TASK* tp);
-uint16  ALW_GetKind(TASK* tp); /* Toolkit addition */
+TASK*   ALW_GetTask(int32_t category, uint16_t num);
+int32_t ALW_GetCategory(TASK* tp);
+uint16_t ALW_GetKind(TASK* tp); /* Toolkit addition */
 
-sint32  ALW_AttentionOn(TASK* tp1, TASK* tp2);
-sint32  ALW_AttentionOff(TASK* tp);
+int32_t ALW_AttentionOn(TASK* tp1, TASK* tp2);
+int32_t ALW_AttentionOff(TASK* tp);
 ALW_ENTRY_WORK* ALW_IsAttention(TASK* tp);
-sint32  ALW_IsSheAttentionOtherOne(TASK* pMyTask, TASK* pHerTask);
-sint32  ALW_CommunicationOn(TASK* tp1, TASK* tp2);
-sint32  ALW_CommunicationOff(TASK* tp);
+int32_t ALW_IsSheAttentionOtherOne(TASK* pMyTask, TASK* pHerTask);
+int32_t ALW_CommunicationOn(TASK* tp1, TASK* tp2);
+int32_t ALW_CommunicationOff(TASK* tp);
 ALW_ENTRY_WORK* ALW_IsCommunication(TASK* tp);
-ALW_ENTRY_WORK* ALW_IsCommunicationEx(TASK* tp, uint16 category);
-sint32  ALW_RecieveCommand(TASK* tp);
+ALW_ENTRY_WORK* ALW_IsCommunicationEx(TASK* tp, uint16_t category);
+int32_t ALW_RecieveCommand(TASK* tp);
 
 EXTERN_END
 

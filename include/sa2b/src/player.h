@@ -14,11 +14,27 @@
 #define _SA2B_PLAYER_H_
 
 /************************/
-/*  Abstracted Types    */
+/*  Includes            */
 /************************/
-typedef struct task     TASK;
-typedef struct taskwk   TASKWK;
-typedef struct motionwk MOTIONWK;
+/** Ninja **/
+#include <sa2b/ninja/ninja.h>
+
+/** Utility **/
+#include <sa2b/util/anyobj.h>
+
+/** Source **/
+#include <sa2b/src/shadow.h>
+
+/************************/
+/*  Abstract Types      */
+/************************/
+/** Task **/
+typedef struct task         TASK;
+typedef struct taskwk       TASKWK;
+typedef struct motionwk     MOTIONWK;
+
+/** Path **/
+typedef struct pathtag      PATH_TAG;
 
 /************************/
 /*  Typedefs            */
@@ -26,15 +42,10 @@ typedef struct motionwk MOTIONWK;
 typedef void(__cdecl* task_exec)(TASK*);
 
 /************************/
-/*  Includes            */
+/*  Constants           */
 /************************/
-#include <sa2b/ninja/ninja.h>
-
-#include <sa2b/src/shadow.h>
-
-/************************/
-/*  Equipment Flags     */
-/************************/
+/****** Equipment Flags *****************************************************/
+/** Sonic **/
 #define EQUIP_SONIC_SHOES           (0x00000001)
 #define EQUIP_SONIC_SPARKLE         (0x00000002)
 #define EQUIP_SONIC_MAGICWRIST      (0x00000004)
@@ -42,34 +53,54 @@ typedef void(__cdecl* task_exec)(TASK*);
 #define EQUIP_SONIC_RUBBERUNIT      (0x00000010)
 #define EQUIP_SONIC_MELODY          (0x00000020)
 
+/** Miles/Tornado **/
 #define EQUIP_MILES_BOOSTER         (0x00000040)
 #define EQUIP_MILES_HYPERCANNON     (0x00000080)
 #define EQUIP_MILES_LASERBALSTER    (0x00000100)
 #define EQUIP_MILES_MELODY          (0x00000200)
 
+/** Knuckles **/
 #define EQUIP_KNUCKLES_CLAW         (0x00000400)
 #define EQUIP_KNUCKLES_SUNGLASS     (0x00000800)
 #define EQUIP_KNUCKLES_GROVES       (0x00001000)
 #define EQUIP_KNUCKLES_AIR          (0x00002000)
 #define EQUIP_KNUCKLES_MELODY       (0x00004000)
 
+/** ???? **/
 #define EQUIP_SUPERSONIC            (0x00008000)
 
+/** Shadow **/
 #define EQUIP_SHADOW_SHOES          (0x00010000)
 #define EQUIP_SHADOW_SPARKLE        (0x00020000)
 #define EQUIP_SHADOW_FLAMERING      (0x00040000)
 #define EQUIP_SHADOW_MELODY         (0x00080000)
 
+/** Eggman/Eggwalker **/
 #define EQUIP_EGGMAN_JETENGINE      (0x00100000)
 #define EQUIP_EGGMAN_BAZOOKA        (0x00200000)
 #define EQUIP_EGGMAN_POWERGUN       (0x00400000)
 #define EQUIP_EGGMAN_EXTRASHIELD    (0x00800000)
 #define EQUIP_EGGMAN_MELODY         (0x01000000)
 
+/** Rouge **/
 #define EQUIP_ROUGE_NAILS           (0x02000000)
 #define EQUIP_ROUGE_SCOPE           (0x04000000)
 #define EQUIP_ROUGE_BOOTS           (0x08000000)
 #define EQUIP_ROUGE_MELODY          (0x10000000)
+
+/****** Killcolli Flags *****************************************************/
+/** Player flags **/
+#define KILLCOL_PL_SONIC            (0x00000001) /* Kill Sonic              */
+#define KILLCOL_PL_SHADOW           (0x00000002) /* Kill Shadow             */
+#define KILLCOL_PL_MILES            (0x00000004) /* Kill Miles              */
+#define KILLCOL_PL_EGGMAN           (0x00000008) /* Kill Eggman             */
+#define KILLCOL_PL_KNUCKLES         (0x00000010) /* Kill Knuckles           */
+#define KILLCOL_PL_ROUGE            (0x00000020) /* Kill Rouge              */
+#define KILLCOL_PL_TORNADO          (0x00000040) /* Kill Tornado Walker     */
+#define KILLCOL_PL_EGGWALKER        (0x00000080) /* Kill Egg Walker         */
+
+/** Debug **/
+#define KILLCOL_DEBUG_DISPLAY       (0x80000000) /* Chunk format & display  */
 
 /************************/
 /*  Enums               */
@@ -99,22 +130,29 @@ enum
 /************************/
 /*  Structures          */
 /************************/
+typedef struct 
+{
+    int32_t     flag;
+    ANY_OBJECT* object;
+}
+PL_KILLCOLLI;
+
 typedef struct
 {
-    __int16 actnum;
-    __int16 objnum;
-    __int16 mtnmode;
-    __int16 next;
-    float frame;
-    float racio;
+    int16_t   actnum;
+    uint16_t  objnum;
+    int16_t   mtnmode;
+    int16_t   next;
+    float32_t frame;
+    float32_t racio;
 }
 PL_ACTION;
 
-typedef struct mtnnjvwk
+typedef struct mtnjvwk
 {
     __int16 mtnmode;
     __int16 Next;
-    __int16 Current;
+    __int16 mtnnum;
     __int16 Animation3;
     __int16 field_8;
     __int16 acttimer;
@@ -135,21 +173,20 @@ typedef struct mtnnjvwk
     PL_ACTION* plactptr;
     NJS_MOTION* plmtnptr;
 }
-MOTION_NJV_WORK;
+MOTION_JVWK;
 
-// Contains input (first 4 variables) and output information for the dynamic collision system.
 typedef struct csts
 {
-    float radius;
+    float32_t  radius;
     NJS_POINT3 campos;
     NJS_POINT3 spd;
     NJS_POINT3 tnorm;
-    unsigned __int16 find_count;
-    unsigned __int16 selected_nmb;
-    float yt;
-    float yb;
-    int angx;
-    int angz;
+    uint16_t   find_count;
+    uint16_t   selected_nmb;
+    float32_t  yt;
+    float32_t  yb;
+    int32_t    angx;
+    int32_t    angz;
     NJS_POINT3 normal;
     NJS_POINT3 normal2;
     NJS_POINT3 onpoly;
@@ -159,126 +196,194 @@ typedef struct csts
 }
 CSTS;
 
-typedef struct player_parameter
-{
-    int jump2_timer;
-    float pos_error;
-    float lim_h_spd;
-    float lim_v_spd;
-    float max_x_spd;
-    float max_psh_spd;
-    float jmp_y_spd;
-    float nocon_speed;
-    float slide_speed;
-    float jog_speed;
-    float run_speed;
-    float rush_speed;
-    float crash_speed;
-    float dash_speed;
-    float jmp_addit;
-    float run_accel;
-    float air_accel;
-    float slow_down;
-    float run_break;
-    float air_break;
-    float air_resist_air;
-    float air_resist;
-    float air_resist_y;
-    float air_resist_z;
-    float grd_frict;
-    float grd_frict_z;
-    float lim_frict;
-    float rat_bound;
-    float rad;
-    float height;
-    float weight;
-    float eyes_height;
-    float center_height;
-}
-PLAYER_PARAM;
-
 typedef struct 
 {
-    __int16 XRot;
-    __int16 YRot;
-    float Distance;
-    NJS_POINT3 Position;
-}
-LoopPoint;
-
-typedef struct
-{
-    __int16 anonymous_0;
-    __int16 Count;
-    float TotalDistance;
-    LoopPoint* Points;
-    task_exec Object;
-}
-LoopHead;
-
-/*
-typedef struct 
-{
-
-}
-PL_FACE;
-*/
-
-typedef struct 
-{
-    float x;
-    float y;
-    float z;
-    float r;
-    float d;
-    float h;
-    int angy_dif;
-    int angy_aim;
+    float32_t x;
+    float32_t y;
+    float32_t z;
+    float32_t r;
+    float32_t d;
+    float32_t h;
+    int32_t   angy_dif;
+    int32_t   angy_aim;
 }
 PL_LANDPOSI;
 
-#pragma pack(push, 1)
+typedef struct player_parameter
+{
+    int32_t   jump2_timer;
+    float32_t pos_error;
+    float32_t lim_h_spd;
+    float32_t lim_v_spd;
+    float32_t max_x_spd;
+    float32_t max_psh_spd;
+    float32_t jmp_y_spd;
+    float32_t nocon_speed;
+    float32_t slide_speed;
+    float32_t jog_speed;
+    float32_t run_speed;
+    float32_t rush_speed;
+    float32_t crash_speed;
+    float32_t dash_speed;
+    float32_t jmp_addit;
+    float32_t run_accel;
+    float32_t air_accel;
+    float32_t slow_down;
+    float32_t run_break;
+    float32_t air_break;
+    float32_t air_resist_air;
+    float32_t air_resist;
+    float32_t air_resist_y;
+    float32_t air_resist_z;
+    float32_t grd_frict;
+    float32_t grd_frict_z;
+    float32_t lim_frict;
+    float32_t rat_bound;
+    float32_t rad;
+    float32_t height;
+    float32_t weight;
+    float32_t eyes_height;
+    float32_t center_height;
+}
+PL_PARAMETER;
+
+typedef struct // To be moved
+{
+    void*   texp;
+    int32_t address_u;
+    int32_t address_v;
+    int32_t tes5;
+    int32_t min_filter;
+    int32_t mag_filter;
+    int32_t bank;
+}
+TEXTURE_INFO;
+
+typedef struct player_stencil
+{
+    TEXTURE_INFO texture;
+    int32_t      unk;
+    void*        texp;
+    NJS_MATRIX   mat;
+}
+PL_STENCIL;
+
+#define GET_PLAYERWK(tp)    ((PLAYERWK*)tp->awp)
+
 typedef struct playerwk
 {
-    sint8 pl_num;
-    sint8 ch_num0;
-    char Costume;
-    char ch_num;
-    char ActionWindowItems[8];
-    char ActionWindowItemCount;
-    char field_D[3];
-    sint16 item;
-    int field_12;
-    sint16 breathtimer;
-    sint16 waittimer;
-    char gap_1A[10];
-    int equipment;
-    float field_28;
-    char field_2C[28];
-    float walker_health;
-    int field_4C[6];
-    NJS_VECTOR Speed;
-    char gap_70[36];
-    TASK* HeldObject;
-    char gap_98[4];
-    TASK* HoldTarget;
-    char gap_A0[28];
-    NJS_MOTION** Animation;
-    PLAYER_PARAM p;
-    int field_144[12];
-    MOTION_NJV_WORK mj;
-    int field_1A0[7];
+    int8_t pl_num;          // Player Number
+    int8_t ch_num;          // Base Character Number
+    int8_t costume;         // Costume Number
+    int8_t ch_num_multi;    // Characer Number + 2P Alts
+
+    int8_t action_list[8];
+    int8_t action_num;
+    int8_t action_sel;      // Currently selected action index (with Y)
+    int8_t action_last;     // ? Set on pressing action
+
+    int16_t item;           // Powerups
+    int16_t jumptimer;
+    int16_t nocontimer;     // No Control Timer
+    int16_t breathtimer;
+    int16_t waittimer;
+    int16_t confusetimer;
+    int16_t flag;
+    int16_t island_num;
+    int16_t path_point;     // ? More research needed
+    int32_t equipment;
+
+    float32_t unkf_0;       // ? Related to being grabbed
+    Angle     lean;         // Body lean angle
+    float32_t hpos;         // 1D Position along a path
+    float32_t dotp;         // Vertical dot product
+    float32_t unkf_1;       // ? Animation speed related
+    float32_t unkf_2;       // ? Seemingly random
+    float32_t unkf_3;       // ? Changing at all breaks game
+    float32_t rspd;         // Running speed
+
+    float32_t hp;        // Health, used for walkers and bossfights
+
+    NJS_VECTOR eff;
+    NJS_VECTOR acc;
+    NJS_VECTOR spd;
+    NJS_VECTOR wall_normal;
+    NJS_VECTOR floor_normal;
+
+    uint32_t attr;
+    uint32_t last_attr;
+
+    CSTS*   cstsp;
+    TASK*   htp;              // Holding Task Pointer
+    TASK*   nhtp;             // Next Holding Task Pointer
+    TASK*   ttp;              // Target Task Pointer
+    TASK*   mlotp;            // Mobile Land Object Task Pointer 
+    TASK*   sctp;             // Stand Colli Task Pointer
+    int32_t unki_3;         // Seemingly unused
+    int32_t unki_4;         // ^
+
+    NJS_OBJECT*  lclop;
+    PL_LANDPOSI* island_list;
+
+    PATH_TAG*    path_tag;
+
+    NJS_MOTION** motion_list;
+
+    PL_PARAMETER p;
+
+    int8_t     unkc_2;
+    uint8_t    gap_144[3];     // ? Possibly an alignment boundary
+    int32_t    unki_1;
+    uint8_t    gap_14C[4];
+    int32_t    unki_2;
+    float32_t  unkf_5;
+    NJS_POINT3 unkp3_0;
+    uint8_t    gap_164[12];
+    TASK*      unktp_1;
+
+    MOTION_JVWK mj;
+
+    SHADOWWK shadow;
+    SHADOWWK front_shadow;
+
+    NJS_POINT3 righthand_pos;
+    NJS_POINT3 lefthand_pos;
+    NJS_POINT3 rightfoot_pos;
+    NJS_POINT3 leftfoot_pos;
+    NJS_POINT3 user0_pos;       // Usually the head
+    NJS_POINT3 user1_pos;       // ^
+    NJS_POINT3 root_pos;
+    NJS_POINT3 tails_pos;
+    NJS_POINT3 bazooka_pos;
+    NJS_POINT3 powergun_pos;
+    NJS_POINT3 extrashield_pos;
+
+    NJS_VECTOR righthand_inv;
+    NJS_VECTOR lefthand_inv;
+
+    NJS_VECTOR righthand_vec;
+    NJS_VECTOR lefthand_vec;
+    NJS_VECTOR rightfoot_vec;
+    NJS_VECTOR leftfoot_vec;
+    NJS_VECTOR user0_vec;       // Usually the head
+    NJS_VECTOR user1_vec;       // ^
+    NJS_VECTOR root_vec;
+    NJS_VECTOR tails_vec;
+    NJS_VECTOR bazooka_vec;
+    NJS_VECTOR powergun_vec;
+    NJS_VECTOR extrashield_vec;
+
+    PL_STENCIL stencil;
 }
 PLAYERWK;
-#pragma pack(pop)
 
-typedef struct player_mot
+typedef struct player_motion
 {
-    sint16 index;
-    sint16 count;
-    NJS_MOTION* motion;
+    int16_t     index;
+    int16_t     nbMotion;
+    NJS_MOTION* pMotion;
 }
-PLAYER_MOTION;
+PL_MOTION;
 
 typedef struct player_objdata
 {
@@ -298,44 +403,105 @@ typedef struct player_objdata
 }
 PLAYER_OBJECT;
 
-typedef struct
+typedef struct player_object
 {
-    sint32 index;
+    int32_t index;
     NJS_CNK_OBJECT* pObject;
 }
-CHAR_OBJECT;
+PL_OBJECT;
 
 /************************/
 /*  Data                */
 /************************/
-#define CHAR_OBJECTS    DataAry(CHAR_OBJECT, 0x01DE9620, [532])
+#define CHAR_OBJECTS        DataAry(PL_OBJECT  , 0x01DE9620, [532])
+#define CHAR_MOTIONS        DataAry(PL_MOTION  , 0x01DEA700, [300])
 
-#define usPlayer        DataRef(sint32     , 0x01934B80)
-#define usPlayer2       DataRef(sint32     , 0x01934BE4)
+#define usPlayer            DataRef(int32_t    , 0x01934B80)
+#define usPlayer2           DataRef(int32_t    , 0x01934BE4)
 
 /** Player Work Pointers **/
-#define playermwp       DataAry(MOTIONWK*  , 0x01DE95E0, [8])
-#define playerpwp       DataAry(PLAYERWK*  , 0x01DE9600, [8])
-#define playertwp       DataAry(TASKWK*    , 0x01DEA6C0, [8])
-#define playertp        DataAry(TASK*      , 0x01DEA6E0, [8])
+#define playermwp           DataAry(MOTIONWK*  , 0x01DE95E0, [8])
+#define playerpwp           DataAry(PLAYERWK*  , 0x01DE9600, [8])
+#define playertwp           DataAry(TASKWK*    , 0x01DEA6C0, [8])
+#define playertp            DataAry(TASK*      , 0x01DEA6E0, [8])
 
 /** Backup Task Functions For When Player Disabled **/
-#define pExecSave       DataAry(task_exec  , 0x019458F0, [8])
-#define pDispSave       DataAry(task_exec  , 0x01945960, [8])
-#define pDisp1Save      DataAry(task_exec  , 0x01945920, [8])
-#define pDisp2Save      DataAry(task_exec  , 0x019458D0, [8])
-#define pDisp3Save      DataAry(task_exec  , 0x01945940, [8])
-#define pDisp4Save      DataAry(task_exec  , 0x019458B0, [8])
-#define pShadSave       DataAry(task_exec  , 0x01945980, [8])
+#define pExecSave           DataAry(task_exec  , 0x019458F0, [8])
+#define pDispSave           DataAry(task_exec  , 0x01945960, [8])
+#define pDispDelySave       DataAry(task_exec  , 0x01945920, [8])
+#define pDispSortSave       DataAry(task_exec  , 0x019458D0, [8])
+#define pDispLateSave       DataAry(task_exec  , 0x01945940, [8])
+#define pDispLastSave       DataAry(task_exec  , 0x019458B0, [8])
+#define pDispShadSave       DataAry(task_exec  , 0x01945980, [8])
+
+/** Other **/
+typedef NJS_POINT3          pos_history_t[8][256];
+
+#define pos_history         DataRef(pos_history_t*, 0x01A5A234)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-/* Enable/Disable the player TASK */
-void    PlayerEnable(uint8 pno);
-void    PlayerDisable(uint8 pno);
+/** Enable/Disable the player TASK **/
+void    PlayerEnable(  uint8_t pno );
+void    PlayerDisable( uint8_t pno );
+
+/** Get Player Number from Task 
+    if not a player, returns -1 **/
+int32_t GetTaskPlayerNumber( TASK* tp );
+
+/** Get the closest player to a point **/
+int32_t GetTheNearestPlayerNumber( NJS_POINT3* pos );
+
+/** Get rival of a player 
+    returns -1 if no rival **/
+int32_t GetRivalPlayerNumber( int32_t pno );
+
+/** Give player powerup item **/
+void    GetSpeedUpP(int32_t pno);
+void    GetThunderBarrierP(int32_t pno);
+void    GetBarrierP(int32_t pno);
+void    GetInvincibleBodyForAMomentP(int32_t pno);
+
+/** Held task functions **/
+void    HoldTaskP(int32_t pno, TASK* htp);
+void    StopHoldingTaskP(int32_t pno);
+
+/** Get total number of players/characters **/
+int32_t CountCharacters( void );
+
+/************************/
+/*  Inline Functions    */
+/************************/
+#ifdef  SAMT_INCLUDE_FUNC_INLINES
+
+void    StopHoldingTaskP_inl(int32_t pno, TASKWK* ptwp);
+
+#endif/*SAMT_INCLUDE_FUNC_INLINES*/
 
 EXTERN_END
 
-#endif /* _SA2B_MOVE_H_ */
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef  SAMT_INCLUDE_FUNC_PTRS
+/** Function ptrs **/
+#   define CountCharacters_p                FuncPtr(int32_t, __cdecl, (void), 0x0046DD60)
+
+/** User-Function ptrs **/
+#   define GetTaskPlayerNumber_p            ((void*)0x0046DCC0)
+#   define GetTheNearestPlayerNumber_p      ((void*)0x0046DDC0)
+#   define GetRivalPlayerNumber_p           ((void*)0x0046DE60)
+#   define GetSpeedUpP_p                    ((void*)0x0046E120)
+#   define GetThunderBarrierP_p             ((void*)0x0046E180)
+#   define GetBarrierP_p                    ((void*)0x0046E2E0)
+#   define GetInvincibleBodyForAMomentP_p   ((void*)0x0046E440)
+#   define HoldTaskP_p                      ((void*)0x0046E5B0)
+
+/** Inlined Function ptrs **/
+#   define StopHoldingTaskP_inl_p           ((void*)0x0046E5E0)
+
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+
+#endif/*_SA2B_PLAYER_H_*/

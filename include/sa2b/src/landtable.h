@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/landtable.h'
 *
-*   Contains functions and structs related to LandTables
+*   Description:
+*       Contains functions and structs related to LandTables.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -22,6 +23,8 @@ typedef struct zxsdwstr    ZXSDWSTR;
 /*  Includes            */
 /************************/
 #include <sa2b/ninja/ninja.h>
+
+#include <sa2b/util/anyobj.h>
 
 /************************/
 /*  Land Entry Flags    */
@@ -48,40 +51,40 @@ typedef struct zxsdwstr    ZXSDWSTR;
 /************************/
 typedef struct _OBJ_LANDENTRY
 {
-    float32         CenterX;
-    float32         CenterY;
-    float32         CenterZ;
-    float32         Radius;
-    ANY_OBJECT      pObject;
-    sint32          field_14;
-    sint32          Chunks;
-    sint32          slAttribute;
+    float32_t   CenterX;
+    float32_t   CenterY;
+    float32_t   CenterZ;
+    float32_t   Radius;
+    ANY_OBJECT* pObject;
+    int32_t     field_14;
+    int32_t     Chunks;
+    int32_t     slAttribute;
 }
 OBJ_LANDENTRY;
 
 typedef struct _OBJ_MOTLANDENTRY
 {
-    float32         fFrame;
-    float32         fStep;
-    float32         fMaxFrame;
-    ANY_OBJECT      pObject;
-    NJS_MOTION*     pMotion;
+    float32_t   fFrame;
+    float32_t   fStep;
+    float32_t   fMaxFrame;
+    ANY_OBJECT* pObject;
+    NJS_MOTION* pMotion;
 }
 OBJ_MOTLANDENTRY;
 
 typedef struct _OBJ_LANDTABLE
 {
-    sint16              ssCount;
-    sint16              ssVisibleCount;
-    sint16              ssUnkown; // ??
-    sint16              ssMotCount;
-    sint16              ssAttribute;
-    sint16              ssLoadFlag;
-    float32             fFarClipping;
-    OBJ_LANDENTRY*      pLandEntry;
-    OBJ_MOTLANDENTRY*   pMotLandEntry;
-    char*               TexName;
-    NJS_TEXLIST*        TexList;
+    int16_t             ssCount;            /* land entry count     */
+    int16_t             ssVisibleCount;     /* visible entry count  */
+    int16_t             ssUnknown;          /* ??????               */
+    int16_t             ssMotCount;         /* motion entry count   */
+    int16_t             ssAttribute;        /* attribute            */
+    int16_t             ssLoadFlag;         /* is loaded            */
+    float32_t           fFarClipping;       /* clip distance        */
+    OBJ_LANDENTRY*      pLandEntry;         /* land entry list      */
+    OBJ_MOTLANDENTRY*   pMotLandEntry;      /* motion entry list    */
+    char*               TexName;            /* texture file name    */
+    NJS_TEXLIST*        TexList;            /* texlist              */
 }
 OBJ_LANDTABLE;
 
@@ -98,36 +101,36 @@ OBJ_LANDCOLL;
 /************************/
 #define pLandTask               DataRef(TASK*         , 0x01945A04)
 
-#define boolLandTableGinja      DataRef(bool32        , 0x01A5A2D8)
-#define mleriRangeRad           DataRef(float32       , 0x0171CAA4)
+#define boolLandTableGinja      DataRef(bool32_t      , 0x01A5A2D8)
+#define mleriRangeRad           DataRef(float32_t     , 0x0171CAA4)
 #define pObjLandTable           DataRef(OBJ_LANDTABLE*, 0x019459DC)
 
-#define boolLandDisplay         DataRef(bool32        , 0x0171CAA8)
-#define boolLandCollision       DataRef(bool32        , 0x0171CAAC)
+#define boolLandDisplay         DataRef(bool32_t      , 0x0171CAA8)
+#define boolLandCollision       DataRef(bool32_t      , 0x0171CAAC)
 
 #define ri_landentry_buf        DataRef(OBJ_LANDENTRY*, 0x01A5A2D4)
-#define ri_landentry_nmb        DataRef(sint32        , 0x01A5A2CC)
+#define ri_landentry_nmb        DataRef(int32_t       , 0x01A5A2CC)
 
-#define numLandCollList         DataRef(sint16        , 0x01DE9484)
-#define ri_landcoll_nmb         DataRef(sint32        , 0x01A5A2C8)
+#define numLandCollList         DataRef(int16_t       , 0x01DE9484)
+#define ri_landcoll_nmb         DataRef(int32_t       , 0x01A5A2C8)
 
 #define LandCollList            DataRef(OBJ_LANDCOLL* , 0x01A5A2DC)
 
 #define MobileEntry             DataRef(OBJ_LANDCOLL* , 0x01A5A2E0)
-#define numMobileEntry          DataRef(sint16        , 0x019459D4)
+#define numMobileEntry          DataRef(int16_t       , 0x019459D4)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  LandChangeLandTable(OBJ_LANDTABLE* land);
+int32_t LandChangeLandTable(OBJ_LANDTABLE* land);
 
-sint32  LandChangeGinjaLandTable(OBJ_LANDTABLE* land);
-sint32  LandChangeChunkLandTable(OBJ_LANDTABLE* land);
+int32_t LandChangeGinjaLandTable(OBJ_LANDTABLE* land);
+int32_t LandChangeChunkLandTable(OBJ_LANDTABLE* land);
 
-void    ListGroundForCollision(float32 xPosition, float32 yPosition, float32 zPosition, float32 fRadius);
+void    ListGroundForCollision(float32_t xPosition, float32_t yPosition, float32_t zPosition, float32_t fRadius);
 
-sint32  CL_ColPolCheckZxShadow(ZXSDWSTR* zssp, NJS_OBJECT* obp);
+int32_t CL_ColPolCheckZxShadow(ZXSDWSTR* zssp, NJS_OBJECT* obp);
 
 EXTERN_END
 
@@ -135,15 +138,14 @@ EXTERN_END
 /*  Function Ptrs       */
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
-
 /** Function ptrs **/
-#define ListGroundForCollision_p    FuncPtr(void,   __cdecl, (float32, float32, float32, float32), 0x0047CD60)
-#define LandChangeLandTable_p       FuncPtr(sint32, __cdecl, (OBJ_LANDTABLE*)                    , 0x0047BD30)
+#   define ListGroundForCollision_p    FuncPtr(void   , __cdecl, (float32_t, float32_t, float32_t, float32_t), 0x0047CD60)
+#   define LandChangeLandTable_p       FuncPtr(int32_t, __cdecl, (OBJ_LANDTABLE*)                            , 0x0047BD30)
 
 /** User-Function ptrs **/
-EXTERN const void* const LandChangeGinjaLandTable_p;
-EXTERN const void* const CL_ColPolCheckZxShadow_p;
+#   define LandChangeGinjaLandTable_p  ((void*)0x0047BE10)
+#   define CL_ColPolCheckZxShadow_p    ((void*)0x0048C290)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
 
-#endif /* _SA2B_LANDTABLE_H_ */
+#endif/*_SA2B_LANDTABLE_H_*/

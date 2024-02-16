@@ -32,7 +32,7 @@ TEX_FILETABLE;
 /************************/
 EXTERN_START
 /** Returns '-1' on failure, or '1' on success **/
-sint32  texLoadTextureFile(const char* fname, NJS_TEXLIST* ptlo);
+int32_t  texLoadTextureFile(const char* fname, NJS_TEXLIST* ptlo);
 
 /** Loads each 'pTexTables' entry, then copies its TexNames into every TexList in 'pTexListLists'.
     All arrays must end with a NULL entry. Free also NULLs texture info inside 'pTexListLists'. **/
@@ -48,9 +48,9 @@ void            texFreeTexture(NJS_TEXLIST* ptlo);
 
 /** Internal Funcs **/
 /** Returns '0' on failure, '1' on success **/
-sint32  texLoadTexturePakFile(const char* fname, NJS_TEXLIST* ptlo);
+int32_t  texLoadTexturePakFile(const char* fname, NJS_TEXLIST* ptlo);
 /** Returns '-1' on failure, or '1' on success **/
-sint32  texLoadTexturePrsFile(const char* fname, NJS_TEXLIST* ptlo);
+int32_t  texLoadTexturePrsFile(const char* fname, NJS_TEXLIST* ptlo);
 
 EXTERN_END
 
@@ -59,7 +59,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptr **/
-#define texLoadTextureFile_p        FuncPtr(sint32      , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
+#define texLoadTextureFile_p        FuncPtr(int32_t      , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
 #define texCreateTextureFile_p      FuncPtr(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
 /** User-Function ptr **/

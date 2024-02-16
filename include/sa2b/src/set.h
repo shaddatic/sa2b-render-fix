@@ -28,31 +28,31 @@ typedef void(__cdecl* task_exec)(TASK*);
 /************************/
 typedef union _UNION_STATUS
 {
-    float32 fRangeOut;
-    sint32 pObjSleepCondition;
+    float32_t fRangeOut;
+    int32_t pObjSleepCondition;
 }
 UNION_STATUS;
 
 typedef struct _OBJ_EDITENTRY
 {
-    uint16 usID;
-    sint16 rotx;
-    sint16 roty;
-    sint16 rotz;
-    float32 xpos;
-    float32 ypos;
-    float32 zpos;
-    float32 xscl;
-    float32 yscl;
-    float32 zscl;
+    uint16_t usID;
+    int16_t rotx;
+    int16_t roty;
+    int16_t rotz;
+    float32_t xpos;
+    float32_t ypos;
+    float32_t zpos;
+    float32_t xscl;
+    float32_t yscl;
+    float32_t zscl;
 }
 OBJ_EDITENTRY;
 
 typedef struct _OBJ_CONDITION
 {
-    uint8 scCount;
-    uint8 scUserFlag;
-    sint16 ssCondition;
+    uint8_t scCount;
+    uint8_t scUserFlag;
+    int16_t ssCondition;
     TASK* pTask;
     OBJ_EDITENTRY* pObjEditEntry;
     UNION_STATUS unionStatus;
@@ -61,10 +61,10 @@ OBJ_CONDITION;
 
 typedef struct _OBJ_ITEMENTRY
 {
-    uint8 ucInitMode;
-    uint8 ucLevel;
-    sint16 ssAttribute;
-    float32 fRange;
+    uint8_t ucInitMode;
+    uint8_t ucLevel;
+    int16_t ssAttribute;
+    float32_t fRange;
     task_exec fnExec;
     char* strObjName;
 }
@@ -72,7 +72,7 @@ OBJ_ITEMENTRY;
 
 typedef struct _OBJ_ITEMTABLE
 {
-    sint32 slCount;
+    int32_t slCount;
     OBJ_ITEMENTRY* pObjItemEntry;
 }
 OBJ_ITEMTABLE;
@@ -81,8 +81,8 @@ OBJ_ITEMTABLE;
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  CheckRangeOut(TASK* tp);
-sint32  CheckRangeOutWithR(TASK* tp, float fRange);
+int32_t  CheckRangeOut(TASK* tp);
+int32_t  CheckRangeOutWithR(TASK* tp, float fRange);
 
 void    ObjectGenericExec(TASK* tp);
 

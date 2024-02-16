@@ -21,8 +21,8 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_Swim(TASK* tp);
-sint32  ALBHV_SwimPuha(TASK* tp);
+int32_t  ALBHV_Swim(TASK* tp);
+int32_t  ALBHV_SwimPuha(TASK* tp);
 
 EXTERN_END
 

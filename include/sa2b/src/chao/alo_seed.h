@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_seed.h'
 *
-*   Contains enums, data, & functions related to Chao World seeds.
+*   Description:
+*       Contains enums, data, & functions related to Chao World
+*   seeds.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -15,27 +17,31 @@
 /************************/
 /*  Includes            */
 /************************/
+/** Ninja **/
 #include <sa2b/ninja/njcommon.h>
+
+/** Colli Info **/
+#include <sa2b/src/c_colli/ccl_info.h>
 
 /************************/
 /*  Abstract Types      */
 /************************/
 typedef struct task             TASK;
 typedef struct item_save_info   ITEM_SAVE_INFO;
-typedef struct ccl_info         CCL_INFO;
 
 /************************/
 /*  Enums               */
 /************************/
 typedef enum /* Toolkit addition */
 {
-    SEED_MORIMORI = 0x00, // Strong
-    SEED_PAKUPAKU = 0x01, // Tasty
-    SEED_HERO = 0x02,
-    SEED_DARK = 0x03,
-    SEED_MARU = 0x04, // Round
-    SEED_SANKAKU = 0x05, // Triangle
-    SEED_SIKAKU = 0x06 // Square
+    SEED_MORIMORI,  // Strong
+    SEED_PAKUPAKU,  // Tasty
+    SEED_HERO,      // Hero
+    SEED_DARK,      // Dark
+    SEED_MARU,      // Round
+    SEED_SANKAKU,   // Triangle
+    SEED_SIKAKU,    // Square
+    NB_SEED_KIND
 }
 eSEED_KIND;
 
@@ -43,18 +49,18 @@ eSEED_KIND;
 /*  Data                */
 /************************/
 /** Collision info **/
-#define ALO_SeedColInfo     DataPtr(CCL_INFO, 0x008A73F8)
+#define ALO_SeedColInfo     DataAry(CCL_INFO, 0x008A73F8, [1])
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK* ALO_SeedCreate(eSEED_KIND kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+TASK*   ALO_SeedCreate(eSEED_KIND kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
 
 /** Task functions **/
-void ALO_SeedExecutor(TASK* tp);
-void ALO_SeedDisplayer(TASK* tp);
-void ALO_SeedDestructor(TASK* tp);
+void    ALO_SeedExecutor(TASK* tp);
+void    ALO_SeedDisplayer(TASK* tp);
+void    ALO_SeedDestructor(TASK* tp); // Same function as many other ALO objects
 
 EXTERN_END
 
@@ -63,11 +69,11 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define ALO_SeedCreate_p        FuncPtr(TASK*, __cdecl, (eSEED_KIND kind, NJS_VECTOR* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x549B00)
-#define ALO_SeedExecutor_p      FuncPtr(void , __cdecl, (TASK*), 0x549860)
-#define ALO_SeedDisplayer_p     FuncPtr(void , __cdecl, (TASK*), 0x5498E0)
-#define ALO_SeedDestructor_p    FuncPtr(void , __cdecl, (TASK*), 0x0057B9B0) // Same function as many other ALO objects
+#define ALO_SeedCreate_p        FuncPtr(TASK*, __cdecl, (eSEED_KIND, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00549B00)
+#define ALO_SeedExecutor_p      FuncPtr(void , __cdecl, (TASK*)                                                , 0x00549860)
+#define ALO_SeedDisplayer_p     FuncPtr(void , __cdecl, (TASK*)                                                , 0x005498E0)
+#define ALO_SeedDestructor_p    FuncPtr(void , __cdecl, (TASK*)                                                , 0x0057B9B0) 
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCLUDE_FUNC_PTRS*/
 
-#endif /* _SA2B_CHAO_SEED_H_ */
+#endif/*_SA2B_CHAO_SEED_H_*/

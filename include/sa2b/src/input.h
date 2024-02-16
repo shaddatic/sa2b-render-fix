@@ -1,7 +1,8 @@
-﻿/*
+/*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/input.h'
 * 
-*   Contains structures and data related to game input.
+*   Description:
+*       Contains structures and data related to game input.
 * 
 *   Contributors: 
 *   -   SEGA - Sonic Team,
@@ -36,8 +37,8 @@
 /************************/
 typedef struct
 {
-    sint32  angle;
-    float32 stroke;
+    int32_t  angle;
+    float32_t stroke;
 }
 SONIC_INPUT;
 
@@ -48,8 +49,8 @@ SONIC_INPUT;
 *   'G' & external data is affected by 'ucInputStatus'
 */
 /** Disable/Enable Input **/
-#define ucInputStatus               DataRef(uint8          , 0x0174AFFE)
-#define ucInputStatusForEachPlayer  DataAry(uint8          , 0x0174AFFF, [2])
+#define ucInputStatus               DataRef(uint8_t        , 0x0174AFFE)
+#define ucInputStatusForEachPlayer  DataAry(uint8_t        , 0x0174AFFF, [2])
 
 /** Controller Input **/
 #define per                         DataAry(PDS_PERIPHERAL*, 0x01DEFB60, [8])
@@ -72,30 +73,30 @@ SONIC_INPUT;
 #define action_release              DataAry(bool           , 0x01DEFB42, [2])
 
 /** Advertize Switch Input Internal **/
-#define SWDATA                      DataAry(uint32         , 0x01DEFB10, [4])
-#define SWDATAE                     DataAry(uint32         , 0x01DEFAB0, [4])
+#define SWDATA                      DataAry(uint32_t       , 0x01DEFB10, [4])
+#define SWDATAE                     DataAry(uint32_t       , 0x01DEFAB0, [4])
 
 /** Advertize Switch Input External **/
-#define swdata                      DataAry(uint32         , 0x01DEFBE0, [4])
-#define swdatae                     DataAry(uint32         , 0x01DEFB50, [4])
+#define swdata                      DataAry(uint32_t       , 0x01DEFBE0, [4])
+#define swdatae                     DataAry(uint32_t       , 0x01DEFB50, [4])
 
 /** Advertize Repeat Timer Internal **/
-#define SW_REP                      DataAry(sint32         , 0x01934BF0, [4])
+#define SW_REP                      DataAry(int32_t        , 0x01934BF0, [4])
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Global pad read set and check **/
-void    PadReadOn(void);
-void    PadReadOff(void);
-bool32  CheckPadReadMode(void);
+void        PadReadOn(        void );
+void        PadReadOff(       void );
+bool32_t    CheckPadReadMode( void );
 
 /** Player specific pad read set and check **/
-void    PadReadOnP(uint8 pno);
-void    PadReadOffP(uint8 pno);
-bool32  CheckPadReadModeP(uint8 pno);
+void        PadReadOnP(        uint8_t pno );
+void        PadReadOffP(       uint8_t pno );
+bool32_t    CheckPadReadModeP( uint8_t pno );
 
 EXTERN_END
 
-#endif /* _SA2B_INPUT_H_ */
+#endif/*_SA2B_INPUT_H_*/

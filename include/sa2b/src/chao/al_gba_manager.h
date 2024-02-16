@@ -78,17 +78,17 @@ EGbaStatus;
 typedef struct 
 {
     EGbaCheck check;
-    sint32 NotGbaTimer;
-    uint16 kind;
+    int32_t NotGbaTimer;
+    uint16_t kind;
     GBAPortMode mode;
-    sint32 IsROM;
-    sint32 KinderFlag;
-    sint32 ToridasuFlag[11];
-    sint32 ExistFlag[11];
+    int32_t IsROM;
+    int32_t KinderFlag;
+    int32_t ToridasuFlag[11];
+    int32_t ExistFlag[11];
     CHAO_PARAM_GC* pToridasuChaoParam;
-    sint32 ToridasuEggColor;
-    sint32 ToridasuRing;
-    uint8 ToridasuFruit[8];
+    int32_t ToridasuEggColor;
+    int32_t ToridasuRing;
+    uint8_t ToridasuFruit[8];
     CHAO_SAVE_INFO data;
     CHAO_SAVE_INFO dataEgg;
 }
@@ -97,10 +97,10 @@ GBA_PORT_INFO;
 typedef struct
 {
     GBAManMode mode;
-    sint32 debugDisp;
-    sint32 IsBusy;
+    int32_t debugDisp;
+    int32_t IsBusy;
     TASK* tp;
-    bool32 IsOdekake;
+    bool32_t IsOdekake;
     CHAO_PARAM_GC* pChaoParam;
     GBA_PORT_INFO PortInfo[4];
 }

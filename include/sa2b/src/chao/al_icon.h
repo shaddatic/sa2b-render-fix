@@ -21,7 +21,7 @@ typedef struct task     TASK;
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  AL_CalcIconColor(TASK* tp);
+int32_t  AL_CalcIconColor(TASK* tp);
 
 EXTERN_END
 

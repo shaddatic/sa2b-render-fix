@@ -48,12 +48,11 @@
 /************************/
 EXTERN_START
 /** Pop-up a message box for the user **/
-int     UserMessageBox(const char* header, const char* body, uint input, uint icon);
-int     UserMessageBoxW(const wchar_t* header, const wchar_t* body, uint input, uint icon);
+int     UserMessageBox(const utf8* header, const utf8* body, uint32_t input, uint32_t icon);
 
 /** Pop-up common, basic message boxes for the user **/
-int     UserWarningMessageBox(const char* header, const char* body);
-int     UserErrorMessageBox(const char* header, const char* body);
+int     UserWarningMessageBox(const utf8* header, const utf8* body);
+int     UserErrorMessageBox(const utf8* header, const utf8* body);
 
 EXTERN_END
 

@@ -39,6 +39,12 @@ mod_handle* ModGetHandleID(const char* pID);
 mod_handle* ModGetHandleDll(const char* pDllName);
 mod_handle* ModGetHandleName(const char* pName);
 
+/** Get total number of mods in active modlist **/
+int         ModGetTotalNumber();
+
+/** Get mod handle by active modlist postion **/
+mod_handle* ModGetHandlePosition(int index);
+
 /** Simple 'if exist' functions **/
 bool        ModCheckID(const char* pID);
 bool        ModCheckDll(const char* pDllName);

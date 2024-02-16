@@ -38,7 +38,7 @@ EXTERN_START
 /** Open file with UTF-8 path string **/
 FILE*   uFileOpen(const utf8* pPath, ufmode mode);
 /** Buffer entire file, opt. return size **/
-byte*   uFileLoad(const utf8* pPath, size_t* pOptRetSize); 
+void*   uFileLoad(const utf8* pPath, size_t* pOptRetSize); 
 
 void    uFileRename(const utf8* pOrig, const utf8* pNew);
 bool    uFileCopy(const utf8* pOrig, const utf8* pNew);

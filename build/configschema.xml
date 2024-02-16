@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
 	<Groups>
-		<Group name="main" display="00 • Global Render Settings                     ------------------------------------------------------------">
+		<Group name="main" display="00 • Global Render Settings">
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
@@ -20,48 +20,66 @@
 			<Property name="screen_tint" display="Fix Screen Tint" type="eSTINT" defaultvalue="1">
 				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values.</HelpText>
 			</Property>
+			<Property name="spotlite" display="Fix Spot Lights" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes many spot lights, such as the Egg Walker's flashlight, by replacing a, commonly used, vertex shader that incorrectly treats them as directional lights.</HelpText>
+			</Property>
 			<Property name="env_flip" display="Flip Environment Map Textures" type="eBOOL" defaultvalue="1">
 				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="shadows" display="01 • Shadow Settings                              ------------------------------------------------------------">
-			<Property name="enable" display="Enable Shadows" type="eSHAD_MODE" defaultvalue="2">
-				<HelpText>If the shadows should be visible at all.</HelpText>
+		<Group name="shadows" display="01 • Shadow Settings">
+			<Property name="cheap_shadow" display="Enable Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
+				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of accuracy.</HelpText>
 			</Property>
-			<Property name="equipment" display="Enable Upgrade Shadows" type="eBOOL" defaultvalue="1">
-				<HelpText>If upgrade shadows should be visible. NOTE: Requires Enhanced Shadows.</HelpText>
+			<Property name="mode_gl" display="Global Shadows" type="eSHAD_MODE" defaultvalue="2">
+				<HelpText>Which shadow type should be used globally (excluding player characters). 'Modifier' is the Dreamcast shadow system.</HelpText>
+			</Property>
+			<Property name="mode_pl" display="Character Shadows" type="eSHAD_PL_MODE" defaultvalue="2">
+				<HelpText>Which shadow type is cast by the player character.</HelpText>
 			</Property>
 			<Property name="resolution" display="Shadow Resolution" type="eSHAD_RES" defaultvalue="1">
 				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
 			</Property>
-			<Property name="opacity" display="Shadow Opacity" type="eSHAD_OPACITY" defaultvalue="0">
-				<HelpText>Changes the darkness/opacity of the shadows. While Dreamcast's opacity can be fully recreated, GameCube's opacity sadly can't be due to blending differences - so an aproximation is used instead.</HelpText>
+			<Property name="opacity_gl" display="Global Opacity" type="eSHAD_OPACITY" defaultvalue="1">
+				<HelpText>Changes the darkness/opacity of the shadows outside of Chao World. The GameCube's opacity is only an aproximation.</HelpText>
+			</Property>
+			<Property name="opacity_ch" display="Chao World Opacity" type="eSHAD_OPACITY" defaultvalue="2">
+				<HelpText>Changes the darkness/opacity of the shadows in Chao World. The Dreamcast version used lighter shadows for Chao World.</HelpText>
 			</Property>
 		</Group>
-		<Group name="rest" display="02 • Restoration Settings                         ------------------------------------------------------------">
-			<Property name="jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
+		<Group name="common" display="02 • Common Settings">
+			<Property name="e_jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
 			</Property>
-			<Property name="emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
+			<Property name="e_emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
-			<Property name="ai_shield" display="DC GUN Hunter Shield" type="eBOOL" defaultvalue="1">
+			<Property name="e_ai_shield" display="DC GUN Hunter Shield" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the Dreamcast's version of the Hunter's Shield, which looks noticeable less broken.</HelpText>
 			</Property>
-			<Property name="enemy_stg_tex" display="Stage Specific Enemy Textures" type="eBOOL" defaultvalue="1">
+			<Property name="e_stg_tex" display="Stage Specific Enemy Textures" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores enemy textures that were specific to some stages in the Dreamcast version.</HelpText>
 			</Property>
-			<Property name="chaos_trans" display="Artificial Chaos Transparency" type="eBOOL" defaultvalue="1">
+			<Property name="e_chaos_trans" display="Artificial Chaos Transparency" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores Artificial Chaos Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
-			<Property name="bloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
+			<Property name="balloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
-			<Property name="goal_trans" display="Goal Ring Transparency" type="eBOOL" defaultvalue="1">
+			<Property name="goalring_trans" display="Goal Ring Transparency" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores Goal Ring Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
+			</Property>
+			<Property name="udreel" display="Pulley Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the rendering of the Up Down Reel (player pully), including the Dreamcast flashing effect.</HelpText>
+			</Property>
+			<Property name="itembox" display="Item-Box Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the rendering of the Item-Box, specifically where the bubble/glass would always draw over the item instead of around it. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
+			</Property>
+			<Property name="e_explosion" display="Explosion Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Forces explosions to use the sorted display layer.</HelpText>
 			</Property>
 			<Property name="mizugomi" display="Water Particulates" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the floating water particles from the Dreamcast version.</HelpText>
@@ -69,19 +87,19 @@
 			<Property name="dc_ring" display="DC Ring Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
 			</Property>
-			<Property name="udreel" display="Flashing Pulley" type="eBOOL" defaultvalue="0">
-				<HelpText>Restores the Dreamcast flashing pulley effect. NOTE: Occasionally slightly buggy.</HelpText>
-			</Property>
 		</Group>
-		<Group name="stgsel" display="03 • Stage Select Settings                       ------------------------------------------------------------">
-			<Property name="stretch" display="Stretch Fix" type="eBOOL" defaultvalue="1">
+		<Group name="m_menus" display="03 • Main Menus Settings">
+		<Property name="fade_fix" display="16:9 Fade Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes element fade issues when in a wider aspect ratio than native 4:3.</HelpText>
+		</Property>
+		<Property name="map_stretch" display="Stage Select: Stretch Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
-			</Property>
-		<Property name="textbar" display="Restore Text Bar" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the blue text bar from the Dreamcast version.</HelpText>
+		</Property>
+		<Property name="map_textbar" display="Stage Select: Restore Text Bar" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the blue text bar in the Stage Select menu from the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="eget" display="04 • Emblem Get Settings                         ------------------------------------------------------------">
+		<Group name="eget" display="04 • Emblem Get Settings">
 			<Property name="fadein" display="Fade Restore" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
 			</Property>
@@ -89,22 +107,27 @@
 				<HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_escape" display="05 • City Escape Settings                         ------------------------------------------------------------">
+		<Group name="w_jungle" display="05 • White Jungle Settings">
+			<Property name="water_fog" display="Water Transparancy Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes the draw order of the water and fog surfaces.</HelpText>
+			</Property>
+		</Group>
+		<Group name="c_escape" display="06 • City Escape Settings">
 			<Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="a_mine" display="06 • Aquatic Mine Settings                       ------------------------------------------------------------">
+		<Group name="a_mine" display="07 • Aquatic Mine Settings">
 			<Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="c_core" display="07 • Cannon's Core Settings                     ------------------------------------------------------------">
+		<Group name="c_core" display="08 • Cannon's Core Settings">
 			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="bossbogy" display="08 • King Boom Boo Settings                    ------------------------------------------------------------">
+		<Group name="bossbogy" display="09 • King Boom Boo Settings">
 			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
 			</Property>
@@ -115,7 +138,7 @@
 				<HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="cart" display="09 • Cart Stages                                     ------------------------------------------------------------">
+		<Group name="cart" display="0A • Cart Stages">
 			<Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
 			</Property>
@@ -123,17 +146,17 @@
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="event" display="0A • Events                                            ------------------------------------------------------------">
+		<Group name="event" display="0B • Events">
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
 		</Group>
-		<Group name="exp" display="FE • Experimental Settings                       ------------------------------------------------------------">
-			<Property name="enemy_shadows" display="Restore Extra Shadows" type="eBOOL" defaultvalue="0">
-				<HelpText>Restores Enemy and Minimal shadows by re-using left over code and drawing SADX-like shadows. This was also likely what the devs originally planned to do, as there's examples of them using the same method elswhere.</HelpText>
+		<Group name="experimental" display="FE • Experimental Settings">
+			<Property name="shd_opacity_sw" display="Change Shadow Map Opacity in Chao World" type="eBOOL" defaultvalue="0">
+				<HelpText>An experimental feature that allows the vanilla shadow maps to change opacity while in Chao World, to match the Dreamcast modifier shadows.</HelpText>
 			</Property>
 		</Group>
-		<Group name="debug" display="FF • Debug Settings                                ------------------------------------------------------------">
+		<Group name="debug" display="FF • Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
 				<HelpText>Allow writing to the obj.pak file. It's very unlikely this feature will need to be disabled, however the option is here if needed.</HelpText>
 			</Property>
@@ -145,6 +168,9 @@
 			</Property>
 			<Property name="bfc_event" display="Disable Back-Face Culling in Events" type="eBOOL" defaultvalue="1">
 				<HelpText>Disables back-face culling in events/cutscenes.</HelpText>
+			</Property>
+			<Property name="chaos0tex" display="Custom Chaos 0 Model Support" type="eBOOL" defaultvalue="1">
+				<HelpText>Overrides the texture animation system Chaos 0 uses to allow the use of custom models, if this is off the game will otherwise crash.</HelpText>
 			</Property>
 			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="1">
 				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight. Unlikely to cause issues, but is here if it does.</HelpText>
@@ -165,10 +191,21 @@
 			<EnumMember name="1" display="Enabled"></EnumMember>
 			<EnumMember name="0" display="Keep Tint"></EnumMember>
 		</Enum>
+		<Enum name="eMOD_MODE">
+			<EnumMember name="2" display="Enabled"></EnumMember>
+			<EnumMember name="1" display="Performance"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
 		<Enum name="eSHAD_MODE">
-			<EnumMember name="2" display="Enhanced"></EnumMember>
+			<EnumMember name="2" display="Modifier (Dreamcast)"></EnumMember>
 			<EnumMember name="1" display="Vanilla"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="eSHAD_PL_MODE">
+			<EnumMember name="3" display="Modifier (Dreamcast)"></EnumMember>
+			<EnumMember name="2" display="Enhanced w/ Equipment"></EnumMember>
+			<EnumMember name="1" display="Enhanced"></EnumMember>
+			<EnumMember name="0" display="Vanilla"></EnumMember>
 		</Enum>
 		<Enum name="eSHAD_RES">
 			<EnumMember name="5" display="8192 x 8192 - (Imperceivable)"></EnumMember>
@@ -179,10 +216,9 @@
 			<EnumMember name="0" display="256 x 256 ----- (Very Low)"></EnumMember>
 		</Enum>
 		<Enum name="eSHAD_OPACITY">
-			<EnumMember name="3" display="50.0% - (Dreamcast: Chao Garden)"></EnumMember>
-			<EnumMember name="2" display="62.5% - (Dreamcast)"></EnumMember>
-			<EnumMember name="1" display="70.0% - (GameCube: Aproximate)"></EnumMember>
-			<EnumMember name="0" display="75.0% - (PC/Vanilla)"></EnumMember>
+			<EnumMember name="2" display="54.9% - (Dreamcast: Chao World)"></EnumMember>
+			<EnumMember name="1" display="68.6% - (Dreamcast)"></EnumMember>
+			<EnumMember name="0" display="75.0% - (Vanilla)"></EnumMember>
 		</Enum>
 	</Enums>
 </ConfigSchema>

@@ -38,13 +38,13 @@ enum
 /************************/
 EXTERN_START
 /** Check alignment **/
-bool32  AL_IsHero(uint8 type);
-bool32  AL_IsHero2(TASK* pChaoTask);
-bool32  AL_IsDark(uint8 type);
-bool32  AL_IsDark2(TASK* pChaoTask);
+bool32_t  AL_IsHero(uint8_t type);
+bool32_t  AL_IsHero2(TASK* pChaoTask);
+bool32_t  AL_IsDark(uint8_t type);
+bool32_t  AL_IsDark2(TASK* pChaoTask);
 
 /** Get Chao skill points adjusted by stage **/
-uint32  AL_ParameterGetSkill(TASK* tp, uint16 SkillKind);
+uint32_t  AL_ParameterGetSkill(TASK* tp, uint16_t SkillKind);
 
 /** Set param control timers to 0 **/
 void    AL_ParameterControlInit(void);

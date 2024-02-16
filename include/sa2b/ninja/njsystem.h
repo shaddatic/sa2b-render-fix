@@ -64,17 +64,46 @@
 #define NJD_MODIFIER_INSIDE                 0x20000000
 #define NJD_MODIFIER_OUTSIDE                0x40000000
 
+enum {
+    NJD_SYSTEM_CTX = 0,
+    NJD_DEBUG_CTX,
+    NJD_NINDOWS_CTX,
+    NJD_USER0_CTX,
+    NJD_USER1_CTX,
+    NJD_USER2_CTX,
+    NJD_CONTEXT_MAX
+};
+
+typedef struct {
+    Float	xad, yad;		/* aspect * dist	*/
+    Float   cx, cy;			/* screen center	*/
+    Float	ooxad, ooyad;	/* 1.0 / aspect * dist	*/
+    Float   dist;			/* screen distance	*/
+    Float	ax, ay;			/* aspect			*/
+    Float	aspect;			/* aspect ay/ax		*/
+    Float   w, h;			/* screen size		*/
+} NJS_SCREEN;
+
+typedef struct {
+    Float		f_clip;			/* far clip			*/
+    Float		n_clip;			/* near clip		*/
+    Float		x1, x0, y1, y0;	/* screen clip		*/
+    NJS_POINT2	d[2];			/* 2d clip			*/
+} NJS_CLIP;
+
 /*--------------------------------------*/
 /*      Render Mode Data                */
 /*--------------------------------------*/
+#define _nj_screen_                         DataRef(NJS_SCREEN, 0x02670300)
+#define _nj_clip_                           DataRef(NJS_CLIP  , 0x02670560)
 
-#define _nj_control_3d_flag_                DataRef(Uint32, 0x25F02D8)
+#define _nj_control_3d_flag_                DataRef(Uint32    , 0x025F02D8)
 
-#define _nj_vertex_buf_                     DataRef(void*, 0x025EFE48)
-#define _nj_constant_attr_and_              DataRef(Uint32, 0x025F0268)
-#define _nj_constant_attr_or_               DataRef(Uint32, 0x025F02D4)
-#define _nj_constant_material_              DataRef(NJS_ARGB, 0x025EFFD0) 
-#define _nj_cnk_blend_mode_                 DataRef(Uint32, 0x025F0264)
+#define _nj_vertex_buf_                     DataRef(void*     , 0x025EFE48)
+#define _nj_constant_attr_and_              DataRef(Uint32    , 0x025F0268)
+#define _nj_constant_attr_or_               DataRef(Uint32    , 0x025F02D4)
+#define _nj_constant_material_              DataRef(NJS_ARGB  , 0x025EFFD0) 
+#define _nj_cnk_blend_mode_                 DataRef(Uint32    , 0x025F0264)
 
 /************************/
 /*  System              */
@@ -92,7 +121,6 @@ void    njColorBlendingMode(Int target, Int mode);
 void    njSpecularMode(Int mode);
 void    njIgnoreTextureAlphaMode(Int mode);
 void    njTextureShadingMode(Int mode);
-void    njSetCheapShadowMode(Int mode);
 void    njUserClipping(Int mode, NJS_POINT2* p);
 void    njGetSystemAttr(NJS_SYS_ATTR* attr);
 void    njSetSystemAttr(NJS_SYS_ATTR* attr);

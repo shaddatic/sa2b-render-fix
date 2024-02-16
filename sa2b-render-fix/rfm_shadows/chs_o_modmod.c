@@ -1,0 +1,38 @@
+#include <sa2b/core.h>
+#include <sa2b/memutil.h>
+
+/** Ninja **/
+#include <sa2b/ninja/ninja.h>
+
+/** Source **/
+#include <sa2b/src/task.h>
+#include <sa2b/src/debug.h>
+
+/** Render Fix **/
+#include <rf_draw.h>
+#include <rf_util.h>
+
+#define ModModModelList     DataAry(NJS_CNK_MODEL*, 0x00B4D830, [3])
+
+static void
+ObjectModModDisplayer(TASK* tp)
+{
+    TASKWK* const twp = tp->twp;
+
+    njPushMatrixEx();
+
+    njTranslateEx(&twp->pos);
+    njRotateX(NULL, twp->ang.x);
+    njRotateY(NULL, twp->ang.y);
+    njScale(NULL, twp->scl.x + 1.0f, twp->scl.y + 1.0f, twp->scl.z + 1.0f);
+    njCnkModDrawModel(ModModModelList[twp->wtimer]);
+
+    njPopMatrixEx();
+}
+
+void
+CHS_ModModInit()
+{
+    SwitchDisplayer(0x005F55AA, DISP_SHAD);
+    WriteJump(0x006C7B20, ObjectModModDisplayer);
+}

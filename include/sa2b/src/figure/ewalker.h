@@ -23,26 +23,12 @@
 /************************/
 /*  Structures          */
 /************************/
+#define GET_WALKERWK(_tp)       ((WALKERWK*)tp->awp)
+
 typedef struct walkerwk
 {
-    PLAYERWK pwk;
-    char field_1BC[128];
-    float field_23C;
-    char field_240[4];
-    float field_244;
-    NJS_POINT3 somePoint;
-    float field_254;
-    float field_258;
-    float field_25C;
-    char field_260[120];
-    float field_2D8;
-    float field_2DC;
-    float field_2E0;
-    NJS_POINT3 somePoint2;
-    float field_2F0;
-    float field_2F4;
-    float field_2F8;
-    char field_2FC[96];
+    PLAYERWK pw;
+
     char field_35C;
     char field_35D;
     char field_35E;
@@ -75,16 +61,17 @@ typedef struct walkerwk
     float field_440;
     NJS_TEXLIST* CommonTextureList;
     NJS_TEXLIST* TextureList;
-    CHAR_OBJECT* ModelList;
-    PLAYER_MOTION* MotionList;
+    PL_OBJECT* ModelList;
+    PL_MOTION* MotionList;
 }
 WALKERWK;
 
 /************************/
 /*  Data                */
 /************************/
-#define pEWalkerWork                    DataRef(WALKERWK* , 0x01A51F0C)
+#define EggWalkerWorkPointer            DataRef(WALKERWK* , 0x01A51F0C)
 
+#define mtx_EWalkerBase                 DataRef(NJS_MATRIX, 0x01A51F70)
 #define mtx_EWalkerLaserBlaster         DataRef(NJS_MATRIX, 0x01A51EAC)
 #define mtx_EWalkerLargeCannon          DataRef(NJS_MATRIX, 0x01A51D2C)
 #define mtx_EWalkerJetEngineL           DataRef(NJS_MATRIX, 0x01A52000)

@@ -22,8 +22,8 @@ typedef struct task     TASK;
 /************************/
 EXTERN_START
 /** Load Omochao dialog file **/
-sint32  LoadMessengerFile(const char* f);
-sint32  FreeMessengerFile(void);
+int32_t  LoadMessengerFile(const char* f);
+int32_t  FreeMessengerFile(void);
 
 /** Task functions **/
 void    ObjectMessengerCreate(TASK* tp);
@@ -40,7 +40,7 @@ EXTERN_END
 #define ObjectMessengerCreate_p         FuncPtr(void, __cdecl, (TASK*), 0x6C0780)
 #define ObjectMessengerExec_p           FuncPtr(void, __cdecl, (TASK*), 0x006BE2E0)
 #define ObjectMessengerDestructor_p     FuncPtr(void, __cdecl, (TASK*), 0x006C0970)
-#define FreeMessengerFile_p             FuncPtr(sint32, __cdecl, (), 0x006BD5D0)
+#define FreeMessengerFile_p             FuncPtr(int32_t, __cdecl, (), 0x006BD5D0)
 
 /** User-Function ptr **/
 EXTERN const void* const LoadMessengerFile_p;

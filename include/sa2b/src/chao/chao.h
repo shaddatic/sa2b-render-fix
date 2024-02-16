@@ -16,14 +16,22 @@
 /************************/
 /*  Includes            */
 /************************/
+/** Ninja **/
 #include <sa2b/ninja/ninja.h>
+
+/** Source **/
 #include <sa2b/src/motion.h>
+
+/** Task Work **/
+#include <sa2b/src/task/taskwk.h>
+
+/** Colli Info **/
+#include <sa2b/src/c_colli/ccl_info.h>
 
 /************************/
 /*  Abstract Types      */
 /************************/
 typedef struct task                     TASK;
-typedef struct colliwk                  COLLIWK;
 typedef struct chao_param_gc            CHAO_PARAM_GC;
 typedef struct al_entry_work            ALW_ENTRY_WORK;
 typedef struct al_object                AL_OBJECT;
@@ -32,95 +40,95 @@ typedef struct al_group_object_list     AL_GROUP_OBJECT_LIST;
 /************************/
 /*  Typedefs            */
 /************************/
-typedef sint32(__cdecl* BHV_FUNC)(TASK*);
+typedef int32_t(__cdecl* BHV_FUNC)(TASK*);
 
 /************************/
 /*  Enums               */
 /************************/
 typedef enum
 {
-    AL_COLOR_NORMAL = 0x0,
-    AL_COLOR_YELLOW = 0x1,
-    AL_COLOR_WHITE = 0x2,
-    AL_COLOR_BROWN = 0x3,
-    AL_COLOR_SKYBLUE = 0x4,
-    AL_COLOR_PINK = 0x5,
-    AL_COLOR_BLUE = 0x6,
-    AL_COLOR_GRAY = 0x7,
-    AL_COLOR_GREEN = 0x8,
-    AL_COLOR_RED = 0x9,
-    AL_COLOR_APPLEGREEN = 0xA,
-    AL_COLOR_PURPLE = 0xB,
-    AL_COLOR_ORANGE = 0xC,
-    AL_COLOR_BLACK = 0xD,
-    NB_AL_COLOR = 0xE,
+    AL_COLOR_NORMAL,
+    AL_COLOR_YELLOW,
+    AL_COLOR_WHITE,
+    AL_COLOR_BROWN,
+    AL_COLOR_SKYBLUE,
+    AL_COLOR_PINK,
+    AL_COLOR_BLUE,
+    AL_COLOR_GRAY,
+    AL_COLOR_GREEN,
+    AL_COLOR_RED,
+    AL_COLOR_APPLEGREEN,
+    AL_COLOR_PURPLE,
+    AL_COLOR_ORANGE,
+    AL_COLOR_BLACK,
+    NB_AL_COLOR,
 }
 eAL_COLOR;
 
 typedef enum
 {
-    MEDAL_NONE = 0x0,
-    MEDAL_AQU = 0x1,
-    MEDAL_TOP = 0x2,
-    MEDAL_PER = 0x3,
-    MEDAL_GAR = 0x4,
-    MEDAL_ONY = 0x5,
-    MEDAL_DIA = 0x6,
-    MEDAL_SILVER = 0x7,
-    MEDAL_GOLD = 0x8,
-    MEDAL_HERO = 0x9,
-    MEDAL_DARK = 0xA,
-    MEDAL_PERAL = 0xB,
-    MEDAL_AME = 0xC,
-    MEDAL_EME = 0xD,
-    MEDAL_RUB = 0xE,
-    MEDAL_SAP = 0xF,
+    MEDAL_NONE,
+    MEDAL_AQU,
+    MEDAL_TOP,
+    MEDAL_PER,
+    MEDAL_GAR,
+    MEDAL_ONY,
+    MEDAL_DIA,
+    MEDAL_SILVER,
+    MEDAL_GOLD,
+    MEDAL_HERO,
+    MEDAL_DARK,
+    MEDAL_PERAL,
+    MEDAL_AME,
+    MEDAL_EME,
+    MEDAL_RUB,
+    MEDAL_SAP,
 }
 eMEDAL_PARTS;
 
 typedef enum
 {
-    AL_ILLNESS_SEKI = 0x0,
-    AL_ILLNESS_KUSYAMI = 0x1,
-    AL_ILLNESS_KAYUI = 0x2,
-    AL_ILLNESS_HANAMIZU = 0x3,
-    AL_ILLNESS_SYAKKURI = 0x4,
-    AL_ILLNESS_HARAITA = 0x5,
-    NB_AL_ILLNESS = 0x6,
+    AL_ILLNESS_SEKI,
+    AL_ILLNESS_KUSYAMI,
+    AL_ILLNESS_KAYUI,
+    AL_ILLNESS_HANAMIZU,
+    AL_ILLNESS_SYAKKURI,
+    AL_ILLNESS_HARAITA,
+    NB_AL_ILLNESS,
 }
 eAL_ILLNESS;
 
 enum
 {
-    TYPE_NONE = 0x0,
-    TYPE_EGG = 0x1,
-    TYPE_CHILD = 0x2,
-    TYPE_DUMMY1 = 0x3,
-    TYPE_DUMMY2 = 0x4,
-    TYPE_N_NORMAL = 0x5,
-    TYPE_H_NORMAL = 0x6,
-    TYPE_D_NORMAL = 0x7,
-    TYPE_N_SWIM = 0x8,
-    TYPE_H_SWIM = 0x9,
-    TYPE_D_SWIM = 0xA,
-    TYPE_N_FLY = 0xB,
-    TYPE_H_FLY = 0xC,
-    TYPE_D_FLY = 0xD,
-    TYPE_N_RUN = 0xE,
-    TYPE_H_RUN = 0xF,
-    TYPE_D_RUN = 0x10,
-    TYPE_N_POWER = 0x11,
-    TYPE_H_POWER = 0x12,
-    TYPE_D_POWER = 0x13,
-    TYPE_N_CHAOS = 0x14,
-    TYPE_H_CHAOS = 0x15,
-    TYPE_D_CHAOS = 0x16,
-    TYPE_TAILS = 0x17,
-    TYPE_KNUCKLES = 0x18,
-    TYPE_AMY = 0x19,
-    TYPE_MINIMAL = 0x1A,
-    TYPE_OMOCHAO = 0x1B,
-    TYPE_EGG_FOOT = 0x1C,
+    TYPE_NONE,
+    TYPE_EGG,
+    TYPE_CHILD,
+    TYPE_DUMMY1,
+    TYPE_DUMMY2,
+    TYPE_N_NORMAL,
+    TYPE_H_NORMAL,
+    TYPE_D_NORMAL,
+    TYPE_N_SWIM,
+    TYPE_H_SWIM,
+    TYPE_D_SWIM,
+    TYPE_N_FLY,
+    TYPE_H_FLY,
+    TYPE_D_FLY,
+    TYPE_N_RUN,
+    TYPE_H_RUN,
+    TYPE_D_RUN,
+    TYPE_N_POWER,
+    TYPE_H_POWER,
+    TYPE_D_POWER,
+    TYPE_N_CHAOS,
+    TYPE_H_CHAOS,
+    TYPE_D_CHAOS,
+    TYPE_TAILS,
+    TYPE_KNUCKLES,
+    TYPE_AMY,
+    TYPE_MINIMAL,
+    TYPE_OMOCHAO,
+    TYPE_EGG_FOOT,
 };
 
 typedef enum /* Toolkit addition */
@@ -137,65 +145,65 @@ eCHAO_GARDEN;
 
 typedef enum
 {
-    HONBU_NORMAL = 0x0,
-    HONBU_FIRE_OBAKE = 0x1,
+    HONBU_NORMAL,
+    HONBU_FIRE_OBAKE,
 }
 eAL_HONBU_BASE;
 
 enum
 {
-    MD_ICON_NORMAL = 0x0,
-    MD_ICON_BIKKURI = 0x1,
-    MD_ICON_HIRAMEKI = 0x2,
-    MD_ICON_HATENA = 0x3,
-    MD_ICON_HEART = 0x4,
-    MD_ICON_MOJYA = 0x5,
+    MD_ICON_NORMAL,
+    MD_ICON_BIKKURI,
+    MD_ICON_HIRAMEKI,
+    MD_ICON_HATENA,
+    MD_ICON_HEART,
+    MD_ICON_MOJYA,
 };
 
 enum
 {
-    ICON_TEX_NUM_TAMA = 0x0,
-    ICON_TEX_NUM_BIKKURI = 0x1,
-    ICON_TEX_NUM_HATENA = 0x2,
-    ICON_TEX_NUM_HEART = 0x3,
-    ICON_TEX_NUM_MOJYA = 0x4,
-    ICON_TEX_NUM_TOGE = 0x5,
-    ICON_TEX_NUM_TENSHI = 0x6,
-    ICON_TEX_NUM_MARU = 0x7,
-    ICON_TEX_NUM_BATSU = 0x8,
-    ICON_TEX_NUM_LIGHT = 0x9,
-    ICON_TEX_NUM_NONE = 0xA,
+    ICON_TEX_NUM_TAMA,
+    ICON_TEX_NUM_BIKKURI,
+    ICON_TEX_NUM_HATENA,
+    ICON_TEX_NUM_HEART,
+    ICON_TEX_NUM_MOJYA,
+    ICON_TEX_NUM_TOGE,
+    ICON_TEX_NUM_TENSHI,
+    ICON_TEX_NUM_MARU,
+    ICON_TEX_NUM_BATSU,
+    ICON_TEX_NUM_LIGHT,
+    ICON_TEX_NUM_NONE,
 };
 
 enum
 {
-    AL_FORM_NORMAL = 0x0,
-    AL_FORM_EGG_FOOT = 0x1,
-    AL_FORM_OMOCHAO = 0x2,
-    AL_FORM_MINIMAL = 0x3,
-    AL_FORM_CHIBI = 0x4,
+    AL_FORM_NORMAL,
+    AL_FORM_EGG_FOOT,
+    AL_FORM_OMOCHAO,
+    AL_FORM_MINIMAL,
+    AL_FORM_CHIBI,
 };
 
 typedef enum
 {
-    JewelColor_Normal = 0x0,
-    JewelColor_Gold = 0x1,
-    JewelColor_Silver = 0x2,
-    JewelColor_Ruby = 0x3,
-    JewelColor_Sapphire = 0x4,
-    JewelColor_Emerald = 0x5,
-    JewelColor_Amethyst = 0x6,
-    JewelColor_Aquamarine = 0x7,
-    JewelColor_Garnet = 0x8,
-    JewelColor_Onyx = 0x9,
-    JewelColor_Peridot = 0xA,
-    JewelColor_Topaz = 0xB,
-    JewelColor_Pearl = 0xC,
-    JewelColor_Env0 = 0xD,    // Metal_1
-    JewelColor_Env1 = 0xE,    // Metal_2
-    JewelColor_Env2 = 0xF,    // Glass
-    JewelColor_Env3 = 0x10,    // Moon
-    JewelColor_Env4 = 0x11,    // Rare Tex
+    JewelColor_Normal,
+    JewelColor_Gold,
+    JewelColor_Silver,
+    JewelColor_Ruby,
+    JewelColor_Sapphire,
+    JewelColor_Emerald,
+    JewelColor_Amethyst,
+    JewelColor_Aquamarine,
+    JewelColor_Garnet,
+    JewelColor_Onyx,
+    JewelColor_Peridot,
+    JewelColor_Topaz,
+    JewelColor_Pearl,
+    JewelColor_Env0,    // Metal_1
+    JewelColor_Env1,    // Metal_2
+    JewelColor_Env2,    // Glass
+    JewelColor_Env3,    // Moon
+    JewelColor_Env4,    // Rare Tex
 }
 JewelColor;
 
@@ -316,23 +324,23 @@ eCHAO_FLAGS;
 
 enum
 {
-    INT_TIMER_PLAYER = 0x0,
-    INT_TIMER_CHAO = 0x1,
-    INT_TIMER_GREET = 0x2,
-    INT_TIMER_SING = 0x3,
-    INT_TIMER_MUSIC = 0x4,
-    INT_TIMER_DANCE = 0x5,
-    INT_TIMER_ART = 0x6,
-    INT_TIMER_TOY = 0x7,
-    INT_TIMER_LTOY = 0x8,
-    INT_TIMER_MINIMAL = 0x9,
-    INT_TIMER_TV = 0xA,
-    INT_TIMER_RADICASE = 0xB,
-    INT_TIMER_BOX = 0xC,
-    INT_TIMER_BALL = 0xD,
-    INT_TIMER_GOO = 0xE,
-    INT_TIMER_AKUBI = 0xF,
-    NB_INT_TIMER = 0x10,
+    INT_TIMER_PLAYER,
+    INT_TIMER_CHAO,
+    INT_TIMER_GREET,
+    INT_TIMER_SING,
+    INT_TIMER_MUSIC,
+    INT_TIMER_DANCE,
+    INT_TIMER_ART,
+    INT_TIMER_TOY,
+    INT_TIMER_LTOY,
+    INT_TIMER_MINIMAL,
+    INT_TIMER_TV,
+    INT_TIMER_RADICASE,
+    INT_TIMER_BOX,
+    INT_TIMER_BALL,
+    INT_TIMER_GOO,
+    INT_TIMER_AKUBI,
+    NB_INT_TIMER,
 };
 
 /************************/
@@ -340,56 +348,61 @@ enum
 /************************/
 typedef struct
 {
-    uint8 Exp[8];
-    uint8 Abl[8];
-    uint8 Lev[8];
-    uint16 Skills[8];
+    uint8_t  Exp[8];
+    uint8_t  Abl[8];
+    uint8_t  Lev[8];
+    uint16_t Skills[8];
 }
 TMP_PARAM;
 
 typedef struct
 {
-    int bhv;
+    int32_t bhv;
 }
 KW_BHV_ENTRY;
 
 typedef struct 
 {
-    uint16 Flag;
-    uint16 Mode;
-    uint16 SubMode;
-    uint16 MoveMode;
-    sint32 InterruptFlag;
-    sint32 Timer;
-    sint32 SubTimer;
-    sint32 LimitTimer;
-//  sint32 BehaviorTimer;        // SADX Only
-    uint16 Intention;
-    uint16 IntentionMode;
-    uint16 IntentionSubMode;
-    uint32 IntentionTimer[18]; 
-    uint32 IntervalTimer[128];
-    sint32 FreeWork;
-    float32 MoveRadius;
-    NJS_POINT3 BasePos;
-    BHV_FUNC PrevFunc;
-    sint32 nbBhvFuncEntry;
-    sint32 CurrBhvFuncNum;
-    BHV_FUNC BhvFuncList[16];
-    sint32 ReserveTimerList[16];
-    sint32 CurrKwBhvNum;
+    uint16_t     Flag;
+    uint16_t     Mode;
+    uint16_t     SubMode;
+    uint16_t     MoveMode;
+    int32_t      InterruptFlag;
+    int32_t      Timer;
+    int32_t      SubTimer;
+    int32_t      LimitTimer;
+//  sint32       BehaviorTimer; // SADX Only
+    uint16_t     Intention;
+    uint16_t     IntentionMode;
+    uint16_t     IntentionSubMode;
+    uint32_t     IntentionTimer[18]; 
+    uint32_t     IntervalTimer[128];
+    int32_t      FreeWork;
+    float32_t    MoveRadius;
+    NJS_POINT3   BasePos;
+    BHV_FUNC     PrevFunc;
+    int32_t      nbBhvFuncEntry;
+    int32_t      CurrBhvFuncNum;
+    BHV_FUNC     BhvFuncList[16];
+    int32_t      ReserveTimerList[16];
+    int32_t      CurrKwBhvNum;
     KW_BHV_ENTRY KwBhvList[4];
-    uint32 dummy[16];
+    uint32_t     dummy[16];
 }
 AL_BEHAVIOR;
 
 typedef struct
 {
+    /** Shape object **/
     AL_OBJECT* pObject;
     AL_OBJECT* CurrObjectList[40];
+
+    /** Shape object lists **/
     AL_GROUP_OBJECT_LIST* pObjectList;
     AL_GROUP_OBJECT_LIST* pObjectListH;
     AL_GROUP_OBJECT_LIST* pObjectListD;
+
+    /** Positions **/
     NJS_POINT3 BodyPos;
     NJS_POINT3 HeadPos;
     NJS_POINT3 LeftHandPos;
@@ -397,65 +410,73 @@ typedef struct
     NJS_POINT3 LeftFootPos;
     NJS_POINT3 RightFootPos;
     NJS_POINT3 MouthPos;
-    NJS_POINT3 MouthVec;
-    NJS_POINT3 LeftEyePos;
-    NJS_POINT3 LeftEyeVec;
-    NJS_POINT3 RightEyePos;
-    NJS_POINT3 RightEyeVec;
+
+    /** Vectors **/
+    NJS_VECTOR MouthVec;
+    NJS_VECTOR LeftEyePos;
+    NJS_VECTOR LeftEyeVec;
+    NJS_VECTOR RightEyePos;
+    NJS_VECTOR RightEyeVec;
+
+    /** Left hand item **/
     NJS_CNK_OBJECT* pLeftHandItemObject;
-    NJS_TEXLIST* pLeftHandItemTexlist;
-    float LeftHandItemScale;
-    float LeftHandItemActiveFlag;
+    NJS_TEXLIST*    pLeftHandItemTexlist;
+    float32_t       LeftHandItemScale;
+    float32_t       LeftHandItemActiveFlag;
+
+    /** Right hand item **/
     NJS_CNK_OBJECT* pRightHandItemObject;
-    NJS_TEXLIST* pRightHandItemTexlist;
-    float RightHandItemScale;
-    float RightHandItemActiveFlag;
-    int palette;
-    short Flag;
-    short ColorNum;
-    short EnvNum;
-    int IconColor;
-    float SclH;
-    float SclV;
-    float CamDist;
+    NJS_TEXLIST*    pRightHandItemTexlist;
+    float32_t       RightHandItemScale;
+    float32_t       RightHandItemActiveFlag;
+
+    /** Shape info **/
+    int32_t   palette;
+    int16_t   Flag;
+    int16_t   ColorNum;
+    int16_t   EnvNum;
+    int32_t   IconColor;
+    float32_t SclH;
+    float32_t SclV;
+    float32_t CamDist;
 }
 AL_SHAPE;
 
 typedef struct
 {
-    sint32 EyeTimer;
-    sint16 EyeColorNum;
-    sint16 EyeCurrNum;
-    sint16 EyeDefaultNum;
-    sint32 MouthTimer;
-    sint16 MouthCurrNum;
-    sint16 MouthDefaultNum;
-    float EyePosX;
-    float EyePosY;
-    float EyeSclX;
-    float EyeSclY;
-    uint32 Flag;
+    int32_t    EyeTimer;
+    int16_t    EyeColorNum;
+    int16_t    EyeCurrNum;
+    int16_t    EyeDefaultNum;
+    int32_t    MouthTimer;
+    int16_t    MouthCurrNum;
+    int16_t    MouthDefaultNum;
+    float32_t  EyePosX;
+    float32_t  EyePosY;
+    float32_t  EyeSclX;
+    float32_t  EyeSclY;
+    uint32_t   Flag;
     AL_OBJECT* pEyeObject[2];
     AL_OBJECT* pMouthObject;
-    sint32 EyeLidBlinkMode;
-    sint32 EyeLidBlinkTimer;
-    sint32 EyeLidBlinkAng;
-    sint32 EyeLidExpressionMode;
-    sint32 EyeLidExpressionTimer;
-    sint32 EyeLidExpressionDefaultCloseAng;
-    sint32 EyeLidExpressionCurrCloseAng;
-    sint32 EyeLidExpressionAimCloseAng;
-    sint32 EyeLidExpressionDefaultSlopeAng;
-    sint32 EyeLidExpressionCurrSlopeAng;
-    sint32 EyeLidExpressionAimSlopeAng;
+    int32_t    EyeLidBlinkMode;
+    int32_t    EyeLidBlinkTimer;
+    int32_t    EyeLidBlinkAng;
+    int32_t    EyeLidExpressionMode;
+    int32_t    EyeLidExpressionTimer;
+    int32_t    EyeLidExpressionDefaultCloseAng;
+    int32_t    EyeLidExpressionCurrCloseAng;
+    int32_t    EyeLidExpressionAimCloseAng;
+    int32_t    EyeLidExpressionDefaultSlopeAng;
+    int32_t    EyeLidExpressionCurrSlopeAng;
+    int32_t    EyeLidExpressionAimSlopeAng;
 }
 AL_FACE_CTRL;
 
 typedef struct
 {
-    uint16 Mode;
-    uint16 TexNum;
-    uint16 Timer;
+    uint16_t Mode;
+    uint16_t TexNum;
+    uint16_t Timer;
     NJS_POINT3 Offset;
     NJS_POINT3 Pos;
     NJS_POINT3 Velo;
@@ -466,16 +487,16 @@ AL_ICON_INFO;
 
 typedef struct
 {
-    sint16 CurrType;
-    sint16 NextType;
-    sint32 Timer;
-    sint32 NextTimer;
-    sint32 PuniPhase;
-    sint32 PosPhase;
-    uint32 Color;
-    uint16 TexAnimNum;
-    uint16 TexAnimTimer;
-    sint32 ang;
+    int16_t CurrType;
+    int16_t NextType;
+    int32_t Timer;
+    int32_t NextTimer;
+    int32_t PuniPhase;
+    int32_t PosPhase;
+    uint32_t Color;
+    uint16_t TexAnimNum;
+    uint16_t TexAnimTimer;
+    int32_t ang;
     NJS_POINT3 Up;
     NJS_POINT3 Pos;
     AL_ICON_INFO Upper;
@@ -485,43 +506,43 @@ AL_ICON;
 
 typedef struct
 {
-    uint16 Flag;
-    uint16 CurrNum;
-    float Ratio;
-    NJS_LINE Plane;
+    uint16_t  Flag;
+    uint16_t  CurrNum;
+    float32_t Ratio;
+    NJS_LINE  Plane;
 }
 AL_ZONE;
 
 typedef struct al_perception_link
 {
-    sint16 info[4];
-    float tgtdist;
-    sint32 InSightFlag;
-    sint32 HearFlag;
-    sint32 SmellFlag;
+    int16_t         info[4];
+    float32_t       tgtdist;
+    int32_t         InSightFlag;
+    int32_t         HearFlag;
+    int32_t         SmellFlag;
     ALW_ENTRY_WORK* pEntry;
 }
 AL_PERCEPTION_LIST[32];
 
 typedef struct
 {
-    uint16 nbPerception;
-    sint32 InSightFlag;
-    sint32 HeardFlag;
-    sint32 SmellFlag;
-    float NearestDist;
-    sint16 NearestNum;
+    uint16_t           nbPerception;
+    int32_t            InSightFlag;
+    int32_t            HeardFlag;
+    int32_t            SmellFlag;
+    float32_t          NearestDist;
+    int16_t            NearestNum;
     AL_PERCEPTION_LIST list;
 }
 AL_PERCEPTION_INFO;
 
 typedef struct
 {
-    float SightRange;
-    sint32 SightAngle;
-    sint32 SightAngleHalf;
-    float HearRange;
-    float SmellRange;
+    float32_t          SightRange;
+    int32_t            SightAngle;
+    int32_t            SightAngleHalf;
+    float32_t          HearRange;
+    float32_t          SmellRange;
     AL_PERCEPTION_INFO Player;
     AL_PERCEPTION_INFO Chao;
     AL_PERCEPTION_INFO Fruit;
@@ -531,80 +552,72 @@ typedef struct
 }
 AL_PERCEPTION;
 
-#define GET_CHAOWK(TP) ((CHAOWK*)TP->twp)
+#define GET_CHAOWK(_tp)     ((CHAOWK*)(_tp)->twp)
 
 typedef struct chaowk
 {
-    char mode;
-    char smode;
-    char id;
-    char btimer;
-    __int16 flag;
-    __int16 wtimer;
-    Angle3 ang;
-    NJS_POINT3 pos;
-    NJS_POINT3 scl;
-    COLLIWK* cwp;
+    TASKWK();
 
-    uint32 Timer;
-    TASK* pMayu;
-    TASK* pBookTask;
-    int NestFlag;
-    TASK* pAnyTask;
-    TASK* pAimTask;
-    int AimNum;
-    int RememberNum;
-    int pitch;
-    float ClimbFirstPos;
-    int IsParamCopy;
+    uint32_t       Timer;
+    TASK*          pMayu;
+    TASK*          pBookTask;
+    int32_t        NestFlag;
+    TASK*          pAnyTask;
+    TASK*          pAimTask;
+    int32_t        AimNum;
+    int32_t        RememberNum;
+    int32_t        pitch;
+    float32_t      ClimbFirstPos;
+    bool32_t       IsParamCopy;
     CHAO_PARAM_GC* pParamGC;
-    TMP_PARAM tmpParam;
-    sint32 Stamina;
-    sint32 AimStamina;
-    TASK* tp;
-    Angle pre_ang[3];
-    uint32 ChaoFlag;
-    uint16 ColliFormat;
-    float CurrZone;
-    MOTION_CTRL MotionCtrl;
-    MOTION_CTRL MiniMotionCtrl;
-    MOTION_TABLE MiniMotionTable[4];
-    AL_BEHAVIOR Behavior;
-    AL_SHAPE Shape;
-    AL_FACE_CTRL Face;
-    AL_ICON Icon;
-    AL_ZONE Zone;
-    AL_PERCEPTION Perception;
-    void* pWork;
+    TMP_PARAM      tmpParam;
+    int32_t        Stamina;
+    int32_t        AimStamina;
+    TASK*          tp;
+    Angle          pre_ang[3];
+    uint32_t       ChaoFlag;
+    uint16_t       ColliFormat;
+    float32_t      CurrZone;
+    MOTION_CTRL    MotionCtrl;
+    MOTION_CTRL    MiniMotionCtrl;
+    MOTION_TABLE   MiniMotionTable[4];
+    AL_BEHAVIOR    Behavior;
+    AL_SHAPE       Shape;
+    AL_FACE_CTRL   Face;
+    AL_ICON        Icon;
+    AL_ZONE        Zone;
+    AL_PERCEPTION  Perception;
+    void*          pWork;
 }
 CHAOWK;
 
 typedef struct al_shape_element
 {
-    uint8 type;
-    uint8 DefaultEyeNum;
-    uint8 DefaultMouthNum;
-    uint8 HonbuNum;
-    uint8 ObakeHead;
-    uint8 ObakeBody;
-    uint8 MedalNum;
-    uint8 ColorNum;
-    uint8 NonTex;
-    uint8 JewelNum;
-    uint8 MultiNum;
-    sint8 MinimalParts[8];
-    sint16 HPos;    // divided by 10'000 on copy
-    sint16 VPos;    // divided by 10'000 on copy
-    sint16 APos;    // divided by 10'000 on copy
-    sint16 Growth;  // divided by 10'000 on copy
-    uint8 name[8];
-    uint16 Skill[8];
+    uint8_t  type;
+    uint8_t  DefaultEyeNum;
+    uint8_t  DefaultMouthNum;
+    uint8_t  HonbuNum;
+    uint8_t  ObakeHead;
+    uint8_t  ObakeBody;
+    uint8_t  MedalNum;
+    uint8_t  ColorNum;
+    uint8_t  NonTex;
+    uint8_t  JewelNum;
+    uint8_t  MultiNum;
+    int8_t   MinimalParts[8];
+    int16_t  HPos;              // divided by 10'000 on copy
+    int16_t  VPos;              // divided by 10'000 on copy
+    int16_t  APos;              // divided by 10'000 on copy
+    int16_t  Growth;            // divided by 10'000 on copy
+    uint8_t  name[8];
+    uint16_t Skill[8];
 }
 AL_SHAPE_ELEMENT;
 
 /************************/
 /*  Data                */
 /************************/
+/** Collision info **/
 #define colli_info_chao     DataAry(CCL_INFO, 0x013134D0, [5])
 
 /************************/
@@ -614,7 +627,7 @@ EXTERN_START
 /** 'pParamGC' can be NULL, and a new paramGC will be generated
     'IsParamCopy' copies given 'pParamGC' info and doesn't add it to the ALW entry save info
     'pElement' can be NULL, moves it's info into Chao's paramGC **/
-TASK*   CreateChaoExtra(CHAO_PARAM_GC* pParamGC, bool32 IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy);
+TASK*   CreateChaoExtra(CHAO_PARAM_GC* pParamGC, bool32_t IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy);
 
 /** Task functions **/
 void    ChaoExecutor(TASK* tp);
@@ -628,7 +641,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** Function ptrs **/
-#define CreateChaoExtra_p       FuncPtr(TASK*, __cdecl, (CHAO_PARAM_GC*, bool32, AL_SHAPE_ELEMENT*, NJS_POINT3*, Angle), 0x005501D0)
+#define CreateChaoExtra_p       FuncPtr(TASK*, __cdecl, (CHAO_PARAM_GC*, bool32_t, AL_SHAPE_ELEMENT*, NJS_POINT3*, Angle), 0x005501D0)
 #define ChaoExecutor_p          FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FE20)
 #define ChaoDestructor_p        FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FF30)
 #define ChaoDisplayer_p         FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FF80)

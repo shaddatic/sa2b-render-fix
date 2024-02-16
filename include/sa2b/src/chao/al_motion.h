@@ -656,11 +656,11 @@ enum
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_SetMotionLink(TASK* tp, sint32 MtnNum);
-void    AL_SetMotionLinkStep(TASK* tp, sint32 MtnNum, uint16 step);
+void    AL_SetMotionLink(TASK* tp, int32_t MtnNum);
+void    AL_SetMotionLinkStep(TASK* tp, int32_t MtnNum, uint16_t step);
 
-sint32  AL_GetMotionNum(TASK* tp);
-float32 AL_GetMotionFrame(TASK* tp);
+int32_t  AL_GetMotionNum(TASK* tp);
+float32_t AL_GetMotionFrame(TASK* tp);
 
 EXTERN_END
 

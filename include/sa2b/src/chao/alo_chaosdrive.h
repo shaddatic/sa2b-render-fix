@@ -39,16 +39,16 @@ eAL_DRIVES;
 /************************/
 /*  Structures          */
 /************************/
-#define GET_AL_CHAOSDRIVE_WORK(tp) ((AL_CHAOSDRIVE_WORK*)tp->twp)
+#define GET_AL_CHAOSDRIVE_WORK(_tp) ((AL_CHAOSDRIVE_WORK*)(_tp)->twp)
 
 typedef struct // TASKWK
 {
-    sint8 mode;
-    sint8 smode;
-    sint8 id;
-    sint8 btimer;
-    sint16 flag;
-    sint16 wtimer;
+    int8_t mode;
+    int8_t smode;
+    int8_t id;
+    int8_t btimer;
+    int16_t flag;
+    int16_t wtimer;
     Angle3 ang;
     NJS_POINT3 pos;
     NJS_POINT3 scl;
@@ -71,7 +71,7 @@ AL_CHAOSDRIVE_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_ChaosDriveCreate(uint8 kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+TASK*   ALO_ChaosDriveCreate(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
 
 /** Task functions **/
 void    ALO_ChaosDriveExecutor(TASK* tp);
@@ -86,7 +86,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCLUDE_FUNC_PTRS
 /** User-Function ptrs **/
-#define ALO_ChaosDriveCreate_p              FuncPtr(TASK*, __cdecl, (uint8 kind, NJS_POINT3* pPos, NJS_VECTOR* idkvector, ITEM_SAVE_INFO* a4), 0x00545600)
+#define ALO_ChaosDriveCreate_p              FuncPtr(TASK*, __cdecl, (uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* idkvector, ITEM_SAVE_INFO* a4), 0x00545600)
 #define ALO_ChaosDriveExecutor_p            FuncPtr(void, __cdecl, (TASK*), 0x005450C0)
 #define ALO_ChaosDriveDisplayer_p           FuncPtr(void, __cdecl, (TASK*), 0x00545150)
 #define ALO_ChaosDriveDestructor_p          FuncPtr(void, __cdecl, (TASK*), 0x005455B0)

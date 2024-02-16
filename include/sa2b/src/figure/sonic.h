@@ -23,32 +23,37 @@
 /************************/
 /*  Structures          */
 /************************/
+#define GET_SONICWK(_tp)    ((SONICWK*)(_tp)->awp)
+
 typedef struct sonicwk
 {
-    PLAYERWK pwk;
-    char field_1BC[428];
+    PLAYERWK pw;
+
+    char field_35C[4];
+    int16_t unks_0;
+    char field_35C_[4];
+    int16_t unks_1;
     __int16 SpindashCounter;
     int field_36A;
     int field_36E;
     int field_372;
     __int16 field_376;
     NJS_VECTOR Position_;
-    sint8 gap384[2];
     int field_386;
     int field_38A;
-    __int16 field_38E;
-    float* field_390;
+    PLAYER_OBJECT* pObjectData;
     NJS_TEXLIST* TextureList;
-    CHAR_OBJECT* ModelList;
-    PLAYER_MOTION* MotionList;
+    PL_OBJECT* ModelList;
+    PL_MOTION* MotionList;
 }
-SONICWK;
+SONICWK; // 928
 
 /************************/
 /*  Data                */
 /************************/
-#define pSonicWork          DataRef(SONICWK*  , 0x01A51A9C)
+#define SonicWorkPointer    DataRef(SONICWK*  , 0x01A51A9C)
 
+#define mtx_SonicBase       DataRef(NJS_MATRIX, 0x01A51A00)
 #define mtx_SonicHandL      DataRef(NJS_MATRIX, 0x01A51A3C)
 #define mtx_SonicHandR      DataRef(NJS_MATRIX, 0x01A51AA0)
 #define mtx_SonicFootL      DataRef(NJS_MATRIX, 0x01A51A6C)

@@ -24,12 +24,12 @@ typedef struct chao_param_gc    CHAO_PARAM_GC;
 /************************/
 typedef struct
 {
-    uint8 mLev;
-    uint8 mExpNum;
-    uint16 mSkill;
-    sint32 mLevelUpCount;
-    sint32 mLevelUpLocation;
-    sint16 mSkillDiff;
+    uint8_t mLev;
+    uint8_t mExpNum;
+    uint16_t mSkill;
+    int32_t mLevelUpCount;
+    int32_t mLevelUpLocation;
+    int16_t mSkillDiff;
 }
 SEachWork;
 
@@ -37,27 +37,27 @@ SEachWork;
 
 typedef struct // ANYWK
 {
-    sint8 mode;
-    sint8 smode;
-    sint32 timer;
-    sint32 timer2;
-    sint8 countV;
-    uint8 flag;
-    float32 posX;
-    float32 posY;
-    float32 aimX;
-    float32 aimY;
-    float32 alpha;
-    float32 size;
-    sint32 phase;
-    sint32 phase2;
-    sint32 location;
-    sint32 loc_timer;
+    int8_t mode;
+    int8_t smode;
+    int32_t timer;
+    int32_t timer2;
+    int8_t countV;
+    uint8_t flag;
+    float32_t posX;
+    float32_t posY;
+    float32_t aimX;
+    float32_t aimY;
+    float32_t alpha;
+    float32_t size;
+    int32_t phase;
+    int32_t phase2;
+    int32_t location;
+    int32_t loc_timer;
     TASK* pChaoTask;
     CHAO_PARAM_GC* pParamGC;
-    sint32 mExpUpdating;
-    sint32 mExpUpdateWait;
-    sint32 mLevelUpJingle;
+    int32_t mExpUpdating;
+    int32_t mExpUpdateWait;
+    int32_t mLevelUpJingle;
     SEachWork mEach[5];
 }
 SParamFukidasiWork;

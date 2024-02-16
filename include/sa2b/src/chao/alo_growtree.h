@@ -44,67 +44,84 @@ eTREE_KIND;
 
 typedef enum
 {
-    TREE_ST_PLANT = 0x0,
-    TREE_ST_SEED = 0x1,
-    TREE_ST_SAPLING = 0x2,
-    TREE_ST_ADULT = 0x3,
-    TREE_ST_DEAD = 0x4,
-    TREE_ST_LOCAL = 0x5,
+    TREE_ST_PLANT,
+    TREE_ST_SEED,
+    TREE_ST_SAPLING,
+    TREE_ST_ADULT,
+    TREE_ST_DEAD,
+    TREE_ST_LOCAL,
 }
 eTREE_STATE;
+
+enum
+{
+    MD_PLANT,
+    MD_SEED,
+    MD_SEED_TO_SAPLING,
+    MD_SEED_TO_SAPLING2,
+    MD_SAPLING,
+    MD_SAPLING_GROW,
+    MD_SAPLING_GROW2,
+    MD_ADULT,
+    MD_DEAD,
+    MD_DEAD2,
+    MD_FADEOUT,
+};
 
 /************************/
 /*  Structures          */
 /************************/
 typedef struct
 {
-    float32 growth;
-    float32 AimGrowth;
-    sint32 SwingCounter;
+    float32_t growth;
+    float32_t AimGrowth;
+    int32_t SwingCounter;
     NJS_POINT3 pos;
-    sint32 angx;
-    sint32 angy;
+    int32_t angx;
+    int32_t angy;
 }
 FRUIT_INFO;
 
+#define GET_TREE_WORK(_tp)      ((TREE_WORK*)_tp->twp)
+
 typedef struct // TASKWK
 {
-    sint8 mode;
-    sint8 smode;
-    sint8 id;
-    sint8 btimer;
-    sint16 flag;
-    sint16 wtimer;
+    int8_t mode;
+    int8_t smode;
+    int8_t id;
+    int8_t btimer;
+    int16_t flag;
+    int16_t wtimer;
     Angle3 ang;
     NJS_POINT3 pos;
     NJS_POINT3 scl;
     COLLIWK* cwp;
 
-    uint8 type;
-    uint8 state;
-    float32 growth;
-    sint32 life;
-    sint32 water;
-    uint8 pos_num;
+    uint8_t type;
+    uint8_t state;
+    float32_t growth;
+    int32_t life;
+    int32_t water;
+    uint8_t pos_num;
     FRUIT_INFO fruit[3];
-    float32 scale;
-    float32 scaleSpd;
-    sint32 ThirstyFlag;
-    sint32 WaterFlag;
-    sint32 LeafRotAng;
-    float32 LeafWidth;
-    sint32 LeafDispNum;
+    float32_t scale;
+    float32_t scaleSpd;
+    int32_t ThirstyFlag;
+    int32_t WaterFlag;
+    int32_t LeafRotAng;
+    float32_t LeafWidth;
+    int32_t LeafDispNum;
     Angle FruitRotAng;
-    float32 FruitWidth;
-    sint32 FruitDisplayNum;
-    sint32 SwingFlag;
-    sint32 SwingCountFlag;
-    float32 SwingDist;
+    float32_t FruitWidth;
+    int32_t FruitDisplayNum;
+    int32_t SwingFlag;
+    int32_t SwingCountFlag;
+    float32_t SwingDist;
     Angle RollAngle;
     Angle TouchAngle;
-    sint32 ChaoSwingPhase;
-    sint32 RollPhase;
-    sint32 garden;
+    int32_t ChaoSwingPhase;
+    int32_t RollPhase;
+    int32_t garden;
     TREE_SAVE_INFO* pMySaveInfo;
     NJS_TEXLIST* texlist;
     NJS_CNK_OBJECT* pLocalObject;
@@ -124,7 +141,7 @@ TREE_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_GrowTreeCreate(NJS_POINT3* pPos, TREE_SAVE_INFO* info);
+TASK*   ALO_GrowTreeCreate(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo);
 
 /** Task functions **/
 void    ALO_GrowTreeExecutor(TASK* tp);
@@ -132,8 +149,8 @@ void    ALO_GrowTreeDisplayer(TASK* tp);
 void    ALO_GrowTreeDestructor(TASK* tp);
 
 /** Internal functions **/
-void    CalcFruitPos(NJS_POINT3* pPos, TREE_WORK* pTree, sint32 FruitNum);
-void    CalcFruitPosSub(NJS_POINT3* pPos, TREE_WORK* pTree, NJS_CNK_OBJECT* pObject, sint32 FruitNum);
+void    CalcFruitPos(NJS_POINT3* pPos, TREE_WORK* pTree, int32_t FruitNum);
+void    CalcFruitPosSub(NJS_POINT3* pPos, TREE_WORK* pTree, NJS_CNK_OBJECT* pObject, int32_t FruitNum);
 
 EXTERN_END
 
@@ -146,8 +163,8 @@ EXTERN_END
 #define ALO_GrowTreeExecutor_p      FuncPtr(void , __cdecl, (TASK*)                                           , 0x00546810)
 #define ALO_GrowTreeDisplayer_p     FuncPtr(void , __cdecl, (TASK*)                                           , 0x00547E70)
 #define ALO_GrowTreeDestructor_p    FuncPtr(void , __cdecl, (TASK*)                                           , 0x005481E0)
-#define CalcFruitPos_p              FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, sint32)                 , 0x00546670)
-#define CalcFruitPosSub_p           FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, NJS_CNK_OBJECT*, sint32), 0x00546530)
+#define CalcFruitPos_p              FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, int32_t)                 , 0x00546670)
+#define CalcFruitPosSub_p           FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, NJS_CNK_OBJECT*, int32_t), 0x00546530)
 
 #endif /* SAMT_INCLUDE_FUNC_PTRS */
 

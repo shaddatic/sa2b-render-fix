@@ -178,7 +178,7 @@
 /** Mouse return struct **/
 typedef struct
 {
-    sint16 x, y;
+    int16_t x, y;
 }
 mouse_pos, mouse_vec;
 
@@ -202,7 +202,7 @@ void    InputGamepadEnable(int user);
 void    InputGamepadDisable(int user);
 
 /** Returns most recent button press **/
-uint16  InputGamepadPoll(int user);
+uint16_t  InputGamepadPoll(int user);
 
 /* 
 *   Held      : Always active
@@ -210,15 +210,15 @@ uint16  InputGamepadPoll(int user);
 *
 *   Both support combining buttons with OR
 */
-bool    InputGamepadHeld(int user, uint16 input);
-bool    InputGamepadPress(int user, uint16 input);
+bool    InputGamepadHeld(int user, uint16_t input);
+bool    InputGamepadPress(int user, uint16_t input);
 
 /** Returns analog value of given analog input **/
-int     InputGamepadAnalog(int user, uint16 input);
+int     InputGamepadAnalog(int user, uint16_t input);
 
 /** 'ticks' refers to the number of update calls **/
-void    InputGamepadFeedback(int user, uint16 ticks, uint16 lr);
-void    InputGamepadFeedbackLR(int user, uint16 ticks, uint16 l, uint16 r);
+void    InputGamepadFeedback(int user, uint16_t ticks, uint16_t lr);
+void    InputGamepadFeedbackLR(int user, uint16_t ticks, uint16_t l, uint16_t r);
 
 /************************/
 /*  Keyboard Functions  */
@@ -227,7 +227,7 @@ void    InputGamepadFeedbackLR(int user, uint16 ticks, uint16 l, uint16 r);
 bool    InputKeyboardEvent(void);
 
 /** Returns most recent key press **/
-uint8   InputKeyboardPoll(void);
+uint8_t   InputKeyboardPoll(void);
 
 /*
 *   Held      : Always active
@@ -235,8 +235,8 @@ uint8   InputKeyboardPoll(void);
 *
 *   Uses KEY defines and MS-VK defines
 */
-bool    InputKeyboardHeld(uint8 key);
-bool    InputKeyboardPress(uint8 key);
+bool    InputKeyboardHeld(uint8_t key);
+bool    InputKeyboardPress(uint8_t key);
 
 /** Returns state of toggle keys **/
 bool    InputKeyboardCapsLocked(void);

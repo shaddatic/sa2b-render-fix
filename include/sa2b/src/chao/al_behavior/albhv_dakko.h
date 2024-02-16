@@ -21,11 +21,11 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_DakkoNormal(TASK* tp);
-sint32  ALBHV_DakkoDislike(TASK* tp);
-sint32  ALBHV_DakkoLike(TASK* tp);
-sint32  ALBHV_DakkoTron(TASK* tp);
-sint32  ALBHV_Dakko(TASK* tp);
+int32_t  ALBHV_DakkoNormal(TASK* tp);
+int32_t  ALBHV_DakkoDislike(TASK* tp);
+int32_t  ALBHV_DakkoLike(TASK* tp);
+int32_t  ALBHV_DakkoTron(TASK* tp);
+int32_t  ALBHV_Dakko(TASK* tp);
 
 EXTERN_END
 

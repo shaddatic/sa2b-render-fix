@@ -21,9 +21,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-sint32  ALBHV_Climb(TASK* tp);
-sint32  ALBHV_Glide(TASK* tp);
-sint32  ALBHV_NoticePlayer(TASK* tp);
+int32_t  ALBHV_Climb(TASK* tp);
+int32_t  ALBHV_Glide(TASK* tp);
+int32_t  ALBHV_NoticePlayer(TASK* tp);
 
 EXTERN_END
 
