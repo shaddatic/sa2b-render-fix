@@ -156,11 +156,11 @@
 			<Property name="draw_mod" display="Draw Shadow Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Draw shadow modifiers from the Dreamcast version. NOTE: Requires Enhanced Displayer to draw correctly.</HelpText>
 			</Property>
-			<Property name="enforce_43" display="Enforce 4:3" type="eBOOL" defaultvalue="0">
-				<HelpText>All events are forced into 4:3 mode, which hides many errors the developers never thought would be seen.</HelpText>
-			</Property>
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
+			</Property>
+			<Property name="enforce_43" display="Enforce 4:3" type="eBOOL" defaultvalue="0">
+				<HelpText>All events are forced into 4:3 mode, which hides many errors the developers never thought would be seen.</HelpText>
 			</Property>
 		</Group>
 		<Group name="experimental" display="FE • Experimental Settings">
