@@ -49,6 +49,7 @@
 #define CNF_GLOBAL_BFACECULL    CNF_SECT_GLOBAL     , "backface_cull"       , 1         /* Back-Face Culling */
 #define CNF_GLOBAL_BACKCOLOR    CNF_SECT_GLOBAL     , "backcolor"           , 1         /* Draw Back-Color */
 #define CNF_GLOBAL_PTCLSCALE    CNF_SECT_GLOBAL     , "ptcl_scl"            , 1         /* Fix Particle Scale */
+#define CNF_GLOBAL_SPRITE       CNF_SECT_GLOBAL     , "sprite"              , 1         /* Fix 3D Sprites */
 #define CNF_GLOBAL_MDLTINT      CNF_SECT_GLOBAL     , "model_tint"          , 2         /* Fix Model Tints */
 #define CNF_GLOBAL_SCRNTINT     CNF_SECT_GLOBAL     , "screen_tint"         , 1         /* Fix Screen Tint */
 #define CNF_GLOBAL_SPOTLITE     CNF_SECT_GLOBAL     , "spotlite"            , 1         /* Fix Spot Lights */

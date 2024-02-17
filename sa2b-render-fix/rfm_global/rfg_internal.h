@@ -29,6 +29,8 @@ void    RFG_EnvMapFlip( void );
 
 void    RFG_TaskDisplayInit( void );
 
+void    RFG_3DSpriteInit( void );
+
 EXTERN_END
 
 #endif/*_RFM_GLOBAL_INTERNAL_H_*/

@@ -216,6 +216,9 @@
     <ClCompile Include="rfm_mstreet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_global\rfg_3dsprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

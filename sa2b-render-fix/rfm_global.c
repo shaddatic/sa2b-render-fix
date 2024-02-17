@@ -167,4 +167,9 @@ RFM_GlobalInit(void)
     }
 
     RFG_TaskDisplayInit();
+
+    if (RF_ConfigGetInt(CNF_GLOBAL_SPRITE))
+    {
+        RFG_3DSpriteInit();
+    }
 }
