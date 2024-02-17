@@ -29,6 +29,7 @@
 #include <rfm_common.h>
 #include <rfm_wjungle.h>
 #include <rfm_cescape.h>
+#include <rfm_mstreet.h>
 #include <rfm_amine.h>
 #include <rfm_ccore.h>
 #include <rfm_menus.h>
@@ -124,6 +125,7 @@ Init(const char* path, const HelperFunctions* pHelpFuncs)
     RFM_MenusInit();
     RFM_WhiteJungleInit();
     RFM_CityEscapeInit();
+    RFM_MissionStreetInit();
     RFM_AquaticMineInit();
     RFM_CannonsCoreInit();
     RFM_BossBogyInit();

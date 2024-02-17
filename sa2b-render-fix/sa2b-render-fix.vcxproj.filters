@@ -213,6 +213,9 @@
     <ClCompile Include="rf_shader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_mstreet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -309,6 +312,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_wjungle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_mstreet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

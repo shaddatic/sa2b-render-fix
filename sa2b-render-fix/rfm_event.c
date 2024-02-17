@@ -280,7 +280,7 @@ EventEntrySetLight(Uint32 flag)
 }
 
 void
-RFM_EventInit()
+RFM_EventInit(void)
 {
     if (RF_ConfigGetInt(CNF_EVENT_TEXANIM))
     {
