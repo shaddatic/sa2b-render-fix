@@ -43,15 +43,13 @@ typedef struct
 }
 DC_EVENT_HEADER;
 
-#define EVENT_DC_KEY    (0xC600000)
-
-#define CheckDCPointer(_ptr)                ((uintptr_t)(_ptr) >= EVENT_DC_KEY && (uintptr_t)(_ptr) < 0x0C900000)
-#define ResolveDCPointer(_ptr, _offset)     (*(uintptr_t*)&(_ptr) = ((uintptr_t)(_ptr) - EVENT_DC_KEY) + (uintptr_t)(_offset))
+#define CheckDCPointer(_ptr, _offset)       ((uintptr_t)(_ptr) && (uintptr_t)(_ptr) < (uintptr_t)(_offset))
+#define ResolveDCPointer(_ptr, _offset)     (*(uintptr_t*)&(_ptr) += (uintptr_t)(_offset))
 
 static void
 FixChunkObjectPointers(NJS_CNK_OBJECT* pObject, uintptr_t offset)
 {
-    if (CheckDCPointer(pObject->model))
+    if (CheckDCPointer(pObject->model, offset))
     {
         ResolveDCPointer(pObject->model, offset);
 
@@ -60,19 +58,19 @@ FixChunkObjectPointers(NJS_CNK_OBJECT* pObject, uintptr_t offset)
         ResolveDCPointer(p_model->vlist, offset);
         ResolveDCPointer(p_model->plist, offset);
     }
-    if (CheckDCPointer(pObject->child))
+    if (CheckDCPointer(pObject->child, offset))
     {
         ResolveDCPointer(pObject->child, offset);
         FixChunkObjectPointers(pObject->child, offset);
     }
-    if (CheckDCPointer(pObject->sibling))
+    if (CheckDCPointer(pObject->sibling, offset))
     {
         ResolveDCPointer(pObject->sibling, offset);
         FixChunkObjectPointers(pObject->sibling, offset);
     }
 }
 
-void
+static void
 ResolveMotionDataPointers(void* pMotionData, size_t nbObject, size_t nbFactor, uintptr_t offset)
 {
     void** pp_key_og = (void**)pMotionData;
@@ -81,7 +79,7 @@ ResolveMotionDataPointers(void* pMotionData, size_t nbObject, size_t nbFactor, u
     {
         for (size_t j = 0; j < nbFactor; ++j)
         {
-            if (CheckDCPointer(*pp_key_og))
+            if (CheckDCPointer(*pp_key_og, offset))
                 ResolveDCPointer(*pp_key_og, offset);
 
             /** To next factor 'p' & 'nb' **/
@@ -115,7 +113,7 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
 {
     const uintptr_t offset = (uintptr_t)pEventHead;
 
-    if (CheckDCPointer(pEventHead->pScenes))
+    if (CheckDCPointer(pEventHead->pScenes, offset))
         ResolveDCPointer(pEventHead->pScenes, offset);
     else
         return; // Idk what to do in this case, so I won't worry about it :)
@@ -126,7 +124,7 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
     {
         DC_EVENT_SCENE* p_scene = &pEventHead->pScenes[i];
 
-        if (CheckDCPointer(p_scene->pEntries))
+        if (CheckDCPointer(p_scene->pEntries, offset))
             ResolveDCPointer(p_scene->pEntries, offset);
         else
             continue;
@@ -137,13 +135,13 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
         {
             DC_EVENT_ENTRY* p_entry = &p_scene->pEntries[j];
 
-            if (CheckDCPointer(p_entry->pObject))
+            if (CheckDCPointer(p_entry->pObject, offset))
             {
                 ResolveDCPointer(p_entry->pObject, offset);
 
                 FixChunkObjectPointers(p_entry->pObject, offset);
 
-                if (CheckDCPointer(p_entry->pMotion))
+                if (CheckDCPointer(p_entry->pMotion, offset))
                 {
                     ResolveDCPointer(p_entry->pMotion, offset);
                     ResolveDCPointer(p_entry->pMotion->mdata, offset);
@@ -158,7 +156,7 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
 }
 
 static DC_EVENT_HEADER*
-EventLoadModifierFile()
+EventLoadModifierFile(void)
 {
     char str[260];
 
@@ -238,7 +236,7 @@ EventDestructor(TASK* tp)
 }
 
 void
-EV_ModifierInit()
+EV_ModifierInit(void)
 {
     WriteJump(0x005FAC80, EventDisplayerMod);
     WritePointer(0x005FBB68, EventDestructor);
