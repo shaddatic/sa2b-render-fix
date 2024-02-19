@@ -38,8 +38,12 @@ EXTERN_START
 /** Open file with UTF-8 path string **/
 FILE*   uFileOpen(const utf8* pPath, ufmode mode);
 /** Buffer entire file, opt. return size **/
-void*   uFileLoad(const utf8* pPath, size_t* pOptRetSize); 
+void*   uFileLoad(const utf8* pPath, size_t* pOptRetSize);
 
+/** Get size of open file buffer **/
+size_t  uFileSize(FILE* f);
+
+/** File manipulation **/
 void    uFileRename(const utf8* pOrig, const utf8* pNew);
 bool    uFileCopy(const utf8* pOrig, const utf8* pNew);
 bool    uFileExists(const utf8* pPath);
