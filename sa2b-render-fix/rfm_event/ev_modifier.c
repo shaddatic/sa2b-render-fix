@@ -162,17 +162,13 @@ EventLoadModifierFile(void)
 
     snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", GetModPath(), EventNum);
 
-    if (!uFileExists(str))
-    {
-    FAIL:
-        OutputFormat("Failed to load: %s", str);
-        return NULL;
-    }
-
     DC_EVENT_HEADER* fevent = uFileLoad(str, NULL);
 
     if (!fevent)
-        goto FAIL;
+    {
+        OutputFormat("Failed to load: %s", str);
+        return NULL;
+    }
 
     OutputFormat("Loading: %s", str);
 
