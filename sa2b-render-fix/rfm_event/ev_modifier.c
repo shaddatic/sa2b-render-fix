@@ -43,29 +43,29 @@ typedef struct
 }
 DC_EVENT_HEADER;
 
-#define CheckDCPointer(_ptr, _offset)       ((uintptr_t)(_ptr) && (uintptr_t)(_ptr) < (uintptr_t)(_offset))
-#define ResolveDCPointer(_ptr, _offset)     (*(uintptr_t*)&(_ptr) += (uintptr_t)(_offset))
+#define CheckEventPointer(_ptr, _offset)       ((uintptr_t)(_ptr) && (uintptr_t)(_ptr) < (uintptr_t)(_offset))
+#define ResolveEventPointer(_ptr, _offset)     (*(uintptr_t*)&(_ptr) += (uintptr_t)(_offset))
 
 static void
 FixChunkObjectPointers(NJS_CNK_OBJECT* pObject, uintptr_t offset)
 {
-    if (CheckDCPointer(pObject->model, offset))
+    if (CheckEventPointer(pObject->model, offset))
     {
-        ResolveDCPointer(pObject->model, offset);
+        ResolveEventPointer(pObject->model, offset);
 
         NJS_CNK_MODEL* p_model = pObject->model;
 
-        ResolveDCPointer(p_model->vlist, offset);
-        ResolveDCPointer(p_model->plist, offset);
+        ResolveEventPointer(p_model->vlist, offset);
+        ResolveEventPointer(p_model->plist, offset);
     }
-    if (CheckDCPointer(pObject->child, offset))
+    if (CheckEventPointer(pObject->child, offset))
     {
-        ResolveDCPointer(pObject->child, offset);
+        ResolveEventPointer(pObject->child, offset);
         FixChunkObjectPointers(pObject->child, offset);
     }
-    if (CheckDCPointer(pObject->sibling, offset))
+    if (CheckEventPointer(pObject->sibling, offset))
     {
-        ResolveDCPointer(pObject->sibling, offset);
+        ResolveEventPointer(pObject->sibling, offset);
         FixChunkObjectPointers(pObject->sibling, offset);
     }
 }
@@ -79,8 +79,8 @@ ResolveMotionDataPointers(void* pMotionData, size_t nbObject, size_t nbFactor, u
     {
         for (size_t j = 0; j < nbFactor; ++j)
         {
-            if (CheckDCPointer(*pp_key_og, offset))
-                ResolveDCPointer(*pp_key_og, offset);
+            if (CheckEventPointer(*pp_key_og, offset))
+                ResolveEventPointer(*pp_key_og, offset);
 
             /** To next factor 'p' & 'nb' **/
             ++pp_key_og;
@@ -113,19 +113,19 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
 {
     const uintptr_t offset = (uintptr_t)pEventHead;
 
-    if (CheckDCPointer(pEventHead->pScenes, offset))
-        ResolveDCPointer(pEventHead->pScenes, offset);
+    if (CheckEventPointer(pEventHead->pScenes, offset))
+        ResolveEventPointer(pEventHead->pScenes, offset);
     else
         return; // Idk what to do in this case, so I won't worry about it :)
 
     const size_t nb_scene = pEventHead->nbScene;
 
-    for (uint32_t i = 0; i < nb_scene; ++i)
+    for (uint32_t i = 0; i <= nb_scene; ++i)
     {
         DC_EVENT_SCENE* p_scene = &pEventHead->pScenes[i];
 
-        if (CheckDCPointer(p_scene->pEntries, offset))
-            ResolveDCPointer(p_scene->pEntries, offset);
+        if (CheckEventPointer(p_scene->pEntries, offset))
+            ResolveEventPointer(p_scene->pEntries, offset);
         else
             continue;
 
@@ -135,16 +135,16 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
         {
             DC_EVENT_ENTRY* p_entry = &p_scene->pEntries[j];
 
-            if (CheckDCPointer(p_entry->pObject, offset))
+            if (CheckEventPointer(p_entry->pObject, offset))
             {
-                ResolveDCPointer(p_entry->pObject, offset);
+                ResolveEventPointer(p_entry->pObject, offset);
 
                 FixChunkObjectPointers(p_entry->pObject, offset);
 
-                if (CheckDCPointer(p_entry->pMotion, offset))
+                if (CheckEventPointer(p_entry->pMotion, offset))
                 {
-                    ResolveDCPointer(p_entry->pMotion, offset);
-                    ResolveDCPointer(p_entry->pMotion->mdata, offset);
+                    ResolveEventPointer(p_entry->pMotion, offset);
+                    ResolveEventPointer(p_entry->pMotion->mdata, offset);
 
                     const size_t nb_object = MDL_CountObject(p_entry->pObject);
 
