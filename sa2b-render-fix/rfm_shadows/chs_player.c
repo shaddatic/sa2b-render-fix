@@ -61,28 +61,6 @@ static NJS_CNK_OBJECT* object_ewalker_foot_mod;
 static NJS_CNK_OBJECT* object_dwalker_body_mod;
 static NJS_CNK_OBJECT* object_dwalker_foot_mod;
 
-const void* const HideSomeCharModels_p = (void*)0x0046F0D0;
-static void
-HideSomeCharModels(int pno)
-{
-    __asm
-    {
-        mov eax, [pno]
-        call HideSomeCharModels_p
-    }
-}
-
-const void* const DrawAndUnhideCharModels_p = (void*)0x0046F1E0;
-static void
-DrawAndUnhideCharModels(int pno)
-{
-    __asm
-    {
-        mov eax, [pno]
-        call DrawAndUnhideCharModels_p
-    }
-}
-
 #define flt_1DEB070         DataRef(float32_t, 0x01DEB070)
 #define MultiIntroPno       DataRef(int8_t   , 0x0174B009)
 
@@ -305,9 +283,7 @@ SonicDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 54 && swp->pw.motion_list)
     {
-        HideSomeCharModels(swp->pw.pl_num);
         njCnkAnimateMotion(CHAR_OBJECTS[swp->pw.mj.plactptr->objnum].pObject, *swp->pw.motion_list, flt_1DEB070);
-        DrawAndUnhideCharModels(swp->pw.pl_num);
     }
     else
     {
@@ -484,9 +460,7 @@ MilesDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 54 && mileswp->pw.motion_list)
     {
-        HideSomeCharModels(mileswp->pw.pl_num);
         njCnkAnimateMotion(CHAR_OBJECTS[mileswp->pw.mj.plactptr->objnum].pObject, *mileswp->pw.motion_list, flt_1DEB070);
-        DrawAndUnhideCharModels(mileswp->pw.pl_num);
     }
     else
     {
@@ -595,9 +569,7 @@ EggmanDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 54 && eggmanwp->pw.motion_list)
     {
-        HideSomeCharModels(eggmanwp->pw.pl_num);
         njCnkAnimateMotion(CHAR_OBJECTS[eggmanwp->pw.mj.plactptr->objnum].pObject, *eggmanwp->pw.motion_list, flt_1DEB070);
-        DrawAndUnhideCharModels(eggmanwp->pw.pl_num);
     }
     else
     {
@@ -966,9 +938,7 @@ KnucklesDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 54 && knwp->pw.motion_list)
     {
-        HideSomeCharModels(knwp->pw.pl_num);
         njCnkAnimateMotion(CHAR_OBJECTS[knwp->pw.mj.plactptr->objnum].pObject, *knwp->pw.motion_list, flt_1DEB070);
-        DrawAndUnhideCharModels(knwp->pw.pl_num);
     }
     else
     {
@@ -1242,9 +1212,7 @@ EggWalkerDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 54 && wwp->pw.motion_list)
     {
-        HideSomeCharModels(wwp->pw.pl_num);
         njCnkAnimateMotion(CHAR_OBJECTS[wwp->pw.mj.plactptr->objnum].pObject, *wwp->pw.motion_list, flt_1DEB070);
-        DrawAndUnhideCharModels(wwp->pw.pl_num);
     }
     else
     {
