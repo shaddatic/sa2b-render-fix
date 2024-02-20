@@ -6,12 +6,8 @@
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
-/** Utility **/
-#include <sa2b/util/devutil.h>
-
 /** Source **/
 #include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
 
 /** Chao **/
 #define SAMT_INCLUDE_FUNC_PTRS
@@ -40,6 +36,8 @@
 #undef  SAMT_INCLUDE_FUNC_PTRS
 
 /** Render Fix **/
+#include <rf_core.h>
+#include <rf_config.h>
 #include <rf_draw.h>
 #include <rf_file.h>
 #include <rf_util.h>
@@ -309,22 +307,6 @@ static void
 ALO_RaceTreeDisplayerMod(TASK* tp)
 {
     TREE_WORK* const twp = GET_TREE_WORK(tp);
-
-    ___NOTE("Consider maybe making this a feature?");
-    if (false)
-    {
-        njPushMatrixEx();
-
-        njTranslateEx(&twp->pos);
-        njRotateY(NULL, twp->ang.y);
-        njTranslate(NULL, 0.0f, 0.5f, 0.0f);
-        njScale(NULL, 1.8f, 1.0f, 1.8f);
-
-        AL_ShadowDraw();
-
-        njPopMatrixEx();
-        return;
-    }
 
     NJS_POINT3 trans;
 
@@ -922,7 +904,9 @@ CHS_ChaoWorldInit()
 
     /** Grow Tree **/
     HookInfoALO_GrowTreeCreate = FuncHook(ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
-    HookInfoALO_RaceTree       = FuncHook(ALO_RaceTree        , ALO_RaceTreeHook);
+
+    if (RF_ConfigGetInt(CNF_EXP_RACETREEMOD))
+        HookInfoALO_RaceTree = FuncHook(ALO_RaceTree, ALO_RaceTreeHook);
 
     /** AL Objects **/
     HookInfoCreateEgg            = FuncHook(CreateEgg_p           , CreateEggHook);
