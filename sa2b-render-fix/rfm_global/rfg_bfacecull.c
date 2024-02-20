@@ -436,6 +436,9 @@ RFG_BackfaceCullingInit()
         CnkObjectMaterialFlagOn(0x00DEEE6C, NJD_FST_DB);    // PLANT3
     }
 
+    /** Big Foot Lightposts **/
+    CnkModelMaterialFlagOn(0x0093D02C, -1, NJD_FST_DB);
+
     /** Pumpkin Hill Train **/
     CnkModelMaterialFlagOn(0x0167AD44, 2, NJD_FST_DB);
     CnkModelMaterialFlagOn(0x0167AD44, 5, NJD_FST_DB);
