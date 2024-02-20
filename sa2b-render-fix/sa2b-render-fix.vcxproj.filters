@@ -219,6 +219,9 @@
     <ClCompile Include="rfm_global\rfg_3dsprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_cgadget.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -318,6 +321,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_mstreet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_cgadget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
