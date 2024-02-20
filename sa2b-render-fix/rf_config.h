@@ -117,6 +117,7 @@
 
 /** Experimental Section **/
 #define CNF_EXP_SHD_OPACITY_SW  CNF_SECT_EXP        , "shd_opacity_sw"      , 0         /* Change Shadow Map Opacity in Chao World */
+#define CNF_EXP_MILESTAILMOD   CNF_SECT_EXP         , "miles_tail_mod"      , 0         /* Draw Tails' Tail Modifier Shadows */
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W      CNF_SECT_DEBUG      , "objpak_write"        , 1         /* Allow Writing To obj.pak */

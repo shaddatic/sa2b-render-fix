@@ -6,9 +6,6 @@
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
-/** Util **/
-#include <sa2b/util/devutil.h>
-
 /** Source **/
 #include <sa2b/src/task.h>
 #include <sa2b/src/player.h>
@@ -29,6 +26,8 @@
 #undef  SAMT_INCLUDE_FUNC_PTRS
 
 /** Render Fix **/
+#include <rf_core.h>
+#include <rf_config.h>
 #include <rf_file.h>
 #include <rf_draw.h>
 
@@ -60,6 +59,8 @@ static NJS_CNK_OBJECT* object_ewalker_body_mod;
 static NJS_CNK_OBJECT* object_ewalker_foot_mod;
 static NJS_CNK_OBJECT* object_dwalker_body_mod;
 static NJS_CNK_OBJECT* object_dwalker_foot_mod;
+
+static bool MilesTailModifiers;
 
 #define flt_1DEB070         DataRef(float32_t, 0x01DEB070)
 #define MultiIntroPno       DataRef(int8_t   , 0x0174B009)
@@ -365,9 +366,8 @@ MilesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
         njScale(NULL, 2.6f, 1.0f, 1.0f);
         DrawBasicShadow();
 
-        ___NOTE("Make this optional");
         /** Miles Tails **/
-        if (true)
+        if (MilesTailModifiers)
         {
             njPopMatrixEx();
             njPushMatrixEx();
@@ -1279,6 +1279,8 @@ CHS_PlayerInit()
 
     WriteRetn(0x00750C40);
     WriteJump(0x0074FF20, MilesDisplayerShadowHook);
+
+    MilesTailModifiers = RF_ConfigGetInt(CNF_EXP_MILESTAILMOD);
 
     /** Eggman **/
     object_eggman_head_mod = RF_ChunkLoadObjectFile("eggman_head_mod");

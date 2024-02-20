@@ -170,6 +170,9 @@
 			<Property name="shd_opacity_sw" display="Change Shadow Map Opacity in Chao World" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that allows the vanilla shadow maps to change opacity while in Chao World, to match the Dreamcast modifier shadows.</HelpText>
 			</Property>
+			<Property name="miles_tail_mod" display="Draw Tails' Tail Modifer Shadows" type="eBOOL" defaultvalue="0">
+				<HelpText>An experimental feature that adds modifier shadows for Tails' Tails. This will likely be further worked on so the shadows better match the tails' animations.</HelpText>
+			</Property>
 		</Group>
 		<Group name="debug" display="FF • Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
