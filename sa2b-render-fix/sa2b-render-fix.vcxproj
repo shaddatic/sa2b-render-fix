@@ -138,7 +138,6 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
-    <None Include="rf_model\basic_shadow.nja" />
     <None Include="rf_model\bunchin_shadow.nja" />
     <None Include="rf_model\ce_truck_hood.nja" />
     <None Include="rf_model\eget.nja" />
