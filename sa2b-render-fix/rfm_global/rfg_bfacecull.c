@@ -19,6 +19,7 @@
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_mdlutil.h>
+#include <rf_eventinfo.h>
 
 typedef struct
 {
@@ -163,13 +164,19 @@ static RFE_CULLMODE CullOverrideMode;
 
 static bool CullEventPatch;
 
-#define isInCutscene DataRef(bool, 0x01934B60) // Found it in sa2b-volume-controls
-
 static void
 StripFlags(uint8_t flag)
 {
-    if (CullEventPatch && isInCutscene)
-        goto CULL_OFF;
+    if (CullEventPatch)
+    {
+        switch (CutsceneMode) {
+        case 0: case 7:
+            break;
+
+        default:
+            goto CULL_OFF;
+        }
+    }
 
     switch (CullOverrideMode) {
     case CULLMD_AUTO:
@@ -582,8 +589,5 @@ RFG_BackfaceCullingInit()
         WriteJump(0x00756A56, JumpAuraFixFlagOff);
     }
 
-    if (RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT))
-    {
-        CullEventPatch = true;
-    }
+    CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }
