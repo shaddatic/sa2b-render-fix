@@ -109,8 +109,8 @@
 #define CNF_CART_SEAFIX         CNF_SECT_CART       , "seafix"              , 1         /* Sea Fix */
 
 /** Event section **/
-#define CNF_EVENT_DISPREPLCE    CNF_SECT_EVENT      , "disp_replace"        , 1         /* Enhanced Displayer */
-#define CNF_EVENT_DRAWEQUIP     CNF_SECT_EVENT      , "draw_equip"          , 1         /* Draw Player Equipment */
+#define CNF_EVENT_DISPREPLCE    CNF_SECT_EVENT      , "disp_replace"        , 0         /* Enhanced Displayer */
+#define CNF_EVENT_DRAWEQUIP     CNF_SECT_EVENT      , "draw_equip"          , 0         /* Draw Player Equipment */
 #define CNF_EVENT_DRAWMOD       CNF_SECT_EVENT      , "draw_mod"            , 1         /* Draw Shadow Modifiers */
 #define CNF_EVENT_43MD          CNF_SECT_EVENT      , "enforce_43"          , 0         /* Enforce 4:3 Mode */
 #define CNF_EVENT_TEXANIM       CNF_SECT_EVENT      , "texanim"             , 1         /* Fix Texture Animations */

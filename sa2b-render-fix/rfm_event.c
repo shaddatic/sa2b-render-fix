@@ -225,8 +225,14 @@ EventDisplayerHook(TASK* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    EventDrawObjects(EVENT_BASE_SCENE, 0, false);
-    EventDrawObjects(EventScene   , 0, false);
+    //EventDrawObjects(EVENT_BASE_SCENE, 0, false);
+    //EventDrawObjects(EventScene   , 0, false);
+
+    for (int i = 0; i < NB_EVENT_LAYER; ++i)
+    {
+        EventDrawObjects(EVENT_BASE_SCENE, i, false);
+        EventDrawObjects(EventScene, i, false);
+    }
 
     if (EventEquipmentEnable)
     {
