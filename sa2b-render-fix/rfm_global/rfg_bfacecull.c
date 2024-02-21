@@ -170,7 +170,7 @@ StripFlags(uint8_t flag)
     if (CullEventPatch)
     {
         switch (CutsceneMode) {
-        case 0: case 7:
+        case 0: case 4: case 7:
             break;
 
         default:
