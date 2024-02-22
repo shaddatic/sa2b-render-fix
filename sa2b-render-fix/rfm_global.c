@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memutil.h>
+#include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -55,6 +56,19 @@ bool
 RF_EnvMapFlip(void)
 {
     return RfgEnvMapFlip;
+}
+
+static hook_info* gjSetPerspectiveHookInfo;
+
+#define gjSetPerspective    FuncPtr(void, __cdecl, (float, float, float), 0x0042B230)
+
+void __cdecl
+gjSetPerspectiveHook(float screen_ratio, float near_clip, float far_clip)
+{
+    if (near_clip == 1.0f)
+        near_clip = 3.0f;
+
+    FuncHookCall( gjSetPerspectiveHookInfo, gjSetPerspective(screen_ratio, near_clip, far_clip) );
 }
 
 void
@@ -172,4 +186,7 @@ RFM_GlobalInit(void)
     {
         RFG_3DSpriteInit();
     }
+
+    if (RF_ConfigGetInt(CNF_EXP_ZFIGHT))
+        gjSetPerspectiveHookInfo = FuncHook(gjSetPerspective, gjSetPerspectiveHook);
 }

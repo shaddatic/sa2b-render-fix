@@ -119,6 +119,7 @@
 #define CNF_EXP_SHD_OPACITY_SW  CNF_SECT_EXP        , "shd_opacity_sw"      , 0         /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_MILESTAILMOD    CNF_SECT_EXP        , "miles_tail_mod"      , 0         /* Draw Tails' Tail Modifier Shadows */
 #define CNF_EXP_RACETREEMOD     CNF_SECT_EXP        , "race_tree_mod"       , 0         /* Draw Race Tree Modifier Shadows */
+#define CNF_EXP_ZFIGHT          CNF_SECT_EXP        , "z_fight"             , 0         /* Z Fight Mitigation */
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W      CNF_SECT_DEBUG      , "objpak_write"        , 1         /* Allow Writing To obj.pak */
