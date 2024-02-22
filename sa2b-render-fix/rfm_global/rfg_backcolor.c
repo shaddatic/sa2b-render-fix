@@ -18,7 +18,7 @@ static Uint32 _nj_back_color_2_;
 #define FadeColor   DataRef(NJS_COLOR, 0x0171CDA0)
 
 void __cdecl
-njDrawBackColor2()
+njDrawBackColor2(void)
 {
     if (FadeColor.argb.a == 0xFF)
         return;
@@ -54,7 +54,7 @@ const void* const RendererClear_p = (void*)0x00867B20;
 
 __declspec(naked)
 static void
-__RendererClearHook()
+__RendererClearHook(void)
 {
     /** 1. Re-push stack objects for OG func call
         2. Call original function, which cleans the new stack
@@ -88,7 +88,7 @@ njSetBackColor2(Uint32 col1, Uint32 col2, Uint32 col3)
 
 __declspec(naked)
 static void
-__njSetBackColor2()
+__njSetBackColor2(void)
 {
     __asm
     {
@@ -118,7 +118,7 @@ SetBackColor(uint32_t b, uint32_t g, uint32_t r)
 #pragma warning( disable : 4409 )
 __declspec(naked)
 static void
-__SetBackColor()
+__SetBackColor(void)
 {
     __asm
     {
@@ -151,7 +151,7 @@ __SetBackColor()
 
 static hook_info* HookInfoUnloadRELFile;
 static void
-UnloadRELFileHook()
+UnloadRELFileHook(void)
 {
     FuncHookCall( HookInfoUnloadRELFile, UnloadRELFile() );
 
@@ -159,7 +159,7 @@ UnloadRELFileHook()
 }
 
 void
-RFG_NinjaBackColorInit()
+RFG_NinjaBackColorInit(void)
 {
     WritePointer(0x008B6FDC, __RendererClearHook);
 
