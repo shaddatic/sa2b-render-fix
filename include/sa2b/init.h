@@ -68,7 +68,7 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    OnFrame()
+    OnFrame(void)
     {
 
     }
@@ -77,7 +77,7 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    OnInput()
+    OnInput(void)
     {
 
     }
@@ -86,7 +86,7 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    OnControl()
+    OnControl(void)
     {
 
     }
@@ -98,6 +98,38 @@ EXTERN_END
     OnExit(uint32_t uExitCode, int a1, int a2)
     {
 
+    }
+*
+*   Execute on device lost:
+*
+    EXPORT_DLL
+    OnRenderDeviceLost(void)
+    {
+        
+    }
+*
+*   Execute on device reset:
+*
+    EXPORT_DLL
+    OnRenderDeviceReset(void)
+    {
+        
+    }
+*
+*   Execute on scene start, but before screen clear:
+*
+    EXPORT_DLL
+    OnRenderSceneStart(void)
+    {
+        
+    }
+*
+*   Execute on scene end:
+*
+    EXPORT_DLL
+    OnRenderSceneEnd(void)
+    {
+        
     }
 *
 *   Valid Mod Info ($ == SA2 or SADX):
