@@ -167,9 +167,6 @@
 			<Property name="race_tree_mod" display="Draw Race Tree Modifier Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that adds modifier shadows for Chao Race Trees. This is pretty much complete and only really needs more testing.</HelpText>
 			</Property>
-			<Property name="z_fight" display="Z Fight Mitigation" type="eBOOL" defaultvalue="0">
-				<HelpText>An experimental feature that attempts to mitigate Z fighting issues by moving the near_plane forward by 2 game units (decimeters).</HelpText>
-			</Property>
 		</Group>
 		<Group name="debug" display="FF • Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
