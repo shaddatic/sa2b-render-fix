@@ -95,6 +95,44 @@ __SOCDrawSpriteWithConstMat(void)
     }
 }
 
+static void __cdecl
+SOCDrawSpriteOnlyConstMat(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uARGB color)
+{
+    color.a = (uint8_t)(255.0f * _nj_constant_material_.a);
+    color.r = (uint8_t)(255.0f * _nj_constant_material_.r);
+    color.g = (uint8_t)(255.0f * _nj_constant_material_.g);
+    color.b = (uint8_t)(255.0f * _nj_constant_material_.b);
+
+    SOCDisplaySprite(a1, PosX, PosY, Width, Height, pri, a7, a8, U, V, color.col);
+}
+
+__declspec(naked)
+static void
+__SOCDrawSpriteOnlyConstMat(void)
+{
+    __asm
+    {
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push[esp + 28h]
+        push eax
+
+        call SOCDrawSpriteOnlyConstMat
+
+        pop eax
+        add esp, 40
+
+        retn
+    }
+}
+
 #define DisplayStageMap                 FuncPtr(void, __cdecl, (float, float), 0x00675DF0)
 
 static hook_info* HookInfoDisplayStageMap;
@@ -227,6 +265,8 @@ RFM_MenusInit(void)
 
         WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
         WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
+
+        WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
 
         WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
 
