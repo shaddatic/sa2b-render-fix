@@ -67,6 +67,7 @@ static bool MilesTailModifiers;
 
 #define BALL_OBJ_NUM_SONIC      (6)
 #define BALL_OBJ_NUM_SHADOW     (71)
+#define BALL_OBJ_NUM_AMY        (401)
 
 static void
 SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
@@ -87,10 +88,7 @@ SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
     {
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-
-        njCnkModDrawObject(pwp->ch_num_multi != ADV2_PLNO_AMY ?
-            object_sonic_head_mod :
-            object_amy_head_mod);
+        njCnkModDrawObject(object_sonic_head_mod);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -150,10 +148,7 @@ TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
     {
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-
-        njCnkModDrawObject(pwp->ch_num_multi != ADV2_PLNO_METAL_SONIC ?
-            object_terios_head_mod :
-            object_metalsonic_head_mod);
+        njCnkModDrawObject(object_terios_head_mod);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -193,6 +188,115 @@ TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
+static void
+AmyDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njPushMatrixEx();
+
+    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_AMY)
+    {
+        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njScale(NULL, 5.0f, 1.0f, 5.0f);
+
+        DrawBasicShadow();
+    }
+    else
+    {
+        njTranslateEx(&pwp->user0_pos);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njCnkModDrawObject(object_amy_head_mod);
+
+        njPopMatrixEx();
+        njPushMatrixEx();
+
+        njTranslateEx(&pwp->righthand_pos);
+        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njScale(NULL, 1.0f, 1.0f, 0.7f);
+        DrawBasicShadow();
+
+        njPopMatrixEx();
+        njPushMatrixEx();
+
+        njTranslateEx(&pwp->lefthand_pos);
+        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njScale(NULL, 1.0f, 1.0f, 0.7f);
+        DrawBasicShadow();
+
+        njPopMatrixEx();
+        njPushMatrixEx();
+
+        njTranslateEx(&pwp->rightfoot_pos);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njScale(NULL, 2.6f, 1.0f, 1.0f);
+        DrawBasicShadow();
+
+        njPopMatrixEx();
+        njPushMatrixEx();
+
+        njTranslateEx(&pwp->leftfoot_pos);
+        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njScale(NULL, 2.6f, 1.0f, 1.0f);
+        DrawBasicShadow();
+    }
+
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+MetalSonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njPushMatrixEx();
+
+    njTranslateEx(&pwp->user0_pos);
+    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njCnkModDrawObject(object_metalsonic_head_mod);
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&pwp->righthand_pos);
+    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njScale(NULL, 1.0f, 1.0f, 0.7f);
+    DrawBasicShadow();
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&pwp->lefthand_pos);
+    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njScale(NULL, 1.0f, 1.0f, 0.7f);
+    DrawBasicShadow();
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&pwp->rightfoot_pos);
+    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njScale(NULL, 2.6f, 1.0f, 1.0f);
+    DrawBasicShadow();
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&pwp->leftfoot_pos);
+    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njScale(NULL, 2.6f, 1.0f, 1.0f);
+    DrawBasicShadow();
+
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
 #define BALL_FLAG   (0x100)
 
 #define AmyMotionCallBack_p             FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
@@ -201,7 +305,7 @@ TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 static void __cdecl
 SonicDisplayerShadowHook(TASK* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    TASKWK* const twp = tp->twp;
     SONICWK* const swp = GET_SONICWK(tp);
 
     njGetMatrix(&mtx_SonicBase);
@@ -233,10 +337,10 @@ SonicDisplayerShadowHook(TASK* tp)
 
     if (twp->mode == 51)
     {
-        NJS_POINT3 point_in = { 
-            .x = 0.0f, 
-            .y = -swp->pw.p.height * 0.5f, 
-            .z = 0.0f 
+        NJS_POINT3 point_in = {
+            .x = 0.0f,
+            .y = -swp->pw.p.height * 0.5f,
+            .z = 0.0f
         };
 
         NJS_POINT3 point_out;
@@ -314,10 +418,23 @@ SonicDisplayerShadowHook(TASK* tp)
 
     njPopMatrixEx();
 
-    if (!swp->pw.ch_num)
+    switch (swp->pw.ch_num_multi) {
+    case ADV2_PLNO_SONIC:
         SonicDrawMod(twp, &swp->pw, mtnnum);
-    else
+        break;
+
+    case ADV2_PLNO_SHADOW:
         TeriosDrawMod(twp, &swp->pw, mtnnum);
+        break;
+
+    case ADV2_PLNO_AMY:
+        AmyDrawMod(twp, &swp->pw, mtnnum);
+        break;
+
+    case ADV2_PLNO_METAL_SONIC:
+        MetalSonicDrawMod(twp, &swp->pw, mtnnum);
+        break;
+    }
 }
 
 static void
