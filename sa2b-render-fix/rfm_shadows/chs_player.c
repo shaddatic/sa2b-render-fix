@@ -65,7 +65,8 @@ static bool MilesTailModifiers;
 #define flt_1DEB070         DataRef(float32_t, 0x01DEB070)
 #define MultiIntroPno       DataRef(int8_t   , 0x0174B009)
 
-#define BALL_OBJ_NUM        (6)
+#define BALL_OBJ_NUM_SONIC      (6)
+#define BALL_OBJ_NUM_SHADOW     (71)
 
 static void
 SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
@@ -74,7 +75,7 @@ SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 
     njPushMatrixEx();
 
-    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM)
+    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_SONIC)
     {
         njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -138,7 +139,7 @@ TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 
     njPushMatrixEx();
 
-    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM)
+    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_SHADOW)
     {
         njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -297,7 +298,7 @@ SonicDisplayerShadowHook(TASK* tp)
         }
         else
         {
-            if ((twp->flag & BALL_FLAG) && swp->pw.ch_num_multi != ADV2_PLNO_METAL_SONIC && (swp->field_35C[4] & 0x11))
+            if ((twp->flag & BALL_FLAG) && swp->pw.ch_num_multi != ADV2_PLNO_METAL_SONIC && (swp->flag & 0x11))
             {
                 mtnnum = 30;
                 p_object = CHAR_OBJECTS[swp->pw.mj.plactptr[mtnnum].objnum].pObject;

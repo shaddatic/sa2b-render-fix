@@ -30,7 +30,7 @@ typedef struct sonicwk
     PLAYERWK pw;
 
     char field_35C[4];
-    int16_t unks_0;
+    int16_t flag;
     char field_35C_[4];
     int16_t unks_1;
     __int16 SpindashCounter;
