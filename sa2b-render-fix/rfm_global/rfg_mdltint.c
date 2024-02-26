@@ -96,6 +96,8 @@ static int ChunkObjectList[] =
     0x0101DAEC, // Big Bogy
 
     0x013F8320, // Boss Last 1
+
+    0x00BF627C, // Iron Gate sirens
 };
 
 static int ChunkModelList[] =
