@@ -632,8 +632,6 @@ RF_CnkBlendingSrc(Sint16* pPList, int idxMat, uint16_t src)
                 if (type >= NJD_VERTOFF)
                     break;
 
-                ++plist;
-
                 if (idxMat == -1)
                 {
                     ((u16*)plist)[0] &= ~NJD_FBS_MASK;
@@ -646,7 +644,7 @@ RF_CnkBlendingSrc(Sint16* pPList, int idxMat, uint16_t src)
                     return;
                 }
 
-                ++plist;
+                plist += 2;
 
                 switch (type) {
                 case NJD_CM_D:
@@ -734,8 +732,6 @@ RF_CnkBlendingDst(Sint16* pPList, int idxMat, uint16_t dst)
                 if (type >= NJD_VERTOFF)
                     break;
 
-                ++plist;
-
                 if (idxMat == -1)
                 {
                     ((u16*)plist)[0] &= ~NJD_FBD_MASK;
@@ -748,7 +744,7 @@ RF_CnkBlendingDst(Sint16* pPList, int idxMat, uint16_t dst)
                     return;
                 }
 
-                ++plist;
+                plist += 2;
 
                 switch (type) {
                 case NJD_CM_D:
@@ -781,7 +777,7 @@ RF_CnkBlendingDst(Sint16* pPList, int idxMat, uint16_t dst)
 void
 RF_CnkModelBlendingDst(NJS_CNK_MODEL* pModel, int idxMat, uint16_t dst)
 {
-    RF_CnkBlendingSrc(pModel->plist, idxMat, dst);
+    RF_CnkBlendingDst(pModel->plist, idxMat, dst);
 }
 
 void
