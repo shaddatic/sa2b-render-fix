@@ -213,5 +213,8 @@ RFM_RestorationInit(void)
         RFC_Chaos0TexInit();
     }
 
-    RFC_PrisonSirenInit();
+    if (RF_ConfigGetInt(CNF_COMMON_PRSIREN))
+    {
+        RFC_PrisonSirenInit();
+    }
 }

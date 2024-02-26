@@ -74,6 +74,7 @@
 #define CNF_COMMON_UDREEL       CNF_SECT_COMMON     , "udreel"              , 1         /* Up Down Reel Fix */
 #define CNF_COMMON_ITEMBOX      CNF_SECT_COMMON     , "itembox"             , 1         /* Item-Box Fix */
 #define CNF_COMMON_JOTREE       CNF_SECT_COMMON     , "jo_tree"             , 1         /* Tree Jungle Object */
+#define CNF_COMMON_PRSIREN      CNF_SECT_COMMON     , "pr_siren"            , 1         /* Prison Siren Fix */
 #define CNF_COMMON_EXPLOSION    CNF_SECT_COMMON     , "e_explosion"         , 1         /* Explosion Draw Fix */
 #define CNF_COMMON_MIZUGOMI     CNF_SECT_COMMON     , "mizugomi"            , 1         /* Water Particulates */
 #define CNF_COMMON_DCRING       CNF_SECT_COMMON     , "dc_ring"             , 0         /* DC Ring Shadows */
