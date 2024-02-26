@@ -95,8 +95,8 @@
 			</Property>
 		</Group>
 		<Group name="m_menus" display="03 • Main Menus Settings">
-		<Property name="fade_fix" display="16:9 Fade Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes element fade issues when in a wider aspect ratio than native 4:3.</HelpText>
+		<Property name="fade_fix" display="Element Fade Fix" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes many element fade issues with both the Dreamcast and Battle menus.</HelpText>
 		</Property>
 		<Property name="map_stretch" display="Stage Select: Stretch Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
