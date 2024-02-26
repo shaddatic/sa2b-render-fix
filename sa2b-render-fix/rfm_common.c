@@ -2,6 +2,7 @@
 #include <sa2b/memory.h>
 #include <sa2b/memutil.h>
 #include <sa2b/model.h>
+#include <sa2b/funchook.h>
 #include <sa2b/mods.h>
 
 /** Ninja **/
@@ -77,6 +78,25 @@ RF_GinjaLoadObjectFile(const utf8* fname)
     snprintf(buf, 260, "%s/model/%s.sa2bmdl", GetModPath(), fname);
 
     return MDL_GinjaLoadObjectFile(buf);
+}
+
+#define ObjectGlobalLightManagerTaskPointer     DataRef(TASK*, 0x01A5A660)
+
+static void
+ObjectGlobalLightSWDestructor(TASK* tp)
+{
+    ObjectGlobalLightManagerTaskPointer = NULL;
+}
+
+#define ObjectGlobalLightManager    FuncPtr(void, __cdecl, (TASK*), 0x004CAB20)
+
+static hook_info* ObjectGlobalLightManagerHookInfo;
+static void
+ObjectGlobalLightManagerHook(TASK* tp)
+{
+    FuncHookCall( ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager(tp) );
+
+    tp->dest = ObjectGlobalLightSWDestructor;
 }
 
 void
@@ -217,4 +237,6 @@ RFM_RestorationInit(void)
     {
         RFC_PrisonSirenInit();
     }
+
+    ObjectGlobalLightManagerHookInfo = FuncHook(ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 }
