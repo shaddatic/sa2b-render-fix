@@ -212,4 +212,6 @@ RFM_RestorationInit(void)
     {
         RFC_Chaos0TexInit();
     }
+
+    RFC_PrisonSirenInit();
 }

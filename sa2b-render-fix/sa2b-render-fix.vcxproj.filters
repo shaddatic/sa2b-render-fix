@@ -222,6 +222,9 @@
     <ClCompile Include="rfm_cgadget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_common\rfc_pr_siren.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

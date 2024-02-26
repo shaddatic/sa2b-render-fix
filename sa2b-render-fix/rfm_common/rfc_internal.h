@@ -21,6 +21,7 @@ void    RFC_ExplosionInit( void );
 void    RFC_ItemBoxInit( void );
 void    RFC_UDReelInit( void );
 void    RFC_Chaos0TexInit( void );
+void    RFC_PrisonSirenInit( void );
 
 EXTERN_END
 
