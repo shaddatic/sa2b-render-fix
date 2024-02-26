@@ -63,6 +63,19 @@ void    RF_CnkObjectMaterialFlagOff(    NJS_CNK_OBJECT* pObject,            uint
 void    RF_CnkLandTableMaterialFlagOff( OBJ_LANDTABLE*  pLand,              uint32_t flag );
 
 /*
+*   Blending
+*/
+/** Source **/
+void    RF_CnkBlendingSrc(       Sint16*         pPList, int idxMat, uint16_t src );
+void    RF_CnkModelBlendingSrc(  NJS_CNK_MODEL*  pModel, int idxMat, uint16_t src );
+void    RF_CnkObjectBlendingSrc( NJS_CNK_OBJECT* pObject,            uint16_t src );
+
+/** Destination **/
+void    RF_CnkBlendingDst(       Sint16*         pPList, int idxMat, uint16_t dst );
+void    RF_CnkModelBlendingDst(  NJS_CNK_MODEL*  pModel, int idxMat, uint16_t dst );
+void    RF_CnkObjectBlendingDst( NJS_CNK_OBJECT* pObject,            uint16_t dst );
+
+/*
 *   Texture ID
 */
 void    RF_CnkChangeTexID(       Sint16*         pPList, int idxTID, Sint16 texID );
@@ -97,6 +110,15 @@ EXTERN_END
 #define CnkModelMaterialFlagOff(_mdl, _mat, _flag)              RF_CnkModelMaterialFlagOff((NJS_CNK_MODEL*)(_mdl), (_mat), (_flag))
 #define CnkObjectMaterialFlagOff(_obj, _flag)                   RF_CnkObjectMaterialFlagOff((NJS_CNK_OBJECT*)(_obj), (_flag))
 #define CnkLandTableMaterialFlagOff(_lt, _flag)                 RF_CnkLandTableMaterialFlagOff((OBJ_LANDTABLE*)(_lt), (_flag))
+#define CnkBlendingSrc(_plist, _mat, _src)                      RF_CnkBlendingSrc((Sint16*)(_plist), (_mat), (_src))
+#define CnkModelBlendingSrc(_mdl, _mat, _src)                   RF_CnkModelBlendingSrc((NJS_CNK_MODEL*)(_mdl), (_mat), (_src))
+#define CnkObjectBlendingSrc(_obj, _src)                        RF_CnkObjectBlendingSrc((NJS_CNK_OBJECT*)(_obj), (_src))
+#define CnkBlendingDst(_plist, _mat, _dst)                      RF_CnkBlendingDst((Sint16*)(_plist), (_mat), (_dst))
+#define CnkModelBlendingDst(_mdl, _mat, _dst)                   RF_CnkModelBlendingDst((NJS_CNK_MODEL*)(_mdl), (_mat), (_dst))
+#define CnkObjectBlendingDst(_obj, _dst)                        RF_CnkObjectBlendingDst((NJS_CNK_OBJECT*)(_obj), (_dst))
+#define CnkChangeTexID(_plist, _idx, _tid)                      RF_CnkChangeTexID((Sint16*)(_plist), (_idx), (_tid))
+#define CnkModelChangeTexID(_mdl, _idx, _tid)                   RF_CnkModelChangeTexID((NJS_CNK_MODEL*)(_mdl), (_idx), (_tid))
+#define CnkObjectChangeTexID(_obj, _tid)                        RF_CnkObjectChangeTexID((NJS_CNK_OBJECT*)(_obj), (_tid))
 #define CnkMaterialDiffuse(_plist, _mat, _a, _r, _g, _b)        RF_CnkMaterialDiffuse((Sint16*)(_plist), (_mat), (_a), (_r), (_g), (_b))
 #define CnkModelMaterialDiffuse(_mdl, _mat, _a, _r, _g, _b)     RF_CnkModelMaterialDiffuse((NJS_CNK_MODEL*)(_mdl), (_mat), (_a), (_r), (_g), (_b))
 

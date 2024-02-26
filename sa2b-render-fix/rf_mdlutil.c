@@ -589,6 +589,214 @@ RF_CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32_t flag)
 
 #pragma endregion
 
+#pragma region cnk_blending
+
+void
+RF_CnkBlendingSrc(Sint16* pPList, int idxMat, uint16_t src)
+{
+    Sint16* plist = pPList;
+    int type;
+
+    while (1)
+    {
+        while (1)
+        {
+            while (1)
+            {
+                while (1)
+                {
+                    while (1)
+                    {
+                        while (1)
+                        {
+                            type = ((u8*)plist)[0];
+
+                            if (type >= NJD_BITSOFF)
+                                break;
+
+                            ++plist;
+                        }
+
+                        if (type >= NJD_TINYOFF)
+                            break;
+
+                        ++plist;
+                    }
+
+                    if (type >= NJD_MATOFF)
+                        break;
+
+                    plist += 2;
+                }
+
+                if (type >= NJD_VERTOFF)
+                    break;
+
+                ++plist;
+
+                if (idxMat == -1)
+                {
+                    ((u16*)plist)[0] &= ~NJD_FBS_MASK;
+                    ((u16*)plist)[0] |= src;
+                }
+                else if (idxMat-- == 0)
+                {
+                    ((u16*)plist)[0] &= ~NJD_FBS_MASK;
+                    ((u16*)plist)[0] |= src;
+                    return;
+                }
+
+                ++plist;
+
+                switch (type) {
+                case NJD_CM_D:
+                case NJD_CM_A:
+                case NJD_CM_S:
+                    plist += 2;
+                    break;
+                case NJD_CM_DA:
+                case NJD_CM_DS:
+                case NJD_CM_AS:
+                    plist += 4;
+                    break;
+                case NJD_CM_DAS:
+                    plist += 6;
+                    break;
+                }
+            }
+
+            if (type >= NJD_STRIPOFF)
+                break;
+        }
+
+        if (type == NJD_ENDOFF)
+            break;
+
+        plist += ((u16*)plist)[1] + 2;
+    }
+}
+
+void
+RF_CnkModelBlendingSrc(NJS_CNK_MODEL* pModel, int idxMat, uint16_t src)
+{
+    RF_CnkBlendingSrc(pModel->plist, idxMat, src);
+}
+
+void
+RF_CnkObjectBlendingSrc(NJS_CNK_OBJECT* pObject, uint16_t src)
+{
+    if (pObject->model)
+        RF_CnkModelBlendingSrc(pObject->model, -1, src);
+    if (pObject->child)
+        RF_CnkObjectBlendingSrc(pObject->child, src);
+    if (pObject->sibling)
+        RF_CnkObjectBlendingSrc(pObject->sibling, src);
+}
+
+void
+RF_CnkBlendingDst(Sint16* pPList, int idxMat, uint16_t dst)
+{
+    Sint16* plist = pPList;
+    int type;
+
+    while (1)
+    {
+        while (1)
+        {
+            while (1)
+            {
+                while (1)
+                {
+                    while (1)
+                    {
+                        while (1)
+                        {
+                            type = ((u8*)plist)[0];
+
+                            if (type >= NJD_BITSOFF)
+                                break;
+
+                            ++plist;
+                        }
+
+                        if (type >= NJD_TINYOFF)
+                            break;
+
+                        ++plist;
+                    }
+
+                    if (type >= NJD_MATOFF)
+                        break;
+
+                    plist += 2;
+                }
+
+                if (type >= NJD_VERTOFF)
+                    break;
+
+                ++plist;
+
+                if (idxMat == -1)
+                {
+                    ((u16*)plist)[0] &= ~NJD_FBD_MASK;
+                    ((u16*)plist)[0] |= dst;
+                }
+                else if (idxMat-- == 0)
+                {
+                    ((u16*)plist)[0] &= ~NJD_FBD_MASK;
+                    ((u16*)plist)[0] |= dst;
+                    return;
+                }
+
+                ++plist;
+
+                switch (type) {
+                case NJD_CM_D:
+                case NJD_CM_A:
+                case NJD_CM_S:
+                    plist += 2;
+                    break;
+                case NJD_CM_DA:
+                case NJD_CM_DS:
+                case NJD_CM_AS:
+                    plist += 4;
+                    break;
+                case NJD_CM_DAS:
+                    plist += 6;
+                    break;
+                }
+            }
+
+            if (type >= NJD_STRIPOFF)
+                break;
+        }
+
+        if (type == NJD_ENDOFF)
+            break;
+
+        plist += ((u16*)plist)[1] + 2;
+    }
+}
+
+void
+RF_CnkModelBlendingDst(NJS_CNK_MODEL* pModel, int idxMat, uint16_t dst)
+{
+    RF_CnkBlendingSrc(pModel->plist, idxMat, dst);
+}
+
+void
+RF_CnkObjectBlendingDst(NJS_CNK_OBJECT* pObject, uint16_t dst)
+{
+    if (pObject->model)
+        RF_CnkModelBlendingDst(pObject->model, -1, dst);
+    if (pObject->child)
+        RF_CnkObjectBlendingDst(pObject->child, dst);
+    if (pObject->sibling)
+        RF_CnkObjectBlendingDst(pObject->sibling, dst);
+}
+
+#pragma endregion
+
 /*
 *   Texture ID
 */
