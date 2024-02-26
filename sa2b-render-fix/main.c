@@ -117,6 +117,8 @@ Init(const char* path, const HelperFunctions* pHelpFuncs)
         SwitchDisplayer(0x00545633, DISP_SORT); // ALO_ChaosDrive
     
         SwitchDisplayer(0x0061BB94, DISP_DELY); // Cart HUD
+
+        SwitchDisplayer(0x006054F6, DISP_SORT); // Tails Prison search lights
     }
 
     RFM_GlobalInit();
