@@ -339,12 +339,14 @@ RFG_BackfaceCullingInit()
 
     /** Pyramid Cave **/
     {
-        CnkModelMaterialFlagOn(0x00AACBEC, 0, NJD_FST_DB); // Spiderweb
+        CnkModelMaterialFlagOn(0x00AACBEC,  0, NJD_FST_DB); // Spiderweb
 
-        CnkModelMaterialFlagOn(0x00AA28A4, 1, NJD_FST_DB); // Iron Bar Chains
-        CnkModelMaterialFlagOn(0x00AA28A4, 2, NJD_FST_DB); // ^
+        CnkModelMaterialFlagOn(0x00AA28A4,  1, NJD_FST_DB); // Iron Bar Chains
+        CnkModelMaterialFlagOn(0x00AA28A4,  2, NJD_FST_DB); // ^
 
-        CnkModelMaterialFlagOn(0x00AA21A4, 1, NJD_FST_DB); // Snake Dish Chain
+        CnkModelMaterialFlagOn(0x00AA21A4,  1, NJD_FST_DB); // Snake Dish Chain
+
+        CnkModelMaterialFlagOn(0x00AB171C, -1, NJD_FST_DB); // Hang Ring Chains
     }
 
     /** Mine Mizu **/
