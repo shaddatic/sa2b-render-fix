@@ -351,6 +351,7 @@ RFG_BackfaceCullingInit()
     CnkModelFlipStripWinding(0x0162E024, 0, 0);
     CnkModelFlipStripWinding(0x0162E024, 0, 1);
     CnkModelFlipStripWinding(0x0162E024, 1, 0);
+    CnkModelFlipWinding(0x0162E0CC);            // Second Mizu model
 
     /** Bg Models **/
     CnkModelFlipWinding(0x0168B354); // Pumpkin Hill
