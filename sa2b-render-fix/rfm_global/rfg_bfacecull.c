@@ -347,6 +347,9 @@ RFG_BackfaceCullingInit()
         CnkModelMaterialFlagOn(0x00AA21A4,  1, NJD_FST_DB); // Snake Dish Chain
 
         CnkModelMaterialFlagOn(0x00AB171C, -1, NJD_FST_DB); // Hang Ring Chains
+
+        CnkModelMaterialFlagOn(0x00A9A46C, 12, NJD_FST_DB); // Hanging Ship Chains (1)
+        CnkModelMaterialFlagOn(0x00A9D014, 10, NJD_FST_DB); // Hanging Ship Chains (2)
     }
 
     /** Mine Mizu **/
