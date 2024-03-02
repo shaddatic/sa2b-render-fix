@@ -132,6 +132,9 @@
 			<Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
 			</Property>
+			<Property name="kuruma" display="Restore Large Cogwheels" type="eBOOL" defaultvalue="1">
+				<HelpText>Restores the huge, rotating cogwheels in the middle of Sonic's section that's outright missing in the GameCube version.</HelpText>
+			</Property>
 		</Group>
 		<Group name="bossbogy" display="09 • King Boom Boo Settings">
 			<Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">

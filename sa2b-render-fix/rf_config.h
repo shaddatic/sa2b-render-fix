@@ -99,6 +99,7 @@
 
 /** Cannons Core section **/
 #define CNF_CC_PITFALL          CNF_SECT_CC         , "pitfall"             , 1         /* Restore Pitfall */
+#define CNF_CC_KURUMA           CNF_SECT_CC         , "kuruma"              , 1         /* Restore Gears */
 
 /** City Escape section **/
 #define CNF_BBOGY_PULSE         CNF_SECT_BBOGY      , "glowpulse"           , 1         /* Restore Pulsing Glow Effect */

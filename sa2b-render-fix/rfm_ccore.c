@@ -32,4 +32,27 @@ RFM_CannonsCoreInit(void)
 
         ReplaceLandObject(land, 32, object);
     }
+
+    if (RF_ConfigGetInt(CNF_CC_KURUMA))
+    {
+        NJS_CNK_OBJECT* object_kuruma = GetDataDllAddr(NJS_CNK_OBJECT, "object_lsonic_un4_kuruma_BK040506__un4_kuruma_BK040506_");
+
+        object_kuruma = object_kuruma->child;
+
+        object_kuruma->pos[0] = -450.0f;
+        object_kuruma->pos[1] = -365.0f;
+        object_kuruma->pos[2] = -2325.0f;
+
+        object_kuruma = object_kuruma->sibling;
+
+        object_kuruma->pos[0] = -510.0f;
+        object_kuruma->pos[1] = -365.0f;
+        object_kuruma->pos[2] = -2325.0f;
+
+        object_kuruma = object_kuruma->sibling;
+
+        object_kuruma->pos[0] = -570.0f;
+        object_kuruma->pos[1] = -365.0f;
+        object_kuruma->pos[2] = -2325.0f;
+    }
 }
