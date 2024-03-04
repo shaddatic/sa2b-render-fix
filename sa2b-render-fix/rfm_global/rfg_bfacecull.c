@@ -447,6 +447,8 @@ RFG_BackfaceCullingInit()
 
         CnkObjectMaterialFlagOn(0x00E2DBDC, NJD_FST_DB);    // PLANT2
         CnkObjectMaterialFlagOn(0x00DEEE6C, NJD_FST_DB);    // PLANT3
+
+        CnkModelMaterialFlagOn(0x00E5D9EC, -1, NJD_FST_DB); // Glass goblet thing
     }
 
     /** Big Foot Lightposts **/
