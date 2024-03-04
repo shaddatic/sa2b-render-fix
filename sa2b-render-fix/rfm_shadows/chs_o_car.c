@@ -11,6 +11,8 @@
 #include <sa2b/src/score.h>
 
 /** Render Fix **/
+#include <rf_core.h>
+#include <rf_funchook.h>
 #include <rf_file.h>
 #include <rf_draw.h>
 #include <rf_util.h>
@@ -114,16 +116,17 @@ ObjectCECarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-__declspec(naked)
-static void
-__ObjectCECarMovHook()
+#define ObjectCECar         FuncPtr(void, __cdecl, (TASK*), 0x005DE4E0)
+
+static hook_info* ObjectCECarHookInfo;
+void
+ObjectCECarHook(TASK* tp)
 {
-    __asm
-    {
-        mov dword ptr[edi + 14h], 005E0430h // ObjectCECarDisplayer
-        mov dword ptr[edi + 2Ch], offset ObjectCECarDisplayerMod
-        retn
-    }
+    FuncHookCall( ObjectCECarHookInfo, ObjectCECar(tp) );
+
+    /** If successfully loaded **/
+    if (tp->mwp)
+        tp->disp_shad = ObjectCECarDisplayerMod;
 }
 
 static void
@@ -183,16 +186,17 @@ ObjectMSCarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-__declspec(naked)
-static void
-__ObjectMSCarMovHook()
+#define ObjectMSCar2        FuncPtr(void, __cdecl, (TASK*), 0x005B4850)
+
+static hook_info* ObjectMSCar2HookInfo;
+void
+ObjectMSCar2Hook(TASK* tp)
 {
-    __asm
-    {
-        mov dword ptr[edi + 14h], 005B56D0h // ObjectMSCarDisplayer
-        mov dword ptr[edi + 2Ch], offset ObjectMSCarDisplayerMod
-        retn
-    }
+    FuncHookCall( ObjectMSCar2HookInfo, ObjectMSCar2(tp) );
+
+    /** If successfully loaded **/
+    if (tp->mwp)
+        tp->disp_shad = ObjectMSCarDisplayerMod;
 }
 
 static void
@@ -213,12 +217,12 @@ void
 CHS_CarInit()
 {
     /** City Escape **/
-    WriteCallToMovDwordPtr(0x005DE626, __ObjectCECarMovHook);
+    RF_FuncHook(ObjectCECar);
     WriteJump(0x005E2930, ObjectCECarCrashDisplayerMod);
     KillCall(0x005E150F); // SetStencilInfo
 
     /** Mission Street **/
-    WriteCallToMovDwordPtr(0x005B4944, __ObjectMSCarMovHook);
+    RF_FuncHook(ObjectMSCar2);
     WriteJump(0x005B75C0, ObjectMSCarCrashDisplayerMod);
     KillCall(0x005B6148); // SetStencilInfo
 
