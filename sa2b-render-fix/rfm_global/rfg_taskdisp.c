@@ -1,7 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/memutil.h>
-#include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -27,9 +26,9 @@
 #define byte_0174AFFD           DataRef(int8_t  , 0x0174AFFD)
 #define SomeCountMax            DataRef(size_t  , 0x01A5A3D0)
 
-#define sub_00493A90            FuncPtr(void, __cdecl, (), 0x493A90)
-#define njExecuteFade           FuncPtr(void, __cdecl, (), 0x004785A0)
-#define DisplayGameHUD          FuncPtr(void, __cdecl, (), 0x0044E9C0)
+#define sub_00493A90            FuncPtr(void, __cdecl, (void), 0x493A90)
+#define njExecuteFade           FuncPtr(void, __cdecl, (void), 0x004785A0)
+#define DisplayGameHUD          FuncPtr(void, __cdecl, (void), 0x0044E9C0)
 
 #define pExecute                DataRef(task_exec, 0x01A5A274)
 
@@ -207,7 +206,7 @@ TaskDisplayDispLast(TASK* btpl)
 #define IsSplitscreen       DataRef(bool  , 0x0174AFE0)
 
 static void
-TaskDisplayAll()
+TaskDisplayAll(void)
 {
     const bool chs_performance = RF_CheapShadowPerformance();
 
@@ -352,21 +351,8 @@ TaskDisplayAll()
     gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
 }
 
-__declspec(naked)
-static void
-__TaskDisplayAll()
-{
-    __asm
-    {
-        push [esp+0]
-        call TaskDisplayAll
-        add esp, 4
-        retn
-    }
-}
-
 void
-RFG_TaskDisplayInit()
+RFG_TaskDisplayInit(void)
 {
     WriteJump(0x00470010, TaskDisplayAll);
 
