@@ -332,6 +332,9 @@
     <ClInclude Include="rf_funchook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rf_dxvk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />

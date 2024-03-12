@@ -42,6 +42,9 @@
 /** Debug **/
 #define CNF_SECT_DEBUG      "debug"
 
+/** Hidden **/
+#define CNF_SECT_HIDDEN     "internal"
+
 /****** Config options ******************************************************************/
 /**                           | Section             | Key                   | Default  **/
 /** Global section **/
@@ -117,7 +120,7 @@
 #define CNF_EVENT_43MD          CNF_SECT_EVENT      , "enforce_43"          , 0         /* Enforce 4:3 Mode */
 #define CNF_EVENT_TEXANIM       CNF_SECT_EVENT      , "texanim"             , 1         /* Fix Texture Animations */
 
-/** Experimental Section **/
+/** Experimental section **/
 #define CNF_EXP_SHD_OPACITY_SW  CNF_SECT_EXP        , "shd_opacity_sw"      , 0         /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_MILESTAILMOD    CNF_SECT_EXP        , "miles_tail_mod"      , 0         /* Draw Tails' Tail Modifier Shadows */
 #define CNF_EXP_RACETREEMOD     CNF_SECT_EXP        , "race_tree_mod"       , 0         /* Draw Race Tree Modifier Shadows */
@@ -129,6 +132,10 @@
 #define CNF_DEBUG_BFC_EVENT     CNF_SECT_DEBUG      , "bfc_event"           , 1         /* Disable Back-Face Culling in Events */
 #define CNF_DEBUG_CHAOS0TEX     CNF_SECT_DEBUG      , "chaos0tex"           , 1         /* Custom Chaos 0 Model Support */
 #define CNF_DEBUG_DCSHAD_PATCH  CNF_SECT_DEBUG      , "dcshadpatch"         , 1         /* Patch DC Shadows Crash Issue */
+
+/** Hidden section **/
+#define CNF_HIDDEN_VERSION      CNF_SECT_HIDDEN     , "cnf_ver"             , 0         /* Config file version */
+#define CNF_HIDDEN_DXVK_CHK     CNF_SECT_HIDDEN     , "dxvk_chk"            , 0         /* If the user has been asked about DXVK */
 
 /************************/
 /*  Functions           */

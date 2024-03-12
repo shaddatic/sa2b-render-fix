@@ -22,6 +22,7 @@
 #include <rf_util.h>
 #include <rf_usermsg.h>
 #include <rf_objpak.h>
+#include <rf_dxvk.h>
 
 /** Render Fix modules **/
 #include <rfm_global.h>
@@ -66,6 +67,9 @@ Init(const char* path, const HelperFunctions* pHelpFuncs)
     /** Render Fix init **/
     RF_ConfigInit();
     RF_ObjPakInit();
+
+    /** DXVK init **/
+    RF_DXVK_Init();
 
     /** ALWAYS ON **/
     {
