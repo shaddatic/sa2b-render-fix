@@ -2,7 +2,7 @@
 *   SA2 Render Fix - '/rf_dxvk.h'
 *
 *   Description:
-*       Contains useful draw functions
+*       Core DXVK module initialize.
 *
 *   Contributors:
 *   -   Shaddatic
