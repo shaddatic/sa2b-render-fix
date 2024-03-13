@@ -32,7 +32,7 @@
 
 #define pExecute                DataRef(task_exec, 0x01A5A274)
 
-#define SortDispSortList        FuncPtr(void, __cdecl, (TASK *, float), 0x00492F60)
+#define SortDispSortList        FuncPtr(void, __cdecl, (TASK*, float), 0x00492F60)
 
 void
 gjSetRenderMode(Sint32 mode)
@@ -196,11 +196,11 @@ TaskDisplayDispLast(TASK* btpl)
     while (tp = tp->next, tp != base_tp);
 }
 
-#define TaskDisplayShadows  FuncPtr(void, __cdecl, (), 0x0046FBC0)
+#define TaskDisplayShadows  FuncPtr(void, __cdecl, (void), 0x0046FBC0)
 
-#define SetBaseScreenInfo   FuncPtr(void, __cdecl, (), 0x00458B90)
-#define BackupScreenInfo    FuncPtr(void, __cdecl, (), 0x00458EA0)
-#define RestoreScreenInfo   FuncPtr(void, __cdecl, (), 0x00458EE0)
+#define SetBaseScreenInfo   FuncPtr(void, __cdecl, (void), 0x00458B90)
+#define BackupScreenInfo    FuncPtr(void, __cdecl, (void), 0x00458EA0)
+#define RestoreScreenInfo   FuncPtr(void, __cdecl, (void), 0x00458EE0)
 
 #define MultiIntroPno       DataRef(int8_t, 0x0174B009)
 #define IsSplitscreen       DataRef(bool  , 0x0174AFE0)
