@@ -14,7 +14,8 @@
 
 #define DXVK_DLL_PATH       "./d3d9.dll"
 #define DXVK_CONF_PATH      "./dxvk.conf"
-#define DXVK_WEB_PATH       "https://github.com/doitsujin/dxvk/releases"
+#define DXVK_WEB_PATH       "https://github.com/doitsujin/dxvk"
+#define DXVK_LEGACY_WEB     "https://github.com/doitsujin/dxvk/releases/tag/v1.10.3"
 
 static void
 DXVK_CheckAndInstall(void)
@@ -25,8 +26,11 @@ DXVK_CheckAndInstall(void)
     const bool yes = RF_Query("DXVK not installed", 
 
         "It is recommended to use DXVK for SA2, as it increases performance, increases stability, & allows for graphical enhancements.\n"
-        "If you are running Linux, you can ignore this alert!\n"
-        "Would you like to install it now?"
+        "If you encounter any issues, ensure your graphics drivers are up to date.\n"
+        "If you are running legacy hardware, DXVK version 1.10.3 has relaxed driver requirements and can be downloaded from" DXVK_LEGACY_WEB ".\n"
+        "Would you like to install it now?\n\n"
+
+        "If you are running Linux, you can ignore this alert!"
     );
 
     if (yes)
