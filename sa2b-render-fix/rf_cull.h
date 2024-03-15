@@ -26,9 +26,6 @@ RFE_CULLMODE;
 /*  Functions           */
 /************************/
 EXTERN_START
-/** If back-face cull feature enabeld **/
-bool    RF_BackfaceCullEnabled();
-
 /** Set cull mode **/
 void    RF_SetCullMode(RFE_CULLMODE mode);
 

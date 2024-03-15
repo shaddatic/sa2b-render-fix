@@ -18,6 +18,7 @@ EXTERN_START
 bool    RF_BackColorDraw( void );
 bool    RF_SpotLightFix( void );
 bool    RF_EnvMapFlip( void );
+bool    RF_BackfaceCullEnabled( void );
 
 /****** Shadows ******/
 float   RF_ShadowOpacityGlobal( void );
