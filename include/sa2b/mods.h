@@ -40,7 +40,7 @@ mod_handle* ModGetHandleDll(const char* pDllName);
 mod_handle* ModGetHandleName(const char* pName);
 
 /** Get total number of mods in active modlist **/
-int         ModGetTotalNumber();
+int         ModGetTotalNumber(void);
 
 /** Get mod handle by active modlist postion **/
 mod_handle* ModGetHandlePosition(int index);

@@ -69,7 +69,7 @@ typedef struct task
     task_exec       disp_sort;  /* Sorted Displayer     (Drawn 2nd) */
     task_exec       disp_late;  /* Late Displayer       (Drawn 4th) */
     task_exec       disp_last;  /* Last Displayer       (Drawn 5th) */
-    task_exec       disp_shad;  /* Shadow Displayer */
+    task_exec       disp_shad;  /* Shadow Displayer                 */
 
     /** Task Work Pointers **/
     OBJ_CONDITION*  ocp;        /* Set Data                         */
@@ -85,7 +85,7 @@ typedef struct task
         int16_t   w[2];
         int32_t   l;
         float32_t f;
-        void* ptr;
+        void*     ptr;
     } thp;                      /* Needs more research              */
 }
 TASK;
@@ -93,16 +93,16 @@ TASK;
 /************************/
 /*  Data                */
 /************************/
-#define btp     DataAry(TASK*, 0x01A5A254, [8]) /* Task lists */
+#define btp                 DataAry(TASK*, 0x01A5A254, [8]) /* Task lists */
 
 /************************/
 /*  Task Element Flags  */
 /************************/
-#define TELE_NUL    (0)
-#define TELE_MWK    (1<<0)
-#define TELE_TWK    (1<<1)
-#define TELE_FWK    (1<<2)
-#define TELE_AWK    (1<<3)
+#define TELE_NUL            (0)     /* No Elements                  */
+#define TELE_MWK            (1<<0)  /* Motion Work                  */
+#define TELE_TWK            (1<<1)  /* Task Work                    */
+#define TELE_FWK            (1<<2)  /* Force Work                   */
+#define TELE_AWK            (1<<3)  /* Any Work                     */
 
 /************************/
 /*  Functions           */

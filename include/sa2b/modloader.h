@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/modloader.h'
 *
-*   Contains functions and definitions for the Mod Loader and its HelperFunctions
+*   Description:
+*       Contains functions and definitions for the Mod Loader
+*   and its HelperFunctions.
 *
 *   Contributors:
 *   -   SA2 Mod Loader/Manager Team
@@ -13,15 +15,23 @@
 #define _SAMT_MODLOADER_H_
 
 /************************/
-/*  Mod Loader Version  */
+/*  Includes            */
 /************************/
-#define MODLOADER_VER      (12)
+#include <sa2b/util/ml_type.h>  /* Mod loader types                         */
+
+/************************/
+/*  Constants           */
+/************************/
+#define MODLOADER_VER      (12) /* Mod loader version                       */
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /****** Version >= 0 ********************************************************/
+/** Get current HelperFunctions pointer **/
+const HelperFunctions* ML_GetHelperFunctions(void);
+
 /** Get installed mod-loader version **/
 int32_t     ML_GetVersion(void);
 
