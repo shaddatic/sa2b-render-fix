@@ -108,31 +108,31 @@ DrawBasicShadow(void)
 }
 
 bool
-RF_CheapShadow(void)
+RFF_CheapShadow(void)
 {
     return CheapShadowMode != CHSMD_OFF;
 }
 
 bool
-RF_CheapShadowPerformance(void)
+RFF_CheapShadowPerformance(void)
 {
     return CheapShadowMode == CHSMD_PERFORMANCE;
 }
 
 bool
-RF_CheapShadowPlayer(void)
+RFF_CheapShadowPlayer(void)
 {
     return CheapShadowPlayer;
 }
 
 float
-RF_ShadowOpacityGlobal(void)
+RFF_ShadowOpacityGlobal(void)
 {
     return ShadowOpacityGlobal;
 }
 
 float
-RF_ShadowOpacityChao(void)
+RFF_ShadowOpacityChao(void)
 {
     return ShadowOpacityChao;
 }
@@ -223,7 +223,7 @@ RFM_ShadowsInit(void)
 
     switch (RF_ConfigGetInt(CNF_SHADOW_PLMODE)) {
     case PL_SHDMD_MODIFIER:
-        if (!RF_CheapShadow())
+        if (!RFF_CheapShadow())
             break;
 
         CHS_PlayerInit();
@@ -249,5 +249,5 @@ RFM_ShadowsInit(void)
     if (resolution != 1)
         WriteData(0x0041F810, ResolutionList[resolution], uint32_t);
 
-    RF_ObjPakRegisterShadowOpacity( RF_ShadowOpacityGlobal() );
+    RF_ObjPakRegisterShadowOpacity( RFF_ShadowOpacityGlobal() );
 }

@@ -15,19 +15,19 @@
 /************************/
 EXTERN_START
 /****** Global ******/
-bool    RF_BackColorDraw( void );
-bool    RF_SpotLightFix( void );
-bool    RF_EnvMapFlip( void );
-bool    RF_BackfaceCullEnabled( void );
+bool    RFF_BackColorDraw( void );
+bool    RFF_SpotLightFix( void );
+bool    RFF_EnvMapFlip( void );
+bool    RFF_BackFaceCulling( void );
 
 /****** Shadows ******/
-float   RF_ShadowOpacityGlobal( void );
-float   RF_ShadowOpacityChao( void );
+float   RFF_ShadowOpacityGlobal( void );
+float   RFF_ShadowOpacityChao( void );
 
 /** Cheap shadows **/
-bool    RF_CheapShadow( void );
-bool    RF_CheapShadowPerformance( void );
-bool    RF_CheapShadowPlayer( void );
+bool    RFF_CheapShadow( void );
+bool    RFF_CheapShadowPerformance( void );
+bool    RFF_CheapShadowPlayer( void );
 
 EXTERN_END
 

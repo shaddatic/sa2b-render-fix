@@ -208,7 +208,7 @@ TaskDisplayDispLast(TASK* btpl)
 static void
 TaskDisplayAll(void)
 {
-    const bool chs_performance = RF_CheapShadowPerformance();
+    const bool chs_performance = RFF_CheapShadowPerformance();
 
     bool no_draw;
 

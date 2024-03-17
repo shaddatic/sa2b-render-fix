@@ -41,19 +41,19 @@ njSearchTexMemList_(void)
 
 /** Extern functions **/
 bool
-RF_BackColorDraw(void)
+RFF_BackColorDraw(void)
 {
     return RfgBackColor;
 }
 
 bool
-RF_SpotLightFix(void)
+RFF_SpotLightFix(void)
 {
     return RfgSpotLight;
 }
 
 bool
-RF_EnvMapFlip(void)
+RFF_EnvMapFlip(void)
 {
     return RfgEnvMapFlip;
 }

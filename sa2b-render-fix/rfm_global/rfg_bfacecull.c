@@ -285,7 +285,7 @@ BGDisp_CCSFix(TASK* tp)
 static bool CullEnabled;
 
 bool
-RF_BackfaceCullEnabled()
+RFF_BackFaceCulling(void)
 {
     return CullEnabled;
 }
