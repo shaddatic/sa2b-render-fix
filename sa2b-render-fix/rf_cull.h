@@ -27,7 +27,7 @@ RFE_CULLMODE;
 /************************/
 EXTERN_START
 /** Set cull mode **/
-void    RF_SetCullMode(RFE_CULLMODE mode);
+void    RF_SetCullMode( RFE_CULLMODE mode );
 
 EXTERN_END
 
