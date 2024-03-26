@@ -15,7 +15,6 @@
 #define DXVK_DLL_PATH       "./d3d9.dll"
 #define DXVK_CONF_PATH      "./dxvk.conf"
 #define DXVK_WEB_PATH       "https://github.com/doitsujin/dxvk"
-#define DXVK_LEGACY_WEB     "https://github.com/doitsujin/dxvk/releases/tag/v1.10.3"
 
 static void
 DXVK_CheckAndInstall(void)
@@ -25,10 +24,8 @@ DXVK_CheckAndInstall(void)
 
     const bool yes = RF_Query("DXVK not installed", 
 
-        "It is recommended to use DXVK for SA2, as it increases performance, increases stability, & allows for graphical enhancements.\n"
-        "If you encounter any issues, ensure your graphics drivers are up to date.\n"
-        "If you are running legacy hardware, DXVK version 1.10.3 has relaxed driver requirements and can be downloaded from" DXVK_LEGACY_WEB ".\n"
-        "Would you like to install it now?\n\n"
+        "It is recommended to use DXVK for SA2 as it increases performance, increases stability, & allows for graphical enhancements.\n"
+        "Would you like Render Fix to install it now?\n\n"
 
         "If you are running Linux, you can ignore this alert!"
     );
@@ -49,7 +46,13 @@ DXVK_CheckAndInstall(void)
         uFileCopy(buf, DXVK_DLL_PATH);
 
         RF_Alert("Restart Required",
-            "DXVK was successfully installed! The game must now be restarted for changes to apply.");
+
+            "DXVK v1.10.3 was successfully installed! The game must now be restarted for changes to apply.\n"
+            "If you encounter any issues, ensure your graphics drivers are up to date!\n\n"
+
+            "If you're running newer hardware, it's recommended to install the newest DXVK build from " DXVK_WEB_PATH " to get the best performance!\n"
+            "To do so, download the latest release and place the x32 version of d3d9.dll into SA2's main directory, next to the executable.\n\n"
+        );
     }
 
     RF_ConfigSetInt(CNF_SECT_HIDDEN, "dxvk_chk", 1);
