@@ -416,9 +416,7 @@ RF_CnkObjectMaterialFlagOn(NJS_CNK_OBJECT* pObject, uint32_t flag)
 void
 RF_CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32_t flag)
 {
-    NJS_CNK_MODEL* models[32];
-
-    MemSet(models, 0x00, sizeof(models));
+    NJS_CNK_MODEL* models[32] = { 0 };
 
     OBJ_LANDENTRY* plentry = pLand->pLandEntry;
 
@@ -554,9 +552,7 @@ RF_CnkObjectMaterialFlagOff(NJS_CNK_OBJECT* pObject, uint32_t flag)
 void
 RF_CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32_t flag)
 {
-    NJS_CNK_MODEL* models[32];
-
-    MemSet(models, 0x00, sizeof(models));
+    NJS_CNK_MODEL* models[32] = { 0 };
 
     OBJ_LANDENTRY* plentry = pLand->pLandEntry;
 
