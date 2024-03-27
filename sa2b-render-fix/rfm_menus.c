@@ -149,7 +149,7 @@ DisplayStageMapHook(float scroll, float fade)
     ResetConstantMaterial();
 }
 
-#define flt_1A3D660         DataRef(float, 0x1A3D660)
+#define flt_1A3D660                     DataRef(float, 0x1A3D660)
 
 #define SetConstMatAndBackupConstAttr   FuncPtr(void, __cdecl, (float), 0x00433D00)
 #define RestoreConstMatAndConstAttr     FuncPtr(void, __cdecl, (void) , 0x00433D40)
