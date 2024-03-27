@@ -82,7 +82,7 @@ RFAPI_DRAW;
 typedef struct
 {
     /**** Version >= 0 ******************************/
-    const RF_VERSION     version;
+    RF_VERSION     version;
 
     const RFAPI_FEATURE* pApiFeature;
     const RFAPI_DRAW*    pApiDraw;
@@ -90,7 +90,7 @@ typedef struct
 RFAPI_CORE;
 
 __declspec(dllexport)
-RFAPI_FEATURE rfapi_feature =
+const RFAPI_FEATURE rfapi_feature =
 {
     .version = FEAT_API_VER,
 
@@ -108,7 +108,7 @@ RFAPI_FEATURE rfapi_feature =
 };
 
 __declspec(dllexport)
-RFAPI_DRAW rfapi_draw =
+const RFAPI_DRAW rfapi_draw =
 {
     DRAW_API_VER,
 
@@ -131,7 +131,7 @@ RFAPI_DRAW rfapi_draw =
 };
 
 __declspec(dllexport)
-RFAPI_CORE rfapi_core =
+const RFAPI_CORE rfapi_core =
 {
     .version = { RELEASE, MAJOR, MINOR, 0 },
 
