@@ -27,6 +27,8 @@ config* ConfigOpen( const utf8* fpath );
 void    ConfigSave( const config* pConf );
 void    ConfigClose(      config* pConf );
 
+/** Save to arbitrary path **/
+void    ConfigSaveAs( const config* pConf, const utf8* fpath );
 
 /** Get functions **/
 int32_t ConfigGetInt(    const config* pConf, const utf8* sect, const utf8* key, int32_t     def );

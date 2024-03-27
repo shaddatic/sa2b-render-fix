@@ -1,7 +1,7 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/funchook.h>
-#include <sa2b/d3dcontrol.h>
+#include <sa2b/dx9ctrl.h>
 
 #include <sa2b/gx/gx.h>
 
@@ -44,12 +44,14 @@ typedef struct
 }
 MOD_COLOR;
 
+static RFE_MOD_MODE ModMode;
+
 static d3d_vtx_shader* ModBasicVtxShader;
 
 static d3d_vtx_shader* ModVtxShader;
 static d3d_pxl_shader* ModPxlShader;
 
-static d3d_vtx_declaration* ModVtxDeclaration;
+static dx9_vtx_decl* ModVtxDeclaration;
 
 static MOD_COLOR ModColor;
 
@@ -62,7 +64,7 @@ static size_t       ModTriListNum;
 static size_t       ModTriListMax;
 
 void
-RFMOD_ClearBuffer()
+RFMOD_ClearBuffer(void)
 {
     ModBufferNum = 0;
     ModTriListNum = 0;
@@ -99,6 +101,12 @@ RFMOD_SetAlphaI(uint8_t a)
 }
 
 void
+RFMOD_SetDrawMode(RFE_MOD_MODE mode)
+{
+    ModMode = mode;
+}
+
+void
 RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
 {
     const size_t stacktop = nbPoly + ModBufferNum;
@@ -129,14 +137,14 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
     ++ModTriListNum;
 }
 
-void
+static void
 DrawModifierList(size_t startTri, size_t nbTri)
 {
-    D3D_DrawPrimitiveUP(D3D_PRIMTYPE_TRIANGLELIST, nbTri, &ModBuffer[startTri], sizeof(NJS_POINT3));
+    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, nbTri, &ModBuffer[startTri], sizeof(NJS_POINT3));
 }
 
 static void
-DrawScreenQuad()
+DrawScreenQuad(void)
 {
 #define MOD_SCREEN_QUAD_NUM     (arylen(ModScreenQuad) - 2)
 #define SCREEN_QUAD_Z           (0.5f)
@@ -149,7 +157,7 @@ DrawScreenQuad()
         {  1.0f,  1.0f, SCREEN_QUAD_Z },
     };
 
-    D3D_DrawPrimitiveUP(D3D_PRIMTYPE_TRIANGLESTRIP, MOD_SCREEN_QUAD_NUM, ModScreenQuad, sizeof(NJS_POINT3));
+    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLESTRIP, MOD_SCREEN_QUAD_NUM, ModScreenQuad, sizeof(NJS_POINT3));
 
 #undef  SCREEN_QUAD_Z
 #undef  MOD_SCREEN_QUAD_NUM
@@ -157,61 +165,80 @@ DrawScreenQuad()
 
 //#define MOD_MDL_DEBUG
 
-void
-RFMOD_DrawBuffer()
+static void
+ModSaveRenderState(void)
 {
-    if (!ModBufferNum)
-        return;
+    DX9_SaveVtxShaderState();
+    DX9_SavePxlShaderState();
+    DX9_SaveVtxDeclState();
+    DX9_SaveColorWriteState();
+    DX9_SaveAlphaFuncState();
+    DX9_SaveSrcBlendState();
+    DX9_SaveDstBlendState();
+    DX9_SaveZWriteState();
+    DX9_SaveZReadState();
+    DX9_SaveStencilTwoSidedState();
+    DX9_SaveAlphaBlendState();
+}
 
+static void
+ModLoadRenderState(void)
+{
+    DX9_LoadVtxShaderState();
+    DX9_LoadPxlShaderState();
+    DX9_LoadVtxDeclState();
+    DX9_LoadColorWriteState();
+    DX9_LoadAlphaFuncState();
+    DX9_LoadSrcBlendState();
+    DX9_LoadDstBlendState();
+    DX9_LoadZWriteState();
+    DX9_LoadZReadState();
+    DX9_LoadStencilTwoSidedState();
+    DX9_LoadAlphaBlendState();
+}
+
+static void
+DrawBufferAccurate(void)
+{
     /****** Initial Setup ******/
     /** Save render state **/
-    D3D_SaveVertexShader();
-    D3D_SavePixelShader();
-    D3D_SaveVertexDecl();
-    D3D_SaveColorWriteState();
-    D3D_SaveAlphaFunc();
-    D3D_SaveSrcBlend();
-    D3D_SaveDstBlend();
-    D3D_SaveZWriteState();
-    D3D_SaveZState();
-    D3D_SaveTwoSidedStencilMode();
-    D3D_SaveAlphaBlendState();
+    ModSaveRenderState();
 
     /** Setup shader info **/
-    D3D_SetVtxShader(ModVtxShader);
-    D3D_SetPxlShader(ModPxlShader);
-    D3D_SetVtxDeclaration(ModVtxDeclaration);
+    DX9_SetVtxShader(ModVtxShader);
+    DX9_SetPxlShader(ModPxlShader);
+    DX9_SetVtxDecl(ModVtxDeclaration);
 
-    D3D_SetPxlShaderConstantF(&ModColor, 0, 4);
+    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
 
     /** Enable stencil **/
-    D3D_StencilEnable();
+    DX9_SetStencil(true);
 
     /****** Prep Buffer Write ******/
     /** Alpha blend **/
-    D3D_AlphaBlendDisable();
+    DX9_SetAlphaBlend(false);
 
     /** Color write **/
-    D3D_ColorWrite(D3D_COLORWRITE_NONE);
+    DX9_SetColorWrite(DX9_COL_NONE);
 
     /** Z buffer **/
-    D3D_ZWriteDisable();
+    DX9_SetZWrite(false);
 
     /** Stencil ref **/
-    D3D_StencilReference(STENCIL_BIT_DRAW);
+    DX9_SetStencilRef(STENCIL_BIT_DRAW);
 
     /** Stencil masks **/
-    D3D_StencilMask(STENCIL_BITS_LOW);
+    DX9_SetStencilReadMask(STENCIL_BITS_LOW);
 
     /** Stencil ops CW **/
-    D3D_StencilFail(D3D_STENCIL_KEEP);
-    D3D_StencilZFail(D3D_STENCIL_INCREMENT);
-//  D3D_StencilPass(D3D_STENCIL_KEEP);      // Optimization: Set in both passes
+    DX9_SetStencilFail(DX9_STCL_KEEP);
+    DX9_SetStencilZFail(DX9_STCL_INCR);
+//  DX9_SetStencilPass(DX9_STCL_KEEP);      // Optimization: Set in both passes
 
-    /** Stencil ops CCW **/
-    D3D_StencilFailCCW(D3D_STENCIL_KEEP);
-    D3D_StencilZFailCCW(D3D_STENCIL_DECREMENT);
-    D3D_StencilPassCCW(D3D_STENCIL_KEEP);
+        /** Stencil ops CCW **/
+    DX9_SetStencilFailCCW(DX9_STCL_KEEP);
+    DX9_SetStencilZFailCCW(DX9_STCL_DECR);
+    DX9_SetStencilPassCCW(DX9_STCL_KEEP);
 
     MOD_TRILIST* tri_lists = ModTriListList;
 
@@ -222,15 +249,15 @@ RFMOD_DrawBuffer()
         /** This pass draws both sides of the current modifier
             and incs/decs the lower half of the stencil buffer **/
 
-        D3D_StencilTwoSidedEnable();
+        DX9_SetStencilTwoSided(true);
 
-        D3D_ZReadEnable();
+        DX9_SetZRead(true);
 
-        D3D_StencilFunc(D3D_COMPARE_ALWAYS);
+        DX9_SetStencilFunc(DX9_CMP_ALW);
 
-        D3D_StencilWriteMask(STENCIL_BITS_LOW);
+        DX9_SetStencilWriteMask(STENCIL_BITS_LOW);
 
-        D3D_StencilPass(D3D_STENCIL_KEEP);
+        DX9_SetStencilPass(DX9_STCL_KEEP);
 
         DrawModifierList(tri_lists->startTri, tri_lists->nbTri);
 
@@ -240,99 +267,247 @@ RFMOD_DrawBuffer()
             flag to '1' if the lower half of the stencil buffer isn't 0.
             It then resets the lower half state back to 0 **/
 
-        D3D_StencilTwoSidedDisable();
+        DX9_SetStencilTwoSided(false);
 
-        D3D_ZReadDisable();
+        DX9_SetZRead(false);
 
-        D3D_StencilFunc(D3D_COMPARE_NOT_EQUAL);
+        DX9_SetStencilFunc(DX9_CMP_NEQ);
 
-        D3D_StencilWriteMask(STENCIL_BIT_DRAW | STENCIL_BITS_LOW);
+        DX9_SetStencilWriteMask(STENCIL_BIT_DRAW | STENCIL_BITS_LOW);
 
-        D3D_StencilPass(D3D_STENCIL_REPLACE);
+        DX9_SetStencilPass(DX9_STCL_REPL);
 
         DrawModifierList(tri_lists->startTri, tri_lists->nbTri);
     }
 
     /****** Prep Buffer Draw ******/
     /** Alpha blend **/
-    D3D_AlphaBlendEnable();
-    D3D_SrcBlend(D3D_BLEND_SRCALPHA);
-    D3D_DstBlend(D3D_BLEND_INVSRCALPHA);
+    DX9_SetAlphaBlend(true);
+    DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
+    DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
     /** Color write **/
-    D3D_ColorWrite(
-        D3D_COLORWRITE_RED |
-        D3D_COLORWRITE_GREEN |
-        D3D_COLORWRITE_BLUE
+    DX9_SetColorWrite(
+        DX9_COL_RED |
+        DX9_COL_GREEN |
+        DX9_COL_BLUE
     );
 
     /** Z buffer **/
-    D3D_ZReadDisable();
+    DX9_SetZRead(false);
 
     /** Stencil ref **/
-    D3D_StencilReference(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
+    DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
 
     /** Stencil masks **/
-    D3D_StencilMask(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
-    D3D_StencilWriteMask(STENCIL_BITS_ALL);
+    DX9_SetStencilReadMask(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
+    DX9_SetStencilWriteMask(STENCIL_BITS_ALL);
 
     /** Stencil compare **/
-    D3D_StencilFunc(D3D_COMPARE_EQUAL);
+    DX9_SetStencilFunc(DX9_CMP_EQU);
 
     /** Stencil ops **/
-    D3D_StencilFail(D3D_STENCIL_ZERO);
-    D3D_StencilZFail(D3D_STENCIL_ZERO);
-    D3D_StencilPass(D3D_STENCIL_ZERO);
+    DX9_SetStencilFail(DX9_STCL_ZERO);
+    DX9_SetStencilZFail(DX9_STCL_ZERO);
+    DX9_SetStencilPass(DX9_STCL_ZERO);
 
     /****** Draw the Stencil Buffer ******/
-    D3D_SetVtxShader(ModBasicVtxShader);
+    DX9_SetVtxShader(ModBasicVtxShader);
     DrawScreenQuad();
 
     /****** End Draw Buffer ******/
     /** Restore stencil state **/
-    D3D_StencilReference(STENCIL_BIT_ON);
-    D3D_StencilMask(STENCIL_BITS_ALL);
-    D3D_StencilFunc(D3D_COMPARE_ALWAYS);
-    D3D_StencilFail(D3D_STENCIL_KEEP);
-    D3D_StencilZFail(D3D_STENCIL_KEEP);
-    D3D_StencilPass(D3D_STENCIL_ZERO);
+    DX9_SetStencilRef(STENCIL_BIT_ON);
+    DX9_SetStencilReadMask(STENCIL_BITS_ALL);
+    DX9_SetStencilFunc(DX9_CMP_ALW);
+    DX9_SetStencilFail(DX9_STCL_KEEP);
+    DX9_SetStencilZFail(DX9_STCL_KEEP);
+    DX9_SetStencilPass(DX9_STCL_ZERO);
 
     /** Load render state **/
-    D3D_LoadVertexShader();
-    D3D_LoadPixelShader();
-    D3D_LoadVertexDecl();
-    D3D_LoadColorWriteState();
-    D3D_LoadAlphaFunc();
-    D3D_LoadSrcBlend();
-    D3D_LoadDstBlend();
-    D3D_LoadZWriteState();
-    D3D_LoadZState();
-    D3D_LoadTwoSidedStencilMode();
-    D3D_LoadAlphaBlendState();
+    ModLoadRenderState();
+}
+
+static void
+DrawBufferFast(void)
+{
+    /****** Initial Setup ******/
+    /** Save render state **/
+    ModSaveRenderState();
+
+    /** Setup shader info **/
+    DX9_SetVtxShader(ModVtxShader);
+    DX9_SetPxlShader(ModPxlShader);
+    DX9_SetVtxDecl(ModVtxDeclaration);
+
+    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
+
+    /** Enable stencil **/
+    DX9_SetStencil(true);
+
+    /****** Prep Buffer Write ******/
+    /** Alpha blend **/
+    DX9_SetAlphaBlend(false);
+
+    /** Color write **/
+    DX9_SetColorWrite(DX9_COL_NONE);
+
+    /** Z buffer **/
+    DX9_SetZWrite(false);
+
+    /** Stencil ref **/
+    DX9_SetStencilRef(STENCIL_BIT_DRAW);
+
+    /** Stencil masks **/
+    DX9_SetStencilReadMask(STENCIL_BITS_LOW);
+
+    /** Stencil ops CW **/
+    DX9_SetStencilFail(DX9_STCL_KEEP);
+    DX9_SetStencilZFail(DX9_STCL_INCR);
+    DX9_SetStencilPass(DX9_STCL_KEEP);
+
+    /** Stencil ops CCW **/
+    DX9_SetStencilFailCCW(DX9_STCL_KEEP);
+    DX9_SetStencilZFailCCW(DX9_STCL_DECR);
+    DX9_SetStencilPassCCW(DX9_STCL_KEEP);
+
+    /****** Write to the Stencil Buffer ******/
+    /****** 1st pass: ******/
+    /** This pass draws both sides of the entire modifier
+        buffer in just one draw call. While very fast, it
+        causes visual bugs in scenarios involving inverted
+        modifier models. **/
+    DX9_SetStencilTwoSided(true);
+
+    DX9_SetStencilFunc(DX9_CMP_ALW);
+
+    DX9_SetStencilWriteMask(STENCIL_BITS_LOW);
+
+    DrawModifierList(0, ModBufferNum);
+
+    DX9_SetStencilTwoSided(false);
+
+    /****** Prep Buffer Draw ******/
+    /** Alpha blend **/
+    DX9_SetAlphaBlend(true);
+    DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
+    DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
+
+    /** Color write **/
+    DX9_SetColorWrite(
+        DX9_COL_RED |
+        DX9_COL_GREEN |
+        DX9_COL_BLUE
+    );
+
+    /** Z buffer **/
+    DX9_SetZRead(false);
+
+    /** Stencil ref **/
+    DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
+
+    /** Stencil masks **/
+    DX9_SetStencilReadMask(STENCIL_BIT_ON | STENCIL_BITS_LOW);
+    DX9_SetStencilWriteMask(STENCIL_BITS_ALL);
+
+    /** Stencil compare **/
+    DX9_SetStencilFunc(DX9_CMP_LSS);
+
+    /** Stencil ops **/
+    DX9_SetStencilFail(DX9_STCL_ZERO);
+    DX9_SetStencilZFail(DX9_STCL_ZERO);
+    DX9_SetStencilPass(DX9_STCL_ZERO);
+
+    /****** Draw the Stencil Buffer ******/
+    DX9_SetVtxShader(ModBasicVtxShader);
+    DrawScreenQuad();
+
+    /****** End Draw Buffer ******/
+    /** Restore stencil state **/
+    DX9_SetStencilRef(STENCIL_BIT_ON);
+    DX9_SetStencilReadMask(STENCIL_BITS_ALL);
+    DX9_SetStencilFunc(DX9_CMP_ALW);
+    DX9_SetStencilFail(DX9_STCL_KEEP);
+    DX9_SetStencilZFail(DX9_STCL_KEEP);
+    DX9_SetStencilPass(DX9_STCL_ZERO);
+
+    /** Load render state **/
+    ModLoadRenderState();
+}
+
+static void
+DrawBufferDebug(void)
+{
+    /****** Initial Setup ******/
+    /** Save render state **/
+    ModSaveRenderState();
+
+    /** Setup shader info **/
+    DX9_SetVtxShader(ModVtxShader);
+    DX9_SetPxlShader(ModPxlShader);
+    DX9_SetVtxDecl(ModVtxDeclaration);
+
+    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
+
+    /****** Prep Buffer Write ******/
+    /** Z buffer **/
+    DX9_SetZWrite(false);
+
+    /****** Prep Buffer Draw ******/
+    /** Alpha blend **/
+    DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
+    DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
+
+    /****** Draw the Modifier Buffer ******/
+    DrawModifierList(0, ModBufferNum);
+
+    /** Load render state **/
+    ModLoadRenderState();
 }
 
 void
-RFMOD_Suspend()
+RFMOD_DrawBuffer(void)
 {
-    D3D_StencilDisable();
+    if (!ModBufferNum)
+        return;
+
+    switch (ModMode) {
+    case MODMD_ACCURATE:
+        DrawBufferAccurate();
+        break;
+
+    case MODMD_FAST:
+        DrawBufferFast();
+        break;
+
+    case MODMD_DEBUG:
+        DrawBufferDebug();
+        break;
+    }
 }
 
 void
-RFMOD_Resume()
+RFMOD_Suspend(void)
 {
-    D3D_StencilEnable();
+    DX9_SetStencil(false);
 }
 
 void
-RFMOD_OnShadow()
+RFMOD_Resume(void)
 {
-    D3D_StencilPass(D3D_STENCIL_REPLACE);
+    DX9_SetStencil(true);
 }
 
 void
-RFMOD_OffShadow()
+RFMOD_OnShadow(void)
 {
-    D3D_StencilPass(D3D_STENCIL_ZERO);
+    DX9_SetStencilPass(DX9_STCL_REPL);
+}
+
+void
+RFMOD_OffShadow(void)
+{
+    DX9_SetStencilPass(DX9_STCL_ZERO);
 }
 
 void
@@ -431,13 +606,13 @@ RFMOD_Init()
     ModVtxShader = RF_LoadVtxShader("stencil_vs");
     ModPxlShader = RF_LoadPxlShader("stencil_ps");
 
-    const d3d_vtx_element vtx_ele_list[] =
+    const dx9_vtx_elem vtx_ele_list[] =
     {
-        { 0, 0, D3D_VTXELE_TYPE_FLOAT3, D3D_VTXELE_METHOD_DEFAULT, D3D_VTXELE_USAGE_POSITION, 0 },
-        D3D_VTXELE_END()
+        { 0, 0, DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 },
+        DX9_VTX_ELEM_END()
     };
 
-    ModVtxDeclaration = D3D_CreateVtxDeclaration(vtx_ele_list);
+    ModVtxDeclaration = DX9_CreateVtxDecl(vtx_ele_list);
 
     RFMOD_CreateBuffer(NB_MOD_TRI, NB_MOD_TRILIST);
 

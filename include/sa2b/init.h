@@ -27,25 +27,19 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-/****** Global Init *********************************************************/
-/** Initializes entire Toolkit & all modules **/
-void    SAMT_Init(const char* path, const HelperFunctions* pHelpFuncs);
+/****** Base Init ***********************************************************/
+/** Initializes core toolkit modules **/
+void    SAMT_Init(const char* path, const HelperFunctions* pHelperFunctions);
 
-/****** Individual **********************************************************/
-/** Mod path **/
-void    SetModPath(const char* path);
-
-/** Init Mod-Loader module **/
-void    ML_Init(const HelperFunctions* pHelpFuncs);
-
-/** Init D3D control module **/
-void    D3D_InitRenderDevice();
+/****** Extra Init **********************************************************/
+/** Init DX9 device control module **/
+void    DX9_Init( void );
 
 /** Init SAMT input module **/
-void    InputInit();
+void    InputInit( void );
 
-/** Init MT random number generator **/
-void    mtRandAutoSeeds();
+/** Init mersenne twister random number generator **/
+void    mtRandInit( void );
 
 EXTERN_END
 
@@ -59,9 +53,9 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    Init(const char* path, const HelperFunctions* pHelpFuncs)
+    Init(const char* path, const HelperFunctions* pHelperFunctions)
     {
-        SAMT_Init(path, pHelpFuncs);
+        SAMT_Init(path, pHelperFunctions);
     }
 *
 *   Execute every rendered frame:

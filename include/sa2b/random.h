@@ -1,10 +1,11 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/random.h'
 *
-*   Contains functions for chance and random calculations using 
-*   the mersenne twister (mt) algorithm.
-* 
-*   Useful when game 'rand()' isn't enough, or is unreliable.
+*   Description:
+*       Contains functions for chance and random calculations
+*   using the mersenne twister (mt) algorithm.
+*       Useful when game 'rand()' isn't enough, or is
+*   unreliable.
 *
 *   Contributors:
 *   -   Shaddatic
@@ -33,14 +34,14 @@
 /************************/
 EXTERN_START
 /** Set random seeds **/
-void    mtRandAutoSeeds();            /* Automatically set seeds to CPU tick */
+void    mtRandAutoSeeds( void );    /* Automatically set seeds to CPU tick */
 void    mtRandSetSeeds(uint64_t seed);
 
 /** Get random integer **/
-uint64_t mtRand64();     /* 0 - 18,446,744,073,709,551,615 */
-uint32_t mtRand32();     /* 0 -  4,294,967,295 */
-uint16_t mtRand16();     /* 0 - 65,535 */
-int32_t  mtRand15();     /* 0 - 32,767           (Mimicks standard 'rand()' function) */
+uint64_t mtRand64( void );  /* 0 - 18,446,744,073,709,551,615 */
+uint32_t mtRand32( void );  /* 0 -  4,294,967,295 */
+uint16_t mtRand16( void );  /* 0 - 65,535 */
+int32_t  mtRand15( void );  /* 0 - 32,767           (Mimicks standard 'rand()' function) */
 
 EXTERN_END
 

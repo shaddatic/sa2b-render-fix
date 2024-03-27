@@ -1,7 +1,7 @@
 #include <sa2b/core.h>
 #include <sa2b/funchook.h>
 #include <sa2b/config.h>
-#include <sa2b/d3dcontrol.h>
+#include <sa2b/dx9ctrl.h>
 
 /** Source **/
 #define SAMT_INCLUDE_FUNC_PTRS
@@ -43,7 +43,7 @@ RF_LoadVtxShader(const utf8* fname)
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
 
-    d3d_vtx_shader* vshader = D3D_LoadVtxShader(buf);
+    d3d_vtx_shader* vshader = DX9_LoadVtxShader(buf);
 
     if (!vshader)
         RF_ShaderError(buf);
@@ -58,7 +58,7 @@ RF_LoadPxlShader(const utf8* fname)
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
 
-    d3d_pxl_shader* pshader = D3D_LoadPxlShader(buf);
+    d3d_pxl_shader* pshader = DX9_LoadPxlShader(buf);
 
     if (!pshader)
         RF_ShaderError(buf);
@@ -74,10 +74,10 @@ SetAndLoadShaderHook(int shader)
     FuncHookCall( HookInfoSetAndLoadShader, SetAndLoadShader(shader) );
 
     if (ShaderVtxEntries[shader])
-        D3D_SetVtxShader(ShaderVtxEntries[shader]);
+        DX9_SetVtxShader(ShaderVtxEntries[shader]);
 
     if (ShaderPxlEntries[shader])
-        D3D_SetPxlShader(ShaderPxlEntries[shader]);
+        DX9_SetPxlShader(ShaderPxlEntries[shader]);
 }
 
 void

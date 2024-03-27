@@ -2,7 +2,7 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/util/ml_type.h'
 *
 *   Description:
-*       
+*       Mod loader abstract type definitions.
 *
 *   Contributors:
 *   -   Shaddatic
@@ -16,8 +16,9 @@
 /*  Structures          */
 /************************/
 #ifndef SAMT_INCL_MLTYPE_NOABSTRACT
-typedef int32_t ModInfo[10];
-typedef void    HelperFunctions;
+
+typedef int32_t     ModInfo[10];
+typedef void        HelperFunctions;
 
 #endif/*SAMT_INCL_MLTYPE_NOABSTRACT*/
 

@@ -43,12 +43,11 @@
 
 EXPORT_DLL
 void __cdecl
-Init(const char* path, const HelperFunctions* pHelpFuncs)
+Init(const char* path, const HelperFunctions* pHelperFunctions)
 {
     /** SAModToolkit init **/
-    SetModPath(path);
-    ML_Init(pHelpFuncs);
-    D3D_InitRenderDevice();
+    SAMT_Init(path, pHelperFunctions);
+    DX9_Init();
 
     /** Check Render Fix's mod-list position **/
     {
