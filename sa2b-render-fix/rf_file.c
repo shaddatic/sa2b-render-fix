@@ -1,7 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/model.h>
 #include <sa2b/modloader.h>
-#include <sa2b/d3dcontrol.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
