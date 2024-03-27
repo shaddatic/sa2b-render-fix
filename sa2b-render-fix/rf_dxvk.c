@@ -14,7 +14,7 @@
 
 #define DXVK_DLL_PATH       "./d3d9.dll"
 #define DXVK_CONF_PATH      "./dxvk.conf"
-#define DXVK_WEB_PATH       "https://github.com/doitsujin/dxvk"
+#define DXVK_WEB_PATH       "https://github.com/doitsujin/dxvk/releases"
 
 static void
 DXVK_CheckAndInstall(void)
@@ -51,7 +51,7 @@ DXVK_CheckAndInstall(void)
             "If you encounter any issues, ensure your graphics drivers are up to date!\n\n"
 
             "If you're running newer hardware, it's recommended to install the newest DXVK build from " DXVK_WEB_PATH " to get the best performance!\n"
-            "To do so, download the latest release and place the x32 version of d3d9.dll into SA2's main directory, next to the executable.\n\n"
+            "To do so, download the latest release and place the x32 version of d3d9.dll into SA2's main directory, next to the executable."
         );
     }
 
