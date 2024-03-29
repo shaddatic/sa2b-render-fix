@@ -20,44 +20,21 @@
 #include <rfm_shadows.h>
 #include <rfm_shadows/shd_internal.h>
 
-/** Enums **/
-typedef enum
-{
-    CHSMD_OFF,
-    CHSMD_PERFORMANCE,
-    CHSMD_ON,
-}
-eCHS_MODE;
-
-enum
-{
-    GLSHD_OFF,
-    GLSHD_VANILLA,
-    GLSHD_MODIFIER,
-};
-
-enum
-{
-    OPACITY_PC,
-    OPACITY_DREAMCAST,
-    OPACITY_DREAMCAST_CHAO,
-};
-
 /** Constants **/
 #define CHEAP_SHDW_MD_NORM  (0x50)
 #define CHEAP_SHDW_MD_CHAO  (0x73)
 
-static const float    OpacityList[] = { 0.75f, 0.6862745098039216f, 0.5490196078431373f };
+static const float    OpacityList[]    = { 0.75f, 0.6862745098039216f, 0.5490196078431373f };
 static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
 /** Globals **/
 static float ShadowOpacityGlobal;
 static float ShadowOpacityChao;
 
-static eCHS_MODE CheapShadowMode;
-static bool      CheapShadowPlayer;
+static int  CheapShadowMode;
+static bool CheapShadowPlayer;
 
-static bool      ShadowWriteObjPak;
+static bool ShadowWriteObjPak;
 
 static NJS_CNK_MODEL* model_basic_shadow;
 
@@ -110,13 +87,13 @@ DrawBasicShadow(void)
 bool
 RFF_CheapShadow(void)
 {
-    return CheapShadowMode != CHSMD_OFF;
+    return CheapShadowMode != CNFE_SHADOW_CHSMD_DISABLED;
 }
 
 bool
 RFF_CheapShadowPerformance(void)
 {
-    return CheapShadowMode == CHSMD_PERFORMANCE;
+    return CheapShadowMode == CNFE_SHADOW_CHSMD_PERFORMANCE;
 }
 
 bool
@@ -150,9 +127,9 @@ RFM_ShadowsInit(void)
 
     /****** Cheap Shadows / Modifiers ******/
     {
-        const eCHS_MODE chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHS_MODE);
+        const int chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHS_MODE);
 
-        if (chs_mode != CHSMD_OFF)
+        if (chs_mode != CNFE_SHADOW_CHSMD_DISABLED)
         {
             /** Mod check and warning **/
             if (ModCheckDll("sa2-dc-lighting"))
@@ -162,14 +139,19 @@ RFM_ShadowsInit(void)
             RFMOD_Init();
 
             /** Load basic shadow **/
-            NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("basic_shadow");
+            {
+                NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("basic_shadow");
 
-            model_basic_shadow = objp->model;
+                model_basic_shadow = objp->model;
 
-            MemFree(objp); // We only use the model, so free
+                MemFree(objp); // We only use the model, so free
+            }
+
+            if (chs_mode == CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE)
+                RFMOD_SetDrawMode(MODMD_FAST);
+
+            CheapShadowMode = chs_mode;
         }
-
-        CheapShadowMode = chs_mode;
     }
 
     ShadowOpacityGlobal = OpacityList[RF_ConfigGetInt(CNF_SHADOW_GLOPACITY)];
@@ -187,7 +169,7 @@ RFM_ShadowsInit(void)
     /****** Global Shadow Mode ******/
 
     switch (RF_ConfigGetInt(CNF_SHADOW_GLMODE)) {
-    case GLSHD_MODIFIER:
+    case CNFE_SHADOW_GLMD_MODIFIER:
         CHS_BoardInit();
         CHS_MessengerInit();
         CHS_BunchinInit();
@@ -212,17 +194,17 @@ RFM_ShadowsInit(void)
         CHS_CarInit();
         break;
 
-    case GLSHD_VANILLA:
+    case CNFE_SHADOW_GLMD_VANILLA:
         /** Vanilla shadows **/
         break;
 
-    case GLSHD_OFF:
+    case CNFE_SHADOW_GLMD_DISABLED:
         WriteRetn(0x0046FBC0); // Disable all shadows
         return;
     }
 
     switch (RF_ConfigGetInt(CNF_SHADOW_PLMODE)) {
-    case PL_SHDMD_MODIFIER:
+    case CNFE_SHADOW_PLMD_MODIFIER:
         if (!RFF_CheapShadow())
             break;
 
@@ -230,16 +212,16 @@ RFM_ShadowsInit(void)
         CheapShadowPlayer = true;
         break;
 
-    case PL_SHDMD_ENH_EQUIP:
+    case CNFE_SHADOW_PLMD_EQUIPMENT:
         EnhancedPlayerShadowsInit();
         EnhancedPlayerShadowsEquipmentInit();
         break;
 
-    case PL_SHDMD_ENHANCED:
+    case CNFE_SHADOW_PLMD_ENHANCED:
         EnhancedPlayerShadowsInit();
         break;
 
-    case PL_SHDMD_VANILLA:
+    case CNFE_SHADOW_PLMD_VANILLA:
         /** Vanilla **/
         break;
     }
