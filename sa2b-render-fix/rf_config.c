@@ -13,13 +13,13 @@ static bool ConfigSet;
 static config* ConfigPointer;
 
 void
-RF_ConfigInit()
+RF_ConfigInit(void)
 {
     ConfigPointer = ConfigOpen2(GetModPath(), "config.ini");
 }
 
 void
-RF_ConfigEnd()
+RF_ConfigEnd(void)
 {
     if (ConfigSet)
         ConfigSave(ConfigPointer);

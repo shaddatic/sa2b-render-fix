@@ -338,6 +338,12 @@
     <ClInclude Include="rf_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rf_config\rfcnf_sect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_config\rfcnf_enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />
