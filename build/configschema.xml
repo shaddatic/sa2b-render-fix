@@ -193,6 +193,9 @@
 			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="1">
 				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight. Unlikely to cause issues, but is here if it does.</HelpText>
 			</Property>
+			<Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
+				<HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
+			</Property>
 		</Group>
 	</Groups>
 	<Enums>

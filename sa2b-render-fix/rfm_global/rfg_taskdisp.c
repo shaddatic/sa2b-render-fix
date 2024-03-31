@@ -235,8 +235,6 @@ DrawModBuffer(int index)
 static void
 TaskDisplayAll(void)
 {
-    const bool chs_performance = RFF_CheapShadowPerformance();
-
     bool no_draw;
 
     if (byte_0174AFFD == 1)
@@ -254,88 +252,88 @@ TaskDisplayAll(void)
 
     /** Draw Displayer **/
     {
-    gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
-    TaskDisplayDisplayer(btp[0]);
+        gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
+        TaskDisplayDisplayer(btp[0]);
 
         ClearModBuffer();       // Clear buffer for new frame
 
-    BackupScreenInfo();
+        BackupScreenInfo();
         TaskDisplayShadows(); // Draw the shadows, can screw with screen so backup
-    RestoreScreenInfo();
+        RestoreScreenInfo();
 
-    SetLighting(DefaultPlayerLight); // Reset lighting
+        SetLighting(DefaultPlayerLight); // Reset lighting
 
-    gjSetRenderMode(GJD_DRAW_SOLID);
-    TaskDisplayDisplayer(btp[1]);
+        gjSetRenderMode(GJD_DRAW_SOLID);
+        TaskDisplayDisplayer(btp[1]);
 
         DrawModBuffer(MOD_DRAW_DISP_BASE_EARLY);
 
-    gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
+        gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
 
-    if (!no_draw)
-    {
-        TaskDisplayDisplayer(btp[2]);
-        TaskDisplayDisplayer(btp[3]);
-        TaskDisplayDisplayer(btp[4]);
-        TaskDisplayDisplayer(btp[5]);
+        if (!no_draw)
+        {
+            TaskDisplayDisplayer(btp[2]);
+            TaskDisplayDisplayer(btp[3]);
+            TaskDisplayDisplayer(btp[4]);
+            TaskDisplayDisplayer(btp[5]);
 
             DrawModBuffer(MOD_DRAW_DISP_BASE);
-    }
+        }
     }
 
     /** Draw Sorted displayer **/
     {
-    gjSetRenderMode(GJD_DRAW_TRANS);
-    
-    TaskDisplayDispSort(btp[0]);
-    TaskDisplayDispSort_NoSort(btp[1]);
+        gjSetRenderMode(GJD_DRAW_TRANS);
+
+        TaskDisplayDispSort(btp[0]);
+        TaskDisplayDispSort_NoSort(btp[1]);
 
         DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
 
-    if (SomeCountMax) 
-    {
-        if (!no_draw)
+        if (SomeCountMax)
         {
-            TaskDisplayDispSort_Buffer(btp[2]);
-            TaskDisplayDispSort_Buffer(btp[3]);
-            TaskDisplayDispSort_Buffer(btp[4]);
-            TaskDisplayDispSort_Buffer(btp[5]);
-        }
+            if (!no_draw)
+            {
+                TaskDisplayDispSort_Buffer(btp[2]);
+                TaskDisplayDispSort_Buffer(btp[3]);
+                TaskDisplayDispSort_Buffer(btp[4]);
+                TaskDisplayDispSort_Buffer(btp[5]);
+            }
 
-        sub_00493A90();
+            sub_00493A90();
 
             DrawModBuffer(MOD_DRAW_DISP_SORT);
-    }
-    else
-    {
-        if (!no_draw)
+        }
+        else
         {
-            TaskDisplayDispSort(btp[2]);
-            TaskDisplayDispSort(btp[3]);
-            TaskDisplayDispSort(btp[4]);
-            TaskDisplayDispSort(btp[5]);
+            if (!no_draw)
+            {
+                TaskDisplayDispSort(btp[2]);
+                TaskDisplayDispSort(btp[3]);
+                TaskDisplayDispSort(btp[4]);
+                TaskDisplayDispSort(btp[5]);
 
                 DrawModBuffer(MOD_DRAW_DISP_SORT);
+            }
         }
-    }
     }
 
     /** Draw Delayed displayer **/
     {
-    TaskDisplayDispDelayed(btp[0]);
-    TaskDisplayDispDelayed(btp[1]);
+        TaskDisplayDispDelayed(btp[0]);
+        TaskDisplayDispDelayed(btp[1]);
 
         DrawModBuffer(MOD_DRAW_DISP_DELY_EARLY);
 
-    if (!no_draw)
-    {
-        TaskDisplayDispDelayed(btp[2]);
-        TaskDisplayDispDelayed(btp[3]);
-        TaskDisplayDispDelayed(btp[4]);
-        TaskDisplayDispDelayed(btp[5]);
+        if (!no_draw)
+        {
+            TaskDisplayDispDelayed(btp[2]);
+            TaskDisplayDispDelayed(btp[3]);
+            TaskDisplayDispDelayed(btp[4]);
+            TaskDisplayDispDelayed(btp[5]);
 
             DrawModBuffer(MOD_DRAW_DISP_DELY);
-    }
+        }
     }
 
     /** Draw game HUD **/
@@ -405,6 +403,16 @@ RFG_TaskDisplayInit(void)
         ModShadowDrawList[MOD_DRAW_DISP_DELY_EARLY] = false;
         ModShadowDrawList[MOD_DRAW_DISP_DELY]       = false; /* "Dely" draw list is rarely used for shadow
                                                                 effected stuff, so disable it entirely */
+    }
+
+    if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
+    {
+        /** Disable all but one draw to stop the modifiers drawing too dark **/
+        ModShadowDrawList[MOD_DRAW_DISP_BASE_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_BASE]       = false;
+        ModShadowDrawList[MOD_DRAW_DISP_SORT_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_DELY_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_DELY]       = false;
     }
 
     /** Avoid crash that only 

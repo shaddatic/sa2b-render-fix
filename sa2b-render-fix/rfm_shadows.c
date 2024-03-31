@@ -150,6 +150,9 @@ RFM_ShadowsInit(void)
             if (chs_mode == CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE)
                 RFMOD_SetDrawMode(MODMD_FAST);
 
+            if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
+                RFMOD_SetDrawMode(MODMD_DEBUG);
+
             CheapShadowMode = chs_mode;
         }
     }

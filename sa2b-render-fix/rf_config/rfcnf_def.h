@@ -212,6 +212,7 @@ CNFE_SHADOW_OPACITY;
 #define CNF_DEBUG_BFC_EVENT         CNFO_INT(   CNFS_DEBUG          , "bfc_event"           , CNFE_BOOL_ENABLED                     )   /* Disable Back-Face Culling in Events */
 #define CNF_DEBUG_CHAOS0TEX         CNFO_INT(   CNFS_DEBUG          , "chaos0tex"           , CNFE_BOOL_ENABLED                     )   /* Custom Chaos 0 Model Support */
 #define CNF_DEBUG_DCSHAD_PATCH      CNFO_INT(   CNFS_DEBUG          , "dcshadpatch"         , CNFE_BOOL_ENABLED                     )   /* Patch DC Shadows Crash Issue */
+#define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 
 /** Hidden section **/
 #define CNF_HIDDEN_VERSION          CNFO_INT(   CNFS_HIDDEN         , "cnf_ver"             , 0                                     )   /* Config file version */
