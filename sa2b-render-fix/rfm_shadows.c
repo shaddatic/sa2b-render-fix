@@ -127,7 +127,7 @@ RFM_ShadowsInit(void)
 
     /****** Cheap Shadows / Modifiers ******/
     {
-        const int chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHS_MODE);
+        const CNFE_SHADOW_CHSMD chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHSMD);
 
         if (chs_mode != CNFE_SHADOW_CHSMD_DISABLED)
         {
@@ -168,7 +168,7 @@ RFM_ShadowsInit(void)
 
     /****** Global Shadow Mode ******/
 
-    switch (RF_ConfigGetInt(CNF_SHADOW_GLMODE)) {
+    switch (RF_ConfigGetInt(CNF_SHADOW_GLMD)) {
     case CNFE_SHADOW_GLMD_MODIFIER:
         CHS_BoardInit();
         CHS_MessengerInit();
@@ -203,7 +203,7 @@ RFM_ShadowsInit(void)
         return;
     }
 
-    switch (RF_ConfigGetInt(CNF_SHADOW_PLMODE)) {
+    switch (RF_ConfigGetInt(CNF_SHADOW_PLMD)) {
     case CNFE_SHADOW_PLMD_MODIFIER:
         if (!RFF_CheapShadow())
             break;

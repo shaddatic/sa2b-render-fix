@@ -125,8 +125,8 @@ CNFE_SHADOW_OPACITY;
 /** Hidden **/
 #define CNFS_HIDDEN         "internal"
 
-/****** Config options *****************************************************************************************                        */
-/**                               | Type      | Section             | Key                   | Default          *                        */
+/****** Config options ******************************************************************************************************************/
+/**                               | Type      | Section             | Key                   | Default                                  **/
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GLOBAL_BFACECULL        CNFO_INT(   CNFS_GLOBAL         , "backface_cull"       , CNFE_BOOL_ENABLED                     )   /* Back-Face Culling */
@@ -139,9 +139,9 @@ CNFE_SHADOW_OPACITY;
 #define CNF_GLOBAL_ENVFLIP          CNFO_INT(   CNFS_GLOBAL         , "env_flip"            , CNFE_BOOL_ENABLED                     )   /* Flip Environment Map Textures" */
 
 /** Shadows section **/
-#define CNF_SHADOW_CHS_MODE         CNFO_INT(   CNFS_SHADOW         , "cheap_shadow"        , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
-#define CNF_SHADOW_GLMODE           CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
-#define CNF_SHADOW_PLMODE           CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_EQUIPMENT            )   /* Character Shadows */
+#define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "cheap_shadow"        , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
+#define CNF_SHADOW_GLMD             CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
+#define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_EQUIPMENT            )   /* Character Shadows */
 #define CNF_SHADOW_RES              CNFO_INT(   CNFS_SHADOW         , "resolution"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
 #define CNF_SHADOW_GLOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_gl"          , CNFE_SHADOW_OPACITY_DREAMCAST         )   /* Global Opacity */
 #define CNF_SHADOW_CHOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_ch"          , CNFE_SHADOW_OPACITY_DREAMCAST_CHAO    )   /* Chao World Opacity */
