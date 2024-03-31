@@ -537,7 +537,7 @@ RFMOD_CreateBuffer(size_t nbTri, size_t nbTriList)
 static hook_info* HookInfoGxEnd;
 
 static void
-GX_EndStencilCheck()
+GX_EndStencilCheck(void)
 {
     int i = 0;
 
@@ -599,7 +599,7 @@ GjDrawStencilCheck(int a1, char a2)
 }
 
 void
-RFMOD_Init()
+RFMOD_Init(void)
 {
     ModBasicVtxShader = RF_LoadVtxShader("basic_vs");
 
