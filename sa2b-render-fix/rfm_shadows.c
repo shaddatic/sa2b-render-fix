@@ -93,7 +93,7 @@ RFF_CheapShadow(void)
 bool
 RFF_CheapShadowPerformance(void)
 {
-    return CheapShadowMode == CNFE_SHADOW_CHSMD_PERFORMANCE;
+    return RFF_CheapShadow() && CheapShadowMode <= CNFE_SHADOW_CHSMD_PERFORMANCE;
 }
 
 bool
