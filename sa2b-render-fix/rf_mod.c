@@ -455,6 +455,7 @@ DrawBufferDebug(void)
 
     /****** Prep Buffer Draw ******/
     /** Alpha blend **/
+    DX9_SetAlphaBlend(true);
     DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
     DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
