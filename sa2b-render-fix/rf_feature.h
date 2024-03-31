@@ -27,6 +27,7 @@ float   RFF_ShadowOpacityChao( void );
 /** Cheap shadows **/
 bool    RFF_CheapShadow( void );
 bool    RFF_CheapShadowPerformance( void );
+bool    RFF_CheapShadowUltraPerformance( void );
 bool    RFF_CheapShadowPlayer( void );
 
 EXTERN_END

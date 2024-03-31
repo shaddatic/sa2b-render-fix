@@ -97,6 +97,12 @@ RFF_CheapShadowPerformance(void)
 }
 
 bool
+RFF_CheapShadowUltraPerformance(void)
+{
+    return CheapShadowMode == CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE;
+}
+
+bool
 RFF_CheapShadowPlayer(void)
 {
     return CheapShadowPlayer;
