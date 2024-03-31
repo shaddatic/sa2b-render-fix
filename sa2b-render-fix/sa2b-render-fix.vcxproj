@@ -110,8 +110,7 @@
     <ClInclude Include="rfm_wjungle.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_config.h" />
-    <ClInclude Include="rf_config\rfcnf_enum.h" />
-    <ClInclude Include="rf_config\rfcnf_sect.h" />
+    <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_cull.h" />
     <ClInclude Include="rf_dxvk.h" />

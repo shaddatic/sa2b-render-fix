@@ -32,7 +32,51 @@ RF_ConfigEnd(void)
 #pragma region config_get
 
 int
-RF_ConfigGetInt(const utf8* section, const utf8* key, int def)
+RF_ConfigGetInt(const RFS_CNF_INT* pCnf)
+{
+    return RF_ConfigDirectGetInt(pCnf->sect, pCnf->key, pCnf->def);
+}
+
+bool
+RF_ConfigGetBool(const RFS_CNF_BOOL* pCnf)
+{
+    return RF_ConfigDirectGetBool(pCnf->sect, pCnf->key, pCnf->def);
+}
+
+const utf8*
+RF_ConfigGetString(const RFS_CNF_STRING* pCnf)
+{
+    return RF_ConfigDirectGetString(pCnf->sect, pCnf->key, pCnf->def);
+}
+
+#pragma endregion
+
+#pragma region config_set
+
+void
+RF_ConfigSetInt(const RFS_CNF_INT* pCnf, int set)
+{
+    RF_ConfigDirectSetInt(pCnf->sect, pCnf->key, set);
+}
+
+void
+RF_ConfigSetBool(const RFS_CNF_BOOL* pCnf, bool set)
+{
+    RF_ConfigDirectSetBool(pCnf->sect, pCnf->key, set);
+}
+
+void
+RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const utf8* set)
+{
+    RF_ConfigDirectSetString(pCnf->sect, pCnf->key, set);
+}
+
+#pragma endregion
+
+#pragma region config_get_direct
+
+int
+RF_ConfigDirectGetInt(const utf8* section, const utf8* key, int def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -41,7 +85,7 @@ RF_ConfigGetInt(const utf8* section, const utf8* key, int def)
 }
 
 bool
-RF_ConfigGetBool(const utf8* section, const utf8* key, bool def)
+RF_ConfigDirectGetBool(const utf8* section, const utf8* key, bool def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -50,7 +94,7 @@ RF_ConfigGetBool(const utf8* section, const utf8* key, bool def)
 }
 
 const utf8*
-RF_ConfigGetString(const utf8* section, const utf8* key, const utf8* def)
+RF_ConfigDirectGetString(const utf8* section, const utf8* key, const utf8* def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -59,10 +103,10 @@ RF_ConfigGetString(const utf8* section, const utf8* key, const utf8* def)
 }
 
 #pragma endregion
-#pragma region config_get
+#pragma region config_get_direct
 
 void
-RF_ConfigSetInt(const utf8* section, const utf8* key, int set)
+RF_ConfigDirectSetInt(const utf8* section, const utf8* key, int set)
 {
     ConfigSet = true;
 
@@ -73,7 +117,7 @@ RF_ConfigSetInt(const utf8* section, const utf8* key, int set)
 }
 
 void
-RF_ConfigSetBool(const utf8* section, const utf8* key, bool set)
+RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
 {
     ConfigSet = true;
 
@@ -84,7 +128,7 @@ RF_ConfigSetBool(const utf8* section, const utf8* key, bool set)
 }
 
 void
-RF_ConfigSetString(const utf8* section, const utf8* key, const utf8* set)
+RF_ConfigDirectSetString(const utf8* section, const utf8* key, const utf8* set)
 {
     ConfigSet = true;
 

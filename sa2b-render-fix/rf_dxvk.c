@@ -55,7 +55,7 @@ DXVK_CheckAndInstall(void)
         );
     }
 
-    RF_ConfigSetInt(CNFS_HIDDEN, "dxvk_chk", 1);
+    RF_ConfigSetInt(CNF_HIDDEN_DXVK_CHK, 1);
 }
 
 static void
