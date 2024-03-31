@@ -16,6 +16,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_config.h>
 #include <rf_mod.h>
 #include <rf_feature.h>
 
@@ -196,6 +197,32 @@ TaskDisplayDispLast(TASK* btpl)
     while (tp = tp->next, tp != base_tp);
 }
 
+enum
+{
+    MOD_DRAW_DISP_BASE_EARLY,   /* "EARLY" is drawn after LEV_1 so the player and LT get first dibs; fixes small sorting issues */
+    MOD_DRAW_DISP_BASE,         /* Whereas this is drawn after the entire disp layer is drawn                                   */
+    MOD_DRAW_DISP_SORT_EARLY,
+    MOD_DRAW_DISP_SORT,
+    MOD_DRAW_DISP_DELY_EARLY,
+    MOD_DRAW_DISP_DELY,
+    NB_MOD_DRAW,
+};
+
+static bool ModShadowDrawList[NB_MOD_DRAW] = { true, true, true, true, true, true };
+
+static void
+ClearModBuffer(void)
+{
+    RFMOD_ClearBuffer(); 
+}
+
+static void
+DrawModBuffer(int index)
+{
+    if (ModShadowDrawList[index])
+        RFMOD_DrawBuffer();
+}
+
 #define TaskDisplayShadows  FuncPtr(void, __cdecl, (void), 0x0046FBC0)
 
 #define SetBaseScreenInfo   FuncPtr(void, __cdecl, (void), 0x00458B90)
@@ -226,13 +253,14 @@ TaskDisplayAll(void)
     }
 
     /** Draw Displayer **/
+    {
     gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
     TaskDisplayDisplayer(btp[0]);
 
-    RFMOD_ClearBuffer();
+        ClearModBuffer();       // Clear buffer for new frame
 
     BackupScreenInfo();
-    TaskDisplayShadows();
+        TaskDisplayShadows(); // Draw the shadows, can screw with screen so backup
     RestoreScreenInfo();
 
     SetLighting(DefaultPlayerLight); // Reset lighting
@@ -240,8 +268,7 @@ TaskDisplayAll(void)
     gjSetRenderMode(GJD_DRAW_SOLID);
     TaskDisplayDisplayer(btp[1]);
 
-    if (!chs_performance)
-        RFMOD_DrawBuffer();
+        DrawModBuffer(MOD_DRAW_DISP_BASE_EARLY);
 
     gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
 
@@ -252,17 +279,18 @@ TaskDisplayAll(void)
         TaskDisplayDisplayer(btp[4]);
         TaskDisplayDisplayer(btp[5]);
 
-        RFMOD_DrawBuffer();
+            DrawModBuffer(MOD_DRAW_DISP_BASE);
+    }
     }
 
     /** Draw Sorted displayer **/
+    {
     gjSetRenderMode(GJD_DRAW_TRANS);
     
     TaskDisplayDispSort(btp[0]);
     TaskDisplayDispSort_NoSort(btp[1]);
 
-    if (!chs_performance)
-        RFMOD_DrawBuffer();
+        DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
 
     if (SomeCountMax) 
     {
@@ -276,7 +304,7 @@ TaskDisplayAll(void)
 
         sub_00493A90();
 
-        RFMOD_DrawBuffer();
+            DrawModBuffer(MOD_DRAW_DISP_SORT);
     }
     else
     {
@@ -286,16 +314,18 @@ TaskDisplayAll(void)
             TaskDisplayDispSort(btp[3]);
             TaskDisplayDispSort(btp[4]);
             TaskDisplayDispSort(btp[5]);
-            RFMOD_DrawBuffer();
+
+                DrawModBuffer(MOD_DRAW_DISP_SORT);
         }
+    }
     }
 
     /** Draw Delayed displayer **/
+    {
     TaskDisplayDispDelayed(btp[0]);
     TaskDisplayDispDelayed(btp[1]);
 
-    if (!chs_performance)
-        RFMOD_DrawBuffer();
+        DrawModBuffer(MOD_DRAW_DISP_DELY_EARLY);
 
     if (!no_draw)
     {
@@ -304,8 +334,8 @@ TaskDisplayAll(void)
         TaskDisplayDispDelayed(btp[4]);
         TaskDisplayDispDelayed(btp[5]);
 
-        if (!chs_performance)
-            RFMOD_DrawBuffer();
+            DrawModBuffer(MOD_DRAW_DISP_DELY);
+    }
     }
 
     /** Draw game HUD **/
@@ -366,6 +396,16 @@ RFG_TaskDisplayInit(void)
     /** Draw shadows **/
     KillCall(0x0047050E);
     KillCall(0x004708A3);
+
+    if (RF_ConfigGetInt(CNF_SHADOW_CHSMD) <= CNFE_SHADOW_CHSMD_PERFORMANCE)
+    {
+        /** Disable all the early draws to reduce draw calls **/
+        ModShadowDrawList[MOD_DRAW_DISP_BASE_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_SORT_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_DELY_EARLY] = false;
+        ModShadowDrawList[MOD_DRAW_DISP_DELY]       = false; /* "Dely" draw list is rarely used for shadow
+                                                                effected stuff, so disable it entirely */
+    }
 
     /** Avoid crash that only 
         happens in debug mode **/
