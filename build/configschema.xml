@@ -193,7 +193,7 @@
 			<Property name="chaos0tex" display="Custom Chaos 0 Model Support" type="eBOOL" defaultvalue="1">
 				<HelpText>Overrides the texture animation system Chaos 0 uses to allow the use of custom models, if this is off the game will otherwise crash.</HelpText>
 			</Property>
-			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="1">
+			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="0">
 				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight. Unlikely to cause issues, but is here if it does.</HelpText>
 			</Property>
 			<Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
