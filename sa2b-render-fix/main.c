@@ -4,10 +4,7 @@
 
 #include <sa2b/core.h>
 #include <sa2b/init.h>
-#include <sa2b/memutil.h>
 #include <sa2b/mods.h>
-#include <sa2b/model.h>
-#include <sa2b/modloader.h>
 #include <sa2b/string.h>
 
 /** Ninja **/
@@ -19,7 +16,6 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
-#include <rf_util.h>
 #include <rf_usermsg.h>
 #include <rf_objpak.h>
 #include <rf_dxvk.h>
@@ -90,6 +86,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RFM_CartInit();
     RFM_EventInit();
 
+    /** End **/
     RF_ObjPakWriteChangesToFile();
     RF_ConfigEnd();
 }
