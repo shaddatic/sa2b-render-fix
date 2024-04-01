@@ -548,6 +548,13 @@ RFG_BackfaceCullingInit()
         CnkObjectMaterialFlagOn(0x163FA74, NJD_FST_DB);
     }
 
+    /** Meteor Herd LT Effects **/
+    {
+        OBJ_LANDTABLE* pltable = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0032_ma");
+
+        CnkLandTableMaterialFlagOn(pltable, NJD_FST_DB);
+    }
+
     /** Cannons Core Sonic **/
     {
         NJS_CNK_MODEL** mdl_list;
