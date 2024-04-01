@@ -146,7 +146,8 @@ CNFE_SHADOW_OPACITY;
 #define CNF_SHADOW_GLOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_gl"          , CNFE_SHADOW_OPACITY_DREAMCAST         )   /* Global Opacity */
 #define CNF_SHADOW_CHOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_ch"          , CNFE_SHADOW_OPACITY_DREAMCAST_CHAO    )   /* Chao World Opacity */
 
-/** Restorations section **/
+/** Common section **/
+#define CNF_COMMON_TR_SORT          CNFO_INT(   CNFS_COMMON         , "trans_sorting"       , CNFE_BOOL_ENABLED                     )   /* Transparancy Sorting Fixes */
 #define CNF_COMMON_EJET             CNFO_INT(   CNFS_COMMON         , "e_jet"               , CNFE_BOOL_ENABLED                     )   /* Enemy Jet Effects */
 #define CNF_COMMON_EEMBLEM          CNFO_INT(   CNFS_COMMON         , "e_emblem"            , CNFE_BOOL_ENABLED                     )   /* GUN Emblems */
 #define CNF_COMMON_AISHEILD         CNFO_INT(   CNFS_COMMON         , "e_ai_shield"         , CNFE_BOOL_ENABLED                     )   /* DC GUN Hunter Shield */
