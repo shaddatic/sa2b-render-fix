@@ -100,7 +100,7 @@ ObjectGlobalLightManagerHook(TASK* tp)
 }
 
 void
-RFM_RestorationInit(void)
+RFM_CommonInit(void)
 {
     if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM))
     {

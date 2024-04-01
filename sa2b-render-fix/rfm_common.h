@@ -15,7 +15,7 @@
 /************************/
 EXTERN_START
 /** Initiate **/
-void    RFM_RestorationInit( void );
+void    RFM_CommonInit( void );
 
 EXTERN_END
 

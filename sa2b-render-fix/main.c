@@ -138,7 +138,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
 
     RFM_GlobalInit();
     RFM_ShadowsInit();
-    RFM_RestorationInit();
+    RFM_CommonInit();
     RFM_EmblemGetInit();
     RFM_MenusInit();
     RFM_WhiteJungleInit();
