@@ -157,7 +157,7 @@
 		</Group>
 		<Group name="event" display="0B • Events">
 			<Property name="draw_mod" display="Draw Shadow Modifiers" type="eBOOL" defaultvalue="1">
-				<HelpText>Draw shadow modifiers from the Dreamcast version. NOTE: Requires Enhanced Displayer to draw correctly.</HelpText>
+				<HelpText>Draw shadow modifiers from the Dreamcast version.</HelpText>
 			</Property>
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
