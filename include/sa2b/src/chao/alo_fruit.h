@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_fruit.h'
 *
-*   Contains enums and functions related to Chao World fruits.
+*   Description:
+*       Contains enums and functions related to Chao World fruits.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -61,25 +62,25 @@ eFRUIT_KIND;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_FruitCreate(eFRUIT_KIND kind, NJS_POINT3* pPos, int32_t AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+TASK*   ALO_FruitCreate( eFRUIT_KIND kind, NJS_POINT3* pPos, int32_t AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
 
 /** Task functions **/
-void    ALO_FruitExecutor(TASK* tp);
-void    ALO_FruitDisplayer(TASK* tp);
-void    ALO_FruitDestructor(TASK* tp); /* Same destructor as many other Chao objects */
+void    ALO_FruitExecutor(   TASK* tp );
+void    ALO_FruitDisplayer(  TASK* tp );
+void    ALO_FruitDestructor( TASK* tp ); /* Same destructor as many other Chao objects */
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_FruitCreate_p           FuncPtr(TASK*, __cdecl, (eFRUIT_KIND, NJS_POINT3*, int32_t, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00546180)
-#define ALO_FruitExecutor_p         FuncPtr(void , __cdecl, (TASK*)                                                         , 0x00545E40)
-#define ALO_FruitDisplayer_p        FuncPtr(void , __cdecl, (TASK*)                                                         , 0x00545EE0)
-#define ALO_FruitDestructor_p       FuncPtr(void , __cdecl, (TASK*)                                                         , 0x0057B9B0)
+#   define ALO_FruitCreate_p            FuncPtr(TASK*, __cdecl, (eFRUIT_KIND, NJS_POINT3*, int32_t, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00546180)
+#   define ALO_FruitExecutor_p          FuncPtr(void , __cdecl, (TASK*)                                                          , 0x00545E40)
+#   define ALO_FruitDisplayer_p         FuncPtr(void , __cdecl, (TASK*)                                                          , 0x00545EE0)
+#   define ALO_FruitDestructor_p        FuncPtr(void , __cdecl, (TASK*)                                                          , 0x0057B9B0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_FRUIT_H_ */
+#endif/*_SA2B_CHAO_FRUIT_H_*/

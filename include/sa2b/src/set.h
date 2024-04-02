@@ -81,8 +81,8 @@ OBJ_ITEMTABLE;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t  CheckRangeOut(TASK* tp);
-int32_t  CheckRangeOutWithR(TASK* tp, float fRange);
+int32_t CheckRangeOut(TASK* tp);
+int32_t CheckRangeOutWithR(TASK* tp, float fRange);
 
 void    ObjectGenericExec(TASK* tp);
 
@@ -91,14 +91,14 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define ObjectGenericExec_p        FuncPtr(void, __cdecl, (TASK* tp), 0x005B4250)
+#   define ObjectGenericExec_p          FuncPtr(void, __cdecl, (TASK* tp), 0x005B4250)
 
 /** User-Function ptr **/
-extern const void* const CheckRangeOut_p;
-extern const void* const CheckRangeOutWithR_p;
+#   define CheckRangeOut_p              ((void*)0x00488C50)
+#   define CheckRangeOutWithR_p         ((void*)0x00488C80)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_SET_H_ */
+#endif/*_SA2B_SET_H_*/

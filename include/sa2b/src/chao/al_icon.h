@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_icon.h'
 *
-*   Contains functions related to Chao icons.
+*   Description:
+*       Contains functions related to Chao icons.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -28,10 +29,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-EXTERN const void* const AL_CalcIconColor_p;
+#   define AL_CalcIconColor_p       ((void*)0x0053B940)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_ICON_H_ */
+#endif/*_SA2B_CHAO_ICON_H_*/

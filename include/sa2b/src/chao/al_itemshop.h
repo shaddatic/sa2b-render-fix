@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_itemshop.h'
 *
-*   Contains structs, data, and functions related to Chao blackmarket items.
+*   Description:
+*       Contains structs, data, and functions related to Chao
+*   blackmarket items.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -70,10 +72,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AlItemGetInfo_p         FuncPtr(const SAlItemInfo*, __fastcall, (const SAlItem* item), 0x00534150)
+#   define AlItemGetInfo_p          FuncPtr(const SAlItemInfo*, __fastcall, (const SAlItem* item), 0x00534150)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_ITEMSHOP_H_ */
+#endif/*_SA2B_CHAO_ITEMSHOP_H_*/

@@ -127,14 +127,14 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define CreateChildTask_p   FuncPtr(TASK*, __cdecl, (int16_t, task_exec, TASK*), 0x0470C00)
-#define DestroyTask_p       FuncPtr(void , __cdecl, (TASK*)                   , 0x046F720)
+#   define CreateChildTask_p        FuncPtr(TASK*, __cdecl, (int16_t, task_exec, TASK*), 0x0470C00)
+#   define DestroyTask_p            FuncPtr(void , __cdecl, (TASK*)                   , 0x046F720)
 
 /** User-Function ptr **/
-EXTERN const void* const CreateElementalTask_p;
+#   define CreateElementalTask_p    ((void*)0x0046F610);
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_TASK_H_*/

@@ -72,7 +72,7 @@ void    WaterManagerDestructor( TASK* tp );
 
 /** Same as above, but only used for races.
     Cnk water entry argument was optimized out **/
-void    CreateCnkWaterManager();
+void    CreateCnkWaterManager( void );
 
 /** Task functions **/
 void    CnkWaterManagerExecutor(   TASK* tp );
@@ -84,17 +84,17 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define CreateWaterManager_p            FuncPtr(void, __cdecl, (WATER_ENTRY*), 0x0056B040)
-#define WaterManagerExecutor_p          FuncPtr(void, __cdecl, (TASK*)       , 0x0056AF60)
-#define WaterManagerDisplayer_p         FuncPtr(void, __cdecl, (TASK*)       , 0x0056AF90)
-#define WaterManagerDestructor_p        FuncPtr(void, __cdecl, (TASK*)       , 0x0056AFF0)
-#define CreateCnkWaterManager_p         FuncPtr(void, __cdecl, ()            , 0x0056B320)
-#define CnkWaterManagerExecutor_p       FuncPtr(void, __cdecl, (TASK*)       , 0x0056B1B0)
-#define CnkWaterManagerDisplayer_p      FuncPtr(void, __cdecl, (TASK*)       , 0x0056B290)
-#define CnkWaterManagerDestructor_p     FuncPtr(void, __cdecl, (TASK*)       , 0x0056B2D0)
+#   define CreateWaterManager_p             FuncPtr(void, __cdecl, (WATER_ENTRY*), 0x0056B040)
+#   define WaterManagerExecutor_p           FuncPtr(void, __cdecl, (TASK*)       , 0x0056AF60)
+#   define WaterManagerDisplayer_p          FuncPtr(void, __cdecl, (TASK*)       , 0x0056AF90)
+#   define WaterManagerDestructor_p         FuncPtr(void, __cdecl, (TASK*)       , 0x0056AFF0)
+#   define CreateCnkWaterManager_p          FuncPtr(void, __cdecl, (void)        , 0x0056B320)
+#   define CnkWaterManagerExecutor_p        FuncPtr(void, __cdecl, (TASK*)       , 0x0056B1B0)
+#   define CnkWaterManagerDisplayer_p       FuncPtr(void, __cdecl, (TASK*)       , 0x0056B290)
+#   define CnkWaterManagerDestructor_p      FuncPtr(void, __cdecl, (TASK*)       , 0x0056B2D0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_WATERMANAGER_H_ */
+#endif/*_SA2B_CHAO_WATERMANAGER_H_*/

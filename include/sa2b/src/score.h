@@ -67,11 +67,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** User-Function ptr **/
-EXTERN const void* const AddNumRing_p;
-EXTERN const void* const AddNumPlayer_p;
+#   define AddNumRing_p        ((void*)0x0044CE10)
+#   define AddNumPlayer_p      ((void*)0x0044CB10)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_SCORE_H_ */

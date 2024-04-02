@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_stage.h'
 *
-*   Contains enums, data, and functions related to Chao stages.
+*   Description:
+*       Contains enums, data, and functions related to Chao stages.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -44,32 +45,34 @@ eCHAO_STAGE_NUMBER;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_ChangeStage(eCHAO_STAGE_NUMBER NextStage);
+void    AL_ChangeStage( eCHAO_STAGE_NUMBER NextStage );
 
-eCHAO_STAGE_NUMBER  AL_GetLastStageNumber(void);
-eCHAO_STAGE_NUMBER  AL_GetStageNumber(void);
-eCHAO_STAGE_NUMBER  AL_GetNextStageNumber(void);
+eCHAO_STAGE_NUMBER  AL_GetLastStageNumber( void );
+eCHAO_STAGE_NUMBER  AL_GetStageNumber(     void );
+eCHAO_STAGE_NUMBER  AL_GetNextStageNumber( void );
 
-int32_t  AL_GetLocalChaoCount(int32_t stage);
-int32_t  AL_GetCurrGardenChaoCount(void);
+int32_t AL_GetLocalChaoCount( int32_t stage );
+
+int32_t AL_GetCurrGardenChaoCount( void );
 
 EXTERN_END
 
 /************************/
 /*  Macros              */
 /************************/
-#define AL_IsGarden()       (AL_GetStageNumber() >= CHAO_STG_NEUT && AL_GetStageNumber() <= CHAO_STG_DARK)
-#define AL_IsLoaded()       (AL_GetStageNumber() == AL_GetNextStageNumber())
+#define AL_IsStageGarden(stg)       (stg >= CHAO_STG_NEUT && stg <= CHAO_STG_DARK)
 
-#define AL_IsGarden2(stg)   (stg >= CHAO_STG_NEUT && stg <= CHAO_STG_DARK)
+#define AL_IsCurrStageGarden()      AL_IsStageGarden(AL_GetStageNumber())
+
+#define AL_IsStageLoaded()          (AL_GetStageNumber() == AL_GetNextStageNumber())
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_ChangeStage_p        FuncPtr(void, __cdecl, (eCHAO_STAGE_NUMBER), 0x0052B5B0)
+#   define AL_ChangeStage_p        FuncPtr(void, __cdecl, (eCHAO_STAGE_NUMBER), 0x0052B5B0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_STAGE_H_ */
+#endif/*_SA2B_CHAO_STAGE_H_*/

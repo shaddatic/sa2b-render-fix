@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_behavior.h'
 *
-*   Contains defines, typedefs, and functions for the Chao behavior system.
+*   Description:
+*       Contains defines, typedefs, and functions for the Chao
+*   behavior system.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -52,11 +54,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-EXTERN const void* const AL_SetBehaviorWithTimer_p;
-EXTERN const void* const AL_SetNextBehavior_p;
+#   define AL_SetBehaviorWithTimer_p    ((void*)0x0053D890)
+#   define AL_SetNextBehavior_p         ((void*)0x0053D970)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_ALBVH_H_ */
+#endif/*_SA2B_CHAO_ALBVH_H_*/

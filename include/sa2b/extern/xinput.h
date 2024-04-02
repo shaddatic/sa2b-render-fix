@@ -32,12 +32,12 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
 #define ___XInputGetCapabilities_p   FuncPtr(uint32_t, __stdcall, (uint32_t, uint32_t, XINPUT_CAPABILITIES*), 0x007C0CCE)
 #define ___XInputGetState_p          FuncPtr(uint32_t, __stdcall, (uint32_t, XINPUT_STATE*)                 , 0x007C0CD4)
 #define ___XInputSetState_p          FuncPtr(uint32_t, __stdcall, (uint32_t, XINPUT_VIBRATION*)             , 0x007C0CDA)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _EXTERN_XINPUT_H_ */

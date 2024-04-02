@@ -35,16 +35,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define ObjectMessengerCreate_p         FuncPtr(void, __cdecl, (TASK*), 0x6C0780)
-#define ObjectMessengerExec_p           FuncPtr(void, __cdecl, (TASK*), 0x006BE2E0)
-#define ObjectMessengerDestructor_p     FuncPtr(void, __cdecl, (TASK*), 0x006C0970)
-#define FreeMessengerFile_p             FuncPtr(int32_t, __cdecl, (), 0x006BD5D0)
+#   define ObjectMessengerCreate_p          FuncPtr(void, __cdecl, (TASK*), 0x6C0780)
+#   define ObjectMessengerExec_p            FuncPtr(void, __cdecl, (TASK*), 0x006BE2E0)
+#   define ObjectMessengerDestructor_p      FuncPtr(void, __cdecl, (TASK*), 0x006C0970)
+#   define FreeMessengerFile_p              FuncPtr(int32_t, __cdecl, (), 0x006BD5D0)
 
 /** User-Function ptr **/
-EXTERN const void* const LoadMessengerFile_p;
+#   define LoadMessengerFile_p              ((void*)0x006BD650);
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_OBJ_MSGER_H_ */

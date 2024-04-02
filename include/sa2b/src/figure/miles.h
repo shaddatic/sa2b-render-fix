@@ -64,11 +64,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define MilesMotionCallBack_p           FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x00750320)
-#define MilesShadowMotionCallBack_p     FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0074FEF0)
+#   define MilesMotionCallBack_p            FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x00750320)
+#   define MilesShadowMotionCallBack_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0074FEF0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_FIGURE_MILES_H_  */

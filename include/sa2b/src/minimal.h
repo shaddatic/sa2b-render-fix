@@ -77,7 +77,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define Minimal_Create_p                 FuncPtr(TASK*, __cdecl, (float32_t, float32_t, float32_t, int32_t, uint32_t), 0x0048AAD0)
 #   define Minimal_Random_p                 FuncPtr(TASK*, __cdecl, (float32_t, float32_t, float32_t)                   , 0x0048AD10)
@@ -91,6 +91,6 @@ EXTERN_END
 #   define Minimal_JumpOut_p                ((void*)0x0048AC30)
 #   define MinimalCaptureEffect_Create_p    ((void*)0x00489680)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_MINIMAL_H_*/

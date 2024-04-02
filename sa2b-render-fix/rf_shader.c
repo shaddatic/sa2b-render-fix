@@ -4,9 +4,9 @@
 #include <sa2b/dx9ctrl.h>
 
 /** Source **/
-#define SAMT_INCLUDE_FUNC_PTRS
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/src/shaders.h>
-#undef  SAMT_INCLUDE_FUNC_PTRS
+#undef  SAMT_INCL_FUNCPTRS
 
 /** Std **/
 #include <stdio.h>

@@ -30,7 +30,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define AL_KW_GetPlayerCharacterNum_p        FuncPtr(int32_t, __cdecl, (void), 0x0053E0C0)
 
@@ -38,6 +38,6 @@ EXTERN_END
 #   define AL_KW_MeetPlayer_p                   ((void*)0x0053E280)
 #   define AL_KW_AddPlayerLike_p                ((void*)0x0053E120)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_CHAO_KNOWLEDGE_H_*/

@@ -106,4 +106,4 @@ typedef struct
 }
 GBA_MANAGER_WORK;
 
-#endif /* _SA2B_CHAO_GBAMANAGER_H_ */
+#endif/*_SA2B_CHAO_GBAMANAGER_H_*/

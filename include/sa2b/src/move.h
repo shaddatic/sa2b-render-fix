@@ -103,7 +103,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define MOV_Init_p                   FuncPtr(MOVE_WORK*, __cdecl, (TASK*), 0x007966D0)
 #   define MOV_CalcPlayerAngle_p        FuncPtr(Angle, __fastcall, (TASK*, int), 0x007969B0)
@@ -114,6 +114,6 @@ EXTERN_END
 #   define MOV_CheckWall_p              ((void*)0x00796CA0)
 #   define MOV_TurnToPlayer2_p          ((void*)0x00796CA0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_MOVE_H_ */

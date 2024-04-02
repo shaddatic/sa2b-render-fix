@@ -1,7 +1,10 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_emotion.h'
 *
-*   Contains enums related to Chao emotions.
+*   ~~ Under Construction ~~
+* 
+*   Description:
+*       Contains enums related to Chao emotions.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -52,4 +55,4 @@ enum
     NB_EMOTION = 0x20,
 };
 
-#endif /* _SA2B_CHAO_EMOTION_H_ */
+#endif/*_SA2B_CHAO_EMOTION_H_*/

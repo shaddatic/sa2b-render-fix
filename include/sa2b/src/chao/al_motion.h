@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_motion.h'
 *
-*   Contains enums and functions related to Chao motion animations.
+*   Description:
+*       Contains enums and functions related to Chao motion animations.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -656,12 +657,12 @@ enum
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_SetMotionLink(TASK* tp, int32_t MtnNum);
-void    AL_SetMotionLinkStep(TASK* tp, int32_t MtnNum, uint16_t step);
+void      AL_SetMotionLink(TASK* tp, int32_t MtnNum);
+void      AL_SetMotionLinkStep(TASK* tp, int32_t MtnNum, uint16_t step);
 
-int32_t  AL_GetMotionNum(TASK* tp);
+int32_t   AL_GetMotionNum(TASK* tp);
 float32_t AL_GetMotionFrame(TASK* tp);
 
 EXTERN_END
 
-#endif /* _SA2B_CHAO_MOTION_H_ */
+#endif/*_SA2B_CHAO_MOTION_H_*/

@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_texlist.h'
 *
-*   Contains texlists used for Chao World.
+*   Description:
+*       Contains texlists used for Chao World.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,

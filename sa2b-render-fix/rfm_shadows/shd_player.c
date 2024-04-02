@@ -10,7 +10,7 @@
 #include <sa2b/src/player.h>
 
 /** Figure **/
-#define SAMT_INCLUDE_FUNC_PTRS
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/src/figure/sonic.h>
 #include <sa2b/src/figure/shadow.h>
 #include <sa2b/src/figure/miles.h>
@@ -18,7 +18,7 @@
 #include <sa2b/src/figure/rouge.h>
 #include <sa2b/src/figure/ewalker.h>
 #include <sa2b/src/figure/twalker.h>
-#undef  SAMT_INCLUDE_FUNC_PTRS
+#undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
 #include <rf_core.h>

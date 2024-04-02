@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_landmark.h'
 *
-*   Contains structs, data, and functions related to Chao landmarks.
+*   Description:
+*       Contains structs, data, and functions related to Chao
+*   landmarks.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -69,7 +71,7 @@ EXTERN_START
 void    AL_InitLandMark(void);
 
 /** Put random position of a landmark, of kind 'attr,' into 'pPos' **/
-bool32_t  AL_GetRandomAttrPos(eLANDMARK_ATTR attr, NJS_POINT3* pPos);
+bool32_t AL_GetRandomAttrPos(eLANDMARK_ATTR attr, NJS_POINT3* pPos);
 
 /** Get landmark attribute kind at position **/
 int32_t  AL_GetCurrLandAttr(NJS_POINT3* pPos);
@@ -77,24 +79,24 @@ int32_t  AL_GetCurrLandAttr(NJS_POINT3* pPos);
 /************************/
 /*  Inline Functions    */
 /************************/
-#ifdef  SAMT_INCLUDE_FUNC_INLINES
+#ifdef  SAMT_INCL_INLINED
 void    AL_GetRandomAttrPos_inl(LAND_ATTR_INDEX* pAttrIndex, NJS_VECTOR* pPos, int32_t nbIndex);
 
-#endif/*SAMT_INCLUDE_FUNC_INLINES*/
+#endif/*SAMT_INCL_INLINED*/
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_InitLandMark_p       FuncPtr(void, __cdecl, (void), 0x00534EF0)
+#   define AL_InitLandMark_p            FuncPtr(void, __cdecl, (void), 0x00534EF0)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_GetCurrLandAttr_p;
-EXTERN const void* const AL_GetRandomAttrPos_inl_p;
+#   define AL_GetCurrLandAttr_p         ((void*)0x00535010)
+#   define AL_GetRandomAttrPos_inl_p    ((void*)0x00534F80)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_LANDMARK_H_ */
+#endif/*_SA2B_CHAO_LANDMARK_H_*/

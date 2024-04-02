@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_misc.h'
 *
-*   Contains misc enums, structs, and functions related for Chao World.
+*   Description:
+*       Contains misc enums, structs, and functions related for
+*   Chao World.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -121,8 +123,6 @@ SAngle3;
 /*  Functions           */
 /************************/
 EXTERN_START
-float32_t ___njUnitVector(NJS_POINT3* p);
-
 /** Calculate if position is on screen **/
 bool32_t  AL_IsOnScreen2(TASK* tp, float32_t radius, float32_t OffsetY);
 bool32_t  AL_IsOnScreen3(TASK* tp, float32_t radius, float32_t HalfHeight, float32_t OffsetY);
@@ -140,17 +140,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_InterpolateObject_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, float32_t), 0x0054AEB0)
+#   define AL_InterpolateObject_p       FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, float32_t), 0x0054AEB0)
 
 /** User-Function ptrs **/
-EXTERN const void* const ___njUnitVector_p;
-EXTERN const void* const AL_IsOnScreen3_p;
-EXTERN const void* const AL_IsHitKindWithNum_p;
-EXTERN const void* const AL_InterpolateAngle_p;
-EXTERN const void* const AL_InterpolateSAngle_p;
+#   define AL_IsOnScreen3_p             ((void*)0x0054AC70)
+#   define AL_IsHitKindWithNum_p        ((void*)0x0054B1F0)
+#   define AL_InterpolateAngle_p        ((void*)0x0054A770)
+#   define AL_InterpolateSAngle_p       ((void*)0x0054A900)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_MISC_H_ */
+#endif/*_SA2B_CHAO_MISC_H_*/

@@ -70,10 +70,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define SonicMotionCallBack_p   FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071EAA0)
+#   define SonicMotionCallBack_p    FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071EAA0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_FIGURE_SONIC_H_ */

@@ -36,7 +36,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
 #define ___malloc_p         FuncPtr(void* , __cdecl, (size_t)       , 0x007A84A5)
 #define ___free_p           FuncPtr(void  , __cdecl, (void*)        , 0x007A80DD)
@@ -45,6 +45,6 @@ EXTERN_END
 #define ___srand_p          FuncPtr(void  , __cdecl, (uint32_t)       , 0x007A89C6)
 #define ___exit_p           FuncPtr(void  , __cdecl, (int32_t)       , 0x007ACB70)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _EXTERN_STDLIB_H_ */

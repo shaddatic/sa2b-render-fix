@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_palette.h'
 *
-*   Contains functions related to the Chao palette system.
+*   Description:
+*       Contains functions related to the Chao palette system.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -28,10 +29,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #define AL_PaletteInit_p        FuncPtr(void, __cdecl, (TASK*), 0x00534DE0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_PALETTE_H_ */
+#endif/*_SA2B_CHAO_PALETTE_H_*/

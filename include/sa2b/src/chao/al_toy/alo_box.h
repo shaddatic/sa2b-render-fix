@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_toy/alo_box.h'
 *
-*   Contains functions and data related to the jack in the box garden object.
+*   Description:
+*       Contains functions and data related to the jack in the
+*   box garden object.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -43,13 +45,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_BoxCreate_p         FuncPtr(void, __cdecl, (NJS_POINT3* pPos), 0x00580890)
-#define ALO_BoxExecutor_p       FuncPtr(void, __cdecl, (TASK*)           , 0x005801C0)
-#define ALO_BoxDisplayer_p      FuncPtr(void, __cdecl, (TASK*)           , 0x00580510)
-#define ALO_BoxDestructor_p     FuncPtr(void, __cdecl, (TASK*)           , 0x00580870)
+#   define ALO_BoxCreate_p          FuncPtr(void, __cdecl, (NJS_POINT3* pPos), 0x00580890)
+#   define ALO_BoxExecutor_p        FuncPtr(void, __cdecl, (TASK*)           , 0x005801C0)
+#   define ALO_BoxDisplayer_p       FuncPtr(void, __cdecl, (TASK*)           , 0x00580510)
+#   define ALO_BoxDestructor_p      FuncPtr(void, __cdecl, (TASK*)           , 0x00580870)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_TOY_BOX_H_ */
+#endif/*_SA2B_CHAO_TOY_BOX_H_*/

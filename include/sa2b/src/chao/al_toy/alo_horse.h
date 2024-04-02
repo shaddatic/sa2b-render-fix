@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_toy/alo_horse.h'
 *
-*   Contains functions and data related to the horse garden object.
+*   Description:
+*       Contains functions and data related to the horse
+*   garden object.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -39,16 +41,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_Horse_p             FuncPtr(void, __cdecl, (TASK*), 0x00580E80)
-#define ALO_HorseExecutor_p     FuncPtr(void, __cdecl, (TASK*), 0x00580BC0)
-#define ALO_HorseDisplayer_p    FuncPtr(void, __cdecl, (TASK*), 0x00580CA0)
-#define ALO_HorseDestructor_p   FuncPtr(void, __cdecl, (TASK*), 0x0057B9B0)
+#   define ALO_Horse_p              FuncPtr(void, __cdecl, (TASK*), 0x00580E80)
+#   define ALO_HorseExecutor_p      FuncPtr(void, __cdecl, (TASK*), 0x00580BC0)
+#   define ALO_HorseDisplayer_p     FuncPtr(void, __cdecl, (TASK*), 0x00580CA0)
+#   define ALO_HorseDestructor_p    FuncPtr(void, __cdecl, (TASK*), 0x0057B9B0)
 
 /** User-Function ptrs **/
-EXTERN const void* const ALO_HorseCreate_p;
+#   define ALO_HorseCreate_p        ((void*)0x00580F30)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_TOY_HORSE_H_ */
+#endif/*_SA2B_CHAO_TOY_HORSE_H_*/

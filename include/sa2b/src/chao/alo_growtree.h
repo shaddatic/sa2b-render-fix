@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_growtree.h'
 *
-*   Contains enums, structs, data, and functions related to Chao World trees.
+*   Description:
+*       Contains enums, structs, data, and functions related to Chao World trees.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -144,9 +145,9 @@ EXTERN_START
 TASK*   ALO_GrowTreeCreate(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo);
 
 /** Task functions **/
-void    ALO_GrowTreeExecutor(TASK* tp);
-void    ALO_GrowTreeDisplayer(TASK* tp);
-void    ALO_GrowTreeDestructor(TASK* tp);
+void    ALO_GrowTreeExecutor(   TASK* tp );
+void    ALO_GrowTreeDisplayer(  TASK* tp );
+void    ALO_GrowTreeDestructor( TASK* tp );
 
 /** Internal functions **/
 void    CalcFruitPos(NJS_POINT3* pPos, TREE_WORK* pTree, int32_t FruitNum);
@@ -157,15 +158,15 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_GrowTreeCreate_p        FuncPtr(TASK*, __cdecl, (NJS_POINT3*, TREE_SAVE_INFO*)                    , 0x00548210)
-#define ALO_GrowTreeExecutor_p      FuncPtr(void , __cdecl, (TASK*)                                           , 0x00546810)
-#define ALO_GrowTreeDisplayer_p     FuncPtr(void , __cdecl, (TASK*)                                           , 0x00547E70)
-#define ALO_GrowTreeDestructor_p    FuncPtr(void , __cdecl, (TASK*)                                           , 0x005481E0)
-#define CalcFruitPos_p              FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, int32_t)                 , 0x00546670)
-#define CalcFruitPosSub_p           FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, NJS_CNK_OBJECT*, int32_t), 0x00546530)
+#   define ALO_GrowTreeCreate_p         FuncPtr(TASK*, __cdecl, (NJS_POINT3*, TREE_SAVE_INFO*)                     , 0x00548210)
+#   define ALO_GrowTreeExecutor_p       FuncPtr(void , __cdecl, (TASK*)                                            , 0x00546810)
+#   define ALO_GrowTreeDisplayer_p      FuncPtr(void , __cdecl, (TASK*)                                            , 0x00547E70)
+#   define ALO_GrowTreeDestructor_p     FuncPtr(void , __cdecl, (TASK*)                                            , 0x005481E0)
+#   define CalcFruitPos_p               FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, int32_t)                 , 0x00546670)
+#   define CalcFruitPosSub_p            FuncPtr(void , __cdecl, (NJS_POINT3*, TREE_WORK*, NJS_CNK_OBJECT*, int32_t), 0x00546530)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_GROWTREE_H_ */
+#endif/*_SA2B_CHAO_GROWTREE_H_*/

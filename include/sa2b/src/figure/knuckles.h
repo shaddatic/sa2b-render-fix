@@ -72,10 +72,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define KnucklesMotionCallBack_p    FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0072EAA0)
+#   define KnucklesMotionCallBack_p     FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0072EAA0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_FIGURE_KNUCKLES_H_ */

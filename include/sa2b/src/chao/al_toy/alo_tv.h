@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_toy/alo_tv.h'
 *
-*   Contains functions and data related to the TV garden object.
+*   Description:
+*       Contains functions and data related to the TV garden
+*   object.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -43,13 +45,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_TVCreate_p          FuncPtr(void, __cdecl, (NJS_POINT3*), 0x0055CB90)
-#define ALO_TVExecutor_p        FuncPtr(void, __cdecl, (TASK*)      , 0x0055C540)
-#define ALO_TVDisplayer_p       FuncPtr(void, __cdecl, (TASK*)      , 0x0055C9E0)
-#define ALO_TVDestructor_p      FuncPtr(void, __cdecl, (TASK*)      , 0x0055CB70)
+#   define ALO_TVCreate_p           FuncPtr(void, __cdecl, (NJS_POINT3*), 0x0055CB90)
+#   define ALO_TVExecutor_p         FuncPtr(void, __cdecl, (TASK*)      , 0x0055C540)
+#   define ALO_TVDisplayer_p        FuncPtr(void, __cdecl, (TASK*)      , 0x0055C9E0)
+#   define ALO_TVDestructor_p       FuncPtr(void, __cdecl, (TASK*)      , 0x0055CB70)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_TOY_TV_H_ */
+#endif/*_SA2B_CHAO_TOY_TV_H_*/

@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_flower.h'
 *
-*   Contains functions related to Chao mating nests and flowers.
+*   Description:
+*       Contains functions related to Chao mating nests and flowers.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -48,16 +49,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_NestExecutor_p              FuncPtr(void, __cdecl, (TASK*), 0x005AAE20)
-#define ALO_NestFlowerExecutor_p        FuncPtr(void, __cdecl, (TASK*), 0x005AABF0)
-#define ALO_NestFlowerDisplayer_p       FuncPtr(void, __cdecl, (TASK*), 0x005AAC60)
+#   define ALO_NestExecutor_p               FuncPtr(void, __cdecl, (TASK*), 0x005AAE20)
+#   define ALO_NestFlowerExecutor_p         FuncPtr(void, __cdecl, (TASK*), 0x005AABF0)
+#   define ALO_NestFlowerDisplayer_p        FuncPtr(void, __cdecl, (TASK*), 0x005AAC60)
 
 /** User-Function ptrs **/
-EXTERN const void* const ALO_CreateNest_p;
-EXTERN const void* const ALO_NestFlowerCreate_p;
+#   define ALO_CreateNest_p                 ((void*)0x005AAF60)
+#   define ALO_NestFlowerCreate_p           ((void*)0x005AAD90)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_FLOWER_H_ */
+#endif/*_SA2B_CHAO_FLOWER_H_*/

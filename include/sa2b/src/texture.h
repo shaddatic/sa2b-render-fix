@@ -57,18 +57,18 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define texLoadTextureFile_p        FuncPtr(int32_t      , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
-#define texCreateTextureFile_p      FuncPtr(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
+#   define texLoadTextureFile_p         FuncPtr(int32_t      , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
+#   define texCreateTextureFile_p       FuncPtr(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
 /** User-Function ptr **/
-EXTERN const void* const texLoadTextureLists_p;
-EXTERN const void* const texFreeTextureLists_p;
-EXTERN const void* const texCopyTexture_p;
-EXTERN const void* const texLoadTexturePakFile_p;
-EXTERN const void* const texLoadTexturePrsFile_p;
+#   define texLoadTextureLists_p        ((void*)0x0044C7B0);
+#   define texFreeTextureLists_p        ((void*)0x0044C810);
+#   define texCopyTexture_p             ((void*)0x0044C880);
+#   define texLoadTexturePakFile_p      ((void*)0x00430B10);
+#   define texLoadTexturePrsFile_p      ((void*)0x0044C620);
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_TEXTURE_H_ */

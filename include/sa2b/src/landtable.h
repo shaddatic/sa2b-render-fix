@@ -137,7 +137,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define ListGroundForCollision_p    FuncPtr(void   , __cdecl, (float32_t, float32_t, float32_t, float32_t), 0x0047CD60)
 #   define LandChangeLandTable_p       FuncPtr(int32_t, __cdecl, (OBJ_LANDTABLE*)                            , 0x0047BD30)
@@ -146,6 +146,6 @@ EXTERN_END
 #   define LandChangeGinjaLandTable_p  ((void*)0x0047BE10)
 #   define CL_ColPolCheckZxShadow_p    ((void*)0x0048C290)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_LANDTABLE_H_*/

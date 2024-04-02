@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_global.h'
 *
-*   Contains the Chao Garden's global params.
+*   Description:
+*       Contains the Chao Garden's global params.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,

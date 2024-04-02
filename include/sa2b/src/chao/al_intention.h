@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_intention.h'
 *
-*   Contains functions related to Chao intentions.
+*   Description:
+*       Contains functions related to Chao intentions.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,

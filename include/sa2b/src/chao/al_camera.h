@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_buyobuyo.h'
 *
-*   Contains functions and data related to the Chao jiggle engine.
+*   Description:
+*       Definitions for the main Camera used in Chao World.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -90,15 +91,15 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALCAM_CreateCameraManager_p         FuncPtr(void , __cdecl, (void) , 0x0057D4C0)
-#define ALCAM_CameraManagerExecutor_p       FuncPtr(void , __cdecl, (TASK*), 0x0057D400)
-#define ALCAM_CameraManagerDestructor_p     FuncPtr(void , __cdecl, (TASK*), 0x0057D410)
-#define AL_CreateNormalCameraTask_p         FuncPtr(TASK*, __cdecl, (void) , 0x0057D2E0)
-#define AL_NormalCameraExecutor_p           FuncPtr(void , __cdecl, (TASK*), 0x0057CD50)
-#define AL_NormalCameraDestructor_p         FuncPtr(void , __cdecl, (TASK*), 0x0057D2D0)
+#   define ALCAM_CreateCameraManager_p          FuncPtr(void , __cdecl, (void) , 0x0057D4C0)
+#   define ALCAM_CameraManagerExecutor_p        FuncPtr(void , __cdecl, (TASK*), 0x0057D400)
+#   define ALCAM_CameraManagerDestructor_p      FuncPtr(void , __cdecl, (TASK*), 0x0057D410)
+#   define AL_CreateNormalCameraTask_p          FuncPtr(TASK*, __cdecl, (void) , 0x0057D2E0)
+#   define AL_NormalCameraExecutor_p            FuncPtr(void , __cdecl, (TASK*), 0x0057CD50)
+#   define AL_NormalCameraDestructor_p          FuncPtr(void , __cdecl, (TASK*), 0x0057D2D0)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_CHAO_CAMERA_H_*/

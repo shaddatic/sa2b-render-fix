@@ -1,7 +1,10 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/chdraw.h'
 *
-*   Contains 'ch' data and draw functions used in Chao World.
+*   Description:
+*       'ch' functions were used in Chao World in the GameCube
+*   ports to fill in the gaps in Ginja's Chunk implimentation,
+*   such as back-face culling.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -50,7 +53,7 @@ void    chCnkDrawModel(NJS_CNK_MODEL* model);
 void    chCnkDrawObject(NJS_CNK_OBJECT* object);
 
 /** Internal functions **/
-int32_t  _chCnkDrawModel(NJS_CNK_MODEL* model);
+int32_t _chCnkDrawModel(NJS_CNK_MODEL* model);
 void    _chCnkDrawObject(NJS_CNK_OBJECT* object);
 
 EXTERN_END
@@ -58,20 +61,20 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define chBeginDrawCnkModel_p       FuncPtr(void  , __cdecl, (void)           , 0x0056E0B0)
-#define chCnkDrawModel_p            FuncPtr(void  , __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
-#define _chCnkDrawModel_p           FuncPtr(int32_t, __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
-#define _chCnkDrawObject_p          FuncPtr(void  , __cdecl, (NJS_CNK_OBJECT*), 0x0056DF50)
+#   define chBeginDrawCnkModel_p        FuncPtr(void  , __cdecl, (void)           , 0x0056E0B0)
+#   define chCnkDrawModel_p             FuncPtr(void  , __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
+#   define _chCnkDrawModel_p            FuncPtr(int32_t, __cdecl, (NJS_CNK_MODEL*) , 0x0056E1E0)
+#   define _chCnkDrawObject_p           FuncPtr(void  , __cdecl, (NJS_CNK_OBJECT*), 0x0056DF50)
 
 /** User-Function ptrs **/
-EXTERN const void* const chSetRareMaterial_p;
-EXTERN const void* const chRareEggDrawModel_p;
-EXTERN const void* const chRareEggDrawObject_p;
-EXTERN const void* const chRareEggDrawMotion_p;
-EXTERN const void* const chCnkDrawObject_p;
+#   define chSetRareMaterial_p          ((void*)0x0056D470)
+#   define chRareEggDrawModel_p         ((void*)0x0056D540)
+#   define chRareEggDrawObject_p        ((void*)0x0056D590)
+#   define chRareEggDrawMotion_p        ((void*)0x0056D600)
+#   define chCnkDrawObject_p            ((void*)0x0056E210)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_CHDRAW_H_ */
+#endif/*_SA2B_CHAO_CHDRAW_H_*/

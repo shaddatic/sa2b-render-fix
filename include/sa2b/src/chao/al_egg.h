@@ -166,13 +166,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define CreateEgg_p             FuncPtr(TASK*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, int32_t, const NJS_POINT3*, int32_t), 0x0057B9C0)
-#define AL_EggExecutor_p        FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B520)
-#define AL_EggDisplayer_p       FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B640)
-#define AL_EggDestructor_p      FuncPtr(void , __cdecl, (TASK*)                                                      , 0x0057B9B0)
+#   define CreateEgg_p              FuncPtr(TASK*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, int32_t, const NJS_POINT3*, int32_t), 0x0057B9C0)
+#   define AL_EggExecutor_p         FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0057B520)
+#   define AL_EggDisplayer_p        FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0057B640)
+#   define AL_EggDestructor_p       FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0057B9B0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_EGG_H_ */
+#endif/*_SA2B_CHAO_EGG_H_*/

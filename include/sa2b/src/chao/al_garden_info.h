@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_garden_info.h'
 *
-*   Contains functions, structs, and data related to Chao garden saves.
+*   Description:
+*       Contains functions, structs, and data related to Chao
+*   Garden saves.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -174,23 +176,23 @@ uint32_t    ALMC_GetSystemSlot(void);
 int32_t     AL_GetMaxChao(void);
 
 /** Get info **/
-CHAO_GARDEN_INFO*   AL_GetCurrGardenInfo(void);
-CHAO_GARDEN_INFO*   AL_GetGardenInfo2(int32_t slot);
-RACE_SAVE_INFO*     AL_GetRaceSaveInfo(void);
+CHAO_GARDEN_INFO* AL_GetCurrGardenInfo(void);
+CHAO_GARDEN_INFO* AL_GetGardenInfo2(int32_t slot);
+RACE_SAVE_INFO*   AL_GetRaceSaveInfo(void);
 
 /** Flag info **/
 void        AL_OnGardenFlag(uint32_t flag);
 bool32_t    AL_CheckGardenFlag(uint32_t flag);
 
 /** New info **/
-ITEM_SAVE_INFO*     AL_GetNewItemSaveInfo(int32_t category);
+ITEM_SAVE_INFO* AL_GetNewItemSaveInfo(int32_t category);
 
 /** Holding info **/
-ITEM_SAVE_INFO*     AL_GetHoldingItemSaveInfo(void);
-int32_t             AL_GetHoldingItemKind(void);
-int32_t             AL_GetHoldingItemCategory(void);
-void                AL_SetHoldingItemInfo(int32_t category, ITEM_SAVE_INFO* pSaveInfo);
-void                AL_ClearHoldingItemInfo(void);
+ITEM_SAVE_INFO* AL_GetHoldingItemSaveInfo(void);
+int32_t         AL_GetHoldingItemKind(void);
+int32_t         AL_GetHoldingItemCategory(void);
+void            AL_SetHoldingItemInfo(int32_t category, ITEM_SAVE_INFO* pSaveInfo);
+void            AL_ClearHoldingItemInfo(void);
 
 /** Garden init **/
 void    AL_SetObjectOnTheGarden(void);
@@ -201,24 +203,24 @@ void    AL_PackageAllSaveInfo(void);
 void    AL_PackageItemSaveInfo(int32_t category);
 
 /** Internal functions **/
-bool32_t    AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
+bool32_t AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_GetNewItemSaveInfo_p         FuncPtr(ITEM_SAVE_INFO*  , __fastcall, (int32_t)           , 0x0052F9E0)
-#define AL_GetCurrGardenInfo_p          FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E440)
-#define AL_GetAnotherGardenInfo_p       FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E460)
-#define AL_PackageAllSaveInfo_p         FuncPtr(void             , __cdecl   , (void)             , 0x0052F090)
-#define AL_PackageItemSaveInfo_p        FuncPtr(void             , __cdecl   , (int32_t)           , 0x0052E710)
-#define AL_CheckSaveDataCrc2_p          FuncPtr(bool32_t           , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
-#define AL_SetObjectOnTheGarden_p       FuncPtr(void             , __cdecl   , (void)             , 0x0052EB70)
-#define AL_CreateHoldingItem_p          FuncPtr(void             , __cdecl   , (void)             , 0x0052F2A0)
+#   define AL_GetNewItemSaveInfo_p          FuncPtr(ITEM_SAVE_INFO*  , __fastcall, (int32_t)           , 0x0052F9E0)
+#   define AL_GetCurrGardenInfo_p           FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E440)
+#   define AL_GetAnotherGardenInfo_p        FuncPtr(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E460)
+#   define AL_PackageAllSaveInfo_p          FuncPtr(void             , __cdecl   , (void)             , 0x0052F090)
+#   define AL_PackageItemSaveInfo_p         FuncPtr(void             , __cdecl   , (int32_t)           , 0x0052E710)
+#   define AL_CheckSaveDataCrc2_p           FuncPtr(bool32_t         , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
+#   define AL_SetObjectOnTheGarden_p        FuncPtr(void             , __cdecl   , (void)             , 0x0052EB70)
+#   define AL_CreateHoldingItem_p           FuncPtr(void             , __cdecl   , (void)             , 0x0052F2A0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_GARDENINFO_H_ */
+#endif/*_SA2B_CHAO_GARDENINFO_H_*/

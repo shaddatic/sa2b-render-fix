@@ -37,11 +37,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-EXTERN const void* const AL_GeneCreate_p;
-EXTERN const void* const AL_GeneAnalyzeCommon_p;
+#   define AL_GeneCreate_p          ((void*)0x005506B0)
+#   define AL_GeneAnalyzeCommon_p   ((void*)0x00551DA0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_GENE_H_ */
+#endif/*_SA2B_CHAO_GENE_H_*/

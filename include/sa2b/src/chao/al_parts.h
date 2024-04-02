@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_parts.h'
 *
-*   Contains enums, data, and functions related to Chao parts.
+*   Description:
+*       Contains enums, data, and functions related to Chao
+*   parts.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -132,16 +134,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_RemoveItemAllSub_p       FuncPtr(void, __cdecl, (AL_OBJECT *pObject), 0x00566AF0)
+#   define AL_RemoveItemAllSub_p        FuncPtr(void, __cdecl, (AL_OBJECT *pObject), 0x00566AF0)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_SetItem_p;
-EXTERN const void* const AL_SetItemOffset_p;
-EXTERN const void* const AL_SetMiminalParts_p;
-EXTERN const void* const AL_ClearParts_p;
+#   define AL_SetItem_p                 ((void*)0x005669B0)
+#   define AL_SetItemOffset_p           ((void*)0x00566A20)
+#   define AL_SetMiminalParts_p         ((void*)0x005668B0)
+#   define AL_ClearParts_p              ((void*)0x00566850)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_CHAO_PARTS_H_ */

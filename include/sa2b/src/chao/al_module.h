@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_module.h'
 *
-*   Contains enums, structs, data, and functions related to Chao World modules.
+*   Description:
+*       Contains enums, structs, data, and functions related to Chao World modules.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -31,8 +32,8 @@ EChaoModuleEntry;
 typedef struct
 {
     const char* name;
-    void(__cdecl* prolog)();
-    void(__cdecl* epilog)();
+    void(__cdecl* prolog)(void);
+    void(__cdecl* epilog)(void);
 }
 AL_SUBPRG_HEADER;
 
@@ -53,10 +54,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #define AL_LoadModule_p     FuncPtr(void, __cdecl, (const char*, EChaoModuleEntry), 0x00530C20)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_MODULE_H_ */
+#endif/*_SA2B_CHAO_MODULE_H_*/

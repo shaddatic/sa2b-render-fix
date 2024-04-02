@@ -145,7 +145,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define CCL_IsHitKindEx_p       FuncPtr(CCL_HIT_INFO*, __cdecl, (TASK*, uint8_t), 0x00486760)
 
@@ -153,6 +153,6 @@ EXTERN_END
 #   define CCL_Init_p              ((void*)0x0047E520)
 #   define CCL_Entry_p             ((void*)0x0047E750)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_CCOLLI_H_*/

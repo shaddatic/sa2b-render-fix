@@ -74,11 +74,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function Ptrs **/
 #define GetShadowPos_p              FuncPtr(float32_t, __cdecl, (float32_t, float32_t, float32_t, Angle3*), 0x00494C30)
 #define GetCharacterShadowInfo_p    FuncPtr(void   , __cdecl, (NJS_VECTOR*, SHADOWWK*)            , 0x00494DF0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_SHADOW_H_ */

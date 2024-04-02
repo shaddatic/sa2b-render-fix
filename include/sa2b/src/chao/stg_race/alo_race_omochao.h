@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/stg_race/alo_race_omochao.h'
 *
-*   Contains functions for the Race Omochao.
+*   Description:
+*       Contains functions for the Race Omochao.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -29,10 +30,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALR_OmochaoExecutor_p       FuncPtr(void, __cdecl, (TASK*), 0x0056A830)
+#   define ALR_OmochaoExecutor_p        FuncPtr(void, __cdecl, (TASK*), 0x0056A830)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_RACE_OMOCHAO_H_ */
+#endif/*_SA2B_CHAO_RACE_OMOCHAO_H_*/

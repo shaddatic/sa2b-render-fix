@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_behavior/albhv_life.h'
 *
-*   Contains functions related to the Chao life behaviors, and Mayu task functions.
+*   Description:
+*       Contains functions related to the Chao life behaviors,
+*   and Mayu task functions.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -21,31 +23,33 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t  ALBHV_Mayu(TASK* tp);
-int32_t  ALBHV_Dead(TASK* tp);
+int32_t ALBHV_Mayu( TASK* tp );
+int32_t ALBHV_Dead( TASK* tp );
 
 /*
 *   Mayu Functions
 */
-void    CreateMayu(TASK* tp, char kind);
+void    CreateMayu( TASK* tp, char kind );
 
-void    MayuDisplayer(TASK* tp);
+/** Task functions **/
+void    MayuDisplayer( TASK* tp );
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALBHV_Mayu_p        BhvFuncPtr(0x00568D30)
-#define ALBHV_Dead_p        BhvFuncPtr(0x00568F60)
+#   define MayuDisplayer_p      FuncPtr(void, __cdecl, (TASK*), 0x568A70)
 
-#define MayuDisplayer_p     FuncPtr(void, __cdecl, (TASK*), 0x568A70)
+/** Behavior ptrs **/
+#   define ALBHV_Mayu_p         BhvFuncPtr(0x00568D30)
+#   define ALBHV_Dead_p         BhvFuncPtr(0x00568F60)
 
 /** User-Function ptrs **/
-EXTERN const void* const CreateMayu_p;
+#   define CreateMayu_p         ((void*)0x00568CD0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_ALBVH_LIFE_H_ */
+#endif/*_SA2B_CHAO_ALBVH_LIFE_H_*/

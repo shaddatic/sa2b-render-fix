@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/chao.h'
 *
-*   Contains typedefs, enums, structures, data, & functions related
+*   Description:
+*       Contains typedefs, enums, structures, data, & functions related
 *   directly with Chao themselves.
 *
 *   Contributors:
@@ -639,13 +640,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define CreateChaoExtra_p       FuncPtr(TASK*, __cdecl, (CHAO_PARAM_GC*, bool32_t, AL_SHAPE_ELEMENT*, NJS_POINT3*, Angle), 0x005501D0)
-#define ChaoExecutor_p          FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FE20)
-#define ChaoDestructor_p        FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FF30)
-#define ChaoDisplayer_p         FuncPtr(void , __cdecl, (TASK*)                                                        , 0x0054FF80)
+#   define CreateChaoExtra_p        FuncPtr(TASK*, __cdecl, (CHAO_PARAM_GC*, bool32_t, AL_SHAPE_ELEMENT*, NJS_POINT3*, Angle), 0x005501D0)
+#   define ChaoExecutor_p           FuncPtr(void , __cdecl, (TASK*)                                                          , 0x0054FE20)
+#   define ChaoDestructor_p         FuncPtr(void , __cdecl, (TASK*)                                                          , 0x0054FF30)
+#   define ChaoDisplayer_p          FuncPtr(void , __cdecl, (TASK*)                                                          , 0x0054FF80)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_CHAO_H_ */
+#endif/*_SA2B_CHAO_CHAO_H_*/

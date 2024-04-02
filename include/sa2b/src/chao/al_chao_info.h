@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_chao_info.h'
 *
-*   Contains functions and data related to Chao save data.
+*   Description:
+*       Contains functions and data related to Chao save data.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -271,7 +272,7 @@ CHAO_SAVE_INFO;
 /*  Functions           */
 /************************/
 EXTERN_START
-CHAO_SAVE_INFO*     AL_GetNewChaoSaveInfo(void);
+CHAO_SAVE_INFO* AL_GetNewChaoSaveInfo(void);
 
 void    AL_SetChaoOnTheGarden(void);
 void    AL_CreateHoldingChao(void);
@@ -281,12 +282,12 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_GetNewChaoSaveInfo_p     FuncPtr(CHAO_SAVE_INFO*, __cdecl, (void), 0x00531AA0)
-#define AL_SetChaoOnTheGarden_p     FuncPtr(void           , __cdecl, (void), 0x00531B10)
-#define AL_CreateHoldingChao_p      FuncPtr(void           , __cdecl, (void), 0x00531E10)
+#   define AL_GetNewChaoSaveInfo_p      FuncPtr(CHAO_SAVE_INFO*, __cdecl, (void), 0x00531AA0)
+#   define AL_SetChaoOnTheGarden_p      FuncPtr(void           , __cdecl, (void), 0x00531B10)
+#   define AL_CreateHoldingChao_p       FuncPtr(void           , __cdecl, (void), 0x00531E10)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_CHAOINFO_H_ */
+#endif/*_SA2B_CHAO_CHAOINFO_H_*/

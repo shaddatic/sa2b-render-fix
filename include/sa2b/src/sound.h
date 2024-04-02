@@ -22,10 +22,10 @@
 /************************/
 typedef struct bankentry
 {
-    int8_t memBank;
-    int8_t index;
-    int8_t seBank;
-    int8_t flags;
+    int8_t  memBank;
+    int8_t  index;
+    int8_t  seBank;
+    int8_t  flags;
     int16_t unk;
     int16_t dist;
 }
@@ -33,35 +33,35 @@ BANK_ENTRY;
 
 typedef struct banklist
 {
-    int32_t nbEntry;
+    int32_t     nbEntry;
     BANK_ENTRY* pEntry;
 }
 BANK_LIST;
 
-typedef struct 
+typedef struct
 {
-    int8_t gap0;
-    int8_t gap1;
-    int8_t unkPri;
-    int8_t pan;
-    int8_t gap4;
-    int8_t volume;
-    int8_t volumeMax;
-    int8_t gap7;
-    uint16_t flag;
-    int16_t pitch;
-    int16_t timer;
-    uint16_t flag2;
-    void* pTask;
-    uint16_t soundID;
+    int8_t      gap0;
+    int8_t      gap1;
+    int8_t      unkPri;
+    int8_t      pan;
+    int8_t      gap4;
+    int8_t      volume;
+    int8_t      volumeMax;
+    int8_t      gap7;
+    uint16_t    flag;
+    int16_t     pitch;
+    int16_t     timer;
+    uint16_t    flag2;
+    void*       pTask;
+    uint16_t    soundID;
     NJS_VECTOR* pPos;
-    NJS_VECTOR position;
-    float32_t distMax;
-    float32_t distLast;
+    NJS_VECTOR  position;
+    float32_t   distMax;
+    float32_t   distLast;
 }
 SOUND_ENTRY;
 
-typedef struct 
+typedef struct
 {
     char unk0[3];
     char idxEntry0;
@@ -106,9 +106,9 @@ void    SE_CallV2_Loop(int32_t se, void* pTask, NJS_POINT3* pPos, int8_t volume)
 /** The 'Add' functions can modify sound entry params. Match 'se' and 'pTask' with the 
     sound entry to be modified. 'se' can be -1, and only 'pTask' will be matched **/
 
-void    SE_Add_Volume(int32_t se, void* pTask, int8_t volume);
-void    SE_Add_Pitch(int32_t se, void* pTask, int16_t pitch);
-void    SE_Add_Pan(int32_t se, void* pTask, int8_t pan);
+void    SE_Add_Volume( int32_t se, void* pTask, int8_t  volume);
+void    SE_Add_Pitch(  int32_t se, void* pTask, int16_t pitch);
+void    SE_Add_Pan(    int32_t se, void* pTask, int8_t  pan);
 
 /** Only bosses call these, their exact function isn't fully understood yet. Perhaps, 
     'SC' stands for SpeCial? **/
@@ -121,31 +121,31 @@ void    SE_Call_One(int32_t se);
 
 /** Specifically plays the ring collect jingle. 'pno' controls which players ring count 
     to read for the sound LR pan control. **/
-int8_t   SE_Call_SEQ(int8_t pno);
+int8_t  SE_Call_SEQ(int8_t pno);
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define SE_Call_SEQ_p       FuncPtr(int8_t, __cdecl, (int8_t), 0x004377D0)
+#   define SE_Call_SEQ_p        FuncPtr(int8_t, __cdecl, (int8_t), 0x004377D0)
 
 /** User-Function ptr **/
-EXTERN const void* const SE_Call_p;
-EXTERN const void* const SE_CallV2_p;
-EXTERN const void* const SE_Call_Timer_p;
-EXTERN const void* const SE_CallV2_Timer_p;
-EXTERN const void* const SE_Call_Loop_p;
-EXTERN const void* const SE_CallV2_Loop_p;
-EXTERN const void* const SE_Add_Volume_p;
-EXTERN const void* const SE_Add_Pitch_p;
-EXTERN const void* const SE_Add_Pan_p;
-EXTERN const void* const SE_Call_SCLoop_p;
-EXTERN const void* const SE_CallV2_SCLoop_p;
-EXTERN const void* const SE_Call_One_p;
+#   define SE_Call_p            ((void*)0x00437260)
+#   define SE_CallV2_p          ((void*)0x004372E0)
+#   define SE_Call_Timer_p      ((void*)0x004374D0)
+#   define SE_CallV2_Timer_p    ((void*)0x00437590)
+#   define SE_Call_Loop_p       ((void*)0x00437360)
+#   define SE_CallV2_Loop_p     ((void*)0x00437420)
+#   define SE_Add_Volume_p      ((void*)0x00437F60)
+#   define SE_Add_Pitch_p       ((void*)0x00438000)
+#   define SE_Add_Pan_p         ((void*)0x00437FB0)
+#   define SE_Call_SCLoop_p     ((void*)0x00437640)
+#   define SE_CallV2_SCLoop_p   ((void*)0x00437710)
+#   define SE_Call_One_p        ((void*)0x00437960)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_SOUND_H_ */
+#endif/*_SA2B_SOUND_H_*/

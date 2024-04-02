@@ -96,13 +96,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define LoadStageLight_p    FuncPtr(int32_t, __fastcall, (const char*), 0x006C3AE0)
 
 /** User-Function ptrs **/
 #   define SetLighting_p       ((void*)0x00487060)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_LIGHT_H_*/

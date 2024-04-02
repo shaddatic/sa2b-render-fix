@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/stg_race/alo_race_karitoy.h'
 *
-*   Contains functions for the Race quiz items.
+*   Description:
+*       Contains functions for the Race quiz items.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -29,10 +30,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_RaceKariToyExecutor_p       FuncPtr(void, __cdecl, (TASK*), 0x00560470)
+#   define ALO_RaceKariToyExecutor_p        FuncPtr(void, __cdecl, (TASK*), 0x00560470)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS */
 
-#endif /* _SA2B_CHAO_RACE_KARITOY_H_ */
+#endif/*_SA2B_CHAO_RACE_KARITOY_H_*/

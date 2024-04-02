@@ -56,13 +56,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define Extra_Get_p             FuncPtr(EXTRA_LIST*, __fastcall, (int32_t), 0x00487260)
 
 /** User-Function ptrs **/
 #   define AddExtraDisplay_p       ((void*)0x004872F0)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_EXTRA_H_*/

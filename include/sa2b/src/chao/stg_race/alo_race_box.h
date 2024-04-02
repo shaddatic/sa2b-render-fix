@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/stg_race/alo_race_box.h'
 *
-*   Contains functions for the Race Box object.
+*   Description:
+*       Contains functions for the Race Box object.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -29,10 +30,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALR_BoxExecutor_p   FuncPtr(void, __cdecl, (TASK*), 0x0056A110)
+#   define ALR_BoxExecutor_p        FuncPtr(void, __cdecl, (TASK*), 0x0056A110)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_RACE_BOX_H_ */
+#endif/*_SA2B_CHAO_RACE_BOX_H_*/

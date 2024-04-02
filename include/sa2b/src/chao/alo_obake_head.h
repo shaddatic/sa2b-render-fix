@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/alo_obake_head.h'
 *
-*   Contains enums and functions related to Chao masks.
+*   Description:
+*       Contains enums and functions related to Chao masks.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -132,12 +133,12 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_ObakeHeadCreate_p           FuncPtr(TASK*, __cdecl, (eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x0054A540)
-#define ALO_ObakeHeadExecutor_p         FuncPtr(void , __cdecl, (TASK*), 0x0054A050)
-#define ALO_ObakeHeadDisplayer_p        FuncPtr(void , __cdecl, (TASK*), 0x0054A0F0)
+#   define ALO_ObakeHeadCreate_p            FuncPtr(TASK*, __cdecl, (eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x0054A540)
+#   define ALO_ObakeHeadExecutor_p          FuncPtr(void , __cdecl, (TASK*)                                                                                       , 0x0054A050)
+#   define ALO_ObakeHeadDisplayer_p         FuncPtr(void , __cdecl, (TASK*)                                                                                       , 0x0054A0F0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_OBAKEHEAD_H_ */
+#endif/*_SA2B_CHAO_OBAKEHEAD_H_*/

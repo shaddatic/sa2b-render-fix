@@ -10,7 +10,7 @@
 #include <sa2b/src/task.h>
 
 /** Chao **/
-#define SAMT_INCLUDE_FUNC_PTRS
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/src/chao/chao.h>
 #include <sa2b/src/chao/al_egg.h>
 #include <sa2b/src/chao/al_world.h>
@@ -20,20 +20,20 @@
 #include <sa2b/src/chao/alo_seed.h>
 #include <sa2b/src/chao/alo_fruit.h>
 #include <sa2b/src/chao/al_minimal.h>
-#undef  SAMT_INCLUDE_FUNC_PTRS
+#undef  SAMT_INCL_FUNCPTRS
 #include <sa2b/src/chao/al_chao_info.h>
 #include <sa2b/src/chao/al_stage.h>
 #include <sa2b/src/chao/al_global.h>
 #include <sa2b/src/chao/al_misc.h>
 
 /** AL Toys **/
-#define SAMT_INCLUDE_FUNC_PTRS
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/src/chao/al_toy/alo_ball.h>
 #include <sa2b/src/chao/al_toy/alo_box.h>
 #include <sa2b/src/chao/al_toy/alo_horse.h>
 #include <sa2b/src/chao/al_toy/alo_radicase.h>
 #include <sa2b/src/chao/al_toy/alo_tv.h>
-#undef  SAMT_INCLUDE_FUNC_PTRS
+#undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
 #include <rf_core.h>

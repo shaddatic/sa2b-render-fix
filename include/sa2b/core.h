@@ -14,11 +14,11 @@
 #ifndef _SAMT_CORE_H_
 #define _SAMT_CORE_H_
 
-#ifndef SAMT_NO_AUTOLIB
+#ifndef SAMT_DONT_AUTOLIB
 #   pragma comment(lib, "sa2b-mod-toolkit.lib")
 #endif
 
-#ifndef SAMT_NO_CORE_ERROR
+#ifndef SAMT_DONT_COREERR
 #   if !defined(_MSC_VER)
 #       error "SAMT is designed for the MSVC compiler"
 #   endif
@@ -38,7 +38,7 @@
 #   if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 201710L)
 #       error "SAMT is designed for the latest C version (C17), please change the project's C standard target"
 #   endif
-#endif/*SAMT_NO_COREERR*/
+#endif/*SAMT_DONT_COREERR*/
 
 /************************/
 /*  Includes            */

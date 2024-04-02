@@ -67,13 +67,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALO_SeedCreate_p        FuncPtr(TASK*, __cdecl, (eSEED_KIND, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00549B00)
-#define ALO_SeedExecutor_p      FuncPtr(void , __cdecl, (TASK*)                                                , 0x00549860)
-#define ALO_SeedDisplayer_p     FuncPtr(void , __cdecl, (TASK*)                                                , 0x005498E0)
-#define ALO_SeedDestructor_p    FuncPtr(void , __cdecl, (TASK*)                                                , 0x0057B9B0) 
+#   define ALO_SeedCreate_p         FuncPtr(TASK*, __cdecl, (eSEED_KIND, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00549B00)
+#   define ALO_SeedExecutor_p       FuncPtr(void , __cdecl, (TASK*)                                                , 0x00549860)
+#   define ALO_SeedDisplayer_p      FuncPtr(void , __cdecl, (TASK*)                                                , 0x005498E0)
+#   define ALO_SeedDestructor_p     FuncPtr(void , __cdecl, (TASK*)                                                , 0x0057B9B0) 
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_CHAO_SEED_H_*/

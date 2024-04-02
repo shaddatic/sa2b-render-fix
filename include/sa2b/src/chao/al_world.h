@@ -114,42 +114,53 @@ ALW_ENTRY_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t AL_ConfirmLoadIsBusy(void);
+int32_t  AL_ConfirmLoadIsBusy( void );
 
 /** Initialize and reset ALW module params for new stage **/
-void    ALW_Create(void);
+void     ALW_Create( void );
 
-int32_t ALW_Entry(uint16_t category, TASK* tp, uint16_t kind);
-int32_t ALW_Entry2(uint16_t category, TASK* tp, uint16_t kind, void* pSaveInfo);
+/** Make new entry **/
+int32_t  ALW_Entry(  uint16_t category, TASK* tp, uint16_t kind                  );
+int32_t  ALW_Entry2( uint16_t category, TASK* tp, uint16_t kind, void* pSaveInfo );
 
-int32_t ALW_GetMaxEntry(uint16_t category); /* Toolkit addition */
+/** Get max entry by 'category' **/
+int32_t  ALW_GetMaxEntry( uint16_t category ); /* Toolkit addition */
 
-TASK*   ALW_GetTask(int32_t category, uint16_t num);
-int32_t ALW_GetCategory(TASK* tp);
-uint16_t ALW_GetKind(TASK* tp); /* Toolkit addition */
+/** Get TASK in 'catergory' by 'num' **/
+TASK*    ALW_GetTask( int32_t category, uint16_t num );
 
-int32_t ALW_AttentionOn(TASK* tp1, TASK* tp2);
-int32_t ALW_AttentionOff(TASK* tp);
-ALW_ENTRY_WORK* ALW_IsAttention(TASK* tp);
-int32_t ALW_IsSheAttentionOtherOne(TASK* pMyTask, TASK* pHerTask);
-int32_t ALW_CommunicationOn(TASK* tp1, TASK* tp2);
-int32_t ALW_CommunicationOff(TASK* tp);
-ALW_ENTRY_WORK* ALW_IsCommunication(TASK* tp);
-ALW_ENTRY_WORK* ALW_IsCommunicationEx(TASK* tp, uint16_t category);
-int32_t ALW_RecieveCommand(TASK* tp);
+/** Get TASK attributes **/
+int32_t  ALW_GetCategory( TASK* tp );
+uint16_t ALW_GetKind(     TASK* tp ); /* Toolkit addition */
+
+/** ALW attention **/
+ALW_ENTRY_WORK* ALW_IsAttention(  TASK* tp             ); /* Returns current attention */
+int32_t         ALW_AttentionOn(  TASK* tp1, TASK* tp2 ); /* Set attention */
+int32_t         ALW_AttentionOff( TASK* tp             ); /* Attention off */
+
+int32_t         ALW_IsSheAttentionOtherOne( TASK* pMyTask, TASK* pHerTask );
+
+/** ALW communication **/
+ALW_ENTRY_WORK* ALW_IsCommunication(  TASK* tp             ); /* Returns current communication */
+int32_t         ALW_CommunicationOn(  TASK* tp1, TASK* tp2 ); /* Set communication */
+int32_t         ALW_CommunicationOff( TASK* tp             ); /* Communication off */
+
+ALW_ENTRY_WORK* ALW_IsCommunicationEx( TASK* tp, uint16_t category ); /* Returns current communication by 'category' */
+
+int32_t         ALW_RecieveCommand( TASK* tp );
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define ALW_Create_p        FuncPtr(void, __cdecl, (void), 0x00530B80)
+#   define ALW_Create_p         FuncPtr(void, __cdecl, (void), 0x00530B80)
 
 /** User-Function ptrs **/
-EXTERN const void* const ALW_Entry2_p;
+#   define ALW_Entry2_p         ((void*)00530750)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_WORLD_H_ */
+#endif/*_SA2B_CHAO_WORLD_H_*/

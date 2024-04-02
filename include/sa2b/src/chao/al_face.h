@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_face.h'
 *
-*   Contains functions and enums related to Chao face states.
+*   Description:
+*       Contains functions and enums related to Chao face
+*   states.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -125,10 +127,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_FaceEyeLidControl_p      FuncPtr(void, __cdecl, (TASK*), 0x0053A1E0)
+#   define AL_FaceEyeLidControl_p       FuncPtr(void, __cdecl, (TASK*), 0x0053A1E0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_FACE_H_ */
+#endif/*_SA2B_CHAO_FACE_H_*/

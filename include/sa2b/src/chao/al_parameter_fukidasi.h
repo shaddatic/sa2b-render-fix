@@ -1,8 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_parameter_fukidasi.h'
 *
-*   Contains structures, data, and functions related to the Chao stat panel.
-*   Fukidasi means "speech bubble".
+*   Description:
+*       Contains structures, data, and functions related to the
+*   Chao stat panel. Fukidasi means "speech bubble".
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -86,16 +87,16 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_CloseParameterFukidasi_p     FuncPtr(void, __fastcall, (TASK*), 0x00565B90)
-#define ParamFukidasiExecutor_p         FuncPtr(void, __cdecl   , (TASK*), 0x00564C80)
-#define ParamFukidasiDisplayer_p        FuncPtr(void, __cdecl   , (TASK*), 0x00565200)
-#define ParamFukidasiDestructor_p       FuncPtr(void, __cdecl   , (TASK*), 0x005659C0)
+#   define AL_CloseParameterFukidasi_p      FuncPtr(void, __fastcall, (TASK*), 0x00565B90)
+#   define ParamFukidasiExecutor_p          FuncPtr(void, __cdecl   , (TASK*), 0x00564C80)
+#   define ParamFukidasiDisplayer_p         FuncPtr(void, __cdecl   , (TASK*), 0x00565200)
+#   define ParamFukidasiDestructor_p        FuncPtr(void, __cdecl   , (TASK*), 0x005659C0)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_OpenParameterFukidasi_p;
+#   define AL_OpenParameterFukidasi_p       ((void*)0x005659E0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_PARAMFUKIDASI_H_ */
+#endif/*_SA2B_CHAO_PARAMFUKIDASI_H_*/

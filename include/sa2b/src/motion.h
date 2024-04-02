@@ -111,7 +111,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
 #   define MotionInit_p             ((void*)0x00793880)
 #   define MotionControl_p          ((void*)0x007938D0)
@@ -132,6 +132,6 @@ EXTERN_END
 
 #   define SetMotionNum_p           ((void*)0x00793F10)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_MOTION_H_*/

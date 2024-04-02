@@ -474,18 +474,18 @@ int32_t CountCharacters( void );
 /************************/
 /*  Inline Functions    */
 /************************/
-#ifdef  SAMT_INCLUDE_FUNC_INLINES
+#ifdef  SAMT_INCL_INLINED
 
 void    StopHoldingTaskP_inl(int32_t pno, TASKWK* ptwp);
 
-#endif/*SAMT_INCLUDE_FUNC_INLINES*/
+#endif/*SAMT_INCL_INLINED*/
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef  SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define CountCharacters_p                FuncPtr(int32_t, __cdecl, (void), 0x0046DD60)
 
@@ -502,6 +502,6 @@ EXTERN_END
 /** Inlined Function ptrs **/
 #   define StopHoldingTaskP_inl_p           ((void*)0x0046E5E0)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_PLAYER_H_*/

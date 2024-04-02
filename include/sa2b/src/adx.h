@@ -33,7 +33,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define BGM_SetRound_p          FuncPtr(void, __cdecl, (void), 0x00442D90)
 #   define BGM_Stop_p              FuncPtr(void, __cdecl, (void), 0x00442F50)
@@ -42,6 +42,6 @@ EXTERN_END
 #   define BGM_Play_p              ((void*)0x00442CF0)
 #   define Jingle_Play_p           ((void*)0x00443480)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_ADX_H_*/

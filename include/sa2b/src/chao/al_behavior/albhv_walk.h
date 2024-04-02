@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_behavior/albhv_walk.h'
 *
-*   Contains functions related to the Chao walk behaviors.
+*   Description:
+*       Contains functions related to the Chao walk behaviors.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -21,22 +22,22 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_WalkSelect(TASK* tp);
+void    AL_WalkSelect( TASK* tp );
 
-int32_t  ALBHV_Move(TASK* tp);
+int32_t ALBHV_Move( TASK* tp );
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
-/** Function ptrs **/
-#define ALBHV_Move_p        BhvFuncPtr(0x00562D20)
+#ifdef SAMT_INCL_FUNCPTRS
+/** Behavior ptrs **/
+#   define ALBHV_Move_p         BhvFuncPtr(0x00562D20)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_WalkSelect_p;
+#   define AL_WalkSelect_p      ((void*)0x005A3650)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_ALBVH_WALK_H_ */
+#endif/*_SA2B_CHAO_ALBVH_WALK_H_*/

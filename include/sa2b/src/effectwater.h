@@ -45,11 +45,11 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
 #   define CreateWaterripple_p     FuncPtr(void, __cdecl, (NJS_POINT3*, NJS_POINT3*, float32_t)       , 0x006EDAF0)
 #   define CreateWater_p           FuncPtr(void, __cdecl, (NJS_POINT3*, Angle3*, float32_t, float32_t), 0x006EDEE0)
 
-#endif/*SAMT_INCLUDE_FUNC_PTRS*/
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_SA2B_EFFECTWATER_H_*/

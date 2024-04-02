@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_buyobuyo.h'
 *
-*   Contains functions and data related to the Chao jiggle engine.
+*   Description:
+*       Contains functions and data related to the Chao jiggle
+*   engine.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -28,12 +30,12 @@ typedef struct al_object    AL_OBJECT;
 /************************/
 typedef struct 
 {
-    void*    mdata;
+    void*     mdata;
     float32_t CurrFrame;
-    uint32_t    nbFrame;
-    void*    mdataLink;
+    uint32_t  nbFrame;
+    void*     mdataLink;
     float32_t CurrFrameLink;
-    uint32_t    nbFrameLink;
+    uint32_t  nbFrameLink;
     float32_t LinkRatio;
 }
 AL_MOTION_INFO;
@@ -41,7 +43,7 @@ AL_MOTION_INFO;
 /************************/
 /*  Data                */
 /************************/
-#define tree_counter    DataRef(int16_t        , 0x01AED2D4)
+#define tree_counter    DataRef(int16_t       , 0x01AED2D4)
 #define MtnInfo         DataRef(AL_MOTION_INFO, 0x01A276A8)
 
 #define VertexVelo      DataAry(NJS_VECTOR    , 0x01DBD960, [256])
@@ -65,20 +67,20 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_SetCurrMatrixSub_p       FuncPtr(void, __cdecl, (AL_OBJECT*)       , 0x0056F010)
-#define AL_BuyoBuyoObject_p         FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0056F5C0)
-#define AL_BuyoBuyoControl_p        FuncPtr(void, __cdecl, (TASK*)            , 0x0056FC20)
+#   define AL_SetCurrMatrixSub_p            FuncPtr(void, __cdecl, (AL_OBJECT*)       , 0x0056F010)
+#   define AL_BuyoBuyoObject_p              FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0056F5C0)
+#   define AL_BuyoBuyoControl_p             FuncPtr(void, __cdecl, (TASK*)            , 0x0056FC20)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_InitCalcMotionMatrix_p;
-EXTERN const void* const AL_CalcMotionMartix_p;
-EXTERN const void* const AL_CalcMotionMartixTranslate_p;
-EXTERN const void* const AL_CalcMotionMartixRotation_p;
-EXTERN const void* const AL_SetCurrMatrix_p;
-EXTERN const void* const AL_CalcShadowPos_p;
+#   define AL_InitCalcMotionMatrix_p        ((void*)0x0056E9C0);
+#   define AL_CalcMotionMartix_p            ((void*)0x0056EF80);
+#   define AL_CalcMotionMatrixTranslate_p   ((void*)0x0056EA30);
+#   define AL_CalcMotionMatrixRotation_p    ((void*)0x0056ED40);
+#   define AL_SetCurrMatrix_p               ((void*)0x0056F0E0);
+#   define AL_CalcShadowPos_p               ((void*)0x0056F180);
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_BUYOBUYO_H_ */
+#endif/*_SA2B_CHAO_BUYOBUYO_H_*/

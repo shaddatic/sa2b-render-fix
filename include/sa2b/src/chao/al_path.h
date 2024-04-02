@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_path.h'
 *
-*   Contains data and functions related to Chao race paths.
+*   Description:
+*       Contains data and functions related to Chao race paths.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -34,7 +35,7 @@ typedef struct task        TASK;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t  AL_PathSearch(TASK* tp);
+int32_t AL_PathSearch(TASK* tp);
 
 void    CrossProduct(NJS_POINT3* pPos0, NJS_POINT3* pPos1, NJS_POINT3* pPos2, NJS_POINT3* pAnswer);
 
@@ -43,13 +44,13 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_PathSearch_p     FuncPtr(int32_t, __cdecl, (TASK* tp), 0x0053E3E0)
+#   define AL_PathSearch_p      FuncPtr(int32_t, __cdecl, (TASK* tp), 0x0053E3E0)
 
 /** User-Function ptrs **/
-EXTERN const void* const CrossProduct_p;
+#   define CrossProduct_p       ((void*)0x0053E390)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_PARTS_H_ */
+#endif/*_SA2B_CHAO_PARTS_H_*/

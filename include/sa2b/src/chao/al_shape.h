@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_shape.h'
 *
-*   Contains structs, data, and functions related to Chao models.
+*   Description:
+*       Contains structs, data, and functions related to Chao
+*   models.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -173,33 +175,33 @@ typedef NJS_CNK_OBJECT*         AL_RootObject_t[144];
 /************************/
 EXTERN_START
 /** Initialize Chao shape data **/
-int32_t  AL_ShapeInit(TASK* tp);
+int32_t AL_ShapeInit( TASK* tp );
 
 /** Copy and free chao object **/
-AL_OBJECT*  AL_CopyChaoObject(NJS_CNK_OBJECT* pSrcObject, NJS_CNK_OBJECT* pChildObject, AL_OBJECT* pParentObject);
-void        AL_FreeChaoObject(AL_OBJECT* pObject);
+AL_OBJECT*  AL_CopyChaoObject( NJS_CNK_OBJECT* pSrcObject, NJS_CNK_OBJECT* pChildObject, AL_OBJECT* pParentObject );
+void        AL_FreeChaoObject( AL_OBJECT* pObject );
 
 /** Internal functions **/
-int32_t  AL_CreateOrgVertexList(AL_OBJECT* pObject);
-int32_t  GetList(AL_OBJECT* pSrcObject, AL_OBJECT** List, int32_t num);
-void    AL_GetObjectList(AL_OBJECT* pSrcObject, AL_OBJECT** List);
+int32_t AL_CreateOrgVertexList( AL_OBJECT* pObject );
+int32_t GetList( AL_OBJECT* pSrcObject, AL_OBJECT** List, int32_t num );
+void    AL_GetObjectList( AL_OBJECT* pSrcObject, AL_OBJECT** List );
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_ShapeInit_p              FuncPtr(int32_t    , __cdecl, (TASK*)                                       , 0x0056C9D0)
-#define AL_CopyChaoObject_p         FuncPtr(AL_OBJECT*, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, AL_OBJECT*), 0x0056BED0)
-#define AL_FreeChaoObject_p         FuncPtr(void      , __cdecl, (AL_OBJECT*)                                  , 0x0056BD40)
-#define AL_CreateOrgVertexList_p    FuncPtr(int32_t    , __cdecl, (AL_OBJECT*)                                  , 0x0056C800)
-#define GetList_p                   FuncPtr(int32_t    , __cdecl, (AL_OBJECT*, AL_OBJECT**, int32_t)             , 0x0056BC90)
+#   define AL_ShapeInit_p               FuncPtr(int32_t    , __cdecl, (TASK*)                                       , 0x0056C9D0)
+#   define AL_CopyChaoObject_p          FuncPtr(AL_OBJECT*, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, AL_OBJECT*), 0x0056BED0)
+#   define AL_FreeChaoObject_p          FuncPtr(void      , __cdecl, (AL_OBJECT*)                                  , 0x0056BD40)
+#   define AL_CreateOrgVertexList_p     FuncPtr(int32_t    , __cdecl, (AL_OBJECT*)                                  , 0x0056C800)
+#   define GetList_p                    FuncPtr(int32_t    , __cdecl, (AL_OBJECT*, AL_OBJECT**, int32_t)             , 0x0056BC90)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_GetObjectList_p;
+#   define AL_GetObjectList_p           ((void*)0x0056BCD0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_SHAPE_H_ */
+#endif/*_SA2B_CHAO_SHAPE_H_*/

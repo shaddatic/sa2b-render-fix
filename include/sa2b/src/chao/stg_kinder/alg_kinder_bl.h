@@ -1,7 +1,10 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/stg_kinder/alg_kinder.h'
 *
-*   Contains defines, typedefs, and functions for the Chao behavior system.
+*   ~~~ Under Construction ~~~
+*
+*   Description:
+*
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -25,4 +28,4 @@
 
 #define NextBuyListChangeTime       DataRef(int32_t, 0x01DBED8C)
 
-#endif /* _SA2B_CHAO_KINDER_KINDER_H_ */
+#endif/*_SA2B_CHAO_KINDER_KINDER_H_*/

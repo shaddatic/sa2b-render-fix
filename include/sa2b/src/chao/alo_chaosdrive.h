@@ -71,27 +71,27 @@ AL_CHAOSDRIVE_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_ChaosDriveCreate(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+TASK*   ALO_ChaosDriveCreate( uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
 
 /** Task functions **/
-void    ALO_ChaosDriveExecutor(TASK* tp);
-void    ALO_ChaosDriveDisplayer(TASK* tp);
-void    ALO_ChaosDriveDestructor(TASK* tp);
-void    ALO_ChaosDriveDisplayerDelayed(TASK* tp);
+void    ALO_ChaosDriveExecutor(         TASK* tp );
+void    ALO_ChaosDriveDisplayer(        TASK* tp );
+void    ALO_ChaosDriveDestructor(       TASK* tp );
+void    ALO_ChaosDriveDisplayerDelayed( TASK* tp );
 
 EXTERN_END
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-#define ALO_ChaosDriveCreate_p              FuncPtr(TASK*, __cdecl, (uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* idkvector, ITEM_SAVE_INFO* a4), 0x00545600)
-#define ALO_ChaosDriveExecutor_p            FuncPtr(void, __cdecl, (TASK*), 0x005450C0)
-#define ALO_ChaosDriveDisplayer_p           FuncPtr(void, __cdecl, (TASK*), 0x00545150)
-#define ALO_ChaosDriveDestructor_p          FuncPtr(void, __cdecl, (TASK*), 0x005455B0)
-#define ALO_ChaosDriveDisplayerDelayed_p    FuncPtr(void, __cdecl, (TASK*), 0x00545430)
+#   define ALO_ChaosDriveCreate_p               FuncPtr(TASK*, __cdecl, (uint8_t, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00545600)
+#   define ALO_ChaosDriveExecutor_p             FuncPtr(void , __cdecl, (TASK*)                                             , 0x005450C0)
+#   define ALO_ChaosDriveDisplayer_p            FuncPtr(void , __cdecl, (TASK*)                                             , 0x00545150)
+#   define ALO_ChaosDriveDestructor_p           FuncPtr(void , __cdecl, (TASK*)                                             , 0x005455B0)
+#   define ALO_ChaosDriveDisplayerDelayed_p     FuncPtr(void , __cdecl, (TASK*)                                             , 0x00545430)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_CHAO_CHAOSDRIVE_H_ */

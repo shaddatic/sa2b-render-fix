@@ -35,10 +35,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define RougeMotionCallBack_p       FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x007304D0)
+#   define RougeMotionCallBack_p        FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x007304D0)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _SA2B_FIGURE_ROUGE_H_ */

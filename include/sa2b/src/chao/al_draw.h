@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_draw.h'
 *
-*   Contains functions and data related to Chao drawing.
+*   Description:
+*       Contains functions and data related to Chao drawing.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -61,19 +62,19 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_Draw_p                   FuncPtr(void, __cdecl, (TASK*)            , 0x00540B60)
-#define AL_DrawSub_p                FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0053FCF0)
-#define AL_CreateShadowTex_p        FuncPtr(void, __cdecl, (void)             , 0x00540F70)
-#define AL_ExecShadowTex_p          FuncPtr(void, __cdecl, (TASK*)            , 0x005412E0)
-#define AL_DisplayShadowTex_p       FuncPtr(void, __cdecl, (TASK*)            , 0x00541370)
-#define AL_DestructShadowTex_p      FuncPtr(void, __cdecl, (TASK*)            , 0x00541250)
-#define AL_AllocateShadowTex_p      FuncPtr(void, __cdecl, (void)             , 0x00541020)
+#   define AL_Draw_p                    FuncPtr(void, __cdecl, (TASK*)            , 0x00540B60)
+#   define AL_DrawSub_p                 FuncPtr(void, __cdecl, (TASK*, AL_OBJECT*), 0x0053FCF0)
+#   define AL_CreateShadowTex_p         FuncPtr(void, __cdecl, (void)             , 0x00540F70)
+#   define AL_ExecShadowTex_p           FuncPtr(void, __cdecl, (TASK*)            , 0x005412E0)
+#   define AL_DisplayShadowTex_p        FuncPtr(void, __cdecl, (TASK*)            , 0x00541370)
+#   define AL_DestructShadowTex_p       FuncPtr(void, __cdecl, (TASK*)            , 0x00541250)
+#   define AL_AllocateShadowTex_p       FuncPtr(void, __cdecl, (void)             , 0x00541020)
 
 /** User-Function ptrs **/
-EXTERN const void* const AL_EntryShadowTex_p;
+#   define AL_EntryShadowTex_p          ((void*)0x00540FD0);
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_DRAW_H_ */
+#endif/*_SA2B_CHAO_DRAW_H_*/

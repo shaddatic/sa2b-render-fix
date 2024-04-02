@@ -27,7 +27,7 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
 #define ___strcmp_p         FuncPtr(int   , __cdecl, (const char*, const char*)  , 0x007ACED0)
 #define ___memset_p         FuncPtr(void* , __cdecl, (void*, int, size_t)        , 0x007ACDE0)
@@ -35,6 +35,6 @@ EXTERN_END
 #define ___strlen_p         FuncPtr(size_t, __cdecl, (const char*)               , 0x007A8C00)
 #define ___memcpy_p         FuncPtr(void* , __cdecl, (void*, const void*, size_t), 0x007AB860)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif /* SAMT_INCL_FUNCPTRS */
 
 #endif /* _EXTERN_STRING_H_ */

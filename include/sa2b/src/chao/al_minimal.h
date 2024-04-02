@@ -1,7 +1,8 @@
 /*
-*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_material.h'
+*   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_minimal.h'
 *
-*   Contains structs, data, and functions related to Chao landmarks.
+*   Description:
+*       Specifically the Minimals that spawn within Chao World.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -125,14 +126,14 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_CreateMinimalCreateManager_p     FuncPtr(void , __cdecl, (void)                                                    , 0x00549490)
-#define AL_MinimalCreate_p                  FuncPtr(TASK*, __cdecl, (int8_t, NJS_POINT3*, Angle, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00548D30)
-#define AL_MinimalExecutor_p                FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C50)
-#define AL_MinimalDisplayer_p               FuncPtr(void , __cdecl, (TASK*)                                                   , 0x005489D0)
-#define AL_MinimalDestructor_p              FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C30)
+#   define AL_CreateMinimalCreateManager_p      FuncPtr(void , __cdecl, (void)                                                    , 0x00549490)
+#   define AL_MinimalCreate_p                   FuncPtr(TASK*, __cdecl, (int8_t, NJS_POINT3*, Angle, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00548D30)
+#   define AL_MinimalExecutor_p                 FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C50)
+#   define AL_MinimalDisplayer_p                FuncPtr(void , __cdecl, (TASK*)                                                   , 0x005489D0)
+#   define AL_MinimalDestructor_p               FuncPtr(void , __cdecl, (TASK*)                                                   , 0x00548C30)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_MINIMAL_H_ */
+#endif/*_SA2B_CHAO_MINIMAL_H_*/

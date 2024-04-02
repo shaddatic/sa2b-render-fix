@@ -1,7 +1,11 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/userconfig.h'
 *
-*   Contains structs and data related to the users config settings
+*   ~~ Under Construction ~~
+* 
+*   Description:
+*       Contains structs and data related to the users config
+*   settings.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,

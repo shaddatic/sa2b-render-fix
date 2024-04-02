@@ -1,7 +1,9 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/src/chao/al_collision.h'
 *
-*   Contains functions related to basic Chao object collisions.
+*   Description:
+*       Contains functions related to basic Chao object
+*   collisions.
 *
 *   Contributors:
 *   -   SEGA - Sonic Team,
@@ -28,10 +30,10 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCLUDE_FUNC_PTRS
+#ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-EXTERN const void* const AL_DetectCollisionStandard_p;
+#   define AL_DetectCollisionStandard_p     ((void*)0x0053E020)
 
-#endif /* SAMT_INCLUDE_FUNC_PTRS */
+#endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif /* _SA2B_CHAO_COLLISION_H_ */
+#endif/*_SA2B_CHAO_COLLISION_H_*/
