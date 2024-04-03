@@ -120,6 +120,13 @@ RFF_ShadowOpacityChao(void)
     return ShadowOpacityChao;
 }
 
+static bool CheapShadowNoChaoWorld;
+void
+RFCTRL_CheapShadowChaoWorldDisable(void)
+{
+    CheapShadowNoChaoWorld = true;
+}
+
 void
 RFM_ShadowsInit(void)
 {
@@ -198,7 +205,10 @@ RFM_ShadowsInit(void)
         CHS_CCBlockInit();
         CHS_BossInit();
         CHS_CartInit();
-        CHS_ChaoWorldInit();
+
+        if (!CheapShadowNoChaoWorld)
+            CHS_ChaoWorldInit();
+
         CHS_TruckInit();
         CHS_CarInit();
         break;
