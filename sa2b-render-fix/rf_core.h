@@ -17,6 +17,7 @@
 /** Utility **/
 #include <sa2b/util/devutil.h>
 #include <sa2b/util/c_constexpr.h>
+#include <sa2b/util/c_nullptr.h>
 
 /** Source **/
 #include <sa2b/src/debug.h>
