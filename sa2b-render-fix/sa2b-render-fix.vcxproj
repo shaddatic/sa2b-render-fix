@@ -112,6 +112,7 @@
     <ClInclude Include="rf_config.h" />
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
+    <ClInclude Include="rf_ctrl.h" />
     <ClInclude Include="rf_cull.h" />
     <ClInclude Include="rf_dxvk.h" />
     <ClInclude Include="rf_enemywk.h" />
