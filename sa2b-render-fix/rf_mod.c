@@ -3,7 +3,10 @@
 #include <sa2b/funchook.h>
 #include <sa2b/dx9ctrl.h>
 
+/** GX **/
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/gx/gx.h>
+#undef  SAMT_INCL_FUNCPTRS
 
 /** Source **/
 #include <sa2b/src/debug.h>
@@ -146,8 +149,8 @@ DrawModifierList(size_t startTri, size_t nbTri)
 static void
 DrawScreenQuad(void)
 {
-#define MOD_SCREEN_QUAD_NUM     (arylen(ModScreenQuad) - 2)
-#define SCREEN_QUAD_Z           (0.5f)
+#   define MOD_SCREEN_QUAD_NUM     (arylen(ModScreenQuad) - 2)
+#   define SCREEN_QUAD_Z           (0.5f)
 
     static const NJS_POINT3 ModScreenQuad[] =
     {
@@ -159,8 +162,8 @@ DrawScreenQuad(void)
 
     DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLESTRIP, MOD_SCREEN_QUAD_NUM, ModScreenQuad, sizeof(NJS_POINT3));
 
-#undef  SCREEN_QUAD_Z
-#undef  MOD_SCREEN_QUAD_NUM
+#   undef  SCREEN_QUAD_Z
+#   undef  MOD_SCREEN_QUAD_NUM
 }
 
 //#define MOD_MDL_DEBUG
@@ -618,6 +621,6 @@ RFMOD_Init(void)
     RFMOD_CreateBuffer(NB_MOD_TRI, NB_MOD_TRILIST);
 
     /** Draw hooks **/
-    HookInfoGxEnd  = FuncHook(0x0041C070, GX_EndStencilCheck);
+    HookInfoGxEnd  = FuncHook(GX_End_p,   GX_EndStencilCheck);
     HookInfoGjDraw = FuncHook(sub_41BE30, GjDrawStencilCheck);
 }
