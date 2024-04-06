@@ -79,7 +79,7 @@
 				<HelpText>Fixes the rendering of the Up Down Reel (player pully), including the Dreamcast flashing effect.</HelpText>
 			</Property>
 			<Property name="itembox" display="Item-Box Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the rendering of the Item-Box, specifically where the bubble/glass would always draw over the item instead of around it. NOTE: Requires Back-Face Culling.</HelpText>
+				<HelpText>Fixes the rendering of the Item-Box, specifically where the bubble/glass would always draw over the item instead of around it.</HelpText>
 			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
