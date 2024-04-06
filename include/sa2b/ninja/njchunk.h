@@ -427,6 +427,7 @@
 /* DB  : Double side                                     */
 /* FL  : Flat shading                                    */
 /* ENV : Environment                                     */
+/* NAT : No Alpha Test                                   */
 #define NJD_FST_SHIFT      8
 #define NJD_FST_IL        (0x01<<NJD_FST_SHIFT)
 #define NJD_FST_IS        (0x02<<NJD_FST_SHIFT)
@@ -435,6 +436,7 @@
 #define NJD_FST_DB        (0x10<<NJD_FST_SHIFT)
 #define NJD_FST_FL        (0x20<<NJD_FST_SHIFT)
 #define NJD_FST_ENV       (0x40<<NJD_FST_SHIFT)
+#define NJD_FST_NAT       (0x80<<NJD_FST_SHIFT)
 #define NJD_FST_MASK      (0xFF<<NJD_FST_SHIFT)
 
 /** UserFlag Offset Mask **/

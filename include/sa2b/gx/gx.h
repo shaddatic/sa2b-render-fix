@@ -63,9 +63,27 @@ void    GX_PushDisplayList(uint8_t* pPrim, uint32_t nbPrim);
 /** Sets back-face culling mode **/
 void    GX_SetCullMode(int32_t mode);
 
+/** Sets transparency blending mode **/
+void    GX_SetBlendMode(int32_t mdSrc, int32_t mdDst, bool32_t bAlphaBlend);
+
 /** Draws and clears buffer **/
 void    GX_End(void);
 
 EXTERN_END
+
+/************************/
+/*  Function Ptrs       */
+/************************/
+#ifdef  SAMT_INCL_FUNCPTRS
+/** Function ptr **/
+#   define GX_Startup_p                 FuncPtr(void, __cdecl   , (void)              , 0x004205E0)
+#   define GX_PushDisplayList_p         FuncPtr(void, __cdecl   , (uint8_t*, uint32_t), 0x0041C9B0)
+#   define GX_SetCullMode_p             FuncPtr(void, __fastcall, (int32_t)           , 0x00420440)
+#   define GX_End_p                     FuncPtr(void, __cdecl   , (void)              , 0x0041C070)
+
+/** User-Function ptr **/
+#   define GX_SetBlendMode_p            ((void*)0x00420480)
+
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 #endif/*_GX_H_*/
