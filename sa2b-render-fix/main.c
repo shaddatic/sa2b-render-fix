@@ -20,6 +20,7 @@
 #include <rf_objpak.h>
 #include <rf_dxvk.h>
 #include <rf_api.h>
+#include <rf_renderstate.h>
 
 /** Render Fix modules **/
 #include <rfm_global.h>
@@ -63,6 +64,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     /** Render Fix init **/
     RF_ConfigInit();
     RF_ObjPakInit();
+    RF_RenderStateInit();
 
     /** DXVK init **/
     RF_DXVK_Init();

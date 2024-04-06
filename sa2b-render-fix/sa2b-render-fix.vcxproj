@@ -73,7 +73,7 @@
     <ClCompile Include="rfm_common.c" />
     <ClCompile Include="rf_api.c" />
     <ClCompile Include="rf_core.c" />
-    <ClCompile Include="rf_cull.c" />
+    <ClCompile Include="rf_renderstate.c" />
     <ClCompile Include="rf_draw.c" />
     <ClCompile Include="rf_dxvk.c" />
     <ClCompile Include="rf_file.c" />
@@ -113,7 +113,7 @@
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
-    <ClInclude Include="rf_cull.h" />
+    <ClInclude Include="rf_renderstate.h" />
     <ClInclude Include="rf_dxvk.h" />
     <ClInclude Include="rf_enemywk.h" />
     <ClInclude Include="rfm_common\rfc_internal.h" />

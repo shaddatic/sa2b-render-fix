@@ -11,7 +11,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_draw.h>
-#include <rf_cull.h>
+#include <rf_renderstate.h>
 #include <rf_enemywk.h>
 
 typedef struct 
@@ -65,7 +65,7 @@ ObjectItemBoxDispSort_RF(TASK* tp)
 
     njSetTexture(texlist_itembox);
 
-    RF_SetCullMode(CULLMD_INVERSE);
+    RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
     njCnkDrawModel_Broken(model_itembox_bubble);
 
     const int texid = ItemBoxInfoList[(int)tp->fwp].texid;
@@ -83,10 +83,10 @@ ObjectItemBoxDispSort_RF(TASK* tp)
 
     njSetTexture(texlist_itembox);
 
-    RF_SetCullMode(CULLMD_NORMAL);
+    RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
     njCnkDrawModel_Broken(model_itembox_bubble);
 
-    RF_SetCullMode(CULLMD_AUTO);
+    RFRS_SetCullMode(RFRS_CULLMD_END);
 
     if (DisableObjectFog)
         njFogEnable();
@@ -145,7 +145,7 @@ ObjectItemBoxAirDispSort_RF(TASK* tp)
     njCnkDrawModel_Broken(model_itemboxair_base);
     njCnkDrawModel_Broken(model_itemboxair_top);
 
-    RF_SetCullMode(CULLMD_INVERSE);
+    RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
     njCnkDrawModel_Broken(model_itemboxair_bubble);
 
     const int texid = ItemBoxAirInfoList[twp->btimer].texid;
@@ -163,10 +163,10 @@ ObjectItemBoxAirDispSort_RF(TASK* tp)
 
     njSetTexture(texlist_itemboxair);
 
-    RF_SetCullMode(CULLMD_NORMAL);
+    RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
     njCnkDrawModel_Broken(model_itemboxair_bubble);
 
-    RF_SetCullMode(CULLMD_AUTO);
+    RFRS_SetCullMode(RFRS_CULLMD_END);
 
     if (twp->scl.z > 1.0f)
     {

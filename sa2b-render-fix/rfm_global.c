@@ -13,6 +13,7 @@
 #include <rf_config.h>
 #include <rf_util.h>
 #include <rf_objpak.h>
+#include <rf_renderstate.h>
 
 /** Self **/
 #include <rfm_global.h>
@@ -70,6 +71,8 @@ RFM_GlobalInit(void)
     {
         RFG_BackfaceCullingInit();
     }
+    else
+        RFRS_SetDefaultCullMode(RFRS_CULLMD_NONE);
 
     if (RF_ConfigGetInt(CNF_GLOBAL_BACKCOLOR))
     {

@@ -186,7 +186,7 @@
     <ClCompile Include="rfm_eget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_cull.c">
+    <ClCompile Include="rf_renderstate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_itembox.c">
@@ -293,7 +293,7 @@
     <ClInclude Include="rfm_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_cull.h">
+    <ClInclude Include="rf_renderstate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_config.h">

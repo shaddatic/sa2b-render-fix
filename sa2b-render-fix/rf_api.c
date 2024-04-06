@@ -11,7 +11,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_draw.h>
-#include <rf_cull.h>
+#include <rf_renderstate.h>
 #include <rf_feature.h>
 
 #define RELEASE         (1)
@@ -127,7 +127,7 @@ const RFAPI_DRAW rfapi_draw =
     .DrawBasicShadow = DrawBasicShadow,
     .AL_ShadowDraw = AL_ShadowDraw,
 
-    .SetCullMode = RF_SetCullMode,
+    .SetCullMode = RFRS_SetCullMode,
 };
 
 __declspec(dllexport)
