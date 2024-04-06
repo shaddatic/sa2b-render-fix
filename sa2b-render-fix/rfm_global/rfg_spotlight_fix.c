@@ -8,7 +8,7 @@
 #include <rf_usermsg.h>
 
 void
-RFG_SpotLightFixInit()
+RFG_SpotLightFixInit(void)
 {
     d3d_vtx_shader* sonic_vs = RF_LoadVtxShader("sonic_vs");
 

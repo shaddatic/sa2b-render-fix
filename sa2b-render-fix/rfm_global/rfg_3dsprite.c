@@ -29,7 +29,7 @@ FixNinjaDrawSomething(float* pri, GJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
 
 __declspec(naked)
 static void
-___C_MTXMultVec()
+___C_MTXMultVec(void)
 {
     __asm
     {

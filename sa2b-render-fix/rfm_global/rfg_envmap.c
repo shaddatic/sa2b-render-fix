@@ -36,7 +36,6 @@ __FlipEnv2()
 }
 
 static const int njCnkDrawModel_p = 0x0042E660;
-
 __declspec(naked)
 static void
 __FixCnkDrawModel(void)
