@@ -89,6 +89,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RFM_EventInit();
 
     /** End **/
+    RFAPI_End();
     RF_ObjPakWriteChangesToFile();
     RF_ConfigEnd();
 }

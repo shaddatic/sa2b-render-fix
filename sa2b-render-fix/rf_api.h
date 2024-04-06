@@ -14,8 +14,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-/** Set cull mode **/
-void    RFAPI_Init(void);
+/** API Init and End **/
+void    RFAPI_Init( void );
+void    RFAPI_End(  void );
 
 EXTERN_END
 
