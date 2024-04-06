@@ -20,7 +20,7 @@ FlipEnv2(GJS_MATRIX* mat0, GJS_MATRIX* mat1, GJS_MATRIX* mat2)
 
 __declspec(naked)
 static void
-__FlipEnv2()
+__FlipEnv2(void)
 {
     __asm
     {
