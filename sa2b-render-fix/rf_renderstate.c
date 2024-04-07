@@ -284,12 +284,14 @@ void
 RFRS_SetDefaultCullMode(RFRS_CULLMD mode)
 {
     CullDefaultMode = mode;
+    CullOverrideMode = mode;
 }
 
 void
 RFRS_SetDefaultTransMode(RFRS_TRANSMD mode)
 {
     TransDefaultMode = mode;
+    TransOverrideMode = mode;
 }
 
 void
