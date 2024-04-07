@@ -266,7 +266,8 @@ RFM_MenusInit(void)
         WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
         WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
 
-        WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
+        if (RF_ConfigGetInt(CNF_EXP_DCMENUFADE))
+            WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
 
         WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
 
