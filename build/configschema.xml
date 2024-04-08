@@ -98,7 +98,7 @@
 			</Property>
 		</Group>
 		<Group name="m_menus" display="Main Menus Settings">
-		<Property name="fade_fix" display="Element Fade Fix" type="eBOOL" defaultvalue="1">
+		<Property name="fade_fix" display="Element Fading Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes many element fade issues with both the Dreamcast and Battle menus.</HelpText>
 		</Property>
 		<Property name="map_stretch" display="Stage Select: Stretch Fix" type="eBOOL" defaultvalue="1">
