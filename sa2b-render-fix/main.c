@@ -4,14 +4,6 @@
 
 #include <sa2b/core.h>
 #include <sa2b/init.h>
-#include <sa2b/mods.h>
-#include <sa2b/string.h>
-
-/** Ninja **/
-#include <sa2b/ninja/ninja.h>
-
-/** Source **/
-#include <sa2b/src/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
