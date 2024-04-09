@@ -204,10 +204,10 @@ ParseStripFlagsHook(uint8_t flag)
         break;
     };
 
-    const bool use_alpha = ForceUseAlpha ? true : (flag & (CNK_FST_NAT | CNK_FST_UA)) != 0;
+    const bool use_alpha = ForceUseAlpha ? true : (flag & (CNK_FST_NAT | CNK_FST_UA));
 
     GX_SetBlendMode(
-        (_nj_cnk_blend_mode_ >> NJD_FBS_SHIFT) & 7,
+        (_nj_cnk_blend_mode_ >> NJD_FBS_SHIFT) & 0x7,
         ForceDstInverseOtherColor ? 3 : (_nj_cnk_blend_mode_ >> NJD_FBD_SHIFT) & 0x7,
         use_alpha
     );
