@@ -80,6 +80,7 @@ typedef struct
     bool (__cdecl* SpotLightFix)(void);
     bool (__cdecl* EnvMapFlip)(void);
     bool (__cdecl* BackFaceCulling)(void);
+    bool (__cdecl* FixModelTint)(void);
 
     /** Shadows **/
     float(__cdecl* ShadowOpacityGlobal)(void);
@@ -101,6 +102,7 @@ const RFAPI_FEATURE rfapi_feature =
     .SpotLightFix = RFF_SpotLightFix,
     .EnvMapFlip = RFF_EnvMapFlip,
     .BackFaceCulling = RFF_BackFaceCulling,
+    .FixModelTint = RFF_FixModelTint,
 
     .ShadowOpacityGlobal = RFF_ShadowOpacityGlobal,
     .ShadowOpacityChao = RFF_ShadowOpacityChao,
