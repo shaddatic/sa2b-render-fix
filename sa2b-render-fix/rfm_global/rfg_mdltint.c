@@ -161,9 +161,6 @@ static int ChunkModelListExtra[] =
 void
 RFG_ModelTintFixBaseInit(void)
 {
-    if (ModCheckDll("NoTinting"))
-        RF_ModConflictEx("No Model Tinting", "Model Tint Fix");
-
     /** Chunk **/
     for (int i = 0; i < arylen(ChunkObjectList); ++i)
     {

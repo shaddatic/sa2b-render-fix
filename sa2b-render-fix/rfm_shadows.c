@@ -130,24 +130,12 @@ RFCTRL_CheapShadowChaoWorldDisable(void)
 void
 RFM_ShadowsInit(void)
 {
-    if (ModCheckDll("enhanced-shadows"))
-    {
-        RF_ModConflict("Enhanced Shadows",
-            "The 'Enhanced Shadows' mod is obsolete and will conflict with Render Fix!\n\n"
-            "Please disable the 'Enhanced Shadows' mod!");
-        return;
-    }
-
     /****** Cheap Shadows / Modifiers ******/
     {
         const CNFE_SHADOW_CHSMD chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHSMD);
 
         if (chs_mode != CNFE_SHADOW_CHSMD_DISABLED)
         {
-            /** Mod check and warning **/
-            if (ModCheckDll("sa2-dc-lighting"))
-                RF_ModConflictEx("DC Shadows", "Modifer Shadows");
-
             /** Init modifier engine **/
             RFMOD_Init();
 

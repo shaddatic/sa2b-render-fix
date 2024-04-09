@@ -21,6 +21,7 @@
 #include <rf_dxvk.h>
 #include <rf_api.h>
 #include <rf_renderstate.h>
+#include <rf_modchk.h>
 
 /** Render Fix modules **/
 #include <rfm_global.h>
@@ -45,21 +46,6 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     /** SAModToolkit init **/
     SAMT_Init(path, pHelperFunctions);
     DX9_Init();
-
-    /** Check Render Fix's mod-list position **/
-    {
-        const mod_handle* mhp = ModGetHandlePosition(0);
-
-        if (!StringMatch( ModGetID(mhp), "sa2-render-fix" ))
-        {
-            RF_Alert("Mod Position",
-                "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
-                "Please ensure Render Fix is placed first & is above all other mods.\n\n"
-                "Not doing this will likely cause game instability, incorrect behavior, & crashes depending on your other installed mods.\n\n"
-                "You can correct this issue using the arrow buttons on the right side of your mod list while having a mod selected."
-            );
-        }
-    }
 
     /** Render Fix init **/
     RF_ConfigInit();
@@ -87,6 +73,9 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RFM_BossBogyInit();
     RFM_CartInit();
     RFM_EventInit();
+
+    /** Check mod conflicts **/
+    RF_ModCheckInit();
 
     /** End **/
     RFAPI_End();

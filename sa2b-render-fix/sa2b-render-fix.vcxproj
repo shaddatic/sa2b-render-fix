@@ -63,6 +63,7 @@
     <ClCompile Include="rfm_common\rfc_e_explosion.c" />
     <ClCompile Include="rfm_eget.c" />
     <ClCompile Include="rfm_common\rfc_mizugomi.c" />
+    <ClCompile Include="rf_modchk.c" />
     <ClCompile Include="rf_model.c" />
     <ClCompile Include="rfm_global\rfg_backcolor.c" />
     <ClCompile Include="rfm_common\rfc_itembox.c" />
@@ -113,6 +114,7 @@
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
+    <ClInclude Include="rf_modchk.h" />
     <ClInclude Include="rf_renderstate.h" />
     <ClInclude Include="rf_dxvk.h" />
     <ClInclude Include="rf_enemywk.h" />

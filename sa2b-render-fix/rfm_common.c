@@ -166,9 +166,6 @@ RFM_CommonInit(void)
 
     if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM))
     {
-        if (ModCheckDll("RestoredGUNLogos"))
-            RF_ModConflictEx("Restored GUN Logos", "GUN Emblem Fix");
-
         ReplaceObjectModel(0x014AB36C, model_e_kumi_emblem);
         ReplaceObjectModel(0x014ACF5C, model_e_g_kumi_emblem);
         ReplaceObjectModel(0x014AF6B4, model_e_b_kumi_emblem);
