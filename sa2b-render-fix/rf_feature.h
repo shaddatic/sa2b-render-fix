@@ -19,6 +19,7 @@ bool    RFF_BackColorDraw( void );
 bool    RFF_SpotLightFix( void );
 bool    RFF_EnvMapFlip( void );
 bool    RFF_BackFaceCulling( void );
+bool    RFF_FixModelTint( void );
 
 /****** Shadows ******/
 float   RFF_ShadowOpacityGlobal( void );

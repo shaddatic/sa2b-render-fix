@@ -19,19 +19,11 @@
 #include <rfm_global.h>
 #include <rfm_global/rfg_internal.h>
 
-/** Enums **/
-enum
-{
-    TINT_MD_OFF,
-    TINT_MD_DREAMCAST,
-    TINT_MD_DEFAULT,
-    TINT_MD_EXTENDED,
-};
-
 /** Globals **/
 static bool RfgBackColor;
 static bool RfgSpotLight;
 static bool RfgEnvMapFlip;
+static int  RfgFixMdlTint;
 
 /** Static functions **/
 static int __cdecl
@@ -57,6 +49,12 @@ bool
 RFF_EnvMapFlip(void)
 {
     return RfgEnvMapFlip;
+}
+
+bool
+RFF_FixModelTint(void)
+{
+    return RfgFixMdlTint;
 }
 
 void
@@ -128,25 +126,29 @@ RFM_GlobalInit(void)
         ReplaceFloat(0x007801A6, &ptclpolyscl);
     }
 
-    switch (RF_ConfigGetInt(CNF_GLOBAL_MDLTINT)) {
-    case TINT_MD_EXTENDED:
+    const int mdl_tint = RF_ConfigGetInt(CNF_GLOBAL_MDLTINT);
+
+    switch (mdl_tint) {
+    case CNFE_GLOBAL_MDLTINT_EXTENDED:
         RFG_ModelTintFixBaseInit();
         RFG_ModelTintFixDefaultInit();
 //      RFG_ModelTintFixExtendedInit();
         break;
 
-    case TINT_MD_DEFAULT:
+    case CNFE_GLOBAL_MDLTINT_ENABLED:
         RFG_ModelTintFixBaseInit();
         RFG_ModelTintFixDefaultInit();
         break;
 
-    case TINT_MD_DREAMCAST:
+    case CNFE_GLOBAL_MDLTINT_DREAMCAST:
         RFG_ModelTintFixBaseInit();
         break;
 
-    case TINT_MD_OFF:
+    case CNFE_GLOBAL_MDLTINT_DISABLED:
         break;
     }
+
+    RfgFixMdlTint = mdl_tint;
 
     if (RF_ConfigGetInt(CNF_GLOBAL_SCRNTINT))
     {
