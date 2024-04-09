@@ -36,11 +36,9 @@ RF_FatalError(const utf8* head, const utf8* body)
 void
 RF_ModConflict(const utf8* mod, const utf8* body)
 {
-    ___NOTE("The head here can be better formatted");
-
     utf8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix: Mod Conflict %s", mod);
+    snprintf(buf, sizeof(buf), "Render Fix: %s", mod);
 
     UserWarningMessageBox(buf, body);
 }
