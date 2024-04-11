@@ -228,6 +228,24 @@
     <ClCompile Include="rf_modchk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_api\rfapi_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_renderstate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_feature.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_shader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -348,6 +366,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_modchk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_api\rfapi_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
