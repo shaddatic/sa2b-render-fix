@@ -26,12 +26,16 @@ typedef void                d3d_pxl_shader;
 /************************/
 EXTERN_START
 /** Load compiled D3D Shader file (.fxc) **/
-d3d_vtx_shader* RF_LoadVtxShader(const char* fname);
-d3d_pxl_shader* RF_LoadPxlShader(const char* fname);
+d3d_vtx_shader* RF_LoadVtxShader( const char* fname );
+d3d_pxl_shader* RF_LoadPxlShader( const char* fname );
 
 /** Replace game shader by index **/
-void    RF_ReplaceVtxShader(int index, d3d_vtx_shader* pVtxShader);
-void    RF_ReplacePxlShader(int index, d3d_pxl_shader* pPxlShader);
+void    RF_ReplaceVtxShader( int index, d3d_vtx_shader* pVtxShader );
+void    RF_ReplacePxlShader( int index, d3d_pxl_shader* pPxlShader );
+
+/** Directly load compiled D3D Shader file **/
+d3d_vtx_shader* RF_DirectLoadVtxShader( const utf8* fpath );
+d3d_pxl_shader* RF_DirectLoadPxlShader( const utf8* fpath );
 
 EXTERN_END
 

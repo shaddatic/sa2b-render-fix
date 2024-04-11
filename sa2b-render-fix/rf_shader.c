@@ -37,18 +37,35 @@ RF_ShaderError(const char* fpath)
 }
 
 d3d_vtx_shader*
+RF_DirectLoadVtxShader(const utf8* fpath)
+{
+    d3d_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
+
+    if (!vshader)
+        RF_ShaderError(fpath);
+
+    return vshader;
+}
+
+d3d_pxl_shader*
+RF_DirectLoadPxlShader(const utf8* fpath)
+{
+    d3d_vtx_shader* vshader = DX9_LoadPxlShader(fpath);
+
+    if (!vshader)
+        RF_ShaderError(fpath);
+
+    return vshader;
+}
+
+d3d_vtx_shader*
 RF_LoadVtxShader(const utf8* fname)
 {
     utf8 buf[260];
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
 
-    d3d_vtx_shader* vshader = DX9_LoadVtxShader(buf);
-
-    if (!vshader)
-        RF_ShaderError(buf);
-
-    return vshader;
+    return RF_DirectLoadVtxShader(buf);
 }
 
 d3d_pxl_shader*
@@ -58,12 +75,7 @@ RF_LoadPxlShader(const utf8* fname)
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
 
-    d3d_pxl_shader* pshader = DX9_LoadPxlShader(buf);
-
-    if (!pshader)
-        RF_ShaderError(buf);
-
-    return pshader;
+    return RF_DirectLoadPxlShader(buf);
 }
 
 static hook_info* HookInfoSetAndLoadShader;
