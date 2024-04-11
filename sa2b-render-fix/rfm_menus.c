@@ -53,7 +53,6 @@ typedef union
     struct {
         uint8_t a, r, g, b;
     };
-
 }
 uARGB;
 
