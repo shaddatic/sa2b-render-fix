@@ -13,6 +13,7 @@
 /************************/
 /*  Enums               */
 /************************/
+#ifndef _RF_EXTERN_API_
 typedef enum
 {
     RFRS_CULLMD_END = -1,        /* End and reset to default                        */
@@ -34,6 +35,8 @@ typedef enum
     RFRS_TRANSMD_TRANSPARENT,   /* Draw fully transparant (no Z buffer)             */
 }
 RFRS_TRANSMD;
+
+#endif/*_RF_EXTERN_API_*/
 
 /************************/
 /*  Functions           */
