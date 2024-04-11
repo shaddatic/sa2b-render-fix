@@ -14,6 +14,7 @@
 #include <rf_config.h>
 #include <rf_draw.h>
 #include <rf_renderstate.h>
+#include <rf_shader.h>
 #include <rf_feature.h>
 #include <rf_ctrl.h>
 
@@ -26,6 +27,7 @@
 #define FEAT_API_VER    (0)
 #define DRAW_API_VER    (0)
 #define STAT_API_VER    (0)
+#define SHDR_API_VER    (0)
 
 typedef struct
 {
@@ -185,6 +187,32 @@ const RFAPI_RENDERSTATE rfapi_rstate =
 typedef struct
 {
     /**** Version >= 0 ******************************/
+    uint32_t version;
+
+    /** Load shader **/
+    d3d_vtx_shader* (__cdecl* LoadVtxShader)( const utf8* fpath );
+    d3d_pxl_shader* (__cdecl* LoadPxlShader)( const utf8* fpath );
+
+    /** Replace shader **/
+    void(__cdecl* ReplaceVtxShader)( int index, d3d_vtx_shader* pVtxShader );
+    void(__cdecl* ReplacePxlShader)( int index, d3d_pxl_shader* pVtxShader );
+}
+RFAPI_SHADER;
+
+const RFAPI_SHADER rfapi_shader = 
+{
+    .version = SHDR_API_VER,
+
+    .LoadVtxShader = RF_DirectLoadVtxShader,
+    .LoadPxlShader = RF_DirectLoadPxlShader,
+
+    .ReplaceVtxShader = RF_ReplaceVtxShader,
+    .ReplacePxlShader = RF_ReplacePxlShader,
+};
+
+typedef struct
+{
+    /**** Version >= 0 ******************************/
     RF_VERSION           version;
 
     /** RF_EarlyInit APIs **/
@@ -195,8 +223,11 @@ typedef struct
 
     /** APIs **/
     const RFAPI_FEATURE*     pApiFeature;
-    const RFAPI_RENDERSTATE* pApiRenderState;
     const RFAPI_DRAW*        pApiDraw;
+
+    /** Render State **/
+    const RFAPI_RENDERSTATE* pApiRenderState;
+    const RFAPI_SHADER*      pApiShader;
 }
 RFAPI_CORE;
 
@@ -228,8 +259,10 @@ void
 RFAPI_Init(void)
 {
     /** Enable usable APIs **/
-    rfapi_core.pApiControl = &rfapi_control;
-    rfapi_core.pApiConfig  = &rfapi_config;
+    rfapi_core.pApiControl     = &rfapi_control;
+    rfapi_core.pApiConfig      = &rfapi_config;
+    rfapi_core.pApiRenderState = &rfapi_rstate;
+    rfapi_core.pApiShader      = &rfapi_shader;
 
     ApiCallByFuncName("RF_EarlyInit");
 
@@ -243,7 +276,6 @@ RFAPI_End(void)
 {
     /** Enable newly Init'd APIs **/
     rfapi_core.pApiFeature     = &rfapi_feature;
-    rfapi_core.pApiRenderState = &rfapi_rstate;
     rfapi_core.pApiDraw        = &rfapi_draw;
 
     ApiCallByFuncName("RF_Init");
