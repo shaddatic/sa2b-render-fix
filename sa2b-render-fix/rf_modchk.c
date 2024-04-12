@@ -56,6 +56,7 @@ RF_ModCheckInit(void)
     if (RFF_CheapShadow() && ModCheckDll("sa2-dc-lighting"))
         RF_ModConflictEx("DC Shadows", "Modifer Shadows");
 
+    /** Check Eggman Lighting Fix by Exant **/
     if (RFF_SpotLightFix() && ModCheckDll("NoLightingPatch"))
         RF_ModConflictEx("Eggman Lighting Fix", "Spot Light Fix");
 }
