@@ -58,6 +58,9 @@ static dx9_vtx_decl* ModVtxDeclaration;
 
 static MOD_COLOR ModColor;
 
+static size_t   ModBufferInitTriNum     = NB_MOD_TRI;
+static size_t   ModBufferInitTriListNum = NB_MOD_TRILIST;
+
 static MOD_TRI* ModBuffer;
 static size_t   ModBufferNum;
 static size_t   ModBufferMax;
@@ -514,22 +517,16 @@ RFMOD_OffShadow(void)
     DX9_SetStencilPass(DX9_STCL_ZERO);
 }
 
-void
-RFMOD_CreateBuffer(size_t nbTri, size_t nbTriList)
+static void
+RFMOD_CreateBuffer(void)
 {
-    if (ModBuffer)
-        MemFree(ModBuffer);
-
-    ModBuffer = mAlloc(MOD_TRI, nbTri);
-    ModBufferMax = nbTri;
+    ModBuffer    = mAlloc(MOD_TRI, ModBufferInitTriNum);
+    ModBufferMax = ModBufferInitTriNum;
     ModBufferNum = 0;
 
-    if (ModTriListList)
-        MemFree(ModTriListList);
-
-    ModTriListList = mAlloc(MOD_TRILIST, nbTriList);
-    ModTriListMax = nbTriList;
-    ModTriListNum = 0;
+    ModTriListList = mAlloc(MOD_TRILIST, ModBufferInitTriListNum);
+    ModTriListMax  = ModBufferInitTriListNum;
+    ModTriListNum  = 0;
 }
 
 #define GJD_ALPHAMODE_SOLID (0)
@@ -602,6 +599,14 @@ GjDrawStencilCheck(int a1, char a2)
     }
 }
 
+/** Extern **/
+void
+RFCTRL_SetModBufferSize(size_t nbTri, size_t nbTriList)
+{
+    ModBufferInitTriNum = nbTri;
+    ModBufferInitTriListNum = nbTriList;
+}
+
 void
 RFMOD_Init(void)
 {
@@ -618,7 +623,7 @@ RFMOD_Init(void)
 
     ModVtxDeclaration = DX9_CreateVtxDecl(vtx_ele_list);
 
-    RFMOD_CreateBuffer(NB_MOD_TRI, NB_MOD_TRILIST);
+    RFMOD_CreateBuffer();
 
     /** Draw hooks **/
     HookInfoGxEnd  = FuncHook(GX_End_p,   GX_EndStencilCheck);

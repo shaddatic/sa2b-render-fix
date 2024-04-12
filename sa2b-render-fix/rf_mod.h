@@ -28,8 +28,6 @@ RFE_MOD_MODE;
 EXTERN_START
 void    RFMOD_Init(void);
 
-void    RFMOD_CreateBuffer(size_t nbTri, size_t nbTriList);
-
 void    RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly);
 
 void    RFMOD_DrawBuffer(void);

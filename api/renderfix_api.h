@@ -58,6 +58,9 @@ typedef struct
     /**** Version >= 0 ******************************/
     uint32_t version;
 
+    /** Modifier buffer **/
+    void(__cdecl* SetModBufferSize)(size_t nbTri, size_t nbTriList);
+
     /** Shadows **/
     void(__cdecl* CheapShadowChaoWorldDisable)(void);
 }

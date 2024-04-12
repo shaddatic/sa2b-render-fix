@@ -18,5 +18,6 @@ const RFAPI_CONTROL rfapi_control =
 {
     .version = CTRL_API_VER,
 
+    .SetModBufferSize            = RFCTRL_SetModBufferSize,
     .CheapShadowChaoWorldDisable = RFCTRL_CheapShadowChaoWorldDisable,
 };
