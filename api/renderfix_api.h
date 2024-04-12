@@ -26,6 +26,11 @@ typedef void                d3d_vtx_shader;
 typedef void                d3d_pxl_shader;
 
 /************************/
+/*  Types               */
+/************************/
+typedef char                utf8;   /* Supports UTF-8 strings                       */
+
+/************************/
 /*  Enums               */
 /************************/
 typedef enum
