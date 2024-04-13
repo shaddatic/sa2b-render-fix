@@ -18,11 +18,11 @@
 /** Self **/
 #include <rfm_menus.h>
 
-/** Constants **/
-#define SECT        CNF_SECT_MENUS
+/** Variables **/
+static bool MenuFadeFixEnabled;
 
+/****/
 static const int SOCDisplaySprite_p = 0x0041DC80;
-
 static void
 SOCDisplaySprite(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uint32_t color)
 {
@@ -208,9 +208,12 @@ DrawMapPurpleFill(void)
 
     NJS_COLOR col = { .color = 0xFF210C29 };
 
-    col.argb.r = (Uint8)((f32)col.argb.r * _nj_constant_material_.r);
-    col.argb.g = (Uint8)((f32)col.argb.g * _nj_constant_material_.g);
-    col.argb.b = (Uint8)((f32)col.argb.b * _nj_constant_material_.b);
+    if (MenuFadeFixEnabled)
+    {
+        col.argb.r = (Uint8)((f32)col.argb.r * _nj_constant_material_.r);
+        col.argb.g = (Uint8)((f32)col.argb.g * _nj_constant_material_.g);
+        col.argb.b = (Uint8)((f32)col.argb.b * _nj_constant_material_.b);
+    }
 
     colors[0].color = col.color;
     colors[1].color = col.color;
@@ -271,6 +274,8 @@ RFM_MenusInit(void)
         WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
 
         WriteCall(0x00668222, __SOCDrawSpriteWithConstMat); // BTL Custom Backgrounds
+
+        MenuFadeFixEnabled = true;
     }
 
     if (RF_ConfigGetInt(CNF_MENUS_MAP_TEXTBAR))
