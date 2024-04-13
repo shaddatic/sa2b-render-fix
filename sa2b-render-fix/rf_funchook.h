@@ -26,6 +26,6 @@
 #define RF_FuncHook(func_name)          func_name##HookInfo = FuncHookCreate(func_name    , func_name##Hook)
 
 /** Function hook macro for usercalls, eg. '_p' postfix **/
-#define RF_FuncHookUsr(func_name)       hook_name##HookInfo = FuncHookCreate(func_name##_p, func_name##Hook)
+#define RF_FuncHookUsr(func_name)       func_name##HookInfo = FuncHookCreate(func_name##_p, func_name##Hook)
 
 #endif/*_RF_FUNCHOOK_H_*/
