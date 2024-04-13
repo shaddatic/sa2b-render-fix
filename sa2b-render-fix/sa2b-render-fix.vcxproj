@@ -69,6 +69,7 @@
     <ClCompile Include="rf_api\rfapi_draw.c" />
     <ClCompile Include="rf_api\rfapi_renderstate.c" />
     <ClCompile Include="rf_api\rfapi_shader.c" />
+    <ClCompile Include="rf_light.c" />
     <ClCompile Include="rf_modchk.c" />
     <ClCompile Include="rf_model.c" />
     <ClCompile Include="rfm_global\rfg_backcolor.c" />
@@ -121,6 +122,7 @@
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
+    <ClInclude Include="rf_light.h" />
     <ClInclude Include="rf_modchk.h" />
     <ClInclude Include="rf_renderstate.h" />
     <ClInclude Include="rf_dxvk.h" />

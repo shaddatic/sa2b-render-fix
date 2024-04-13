@@ -246,6 +246,9 @@
     <ClCompile Include="rf_api\rfapi_config.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -369,6 +372,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_api\rfapi_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
