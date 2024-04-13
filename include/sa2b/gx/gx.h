@@ -19,7 +19,12 @@
 #define _GX_H_
 
 /************************/
-/*  Definitions         */
+/*  Includes            */
+/************************/
+#include <sa2b/gx/gxlight.h>
+
+/************************/
+/*  Constants           */
 /************************/
 /** Cull Modes **/
 #define GXD_CULLMODE_NONE       (0)

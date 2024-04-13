@@ -20,21 +20,30 @@
 #include <sa2b/shinobi/sg_xpt.h>
 
 /************************/
+/*  Data                */
+/************************/
+/** Unique ID for each light index **/
+#define _gj_light_ids_      DataAry(uint32_t , 0x0174B468, [5])
+
+/** Light list **/
+#define _gj_lights_         DataAry(GXS_LIGHT, 0x025F0120, [5]) /* Defined in '/gx/gxlight.h' */
+
+/************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Enable/disable different lights **/
-void    gjSetLightSwitch(Int light_id, Bool light_on);
+void    gjSetLightSwitch(Int light_idx, Bool light_on);
 
 /** Set global ambient light color **/
 void    gjSetAmbient(Float b, Float g, Float r);
 
 /** Set specific light attribute **/
-void    gjSetLightColor(Int light_id, Float b, Float g, Float r);
-void    gjSetLightVector(Int light_id, Float x, Float y, Float z);
+void    gjSetLightColor(Int light_idx, Float r, Float g, Float b);
+void    gjSetLightVector(Int light_idx, Float x, Float y, Float z);
 
 /** Update light **/
-void    gjLoadLight(Int light_id);
+void    gjLoadLight(Int light_idx);
 
 EXTERN_END
 

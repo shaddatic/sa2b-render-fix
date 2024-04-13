@@ -43,10 +43,10 @@ EXTERN_START
 void    C_MTXIdentity(GJS_MATRIX* m);
 
 /** Multiply vector, 'sr' to control scale and rotation only **/
-void    C_MTXMultVec(GJS_MATRIX* m, NJS_VECTOR* vs, NJS_VECTOR* vd, bool sr);
+void    C_MTXMultVec(GJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd, bool sr);
 
 /** Multiply vector with only scale and rotation (different function from above) **/
-void    C_MTXMultVecSR(GJS_MATRIX* m, NJS_VECTOR* vs, NJS_VECTOR* vd);
+void    C_MTXMultVecSR(GJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd);
 
 /** Multiply matrices **/
 void    C_MTXConcat(GJS_MATRIX* md, GJS_MATRIX* md2, GJS_MATRIX* ms);

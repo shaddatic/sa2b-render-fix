@@ -2,7 +2,7 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/magic/input.h'
 *
 *   Description:
-*       Magic's MATH namespace.
+*       Magic's INPUT namespace.
 *
 *   Contributors:
 *   -   Magic Developers
@@ -444,7 +444,7 @@ namespace Magic::INPUT
             int(__thiscall* GetKeyboardNum)(Input* _this);
             int(__thiscall* GetJoystickNum)(Input* _this);
             void(__thiscall* Unknown)(Input* _this);
-        }*__vftable;
+        }*vftbl;
         InputImpl* m_pInputImpl;
     };
 }
