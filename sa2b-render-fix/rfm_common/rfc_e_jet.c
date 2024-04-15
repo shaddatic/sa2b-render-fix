@@ -11,44 +11,11 @@
 /** Render Fix **/
 #include <rf_core.h>
 
-typedef struct 
-{
-    Uint32 otherflag;
-    Uint32 zflag;
-    int texparplus4;
-    Uint32 flag;
-    int unknown2;
-    int texparbuf;
-    int unknown3;
-    int unknown4;
-    NJS_TEXLIST* tlist;
-    int unknown5;
-    int tnum;
-}
-NJS_CTX;
-
-#define _nj_current_ctx_    DataRef(NJS_CTX*   , 0x02670544)
-
 #define texlist_e_jet1      DataAry(NJS_TEXLIST, 0x0145F5D4, [1])
 
 #define EnemyJetDisplayer   FuncPtr(void, __cdecl, (TASK*), 0x00511230)
 
-static void
-EnemyJetDisplayer_(TASK* tp)
-{
-    TASK* const ptp = tp->ptp;
-
-    if (!ptp || ptp->ctp == tp || tp->last->disp != EnemyJetDisplayer)
-    {
-        _nj_current_ctx_->flag &= 0x3FFFFFF | 0x84000000;
-
-        njSetTexture(texlist_e_jet1);
-        njFogDisable();
-    }
-
-    TASKWK* const twp = tp->twp;
-
-    NJS_TEXANIM texanim = {
+static NJS_TEXANIM texanim = {
         .sx = 32,
         .sy = 32,
         .cx = 16,
@@ -64,6 +31,22 @@ EnemyJetDisplayer_(TASK* tp)
         .texid = 0,
         .attr = 0,
     };
+
+static void
+EnemyJetDisplayer_(TASK* tp)
+{
+    TASK* const ptp = tp->ptp;
+
+    if (!ptp || ptp->ctp == tp || tp->last->disp != EnemyJetDisplayer)
+    {
+        njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
+        njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_ONE);
+
+        njSetTexture(texlist_e_jet1);
+        njFogDisable();
+    }
+
+    TASKWK* const twp = tp->twp;
 
     NJS_SPRITE sprite = {
         .p = twp->pos,
@@ -84,7 +67,8 @@ EnemyJetDisplayer_(TASK* tp)
 
     if (!ptp || ptp->ctp == tp->next || tp->next->disp != EnemyJetDisplayer)
     {
-        _nj_current_ctx_->flag &= 0x3FFFFFF | 0x94000000;
+        njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
+        njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
 
         njFogEnable();
     }
