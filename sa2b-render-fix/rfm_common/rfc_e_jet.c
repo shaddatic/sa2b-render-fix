@@ -10,27 +10,28 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_util.h>
 
 #define texlist_e_jet1      DataAry(NJS_TEXLIST, 0x0145F5D4, [1])
 
 #define EnemyJetDisplayer   FuncPtr(void, __cdecl, (TASK*), 0x00511230)
 
 static NJS_TEXANIM texanim = {
-        .sx = 32,
-        .sy = 32,
-        .cx = 16,
-        .cy = 16,
-        .sx = 32,
-        .sy = 32,
-        .cx = 16,
-        .cy = 16,
-        .u1 = 0,
-        .v1 = 0,
-        .u2 = 256,
-        .v2 = 256,
-        .texid = 0,
-        .attr = 0,
-    };
+    .sx = 32,
+    .sy = 32,
+    .cx = 16,
+    .cy = 16,
+    .sx = 32,
+    .sy = 32,
+    .cx = 16,
+    .cy = 16,
+    .u1 = 0,
+    .v1 = 0,
+    .u2 = 256,
+    .v2 = 256,
+    .texid = 0,
+    .attr = 0,
+};
 
 static void
 EnemyJetDisplayer_(TASK* tp)
@@ -78,4 +79,8 @@ void
 RFC_EnemyJet()
 {
     WriteJump(EnemyJetDisplayer, EnemyJetDisplayer_);
+
+    /** Fix Shouko jet displaying inside its model **/
+    static const double sub_velo = 7.2;
+    ReplaceFloat(0x004F9B37, &sub_velo);
 }
