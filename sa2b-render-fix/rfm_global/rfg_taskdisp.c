@@ -255,7 +255,7 @@ TaskDisplayAll(void)
         gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
         TaskDisplayDisplayer(btp[0]);
 
-        ClearModBuffer();       // Clear buffer for new frame
+        ClearModBuffer();     // Clear buffer for new frame
 
         BackupScreenInfo();
         TaskDisplayShadows(); // Draw the shadows, can screw with screen so backup
