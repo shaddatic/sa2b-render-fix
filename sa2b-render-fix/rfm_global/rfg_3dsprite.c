@@ -59,4 +59,8 @@ RFG_3DSpriteInit(void)
 {
     /** Fix floating lights **/
     WriteCall(0x004911F9, ___C_MTXMultVec);
+
+    /** Fix njDrawSprite3D forcing sprites
+        in front of the camera **/
+    WriteNoOP(0x0077D83E, 0x0077D840);
 }
