@@ -145,7 +145,7 @@ RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
     if (!ConfigPointer)
         RF_DebugFuncError("Config set after free");
 
-    ConfigSetInt(ConfigPointer, section, key, set);
+    ConfigSetBool(ConfigPointer, section, key, set);
 }
 
 void
