@@ -190,7 +190,10 @@ RF_VERSION;
 typedef struct
 {
     /**** Version >= 0 ******************************/
-    RF_VERSION           version;
+    uint32_t             version;
+
+    /** Mod version **/
+    RF_VERSION           rf_version;
 
     /** RF_EarlyInit APIs **/
     const RFAPI_CONTROL* pApiControl;
