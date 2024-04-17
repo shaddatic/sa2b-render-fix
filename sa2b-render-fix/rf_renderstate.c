@@ -12,6 +12,7 @@
 #include <rf_config.h>
 #include <rf_funchook.h>
 #include <rf_eventinfo.h>
+#include <rf_magic.h>
 
 /** Self **/
 #include <rf_renderstate.h>
@@ -163,11 +164,15 @@ __GXEndEnd()
     }
 }
 
-static RFRS_CULLMD  CullDefaultMode;
-static RFRS_TRANSMD TransDefaultMode;
+static RFRS_CULLMD  CullModeDefault;
+static RFRS_TRANSMD TransModeDefault;
+static RFRS_CMPMD   AlphaFuncDefault    = RFRS_CMPMD_GTR;
+static uint32_t     AlphaRefDefault     = 64;
 
-static RFRS_CULLMD  CullOverrideMode;
-static RFRS_TRANSMD TransOverrideMode;
+static RFRS_CULLMD  CullModeOverride;
+static RFRS_TRANSMD TransModeOverride;
+static RFRS_CMPMD   AlphaFuncOverride   = RFRS_CMPMD_GTR;
+static uint32_t     AlphaRefOverride    = 64;
 
 static bool CullEventPatch;
 
@@ -185,7 +190,7 @@ ParseStripFlagsHook(uint8_t flag)
         }
     }
 
-    switch (CullOverrideMode) {
+    switch (CullModeOverride) {
     case RFRS_CULLMD_AUTO:
         GX_SetCullMode((flag & CNK_FST_DB) ? GXD_CULLMODE_NONE : GXD_CULLMODE_CW);
         break;
@@ -212,7 +217,7 @@ ParseStripFlagsHook(uint8_t flag)
         use_alpha
     );
 
-    switch (TransOverrideMode) {
+    switch (TransModeOverride) {
     case RFRS_TRANSMD_AUTO:
         if (use_alpha)
         {
@@ -245,6 +250,18 @@ ParseStripFlagsHook(uint8_t flag)
     }
 }
 
+static void
+SetAlphaTestFunc(void)
+{
+    RF_MagicSetAlphaTestFunc(AlphaFuncOverride);
+}
+
+static void
+SetAlphaRef(void)
+{
+    RF_MagicSetAlphaRef(AlphaRefOverride);
+}
+
 /** extern **/
 void
 RFRS_SetCullMode(RFRS_CULLMD mode)
@@ -254,11 +271,11 @@ RFRS_SetCullMode(RFRS_CULLMD mode)
     case RFRS_CULLMD_NONE:
     case RFRS_CULLMD_NORMAL:
     case RFRS_CULLMD_INVERSE:
-        CullOverrideMode = mode;
+        CullModeOverride = mode;
         break;
 
     case RFRS_CULLMD_END:
-        CullOverrideMode = CullDefaultMode;
+        CullModeOverride = CullModeDefault;
         break;
     }
 }
@@ -271,27 +288,74 @@ RFRS_SetTransMode(RFRS_TRANSMD mode)
     case RFRS_TRANSMD_OPAQUE:
     case RFRS_TRANSMD_ALPHATEST:
     case RFRS_TRANSMD_TRANSPARENT:
-        TransOverrideMode = mode;
+        TransModeOverride = mode;
         break;
 
     case RFRS_TRANSMD_END:
-        TransOverrideMode = TransDefaultMode;
+        TransModeOverride = TransModeDefault;
         break;
     }
 }
 
 void
+RFRS_SetAlphaTestFunc(RFRS_CMPMD mode)
+{
+    switch (mode) {
+    case RFRS_CMPMD_NVR:
+    case RFRS_CMPMD_LSS:
+    case RFRS_CMPMD_EQU:
+    case RFRS_CMPMD_LEQ:
+    case RFRS_CMPMD_GTR:
+    case RFRS_CMPMD_NEQ:
+    case RFRS_CMPMD_GEQ:
+    case RFRS_CMPMD_ALW:
+        AlphaFuncOverride = mode;
+        break;
+
+    case RFRS_CMPMD_END:
+        AlphaFuncOverride = AlphaFuncDefault;
+        break;
+    }
+}
+
+void
+RFRS_SetAlphaTestRef(int32_t value)
+{
+    if (value <= RFRS_ALPHAREF_END)
+    {
+        AlphaRefOverride = AlphaRefDefault;
+        return;
+    }
+
+    AlphaRefOverride = value;
+}
+
+void
 RFRS_SetDefaultCullMode(RFRS_CULLMD mode)
 {
-    CullDefaultMode = mode;
-    CullOverrideMode = mode;
+    CullModeDefault = mode;
+    CullModeOverride = mode;
 }
 
 void
 RFRS_SetDefaultTransMode(RFRS_TRANSMD mode)
 {
-    TransDefaultMode = mode;
-    TransOverrideMode = mode;
+    TransModeDefault = mode;
+    TransModeOverride = mode;
+}
+
+void
+RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD mode)
+{
+    AlphaFuncDefault = mode;
+    AlphaFuncOverride = mode;
+}
+
+void
+RFRS_SetDefaultAlphaTestRef(int32_t mode)
+{
+    AlphaRefDefault = mode;
+    AlphaRefOverride = mode;
 }
 
 void
@@ -311,6 +375,11 @@ RF_RenderStateInit(void)
     WriteCall(0x0077F908, __SetGXCull);
 
     WriteJump(0x0041C126, __GXEndEnd);
+
+    /** Replace Alpha Test set **/
+    WriteNoOP(0x0042C0E3, 0x0042C104);
+    WriteCall(0x0042C0E3, SetAlphaTestFunc);
+    WriteCall(0x0042C0E8, SetAlphaRef);
 
     CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }
