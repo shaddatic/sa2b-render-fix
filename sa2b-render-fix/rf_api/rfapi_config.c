@@ -20,5 +20,6 @@ const RFAPI_CONFIG rfapi_config =
 
     .ConfigGetInt    = RF_ConfigDirectGetInt,
     .ConfigGetBool   = RF_ConfigDirectGetBool,
+    .ConfigGetFloat  = RF_ConfigDirectGetFloat,
     .ConfigGetString = RF_ConfigDirectGetString,
 };

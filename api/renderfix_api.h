@@ -28,7 +28,8 @@ typedef void                d3d_pxl_shader;
 /************************/
 /*  Types               */
 /************************/
-typedef char                utf8;   /* Supports UTF-8 strings                       */
+typedef double              float64_t;  /* 8 byte wide float value                  */
+typedef char                utf8;       /* Supports UTF-8 strings                   */
 
 /************************/
 /*  Enums               */
@@ -81,6 +82,7 @@ typedef struct
 
     int32_t    (__cdecl* ConfigGetInt)(    const char* section, const char* key, int32_t     deflt );
     bool       (__cdecl* ConfigGetBool)(   const char* section, const char* key, bool        deflt );
+    float64_t  (__cdecl* ConfigGetFloat)(  const char* section, const char* key, float64_t   deflt );
     const char*(__cdecl* ConfigGetString)( const char* section, const char* key, const char* deflt );
 }
 RFAPI_CONFIG;
