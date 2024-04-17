@@ -15,15 +15,15 @@
 /************************/
 /*  Defines             */
 /************************/
-#define SHADERMODE_NONE        0
-#define SHADERMODE_SHADOW    1
-#define SHADERMODE_FOG        2
-#define SHADERMODE_PALLETE    4
+#define SHADERMODE_NONE         (0)
+#define SHADERMODE_SHADOW       (1)
+#define SHADERMODE_FOG          (2)
+#define SHADERMODE_PALLETE      (4)
 
 /************************/
 /*  Data                */
 /************************/
-#define LockShaders     DataRef(bool,   0x01A55709)
+#define LockShaders     DataRef(bool,    0x01A55709)
 #define ShaderMode      DataRef(int32_t, 0x01AF1960)
 #define ShaderLast      DataRef(int32_t, 0x01A5579C)
 

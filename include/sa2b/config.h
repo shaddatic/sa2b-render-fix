@@ -5,12 +5,14 @@
 *       Loading, reading, & saving .ini configuration files.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
 *   Only for use with Sonic Adventure 2 for PC.
 */
 #ifndef _SAMT_CONFIG_H_
 #define _SAMT_CONFIG_H_
+
+EXTERN_START
 
 /************************/
 /*  Abstract Types      */
@@ -18,30 +20,103 @@
 typedef struct _config    config;
 
 /************************/
-/*  Functions           */
+/*  Open, Close, Save   */
 /************************/
-EXTERN_START
-config* ConfigOpen( const utf8* fpath );
-
-/** Save & close **/
-void    ConfigSave( const config* pConf );
-void    ConfigClose(      config* pConf );
-
-/** Save to arbitrary path **/
-void    ConfigSaveAs( const config* pConf, const utf8* fpath );
-
-/** Get functions **/
-int32_t ConfigGetInt(    const config* pConf, const utf8* sect, const utf8* key, int32_t     def );
-bool    ConfigGetBool(   const config* pConf, const utf8* sect, const utf8* key, bool        def );
-utf8*   ConfigGetString( const config* pConf, const utf8* sect, const utf8* key, const utf8* def );
-
-/** Set functions **/
-void    ConfigSetInt(    config* pConf, const utf8* sect, const utf8* key, int32_t     set );
-void    ConfigSetBool(   config* pConf, const utf8* sect, const utf8* key, bool        set );
-void    ConfigSetString( config* pConf, const utf8* sect, const utf8* key, const utf8* set );
-
-/** Open via fpath & fname **/
+/****** Open ************************************************************/
+/*
+*   Open a .ini configuration file at 'fpath'. 'ConfigOpen2' is used to
+*   concatonate the folder & name of the file, eg:
+*   `ConfigOpen2(GetModPath(), "config.ini");`.
+*
+*   Parameters:
+*     - fpath   : File path to configuration file
+*     - fname   : Name of configuration file
+*
+*   Returns:
+*       A new config object pointer with the contents of the file.
+*/
+config* ConfigOpen(  const utf8* fpath                    );
 config* ConfigOpen2( const utf8* fpath, const utf8* fname );
+
+/****** Close ***********************************************************/
+/*
+*   Close & free an existing config object. Any changes will not be
+*   automatically saved.
+*
+*   Parameters:
+*     - pConfig : Pointer to a 'config' object
+*/
+void    ConfigClose( config* pConfig );
+
+/****** Save ************************************************************/
+/*
+*   Save an existing config object to disk. By default, it will
+*   overwrite the file it was created from, however 'ConfigSaveAs' can
+*   be used to save to an arbirary path.
+*
+*   Parameters:
+*     - pConfig : Pointer to a 'config' object
+*     - fpath   : New path to save to
+*/
+void    ConfigSave(   const config* pConfig                    );
+void    ConfigSaveAs( const config* pConfig, const utf8* fpath );
+
+/************************/
+/*  Get & Set           */
+/************************/
+/****** Get *************************************************************/
+/*
+*   Get the value/content of a config entry by type. It's important you
+*   use the correct function as entries are stored as plain strings with
+*   limited type checking, using the wrong type will lead to undefined
+*   behavior.
+*
+*   Parameters:
+*     - pConfig : Pointer to a 'config' object
+*     - section : String matching the entry section the key is in. A nullptr will search the global section
+*     - key     : String matching the entry key
+*     - def     : Default value that will be returned if no entry exists
+*
+*   Returns:
+        The value/content of the entry, or the 'def' parameter if no entry exists
+*/
+int32_t     ConfigGetInt(    const config* pConfig, const utf8* section, const utf8* key, int32_t     def );
+bool        ConfigGetBool(   const config* pConfig, const utf8* section, const utf8* key, bool        def );
+float64_t   ConfigGetFloat(  const config* pConfig, const utf8* section, const utf8* key, float64_t   def );
+const utf8* ConfigGetString( const config* pConfig, const utf8* section, const utf8* key, const utf8* def );
+
+/****** Set *************************************************************/
+/*
+*   Set the value/content of a config entry by type.
+*
+*   Parameters:
+*     - pConfig : Pointer to a 'config' object
+*     - section : String matching the section the key is in. A nullptr will search the global section
+*     - key     : String matching the key
+*     - set     : Value the key will be set to. If no key exists, one will be created
+*/
+void        ConfigSetInt(    config* pConfig, const utf8* section, const utf8* key, int32_t     set );
+void        ConfigSetBool(   config* pConfig, const utf8* section, const utf8* key, bool        set );
+void        ConfigSetFloat(  config* pConfig, const utf8* section, const utf8* key, float64_t   set );
+void        ConfigSetString( config* pConfig, const utf8* section, const utf8* key, const utf8* set );
+
+/************************/
+/*  Config Query        */
+/************************/
+/****** Has *************************************************************/
+/*
+*   Check if config object contains a specified section &/or key.
+*
+*   Parameters:
+*     - pConfig : Pointer to a 'config' object
+*     - section : String matching the queried section, or section the queried key is in
+*     - key     : String matching the queried key
+*
+*   Returns:
+*       If the given section/key exists
+*/
+bool    ConfigHasSection( const config* pConfig, const utf8* section                  );
+bool    ConfigHasKey(     const config* pConfig, const utf8* section, const utf8* key );
 
 EXTERN_END
 

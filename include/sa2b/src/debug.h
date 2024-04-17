@@ -30,36 +30,36 @@ EXTERN_END
 /************************/
 /*  Macros              */
 /************************/
-#define OutputFormat(...)           ___OutputDebugString(__VA_ARGS__)
-#define OutputString(_s)            ___OutputDebugString((_s))
-#define OutputInt(_i)               ___OutputDebugString("%i", (_i))
-#define OutputFloat(_f)             ___OutputDebugString("%f", (_f))
-#define OutputCharacter(_c)         ___OutputDebugString("%c", (_c))
-#define OutputPointer(_p)           ___OutputDebugString("%p", (_p))
+#define OutputFormat(...)               ___OutputDebugString(__VA_ARGS__)
+#define OutputString(_s)                ___OutputDebugString((_s))
+#define OutputInt(_i)                   ___OutputDebugString("%i", (_i))
+#define OutputFloat(_f)                 ___OutputDebugString("%f", (_f))
+#define OutputCharacter(_c)             ___OutputDebugString("%c", (_c))
+#define OutputPointer(_p)               ___OutputDebugString("%p", (_p))
 
-#define OutputPoint3(_p3)           ___OutputDebugString("%f, %f, %f", (_p3).x, (_p3).y, (_p3).z)
-#define OutputAngle3(_a3)           ___OutputDebugString("%i, %i, %i", (_a3).x, (_a3).y, (_a3).z)
+#define OutputPoint3(_p3)               ___OutputDebugString("%f, %f, %f", (_p3).x, (_p3).y, (_p3).z)
+#define OutputAngle3(_a3)               ___OutputDebugString("%i, %i, %i", (_a3).x, (_a3).y, (_a3).z)
 
 #ifndef NDEBUG
-#define OutputDebugFormat(...)      ___OutputDebugString(__VA_ARGS__)
-#define OutputDebugString(_s)       ___OutputDebugString((_s))
-#define OutputDebugInt(_i)          ___OutputDebugString("%i", (_i))
-#define OutputDebugFloat(_f)        ___OutputDebugString("%f", (_f))
-#define OutputDebugCharacter(_c)    ___OutputDebugString("%c", (_c))
-#define OutputDebugPointer(_p)      ___OutputDebugString("%p", (_p))
+#   define OutputDebugFormat(...)       ___OutputDebugString(__VA_ARGS__)
+#   define OutputDebugString(_s)        ___OutputDebugString((_s))
+#   define OutputDebugInt(_i)           ___OutputDebugString("%i", (_i))
+#   define OutputDebugFloat(_f)         ___OutputDebugString("%f", (_f))
+#   define OutputDebugCharacter(_c)     ___OutputDebugString("%c", (_c))
+#   define OutputDebugPointer(_p)       ___OutputDebugString("%p", (_p))
 
-#define OutputDebugPoint3(_p3)      ___OutputDebugString("%f, %f, %f", (_p3).x, (_p3).y, (_p3).z)
-#define OutputDebugAngle3(_a3)      ___OutputDebugString("%i, %i, %i", (_a3).x, (_a3).y, (_a3).z)
+#   define OutputDebugPoint3(_p3)       ___OutputDebugString("%f, %f, %f", (_p3).x, (_p3).y, (_p3).z)
+#   define OutputDebugAngle3(_a3)       ___OutputDebugString("%i, %i, %i", (_a3).x, (_a3).y, (_a3).z)
 #else
-#define OutputDebugFormat(...)
-#define OutputDebugString(_s)
-#define OutputDebugInt(_i)
-#define OutputDebugFloat(_f)
-#define OutputDebugCharacter(_c)
-#define OutputDebugPointer(_p)
+#   define OutputDebugFormat(...)
+#   define OutputDebugString(_s)
+#   define OutputDebugInt(_i)
+#   define OutputDebugFloat(_f)
+#   define OutputDebugCharacter(_c)
+#   define OutputDebugPointer(_p)
 
-#define OutputDebugPoint3(_p3)
-#define OutputDebugAngle3(_a3)
+#   define OutputDebugPoint3(_p3)
+#   define OutputDebugAngle3(_a3)
 #endif
 
 /************************/

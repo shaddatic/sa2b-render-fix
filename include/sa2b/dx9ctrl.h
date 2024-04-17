@@ -295,26 +295,26 @@ bool    DX9_DrawPrimitiveUP( dx9_pri_type typePri, size_t nbPri, const void* pVt
 /************************/
 /*  Render State        */
 /************************/
-/****** Vertex Shader *******************************/
+/****** Vertex Shader ***************************************************/
 bool    DX9_SaveVtxShaderState( void );
 bool    DX9_LoadVtxShaderState( void );
 
-/****** Pixel Shader ********************************/
+/****** Pixel Shader ****************************************************/
 bool    DX9_SavePxlShaderState( void );
 bool    DX9_LoadPxlShaderState( void );
 
-/****** Vertex Declaration **************************/
+/****** Vertex Declaration **********************************************/
 bool    DX9_SaveVtxDeclState( void );
 bool    DX9_LoadVtxDeclState( void );
 
-/****** Z Buffer ************************************/
+/****** Z Buffer ********************************************************/
 bool    DX9_SaveZReadState( void );
 bool    DX9_LoadZReadState( void );
 
 bool    DX9_SaveZWriteState( void );
 bool    DX9_LoadZWriteState( void );
 
-/****** Stencil *************************************/
+/****** Stencil *********************************************************/
 bool    DX9_SaveStencilState( void );
 bool    DX9_LoadStencilState( void );
 
@@ -324,7 +324,7 @@ bool    DX9_LoadStencilTwoSidedState( void );
 bool    DX9_SaveStencilFuncState( void );
 bool    DX9_LoadStencilFuncState( void );
 
-/****** Stencil CW **********************************/
+/****** Stencil CW ******************************************************/
 bool    DX9_SaveStencilFailState( void );
 
 bool    DX9_LoadStencilFailState( void );
@@ -334,7 +334,7 @@ bool    DX9_LoadStencilZFailState( void );
 bool    DX9_SaveStencilPassState( void );
 bool    DX9_LoadStencilPassState( void );
 
-/****** Stencil CCW *********************************/
+/****** Stencil CCW *****************************************************/
 bool    DX9_SaveStencilFailCCWState( void );
 bool    DX9_LoadStencilFailCCWState( void );
 
@@ -353,15 +353,15 @@ bool    DX9_LoadStencilReadMaskState( void );
 bool    DX9_SaveStencilWriteMaskState( void );
 bool    DX9_LoadStencilWriteMaskState( void );
 
-/****** Culling *************************************/
+/****** Culling *********************************************************/
 bool    DX9_SaveCullingState( void );
 bool    DX9_LoadCullingState( void );
 
-/****** Color ***************************************/
+/****** Color ***********************************************************/
 bool    DX9_SaveColorWriteState( void );
 bool    DX9_LoadColorWriteState( void );
 
-/****** Blending ************************************/
+/****** Blending ********************************************************/
 bool    DX9_SaveAlphaBlendState( void );
 bool    DX9_LoadAlphaBlendState( void );
 

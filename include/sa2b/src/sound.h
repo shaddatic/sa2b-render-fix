@@ -90,25 +90,25 @@ SOUND_QUEUE;
     The 'pri' param is used for some sort of priority bank sort, but should usually be left as 0. **/
 
 EXTERN_START
-void    SE_Call(int32_t se, void* pTask, int8_t pri, int8_t volume);
-void    SE_CallV2(int32_t se, void* pTask, NJS_POINT3* pPos, int8_t pri, int8_t volume);
+void    SE_Call(   int32_t se, void* pTask,                   int8_t pri, int8_t volume );
+void    SE_CallV2( int32_t se, void* pTask, NJS_POINT3* pPos, int8_t pri, int8_t volume );
 
 /** The 'timer' param controls how long the sound should play before stopping. Playing 
     the same sound twice with the same 'pTask' will update the timer value, which allows
     variable length sound effects to be played, like grinding or hover boosters. **/
 
-void    SE_Call_Timer(int32_t se, void* pTask, int8_t pri, int8_t volume, int16_t timer);
-void    SE_CallV2_Timer(int32_t se, void* pTask, NJS_POINT3* pPos, int8_t pri, int8_t volume, int16_t timer);
+void    SE_Call_Timer(   int32_t se, void* pTask,                   int8_t pri, int8_t volume, int16_t timer );
+void    SE_CallV2_Timer( int32_t se, void* pTask, NJS_POINT3* pPos, int8_t pri, int8_t volume, int16_t timer );
 
-void    SE_Call_Loop(int32_t se, void* pTask, int8_t volume);
-void    SE_CallV2_Loop(int32_t se, void* pTask, NJS_POINT3* pPos, int8_t volume);
+void    SE_Call_Loop(   int32_t se, void* pTask,                   int8_t volume );
+void    SE_CallV2_Loop( int32_t se, void* pTask, NJS_POINT3* pPos, int8_t volume );
 
 /** The 'Add' functions can modify sound entry params. Match 'se' and 'pTask' with the 
     sound entry to be modified. 'se' can be -1, and only 'pTask' will be matched **/
 
-void    SE_Add_Volume( int32_t se, void* pTask, int8_t  volume);
-void    SE_Add_Pitch(  int32_t se, void* pTask, int16_t pitch);
-void    SE_Add_Pan(    int32_t se, void* pTask, int8_t  pan);
+void    SE_Add_Volume( int32_t se, void* pTask, int8_t  volume );
+void    SE_Add_Pitch(  int32_t se, void* pTask, int16_t pitch  );
+void    SE_Add_Pan(    int32_t se, void* pTask, int8_t  pan    );
 
 /** Only bosses call these, their exact function isn't fully understood yet. Perhaps, 
     'SC' stands for SpeCial? **/

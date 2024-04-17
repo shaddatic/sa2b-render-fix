@@ -78,7 +78,7 @@ namespace Magic::RenderCore
 
     struct VideoDevice
     {
-        struct vtbl
+        struct vft_s
         {
             void(__cdecl* Destructor)(VideoDevice* _this);
             int(__cdecl* GetDisplayWidth)(VideoDevice* _this);
@@ -86,7 +86,7 @@ namespace Magic::RenderCore
             int(__cdecl* GetDisplayFormat)(VideoDevice* _this);
             bool(__cdecl* IsWideScreen)(VideoDevice* _this);
             float(__cdecl* GetRefreshRate)(VideoDevice* _this);
-        }*__vftable;
+        }*vft;
     };
 
     struct DX9_VideoDevice_Base : VideoDevice
@@ -101,11 +101,12 @@ namespace Magic::RenderCore
 
     struct DX9_DeviceCreator_Base
     {
-        struct vtbl
+        struct vft_s
         {
             bool(__cdecl* CreateD3DDevice)(DX9_DeviceCreator_Base* _this, const DeviceConfig_t*);
             void(__cdecl* FreeD3DDevice)(DX9_DeviceCreator_Base* _this, char flag);
-        }*__vftable;
+        }*vft;
+
         LPDIRECT3D9 m_pD3D;
         LPDIRECT3DDEVICE9 m_pD3DDevice;
         D3DPRESENT_PARAMETERS m_D3DPP;
@@ -162,10 +163,11 @@ namespace Magic::RenderCore
 
     struct Sampler : SamplerState_t
     {
-        struct vtbl
+        struct vft_s
         {
             void(__thiscall* Destructor)(Sampler* _this);
-        }*__vftable;
+        }*vft;
+
         std::string m_Name;
         Texture* m_pTexture;
         int m_Index;
@@ -217,12 +219,13 @@ namespace Magic::RenderCore
 
     struct Resource
     {
-        struct vtbl
+        struct vft_s
         {
             void(__thiscall* Destructor)(Resource* _this, int a2);
             int(__thiscall* GetSize)(Resource* _this);
             bool(__thiscall* IsLoaded)(Resource* _this);
-        }*__vftable;
+        }*vft;
+
         int m_ResType;
         int m_ResPool;
         void* m_pUserData;
@@ -363,10 +366,11 @@ namespace Magic::RenderCore
 
     struct InputLayout
     {
-        struct vtbl
+        struct vft_s
         {
             void(__thiscall* Destructor)(InputLayout* _this);
-        }*__vftable;
+        }*vft;
+
         std::vector<InputElementDesc_t, std::allocator<InputElementDesc_t>> m_InputElements;
         void* m_pData;
         int m_StreamCount;
@@ -385,10 +389,11 @@ namespace Magic::RenderCore
 
     struct ResourceProfiler
     {
-        struct vtbl
+        struct vft_s
         {
             void(__cdecl* Destructor)(ResourceProfiler* _this);
-        }*__vftable /*VFT*/;
+        }*vft;
+
         std::list<Magic::RenderCore::Resource*> m_pResources[11];
     };
 
@@ -559,7 +564,7 @@ namespace Magic::RenderCore
             MULTISAMPLE_MAX
         };
 
-        struct vtbl
+        struct vft_s
         {
             void(__thiscall* Destructor)(RenderDevice* _this, char flag);
             void(__thiscall* InitializeThing)(RenderDevice* _this);
@@ -660,7 +665,7 @@ namespace Magic::RenderCore
             bool(__thiscall* CreateRenderTarget)(RenderDevice* _this, Texture* pTexture, int width, int height, int format, int* pool, int* flag);
             void(__thiscall* SaveTextureToFile)(RenderDevice* _this, const std::string* name, Texture* pTexture, ImageFileFormat imageFileFormat);
             void(__thiscall* ResetRenderStates)(RenderDevice* _this);
-        }*__vftable /*VFT*/;
+        }*vft;
 
         int m_ShaderLockCounter;
         Magic::RenderCore::ResourceProfiler* m_pResourceProfiler;
