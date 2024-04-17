@@ -249,7 +249,7 @@
     <ClCompile Include="rf_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_global\rfg_3dsprite\rfg3ds_viewport.cpp">
+    <ClCompile Include="rf_magic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -378,6 +378,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_magic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

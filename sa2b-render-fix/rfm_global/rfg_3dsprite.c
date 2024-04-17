@@ -7,9 +7,13 @@
 /** Core Matrix **/
 #include <sa2b/c_mtx/c_mtx.h>
 
+/** Source **/
+#include <sa2b/src/display.h>
+
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_funchook.h>
+#include <rf_magic.h>
 
 static void
 FixNinjaDrawSomething(float* pri, GJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
@@ -55,18 +59,24 @@ ___C_MTXMultVec(void)
     }
 }
 
-void RFG3DS_SendResToShader(void);
-
 #define GX_SetViewport      FuncPtr(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
 
 static hook_info* GX_SetViewportHookInfo;
-
 static void
 GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
 {
     FuncHookCall( GX_SetViewportHookInfo, GX_SetViewport(X, Y, W, H, MinZ, MaxZ) );
 
-    RFG3DS_SendResToShader();
+    const float adj_w = _nj_screen_.w / 640.0f;
+    const float adj_h = _nj_screen_.h / 480.0f;
+
+    const float res_w = DisplayResolutionX * adj_w;
+    const float res_h = DisplayResolutionY * adj_h;
+
+    const float asp_w = res_w / _nj_screen_.w;
+    const float asp_h = res_h / _nj_screen_.h / asp_w;
+
+    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
 }
 
 void
