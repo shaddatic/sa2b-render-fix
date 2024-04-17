@@ -82,4 +82,8 @@ RFG_3DSpriteInit(void)
 
     /** Fix Multi-screen desync and squish **/
     RF_FuncHook(GX_SetViewport);
+
+    /** Fix lens flairs "un-squishing" themselves,
+        which causes stretching with the above fix **/
+    WriteNoOP(0x006C79EE, 0x006C79F8);
 }
