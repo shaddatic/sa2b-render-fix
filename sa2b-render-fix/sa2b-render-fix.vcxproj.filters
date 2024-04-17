@@ -249,6 +249,9 @@
     <ClCompile Include="rf_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_global\rfg_3dsprite\rfg3ds_viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

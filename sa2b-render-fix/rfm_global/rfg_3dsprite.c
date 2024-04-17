@@ -9,6 +9,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_funchook.h>
 
 static void
 FixNinjaDrawSomething(float* pri, GJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
@@ -54,6 +55,20 @@ ___C_MTXMultVec(void)
     }
 }
 
+void RFG3DS_SendResToShader(void);
+
+#define GX_SetViewport      FuncPtr(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
+
+static hook_info* GX_SetViewportHookInfo;
+
+static void
+GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
+{
+    FuncHookCall( GX_SetViewportHookInfo, GX_SetViewport(X, Y, W, H, MinZ, MaxZ) );
+
+    RFG3DS_SendResToShader();
+}
+
 void
 RFG_3DSpriteInit(void)
 {
@@ -64,4 +79,7 @@ RFG_3DSpriteInit(void)
         in front of the camera **/
     ___NOTE("This patch is hacky, add a return or something");
     WriteNoOP(0x0077D83E, 0x0077D840);
+
+    /** Fix Multi-screen desync and squish **/
+    RF_FuncHook(GX_SetViewport);
 }

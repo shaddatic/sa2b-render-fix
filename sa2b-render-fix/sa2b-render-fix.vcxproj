@@ -22,6 +22,7 @@
     <ClCompile Include="rfm_amine.c" />
     <ClCompile Include="rfm_cgadget.c" />
     <ClCompile Include="rfm_common\rfc_pr_siren.c" />
+    <ClCompile Include="rfm_global\rfg_3dsprite\rfg3ds_viewport.cpp" />
     <ClCompile Include="rfm_global\rfg_bfacecull.c" />
     <ClCompile Include="rfm_b_bigbogy.c" />
     <ClCompile Include="rfm_common\rfc_chaos0tex.c" />
