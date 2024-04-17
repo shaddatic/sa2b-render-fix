@@ -205,6 +205,9 @@
 			<Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
 				<HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
 			</Property>
+			<Property name="no_alerts" display="Disable Message Box Alerts" type="eBOOL" defaultvalue="0">
+				<HelpText>Disable Render Fix alert/warning message boxes, such as mod position and conflict warnings.</HelpText>
+			</Property>
 		</Group>
 	</Groups>
 	<Enums>

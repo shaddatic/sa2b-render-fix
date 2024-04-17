@@ -20,6 +20,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
+/** Init **/
+void    RF_UserMessageInit( void );
+
 /** Post alert **/
 void    RF_Alert(const utf8* head, const utf8* body);
 

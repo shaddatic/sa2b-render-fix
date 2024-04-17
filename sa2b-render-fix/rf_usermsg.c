@@ -6,6 +6,9 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_config.h>
+
+/** Self **/
 #include <rf_usermsg.h>
 
 static bool UserMsgAlertSuppress;
@@ -51,4 +54,10 @@ RF_Query(const utf8* head, const utf8* body)
     snprintf(buf, sizeof(buf), "Render Fix: %s", head);
 
     return UserMessageBox(buf, body, INPT_YES_NO, ICON_QUESTION) == USER_YES;
+}
+
+void
+RF_UserMessageInit(void)
+{
+    UserMsgAlertSuppress = RF_ConfigGetInt(CNF_DEBUG_DISABLE_ALERT);
 }

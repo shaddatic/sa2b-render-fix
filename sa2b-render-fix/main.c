@@ -42,6 +42,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     /** Render Fix init **/
     RF_ConfigInit();
     RF_ObjPakInit();
+    RF_UserMessageInit();
     RF_RenderStateInit();
 
     /** DXVK init **/
