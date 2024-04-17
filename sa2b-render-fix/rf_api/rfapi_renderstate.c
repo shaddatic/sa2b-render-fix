@@ -18,6 +18,8 @@ const RFAPI_RENDERSTATE rfapi_rstate =
 {
     .version = STATE_API_VER,
 
-    .SetCullMode  = RFRS_SetCullMode,
-    .SetTransMode = RFRS_SetTransMode,
+    .SetCullMode      = RFRS_SetCullMode,
+    .SetTransMode     = RFRS_SetTransMode,
+    .SetAlphaTestFunc = RFRS_SetAlphaTestFunc,
+    .SetAlphaTestRef  = RFRS_SetAlphaTestRef,
 };

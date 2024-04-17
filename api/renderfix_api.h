@@ -56,6 +56,27 @@ typedef enum
 }
 RFRS_TRANSMD;
 
+typedef enum
+{
+    RFRS_CMPMD_END = -1,        /* End and reset to default                         */
+
+    RFRS_CMPMD_NVR,             /* Never                                            */
+    RFRS_CMPMD_LSS,             /* Less                                             */
+    RFRS_CMPMD_EQU,             /* Equal                                            */
+    RFRS_CMPMD_LEQ,             /* Less or equal                                    */
+    RFRS_CMPMD_GTR,             /* Greater                                          */
+    RFRS_CMPMD_NEQ,             /* Not equal                                        */
+    RFRS_CMPMD_GEQ,             /* Greater or equal                                 */
+    RFRS_CMPMD_ALW,             /* Always                                           */
+}
+RFRS_CMPMD;
+
+typedef enum
+{
+    RFRS_ALPHAREF_END = -1,     /* End and reset to default                         */
+}
+RFRS_ALPHAREF;
+
 /************************/
 /*  Control API         */
 /************************/
@@ -157,6 +178,10 @@ typedef struct
 
     /** Transparancy set **/
     void(__cdecl* SetTransMode)( RFRS_TRANSMD mode );
+
+    /** Alpha Test **/
+    void(__cdecl* SetAlphaTestFunc)( RFRS_CMPMD mode );
+    void(__cdecl* SetAlphaTestRef)(  int32_t    ref  );
 }
 RFAPI_RENDERSTATE;
 
