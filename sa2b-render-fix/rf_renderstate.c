@@ -377,9 +377,9 @@ RF_RenderStateInit(void)
     WriteJump(0x0041C126, __GXEndEnd);
 
     /** Replace Alpha Test set **/
-    WriteNoOP(0x0042C0E3, 0x0042C104);
-    WriteCall(0x0042C0E3, SetAlphaTestFunc);
-    WriteCall(0x0042C0E8, SetAlphaRef);
+    WriteNoOP(0x0042C0CE, 0x0042C104);
+    WriteCall(0x0042C0CE, SetAlphaTestFunc);
+    WriteCall(0x0042C0D3, SetAlphaRef);
 
     CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }
