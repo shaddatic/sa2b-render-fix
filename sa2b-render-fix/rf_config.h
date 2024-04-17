@@ -53,7 +53,7 @@ void        RF_ConfigEnd(  void );  /* Save & free config file              */
 
 /****** Config ***************************************************************/
 /** Config get **/
-int         RF_ConfigGetInt(    const RFS_CNF_INT*    pCnf );
+int32_t     RF_ConfigGetInt(    const RFS_CNF_INT*    pCnf );
 bool        RF_ConfigGetBool(   const RFS_CNF_BOOL*   pCnf );
 const utf8* RF_ConfigGetString( const RFS_CNF_STRING* pCnf );
 
@@ -64,7 +64,7 @@ void        RF_ConfigSetString( const RFS_CNF_STRING* pCnf, const utf8* set );
 
 /****** Config Direct *******************************************************/
 /** Config get **/
-int         RF_ConfigDirectGetInt(    const utf8* section, const utf8* key, int         def );
+int32_t     RF_ConfigDirectGetInt(    const utf8* section, const utf8* key, int         def );
 bool        RF_ConfigDirectGetBool(   const utf8* section, const utf8* key, bool        def );
 const utf8* RF_ConfigDirectGetString( const utf8* section, const utf8* key, const utf8* def );
 

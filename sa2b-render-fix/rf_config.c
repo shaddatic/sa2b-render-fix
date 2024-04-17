@@ -31,7 +31,7 @@ RF_ConfigEnd(void)
 
 #pragma region config_get
 
-int
+int32_t
 RF_ConfigGetInt(const RFS_CNF_INT* pCnf)
 {
     return RF_ConfigDirectGetInt(pCnf->sect, pCnf->key, pCnf->def);
@@ -75,7 +75,7 @@ RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const utf8* set)
 
 #pragma region config_get_direct
 
-int
+int32_t
 RF_ConfigDirectGetInt(const utf8* section, const utf8* key, int def)
 {
     if (!ConfigPointer)
