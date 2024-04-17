@@ -60,7 +60,8 @@ static NJS_CNK_OBJECT* object_ewalker_foot_mod;
 static NJS_CNK_OBJECT* object_dwalker_body_mod;
 static NJS_CNK_OBJECT* object_dwalker_foot_mod;
 
-static bool MilesTailModifiers;
+static bool MilesTailModifiers; /* Draw Tails' tail modifiers                           */
+static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below the floor */
 
 #define flt_1DEB070         DataRef(float32_t, 0x01DEB070)
 #define MultiIntroPno       DataRef(int8_t   , 0x0174B009)
@@ -1121,7 +1122,7 @@ TornadoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 
         njTranslateEx(&pwp->rightfoot_pos);
 
-        if (true)
+        if (TornadoFootFix)
             njTranslate(NULL, 0.0f, 0.4f, 0.0f);
 
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -1132,7 +1133,7 @@ TornadoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 
         njTranslateEx(&pwp->leftfoot_pos);
 
-        if (true)
+        if (TornadoFootFix)
             njTranslate(NULL, 0.0f, 0.4f, 0.0f);
 
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -1430,6 +1431,8 @@ CHS_PlayerInit()
     WriteRetn(0x00748AF0);
     WriteRetn(0x00745310);
     WriteJump(0x00745910, EggWalkerDisplayerShadowHook);
+
+    TornadoFootFix = RF_ConfigGetInt(CNF_EXP_TWALKFOOTMODFIX);
 
     /** PInitialize **/
     WriteCall(0x00459D53, CreateNoStencilTexture);

@@ -173,6 +173,9 @@
 			<Property name="miles_tail_mod" display="Draw Tails' Tail Modifier Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that adds modifier shadows for Tails' Tails. This will likely be further worked on so the shadows better match the tails' animations.</HelpText>
 			</Property>
+			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="0">
+				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
+			</Property>
 			<Property name="race_tree_mod" display="Draw Race Tree Modifier Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that adds modifier shadows for Chao Race Trees. This is pretty much complete and only really needs more testing.</HelpText>
 			</Property>

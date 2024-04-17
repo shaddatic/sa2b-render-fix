@@ -205,6 +205,7 @@ CNFE_SHADOW_OPACITY;
 /** Experimental section **/
 #define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_MILESTAILMOD        CNFO_INT(   CNFS_EXP            , "miles_tail_mod"      , CNFE_BOOL_DISABLED                    )   /* Draw Tails' Tail Modifier Shadows */
+#define CNF_EXP_TWALKFOOTMODFIX     CNFO_INT(   CNFS_EXP            , "twalk_foot_mod"      , CNFE_BOOL_DISABLED                    )   /* Fix Tornado's Foot Modifiers */
 #define CNF_EXP_RACETREEMOD         CNFO_INT(   CNFS_EXP            , "race_tree_mod"       , CNFE_BOOL_DISABLED                    )   /* Draw Race Tree Modifier Shadows */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
