@@ -21,7 +21,7 @@ RF_Alert(const utf8* head, const utf8* body)
 
     utf8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix: %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix Alert : %s", head);
 
     UserWarningMessageBox(buf, body);
 }
@@ -31,7 +31,7 @@ RF_FatalError(const utf8* head, const utf8* body)
 {
     utf8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix: %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix Error : %s", head);
 
     UserErrorMessageBox(buf, body);
 }
@@ -41,7 +41,7 @@ RF_Query(const utf8* head, const utf8* body)
 {
     utf8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix: %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix Query : %s", head);
 
     return UserMessageBox(buf, body, INPT_YES_NO, ICON_QUESTION) == USER_YES;
 }
