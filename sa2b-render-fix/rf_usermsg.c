@@ -36,16 +36,6 @@ RF_FatalError(const utf8* head, const utf8* body)
     UserErrorMessageBox(buf, body);
 }
 
-void
-RF_ModConflict(const utf8* mod, const utf8* body)
-{
-    utf8 buf[64];
-
-    snprintf(buf, sizeof(buf), "Render Fix: %s", mod);
-
-    UserWarningMessageBox(buf, body);
-}
-
 bool
 RF_Query(const utf8* head, const utf8* body)
 {

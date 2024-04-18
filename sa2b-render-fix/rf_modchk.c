@@ -2,10 +2,18 @@
 #include <sa2b/mods.h>
 #include <sa2b/string.h>
 
+/** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_feature.h>
 #include <rf_usermsg.h>
+
+/** Macro **/
+#define RF_ModConflictEx(_mod, _rf_feature)     RF_Alert("Mod Conflict ("_mod")", \
+                                                    "The '" _mod "' mod is obsolete and is incompatible with Render Fix's '" _rf_feature "' feature!\n\n" \
+                                                    "Please disable either the '" _mod "' mod, or the '" _rf_feature "' setting!")
+
+#define RF_ModConflict(_mod, _body)             RF_Alert("Mod Conflict ("_mod")", _body);
 
 void
 RF_ModCheckInit(void)
@@ -16,7 +24,7 @@ RF_ModCheckInit(void)
 
         if (!StringMatch( ModGetID(mhp), "sa2-render-fix" ))
         {
-            RF_ModConflict("Mod Position",
+            RF_Alert("Mod Position",
                 "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
                 "Please ensure Render Fix is placed first & is above all other mods.\n\n"
                 "Not doing this will likely cause game instability, incorrect behavior, & crashes depending on your other installed mods.\n\n"
@@ -42,7 +50,8 @@ RF_ModCheckInit(void)
     if (ModCheckDll("enhanced-shadows"))
         RF_ModConflict("Enhanced Shadows",
             "The 'Enhanced Shadows' mod is obsolete and will conflict with Render Fix!\n\n"
-            "Please disable the 'Enhanced Shadows' mod!");
+            "Please disable the 'Enhanced Shadows' mod!"
+        );
 
     /** Check No Model Tinting by Speeps **/
     if (RFF_FixModelTint() && ModCheckDll("NoTinting"))
