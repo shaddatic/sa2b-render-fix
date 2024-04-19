@@ -9,11 +9,21 @@
 #include <rf_usermsg.h>
 
 /** Macro **/
-#define RF_ModConflictEx(_mod, _rf_feature)     RF_Alert("Mod Conflict ("_mod")", \
-                                                    "The '" _mod "' mod is obsolete and is incompatible with Render Fix's '" _rf_feature "' feature!\n\n" \
-                                                    "Please disable either the '" _mod "' mod, or the '" _rf_feature "' setting!")
+#define RF_ModConflictEither(_mod, _rf_feature)             RF_Alert("Mod Conflict ("_mod")", \
+                                                                "The '" _mod "' mod is obsolete and is incompatible with Render Fix's '" _rf_feature "' feature!\n\n" \
+                                                                "Please disable either the '" _mod "' mod, or the '" _rf_feature "' setting!")
 
-#define RF_ModConflict(_mod, _body)             RF_Alert("Mod Conflict ("_mod")", _body);
+#define RF_ModConflictStrict(_mod, _supersede_mods)         RF_Alert("Mod Conflict ("_mod")", \
+                                                                "The '"_mod"' mod is obsolete and has been superseded by "_supersede_mods"!\n\n" \
+                                                                "Please disable the '"_mod"' mod!")
+
+static bool
+CheckModByNameAndAuthor(const char* name, const char* author)
+{
+    const mod_handle* mhp = ModGetHandleName(name);
+
+    return (mhp && StringMatch( ModGetAuthor(mhp), author ));
+}
 
 void
 RF_ModCheckInit(void)
@@ -35,37 +45,60 @@ RF_ModCheckInit(void)
 
     /** Check Highest Quality Textures by Speeps **/
     {
-        const mod_handle* mhp = ModGetHandleName("High Quality Textures");
-
-        if (mhp && StringMatch( ModGetAuthor(mhp), "Speeps" ))
+        if (CheckModByNameAndAuthor("High Quality Textures", "Speeps"))
         {
-            RF_ModConflict("High Quality Textures",
-                "The 'High Quality Textures' mod is obsolete and has been superseded by Render Fix's own High Quality Textures!\n\n"
-                "Please disable either the 'High Quality Textures' mod!"
-            );
+            RF_ModConflictStrict("High Quality Textures", "Render Fix");
+        }
+    }
+
+    /** Check Rendering Fixes by End User **/
+    {
+        if (CheckModByNameAndAuthor("Rendering Fixes", "End User"))
+        {
+            RF_ModConflictStrict("Rendering Fixes", "Render Fix & Cutscene Revamp");
         }
     }
 
     /** Check Enhanced Shadows by Shaddatic **/
-    if (ModCheckDll("enhanced-shadows"))
-        RF_ModConflict("Enhanced Shadows",
-            "The 'Enhanced Shadows' mod is obsolete and will conflict with Render Fix!\n\n"
-            "Please disable the 'Enhanced Shadows' mod!"
-        );
+    {
+        if (ModCheckDll("enhanced-shadows"))
+        {
+            RF_ModConflictStrict("Enhanced Shadows", "Render Fix");
+        }
+    }
+
 
     /** Check No Model Tinting by Speeps **/
-    if (RFF_FixModelTint() && ModCheckDll("NoTinting"))
-        RF_ModConflictEx("No Model Tinting", "Fix Model Tint");
+    {
+        if (RFF_FixModelTint() && ModCheckDll("NoTinting"))
+        {
+            RF_ModConflictEither("No Model Tinting", "Fix Model Tint");
+        }
+    }
+
 
     /** Check Restored GUN Logos by Speeps **/
-    if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && ModCheckDll("RestoredGUNLogos"))
-        RF_ModConflictEx("Restored GUN Logos", "GUN Emblem Fix");
+    {
+        if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && ModCheckDll("RestoredGUNLogos"))
+        {
+            RF_ModConflictEither("Restored GUN Logos", "GUN Emblem Fix");
+        }
+    }
 
     /** Check DC Shadows by Exant **/
-    if (RFF_CheapShadow() && ModCheckDll("sa2-dc-lighting"))
-        RF_ModConflictEx("DC Shadows", "Modifer Shadows");
+    {
+        if (RFF_CheapShadow() && ModCheckDll("sa2-dc-lighting"))
+        {
+            RF_ModConflictEither("DC Shadows", "Modifer Shadows");
+        }
+    }
 
     /** Check Eggman Lighting Fix by Exant **/
-    if (RFF_SpotLightFix() && ModCheckDll("NoLightingPatch"))
-        RF_ModConflictEx("Eggman Lighting Fix", "Spot Light Fix");
+    {
+        if (RFF_SpotLightFix() && ModCheckDll("NoLightingPatch"))
+        {
+            RF_ModConflictEither("Eggman Lighting Fix", "Spot Light Fix");
+        }
+    }
+
 }
