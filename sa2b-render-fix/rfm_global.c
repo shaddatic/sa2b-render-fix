@@ -178,4 +178,18 @@ RFM_GlobalInit(void)
     {
         RFG_3DSpriteInit();
     }
+
+    if (true) // Aspect test
+    {
+        static const double new_asp_test = (4/3);
+
+        ReplaceFloat(0x00794778, &new_asp_test); // ActionWindow button sprite
+        ReplaceFloat(0x0079499D, &new_asp_test); // ^
+
+        /** Stage map completely breaks **/
+        /*
+        ReplaceFloat(0x00677B04, &new_asp_test); // Stage Map init
+        ReplaceFloat(0x00675E09, &new_asp_test); // Stage Map
+        */
+    }
 }
