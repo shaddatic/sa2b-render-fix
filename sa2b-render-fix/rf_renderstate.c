@@ -150,12 +150,15 @@ __SetGXCull(void)
 #define _njCnkDrawModelSub      FuncPtr(int, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
 
 static hook_info* njCnkDrawModelSubHookInfo;
-static void
+static int
 CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
 {
-    FuncHookCall( njCnkDrawModelSubHookInfo, _njCnkDrawModelSub(model) );
+    int result;
+    FuncHookCall( njCnkDrawModelSubHookInfo, result = _njCnkDrawModelSub(model) );
 
     GX_SetCullMode(GXD_CULLMODE_NONE);
+
+    return result;
 }
 
 static RFRS_CULLMD  CullModeDefault;
