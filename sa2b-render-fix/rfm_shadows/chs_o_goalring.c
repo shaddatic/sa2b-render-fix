@@ -16,15 +16,19 @@ ObjectGoalringDisplayerMod(TASK* tp)
 {
     TASKWK* const twp = tp->twp;
 
-    njPushMatrixEx();
+    /** Is not a Chao **/
+    if (twp->ang.x % 3 != 1)
+    {
+        njPushMatrixEx();
 
-    njTranslateEx(&twp->pos);
-    njRotateY(NULL, twp->ang.y);
-    njScale(0, 30.0f, 5.0f, 10.0f);
+        njTranslateEx(&twp->pos);
+        njRotateY(NULL, twp->ang.y);
+        njScale(NULL, 30.0f, 5.0f, 10.0f);
 
-    DrawBasicShadow();
+        DrawBasicShadow();
 
-    njPopMatrixEx();
+        njPopMatrixEx();
+    }
 }
 
 void
