@@ -356,9 +356,6 @@
     <ClInclude Include="rfm_cgadget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_funchook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_dxvk.h">
       <Filter>Header Files</Filter>
     </ClInclude>

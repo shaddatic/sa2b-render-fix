@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memutil.h>
+#include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -12,7 +13,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_funchook.h>
 #include <rf_magic.h>
 
 static void
@@ -91,7 +91,7 @@ RFG_3DSpriteInit(void)
     WriteNoOP(0x0077D83E, 0x0077D840);
 
     /** Fix Multi-screen desync and squish **/
-    RF_FuncHook(GX_SetViewport);
+    GX_SetViewportHookInfo = FuncHook(GX_SetViewport, GX_SetViewportHook);
 
     /** Fix lens flairs "un-squishing" themselves,
         which causes stretching with the above fix **/

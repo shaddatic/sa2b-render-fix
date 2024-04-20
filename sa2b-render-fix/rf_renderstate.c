@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memutil.h>
+#include <sa2b/funchook.h>
 
 /** GX **/
 #include <sa2b/gx/gx.h>
@@ -10,7 +11,6 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
-#include <rf_funchook.h>
 #include <rf_eventinfo.h>
 #include <rf_magic.h>
 
@@ -57,7 +57,7 @@ VertexDeclarationInfo;
 #define VertexDeclInfo              DataRef(VertexDeclarationInfo*, 0x0174F7E8)
 
 static void
-CopyLastVertex()
+CopyLastVertex(void)
 {
     const int stride = VertexDeclInfo->StrideSize;
     const int vtxbuf = _gx_vtx_buf_base_;
@@ -136,7 +136,7 @@ SetCull(int16_t vtxCount)
 
 __declspec(naked)
 static void
-__SetGXCull()
+__SetGXCull(void)
 {
     __asm
     {
@@ -147,21 +147,15 @@ __SetGXCull()
     }
 }
 
-static void
-SetCullNone()
-{
-    GX_SetCullMode(GXD_CULLMODE_NONE);
-}
+#define _njCnkDrawModelSub      FuncPtr(int, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
 
-__declspec(naked)
+static hook_info* njCnkDrawModelSubHookInfo;
 static void
-__GXEndEnd()
+CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
 {
-    __asm
-    {
-        pop ebx
-        jmp SetCullNone
-    }
+    FuncHookCall( njCnkDrawModelSubHookInfo, _njCnkDrawModelSub(model) );
+
+    GX_SetCullMode(GXD_CULLMODE_NONE);
 }
 
 static RFRS_CULLMD  CullModeDefault;
@@ -374,7 +368,7 @@ RF_RenderStateInit(void)
     WriteCall(0x0042F40D, __SetGXCull);
     WriteCall(0x0077F908, __SetGXCull);
 
-    WriteJump(0x0041C126, __GXEndEnd);
+    njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 
     /** Replace Alpha Test set **/
     WriteNoOP(0x0042C0CE, 0x0042C104);

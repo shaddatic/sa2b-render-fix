@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memutil.h>
+#include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -12,7 +13,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_funchook.h>
 #include <rf_file.h>
 #include <rf_draw.h>
 #include <rf_util.h>
@@ -217,12 +217,14 @@ void
 CHS_CarInit()
 {
     /** City Escape **/
-    RF_FuncHook(ObjectCECar);
+    ObjectCECarHookInfo = FuncHook(ObjectCECar, ObjectCECarHook);
+
     WriteJump(0x005E2930, ObjectCECarCrashDisplayerMod);
     KillCall(0x005E150F); // SetStencilInfo
 
     /** Mission Street **/
-    RF_FuncHook(ObjectMSCar2);
+    ObjectMSCar2HookInfo = FuncHook(ObjectMSCar2, ObjectMSCar2Hook);
+
     WriteJump(0x005B75C0, ObjectMSCarCrashDisplayerMod);
     KillCall(0x005B6148); // SetStencilInfo
 
