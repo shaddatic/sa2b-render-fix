@@ -31,23 +31,23 @@
 			</Property>
 		</Group>
 		<Group name="shadows" display="Shadow Settings">
-			<Property name="cheap_shadow" display="Enable Modifier Shadows" type="eMOD_MODE" defaultvalue="3">
+			<Property name="cheap_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="3">
 				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of accuracy.</HelpText>
 			</Property>
-			<Property name="mode_gl" display="Global Shadows" type="eSHAD_MODE" defaultvalue="2">
+			<Property name="mode_gl" display="Global Shadow Mode" type="eSHAD_MODE" defaultvalue="2">
 				<HelpText>Which shadow type should be used globally (excluding player characters). 'Modifier' is the Dreamcast shadow system.</HelpText>
 			</Property>
-			<Property name="mode_pl" display="Character Shadows" type="eSHAD_PL_MODE" defaultvalue="2">
+			<Property name="mode_pl" display="Player Shadow Mode" type="eSHAD_PL_MODE" defaultvalue="2">
 				<HelpText>Which shadow type is cast by the player character.</HelpText>
-			</Property>
-			<Property name="resolution" display="Shadow Resolution" type="eSHAD_RES" defaultvalue="1">
-				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
 			</Property>
 			<Property name="opacity_gl" display="Global Opacity" type="eSHAD_OPACITY" defaultvalue="1">
 				<HelpText>Changes the darkness/opacity of the shadows outside of Chao World. The GameCube's opacity is only an aproximation.</HelpText>
 			</Property>
 			<Property name="opacity_ch" display="Chao World Opacity" type="eSHAD_OPACITY" defaultvalue="2">
 				<HelpText>Changes the darkness/opacity of the shadows in Chao World. The Dreamcast version used lighter shadows for Chao World.</HelpText>
+			</Property>
+			<Property name="resolution" display="Shadow Map Resolution" type="eSHAD_RES" defaultvalue="1">
+				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
 			</Property>
 		</Group>
 		<Group name="common" display="Common Settings">
