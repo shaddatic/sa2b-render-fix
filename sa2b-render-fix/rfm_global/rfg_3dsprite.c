@@ -59,6 +59,21 @@ ___C_MTXMultVec(void)
     }
 }
 
+static void
+SendScreenRatioToShader(float resW, float resH)
+{
+    const float adj_w = resW / 640.0f;
+    const float adj_h = resH / 480.0f;
+
+    const float res_w = DisplayResolutionX * adj_w;
+    const float res_h = DisplayResolutionY * adj_h;
+
+    const float asp_w = res_w / resW;
+    const float asp_h = res_h / resH / asp_w;
+
+    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
+}
+
 #define GX_SetViewport      FuncPtr(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
 
 static hook_info* GX_SetViewportHookInfo;
@@ -67,16 +82,46 @@ GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
 {
     FuncHookCall( GX_SetViewportHookInfo, GX_SetViewport(X, Y, W, H, MinZ, MaxZ) );
 
-    const float adj_w = _nj_screen_.w / 640.0f;
-    const float adj_h = _nj_screen_.h / 480.0f;
+    SendScreenRatioToShader(_nj_screen_.w, _nj_screen_.h);
+}
 
-    const float res_w = DisplayResolutionX * adj_w;
-    const float res_h = DisplayResolutionY * adj_h;
+static const int HintTextDisplayer_p = 0x006B5350;
+static void
+HintTextDisplayer(void* p)
+{
+    __asm
+    {
+        mov eax, [p]
+        call HintTextDisplayer_p
+    }
+}
 
-    const float asp_w = res_w / _nj_screen_.w;
-    const float asp_h = res_h / _nj_screen_.h / asp_w;
+static hook_info* HintTextDisplayerHookInfo;
+static void
+HintTextDisplayerHook(void* p)
+{
+    /** Temporarily tell the shader the un-fixed aspect ratio
+        so the hint text displays correctly **/
+    SendScreenRatioToShader(640.0f, 480.0f);
 
-    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
+    FuncHookCall( HintTextDisplayerHookInfo, HintTextDisplayer(p) );
+
+    /** Once drawn, update the shader to the correct aspect
+        ratio again **/
+    SendScreenRatioToShader(_nj_screen_.w, _nj_screen_.h);
+}
+
+__declspec(naked)
+static void
+__HintTextDisplayerHook(void)
+{
+    __asm
+    {
+        push eax
+        call HintTextDisplayerHook
+        pop eax
+        retn
+    }
 }
 
 void
@@ -96,4 +141,7 @@ RFG_3DSpriteInit(void)
     /** Fix lens flairs "un-squishing" themselves,
         which causes stretching with the above fix **/
     WriteNoOP(0x006C79EE, 0x006C79F8);
+
+    /** Fix hint text in 2P **/
+    HintTextDisplayerHookInfo = FuncHook(HintTextDisplayer_p, __HintTextDisplayerHook);
 }
