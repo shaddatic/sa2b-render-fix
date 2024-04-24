@@ -99,6 +99,16 @@ ObjectGlobalLightManagerHook(TASK* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
+#define ObjectGoalringDisp          FuncPtr(void, __cdecl, (TASK*), 0x006C6CD0)
+#define ObjectGoalringDispSort      FuncPtr(void, __cdecl, (TASK*), 0x006C6F10)
+
+static void
+ObjectGoalringDispSortNew(TASK* tp)
+{
+    ObjectGoalringDisp(tp);
+    ObjectGoalringDispSort(tp);
+}
+
 void
 RFM_CommonInit(void)
 {
@@ -242,10 +252,12 @@ RFM_CommonInit(void)
         CnkModelMaterialFlagOff(0x00B4EE0C, 0, NJD_FST_DB); // BACK text
 
         /** It won't draw correctly unless we set it to use disp_sort,
-            this flips things around so "it just works!" **/
+            I've just combined the disp and disp_sort functions **/
 
-        SwitchDisplayer(0x006C651E, DISP_SORT);
-        SwitchDisplayer(0x006C6525, DISP);
+        SwitchDisplayer(0x006C651E, DISP_SORT); // Disp
+        WriteNoOP(0x006C6525, 0x006C652C);      // tp->disp_sort = ObjectGoalringDispSort;
+
+        WritePointer(0x006C6521, ObjectGoalringDispSortNew);
     }
 
     if (RF_ConfigGetInt(CNF_COMMON_EJET))
