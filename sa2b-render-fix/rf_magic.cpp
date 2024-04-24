@@ -3,6 +3,9 @@
 /** Magic **/
 #include <sa2b/magic/magic.h>
 
+/** Render Fix **/
+#include <rf_core.h>
+
 /** Self **/
 #include <rf_magic.h>
 
