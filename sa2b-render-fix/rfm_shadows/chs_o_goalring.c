@@ -36,7 +36,12 @@ CHS_GoalRingInit()
 {
     WriteJump(0x006C7280, ObjectGoalringDisplayerMod);
 
-    WriteRetn(0x006C6F10);             // Kill disp_sort
+    /** disp_sort func also handles lost Chao sprites, so
+        should be left on. Has no impact on Goal Ring due
+        to code returning if disp_shad isn't NULL **/
+//  WriteRetn(0x006C6F10);             // Kill disp_sort
+
+    /** Ensure modifier displayer is awlays active **/
     WriteNoOP(0x006C653A, 0x006C653E); // Force disp_shad
     WriteNoOP(0x006C6543, 0x006C6545); // ^
     WriteNoOP(0x006C6546, 0x006C655D); // ^
