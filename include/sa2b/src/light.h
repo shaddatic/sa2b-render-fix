@@ -9,7 +9,7 @@
 *       SEGA - Sonic Team,
 *       Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_LIGHT_H_
 #define _SA2B_LIGHT_H_
@@ -25,25 +25,25 @@
 typedef struct light
 {
     NJS_VECTOR  vec;
-    float32_t     dif;
-    float32_t     amb;
-    float32_t     r;
-    float32_t     g;
-    float32_t     b;
+    float32_t   dif;
+    float32_t   amb;
+    float32_t   r;
+    float32_t   g;
+    float32_t   b;
 }
 LIGHT;
 
 typedef struct lightgc
 {
     NJS_VECTOR  vec;
-    float32_t     r;
-    float32_t     g;
-    float32_t     b;
-    float32_t     amb_r;
-    float32_t     amb_g;
-    float32_t     amb_b;
-    uint32_t      flag;
-    uint32_t      unused[2];
+    float32_t   r;
+    float32_t   g;
+    float32_t   b;
+    float32_t   amb_r;
+    float32_t   amb_g;
+    float32_t   amb_b;
+    uint32_t    flag;
+    uint32_t    unused[2];
 }
 LIGHT_GC;
 

@@ -7,9 +7,9 @@
 *   & this header will be removed.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_C_NULLPTR_H_
 #define _UTIL_C_NULLPTR_H_

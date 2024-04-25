@@ -4,10 +4,10 @@
 *   Contains defines, structs, functions, and enums related to the TASK system
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_TASK_H_
 #define _SA2B_TASK_H_

@@ -5,9 +5,9 @@
 *       Mod loader abstract type definitions.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_MLTYPE_H_
 #define _UTIL_MLTYPE_H_

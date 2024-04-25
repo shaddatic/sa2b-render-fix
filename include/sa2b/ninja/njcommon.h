@@ -4,10 +4,10 @@
 *   Contains structs, flags, and typedefs common to Ninja
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJCOMMON_H_
 #define _NJCOMMON_H_

@@ -4,10 +4,10 @@
 *   Contains functions, macros, structs, and typedefs for basic drawing
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJDRAW_H_
 #define _NJDRAW_H_
@@ -106,7 +106,7 @@ typedef struct {
 /************************/
 void    njDrawPolygon(NJS_POLYGON_VTX* polygon, Int count, Int trans);
 void    njDrawTexture(NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag);
-void    njDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
+void    njDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans); /* Ignores 'count' argument, always 4 */
 void    njDrawTextureHEx(NJS_TEXTUREH_VTX* polygon, Int count, Int trans);
 
 void    njDrawPolygon2DExStart(Int trans);

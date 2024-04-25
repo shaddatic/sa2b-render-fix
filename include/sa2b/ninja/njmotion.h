@@ -4,10 +4,10 @@
 *   Contains Ninja motion defines, structs, and functions
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJ_MOTION_H_
 #define _NJ_MOTION_H_

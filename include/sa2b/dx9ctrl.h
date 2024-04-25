@@ -5,9 +5,9 @@
 *       Functions to directly control the DirectX9 renderer.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_DX9CTRL_H_
 #define _SAMT_DX9CTRL_H_
@@ -16,7 +16,7 @@
 /*  D3D9 Device         */
 /************************/
 EXTERN_START
-/** Get device **/
+/** Get IDirect3DDevice* **/
 void*   DX9_GetDevice( void );
 
 /************************/
@@ -152,6 +152,14 @@ dx9_cull_mode;
 
 /** Set triangle culling mode **/
 bool    DX9_SetCulling( dx9_cull_mode mode );
+
+/************************/
+/*  Point Primitive     */
+/************************/
+/****** Point Primitive *************************************************/
+bool    DX9_SetPointSize(   float32_t size  );
+bool    DX9_SetPointSprite( bool      state );
+bool    DX9_SetPointScale(  bool      state );
 
 /************************/
 /*  Vertex Shader       */

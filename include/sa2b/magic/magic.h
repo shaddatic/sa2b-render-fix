@@ -7,12 +7,12 @@
 *   devices/consoles.
 *
 *   Contributors:
-*   -   Magic Developers
-*   -   kellnc
-*   -   MainMemory
-*   -   Shaddatic
+*     - Magic Developers
+*     - kellnc
+*     - MainMemory
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _MAGIC_H_
 #define _MAGIC_H_

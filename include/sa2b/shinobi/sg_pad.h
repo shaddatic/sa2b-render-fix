@@ -5,10 +5,10 @@
 *       System peripheral constants & structures.
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 
 #ifndef _SG_PAD_H_

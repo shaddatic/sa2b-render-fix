@@ -4,10 +4,10 @@
 *   Contains structs for the Ninja Camera
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJ_CAMERA_H_
 #define _NJ_CAMERA_H_

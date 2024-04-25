@@ -4,10 +4,10 @@
 *   Contains structs and functions related to object motion data
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_MOTION_H_
 #define _SA2B_MOTION_H_
@@ -81,8 +81,8 @@ void        MotionInit( MOTION_CTRL* pMtnCtrl, MOTION_TABLE* pTable );
 
 void        MotionControl( MOTION_CTRL* pMtnCtrl );
 
-bool32_t    IsMotionEnd(  MOTION_CTRL* pMtnCtrl, float32_t frame );
-bool32_t    IsMotionStop( MOTION_CTRL* pMtnCtrl, float32_t frame );
+bool32_t    IsMotionEnd(  MOTION_CTRL* pMtnCtrl );
+bool32_t    IsMotionStop( MOTION_CTRL* pMtnCtrl );
 
 void        SetMotionFrame( MOTION_CTRL* pMtnCtrl, float32_t frame );
 void        SetMotionSpd(   MOTION_CTRL* pMtnCtrl, float32_t spd   );

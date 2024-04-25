@@ -7,10 +7,10 @@
 *       Contains structs and data related to the camera.
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_CAMERA_H_
 #define _SA2B_CAMERA_H_

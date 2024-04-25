@@ -6,9 +6,9 @@
 *   functions; alongside useful allocation macros.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_MEMORY_H_
 #define _SAMT_MEMORY_H_

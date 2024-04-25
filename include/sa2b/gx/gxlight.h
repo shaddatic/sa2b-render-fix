@@ -5,9 +5,9 @@
 *       Defines internal GX light structures.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _GX_LIGHT_H_
 #define _GX_LIGHT_H_

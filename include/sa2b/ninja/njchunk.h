@@ -4,10 +4,10 @@
 *   Contains structs and functions for the Ninja Chunk model
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NINJA_CHUNK_H_
 #define _NINJA_CHUNK_H_

@@ -6,10 +6,10 @@
 *   and its HelperFunctions.
 *
 *   Contributors:
-*   -   SA2 Mod Loader/Manager Team
-*   -   Shaddatic
+*     - SA2 Mod Loader/Manager Team
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_MODLOADER_H_
 #define _SAMT_MODLOADER_H_

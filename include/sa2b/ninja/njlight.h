@@ -4,10 +4,10 @@
 *   Contains structs and defines for Ninja lights
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NINJA_LIGHT_H_
 #define _NINJA_LIGHT_H_

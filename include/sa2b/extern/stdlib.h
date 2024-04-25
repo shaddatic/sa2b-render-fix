@@ -6,9 +6,9 @@
 *   imports.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _EXTERN_STDLIB_H_
 #define _EXTERN_STDLIB_H_

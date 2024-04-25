@@ -5,9 +5,9 @@
 *       SAMT utility header containing useful development environment tools
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_DEVUTIL_H_
 #define _UTIL_DEVUTIL_H_

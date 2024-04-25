@@ -9,9 +9,9 @@
 *   with functions, only variables, unlike C++.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_C_CONSTEXPR_H_
 #define _UTIL_C_CONSTEXPR_H_

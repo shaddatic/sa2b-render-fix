@@ -8,9 +8,9 @@
 *   I just stuck to the 'C' prefix.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _C_MTX_H_
 #define _C_MTX_H_

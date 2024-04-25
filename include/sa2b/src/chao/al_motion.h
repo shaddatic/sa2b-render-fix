@@ -5,10 +5,10 @@
 *       Contains enums and functions related to Chao motion animations.
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_CHAO_MOTION_H_
 #define _SA2B_CHAO_MOTION_H_

@@ -4,10 +4,10 @@
 *   Ninja is the rendering API used for both adventure games
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJNJA_H_
 #define _NJNJA_H_

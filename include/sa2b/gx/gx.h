@@ -11,9 +11,9 @@
 *   found and named via testing and context.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _GX_H_
 #define _GX_H_
@@ -22,15 +22,11 @@
 /*  Includes            */
 /************************/
 #include <sa2b/gx/gxlight.h>
+#include <sa2b/gx/gxstate.h>
 
 /************************/
 /*  Constants           */
 /************************/
-/** Cull Modes **/
-#define GXD_CULLMODE_NONE       (0)
-#define GXD_CULLMODE_CW         (1)
-#define GXD_CULLMODE_CCW        (2)
-
 /** Primitive Types **/
 #define GXD_PRIM_TRIANGLE       (0x90)
 #define GXD_PRIM_TRISTRIP       (0x98)
@@ -65,12 +61,6 @@ void    GX_Startup(void);
 /** Populates buffers with Ginja model data **/
 void    GX_PushDisplayList(uint8_t* pPrim, uint32_t nbPrim);
 
-/** Sets back-face culling mode **/
-void    GX_SetCullMode(int32_t mode);
-
-/** Sets transparency blending mode **/
-void    GX_SetBlendMode(int32_t mdSrc, int32_t mdDst, bool32_t bAlphaBlend);
-
 /** Draws and clears buffer **/
 void    GX_End(void);
 
@@ -83,11 +73,7 @@ EXTERN_END
 /** Function ptr **/
 #   define GX_Startup_p                 FuncPtr(void, __cdecl   , (void)              , 0x004205E0)
 #   define GX_PushDisplayList_p         FuncPtr(void, __cdecl   , (uint8_t*, uint32_t), 0x0041C9B0)
-#   define GX_SetCullMode_p             FuncPtr(void, __fastcall, (int32_t)           , 0x00420440)
 #   define GX_End_p                     FuncPtr(void, __cdecl   , (void)              , 0x0041C070)
-
-/** User-Function ptr **/
-#   define GX_SetBlendMode_p            ((void*)0x00420480)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -4,9 +4,9 @@
 *   Contains functions for interacting with the user
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_USER_H_
 #define _SAMT_USER_H_

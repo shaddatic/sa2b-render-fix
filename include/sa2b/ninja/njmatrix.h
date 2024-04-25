@@ -4,10 +4,10 @@
 *   Contains Ninja matrix enums, values, and functions
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef    _NJ_MATRIX_H_
 #define    _NJ_MATRIX_H_
@@ -78,10 +78,6 @@ void    njTransposeMatrix(NJS_MATRIX* m);   // MIA
 void    njGetTranslation(NJS_MATRIX* m, NJS_POINT3* p);
 void    njUnitTransPortion(NJS_MATRIX* m);
 void    njUnitRotPortion(NJS_MATRIX* m);
-
-/*  Calculate the determinant of a specified matrix */
-Float    njDetMatrix(NJS_MATRIX* m);         // MIA
-
 
 /*
     Transform the notation of specified vector(s) or point(s) by a specified matrix.

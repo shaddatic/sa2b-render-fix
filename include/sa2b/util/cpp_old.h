@@ -5,11 +5,11 @@
 *       Defines old C++ standard elements.
 *
 *   Contributors:
-*   -   kellnc
-*   -   MainMemory
-*   -   Shaddatic
+*     - kellnc
+*     - MainMemory
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_CPP_UTF8_H_
 #define _UTIL_CPP_UTF8_H_

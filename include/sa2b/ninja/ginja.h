@@ -6,10 +6,10 @@
 *   modified version of Ninja used for the GameCube.
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _GINJA_H_
 #define _GINJA_H_

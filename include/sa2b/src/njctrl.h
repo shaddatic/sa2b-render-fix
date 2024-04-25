@@ -5,10 +5,10 @@
 *   Many of these were inlined away, so the toolkit has recreated all of them.
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_NJCTRL_H_
 #define _SA2B_NJCTRL_H_

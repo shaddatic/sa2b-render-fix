@@ -6,9 +6,9 @@
 *   toolkit & the user mod.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_INIT_H_
 #define _SAMT_INIT_H_

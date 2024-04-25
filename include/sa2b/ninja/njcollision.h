@@ -4,10 +4,10 @@
 *   Contains structs and functions for the Ninja built in collision system
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJ_COLLISION_H_
 #define _NJ_COLLISION_H_

@@ -5,9 +5,9 @@
 *       SAMT utility header containing a DLL export macro.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_DLLEXPORT_H_
 #define _UTIL_DLLEXPORT_H_

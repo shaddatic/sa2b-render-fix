@@ -6,9 +6,9 @@
 *   compatibility with legacy code-bases.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_MLMACRO_H_
 #define _UTIL_MLMACRO_H_

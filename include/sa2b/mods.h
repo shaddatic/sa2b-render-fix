@@ -4,9 +4,9 @@
 *   Contains functions for interacting with other mods
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_MODS_H_
 #define _SAMT_MODS_H_

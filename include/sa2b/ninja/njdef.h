@@ -4,10 +4,10 @@
 *   Contains macros and defines for interpreting Ninja Ascii files
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJDEF_H_
 #define _NJDEF_H_

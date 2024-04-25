@@ -5,9 +5,9 @@
 *       SAMT utility header defining the ANY_OBJECT type.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_ANYOBJ_H_
 #define _UTIL_ANYOBJ_H_

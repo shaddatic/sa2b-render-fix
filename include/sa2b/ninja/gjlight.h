@@ -5,10 +5,10 @@
 *       Ginja light control.
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _GJLIGHT_H_
 #define _GJLIGHT_H_

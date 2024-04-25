@@ -4,10 +4,10 @@
 *   Contains flags, macros, and functions for Ninja textures
 *
 *   Contributors:
-*   -   SEGA,
-*   -   Shaddatic
+*     - SEGA,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _NJTEXTURE_H_
 #define _NJTEXTURE_H_

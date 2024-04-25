@@ -5,17 +5,24 @@
 *   with files & folders using unicode (u) strings.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SAMT_FILE_H_
 #define _SAMT_FILE_H_
 
-#include <stdio.h>
+/************************/
+/*  Includes            */
+/************************/
+/****** Standard Library ************************************************************/
+#include <stdio.h>      /* FILE*                                                    */
 
+/************************/
+/*  Constants           */
+/************************/
 #ifndef PATH_MAX
-#define PATH_MAX    (260)
+#   define PATH_MAX    (260)
 #endif
 
 /************************/
@@ -36,31 +43,33 @@ ufmode;
 /************************/
 EXTERN_START
 /** Open file with UTF-8 path string **/
-FILE*   uFileOpen(const utf8* pPath, ufmode mode);
+FILE*   uFileOpen( const utf8* pPath, ufmode mode );
 /** Buffer entire file, opt. return size **/
-void*   uFileLoad(const utf8* pPath, size_t* pOptRetSize);
+void*   uFileLoad( const utf8* pPath, size_t* pOptRetSize );
 
 /** Get size of open file buffer **/
-size_t  uFileSize(FILE* f);
+size_t  uFileSize( FILE* f );
 
 /** File manipulation **/
-void    uFileRename(const utf8* pOrig, const utf8* pNew);
-bool    uFileCopy(const utf8* pOrig, const utf8* pNew);
-bool    uFileExists(const utf8* pPath);
+void    uFileRename( const utf8* pOrig, const utf8* pNew );
+bool    uFileCopy(   const utf8* pOrig, const utf8* pNew );
+
+/** File query **/
+bool    uFileExists( const utf8* pPath );
 
 /************************/
 /*  Folder Functions    */
 /************************/
 /** Creates folder at path **/
-bool    uFolderCreate(const utf8* pPath);
+bool    uFolderCreate( const utf8* pPath );
 /** Copies folder and contents **/
-void    uFolderCopy(const utf8* pOrig, const utf8* pNew);
+void    uFolderCopy( const utf8* pOrig, const utf8* pNew );
 
 /************************/
 /*  Path Functions      */
 /************************/
 /** Back-up path to parent folder by inserting '\0' **/
-void    uPathToParent(utf8* pPath);
+void    uPathToParent( utf8* pPath );
 
 EXTERN_END
 

@@ -5,9 +5,9 @@
 *       SAMT utility header containing inline control macros.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _UTIL_INLINE_H_
 #define _UTIL_INLINE_H_

@@ -5,10 +5,10 @@
 *       Definition for the CCL_INFO struct type.
 *
 *   Contributors:
-*   -   SEGA - Sonic Team,
-*   -   Shaddatic
+*     - SEGA - Sonic Team,
+*     - Shaddatic
 *
-*   Only for use with Sonic Adventure 2 for PC.
+*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef _SA2B_CCOLLI_INFO_H_
 #define _SA2B_CCOLLI_INFO_H_
