@@ -2,6 +2,11 @@
 #include <sa2b/memutil.h>
 #include <sa2b/funchook.h>
 
+/** GX **/
+#define SAMT_INCL_FUNCPTRS
+#include <sa2b/gx/gx.h>
+#undef  SAMT_INCL_FUNCPTRS
+
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
@@ -14,6 +19,7 @@
 #include <rf_util.h>
 #include <rf_objpak.h>
 #include <rf_renderstate.h>
+#include <rf_magic.h>
 
 /** Self **/
 #include <rfm_global.h>
@@ -30,6 +36,25 @@ static int __cdecl
 njSearchTexMemList_(void)
 {
     return -1;
+}
+
+static void __cdecl
+RF_SetPointSize(uint8_t size)
+{
+    RF_MagicSetPointSize(((float)size) * GetDisplayRatioY());
+}
+
+__declspec(naked)
+static void
+__SetPointSize(void)
+{
+    __asm
+    {
+        push eax
+        call RF_SetPointSize
+        pop eax
+        retn
+    }
 }
 
 /** Extern functions **/
@@ -118,12 +143,11 @@ RFM_GlobalInit(void)
 
         WriteNoOP(0x00492506, 0x0049250C); // ptcl * 0.5
 
-        /** Now just the polygon-particles **/
+        /** PtclPolygon **/
 
-        static double ptclpolyscl;
-
-        ptclpolyscl = (8.0f * GetDisplayRatioY());
+        static const double ptclpolyscl = 8.0f;       // Set size to 8px instead of 12px
         ReplaceFloat(0x007801A6, &ptclpolyscl);
+        WriteJump(GX_SetPointSize_p, __SetPointSize);
     }
 
     const int mdl_tint = RF_ConfigGetInt(CNF_GLOBAL_MDLTINT);
