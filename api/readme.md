@@ -53,9 +53,11 @@ The Core API is constant, so you may save it to a global variable for later use.
 ## Using the API
 Once you have the Core API pointer, you can access the other APIs through it. It's important you check the availability of the APIs before using them, as some are only available at certain times. Here's a rundown;
 
-In `RF_EarlyInit`: Control, Config, Render State, Shader
-In `RF_Init`     : Config, Feature Check, Draw, Render State, Shader
-Otherwise        : Feature Check, Draw, Render State, Shader
+```
+In RF_EarlyInit : Control, Config, Render State, Shader
+In RF_Init      : Config, Feature Check, Draw, Render State, Shader
+Otherwise       : Feature Check, Draw, Render State, Shader
+```
 
 `Otherwise` refers to any time after Render Fix has loaded that's outside the user-exported functions, this includes your mod's `Init` function. The API pointers are also set to `NULL` when they're not available, so a temporary run-time check can be used to ensure availability. Eg:
 
