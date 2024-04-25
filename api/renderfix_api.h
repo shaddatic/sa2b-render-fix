@@ -375,11 +375,6 @@ RFAPI_SHADER;
 *   accessed through one of the RF mod function exports as a parameter, or directly
 *   by searching Render Fix for the 'rfapi_core' dllexport. If it can't be found,
 *   the loaded RF version is before v1.3.
-*
-*   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : Yes
-*     - Post Init       : Yes
 */
 typedef struct
 {
