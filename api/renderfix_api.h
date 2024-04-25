@@ -2,7 +2,11 @@
 *   SA2 Render Fix - '/renderfix_api.h'
 *
 *   Description:
-*       External header for interfacing with Render Fix's mod API.
+*       External header for interfacing with Render Fix's mod API. For instructions
+*   on usage, read the 'readme.md' file.
+        It's important to note that all API availabilites assume Render Fix is
+    loaded first; if it is not then availability will rely on the user's mod layout
+    & will essentially be random outside the user-exported functions.
 *
 *   Contributors:
 *   -   Shaddatic
