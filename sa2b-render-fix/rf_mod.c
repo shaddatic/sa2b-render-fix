@@ -600,11 +600,13 @@ GjDrawStencilCheck(int a1, char a2)
 }
 
 /** Extern **/
+#define SetIfGreater(_var, _value)  if (_var < _value) _var = _value
+
 void
 RFCTRL_SetModBufferSize(size_t nbTri, size_t nbTriList)
 {
-    ModBufferInitTriNum = nbTri;
-    ModBufferInitTriListNum = nbTriList;
+    SetIfGreater(ModBufferInitTriNum    , nbTri);
+    SetIfGreater(ModBufferInitTriListNum, nbTriList);
 }
 
 void
