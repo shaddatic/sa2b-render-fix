@@ -88,7 +88,7 @@ RFRS_ALPHAREF;
 *   Availablility:
 *     - In RF_EarlyInit : Yes
 *     - In RF_Init      : No
-*     - Post Init       : No
+*     - Otherwise       : No
 */
 typedef struct
 {
@@ -128,7 +128,7 @@ RFAPI_CONTROL;
 *   Availablility:
 *     - In RF_EarlyInit : Yes
 *     - In RF_Init      : Yes
-*     - Post Init       : No
+*     - Otherwise       : No
 */
 typedef struct
 {
@@ -164,7 +164,7 @@ RFAPI_CONFIG;
 *   Availablility:
 *     - In RF_EarlyInit : No
 *     - In RF_Init      : Yes
-*     - Post Init       : Yes
+*     - Otherwise       : Yes
 */
 typedef struct
 {
@@ -200,7 +200,7 @@ RFAPI_FEATURE;
 *   Availablility:
 *     - In RF_EarlyInit : No
 *     - In RF_Init      : Yes
-*     - Post Init       : Yes
+*     - Otherwise       : Yes
 */
 typedef struct
 {
@@ -284,7 +284,7 @@ RFAPI_DRAW;
 *   Availablility:
 *     - In RF_EarlyInit : Yes
 *     - In RF_Init      : Yes
-*     - Post Init       : Yes
+*     - Otherwise       : Yes
 */
 typedef struct
 {
@@ -334,7 +334,7 @@ RFAPI_RENDERSTATE;
 *   Availablility:
 *     - In RF_EarlyInit : Yes
 *     - In RF_Init      : Yes
-*     - Post Init       : Yes
+*     - Otherwise       : Yes
 */
 typedef struct
 {
