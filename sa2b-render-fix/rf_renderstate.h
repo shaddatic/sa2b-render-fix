@@ -13,7 +13,7 @@
 /************************/
 /*  Enums               */
 /************************/
-#ifndef _RF_EXTERN_API_
+#ifndef _RF_EXTERN_API_H_
 typedef enum
 {
     RFRS_CULLMD_END = -1,        /* End and reset to default                        */
