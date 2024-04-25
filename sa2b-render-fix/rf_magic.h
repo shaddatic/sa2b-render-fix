@@ -41,6 +41,9 @@ EXTERN_START
 void    RF_MagicSetAlphaRef(uint32_t value);
 void    RF_MagicSetAlphaTestFunc(RFE_MAGIC_CMP func);
 
+/** Set size of point primitives in pixels **/
+void    RF_MagicSetPointSize( float size );
+
 /** Set shader constant using a vector4 **/
 void    RF_MagicSetShaderConstantVec4( RFE_MAGIC_SHADER type, int32_t reg, float x, float y, float z, float w );
 

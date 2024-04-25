@@ -28,6 +28,13 @@ RF_MagicSetAlphaTestFunc(RFE_MAGIC_CMP func)
 
 EXTERN
 void
+RF_MagicSetPointSize(float size)
+{
+    g_pRenderDevice->vft->SetRenderState(g_pRenderDevice, RS_POINTSIZE, (uint32_t)(size * 0.300000011920929f));
+}
+
+EXTERN
+void
 RF_MagicSetShaderConstantVec4(RFE_MAGIC_SHADER type, int32_t reg, float x, float y, float z, float w)
 {
     const Magic::MATH::Vector4<float> vec4 = {
