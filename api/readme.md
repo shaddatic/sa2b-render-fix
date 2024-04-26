@@ -97,7 +97,7 @@ typedef struct // RFAPI_CORE example
     RF_VERSION rf_version;                      /* current Render Fix version       */
 ...
     /****** Version >= 1 ************************************************************/
-    const RFAPI_EXAMPLE*     pApiExample;      /* Example API (2)                  */
+    const RFAPI_EXAMPLE*     pApiExample;      /* Example API                       */
 ...
 ```
 This tells us that the Example API requires version 1 or above. In your code, a check would look like:
@@ -118,7 +118,8 @@ Once the API is confirmed available, you then need to check the function you wis
 ...
     const RFAPI_EXAMPLE* rf_example = rf_api->pApiExample;
 
-    // Assume the function needs version 1 or higher
+    /** Assume the function needs version 1 or higher **/
+
     if (rf_example->version >= 1) // Check RFAPI_EXAMPLE version
     {
         rf_example->func();
@@ -131,11 +132,9 @@ After this, you're free to use API as needed. Additional info and comments about
 ## Complete Examples
 User-exported function method:
 ```cpp
-static const RFAPI_CORE* RenderFixApiPointer; // Stored for later use
-
 extern "C" __declspec(dllexport)
 void
-RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions* pHelperFunctions)
+RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
 {
     /** Assume 'Example' API is version 1 of 'Core' **/
 
@@ -151,8 +150,6 @@ RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions* pHe
             rf_exam->func2(); // Needs version >= 2
         }
     }
-
-    RenderFixApiPointer = pApiCore;
 }
 ```
 
