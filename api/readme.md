@@ -69,7 +69,7 @@ In order to call any API functions, you will first have to get the `RFAPI_CORE` 
 ...
 ```
 
-When directly getting the API, it's important you check if the API exists as Render Fix versions before 1.3 did not include any API. If the user happens to be using one of these earlier versions, you much check for it and handle it. The user-exported functions don't need this check, as earlier versions of Render Fix simply won't call those functions.
+When directly getting the API, it's important you check if the API exists as Render Fix versions before 1.3 did not include any API. If the user happens to be using one of these earlier versions, you must check for it and handle it. The user-exported functions don't need this check, as earlier versions of Render Fix simply won't call those functions.
 
 The Core API is also constant, so you may save it to a global variable for later use.
 
@@ -84,7 +84,7 @@ Otherwise       : Feature Check, Draw, Render State, Shader
 
 `Otherwise` refers to any time after Render Fix has loaded that's outside the user-exported functions, this includes your mod's `Init` function. The API pointers are also set to `NULL` when they're not available, so a temporary run-time check can be used to ensure availability. Checks like this shouldn't be in production code, however, so should only be used as a test and deleted later.
 
-Additionally, some APIs may only be available in later versions of Render Fix than the one the user has loaded. In a perfect world, everyone would be running the latest version of everything; but that isn't the case and it needs to be accounted for. To check for this, use the `version` member in `RFAPI_CORE` to check if the API you whish to use is available in the loaded version of Render Fix. For example:
+Additionally, some APIs may only be available in later versions of Render Fix than the one the user has loaded. In a perfect world, everyone would be running the latest version of everything; but that isn't the case and it needs to be accounted for. To check for this, use the `version` member in `RFAPI_CORE` to check if the API you wish to use is available in the loaded version of Render Fix. For example:
 
 In the header, it looks like:
 ```cpp
