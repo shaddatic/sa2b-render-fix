@@ -159,14 +159,14 @@ Draw43Bars()
             .num = 4
         };
 
-        njDrawPolygon2D(&poly, 4, 1.0f, NJD_FILL);
+        njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL);
 
         points[0].x = 640.0f;
         points[1].x = 640.0f;
         points[2].x = 640.0f + screenratio;
         points[3].x = 640.0f + screenratio;
 
-        njDrawPolygon2D(&poly, 4, 1.0f, NJD_FILL);
+        njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL);
     }
 }
 

@@ -47,7 +47,7 @@ njDrawBackColor2(void)
 
     NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-    njDrawPolygon2D(&poly, 4, 16000000.0f, NJD_FILL);
+    njDrawPolygon2D(&poly, 4, -16000000.0f, NJD_FILL);
 }
 
 const void* const RendererClear_p = (void*)0x00867B20;
