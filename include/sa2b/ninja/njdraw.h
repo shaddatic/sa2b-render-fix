@@ -163,16 +163,18 @@ void    njDrawModifier2DExSetData(NJS_POINT2* vtx, Float ooz, Sint32 Count, Sint
 /************************/
 /*  Draw 2D             */
 /************************/
-void    njDrawPoint2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
-void    njDrawLine2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
-void    njDrawTriangle2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
-void    njDrawPolygon2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr); /* Ignores 'n' argument, always uses 4 */
-void    njDrawCircle2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
-
-/************************/
-/*  Scroll Funcion      */
-/************************/
-void    njDrawScroll(NJS_SCROLL* scl);
+/*
+*   Parameters:
+*     - p       : Pointer to a POINT2COL list
+*     - n       : Number of entries in POINT2COL list
+*     - pri     : Draw priority, between -1.f & -65535.f
+*     - attr    : Draw attributes
+*/
+void    njDrawPoint2D(    NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawLine2D(     NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawTriangle2D( NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawPolygon2D(  NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr ); /* Ignores 'n' argument, always uses 4 */
+void    njDrawCircle2D(   NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
 /************************/
 /*  Sprite              */
