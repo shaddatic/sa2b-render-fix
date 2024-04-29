@@ -86,7 +86,7 @@ EndiswapEventTexAnim(EventTexAnim* p)
 
 __declspec(naked)
 static void
-__EndiswapEventTexAnim()
+__EndiswapEventTexAnim(void)
 {
     __asm
     {
@@ -124,7 +124,7 @@ EventDrawReflectionLists(int idxScene)
 }
 
 static void
-Draw43Bars()
+Draw43Bars(void)
 {
     const float disp_ratio = GetDisplayRatio();
 
