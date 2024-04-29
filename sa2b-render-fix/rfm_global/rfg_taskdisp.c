@@ -20,10 +20,6 @@
 #include <rf_mod.h>
 #include <rf_feature.h>
 
-#define GJD_DRAW_SOLID          (0x01)
-#define GJD_DRAW_TRANS          (0x02)
-
-#define _gj_render_mode_        DataRef(uint32_t, 0x025EFEE0)
 #define byte_0174AFFD           DataRef(int8_t  , 0x0174AFFD)
 #define SomeCountMax            DataRef(size_t  , 0x01A5A3D0)
 
@@ -34,12 +30,6 @@
 #define pExecute                DataRef(task_exec, 0x01A5A274)
 
 #define SortDispSortList        FuncPtr(void, __cdecl, (TASK*, float), 0x00492F60)
-
-void
-gjSetRenderMode(Sint32 mode)
-{
-    _gj_render_mode_ = mode;
-}
 
 static void
 TaskDisplayDisplayer(TASK* btpl)
