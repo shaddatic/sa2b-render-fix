@@ -26,9 +26,13 @@ typedef struct
     char gap2[20];
     NJS_CNK_OBJECT* pObject;
     NJS_CNK_OBJECT* pFarObject;
-    char gap3[12];
+    NJS_TEXLIST*    pTexlist;
+    int unk0;
+    bool32_t is_player;
     int character;
-    char gap4[28];
+    int player_num;
+    void* ptr1;
+    char gap4[20];
     Angle angSlide;
     char gap5[132];
     Angle3 ang3;
