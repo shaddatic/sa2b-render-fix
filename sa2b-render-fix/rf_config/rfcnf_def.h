@@ -194,6 +194,7 @@ CNFE_SHADOW_OPACITY;
 /** City Escape section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */
 #define CNF_CART_SEAFIX             CNFO_INT(   CNFS_CART           , "seafix"              , CNFE_BOOL_ENABLED                     )   /* Sea Fix */
+#define CNF_CART_CARTRAISE          CNFO_INT(   CNFS_CART           , "cart_raise"          , CNFE_BOOL_ENABLED                     )   /* DC Cart Height */
 
 /** Event section **/
 #define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "disp_replace"        , CNFE_BOOL_DISABLED                    )   /* Enhanced Displayer */

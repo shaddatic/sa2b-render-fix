@@ -157,6 +157,9 @@
 			<Property name="seafix" display="Sea Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
+			<Property name="cart_raise" display="DC Cart Height" type="eBOOL" defaultvalue="1">
+				<HelpText>The cart models were lower on the GameCube version. This restores their Dreamcast height, which fixes a few visual bugs.</HelpText>
+			</Property>
 		</Group>
 		<Group name="event" display="Events">
 			<Property name="draw_mod" display="Draw Shadow Modifiers" type="eBOOL" defaultvalue="1">

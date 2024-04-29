@@ -33,4 +33,9 @@ RFM_CartInit(void)
     {
         WriteNoOP(0x006220CE, 0x006220E5);
     }
+
+    if (RF_ConfigGetInt(CNF_CART_CARTRAISE))
+    {
+        WriteNoOP(0x0061CB07, 0x0061CB0C);
+    }
 }
