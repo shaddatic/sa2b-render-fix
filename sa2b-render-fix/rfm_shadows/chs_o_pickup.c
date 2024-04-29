@@ -53,7 +53,7 @@ __ObjectPickUpInitDisplayers(TASK* tp)
 }
 
 void
-CHS_PickUpInit()
+CHS_PickUpInit(void)
 {
     WriteNoOP(0x006BC9E7, 0x006BC9EE); // NOP mov dword ptr
     WriteCall(0x006BC9E7, __ObjectPickUpInitDisplayers);

@@ -46,7 +46,7 @@ ObjectTankHook(TASK* tp)
 }
 
 void
-CHS_TankInit()
+CHS_TankInit(void)
 {
     HookInfoObjectTank = FuncHook(ObjectTank, ObjectTankHook);
 

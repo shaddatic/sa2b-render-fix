@@ -767,7 +767,7 @@ ALO_BoxDisplayerMod(TASK* tp)
 
 __declspec(naked)
 static void
-ALO_BoxCreateMovHook()
+ALO_BoxCreateMovHook(void)
 {
     __asm
     {
@@ -843,7 +843,7 @@ ALO_RadicaseDisplayerMod(TASK* tp)
 
 __declspec(naked)
 static void
-ALO_RadicaseCreateMovHook()
+ALO_RadicaseCreateMovHook(void)
 {
     __asm
     {
@@ -883,7 +883,7 @@ ALO_TVDisplayerMod(TASK* tp)
 
 __declspec(naked)
 static void
-ALO_TVCreateMovHook()
+ALO_TVCreateMovHook(void)
 {
     __asm
     {
@@ -894,7 +894,7 @@ ALO_TVCreateMovHook()
 }
 
 void
-CHS_ChaoWorldInit()
+CHS_ChaoWorldInit(void)
 {
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex
 

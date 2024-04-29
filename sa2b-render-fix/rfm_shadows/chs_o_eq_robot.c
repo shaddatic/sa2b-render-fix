@@ -80,7 +80,7 @@ ObjectRobotInitHook(TASK* tp)
 }
 
 void
-CHS_EggQuatersRobotInit()
+CHS_EggQuatersRobotInit(void)
 {
     KillCall(0x00691614); // og ObjectRobotModifyVList
     WriteCall(0x00690DB4, ObjectRobotInitHook);

@@ -35,7 +35,7 @@ ObjectMessengerDisplayerMod(TASK* tp)
 }
 
 void
-CHS_MessengerInit()
+CHS_MessengerInit(void)
 {
     WriteJump(0x006C0CE0, ObjectMessengerDisplayerMod);
 

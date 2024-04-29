@@ -214,7 +214,7 @@ ObjectMSCarCrashDisplayerMod(TASK* tp)
 }
 
 void
-CHS_CarInit()
+CHS_CarInit(void)
 {
     /** City Escape **/
     ObjectCECarHookInfo = FuncHook(ObjectCECar, ObjectCECarHook);

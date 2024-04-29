@@ -50,7 +50,7 @@ ObjectIronBall2DisplayerMod(TASK* tp)
 }
 
 void
-CHS_IronBall2Init()
+CHS_IronBall2Init(void)
 {
     WriteNoOP(0x006D3C7C, 0x006D3C82);
     SwitchDisplayer(0x006D3C82, DISP_SHAD);

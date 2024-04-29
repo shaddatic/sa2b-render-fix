@@ -84,7 +84,7 @@ MinimalCreateHook(float32_t posX, float32_t posY, float32_t posZ, int num, uint3
 }
 
 void
-CHS_MinimalInit()
+CHS_MinimalInit(void)
 {
     HookInfoObjectMinimal = FuncHook(ObjectMinimal, ObjectMinimalHook);
     HookInfoMinimalCreate = FuncHook(MinimalCreate, MinimalCreateHook);

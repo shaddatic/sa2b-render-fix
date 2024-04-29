@@ -47,7 +47,7 @@ ChaosDriveDisplayerMod(TASK* tp)
 
 __declspec(naked)
 static void
-__ChaosDriveMovHook()
+__ChaosDriveMovHook(void)
 {
     __asm
     {
@@ -58,7 +58,7 @@ __ChaosDriveMovHook()
 }
 
 void
-CHS_ChaosDriveInit()
+CHS_ChaosDriveInit(void)
 {
     WriteCallToMovDwordPtr(0x0048F87A, __ChaosDriveMovHook);
 }

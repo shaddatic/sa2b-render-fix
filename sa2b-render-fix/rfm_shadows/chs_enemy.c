@@ -61,7 +61,7 @@ EnemyAIInitHook(TASK* tp, TASKWK* twp)
 static const void* const ObjectBigTheCatInit_p = (void*)0x004F5EF0;
 __declspec(naked)
 static void
-__ObjectBigTheCatInitHook()
+__ObjectBigTheCatInitHook(void)
 {
     __asm
     {
@@ -102,7 +102,7 @@ EnemyGoldModInit(TASK* tp)
 static const void* const EnemyGoldInit_p = (void*)0x00505D40;
 __declspec(naked)
 static void
-__EnemyGoldInitHook()
+__EnemyGoldInitHook(void)
 {
     __asm
     {
@@ -133,7 +133,7 @@ EnemyNamieModInit(TASK* tp)
 static const void* const EnemyNamieInit_p = (void*)0x004F7F40;
 __declspec(naked)
 static void
-__EnemyNamieInitHook()
+__EnemyNamieInitHook(void)
 {
     __asm
     {
@@ -164,7 +164,7 @@ EnemyNamieRocketModInit(TASK* tp)
 static const void* const EnemyNamieRocketInit_p = (void*)0x004F7DB0;
 __declspec(naked)
 static void
-__EnemyNamieRocketInitHook()
+__EnemyNamieRocketInitHook(void)
 {
     __asm
     {
@@ -220,7 +220,7 @@ EnemyChaosPathModInit(TASK* tp)
 static const void* const EnemyChaosPathInit_p = (void*)0x0050B680;
 __declspec(naked)
 static void
-__EnemyChaosPathInitHook()
+__EnemyChaosPathInitHook(void)
 {
     __asm
     {
@@ -246,7 +246,7 @@ EnemyE1000InitHook(TASK* tp, TASKWK* twp)
 static const void* const EnemySaruInit_p = (void*)0x0050D8A0;
 __declspec(naked)
 static void
-__EnemySaruInitHook()
+__EnemySaruInitHook(void)
 {
     __asm
     {
@@ -272,7 +272,7 @@ EnemyGhoraInitHook(TASK* tp)
 static const void* const EnemySpikeOrbiterInit_p = (void*)0x0050F560;
 __declspec(naked)
 static void
-__EnemySpikeOrbiterInitHook()
+__EnemySpikeOrbiterInitHook(void)
 {
     __asm
     {
@@ -287,7 +287,7 @@ __EnemySpikeOrbiterInitHook()
 static const void* const EnemyFireballOrbiterInit_p = (void*)0x0050FBC0;
 __declspec(naked)
 static void
-__EnemyFireballOrbiterInitHook()
+__EnemyFireballOrbiterInitHook(void)
 {
     __asm
     {
@@ -318,7 +318,7 @@ EnemyAkahigeRocketModInit(TASK* tp)
 static const void* const EnemyAkahigeRocketInit_p = (void*)0x007A0020;
 __declspec(naked)
 static void
-__EnemyAkahigeRocketInitHook()
+__EnemyAkahigeRocketInitHook(void)
 {
     __asm
     {
@@ -350,7 +350,7 @@ EnemyAkahigeModInit(TASK* tp)
 static const void* const EnemyAkahigeInit_p = (void*)0x007A01B0;
 __declspec(naked)
 static void
-__EnemyAkahigeInitHook()
+__EnemyAkahigeInitHook(void)
 {
     __asm
     {
@@ -382,7 +382,7 @@ EnemyBataBeeModInit(TASK* tp)
 static const void* const EnemyBatabataInit_p = (void*)0x007A0EE0;
 __declspec(naked)
 static void
-__EnemyBatabataInitHook()
+__EnemyBatabataInitHook(void)
 {
     __asm
     {
@@ -397,7 +397,7 @@ __EnemyBatabataInitHook()
 static const void* const EnemyBeetonInit_p = (void*)0x007A1710;
 __declspec(naked)
 static void
-__EnemyBeetonInitHook()
+__EnemyBeetonInitHook(void)
 {
     __asm
     {
@@ -428,7 +428,7 @@ EnemyKumiModInit(TASK* tp)
 static const void* const EnemyKumiInit_p = (void*)0x004FFCF0;
 __declspec(naked)
 static void
-__EnemyKumiInitHook()
+__EnemyKumiInitHook(void)
 {
     __asm
     {
@@ -526,7 +526,7 @@ EnemyShoukoModInit(TASK* tp)
 static const void* const EnemyShoukoInit_p = (void*)0x004F9150;
 __declspec(naked)
 static void
-__EnemyShoukoInitHook()
+__EnemyShoukoInitHook(void)
 {
     __asm
     {
@@ -541,7 +541,7 @@ __EnemyShoukoInitHook()
 }
 
 void
-CHS_EnemyInit()
+CHS_EnemyInit(void)
 {
     WriteCall(0x004FF9FC, EnemyAIInitHook);                 // AI
     WriteCall(0x004F623C, __ObjectBigTheCatInitHook);       // BigTheCat

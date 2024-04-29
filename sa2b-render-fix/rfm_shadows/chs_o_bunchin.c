@@ -57,7 +57,7 @@ ObjectBunchinDisplayerMod(TASK* tp)
 }
 
 void
-CHS_BunchinInit()
+CHS_BunchinInit(void)
 {
     WriteJump(0x006DCBE0, ObjectBunchinDisplayerMod);
 

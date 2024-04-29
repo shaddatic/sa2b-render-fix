@@ -1377,13 +1377,13 @@ EggWalkerDisplayerShadowHook(TASK* tp)
 }
 
 void* __cdecl
-CreateNoStencilTexture()
+CreateNoStencilTexture(void)
 {
     return NULL;
 }
 
 void
-CHS_PlayerInit()
+CHS_PlayerInit(void)
 {
     /** Sonic/Shadow/Amy/Metal **/
     object_sonic_head_mod      = RF_ChunkLoadObjectFile("sonic_head_mod");

@@ -43,7 +43,7 @@ ObjectSearchBoxHook(TASK* tp)
 }
 
 void
-CHS_SearchBoxInit()
+CHS_SearchBoxInit(void)
 {
     WriteRetn(0x006E7E90);
     HookInfoObjectSearchBox = FuncHook(ObjectSearchBox, ObjectSearchBoxHook);

@@ -130,10 +130,10 @@ courseDisplayDisplayerHook(TASK* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-void* CreateNoStencilTexture();
+void* CreateNoStencilTexture(void);
 
 void
-CHS_CartInit()
+CHS_CartInit(void)
 {
     WriteJump(0x0061CB80, cartDisplayerMod);
     WriteCall(0x0061C60F, CreateNoStencilTexture);

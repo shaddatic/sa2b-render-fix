@@ -85,7 +85,7 @@ ObjectBlockHook(TASK* tp)
 }
 
 void
-CHS_CCBlockInit()
+CHS_CCBlockInit(void)
 {
     HookInfoObjectBlock2 = FuncHook(ObjectBlock2, ObjectBlock2Hook);
     HookInfoObjectBlock  = FuncHook(ObjectBlock , ObjectBlockHook);

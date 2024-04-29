@@ -539,7 +539,7 @@ njCnkDrawMotionHook(NJS_CNK_OBJECT* object, NJS_MOTION* motion, float frame)
 
 __declspec(naked)
 static void 
-__njCnkDrawMotionHook()
+__njCnkDrawMotionHook(void)
 {
     __asm
     {
@@ -557,7 +557,7 @@ __njCnkDrawMotionHook()
 }
 
 static config*
-GetDisableUpgradeModelsConfig()
+GetDisableUpgradeModelsConfig(void)
 {
     mod_handle* shadow = ModGetHandleDll("SA2DisableUpgradeModels");
 
@@ -568,7 +568,7 @@ GetDisableUpgradeModelsConfig()
 }
 
 void
-EnhancedPlayerShadowsInit()
+EnhancedPlayerShadowsInit(void)
 {
     WriteCall(0x0071EA0F, __njCnkDrawMotionHook); // Sonic/Shadow
 
@@ -590,7 +590,7 @@ EnhancedPlayerShadowsInit()
 }
 
 void
-EnhancedPlayerShadowsEquipmentInit()
+EnhancedPlayerShadowsEquipmentInit(void)
 {
     config* pupgradeconf = GetDisableUpgradeModelsConfig();
 

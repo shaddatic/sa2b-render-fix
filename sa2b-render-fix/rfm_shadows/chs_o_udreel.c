@@ -60,7 +60,7 @@ ObjectGolemUdreelHook(TASK* tp)
 }
 
 void
-CHS_UdreelInit()
+CHS_UdreelInit(void)
 {
     WriteJump(0x006E6320, ObjectUdreelDisplayerMod);
     SwitchDisplayer(0x006E56A2, DISP_SHAD);

@@ -213,7 +213,7 @@ ObjectBoardMHHook(TASK* tp)
 }
 
 void
-CHS_BoardInit()
+CHS_BoardInit(void)
 {
     KillCall(0x005EBC9B);
     WriteJump(0x005EBFC0, ObjectBoardCEDisplayerMod);

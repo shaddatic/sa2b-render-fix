@@ -329,7 +329,7 @@ GRoboMissileDispMod(TASK* tp)
 
 __declspec(naked)
 static void
-__GRoboMissileMovHook()
+__GRoboMissileMovHook(void)
 {
     __asm
     {
@@ -377,7 +377,7 @@ BossLastEnergyDispMod(TASK* tp)
 
 __declspec(naked)
 static void
-__BossLastEnergyMovHook()
+__BossLastEnergyMovHook(void)
 {
     __asm
     {
@@ -387,10 +387,10 @@ __BossLastEnergyMovHook()
     }
 }
 
-void* CreateNoStencilTexture();
+void* CreateNoStencilTexture(void);
 
 void
-CHS_BossInit()
+CHS_BossInit(void)
 {
     /** King Boom Boo **/
     WriteJump(0x006133C0, BossBogyDisplayerMod);

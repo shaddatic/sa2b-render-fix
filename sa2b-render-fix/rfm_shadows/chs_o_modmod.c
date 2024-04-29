@@ -31,7 +31,7 @@ ObjectModModDisplayer(TASK* tp)
 }
 
 void
-CHS_ModModInit()
+CHS_ModModInit(void)
 {
     SwitchDisplayer(0x005F55AA, DISP_SHAD);
     WriteJump(0x006C7B20, ObjectModModDisplayer);

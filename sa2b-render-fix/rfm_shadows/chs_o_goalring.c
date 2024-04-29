@@ -32,7 +32,7 @@ ObjectGoalringDisplayerMod(TASK* tp)
 }
 
 void
-CHS_GoalRingInit()
+CHS_GoalRingInit(void)
 {
     WriteJump(0x006C7280, ObjectGoalringDisplayerMod);
 

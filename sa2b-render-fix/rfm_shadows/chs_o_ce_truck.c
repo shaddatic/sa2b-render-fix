@@ -155,7 +155,7 @@ ObjectTruckDisplayerMod(TASK* tp)
 }
 
 void
-CHS_TruckInit()
+CHS_TruckInit(void)
 {
     WriteJump(0x005E85B0, ObjectTruckDisplayerMod);
     KillCall(0x005E4CE7); // Kill SetStencilInfo

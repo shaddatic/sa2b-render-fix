@@ -43,7 +43,7 @@ ObjectMDContainerBoxHook(TASK* tp)
 }
 
 void
-CHS_MDContainerBoxInit()
+CHS_MDContainerBoxInit(void)
 {
     HookInfoObjectMDContainerBox = FuncHook(ObjectMDContainerBox, ObjectMDContainerBoxHook);
 

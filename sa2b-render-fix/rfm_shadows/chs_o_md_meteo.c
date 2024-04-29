@@ -55,7 +55,7 @@ ObjectMeteoBigDisplayerMod(TASK* tp)
 }
 
 void
-CHS_MeteoBigInit()
+CHS_MeteoBigInit(void)
 {
     HookInfoObjectMDFireBall = FuncHook(ObjectMDFireBall, ObjectMDFireBallHook);
 
