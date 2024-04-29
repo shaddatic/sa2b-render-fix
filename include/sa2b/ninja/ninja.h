@@ -37,6 +37,8 @@ EXTERN_START
 #include <sa2b/ninja/njbasic.h>
 
 #include <sa2b/ninja/ginja.h>
+#include <sa2b/ninja/gjmodel.h>
+#include <sa2b/ninja/gjdraw.h>
 #include <sa2b/ninja/gjlight.h>
 
 EXTERN_END

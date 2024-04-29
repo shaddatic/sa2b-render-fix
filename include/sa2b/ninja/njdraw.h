@@ -155,11 +155,6 @@ void    njDrawLine3DExSetList(NJS_POINT3* vtx, Sint32 Count);
 void    njDrawLine2DExSetStrip(NJS_POINT2* vtx, Float ooz, Sint32 Count);
 void    njDrawLine2DExSetList(NJS_POINT2* vtx, Float ooz, Sint32 Count);
 
-void    njDrawModifierExStart(Sint32 Trans);
-void    njDrawModifierExEnd(void);
-void    njDrawModifier3DExSetData(NJS_POINT3* vtx, Sint32 Count, Sint32 Last);
-void    njDrawModifier2DExSetData(NJS_POINT2* vtx, Float ooz, Sint32 Count, Sint32 Last);
-
 /************************/
 /*  Draw 2D             */
 /************************/
