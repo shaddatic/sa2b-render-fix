@@ -27,16 +27,12 @@
 /** Constants **/
 #define CORE_API_VER    (0)
 
-#define RELEASE         (1)
-#define MAJOR           (3)
-#define MINOR           (0)
-
 EXPORT_DLL
 RFAPI_CORE rfapi_core =
 {
     .version = CORE_API_VER,
 
-    .rf_version = { RELEASE, MAJOR, MINOR, 0 },
+    .rf_version = { 1,3,1 },
 };
 
 typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const char*, const HelperFunctions*);
