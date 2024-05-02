@@ -382,7 +382,7 @@ RFAPI_SHADER;
 */
 typedef struct
 {
-    uint8_t release, major, minor, _reserved;
+    uint8_t release, major, minor, hotfix;
 }
 RF_VERSION;
 
