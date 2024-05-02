@@ -48,7 +48,7 @@ DXVK_CheckAndInstall(void)
         RF_Alert("Restart Required",
 
             "DXVK v1.10.3 was successfully installed! The game must now be restarted for changes to apply.\n"
-            "If you encounter any issues, ensure your graphics drivers are up to date!\n\n"
+            "If you encounter any issues, ensure your graphics drivers are up to date! If you continue to encounter issues, you can uninstall DXVK by deleting the d3d9.dll file in the game's main directory.\n\n"
 
             "If you're running newer hardware, it's recommended to install the newest DXVK build from " DXVK_WEB_PATH " to get the best performance!\n"
             "To do so, download the latest release and place the x32 version of d3d9.dll into SA2's main directory, next to the executable."
