@@ -43,6 +43,8 @@ TaskDisplayDisplayer(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         pExecute = tp->disp;
 
         if (tp->disp)
@@ -51,8 +53,10 @@ TaskDisplayDisplayer(TASK* btpl)
         pExecute = NULL;
 
         TaskDisplayDisplayer(tp->ctp);
+
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 const void* const TaskDisplayDispSortedList_p = (void*)0x00470D20;
@@ -81,6 +85,8 @@ TaskDisplayDispSort_NoSort(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         pExecute = tp->disp_sort;
 
         if (tp->disp_sort)
@@ -90,8 +96,9 @@ TaskDisplayDispSort_NoSort(TASK* btpl)
 
         TaskDisplayDispSort_NoSort(tp->ctp);
 
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 static void
@@ -106,10 +113,14 @@ TaskDisplayDispSort_Buffer(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         if (tp->disp_sort && tp->twp)
             SortDispSortList(tp, -1.0);
+
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 static void
@@ -124,6 +135,8 @@ TaskDisplayDispDelayed(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         pExecute = tp->disp_dely;
 
         if (tp->disp_dely)
@@ -133,8 +146,9 @@ TaskDisplayDispDelayed(TASK* btpl)
 
         TaskDisplayDispDelayed(tp->ctp);
 
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 static void
@@ -149,6 +163,8 @@ TaskDisplayDispLate(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         pExecute = tp->disp_late;
 
         if (tp->disp_late)
@@ -158,8 +174,9 @@ TaskDisplayDispLate(TASK* btpl)
 
         TaskDisplayDispLate(tp->ctp);
 
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 static void
@@ -174,6 +191,8 @@ TaskDisplayDispLast(TASK* btpl)
 
     do
     {
+        TASK* const nexttp = tp->next;
+
         pExecute = tp->disp_last;
 
         if (tp->disp_last)
@@ -183,8 +202,9 @@ TaskDisplayDispLast(TASK* btpl)
 
         TaskDisplayDispLast(tp->ctp);
 
+        tp = nexttp;
     }
-    while (tp = tp->next, tp != base_tp);
+    while (tp != base_tp);
 }
 
 enum
