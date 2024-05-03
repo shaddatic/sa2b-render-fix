@@ -132,8 +132,7 @@ RFG_3DSpriteInit(void)
 
     /** Fix njDrawSprite3D forcing sprites
         in front of the camera **/
-    ___NOTE("This patch is hacky, add a return or something");
-    WriteNoOP(0x0077D83E, 0x0077D840);
+    WriteNoOP(0x0077D835, 0x0077D83A); // Kill `if (z < -1.0f) z = -1.0f;`
 
     /** Fix Multi-screen desync and squish **/
     GX_SetViewportHookInfo = FuncHook(GX_SetViewport, GX_SetViewportHook);
