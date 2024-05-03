@@ -1,11 +1,11 @@
-#define _CRT_SECURE_NO_WARNINGS
-
-#define RF_MAIN
-
+/************************/
+/*  Includes            */
+/************************/
+/****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>
 #include <sa2b/init.h>
 
-/** Render Fix **/
+/****** Render Fix ******************************************************************/
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_usermsg.h>
@@ -15,7 +15,7 @@
 #include <rf_renderstate.h>
 #include <rf_modchk.h>
 
-/** Render Fix modules **/
+/****** Render Fix Modules **********************************************************/
 #include <rfm_global.h>
 #include <rfm_shadows.h>
 #include <rfm_common.h>
@@ -31,6 +31,9 @@
 #include <rfm_event.h>
 #include <rfm_cart.h>
 
+/************************/
+/*  DLL Exports         */
+/************************/
 EXPORT_DLL
 void __cdecl
 Init(const char* path, const HelperFunctions* pHelperFunctions)
