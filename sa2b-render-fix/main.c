@@ -32,6 +32,12 @@
 #include <rfm_cart.h>
 
 /************************/
+/*  Constants           */
+/************************/
+/** Minimum mod loader version **/
+#define MLVER_MIN   (9)
+
+/************************/
 /*  DLL Exports         */
 /************************/
 EXPORT_DLL
@@ -41,6 +47,18 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     /** SAModToolkit init **/
     SAMT_Init(path, pHelperFunctions);
     DX9_Init();
+
+    /** Mod Loader Check **/
+    if (ML_GetVersion() < MLVER_MIN)
+    {
+        RF_FatalError("Mod Loader Version",
+            "Render Fix can't operate safely on the currently installed version of the SA2 Mod Loader.\n"
+            "Please update the Mod Loader to a newer version!\n\n"
+            "Render Fix will now abort the init process."
+        );
+
+        return;
+    }
 
     /** Render Fix init **/
     RF_ConfigInit();
