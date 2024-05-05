@@ -75,14 +75,8 @@
 			<Property name="udreel" display="Pulley Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the rendering of the Up Down Reel (player pully), including the Dreamcast flashing effect.</HelpText>
 			</Property>
-			<Property name="itembox" display="Item-Box Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the rendering of the Item-Box, specifically where the bubble/glass would always draw over the item instead of around it.</HelpText>
-			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
-			</Property>
-			<Property name="pr_siren" display="Prison Siren Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes many visual issues with the red siren light objects in the prison stages.</HelpText>
 			</Property>
 			<Property name="e_explosion" display="Explosion Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces explosions to use the sorted display layer.</HelpText>

@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClCompile Include="rfm_amine.c" />
     <ClCompile Include="rfm_cgadget.c" />
-    <ClCompile Include="rfm_common\rfc_pr_siren.c" />
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_pr_siren.c" />
+    <ClCompile Include="rfm_common\rfc_transparancy.c" />
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c" />
     <ClCompile Include="rfm_global\rfg_bfacecull.c" />
     <ClCompile Include="rfm_b_bigbogy.c" />
     <ClCompile Include="rfm_common\rfc_chaos0tex.c" />
@@ -74,7 +76,7 @@
     <ClCompile Include="rf_modchk.c" />
     <ClCompile Include="rf_model.c" />
     <ClCompile Include="rfm_global\rfg_backcolor.c" />
-    <ClCompile Include="rfm_common\rfc_itembox.c" />
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_itembox.c" />
     <ClCompile Include="rfm_common\rfc_udreel.c" />
     <ClCompile Include="rf_config.c" />
     <ClCompile Include="rf_objpak.c" />
@@ -105,6 +107,7 @@
     <ClInclude Include="rfm_cart.h" />
     <ClInclude Include="rfm_ccore.h" />
     <ClInclude Include="rfm_cgadget.h" />
+    <ClInclude Include="rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rfm_eget.h" />
     <ClInclude Include="rfm_global.h" />
     <ClInclude Include="rfm_global\rfg_internal.h" />

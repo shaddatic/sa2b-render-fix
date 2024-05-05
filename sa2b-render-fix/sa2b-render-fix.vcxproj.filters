@@ -189,7 +189,7 @@
     <ClCompile Include="rf_renderstate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_itembox.c">
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_itembox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_chaos0tex.c">
@@ -222,7 +222,7 @@
     <ClCompile Include="rfm_cgadget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_pr_siren.c">
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_pr_siren.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_modchk.c">
@@ -250,6 +250,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_magic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_transparancy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -378,6 +384,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_magic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_common\rfc_transparancy\rfct_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -182,7 +182,7 @@ ObjectItemBoxAirDispSort_RF(TASK* tp)
 }
 
 void
-RFC_ItemBoxInit(void)
+RFCT_ItemBoxInit(void)
 {
     WriteJump(0x006C83B0, ObjectItemBoxDispSort_RF);
     WriteJump(0x006C9500, ObjectItemBoxAirDispSort_RF);

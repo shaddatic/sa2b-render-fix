@@ -75,7 +75,7 @@ ObjectRNSirenDisplayer(TASK* tp)
 }
 
 void
-RFC_PrisonSirenInit(void)
+RFCT_PrisonSirenInit(void)
 {
     /** Prison Lane **/
     CnkObjectMaterialFlagOn(object_pr_siren, NJD_FST_IL);
