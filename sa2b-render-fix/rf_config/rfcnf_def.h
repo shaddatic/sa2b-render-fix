@@ -164,10 +164,7 @@ CNFE_SHADOW_OPACITY;
 #define CNF_COMMON_TR_BLOON         CNFO_INT(   CNFS_COMMON         , "balloon_trans"       , CNFE_BOOL_ENABLED                     )   /* Item Balloon Transparency */
 #define CNF_COMMON_TR_GOAL          CNFO_INT(   CNFS_COMMON         , "goalring_trans"      , CNFE_BOOL_ENABLED                     )   /* Goal Ring Transparency */
 #define CNF_COMMON_UDREEL           CNFO_INT(   CNFS_COMMON         , "udreel"              , CNFE_BOOL_ENABLED                     )   /* Up Down Reel Fix */
-#define CNF_COMMON_ITEMBOX          CNFO_INT(   CNFS_COMMON         , "itembox"             , CNFE_BOOL_ENABLED                     )   /* Item-Box Fix */
 #define CNF_COMMON_JOTREE           CNFO_INT(   CNFS_COMMON         , "jo_tree"             , CNFE_BOOL_ENABLED                     )   /* Tree Jungle Object */
-#define CNF_COMMON_PRSIREN          CNFO_INT(   CNFS_COMMON         , "pr_siren"            , CNFE_BOOL_ENABLED                     )   /* Prison Siren Fix */
-#define CNF_COMMON_EXPLOSION        CNFO_INT(   CNFS_COMMON         , "e_explosion"         , CNFE_BOOL_ENABLED                     )   /* Explosion Draw Fix */
 #define CNF_COMMON_MIZUGOMI         CNFO_INT(   CNFS_COMMON         , "mizugomi"            , CNFE_BOOL_ENABLED                     )   /* Water Particulates */
 #define CNF_COMMON_DCRING           CNFO_INT(   CNFS_COMMON         , "dc_ring"             , CNFE_BOOL_DISABLED                    )   /* DC Ring Shadows */
 
