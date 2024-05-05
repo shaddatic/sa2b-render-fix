@@ -98,4 +98,4 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
 }
 
 EXPORT_DLL
-ModInfo SA2ModInfo = { MODLOADER_VER };
+ModInfo SA2ModInfo = { ML_VERSION };

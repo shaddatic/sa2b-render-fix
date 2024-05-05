@@ -129,5 +129,5 @@ EXTERN_END
 *   Valid Mod Info ($ == SA2 or SADX):
 *
     EXPORT_DLL
-    ModInfo $ModInfo = { MODLOADER_VER };
+    ModInfo $ModInfo = { ML_VERSION };
 */

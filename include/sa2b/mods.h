@@ -1,7 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/mods.h'
 *
-*   Contains functions for interacting with other mods
+*   Description:
+*       Functions for interacting with other mods
 *
 *   Contributors:
 *     - Shaddatic
@@ -60,12 +61,12 @@ void*       ModGetExport(const mod_handle* pMod, const char* pExportName);
 config*     ModGetConfig(const mod_handle* pMod);
 
 /** Get Mod Info **/
-const char* ModGetName(const mod_handle* pMod);
-const char* ModGetAuthor(const mod_handle* pMod);
-const char* ModGetDescription(const mod_handle* pMod);
-const char* ModGetVersion(const mod_handle* pMod);
-const char* ModGetPath(const mod_handle* pMod); /* Local path to mod. eg. '/mods/f1/f2' */
-const char* ModGetID(const mod_handle* pMod);
+const char* ModGetName(        const mod_handle* pMod );
+const char* ModGetAuthor(      const mod_handle* pMod );
+const char* ModGetDescription( const mod_handle* pMod );
+const char* ModGetVersion(     const mod_handle* pMod );
+const char* ModGetPath(        const mod_handle* pMod ); /* Local path to mod. eg. '/mods/f1/f2' */
+const char* ModGetID(          const mod_handle* pMod );
 
 /** Check if mod has redirected save locations **/
 bool        ModCheckSaveChangeGame(const mod_handle* pMod);

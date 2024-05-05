@@ -101,12 +101,12 @@ const utf8* ConfigGetString( const config* pConfig, const utf8* section, const u
 *     - key     : String matching the key
 *     - set     : Value the key will be set to
 */
-void        ConfigSetInt(    config* pConfig, const utf8* section, const utf8* key, int32_t     set );
-void        ConfigSetHex(    config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
-void        ConfigSetOct(    config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
-void        ConfigSetBool(   config* pConfig, const utf8* section, const utf8* key, bool        set );
-void        ConfigSetFloat(  config* pConfig, const utf8* section, const utf8* key, float64_t   set );
-void        ConfigSetString( config* pConfig, const utf8* section, const utf8* key, const utf8* set );
+void    ConfigSetInt(    config* pConfig, const utf8* section, const utf8* key, int32_t     set );
+void    ConfigSetHex(    config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
+void    ConfigSetOct(    config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
+void    ConfigSetBool(   config* pConfig, const utf8* section, const utf8* key, bool        set );
+void    ConfigSetFloat(  config* pConfig, const utf8* section, const utf8* key, float64_t   set );
+void    ConfigSetString( config* pConfig, const utf8* section, const utf8* key, const utf8* set );
 
 /************************/
 /*  Config Query        */

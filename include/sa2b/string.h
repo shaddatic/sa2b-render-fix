@@ -2,8 +2,8 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/string.h'
 *
 *   Description:
-*       Manipulating, copying, duplicating, & converting
-*   strings of ASCII, UTF-8, & UTF-16 code-pages.
+*       Manipulating, copying, duplicating, & converting strings of ASCII, UTF-8, &
+*   UTF-16 code-pages.
 *       All 'utf8' params are ASCII code-page safe.
 *
 *   Contributors:
@@ -14,22 +14,26 @@
 #ifndef _SAMT_STRING_H_
 #define _SAMT_STRING_H_
 
+EXTERN_START
+
 /************************/
 /*  UTF-8/ASCII Funcs   */
 /************************/
-EXTERN_START
 /** String exact match **/
 bool    StringMatch( const utf8* pStr1, const utf8* pStr2 );
 
 /** Size of string in bytes **/
 size_t  StringSize( const utf8* pStr, size_t maxLen );
 
-/** Length of string in code points, excluding NULL **/
-size_t  StringLength( const utf8* pStr, size_t maxLen );
-
 utf8*   StringDupe( const utf8* pSrc );
 utf8*   StringCopy(       utf8* pDst, const utf8* pSrc, size_t maxDst );
 utf8*   StringAppend(     utf8* pDst, const utf8* pSrc, size_t maxDst );
+
+/************************/
+/*  UTF-8 Funcs         */
+/************************/
+/** Length of string in code points, excluding NULL **/
+size_t  StringLength(const utf8* pStr, size_t maxLen);
 
 /************************/
 /*  UTF-16 Funcs        */
@@ -60,4 +64,4 @@ size_t   StringCopyTo16(wchar_t* pDest, const utf8* pStr, size_t lenDest);
 
 EXTERN_END
 
-#endif /* _SAMT_STRING_H_ */
+#endif/*_SAMT_STRING_H_*/
