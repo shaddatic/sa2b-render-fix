@@ -310,4 +310,8 @@ RFM_CommonInit(void)
     }
 
     ObjectGlobalLightManagerHookInfo = FuncHook(ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
+
+    /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
+    static const double chaokey_chk_fix = 300.0;
+    ReplaceFloat(0x006E9B4A, &chaokey_chk_fix);
 }
