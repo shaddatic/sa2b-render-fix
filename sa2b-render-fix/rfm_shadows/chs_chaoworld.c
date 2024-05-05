@@ -903,7 +903,7 @@ RFCTRL_CheapShadowChaoWorldDisable(void)
 void
 CHS_ChaoWorldInit(void)
 {
-    if (CheapShadowNoChaoWorld)
+    if (CheapShadowNoChaoWorld || RF_ConfigGetInt(CNF_COMPAT_NOCHMOD))
         return;
 
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex

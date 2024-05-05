@@ -221,6 +221,9 @@ CNFE_SHADOW_OPACITY;
 #define CNF_EXP_MILESTAILMOD        CNFO_INT(   CNFS_EXP            , "miles_tail_mod"      , CNFE_BOOL_DISABLED                    )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
+/** Compatibility section **/
+#define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
+
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */
 #define CNF_DEBUG_ENVFIX            CNFO_INT(   CNFS_DEBUG          , "env_fix"             , CNFE_BOOL_ENABLED                     )   /* Fix Environment Map Rendering */

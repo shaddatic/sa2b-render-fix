@@ -194,6 +194,11 @@
 				<HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
 			</Property>
 		</Group>
+		<Group name="compatibility" display="Compatibility Settings">
+			<Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">
+				<HelpText>Disables the Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods may enable this for you when needed.</HelpText>
+			</Property>
+		</Group>
 		<Group name="debug" display="Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
 				<HelpText>Allow writing to the obj.pak file. It's very unlikely this feature will need to be disabled, however the option is here if needed.</HelpText>
