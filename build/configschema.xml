@@ -174,7 +174,7 @@
 		</Group>
 		<Group name="misc" display="Miscellaneous">
 			<Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
-				<HelpText>Change the scale of particle polygons if the default, vanilla size of 8, 480p pixels feels too large.</HelpText>
+				<HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
 			</Property>
 			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
