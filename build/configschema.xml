@@ -179,7 +179,7 @@
 			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
 			</Property>
-			<Property name="race_tree_mod" display="Draw Race Tree Modifier Shadows" type="eBOOL" defaultvalue="1">
+			<Property name="race_tree_mod" display="Draw Race Tree Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Adds modifier shadows for Chao Race Trees, which normally don't have any.</HelpText>
 			</Property>
 		</Group>
