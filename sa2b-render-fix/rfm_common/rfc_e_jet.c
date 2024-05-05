@@ -50,10 +50,10 @@ EnemyJetDisplayer_(TASK* tp)
     TASKWK* const twp = tp->twp;
 
     NJS_SPRITE sprite = {
-        .p = twp->pos,
-        .sx = twp->scl.z,
-        .sy = twp->scl.z,
-        .ang = 0,
+        .p     = twp->pos,
+        .sx    = twp->scl.z,
+        .sy    = twp->scl.z,
+        .ang   = 0,
         .tlist = texlist_e_jet1,
         .tanim = &texanim,
     };
