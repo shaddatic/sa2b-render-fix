@@ -221,11 +221,6 @@ RFM_CommonInit(void)
         WritePointer(0x010737B4, object_jo_tree->model); // Green Forest
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_EXPLOSION))
-    {
-        RFC_ExplosionInit();
-    }
-
     if (RF_ConfigGetInt(CNF_COMMON_MIZUGOMI))
     {
         RFC_MizugomiInit();

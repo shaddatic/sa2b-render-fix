@@ -62,7 +62,7 @@
     <ClCompile Include="rfm_global\rfg_envmap.c" />
     <ClCompile Include="rfm_event.c" />
     <ClCompile Include="rfm_event\ev_modifier.c" />
-    <ClCompile Include="rfm_common\rfc_e_explosion.c" />
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_e_explosion.c" />
     <ClCompile Include="rfm_eget.c" />
     <ClCompile Include="rfm_common\rfc_mizugomi.c" />
     <ClCompile Include="rf_api\rfapi_config.c" />

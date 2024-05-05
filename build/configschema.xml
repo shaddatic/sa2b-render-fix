@@ -78,9 +78,6 @@
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
 			</Property>
-			<Property name="e_explosion" display="Explosion Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Forces explosions to use the sorted display layer.</HelpText>
-			</Property>
 			<Property name="mizugomi" display="Water Particulates" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the floating water particles from the Dreamcast version.</HelpText>
 			</Property>

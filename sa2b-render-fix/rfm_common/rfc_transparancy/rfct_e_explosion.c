@@ -12,7 +12,7 @@
 #define sub_4F70E0      FuncPtr(void, __cdecl, (), 0x4F70E0)
 
 static TASK*
-EnemyExplosionCreateTask()
+EnemyExplosionCreateTask(void)
 {
     TASK* tp = CreateElementalTask(TELE_TWK, LEV_3, EnemyExplosionExecutor, "exec");
 
@@ -49,7 +49,7 @@ EnemyExplosionCreate(NJS_POINT3* pPos, char a2)
 
 __declspec(naked)
 static void
-__EnemyExplosionCreate()
+__EnemyExplosionCreate(void)
 {
     __asm
     {
@@ -63,7 +63,7 @@ __EnemyExplosionCreate()
 }
 
 void
-RFC_ExplosionInit()
+RFCT_ExplosionInit(void)
 {
     SwitchDisplayer(0x004F715C, DISP_SORT);
     WriteJump(0x004F7120, __EnemyExplosionCreate);

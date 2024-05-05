@@ -79,6 +79,7 @@ RFC_TransparancyInit(void)
         }
     }
 
+    RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
     RFCT_PrisonSirenInit();
     RFCT_FinalChaseGravityCylinderInit();

@@ -177,7 +177,7 @@
     <ClCompile Include="rf_util.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_e_explosion.c">
+    <ClCompile Include="rfm_common\rfc_transparancy\rfct_e_explosion.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common.c">
