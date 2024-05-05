@@ -124,6 +124,9 @@ CNFE_SHADOW_OPACITY;
 /** Experimental **/
 #define CNFS_EXP            "experimental"
 
+/** Compatibility **/
+#define CNFS_COMPAT         "compatibility"
+
 /** Debug **/
 #define CNFS_DEBUG          "debug"
 
