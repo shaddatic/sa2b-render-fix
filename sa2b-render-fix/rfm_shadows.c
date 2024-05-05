@@ -167,6 +167,10 @@ RFM_ShadowsInit(void)
 
     switch (RF_ConfigGetInt(CNF_SHADOW_GLMD)) {
     case CNFE_SHADOW_GLMD_MODIFIER:
+
+        if (!RFF_CheapShadow())
+            break;
+
         CHS_BoardInit();
         CHS_MessengerInit();
         CHS_BunchinInit();
@@ -202,6 +206,7 @@ RFM_ShadowsInit(void)
 
     switch (RF_ConfigGetInt(CNF_SHADOW_PLMD)) {
     case CNFE_SHADOW_PLMD_MODIFIER:
+
         if (!RFF_CheapShadow())
             break;
 
