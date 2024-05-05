@@ -118,6 +118,9 @@ CNFE_SHADOW_OPACITY;
 #define CNFS_CART           "cart"
 #define CNFS_EVENT          "event"
 
+/** Miscellaneous **/
+#define CNFS_MISC           "misc"
+
 /** Experimental **/
 #define CNFS_EXP            "experimental"
 
@@ -204,11 +207,14 @@ CNFE_SHADOW_OPACITY;
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_BOOL_DISABLED                    )   /* Enforce 4:3 Mode */
 #define CNF_EVENT_TEXANIM           CNFO_INT(   CNFS_EVENT          , "texanim"             , CNFE_BOOL_ENABLED                     )   /* Fix Texture Animations */
 
+/** Miscellaneous section **/
+#define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
+#define CNF_MISC_TWALKFOOTMOD       CNFO_INT(   CNFS_MISC           , "twalk_foot_mod"      , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
+#define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
+
 /** Experimental section **/
 #define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_MILESTAILMOD        CNFO_INT(   CNFS_EXP            , "miles_tail_mod"      , CNFE_BOOL_DISABLED                    )   /* Draw Tails' Tail Modifier Shadows */
-#define CNF_EXP_TWALKFOOTMODFIX     CNFO_INT(   CNFS_EXP            , "twalk_foot_mod"      , CNFE_BOOL_DISABLED                    )   /* Fix Tornado's Foot Modifiers */
-#define CNF_EXP_RACETREEMOD         CNFO_INT(   CNFS_EXP            , "race_tree_mod"       , CNFE_BOOL_DISABLED                    )   /* Draw Race Tree Modifier Shadows */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
 /** Debug section **/

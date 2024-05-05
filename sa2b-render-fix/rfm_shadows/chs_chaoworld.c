@@ -905,7 +905,7 @@ CHS_ChaoWorldInit(void)
     /** Grow Tree **/
     HookInfoALO_GrowTreeCreate = FuncHook(ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
 
-    if (RF_ConfigGetInt(CNF_EXP_RACETREEMOD))
+    if (RF_ConfigGetInt(CNF_MISC_RACETREEMOD))
         HookInfoALO_RaceTree = FuncHook(ALO_RaceTree, ALO_RaceTreeHook);
 
     /** AL Objects **/

@@ -169,18 +169,23 @@
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
 			</Property>
 		</Group>
+		<Group name="misc" display="Miscellaneous">
+			<Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
+				<HelpText>Change the scale of particle polygons if the default, vanilla size of 8, 480p pixels feels too large.</HelpText>
+			</Property>
+			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="1">
+				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
+			</Property>
+			<Property name="race_tree_mod" display="Draw Race Tree Modifier Shadows" type="eBOOL" defaultvalue="1">
+				<HelpText>Adds modifier shadows for Chao Race Trees, which normally don't have any.</HelpText>
+			</Property>
+		</Group>
 		<Group name="experimental" display="Experimental Settings">
 			<Property name="shd_opacity_sw" display="Change Shadow Map Opacity in Chao World" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that allows the vanilla shadow maps to change opacity while in Chao World, to match the Dreamcast modifier shadows.</HelpText>
 			</Property>
 			<Property name="miles_tail_mod" display="Draw Tails' Tail Modifier Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that adds modifier shadows for Tails' Tails. This will likely be further worked on so the shadows better match the tails' animations.</HelpText>
-			</Property>
-			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="0">
-				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
-			</Property>
-			<Property name="race_tree_mod" display="Draw Race Tree Modifier Shadows" type="eBOOL" defaultvalue="0">
-				<HelpText>An experimental feature that adds modifier shadows for Chao Race Trees. This is pretty much complete and only really needs more testing.</HelpText>
 			</Property>
 			<Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
 				<HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>

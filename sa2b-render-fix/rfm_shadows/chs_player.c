@@ -1432,7 +1432,7 @@ CHS_PlayerInit(void)
     WriteRetn(0x00745310);
     WriteJump(0x00745910, EggWalkerDisplayerShadowHook);
 
-    TornadoFootFix = RF_ConfigGetInt(CNF_EXP_TWALKFOOTMODFIX);
+    TornadoFootFix = RF_ConfigGetInt(CNF_MISC_TWALKFOOTMOD);
 
     /** PInitialize **/
     WriteCall(0x00459D53, CreateNoStencilTexture);

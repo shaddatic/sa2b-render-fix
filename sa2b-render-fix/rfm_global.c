@@ -144,8 +144,10 @@ RFM_GlobalInit(void)
         WriteNoOP(0x00492506, 0x0049250C); // ptcl * 0.5
 
         /** PtclPolygon **/
+        static double ptclpolyscl;
 
-        static const double ptclpolyscl = 8.0f;       // Set size to 8px instead of 12px
+        ptclpolyscl = RF_ConfigGetFloat(CNF_MISC_PTCLPOLYSCL);
+
         ReplaceFloat(0x007801A6, &ptclpolyscl);
         WriteJump(GX_SetPointSize_p, __SetPointSize);
     }
