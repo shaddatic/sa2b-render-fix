@@ -893,9 +893,19 @@ ALO_TVCreateMovHook(void)
     }
 }
 
+static bool CheapShadowNoChaoWorld;
+void
+RFCTRL_CheapShadowChaoWorldDisable(void)
+{
+    CheapShadowNoChaoWorld = true;
+}
+
 void
 CHS_ChaoWorldInit(void)
 {
+    if (CheapShadowNoChaoWorld)
+        return;
+
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex
 
     /** Chao **/
