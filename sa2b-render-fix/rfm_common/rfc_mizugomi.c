@@ -24,35 +24,41 @@ njDrawSomeSprite(NJS_POINT3* a1, int a2, float a3, float a4, float a5, int a6)
     }
 }
 
-#define LODWORD(d) (*(uint32_t*)&d)
+#define texlist_mizugomi_am     DataAry(NJS_TEXLIST, 0x0162DD08, [1])
 
 static void
-DrawMizugomi(TASK* tp)
+MizugomiDisplayer_AM(TASK* tp)
 {
-    ANYWK* const mwp = TO_ANYWK(tp->mwp);
+    TASKWK* const twp = tp->twp;
+    ANYWK*  const mwp = TO_ANYWK(tp->mwp);
 
+    if (twp->mode)
+        return;
+
+    njFogDisable();
+
+    njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
+    njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_ONE);
+
+    njPushMatrixEx();
+
+    njTranslateEx(&twp->pos);
+
+    njSetTexture(texlist_mizugomi_am);
     njSetTextureNum(0);
+
     njDrawSomethingStart(1);
     njDrawSomeSprite((NJS_POINT3*)mwp->work.ptr[0], mwp->work.sl[1], 0.0f, 0.075000003f, 0.075000003f, 0xFF809050);
+
     njPopMatrixEx();
+
+    njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
+    njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
+
+    njFogEnable();
 }
 
-__declspec(naked)
-static void
-__DrawMizugomiAM(void)
-{
-    __asm
-    {
-        push edx
-        push ebx
-        call DrawMizugomi
-        pop ebx
-        pop edx
-        retn
-    }
-}
-
-#define pMizugomiEQ DataRef(TASK*, 0x01AEFC18)
+#define pMizugomiEQ     DataRef(TASK*, 0x01AEFC18)
 
 static void
 BGMizugomiEQ(void)
@@ -141,8 +147,7 @@ __BGMizugomiDCBegin(void)
 void
 RFC_MizugomiInit(void)
 {
-    WriteNoOP(0x004D67F9, 0x004D6806);
-    WriteCall(0x004D67F9, __DrawMizugomiAM);
+    WriteJump(0x004D6770, MizugomiDisplayer_AM);
 
     WriteJump(0x00690BC0, __BGMizugomiEQ);
 
