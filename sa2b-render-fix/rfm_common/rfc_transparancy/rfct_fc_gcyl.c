@@ -50,6 +50,8 @@ GravityCylinderDisplayerSorted(TASK* tp)
 
     njSetTexture(texlist_gcyl);
 
+    ___NOTE("This should be improved."
+        "The glass should be a seperate model, & only that is drawn twice");
     /** Main body (first/inverse pass) **/
     {
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
