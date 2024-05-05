@@ -16,6 +16,7 @@
 /** Config option macros **/
 #define CNFO_INT(   _section, _key, _default)       &(const RFS_CNF_INT   ) { .sect = _section, .key = _key, .def = _default }
 #define CNFO_BOOL(  _section, _key, _default)       &(const RFS_CNF_BOOL  ) { .sect = _section, .key = _key, .def = _default }
+#define CNFO_FLOAT( _section, _key, _default)       &(const RFS_CNF_FLOAT ) { .sect = _section, .key = _key, .def = _default }
 #define CNFO_STRING(_section, _key, _default)       &(const RFS_CNF_STRING) { .sect = _section, .key = _key, .def = _default }
 
 /************************/

@@ -33,7 +33,7 @@ typedef struct
 {
     const utf8* sect;
     const utf8* key;
-    const f64   def;
+    const f32   def;
 }
 RFS_CNF_FLOAT;
 
