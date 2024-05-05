@@ -144,7 +144,7 @@ RFM_CommonInit(void)
         SwitchDisplayer(0x0060B5CE, DISP_SORT); // Boss Bogy
         SwitchDisplayer(0x00761C04, DISP_LAST); // Boss Bogy Powergauge
 
-        if (RF_ConfigGetInt(CNF_DEBUG_DCSHAD_PATCH))
+        if (RF_ConfigGetInt(CNF_COMPAT_DCSHADCRASH))
         {
             WriteNoOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
         }

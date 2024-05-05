@@ -195,6 +195,12 @@
 			<Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">
 				<HelpText>Disables the Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods may enable this for you when needed.</HelpText>
 			</Property>
+			<Property name="jmp_aura" display="Force Jump Aura to Double Sided" type="eBOOL" defaultvalue="0">
+				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
+			</Property>
+			<Property name="dcshad_crash" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="0">
+				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight.</HelpText>
+			</Property>
 		</Group>
 		<Group name="debug" display="Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
@@ -203,17 +209,11 @@
 			<Property name="env_fix" display="Fix Environment Map Rendering" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
 			</Property>
-			<Property name="jmp_aura" display="Force Jump Aura DB Flag" type="eBOOL" defaultvalue="1">
-				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
-			</Property>
 			<Property name="bfc_event" display="Disable Back-Face Culling in Events" type="eBOOL" defaultvalue="1">
 				<HelpText>Disables back-face culling in events/cutscenes.</HelpText>
 			</Property>
 			<Property name="chaos0tex" display="Custom Chaos 0 Model Support" type="eBOOL" defaultvalue="1">
 				<HelpText>Overrides the texture animation system Chaos 0 uses to allow the use of custom models, if this is off the game will otherwise crash.</HelpText>
-			</Property>
-			<Property name="dcshadpatch" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="0">
-				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight. Unlikely to cause issues, but is here if it does.</HelpText>
 			</Property>
 			<Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
 				<HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
