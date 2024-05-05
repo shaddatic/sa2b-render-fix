@@ -20,9 +20,6 @@
 			<Property name="model_tint" display="Fix Model Tints" type="eTINT" defaultvalue="2">
 				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
 			</Property>
-			<Property name="screen_tint" display="Fix Screen Tint" type="eSTINT" defaultvalue="1">
-				<HelpText>Changes shader values inside obj.pak to remove the slight bright tint applied to the screen, likely a accidental leftover from the Xbox 360 version. 'Keep tint' restores the vanilla values.</HelpText>
-			</Property>
 			<Property name="spotlite" display="Fix Spot Lights" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes many spot lights, such as the Egg Walker's flashlight, by replacing a, commonly used, vertex shader that incorrectly treats them as directional lights.</HelpText>
 			</Property>
