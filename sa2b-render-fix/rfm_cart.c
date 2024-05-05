@@ -6,6 +6,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_util.h>
 #include <rf_config.h>
 
 /** Self **/
@@ -37,5 +38,13 @@ RFM_CartInit(void)
     if (RF_ConfigGetInt(CNF_CART_CARTRAISE))
     {
         WriteNoOP(0x0061CB07, 0x0061CB0C);
+    }
+
+    if (RF_ConfigGetInt(CNF_CART_ZANKI))
+    {
+        /** Okay, but how does a mistake like this occur? **/
+        static const float zanki_py = 424.0f + 3.0f + 7.0f;
+
+        ReplaceFloat(0x0044E78F, &zanki_py);
     }
 }

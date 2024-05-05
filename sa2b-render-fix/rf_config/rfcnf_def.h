@@ -195,10 +195,11 @@ CNFE_SHADOW_OPACITY;
 #define CNF_BBOGY_LIGHTS            CNFO_INT(   CNFS_BBOGY          , "lights"              , CNFE_BOOL_ENABLED                     )   /* Restore Lighting */
 #define CNF_BBOGY_SUNDOORS          CNFO_INT(   CNFS_BBOGY          , "sundoors"            , CNFE_BOOL_ENABLED                     )   /* Restore Sundoors */
 
-/** City Escape section **/
+/** Cart section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */
 #define CNF_CART_SEAFIX             CNFO_INT(   CNFS_CART           , "seafix"              , CNFE_BOOL_ENABLED                     )   /* Sea Fix */
 #define CNF_CART_CARTRAISE          CNFO_INT(   CNFS_CART           , "cart_raise"          , CNFE_BOOL_ENABLED                     )   /* DC Cart Height */
+#define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
 #define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "disp_replace"        , CNFE_BOOL_DISABLED                    )   /* Enhanced Displayer */
