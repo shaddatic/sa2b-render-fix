@@ -9,16 +9,16 @@
 
 const int njDrawSomeSprite_p = 0x00491600;
 static void
-njDrawSomeSprite(NJS_POINT3* a1, int a2, float a3, float a4, float a5, int a6)
+njDrawSomeSprite(NJS_POINT3* p, int n, float pri, float w, float h, Uint32 col)
 {
     __asm
     {
-        push[a6]
-        push[a5]
-        push[a4]
-        push[a3]
-        push[a2]
-        mov eax, [a1]
+        push[col]
+        push[h]
+        push[w]
+        push[pri]
+        push[n]
+        mov eax, [p]
         call njDrawSomeSprite_p
         add esp, 20
     }
@@ -26,11 +26,20 @@ njDrawSomeSprite(NJS_POINT3* a1, int a2, float a3, float a4, float a5, int a6)
 
 #define texlist_mizugomi_am     DataAry(NJS_TEXLIST, 0x0162DD08, [1])
 
+#define GET_MIZUWK(tp_)     ((MIZUWK*)tp_->mwp) 
+
+typedef struct
+{
+    NJS_POINT3* p;
+    int         n;
+}
+MIZUWK;
+
 static void
 MizugomiDisplayer_AM(TASK* tp)
 {
     TASKWK* const twp = tp->twp;
-    ANYWK*  const mwp = TO_ANYWK(tp->mwp);
+    MIZUWK* const mwp = GET_MIZUWK(tp);
 
     if (twp->mode)
         return;
@@ -48,7 +57,7 @@ MizugomiDisplayer_AM(TASK* tp)
     njSetTextureNum(0);
 
     njDrawSomethingStart(1);
-    njDrawSomeSprite((NJS_POINT3*)mwp->work.ptr[0], mwp->work.sl[1], 0.0f, 0.075000003f, 0.075000003f, 0xFF809050);
+    njDrawSomeSprite(mwp->p, mwp->n, 0.0f, 0.075000003f, 0.075000003f, 0xFF809050);
 
     njPopMatrixEx();
 
