@@ -64,7 +64,7 @@ EnemyJetDisplayer_(TASK* tp)
 
     njDrawSprite3D(&sprite, 0, NJD_SPRITE_COLOR | NJD_SPRITE_SCALE | NJD_SPRITE_ALPHA);
 
-    SetConstantMaterial(0.0f, 0.0f, 0.0f, 0.0f);
+    ResetConstantMaterial();
 
     if (!ptp || ptp->ctp == tp->next || tp->next->disp != EnemyJetDisplayer)
     {
