@@ -119,7 +119,11 @@ ObjectItemBoxAirDispSort_RF(TASK* tp)
     if (twp->mode == 4)
         njFogDisable();
 
-    if (twp->scl.z > 1.0f)
+    /** I have to do this weird bool thing or
+        else the optimizer breaks this function **/
+    const bool scaling = (twp->scl.z > 1.0f);
+
+    if (scaling)
     {
         float flt = 1.0f - (twp->scl.z - 1.0f) * 0.25f;
 
@@ -168,7 +172,7 @@ ObjectItemBoxAirDispSort_RF(TASK* tp)
 
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
-    if (twp->scl.z > 1.0f)
+    if (scaling)
     {
         LoadControl3D();
         LoadConstantAttr();
