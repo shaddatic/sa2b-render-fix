@@ -61,7 +61,8 @@ DXVK_CheckAndInstall(void)
 static void
 DXVK_CheckAndCreateConfig(void)
 {
-    if (uFileExists(DXVK_CONF_PATH))
+    /** if (!DXVK_INSTALLED || DXVK_CONF_EXISTS) **/
+    if (!uFileExists(DXVK_DLL_PATH) || uFileExists(DXVK_CONF_PATH))
         return;
 
     FILE* const f = uFileOpen(DXVK_CONF_PATH, FMODE_WB);
