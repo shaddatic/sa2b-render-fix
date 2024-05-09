@@ -41,6 +41,48 @@ typedef enum
 }
 CNFE_GLOBAL_MDLTINT;
 
+/****** Font Section ********************************************************/
+/** Japanese script **/
+typedef enum
+{
+    CNFE_FONT_KANJI_VANILLA,
+    CNFE_FONT_KANJI_CLASSIC,
+}
+CNFE_FONT_KANJI;
+
+/** Latin script **/
+typedef enum
+{
+    CNFE_FONT_ASCII_VANILLA,
+    CNFE_FONT_ASCII_IMPRESS,
+    CNFE_FONT_ASCII_COMICSANS,
+}
+CNFE_FONT_ASCII;
+
+/** Character spacing **/
+typedef enum
+{
+    CNFE_FONT_WIDTH_TOUCHING,
+    CNFE_FONT_WIDTH_SQUISHED,
+    CNFE_FONT_WIDTH_COMPACT,
+    CNFE_FONT_WIDTH_COMFY,
+    CNFE_FONT_WIDTH_SPACY,
+}
+CNFE_FONT_WIDTH;
+
+/** Space Character Width **/
+typedef enum
+{
+    CNFE_FONT_SPACE_NONE,
+    CNFE_FONT_SPACE_QUATER,
+    CNFE_FONT_SPACE_THIRD,
+    CNFE_FONT_SPACE_HALF,
+    CNFE_FONT_SPACE_FULL,
+
+    NB_CNFE_FONT_SPACE,
+}
+CNFE_FONT_WIDTH;
+
 /****** Shadows Section *****************************************************/
 /** Cheap Shadow mode **/
 typedef enum
@@ -98,6 +140,7 @@ CNFE_SHADOW_OPACITY;
 /****** Config sections *****************************************************/
 /** Main **/
 #define CNFS_GLOBAL         "main"
+#define CNFS_FONT           "font"
 #define CNFS_SHADOW         "shadows"
 #define CNFS_COMMON         "common"
 
@@ -145,6 +188,13 @@ CNFE_SHADOW_OPACITY;
 #define CNF_GLOBAL_SCRNTINT         CNFO_INT(   CNFS_GLOBAL         , "screen_tint"         , CNFE_BOOL_ENABLED                     )   /* Fix Screen Tint */
 #define CNF_GLOBAL_SPOTLITE         CNFO_INT(   CNFS_GLOBAL         , "spotlite"            , CNFE_BOOL_ENABLED                     )   /* Fix Spot Lights */
 #define CNF_GLOBAL_ENVFLIP          CNFO_INT(   CNFS_GLOBAL         , "env_flip"            , CNFE_BOOL_ENABLED                     )   /* Flip Environment Map Textures" */
+
+/** Font section **/
+#define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */
+#define CNF_FONT_ASCII              CNFO_INT(   CNFS_FONT           , "ascii"               , CNFE_FONT_ASCII_VANILLA               )   /* Latin Script Font */
+#define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_COMPACT               )   /* Character Spacing */
+#define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_THIRD                 )   /* Space Character Width */
+#define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
 
 /** Shadows section **/
 #define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "cheap_shadow"        , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */

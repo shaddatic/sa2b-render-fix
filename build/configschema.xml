@@ -27,6 +27,23 @@
 				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
+		<Group name="font" display="Text Settings">
+			<Property name="kanji" display="Japanese Script Font" type="eFONT_KANJI" defaultvalue="0">
+				<HelpText>Font to be used when displaying Japanese text, such as: Kanji (漢字), Hirigana (ひりがな), and Katakana (カタカナ).</HelpText>
+			</Property>
+			<Property name="ascii" display="Latin Script Font" type="eFONT_ASCII" defaultvalue="0">
+				<HelpText>Font to be used when displaying Latin text, such as: English, German, French, Spanish, and Italian.</HelpText>
+			</Property>
+			<Property name="width" display="Character Spacing" type="eFONT_WIDTH" defaultvalue="2">
+				<HelpText>Change the spacing between each character. Custom fonts can override this option if they wish. The original games used 'Comfy'.</HelpText>
+			</Property>
+			<Property name="space" display="Space Width" type="eFONT_SPACE" defaultvalue="2">
+				<HelpText>Change the width of the space character. Custom fonts can override this option if they wish. The original games used 'Half Width'.</HelpText>
+			</Property>
+			<Property name="nokey" display="Use Original Text Dialogs" type="eBOOL" defaultvalue="1">
+				<HelpText>Tricks the game into thinking you're using a gamepad so the text dialogs from Dreamcast and GameCube are used, instead of the sub-par and hacky keyboard text. This also increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
+			</Property>
+		</Group>
 		<Group name="shadows" display="Shadow Settings">
 			<Property name="cheap_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="3">
 				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of accuracy.</HelpText>
@@ -224,9 +241,30 @@
 			<EnumMember name="1" display="Match Dreamcast"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
-		<Enum name="eSTINT">
-			<EnumMember name="1" display="Enabled"></EnumMember>
-			<EnumMember name="0" display="Keep Tint"></EnumMember>
+		<Enum name="eFONT_KANJI">
+			<EnumMember name="1" display="SA1/SA2"></EnumMember>
+			<EnumMember name="0" display="Vanilla/Custom"></EnumMember>
+		</Enum>
+		<Enum name="eFONT_ASCII">
+			<EnumMember name="2" display="SA2 (Comic Sans)"></EnumMember>
+			<EnumMember name="1" display="SA1 (Impress)"></EnumMember>
+			<EnumMember name="0" display="Vanilla/Custom"></EnumMember>
+		</Enum>
+		<Enum name="eFONT_WIDTH">
+			<EnumMember name="6" display="Planetary"></EnumMember>
+			<EnumMember name="5" display="Very Distant"></EnumMember>
+			<EnumMember name="4" display="Distant"></EnumMember>
+			<EnumMember name="3" display="Comfy"></EnumMember>
+			<EnumMember name="2" display="Compact"></EnumMember>
+			<EnumMember name="1" display="Sqished"></EnumMember>
+			<EnumMember name="0" display="Touching"></EnumMember>
+		</Enum>
+		<Enum name="eFONT_SPACE">
+			<EnumMember name="4" display="Full Width"></EnumMember>
+			<EnumMember name="3" display="Half Width"></EnumMember>
+			<EnumMember name="2" display="Third Width"></EnumMember>
+			<EnumMember name="1" display="Quater Width"></EnumMember>
+			<EnumMember name="0" display="No Width"></EnumMember>
 		</Enum>
 		<Enum name="eMOD_MODE">
 			<EnumMember name="3" display="Enabled"></EnumMember>

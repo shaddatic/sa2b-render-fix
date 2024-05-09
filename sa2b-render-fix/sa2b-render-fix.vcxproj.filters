@@ -261,6 +261,9 @@
     <ClCompile Include="rf_ninja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_font.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -393,6 +396,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_ninja.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
