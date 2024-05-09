@@ -65,20 +65,6 @@ SetShadowOpacityChao(void)
 
 /** Extern functions **/
 void
-njSetCheapShadowMode(int32_t mode)
-{
-    if (mode < 0)
-    {
-        RFMOD_SetAlpha(0.0f);
-        return;
-    }
-    else if (mode > 255)
-        mode = 255;
-
-    RFMOD_SetAlphaI(255 - mode);
-}
-
-void
 DrawBasicShadow(void)
 {
     njCnkModDrawModel(model_basic_shadow);
