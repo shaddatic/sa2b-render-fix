@@ -14,6 +14,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
+#include <rf_ninja.h>
 
 /** Self **/
 #include <rfm_menus.h>
@@ -195,7 +196,7 @@ DrawMapTextBackdrop(void)
 
     NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-    njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL | NJD_TRANSPARENT);
+    rjDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL | NJD_TRANSPARENT);
 }
 
 static void
@@ -234,7 +235,7 @@ DrawMapPurpleFill(void)
 
     NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-    njDrawPolygon2D(&poly, 4, -20000.0f, NJD_FILL);
+    rjDrawPolygon2D(&poly, 4, -20000.0f, NJD_FILL);
 }
 
 __declspec(naked)
