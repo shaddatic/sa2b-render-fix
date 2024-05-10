@@ -246,7 +246,7 @@ The original games used 'Half Width'.</HelpText>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
 		<Enum name="eFONT_KANJI">
-			<EnumMember name="1" display="SA1/SA2"></EnumMember>
+			<EnumMember name="1" display="SA1/SA2 (Classic)"></EnumMember>
 			<EnumMember name="0" display="Vanilla/Custom"></EnumMember>
 		</Enum>
 		<Enum name="eFONT_ASCII">
