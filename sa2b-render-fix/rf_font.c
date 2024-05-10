@@ -112,9 +112,10 @@ FONT_CHAO;
 
 typedef struct rfs_font
 {
-    uint8_t*      pLeft;   /* left padding                                          */
-    FONT_CHAR*    pBuff;   /* pixel buffer                                          */
-    RFE_FONT_TYPE type;   /* font type                                             */
+    uint8_t*      pLeft;    /* left padding                                         */
+    FONT_CHAR*    pBuff;    /* pixel buffer                                         */
+    RFE_FONT_TYPE  type;    /* font type                                            */
+    bool      bAutoLeft;    /* width list is custom                                 */
 }
 RFS_FONT;
 
@@ -321,9 +322,10 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
 
     RFS_FONT* const fontp = mAlloc(RFS_FONT, 1);
 
-    fontp->pBuff = charp;
-    fontp->pLeft = CalculateFontLeft(charp, font_rf_type);
-    fontp->type = font_rf_type;
+    fontp->pBuff     = charp;
+    fontp->pLeft     = CalculateFontLeft(charp, font_rf_type);
+    fontp->type      = font_rf_type;
+    fontp->bAutoLeft = true;
 
     return fontp;
 }
@@ -334,10 +336,13 @@ RF_FontSetLeft(RFS_FONT* pFont, uint8_t* pLeft)
     if (!pFont || !pLeft)
         return;
 
-    if (pFont->pLeft)
+    /** If the width list is automatic,
+        it must be allocated by us. Free. **/
+    if (pFont->bAutoLeft)
         MemFree(pFont->pLeft);
 
-    pFont->pLeft = pLeft;
+    pFont->pLeft     = pLeft;
+    pFont->bAutoLeft = false;
 }
 
 void
