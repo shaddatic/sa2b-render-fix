@@ -331,7 +331,7 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
 void
 RF_FontSetLeft(RFS_FONT* pFont, uint8_t* pLeft)
 {
-    if (!pFont || pLeft)
+    if (!pFont || !pLeft)
         return;
 
     if (pFont->pLeft)
