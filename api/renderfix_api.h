@@ -271,6 +271,30 @@ typedef struct
     */
     void   (__cdecl* DrawBasicShadow)( void );
     void   (__cdecl* AL_ShadowDraw)(   void );
+
+    /****** Version >= 1 ************************************************************/
+    /*
+    *   Draw a multi-vertex, 2D texture with 'count'.
+    *
+    *   Parameters:
+    *     - polygon : NJS_TEXTURE_VTX list
+    *     - count   : number of entries in 'polygon'
+    *     - trans   : is transparent
+    */
+    void(__cdecl* DrawTextureEx)(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
+    /*
+    *   Draw a multi-vertex, 2D polygon with 'n'.
+    *
+    *   Examples:
+    *       p->DrawPolygon2D(poly, count, -1.0f, NJD_FILL | NJD_TRANSPARENT)
+    *
+    *   Parameters:
+    *     - p       : POINT2COL list
+    *     - n       : number of entries in 'p'
+    *     - pri     : draw priority (-1<->-65535)
+    *     - attr    : draw attributes
+    */
+    void(__cdecl* DrawPolygon2D)(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
 }
 RFAPI_DRAW;
 

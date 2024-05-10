@@ -10,7 +10,7 @@
 #include <rf_draw.h>
 
 /** Constants **/
-#define DRAW_API_VER    (0)
+#define DRAW_API_VER    (1)
 
 /** Exports **/
 EXTERN
@@ -32,4 +32,8 @@ const RFAPI_DRAW rfapi_draw =
 
     .DrawBasicShadow      = DrawBasicShadow,
     .AL_ShadowDraw        = AL_ShadowDraw,
+
+    /** Ver 1 **/
+    .DrawTextureEx        = rjDrawTextureEx,
+    .DrawPolygon2D        = rjDrawPolygon2D,
 };
