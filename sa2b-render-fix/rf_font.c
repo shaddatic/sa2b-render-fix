@@ -356,43 +356,6 @@ RF_FontHalfSpace(RFS_FONT* pFont)
     pFont->pLeft[0] = (u8)(flt * 0.5);
 }
 
-void
-RF_FontSetWhiteWithColor(FONT_CHAR* pChar, size_t szFile)
-{
-    const size_t nb_char = (szFile/4)/(24*24);
-
-    for (size_t i = 0; i < nb_char; ++i)
-    {
-        bool has_color = false;
-
-        OutputInt(i);
-
-        for (int y = 0; y < 24 && !has_color; ++y)
-        {
-            for (int x = 0; x < 24 && !has_color; ++x)
-            {
-                if (pChar[i].p[y][x].r != pChar[i].p[y][x].g &&
-                    pChar[i].p[y][x].g != pChar[i].p[y][x].b &&
-                    pChar[i].p[y][x].b != pChar[i].p[y][x].a)
-                {
-                    has_color = true;
-                }
-            }
-        }
-
-        if (has_color)
-            continue;
-
-        for (int y = 0; y < 24 && !has_color; ++y)
-        {
-            for (int x = 0; x < 24 && !has_color; ++x)
-            {
-                pChar[i].p[y][x].col |= 0x00FFFFFF;
-            }
-        }
-    }
-}
-
 static RFS_FONT* CurrentFonts[NB_FONT_LANG][NB_FONT_TYPE];
 
 void
