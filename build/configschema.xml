@@ -27,21 +27,25 @@
 				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
 			</Property>
 		</Group>
-		<Group name="font" display="Text Settings">
+		<Group name="font" display="Text and Font Settings">
 			<Property name="kanji" display="Japanese Script Font" type="eFONT_KANJI" defaultvalue="0">
-				<HelpText>Font to be used when displaying Japanese text, such as: Kanji (漢字), Hirigana (ひりがな), and Katakana (カタカナ).</HelpText>
+				<HelpText>Font to be used when displaying Japanese text, such as: Kanji (漢字), Hiragana (ひらがな), and Katakana (カタカナ).</HelpText>
 			</Property>
 			<Property name="ascii" display="Latin Script Font" type="eFONT_ASCII" defaultvalue="0">
 				<HelpText>Font to be used when displaying Latin text, such as: English, German, French, Spanish, and Italian.</HelpText>
 			</Property>
 			<Property name="width" display="Character Spacing" type="eFONT_WIDTH" defaultvalue="2">
-				<HelpText>Change the spacing between each character. Custom fonts can override this option if they wish. The original games used 'Comfy'.</HelpText>
+				<HelpText>Change the spacing between each character. Custom fonts can override this option if they wish.
+
+The original games used 'Comfy'.</HelpText>
 			</Property>
 			<Property name="space" display="Space Width" type="eFONT_SPACE" defaultvalue="2">
-				<HelpText>Change the width of the space character. Custom fonts can override this option if they wish. The original games used 'Half Width'.</HelpText>
+				<HelpText>Change the width of the space character. Custom fonts can override this option if they wish.
+
+The original games used 'Half Width'.</HelpText>
 			</Property>
 			<Property name="nokey" display="Use Original Text Dialogs" type="eBOOL" defaultvalue="1">
-				<HelpText>Tricks the game into thinking you're using a gamepad so the text dialogs from Dreamcast and GameCube are used, instead of the sub-par and hacky keyboard text. This also increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
+				<HelpText>Force the game into using the gamepad, and therefore original Dreamcast and GameCube, text dialogs. This increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
 			</Property>
 		</Group>
 		<Group name="shadows" display="Shadow Settings">
