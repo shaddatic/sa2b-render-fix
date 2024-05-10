@@ -79,22 +79,6 @@ void    RF_FontInit(void);
 */
 RFS_FONT*   RF_FontLoadFile( const utf8* fpath, RFE_FONT_FTYPE ftype );
 /*
-*   Set custom character width map. The first entry is the space character.
-*
-*   Parameters:
-*     - pFont   : pointer to font object
-*     - pLeft   : pointer to width list that's at least as long as there are characters in the font (96, 224, or 3423)
-*/
-void    RF_FontSetLeft( RFS_FONT* pFont, uint8_t* pLeft );
-/*
-*   Set custom space width.
-*
-*   Parameters:
-*     - pFont   : pointer to font object
-*     - szSpace : size of the space character in pixels
-*/
-void    RF_FontSetSpace( RFS_FONT* pFont, size_t szSpace );
-/*
 *   Half the current space character width.
 *
 *   Japanese ASCII fonts use half the width of their Latin counterpart. Render Fix
@@ -105,6 +89,16 @@ void    RF_FontSetSpace( RFS_FONT* pFont, size_t szSpace );
 *     - pFont   : pointer to font object
 */
 void    RF_FontHalfSpace( RFS_FONT* pFont );
+
+/****** Advanced Font ***************************************************************/
+/*
+*   Set custom character width map. The first entry is the space character.
+*
+*   Parameters:
+*     - pFont   : pointer to font object
+*     - pLeft   : pointer to width list that's at least as long as there are characters in the font (96, 224, or 3423)
+*/
+void    RF_FontSetLeft( RFS_FONT* pFont, uint8_t* pLeft );
 
 /****** Font States *****************************************************************/
 /*

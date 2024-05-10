@@ -341,15 +341,6 @@ RF_FontSetLeft(RFS_FONT* pFont, uint8_t* pLeft)
 }
 
 void
-RF_FontSetSpace(RFS_FONT* pFont, size_t szSpace)
-{
-    if (!pFont)
-        return;
-
-    pFont->pLeft[0] = (uint8_t)szSpace;
-}
-
-void
 RF_FontHalfSpace(RFS_FONT* pFont)
 {
     if (!pFont)
