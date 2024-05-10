@@ -480,12 +480,14 @@ typedef struct
 
     /**** Advanced Font ****/
     /*
-    *   Set a custom character width list.
+    *   Set a custom character width list. (optional)
     *
     *   The width list is made up of unsigned int8's, with each character in the
     *   font getting an entry defining how wide it is in pixels. You must ensure
     *   the width list has enough entries to cover every character. If this is not
     *   the case, it will lead to undefined behavior.
+    * 
+    *   Use this function before setting the font to the game. And only use once.
     *
     *   Parameters:
     *     - pFont   : pointer to font object
