@@ -25,7 +25,7 @@
 #include <rf_api/rfapi_internal.h>
 
 /** Constants **/
-#define CORE_API_VER    (0)
+#define CORE_API_VER    (1)
 
 EXPORT_DLL
 RFAPI_CORE rfapi_core =
@@ -61,6 +61,7 @@ RFAPI_Init(void)
     rfapi_core.pApiConfig      = &rfapi_config;
     rfapi_core.pApiRenderState = &rfapi_rstate;
     rfapi_core.pApiShader      = &rfapi_shader;
+    rfapi_core.pApiFont        = &rfapi_font;
 
     ApiCallByFuncName("RF_EarlyInit");
 

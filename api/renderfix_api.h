@@ -27,8 +27,12 @@ typedef NJS_OBJECT      NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility    
 /************************/
 /*  Abstract Types      */
 /************************/
+/****** Shader **********************************************************************/
 typedef void                d3d_vtx_shader; /* 'IDirect3DVertexShader9'             */
 typedef void                d3d_pxl_shader; /* 'IDirect3DPixelShader9'              */
+
+/****** Font ************************************************************************/
+typedef struct rfs_font     RFS_FONT;       /* Render Fix font object               */
 
 /************************/
 /*  Types               */
@@ -82,6 +86,44 @@ typedef enum
     RFRS_ALPHAREF_END = -1,     /* end and reset to default                         */
 }
 RFRS_ALPHAREF;
+
+/****** Font Enums ******************************************************************/
+/** Font language **/
+typedef enum
+{
+    FONT_LANG_JAP,  /* Japanese                                                     */
+    FONT_LANG_ENG,  /* English                                                      */
+    FONT_LANG_GER,  /* German                                                       */
+    FONT_LANG_FRE,  /* French                                                       */
+    FONT_LANG_SPA,  /* Spanish                                                      */
+    FONT_LANG_ITA,  /* Italian                                                      */
+
+    NB_FONT_LANG,   /* count                                                        */
+}
+RFE_FONT_LANG;
+
+/** Font file type **/
+typedef enum
+{
+    FONT_FTYPE_RGBA_KANJI,  /* 32bit RGBA & contains Kanji & Kana           (SA2PC) */
+    FONT_FTYPE_RGBA_ASCII,  /* 32bit RGBA & contains ASCII                  (SA2PC) */
+
+    FONT_FTYPE_1BPP_KANJI,  /* 1bpp & contains Kanji & Kana          (SA1,SADX,SA2) */
+    FONT_FTYPE_1BPP_ASCII,  /* 1bpp & contains ASCII                 (SA1,SADX,SA2) */
+
+    NB_FONT_FTYPE,          /* count                                                */
+}
+RFE_FONT_FTYPE;
+
+/** Font font script type **/
+typedef enum
+{
+    FONT_TYPE_KANJI,    /* Kanji font page                                          */
+    FONT_TYPE_ASCII,    /* Ascii font page                                          */
+
+    NB_FONT_TYPE,       /* count                                                    */
+}
+RFE_FONT_TYPE;
 
 /************************/
 /*  Control API         */
@@ -396,6 +438,108 @@ typedef struct
 RFAPI_SHADER;
 
 /************************/
+/*  Font API            */
+/************************/
+/*
+*   The Render Fix 'Font' API is for loading and setting game text fonts.
+*
+*   Availablility:
+*     - In RF_EarlyInit : Yes
+*     - In RF_Init      : Yes
+*     - Otherwise       : Yes
+*/
+typedef struct
+{
+    /****** Version >= 0 ************************************************************/
+    uint32_t version;
+
+    /**** Font ****/
+    /*
+    *   Load a game font file. Character width and space width are automatically
+    *   calculated and respect user-settings.
+    *
+    *   Parameters:
+    *     - fpath   : full path to font file
+    *     - ftype   : file type of font
+    *
+    *   Returns:
+    *       Pointer to the created font object, or nullptr if there was an error
+    */
+    RFS_FONT*(__cdecl* LoadFontFile)( const utf8* fpath, RFE_FONT_FTYPE ftype );
+    /*
+    *   Half the current space character width.
+    *
+    *   Japanese ASCII spaces use half the width of their Latin counterpart. 
+    *   Render Fix doesn't know what is ASCII & what is ASCII_J, so only applies
+    *   regular ASCII space widths. Use this to fix your Japanese ASCII fonts.
+    *
+    *   Parameters:
+    *     - pFont   : pointer to font object
+    */
+    void(__cdecl* HalfSpaceWidth)( RFS_FONT* pFont );
+
+    /**** Advanced Font ****/
+    /*
+    *   Set a custom character width list.
+    *
+    *   The width list is made up of unsigned int8's, with each character in the
+    *   font getting an entry defining how wide it is in pixels. You must ensure
+    *   the width list has enough entries to cover every character. If this is not
+    *   the case, it will lead to undefined behavior.
+    *
+    *   Parameters:
+    *     - pFont   : pointer to font object
+    *     - pWidths : pointer to u8 array with at least as many entries as there are characters in the font
+    */
+    void(__cdecl* SetWidthList)( RFS_FONT* pFont, uint8_t* pWidths );
+
+    /**** Font State ****/
+    /*
+    *   Replace a font in the vanilla game by language and type.
+    *
+    *   Parameters:
+    *     - language : language to apply the font to
+    *     - type     : type of the font to replace
+    *     - pFont    : pointer to font object to replace with
+    */
+    void(__cdecl* SetFont)( RFE_FONT_LANG language, RFE_FONT_TYPE type, RFS_FONT* pFont );
+    /*
+    *   Get current font by language and type. This can be used to temporarily
+    *   replace a font for drawing, then re-applying the original font once you're
+    *   done.
+    *
+    *   Parameters:
+    *     - language : language to get the font from
+    *     - type     : type of the font to get
+    *
+    *   Returns:
+    *       The current font being used for that language and font type
+    */
+    RFS_FONT*(__cdecl* GetFont)( RFE_FONT_LANG language, RFE_FONT_TYPE type );
+    /*
+    *   Replace a font in Chao World by type.
+    *
+    *   Parameters:
+    *     - type     : type of the font to replace
+    *     - pFont    : pointer to font object to replace with
+    */
+    void(__cdecl* SetChaoFont)(RFE_FONT_TYPE type, RFS_FONT* pFont);
+    /*
+    *   Get current font in Chao World by type. This can be used to temporarily 
+    *   replace a font for drawing, then re-applying the original font once you're
+    *   done.
+    *
+    *   Parameters:
+    *     - type     : type of the font to get
+    * 
+    *   Returns:
+    *       The current font being used for that font type
+    */
+    RFS_FONT*(__cdecl* GetChaoFont)( RFE_FONT_TYPE type );
+}
+RFAPI_FONT;
+
+/************************/
 /*  Core API            */
 /************************/
 /*
@@ -425,6 +569,9 @@ typedef struct
     const RFAPI_DRAW*        pApiDraw;          /* Draw API                         */
     const RFAPI_RENDERSTATE* pApiRenderState;   /* Render State API                 */
     const RFAPI_SHADER*      pApiShader;        /* Shader API                       */
+
+    /****** Version >= 1 ************************************************************/
+    const RFAPI_FONT*        pApiFont;          /* Font API                         */
 }
 RFAPI_CORE;
 

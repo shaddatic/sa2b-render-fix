@@ -264,6 +264,9 @@
     <ClCompile Include="rf_font.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_api\rfapi_font.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
