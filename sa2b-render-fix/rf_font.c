@@ -130,8 +130,7 @@ RFS_FONT;
 /************************/
 /*  File Variables      */
 /************************/
-static const size_t LeftSizes[NB_FONT_TYPE] = { KANJI_SYM_COUNT, ASCIIS_SYM_COUNT };
-
+/****** Space Character Width List **************************************************/
 static const size_t SpaceWidths[NB_CNFE_FONT_SPACE]  = { 0, 6, 9, 12, 24 };
 
 /****** User-set Padding ************************************************************/
@@ -148,7 +147,7 @@ static RFS_FONT* CurrentChaoFonts[NB_FONT_TYPE];
 static uint8_t*
 CalculateFontLeft(FONT_CHAR* pFont, RFE_FONT_TYPE type)
 {
-    const size_t left_size = LeftSizes[type];
+    const size_t left_size = (type == FONT_TYPE_KANJI) ? KANJI_SYM_COUNT : ASCIIS_SYM_COUNT;
 
     uint8_t* const leftp = mCalloc(uint8_t, left_size);
 
