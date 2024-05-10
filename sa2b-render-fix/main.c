@@ -14,7 +14,7 @@
 #include <rf_api.h>
 #include <rf_renderstate.h>
 #include <rf_modchk.h>
-#include <rf_ninja.h>
+#include <rf_draw.h>
 #include <rf_font.h>
 
 /****** Render Fix Modules **********************************************************/
@@ -67,7 +67,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RF_ObjPakInit();
     RF_UserMessageInit();
     RF_RenderStateInit();
-    RF_NinjaInit();
+    RF_DrawInit();
     RF_FontInit();
 
     /** DXVK init **/
