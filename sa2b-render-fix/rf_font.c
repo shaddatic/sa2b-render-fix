@@ -134,8 +134,13 @@ static const size_t LeftSizes[NB_FONT_TYPE] = { KANJI_SYM_COUNT, ASCIIS_SYM_COUN
 
 static const size_t SpaceWidths[NB_CNFE_FONT_SPACE]  = { 0, 6, 9, 12, 24 };
 
+/****** User-set Padding ************************************************************/
 static int FontPadding;
 static int SpacePadding;
+
+/****** Font 'Get' Containers *******************************************************/
+static RFS_FONT* CurrentFonts[NB_FONT_LANG][NB_FONT_TYPE];
+static RFS_FONT* CurrentChaoFonts[NB_FONT_TYPE];
 
 /************************/
 /*  Source              */
@@ -370,8 +375,6 @@ RF_FontHalfSpace(RFS_FONT* pFont)
     pFont->pLeft[0] = (u8)(flt * 0.5);
 }
 
-static RFS_FONT* CurrentFonts[NB_FONT_LANG][NB_FONT_TYPE];
-
 void
 RF_FontReplace(RFE_FONT_LANG language, RFE_FONT_TYPE type, RFS_FONT* pFont)
 {
@@ -399,8 +402,6 @@ RF_FontGet(RFE_FONT_LANG language, RFE_FONT_TYPE type)
 {
     return CurrentFonts[language][type];
 }
-
-static RFS_FONT* CurrentChaoFonts[NB_FONT_TYPE];
 
 void
 RF_FontChaoReplace(RFE_FONT_TYPE type, RFS_FONT* pFont)
