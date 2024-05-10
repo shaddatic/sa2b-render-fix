@@ -14,7 +14,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
-#include <rf_ninja.h>
+#include <rf_draw.h>
 
 /** Self **/
 #include <rfm_menus.h>
