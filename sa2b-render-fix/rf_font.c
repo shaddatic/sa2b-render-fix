@@ -343,6 +343,20 @@ RF_FontSetLeft(RFS_FONT* pFont, uint8_t* pLeft)
 
     pFont->pLeft     = pLeft;
     pFont->bAutoLeft = false;
+
+    /** Ensure new left list is applied to game fonts too if
+        the font being changed matches a currently applied font **/
+    for (int f_type = 0; f_type < NB_FONT_TYPE; ++f_type)
+    {
+        if (RF_FontChaoGet(f_type) == pFont)
+            RF_FontChaoReplace(f_type, pFont);
+
+        for (int f_lang = 0; f_lang < NB_FONT_LANG; ++f_lang)
+        {
+            if (RF_FontGet(f_lang, f_type) == pFont)
+                RF_FontReplace(f_lang, f_type, pFont);
+        }
+    }
 }
 
 void
