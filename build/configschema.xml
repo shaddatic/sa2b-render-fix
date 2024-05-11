@@ -260,7 +260,7 @@ The original games used 'Half Width'.</HelpText>
 			<EnumMember name="4" display="Distant"></EnumMember>
 			<EnumMember name="3" display="Comfy"></EnumMember>
 			<EnumMember name="2" display="Compact"></EnumMember>
-			<EnumMember name="1" display="Sqished"></EnumMember>
+			<EnumMember name="1" display="Squished"></EnumMember>
 			<EnumMember name="0" display="Touching"></EnumMember>
 		</Enum>
 		<Enum name="eFONT_SPACE">
