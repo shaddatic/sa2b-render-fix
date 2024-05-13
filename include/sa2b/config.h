@@ -18,7 +18,7 @@ EXTERN_START
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct _config    config;
+typedef struct config     config;
 
 /************************/
 /*  Open, Close, Save   */

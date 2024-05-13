@@ -10,7 +10,7 @@
 void
 RFG_SpotLightFixInit(void)
 {
-    d3d_vtx_shader* sonic_vs = RF_LoadVtxShader("sonic_vs");
+    dx9_vtx_shader* sonic_vs = RF_LoadVtxShader("sonic_vs");
 
     for (int i = 1; i < 8; ++i)
         RF_ReplaceVtxShader(i, sonic_vs);

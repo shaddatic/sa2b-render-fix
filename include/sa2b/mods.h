@@ -16,11 +16,11 @@
 /*  Abstract Types      */
 /************************/
 /** Handle types **/
-typedef void                mod_handle;
-typedef void                dll_handle;
+typedef struct mod_handle   mod_handle;
+typedef struct dll_handle   dll_handle;
 
 /** Config type **/
-typedef struct _config      config;
+typedef struct config       config;
 
 /************************/
 /*  Mod Functions       */

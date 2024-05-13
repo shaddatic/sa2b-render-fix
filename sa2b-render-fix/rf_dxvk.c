@@ -2,7 +2,7 @@
 #include <sa2b/file.h>
 
 /** Std **/
-#include <stdlib.h>
+#include <stdio.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -58,6 +58,8 @@ DXVK_CheckAndInstall(void)
     RF_ConfigSetInt(CNF_HIDDEN_DXVK_CHK, 1);
 }
 
+#define StrSizeOf(str_)     (str_), sizeof(str_)
+
 static void
 DXVK_CheckAndCreateConfig(void)
 {
@@ -65,11 +67,7 @@ DXVK_CheckAndCreateConfig(void)
     if (!uFileExists(DXVK_DLL_PATH) || uFileExists(DXVK_CONF_PATH))
         return;
 
-    FILE* const f = uFileOpen(DXVK_CONF_PATH, FMODE_WB);
-
-    fprintf(f, "d3d9.samplerAnisotropy = 16\n");
-
-    fclose(f);
+    uFileWriteEx(DXVK_CONF_PATH, StrSizeOf("d3d9.samplerAnisotropy = 16\n"));
 }
 
 void

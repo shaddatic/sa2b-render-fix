@@ -16,6 +16,9 @@
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/ninja.h>   /* ninja                                            */
 
+/****** Standard ********************************************************************/
+#include <stdio.h>              /* snprintf                                         */
+
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_config.h>          /* RF_ConfigGet                                     */
@@ -445,8 +448,6 @@ LoadLocalFont(const utf8* fname, RFE_FONT_FTYPE ftype)
     char buf[260];
 
     snprintf(buf, sizeof(buf), "./%s/font/%s", GetModPath(), fname);
-
-    OutputString(buf);
 
     return RF_FontLoadFile(buf, ftype);
 }

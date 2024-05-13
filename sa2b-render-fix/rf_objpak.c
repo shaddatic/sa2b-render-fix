@@ -44,7 +44,7 @@ RF_ObjPakWriteChangesToFile(void)
 
     if (fsize != 0x57BD)
     {
-        puts("Render Fix: obj.pak is not original, aborting changes!");
+        OutputString("Render Fix: obj.pak is not original, aborting changes!");
         MemFree(fbuf);
         return 1;
     }
@@ -97,17 +97,14 @@ RF_ObjPakWriteChangesToFile(void)
 
     /** Write changes to file **/
     {
-        FILE* f = fopen("./resource/Shader/win32/obj.pak", "wb");
+        const size_t nbw = uFileWriteEx("./resource/Shader/win32/obj.pak", fbuf, fsize);
 
-        if (!f)
+        /** If some error occured **/
+        if (!nbw)
         {
             MemFree(fbuf);
             return 1;
         }
-
-        fwrite(fbuf, fsize, 1, f);
-
-        fclose(f);
     }
 
     MemFree(fbuf);

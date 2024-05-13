@@ -28,17 +28,17 @@ typedef NJS_OBJECT      NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility    
 /*  Abstract Types      */
 /************************/
 /****** Shader **********************************************************************/
-typedef void                d3d_vtx_shader; /* 'IDirect3DVertexShader9'             */
-typedef void                d3d_pxl_shader; /* 'IDirect3DPixelShader9'              */
+typedef struct dx9_vtx_shader   dx9_vtx_shader; /* 'IDirect3DVertexShader9'         */
+typedef struct dx9_pxl_shader   dx9_pxl_shader; /* 'IDirect3DPixelShader9'          */
 
 /****** Font ************************************************************************/
-typedef struct rfs_font     RFS_FONT;       /* Render Fix font object               */
+typedef struct rfs_font         RFS_FONT;       /* Render Fix font object           */
 
 /************************/
 /*  Types               */
 /************************/
-typedef double              float64_t;  /* 8 byte wide float value                  */
-typedef char                utf8;       /* supports UTF-8 strings                   */
+typedef double                  float64_t;  /* 8 byte wide float value              */
+typedef char                    utf8;       /* supports UTF-8 strings               */
 
 /************************/
 /*  Enums               */
@@ -421,8 +421,8 @@ typedef struct
     *   Returns:
     *       A pointer to a DX9 shader object (IDirect3D(Vertex/Pixel)Shader9).
     */
-    d3d_vtx_shader* (__cdecl* LoadVtxShader)( const utf8* fpath );
-    d3d_pxl_shader* (__cdecl* LoadPxlShader)( const utf8* fpath );
+    dx9_vtx_shader* (__cdecl* LoadVtxShader)( const utf8* fpath );
+    dx9_pxl_shader* (__cdecl* LoadPxlShader)( const utf8* fpath );
 
     /**** Replace shader ****/
     /*
@@ -432,8 +432,8 @@ typedef struct
     *     - index       : Index of the shader as called for by the game
     *     - p___Shader  : Pointer to the new shader object
     */
-    void(__cdecl* ReplaceVtxShader)( int index, d3d_vtx_shader* pVtxShader );
-    void(__cdecl* ReplacePxlShader)( int index, d3d_pxl_shader* pPxlShader );
+    void(__cdecl* ReplaceVtxShader)( int index, dx9_vtx_shader* pVtxShader );
+    void(__cdecl* ReplacePxlShader)( int index, dx9_pxl_shader* pPxlShader );
 }
 RFAPI_SHADER;
 

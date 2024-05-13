@@ -165,7 +165,7 @@ bool    DX9_SetPointScale(  bool      state );
 /*  Vertex Shader       */
 /************************/
 /** Shader type **/
-typedef void        dx9_vtx_shader;
+typedef struct dx9_vtx_shader   dx9_vtx_shader;
 
 /** Load pre-compiled shader file (.fxc) **/
 dx9_vtx_shader*
@@ -185,7 +185,7 @@ bool    DX9_SetVtxShaderConstantI( const void* p, uint32_t reg, size_t nbInt   )
 /*  Pixel Shader        */
 /************************/
 /** Shader type **/
-typedef void        dx9_pxl_shader;
+typedef struct dx9_pxl_shader   dx9_pxl_shader;
 
 /** Load pre-compiled shader file (.fxc) **/
 dx9_pxl_shader*

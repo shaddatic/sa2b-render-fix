@@ -11,11 +11,6 @@
 #define _RF_EVENT_H_
 
 /************************/
-/*  Abstact Types       */
-/************************/
-typedef struct _config      config;
-
-/************************/
 /*  Functions           */
 /************************/
 EXTERN_START

@@ -174,7 +174,7 @@ void    njDrawCircle2D(   NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 /************************/
 /*  Sprite              */
 /************************/
-void    njDrawSprite2D(NJS_SPRITE* sp, Int n, Float pri, Uint32 attr);
-void    njDrawSprite3D(NJS_SPRITE* sp, Int n,            Uint32 attr);
+void    njDrawSprite2D( NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
+void    njDrawSprite3D( NJS_SPRITE* sp, Int n,            Uint32 attr );
 
 #endif

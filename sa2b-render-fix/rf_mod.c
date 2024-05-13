@@ -49,10 +49,10 @@ MOD_COLOR;
 
 static RFE_MOD_MODE ModMode;
 
-static d3d_vtx_shader* ModBasicVtxShader;
+static dx9_vtx_shader* ModBasicVtxShader;
 
-static d3d_vtx_shader* ModVtxShader;
-static d3d_pxl_shader* ModPxlShader;
+static dx9_vtx_shader* ModVtxShader;
+static dx9_pxl_shader* ModPxlShader;
 
 static dx9_vtx_decl* ModVtxDeclaration;
 

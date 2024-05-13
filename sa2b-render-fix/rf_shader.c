@@ -22,8 +22,8 @@
 #define SHADER_PATH     "shader"
 
 /** Globals **/
-static d3d_vtx_shader* ShaderVtxEntries[13];
-static d3d_pxl_shader* ShaderPxlEntries[13];
+static dx9_vtx_shader* ShaderVtxEntries[13];
+static dx9_pxl_shader* ShaderPxlEntries[13];
 
 /** Functions **/
 static void
@@ -36,10 +36,10 @@ RF_ShaderError(const char* fpath)
     RF_Alert("Shader Error", buf);
 }
 
-d3d_vtx_shader*
+dx9_vtx_shader*
 RF_DirectLoadVtxShader(const utf8* fpath)
 {
-    d3d_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
+    dx9_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
 
     if (!vshader)
         RF_ShaderError(fpath);
@@ -47,10 +47,10 @@ RF_DirectLoadVtxShader(const utf8* fpath)
     return vshader;
 }
 
-d3d_pxl_shader*
+dx9_pxl_shader*
 RF_DirectLoadPxlShader(const utf8* fpath)
 {
-    d3d_vtx_shader* vshader = DX9_LoadPxlShader(fpath);
+    dx9_pxl_shader* vshader = DX9_LoadPxlShader(fpath);
 
     if (!vshader)
         RF_ShaderError(fpath);
@@ -58,7 +58,7 @@ RF_DirectLoadPxlShader(const utf8* fpath)
     return vshader;
 }
 
-d3d_vtx_shader*
+dx9_vtx_shader*
 RF_LoadVtxShader(const utf8* fname)
 {
     utf8 buf[260];
@@ -68,7 +68,7 @@ RF_LoadVtxShader(const utf8* fname)
     return RF_DirectLoadVtxShader(buf);
 }
 
-d3d_pxl_shader*
+dx9_pxl_shader*
 RF_LoadPxlShader(const utf8* fname)
 {
     utf8 buf[260];
@@ -93,7 +93,7 @@ SetAndLoadShaderHook(int shader)
 }
 
 void
-RF_ReplaceVtxShader(int index, d3d_vtx_shader* pVtxShader)
+RF_ReplaceVtxShader(int index, dx9_vtx_shader* pVtxShader)
 {
     if (index < 0 || index > 12)
         return;
@@ -105,7 +105,7 @@ RF_ReplaceVtxShader(int index, d3d_vtx_shader* pVtxShader)
 }
 
 void
-RF_ReplacePxlShader(int index, d3d_pxl_shader* pPxlShader)
+RF_ReplacePxlShader(int index, dx9_pxl_shader* pPxlShader)
 {
     if (index < 0 || index > 12)
         return;

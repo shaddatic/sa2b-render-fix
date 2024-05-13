@@ -22,7 +22,7 @@ CheckModByNameAndAuthor(const char* name, const char* author)
 {
     const mod_handle* mhp = ModGetHandleName(name);
 
-    return (mhp && StringMatch( ModGetAuthor(mhp), author ));
+    return (mhp && StringMatch( ModGetAuthor(mhp), author, STR_NOMAX ));
 }
 
 void
@@ -32,7 +32,7 @@ RF_ModCheckInit(void)
     {
         const mod_handle* mhp = ModGetHandlePosition(0);
 
-        if (!StringMatch( ModGetID(mhp), "sa2-render-fix" ))
+        if (!StringMatch( ModGetID(mhp), "sa2-render-fix", STR_NOMAX ))
         {
             RF_Alert("Mod Position",
                 "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
