@@ -166,8 +166,8 @@ The original games used 'Half Width'.</HelpText>
 			<Property name="seafix" display="Sea Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
 			</Property>
-			<Property name="cart_raise" display="DC Cart Height" type="eBOOL" defaultvalue="1">
-				<HelpText>The cart models were lower on the GameCube version. This restores their Dreamcast height, which fixes a few visual bugs.</HelpText>
+			<Property name="cart_sprite" display="Cart Sprite/Height Fix" type="eCART_SPRITE" defaultvalue="2">
+				<HelpText>The cart models were lowered for Battle, but the cart headlight sprites were not. This lowers the sprites to fix the visual desync. The 'Dreamcast' option instead raises the cart to the sprites to match the Dreamcast version.</HelpText>
 			</Property>
 			<Property name="zanki" display="Zanki Icon Position Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>The zanki icon, the head sprite that appears next to your lives, is drawn too high in the HD versions. This option lowers it to its correct height, as seen on Dreamcast and GameCube.</HelpText>
@@ -299,6 +299,11 @@ The original games used 'Half Width'.</HelpText>
 			<EnumMember name="2" display="54.9% - (Dreamcast: Chao)"></EnumMember>
 			<EnumMember name="1" display="68.6% - (Dreamcast)"></EnumMember>
 			<EnumMember name="0" display="75.0% - (Vanilla)"></EnumMember>
+		</Enum>
+		<Enum name="eCART_SPRITE">
+			<EnumMember name="2" display="Enabled"></EnumMember>
+			<EnumMember name="1" display="Dreamcast"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
 	</Enums>
 </ConfigSchema>

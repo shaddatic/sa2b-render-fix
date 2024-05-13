@@ -35,9 +35,17 @@ RFM_CartInit(void)
         WriteNoOP(0x006220CE, 0x006220E5);
     }
 
-    if (RF_ConfigGetInt(CNF_CART_CARTRAISE))
-    {
+    switch (RF_ConfigGetInt(CNF_CART_CARTSPRITE)) {
+
+        static const double SpriteSubtract = 6.0;
+
+    case CNFE_CART_CARTSPRITE_DREAMCAST:
         WriteNoOP(0x0061CB07, 0x0061CB0C);
+        break;
+
+    case CNFE_CART_CARTSPRITE_ENABLED:
+        ReplaceFloat(0x0061EE25, &SpriteSubtract);
+        break;
     }
 
     if (RF_ConfigGetInt(CNF_CART_ZANKI))

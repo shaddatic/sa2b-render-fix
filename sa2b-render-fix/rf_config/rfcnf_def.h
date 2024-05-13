@@ -134,6 +134,16 @@ typedef enum
 }
 CNFE_SHADOW_OPACITY;
 
+/****** Cart Section ********************************************************/
+/** Cart Sprite Fix **/
+typedef enum
+{
+    CNFE_CART_CARTSPRITE_DISABLED,
+    CNFE_CART_CARTSPRITE_DREAMCAST,
+    CNFE_CART_CARTSPRITE_ENABLED,
+}
+CNFE_CART_CARTSPRITE;
+
 /************************/
 /*  Constants           */
 /************************/
@@ -248,7 +258,7 @@ CNFE_SHADOW_OPACITY;
 /** Cart section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */
 #define CNF_CART_SEAFIX             CNFO_INT(   CNFS_CART           , "seafix"              , CNFE_BOOL_ENABLED                     )   /* Sea Fix */
-#define CNF_CART_CARTRAISE          CNFO_INT(   CNFS_CART           , "cart_raise"          , CNFE_BOOL_ENABLED                     )   /* DC Cart Height */
+#define CNF_CART_CARTSPRITE         CNFO_INT(   CNFS_CART           , "cart_sprite"         , CNFE_CART_CARTSPRITE_ENABLED          )   /* DC Cart Height */
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
