@@ -148,9 +148,9 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
 }
 
 static void
-DrawModifierList(size_t startTri, size_t nbTri)
+DrawModifierList(void)
 {
-    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, nbTri, &ModBuffer[startTri], sizeof(NJS_POINT3));
+    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, ModBufferNum, ModBuffer, sizeof(NJS_POINT3));
 }
 
 static void
@@ -206,138 +206,7 @@ ModLoadRenderState(void)
     DX9_LoadStencilTwoSidedState();
     DX9_LoadAlphaBlendState();
 }
-#if 0
-static void
-DrawBufferAccurate(void)
-{
-    /****** Initial Setup ******/
-    /** Save render state **/
-    ModSaveRenderState();
 
-    /** Setup shader info **/
-    DX9_SetVtxShader(ModVtxShader);
-    DX9_SetPxlShader(ModPxlShader);
-    DX9_SetVtxDecl(ModVtxDeclaration);
-
-    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
-
-    /** Enable stencil **/
-    DX9_SetStencil(true);
-
-    /****** Prep Buffer Write ******/
-    /** Alpha blend **/
-    DX9_SetAlphaBlend(false);
-
-    /** Color write **/
-    DX9_SetColorWrite(DX9_COL_NONE);
-
-    /** Z buffer **/
-    DX9_SetZWrite(false);
-
-    /** Stencil ref **/
-    DX9_SetStencilRef(STENCIL_BIT_DRAW);
-
-    /** Stencil masks **/
-    DX9_SetStencilReadMask(STENCIL_BITS_LOW);
-
-    /** Stencil ops CW **/
-    DX9_SetStencilFail(DX9_STCL_KEEP);
-    DX9_SetStencilZFail(DX9_STCL_INCR);
-//  DX9_SetStencilPass(DX9_STCL_KEEP);      // Optimization: Set in both passes
-
-        /** Stencil ops CCW **/
-    DX9_SetStencilFailCCW(DX9_STCL_KEEP);
-    DX9_SetStencilZFailCCW(DX9_STCL_DECR);
-    DX9_SetStencilPassCCW(DX9_STCL_KEEP);
-
-    MOD_TRILIST* tri_lists = ModTriListList;
-
-    /****** Write to the Stencil Buffer ******/
-    for (size_t i = 0; i < ModTriListNum; ++i, ++tri_lists)
-    {
-        /****** 1st pass: ******/
-        /** This pass draws both sides of the current modifier
-            and incs/decs the lower half of the stencil buffer **/
-
-        DX9_SetStencilTwoSided(true);
-
-        DX9_SetZRead(true);
-
-        DX9_SetStencilFunc(DX9_CMP_ALW);
-
-        DX9_SetStencilWriteMask(STENCIL_BITS_LOW);
-
-        DX9_SetStencilPass(DX9_STCL_KEEP);
-
-        DrawModifierList(tri_lists->startTri, tri_lists->nbTri);
-
-        /****** 2nd pass: ******/
-        /** This pass draws both sides of the current modifier
-            again, but disables the Z buffer and sets the draw
-            flag to '1' if the lower half of the stencil buffer isn't 0.
-            It then resets the lower half state back to 0 **/
-
-        DX9_SetStencilTwoSided(false);
-
-        DX9_SetZRead(false);
-
-        DX9_SetStencilFunc(DX9_CMP_NEQ);
-
-        DX9_SetStencilWriteMask(STENCIL_BIT_DRAW | STENCIL_BITS_LOW);
-
-        DX9_SetStencilPass(DX9_STCL_REPL);
-
-        DrawModifierList(tri_lists->startTri, tri_lists->nbTri);
-    }
-
-    /****** Prep Buffer Draw ******/
-    /** Alpha blend **/
-    DX9_SetAlphaBlend(true);
-    DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
-    DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
-
-    /** Color write **/
-    DX9_SetColorWrite(
-        DX9_COL_RED |
-        DX9_COL_GREEN |
-        DX9_COL_BLUE
-    );
-
-    /** Z buffer **/
-    DX9_SetZRead(false);
-
-    /** Stencil ref **/
-    DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
-
-    /** Stencil masks **/
-    DX9_SetStencilReadMask(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
-    DX9_SetStencilWriteMask(STENCIL_BITS_ALL);
-
-    /** Stencil compare **/
-    DX9_SetStencilFunc(DX9_CMP_EQU);
-
-    /** Stencil ops **/
-    DX9_SetStencilFail(DX9_STCL_ZERO);
-    DX9_SetStencilZFail(DX9_STCL_ZERO);
-    DX9_SetStencilPass(DX9_STCL_ZERO);
-
-    /****** Draw the Stencil Buffer ******/
-    DX9_SetVtxShader(ModBasicVtxShader);
-    DrawScreenQuad();
-
-    /****** End Draw Buffer ******/
-    /** Restore stencil state **/
-    DX9_SetStencilRef(STENCIL_BIT_ON);
-    DX9_SetStencilReadMask(STENCIL_BITS_ALL);
-    DX9_SetStencilFunc(DX9_CMP_ALW);
-    DX9_SetStencilFail(DX9_STCL_KEEP);
-    DX9_SetStencilZFail(DX9_STCL_KEEP);
-    DX9_SetStencilPass(DX9_STCL_ZERO);
-
-    /** Load render state **/
-    ModLoadRenderState();
-}
-#endif
 
 static void
 DrawBufferFast(void)
@@ -394,7 +263,7 @@ DrawBufferFast(void)
 
     DX9_SetStencilWriteMask(STENCIL_BITS_LOW);
 
-    DrawModifierList(0, ModBufferNum);
+    DrawModifierList();
 
     DX9_SetStencilTwoSided(false);
 
@@ -471,7 +340,7 @@ DrawBufferDebug(void)
     DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
     /****** Draw the Modifier Buffer ******/
-    DrawModifierList(0, ModBufferNum);
+    DrawModifierList();
 
     /** Load render state **/
     ModLoadRenderState();
@@ -484,10 +353,6 @@ RFMOD_DrawBuffer(void)
         return;
 
     switch (ModMode) {
-    case MODMD_ACCURATE:
-        DrawBufferFast();
-        break;
-
     case MODMD_FAST:
         DrawBufferFast();
         break;

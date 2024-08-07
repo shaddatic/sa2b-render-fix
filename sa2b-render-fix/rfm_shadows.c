@@ -79,13 +79,13 @@ RFF_CheapShadow(void)
 bool
 RFF_CheapShadowPerformance(void)
 {
-    return RFF_CheapShadow() && CheapShadowMode <= CNFE_SHADOW_CHSMD_PERFORMANCE;
+    return CheapShadowMode == CNFE_SHADOW_CHSMD_PERFORMANCE;
 }
 
 bool
 RFF_CheapShadowUltraPerformance(void)
 {
-    return CheapShadowMode == CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE;
+    return false;
 }
 
 bool
@@ -126,9 +126,6 @@ RFM_ShadowsInit(void)
 
                 MemFree(objp); // We only use the model, so free
             }
-
-            if (chs_mode == CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE)
-                RFMOD_SetDrawMode(MODMD_FAST);
 
             if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
                 RFMOD_SetDrawMode(MODMD_DEBUG);

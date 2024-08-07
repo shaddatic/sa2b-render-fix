@@ -88,7 +88,6 @@ CNFE_FONT_WIDTH;
 typedef enum
 {
     CNFE_SHADOW_CHSMD_DISABLED,
-    CNFE_SHADOW_CHSMD_ULTRA_PERFORMANCE,
     CNFE_SHADOW_CHSMD_PERFORMANCE,
     CNFE_SHADOW_CHSMD_ENABLED,
 }
@@ -207,7 +206,7 @@ CNFE_CART_CARTSPRITE;
 #define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
 
 /** Shadows section **/
-#define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "cheap_shadow"        , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
+#define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "mod_shadow"          , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
 #define CNF_SHADOW_GLMD             CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
 #define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_EQUIPMENT            )   /* Character Shadows */
 #define CNF_SHADOW_RES              CNFO_INT(   CNFS_SHADOW         , "resolution"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */

@@ -49,8 +49,8 @@ The original games used 'Half Width'.</HelpText>
 			</Property>
 		</Group>
 		<Group name="shadows" display="Shadow Settings">
-			<Property name="cheap_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="3">
-				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of accuracy.</HelpText>
+			<Property name="mod_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
+				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
 			</Property>
 			<Property name="mode_gl" display="Global Shadow Mode" type="eSHAD_MODE" defaultvalue="2">
 				<HelpText>Which shadow type should be used globally (excluding player characters). 'Modifier' is the Dreamcast shadow system.</HelpText>
@@ -271,9 +271,8 @@ The original games used 'Half Width'.</HelpText>
 			<EnumMember name="0" display="No Width"></EnumMember>
 		</Enum>
 		<Enum name="eMOD_MODE">
-			<EnumMember name="3" display="Enabled"></EnumMember>
-			<EnumMember name="2" display="Performance"></EnumMember>
-			<EnumMember name="1" display="Ultra Performance"></EnumMember>
+			<EnumMember name="2" display="Enabled"></EnumMember>
+			<EnumMember name="1" display="Performance"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
 		<Enum name="eSHAD_MODE">

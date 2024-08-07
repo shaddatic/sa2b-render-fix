@@ -16,7 +16,6 @@
 /************************/
 typedef enum
 {
-    MODMD_ACCURATE,
     MODMD_FAST,
     MODMD_DEBUG,
 }
