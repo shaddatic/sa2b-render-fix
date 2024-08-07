@@ -81,9 +81,9 @@ AnimateMotion(ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl)
 int32_t
 njCnkModDrawModel(NJS_CNK_MODEL* model)
 {
-//  if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
-//      if (model->r > 0 && njCnkModelClip(model))
-//          return 1;
+    if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
+        if (model->r > 0 && njCnkModelClip(model))
+            return 1;
 
     Sint32* vlist = model->vlist;
 
@@ -103,7 +103,7 @@ njCnkModDrawModel(NJS_CNK_MODEL* model)
 
     NJS_POINT3* vtx_buf = &base_vtx_buf[offst];
 
-    RFMOD_CalcVertexes((NJS_POINT3*)vlist, vtx_buf, nbidx);
+    njCalcPoints(NULL, (NJS_POINT3*)vlist, vtx_buf, nbidx);
 
     Sint16* plist = model->plist;
 

@@ -1,6 +1,5 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/funchook.h>
 #include <sa2b/writeop.h>
 
 /** Ninja **/
@@ -222,12 +221,6 @@ enum
 static bool ModShadowDrawList[NB_MOD_DRAW] = { true, true, true, true, true, true };
 
 static void
-ClearModBuffer(void)
-{
-    RFMOD_ClearBuffer(); 
-}
-
-static void
 DrawModBuffer(int index)
 {
     if (ModShadowDrawList[index])
@@ -243,15 +236,61 @@ DrawModBuffer(int index)
 #define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
 #define IsSplitscreen       DATA_REF(bool  , 0x0174AFE0)
 
-static hook_info* TaskDisplayShadowsHookInfo;
+#define ShadowMapCount      DATA_REF(s16, 0x01A5A3EC)
 
 static void
-TaskDisplayShadowsHook(void)
+TaskDisplayDispShad(TASK* btpl)
 {
-    RFMOD_ClearBuffer(); 
-    RFMOD_SetInvViewMatrix();
+    if (!btpl)
+        return;
 
-    FuncHookCall( TaskDisplayShadowsHookInfo, TaskDisplayShadows() );
+    TASK* const base_tp = btpl;
+
+    TASK* tp = btpl;
+
+    do
+    {
+        TASK* const nexttp = tp->next;
+
+        pExecute = tp->disp_shad;
+
+        if (tp->disp_shad)
+            tp->disp_shad(tp);
+
+        pExecute = NULL;
+
+        TaskDisplayDispShad(tp->ctp);
+
+        tp = nexttp;
+    }
+    while (tp != base_tp);
+}
+
+static void
+TaskDisplayShadAllTasks(void)
+{
+    /** Clear mod buffer for new frame **/
+    RFMOD_ClearBuffer();
+
+    if (ShadowMapCount) // Delayed by 1 frame
+    {
+        /** Draw the modifiers and shadow maps,
+            can screw with screen so backup (slow) **/
+        BackupScreenInfo();
+        TaskDisplayShadows();
+        RestoreScreenInfo();
+    }
+    else
+    {
+        /** No shadow maps to draw,
+            just draw the modifiers (fast) **/
+        TaskDisplayDispShad(btp[0]);
+        TaskDisplayDispShad(btp[1]);
+        TaskDisplayDispShad(btp[2]);
+        TaskDisplayDispShad(btp[3]);
+        TaskDisplayDispShad(btp[4]);
+        TaskDisplayDispShad(btp[5]);
+    }
 }
 
 static void
@@ -277,7 +316,7 @@ TaskDisplayAll(void)
         gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
         TaskDisplayDisplayer(btp[0]);
 
-        RFMOD_CalcBuffer();     // Calculate buffer for new frame
+        TaskDisplayShadAllTasks();
 
         SetLighting(DefaultPlayerLight); // Reset lighting
 
@@ -402,8 +441,6 @@ RFG_TaskDisplayInit(void)
 {
     WriteJump(0x00470010, TaskDisplayAll);
 
-    TaskDisplayShadowsHookInfo = FuncHook(TaskDisplayShadows, TaskDisplayShadowsHook);
-
     /** Draw HUD **/
     KillCall(0x0043D134);
     KillCall(0x0043D26F);
@@ -412,8 +449,8 @@ RFG_TaskDisplayInit(void)
     KillCall(0x0043D4F8);
     
     /** Draw shadows **/
-//  KillCall(0x0047050E);
-//  KillCall(0x004708A3);
+    KillCall(0x0047050E);
+    KillCall(0x004708A3);
 
     if (RF_ConfigGetInt(CNF_SHADOW_CHSMD) <= CNFE_SHADOW_CHSMD_PERFORMANCE)
     {
