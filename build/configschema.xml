@@ -191,6 +191,9 @@ The original games used 'Half Width'.</HelpText>
 			<Property name="race_tree_mod" display="Draw Race Tree Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Adds modifier shadows for Chao Race Trees, which normally don't have any.</HelpText>
 			</Property>
+			<Property name="pause_font_col" display="Pause Font Colors" type="ePAUSE_FONT_COL" defaultvalue="1">
+				<HelpText>Which colors should be used for the pause menu text.</HelpText>
+			</Property>
 		</Group>
 		<Group name="experimental" display="Experimental Settings">
 			<Property name="shd_opacity_sw" display="Change Shadow Map Opacity in Chao World" type="eBOOL" defaultvalue="0">
@@ -303,6 +306,10 @@ The original games used 'Half Width'.</HelpText>
 			<EnumMember name="2" display="Enabled"></EnumMember>
 			<EnumMember name="1" display="Dreamcast"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="ePAUSE_FONT_COL">
+			<EnumMember name="1" display="DC/GC"></EnumMember>
+			<EnumMember name="0" display="Vanilla"></EnumMember>
 		</Enum>
 	</Enums>
 </ConfigSchema>

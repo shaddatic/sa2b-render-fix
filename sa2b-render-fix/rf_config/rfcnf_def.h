@@ -143,6 +143,15 @@ typedef enum
 }
 CNFE_CART_CARTSPRITE;
 
+/****** Misc Section ********************************************************/
+/** Cart Sprite Fix **/
+typedef enum
+{
+    CNFE_MISC_PAUSEFONTCOL_DARKER,
+    CNFE_MISC_PAUSEFONTCOL_LIGHTER,
+}
+CNFE_CART_CARTSPRITE;
+
 /************************/
 /*  Constants           */
 /************************/
@@ -271,6 +280,7 @@ CNFE_CART_CARTSPRITE;
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
 #define CNF_MISC_TWALKFOOTMOD       CNFO_INT(   CNFS_MISC           , "twalk_foot_mod"      , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
+#define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
 
 /** Experimental section **/
 #define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */

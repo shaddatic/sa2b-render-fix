@@ -46,6 +46,11 @@
 #define ASCII_BUF_SIZE      (ASCII_32_SIZE)
 
 /************************/
+/*  Game Variables      */
+/************************/
+#define PauseTexVtxOff      DATA_ARY(NJS_TEXTURE_VTX, 0x0174ADB0, [4])
+
+/************************/
 /*  Types               */
 /************************/
 typedef enum
@@ -537,5 +542,14 @@ RF_FontInit(void)
         ga_InputWay[1] = 1;
         ga_InputWay[2] = 1;
         ga_InputWay[3] = 1;
+    }
+
+    /** Pause Color **/
+    if (RF_ConfigGetInt(CNF_MISC_PAUSEFONTCOL))
+    {
+        PauseTexVtxOff[0].col = 0xFF98C0F0;
+        PauseTexVtxOff[1].col = 0xFF98C0F0;
+        PauseTexVtxOff[2].col = 0xFF98C0F0;
+        PauseTexVtxOff[3].col = 0xFF98C0F0;
     }
 }
