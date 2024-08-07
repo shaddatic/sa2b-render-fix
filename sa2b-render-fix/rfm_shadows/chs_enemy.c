@@ -14,6 +14,7 @@
 #include <rf_draw.h>
 #include <rf_file.h>
 #include <rf_enemywk.h>
+#include <rf_renderstate.h>
 
 static void
 DrawEnemyMod(ENEMYWK* ewp, TASKWK* twp)
@@ -505,6 +506,10 @@ EnemyShoukoDisplayerMod(TASK* tp)
     if (twp->mode == 1)
         return;
 
+    /** The shouko's modifier model is inverted by default, was on Dreamcast too.
+        So, just invert the modifier render state **/
+    RFRS_SetModMode(RFRS_MODMD_INVERSE);
+
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
@@ -516,6 +521,8 @@ EnemyShoukoDisplayerMod(TASK* tp)
     njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    RFRS_SetModMode(RFRS_MODMD_END);
 }
 
 static void
