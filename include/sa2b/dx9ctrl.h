@@ -157,7 +157,7 @@ bool    DX9_SetCulling( dx9_cull_mode mode );
 /*  Point Primitive     */
 /************************/
 /****** Point Primitive *************************************************/
-bool    DX9_SetPointSize(   float32_t size  );
+bool    DX9_SetPointSize(   f32       size  );
 bool    DX9_SetPointSprite( bool      state );
 bool    DX9_SetPointScale(  bool      state );
 

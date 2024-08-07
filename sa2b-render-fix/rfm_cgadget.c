@@ -5,7 +5,7 @@
 #include <sa2b/ninja/ninja.h>
 
 /** Game **/
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -13,7 +13,7 @@
 
 static hook_info* BgDispCGHookInfo;
 
-#define BgDispCG    FuncPtr(void, __cdecl, (TASK*), 0x00771DD0)
+#define BgDispCG    FUNC_PTR(void, __cdecl, (TASK*), 0x00771DD0)
 
 static void
 BgDispCGHook(TASK* tp)

@@ -3,7 +3,6 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/memutil.h>   /* WriteData, WriteJump, WritePointer                   */
 
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/ninja.h>   /* ninja                                            */

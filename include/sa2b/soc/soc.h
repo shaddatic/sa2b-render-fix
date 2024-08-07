@@ -15,18 +15,15 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _SOC_H_
-#define _SOC_H_
-
-#ifdef  __cplusplus
+#ifndef H_SOC
+#define H_SOC
 
 /************************/
-/*  Includes            */
+/*  Internal Headers    */
 /************************/
 /****** SoC *************************************************************************/
 #include <sa2b/soc/render.h>
 #include <sa2b/soc/input.h>
+#include <sa2b/soc/audio.h>
 
-#endif/*__cplusplus*/
-
-#endif/*_SOC_H_*/
+#endif/*H_SOC*/

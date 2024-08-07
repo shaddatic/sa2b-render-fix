@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -8,9 +9,9 @@
 #include <sa2b/gx/gx.h>
 
 /** Source **/
-#include <sa2b/src/landtable.h>
-#include <sa2b/src/datadll.h>
-#include <sa2b/src/njctrl.h>
+#include <sa2b/sonic/landtable.h>
+#include <sa2b/sonic/datadll.h>
+#include <sa2b/sonic/njctrl.h>
 
 /** Std **/
 #include <string.h>
@@ -43,7 +44,7 @@ JumpAuraFixFlagOff(void)
     gjUpdateFog();
 }
 
-#define BgDisp_CCK      FuncPtr(void, __cdecl, (TASK*), 0x65F6D0)
+#define BgDisp_CCK      FUNC_PTR(void, __cdecl, (TASK*), 0x65F6D0)
 
 static void
 BGDisp_CCKFix(TASK* tp)
@@ -60,7 +61,7 @@ BGDisp_CCKFix(TASK* tp)
     LoadControl3D();
 }
 
-#define BgDisp_CCR      FuncPtr(void, __cdecl, (TASK*), 0x4DC140)
+#define BgDisp_CCR      FUNC_PTR(void, __cdecl, (TASK*), 0x4DC140)
 
 static void
 BGDisp_CCRFix(TASK* tp)
@@ -77,7 +78,7 @@ BGDisp_CCRFix(TASK* tp)
     LoadControl3D();
 }
 
-#define BgDisp_CCS      FuncPtr(void, __cdecl, (TASK*), 0x4CB840)
+#define BgDisp_CCS      FUNC_PTR(void, __cdecl, (TASK*), 0x4CB840)
 
 static void
 BGDisp_CCSFix(TASK* tp)
@@ -94,15 +95,15 @@ BGDisp_CCSFix(TASK* tp)
     LoadControl3D();
 }
 
-#define HataList1               DataAry(NJS_CNK_MODEL* , 0x00A7E9F0, [74]) // Desert Banners
-#define HataList2               DataAry(NJS_CNK_MODEL* , 0x00A7E888, [90]) // ^
-#define HataListSO              DataAry(NJS_CNK_MODEL* , 0x00CDE5B0, [90]) // ^ (Sand Ocean)
-#define LowFlagList             DataAry(NJS_CNK_MODEL* , 0x00BC0B98, [48]) // Wild Canyon Wind Flags
-#define FlagList                DataAry(NJS_CNK_MODEL* , 0x00BD3560, [48]) // ^
-#define ButterflyList           DataAry(NJS_CNK_MODEL* , 0x00DDB64C, [9])  // Dry Lagoon Butterflies
-#define PoisonHazardList        DataAry(NJS_CNK_OBJECT*, 0x009CAD88, [22]) // Crazy Gadget Poison Objects
-#define BatModelList            DataAry(NJS_CNK_MODEL* , 0x00B6AD04, [6])
-#define CCRBgWaterList          DataAry(NJS_CNK_MODEL* , 0x01612CF8, [20])
+#define HataList1               DATA_ARY(NJS_CNK_MODEL* , 0x00A7E9F0, [74]) // Desert Banners
+#define HataList2               DATA_ARY(NJS_CNK_MODEL* , 0x00A7E888, [90]) // ^
+#define HataListSO              DATA_ARY(NJS_CNK_MODEL* , 0x00CDE5B0, [90]) // ^ (Sand Ocean)
+#define LowFlagList             DATA_ARY(NJS_CNK_MODEL* , 0x00BC0B98, [48]) // Wild Canyon Wind Flags
+#define FlagList                DATA_ARY(NJS_CNK_MODEL* , 0x00BD3560, [48]) // ^
+#define ButterflyList           DATA_ARY(NJS_CNK_MODEL* , 0x00DDB64C, [9])  // Dry Lagoon Butterflies
+#define PoisonHazardList        DATA_ARY(NJS_CNK_OBJECT*, 0x009CAD88, [22]) // Crazy Gadget Poison Objects
+#define BatModelList            DATA_ARY(NJS_CNK_MODEL* , 0x00B6AD04, [6])
+#define CCRBgWaterList          DATA_ARY(NJS_CNK_MODEL* , 0x01612CF8, [20])
 
 static bool CullEnabled;
 
@@ -183,12 +184,12 @@ RFG_BackfaceCullingInit(void)
 
     /** Hata (Desert Banners) **/
     {
-        for (int i = 0; i < arylen(HataList1); ++i)
+        for (int i = 0; i < ARYLEN(HataList1); ++i)
         {
             CnkModelMaterialFlagOn(HataList1[i], 0, NJD_FST_DB);
         }
 
-        for (int i = 0; i < arylen(HataList2); ++i)
+        for (int i = 0; i < ARYLEN(HataList2); ++i)
         {
             CnkModelMaterialFlagOn(HataList2[i], 0, NJD_FST_DB);
         }
@@ -196,7 +197,7 @@ RFG_BackfaceCullingInit(void)
 
     /** Hata (Sand Ocean) **/
     {
-        for (int i = 0; i < arylen(HataListSO); ++i)
+        for (int i = 0; i < ARYLEN(HataListSO); ++i)
         {
             CnkModelMaterialFlagOn(HataListSO[i], 0, NJD_FST_DB);
         }
@@ -211,12 +212,12 @@ RFG_BackfaceCullingInit(void)
     {
         WriteData(0x006A2F9A, 0x8300 | NJD_FST_DB, uint32_t); // Wind Tunnel
 
-        for (int i = 0; i < arylen(LowFlagList); ++i)
+        for (int i = 0; i < ARYLEN(LowFlagList); ++i)
         {
             CnkModelMaterialFlagOn(LowFlagList[i], 0, NJD_FST_DB);
         }
 
-        for (int i = 0; i < arylen(FlagList); ++i)
+        for (int i = 0; i < ARYLEN(FlagList); ++i)
         {
             CnkModelMaterialFlagOn(FlagList[i], 0, NJD_FST_DB);
         }
@@ -235,7 +236,7 @@ RFG_BackfaceCullingInit(void)
         CnkModelMaterialFlagOn(0x00E3539C, 0, NJD_FST_DB); // ^
         CnkModelMaterialFlagOn(0x00E352F4, 0, NJD_FST_DB); // ^
 
-        for (int i = 0; i < arylen(ButterflyList); ++i)
+        for (int i = 0; i < ARYLEN(ButterflyList); ++i)
         {
             CnkModelMaterialFlagOn(ButterflyList[i], 0, NJD_FST_DB);
         }
@@ -295,7 +296,7 @@ RFG_BackfaceCullingInit(void)
         CnkModelMaterialFlagOn(0x009B046C, -1, NJD_FST_DB); // POISON Object
         CnkModelMaterialFlagOn(0x009B03CC, -1, NJD_FST_DB); // POISON Object Cap
 
-        for (int i = 0; i < arylen(PoisonHazardList); ++i)
+        for (int i = 0; i < ARYLEN(PoisonHazardList); ++i)
         {
             CnkModelMaterialFlagOn(PoisonHazardList[i]->model, -1, NJD_FST_DB);
         }
@@ -306,7 +307,7 @@ RFG_BackfaceCullingInit(void)
 
     /** Death Chamber Bats **/
     {
-        for (int i = 0; i < arylen(BatModelList); ++i)
+        for (int i = 0; i < ARYLEN(BatModelList); ++i)
         {
             CnkModelMaterialFlagOn(BatModelList[i], -1, NJD_FST_DB);
         }
@@ -389,7 +390,7 @@ RFG_BackfaceCullingInit(void)
         WritePointer(0x0065F18A, BGDisp_CCKFix); // I don't really like these fixes
         WritePointer(0x004DB82A, BGDisp_CCRFix); // ^
 
-        for (int i = 0; i < arylen(CCRBgWaterList); ++i)
+        for (int i = 0; i < ARYLEN(CCRBgWaterList); ++i)
         {
             CnkModelMaterialFlagOn(CCRBgWaterList[i], -1, NJD_FST_DB);
         }

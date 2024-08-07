@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -12,7 +13,7 @@
 /** Self **/
 #include <rfm_cart.h>
 
-#define CartSeaDisplay      FuncPtr(void, __cdecl, (void), 0x00621C90)
+#define CartSeaDisplay      FUNC_PTR(void, __cdecl, (void), 0x00621C90)
 
 static void
 DrawCartSea(void)
@@ -32,7 +33,7 @@ RFM_CartInit(void)
 
     if (RF_ConfigGetInt(CNF_CART_KANBAN))
     {
-        WriteNoOP(0x006220CE, 0x006220E5);
+        WriteNOP(0x006220CE, 0x006220E5);
     }
 
     switch (RF_ConfigGetInt(CNF_CART_CARTSPRITE)) {
@@ -40,7 +41,7 @@ RFM_CartInit(void)
         static const double SpriteSubtract = 6.0;
 
     case CNFE_CART_CARTSPRITE_DREAMCAST:
-        WriteNoOP(0x0061CB07, 0x0061CB0C);
+        WriteNOP(0x0061CB07, 0x0061CB0C);
         break;
 
     case CNFE_CART_CARTSPRITE_ENABLED:

@@ -1,15 +1,16 @@
 #include <sa2b/core.h>
+#include <sa2b/writeop.h>
 
 #include <sa2b/shinobi/sg_maloc.h>
 
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
 #include <rf_util.h>
 
-#define EnemyExplosionExecutor      FuncPtr(void, __cdecl, (TASK*), 0x004F7020)
-#define EnemyExplosionDisplayer     FuncPtr(void, __cdecl, (TASK*), 0x004F6350)
+#define EnemyExplosionExecutor      FUNC_PTR(void, __cdecl, (TASK*), 0x004F7020)
+#define EnemyExplosionDisplayer     FUNC_PTR(void, __cdecl, (TASK*), 0x004F6350)
 
-#define sub_4F70E0      FuncPtr(void, __cdecl, (), 0x4F70E0)
+#define sub_4F70E0      FUNC_PTR(void, __cdecl, (), 0x4F70E0)
 
 static TASK*
 EnemyExplosionCreateTask(void)

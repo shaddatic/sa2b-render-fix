@@ -1,15 +1,15 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
-#include <sa2b/src/c_colli.h>
-#include <sa2b/src/score.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
+#include <sa2b/sonic/c_colli.h>
+#include <sa2b/sonic/score.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -17,11 +17,11 @@
 #include <rf_draw.h>
 #include <rf_util.h>
 
-#define GlobalBuffer        DataAry(int, 0x01DEFE20, [1])
+#define GlobalBuffer        DATA_ARY(int, 0x01DEFE20, [1])
 
-#define ModTurnVertex       FuncPtr(void, __cdecl, (float32_t, float32_t, Angle3*), 0x005B44E0)
+#define ModTurnVertex       FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
 
-#define object_car_mod      DataAry(NJS_CNK_OBJECT, 0x00B4D254, [1])
+#define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
 
 static void
 DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
@@ -45,7 +45,7 @@ DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
 typedef struct 
 {
     const char* name;
-    float32_t   LODSwitch;
+    f32         LODSwitch;
     NJS_TEXLIST* pTexlist;
     GJS_OBJECT* pObject;
     NJS_TEXLIST* pTexlistLOD;
@@ -60,10 +60,10 @@ typedef struct
 }
 CAR_INFO;
 
-#define DisableCars     DataRef(bool32_t, 0x1AEDC40)
+#define DisableCars     DATA_REF(b32, 0x1AEDC40)
 
 static bool
-PosInRange(NJS_POINT3* pPos, float32_t maxRange, float32_t* pAnsDist)
+PosInRange(NJS_POINT3* pPos, f32 maxRange, f32* pAnsDist)
 {
     NJS_POINT3 p3;
     njCalcPoint(NULL, pPos, &p3);
@@ -73,7 +73,7 @@ PosInRange(NJS_POINT3* pPos, float32_t maxRange, float32_t* pAnsDist)
     return -maxRange <= -p3.z;
 }
 
-#define stru_10D9810    DataAry(CAR_INFO, 0x010D9810, [30])
+#define stru_10D9810    DATA_ARY(CAR_INFO, 0x010D9810, [30])
 
 static void
 ObjectCECarDisplayerMod(TASK* tp)
@@ -116,7 +116,7 @@ ObjectCECarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectCECar         FuncPtr(void, __cdecl, (TASK*), 0x005DE4E0)
+#define ObjectCECar         FUNC_PTR(void, __cdecl, (TASK*), 0x005DE4E0)
 
 static hook_info* ObjectCECarHookInfo;
 void
@@ -143,7 +143,7 @@ ObjectCECarCrashDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define stru_1195F80    DataAry(CAR_INFO, 0x01195F80, [15])
+#define stru_1195F80    DATA_ARY(CAR_INFO, 0x01195F80, [15])
 
 static void
 ObjectMSCarDisplayerMod(TASK* tp)
@@ -186,7 +186,7 @@ ObjectMSCarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectMSCar2        FuncPtr(void, __cdecl, (TASK*), 0x005B4850)
+#define ObjectMSCar2        FUNC_PTR(void, __cdecl, (TASK*), 0x005B4850)
 
 static hook_info* ObjectMSCar2HookInfo;
 void

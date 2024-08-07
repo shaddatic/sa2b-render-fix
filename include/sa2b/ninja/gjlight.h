@@ -23,10 +23,10 @@
 /*  Data                */
 /************************/
 /** Unique ID for each light index **/
-#define _gj_light_ids_      DataAry(uint32_t , 0x0174B468, [5])
+#define _gj_light_ids_      DATA_ARY(uint32_t , 0x0174B468, [5])
 
 /** Light list **/
-#define _gj_lights_         DataAry(GXS_LIGHT, 0x025F0120, [5]) /* Defined in '/gx/gxlight.h' */
+#define _gj_lights_         DATA_ARY(GXS_LIGHT, 0x025F0120, [5]) /* Defined in '/gx/gxlight.h' */
 
 /************************/
 /*  Functions           */

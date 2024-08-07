@@ -1,15 +1,18 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/config.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
+
+/** Util **/
+#include <sa2b/util/endian.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/display.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -59,14 +62,14 @@ EndiswapEventTexAnim0(EventTexAnimSub0* a1)
 static void
 EndiswapEventTexAnim(EventTexAnim* p)
 {
-    SwapEndianness(&p->count);
+    EndianSwap(&p->count);
 
-    SwapEndianness(&p->somethingelse);
+    EndianSwap(&p->somethingelse);
 
     if (p->somethingelse)
         *(int32_t*)&p->somethingelse -= 2132869184; // idky I'm doing this
 
-    SwapEndianness(&p->something);
+    EndianSwap(&p->something);
 
     if (p->something)
         *(int32_t*)&p->something -= 2132869184;

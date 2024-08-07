@@ -3,7 +3,8 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/memutil.h>   /* WriteData, WriteJump, WritePointer                   */
+#include <sa2b/writemem.h>  /* WriteData, WritePointer                              */
+#include <sa2b/writeop.h>   /* WriteNOP                                             */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
@@ -75,7 +76,7 @@ RFC_TransparancyInit(void)
 
         if (RF_ConfigGetInt(CNF_COMPAT_DCSHADCRASH))
         {
-            WriteNoOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
+            WriteNOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
         }
     }
 

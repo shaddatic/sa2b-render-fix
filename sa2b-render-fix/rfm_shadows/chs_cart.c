@@ -1,16 +1,17 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/camera.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/camera.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
@@ -28,7 +29,7 @@ typedef struct
     NJS_CNK_OBJECT* pFarObject;
     NJS_TEXLIST*    pTexlist;
     int unk0;
-    bool32_t is_player;
+    b32 is_player;
     int character;
     int player_num;
     void* ptr1;
@@ -60,12 +61,12 @@ cartDisplayerMod(TASK* tp)
 {
     CARTWK* const cwp = GET_CARTWK(tp);
 
-    CAMERA_CONTROL_WORK* const camwk = cameraCurrentWork;
+    CAMCONTWK* const camwk = cameraCurrentWork;
 
     NJS_POINT3 rel_pos = {
-        .x = cwp->pos.x - camwk->campos.x,
-        .y = cwp->pos.y - camwk->campos.y,
-        .z = cwp->pos.z - camwk->campos.z,
+        .x = cwp->pos.x - camwk->pos.x,
+        .y = cwp->pos.y - camwk->pos.y,
+        .z = cwp->pos.z - camwk->pos.z,
     };
 
     const float fchk = (rel_pos.x * rel_pos.x) + (rel_pos.y * rel_pos.y) + (rel_pos.z * rel_pos.z);
@@ -117,7 +118,7 @@ cartDisplayerMod(TASK* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define courseDisplayDisplayer      FuncPtr(void, __cdecl, (TASK*), 0x00623E10)
+#define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (TASK*), 0x00623E10)
 
 static hook_info* HookInfoCourseDisplayDisplayer;
 static void

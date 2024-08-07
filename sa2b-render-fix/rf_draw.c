@@ -3,7 +3,7 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/memutil.h>   /* WriteData, WriteJump, WritePointer                   */
+#include <sa2b/writemem.h>  /* WriteData, WriteJump, WritePointer                   */
 
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/ninja.h>   /* ninja                                            */
@@ -12,7 +12,7 @@
 #include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
 
 /****** Game ************************************************************************/
-#include <sa2b/src/motion.h>    /* MOTION_CTRL                                      */
+#include <sa2b/sonic/motion.h>    /* MOTION_CTRL                                      */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -25,10 +25,10 @@
 /*  Constants           */
 /************************/
 /****** DrawTextureEx ***************************************************************/
-#define TexExCount          DataRef(int32_t, 0x0077F6BF)
+#define TexExCount          DATA_REF(int32_t, 0x0077F6BF)
 
 /****** DrawPolygon2D ***************************************************************/
-#define Poly2DN             DataRef(int32_t, 0x00490FA8)
+#define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
 
 /************************/
 /*  Source              */

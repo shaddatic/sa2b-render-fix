@@ -1,28 +1,29 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/funchook.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/player.h>
-#include <sa2b/src/c_colli.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/player.h>
+#include <sa2b/sonic/c_colli.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/debug.h>
 
 /** Figure **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/src/figure/sonic.h>
-#include <sa2b/src/figure/shadow.h>
-#include <sa2b/src/figure/miles.h>
-#include <sa2b/src/figure/eggman.h>
-#include <sa2b/src/figure/knuckles.h>
-#include <sa2b/src/figure/rouge.h>
-#include <sa2b/src/figure/ewalker.h>
-#include <sa2b/src/figure/twalker.h>
+#include <sa2b/sonic/figure/sonic.h>
+#include <sa2b/sonic/figure/shadow.h>
+#include <sa2b/sonic/figure/miles.h>
+#include <sa2b/sonic/figure/eggman.h>
+#include <sa2b/sonic/figure/knuckles.h>
+#include <sa2b/sonic/figure/rouge.h>
+#include <sa2b/sonic/figure/ewalker.h>
+#include <sa2b/sonic/figure/twalker.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
@@ -34,7 +35,7 @@
 /** Self (?) **/
 
 /** Constant **/
-#define SonicDisplayer      FuncPtr(void, __cdecl, (TASK*), 0x00720090)
+#define SonicDisplayer      FUNC_PTR(void, __cdecl, (TASK*), 0x00720090)
 
 static NJS_CNK_OBJECT* object_sonic_head_mod;
 static NJS_CNK_OBJECT* object_amy_head_mod;
@@ -63,8 +64,8 @@ static NJS_CNK_OBJECT* object_dwalker_foot_mod;
 static bool MilesTailModifiers; /* Draw Tails' tail modifiers                           */
 static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below the floor */
 
-#define flt_1DEB070         DataRef(float32_t, 0x01DEB070)
-#define MultiIntroPno       DataRef(int8_t   , 0x0174B009)
+#define flt_1DEB070         DATA_REF(f32   , 0x01DEB070)
+#define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
 
 #define BALL_OBJ_NUM_SONIC      (6)
 #define BALL_OBJ_NUM_SHADOW     (71)
@@ -300,8 +301,8 @@ MetalSonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 
 #define BALL_FLAG   (0x100)
 
-#define AmyMotionCallBack_p             FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
-#define MetalSonicMotionCallBack_p      FuncPtr(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
+#define AmyMotionCallBack_p             FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
+#define MetalSonicMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
 
 static void __cdecl
 SonicDisplayerShadowHook(TASK* tp)
@@ -770,9 +771,9 @@ KnucklesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define PlayerNumCheck      DataRef(bool, 0x0174B009)
+#define PlayerNumCheck      DATA_REF(bool, 0x0174B009)
 
-#define KnucklesDisplayer   FuncPtr(void, __cdecl, (TASK*), 0x0072EF20)
+#define KnucklesDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x0072EF20)
 
 
 static const void* const sub_446960_p = (void*)0x00446960;

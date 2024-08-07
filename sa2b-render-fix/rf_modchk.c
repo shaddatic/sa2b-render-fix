@@ -1,5 +1,5 @@
 #include <sa2b/core.h>
-#include <sa2b/mods.h>
+#include <sa2b/modinfo.h>
 #include <sa2b/string.h>
 
 /** Render Fix **/
@@ -20,9 +20,9 @@
 static bool
 CheckModByNameAndAuthor(const char* name, const char* author)
 {
-    const mod_handle* mhp = ModGetHandleName(name);
+    const mod_info* mhp = MI_GetInfoByName(name);
 
-    return (mhp && StringMatch( ModGetAuthor(mhp), author, STR_NOMAX ));
+    return (mhp && StringMatch( mhp->cAuthor, author, STR_NOMAX ));
 }
 
 void
@@ -30,9 +30,9 @@ RF_ModCheckInit(void)
 {
     /** Check Render Fix's mod-list position **/
     {
-        const mod_handle* mhp = ModGetHandlePosition(0);
+        const mod_info* mhp = MI_GetInfoByPosition(0);
 
-        if (!StringMatch( ModGetID(mhp), "sa2-render-fix", STR_NOMAX ))
+        if (!StringMatch( mhp->cID, "sa2-render-fix", STR_NOMAX ))
         {
             RF_Alert("Mod Position",
                 "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
@@ -61,7 +61,7 @@ RF_ModCheckInit(void)
 
     /** Check Enhanced Shadows by Shaddatic **/
     {
-        if (ModCheckDll("enhanced-shadows"))
+        if (MI_GetInfoByDLL("enhanced-shadows"))
         {
             RF_ModConflictStrict("Enhanced Shadows", "Render Fix");
         }
@@ -70,7 +70,7 @@ RF_ModCheckInit(void)
 
     /** Check No Model Tinting by Speeps **/
     {
-        if (RFF_FixModelTint() && ModCheckDll("NoTinting"))
+        if (RFF_FixModelTint() && MI_GetInfoByDLL("NoTinting"))
         {
             RF_ModConflictEither("No Model Tinting", "Fix Model Tint");
         }
@@ -79,7 +79,7 @@ RF_ModCheckInit(void)
 
     /** Check Restored GUN Logos by Speeps **/
     {
-        if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && ModCheckDll("RestoredGUNLogos"))
+        if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && MI_GetInfoByDLL("RestoredGUNLogos"))
         {
             RF_ModConflictEither("Restored GUN Logos", "GUN Emblem Fix");
         }
@@ -87,7 +87,7 @@ RF_ModCheckInit(void)
 
     /** Check DC Shadows by Exant **/
     {
-        if (RFF_CheapShadow() && ModCheckDll("sa2-dc-lighting"))
+        if (RFF_CheapShadow() && MI_GetInfoByDLL("sa2-dc-lighting"))
         {
             RF_ModConflictEither("DC Shadows", "Modifer Shadows");
         }
@@ -95,7 +95,7 @@ RF_ModCheckInit(void)
 
     /** Check Eggman Lighting Fix by Exant **/
     {
-        if (RFF_SpotLightFix() && ModCheckDll("NoLightingPatch"))
+        if (RFF_SpotLightFix() && MI_GetInfoByDLL("NoLightingPatch"))
         {
             RF_ModConflictEither("Eggman Lighting Fix", "Spot Light Fix");
         }

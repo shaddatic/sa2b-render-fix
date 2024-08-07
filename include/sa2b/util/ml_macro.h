@@ -19,15 +19,15 @@
 #ifdef  __cplusplus
 
 /** Data declarations **/
-#   define DataPointer(type, name, address)                            static auto& name = DataRef(type, address)
-#   define DataArray(type, name, address, len)                         static auto& name = DataAry(type, address, [len])
+#   define DataPointer(type, name, address)                            static auto& name = DATA_REF(type, address)
+#   define DataArray(type, name, address, len)                         static auto& name = DATA_ARY(type, address, [len])
 
 /** Function declarations **/
-#   define FunctionPointer(return_type, name, args, address)           static auto* name = FuncPtr(return_type, __cdecl   , args  , address)
-#   define StdcallFunctionPointer(return_type, name, args, address)    static auto* name = FuncPtr(return_type, __stdcall , args  , address)
-#   define FastcallFunctionPointer(return_type, name, args, address)   static auto* name = FuncPtr(return_type, __fastcall, args  , address)
-#   define ThiscallFunctionPointer(return_type, name, args, address)   static auto* name = FuncPtr(return_type, __thiscall, args  , address)
-#   define VoidFunc(name, address)                                     static auto* name = FuncPtr(void       , __cdecl   , (void), address)
+#   define FunctionPointer(return_type, name, args, address)           static auto* name = FUNC_PTR(return_type, __cdecl   , args  , address)
+#   define StdcallFunctionPointer(return_type, name, args, address)    static auto* name = FUNC_PTR(return_type, __stdcall , args  , address)
+#   define FastcallFunctionPointer(return_type, name, args, address)   static auto* name = FUNC_PTR(return_type, __fastcall, args  , address)
+#   define ThiscallFunctionPointer(return_type, name, args, address)   static auto* name = FUNC_PTR(return_type, __thiscall, args  , address)
+#   define VoidFunc(name, address)                                     static auto* name = FUNC_PTR(void       , __cdecl   , (void), address)
 
 #endif/*__cplusplus*/
 

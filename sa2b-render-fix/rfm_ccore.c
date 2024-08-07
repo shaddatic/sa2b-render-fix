@@ -2,8 +2,8 @@
 #include <sa2b/model.h>
 
 /** Game **/
-#include <sa2b/src/landtable.h>
-#include <sa2b/src/datadll.h>
+#include <sa2b/sonic/landtable.h>
+#include <sa2b/sonic/datadll.h>
 
 /** Std **/
 #include <stdio.h>

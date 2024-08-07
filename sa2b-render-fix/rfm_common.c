@@ -1,18 +1,17 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 #include <sa2b/model.h>
 #include <sa2b/funchook.h>
-#include <sa2b/mods.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/score.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/texture.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/score.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/texture.h>
 
 /** Std **/
 #include <stdio.h>
@@ -51,7 +50,7 @@ EXTERN NJS_CNK_MODEL model_ce_truck_hood[];
 
 EXTERN NJS_CNK_MODEL model_e_s_ai_shield[];
 
-#define CurrentLevel            DataRef(int16_t, 0x01934B70)
+#define CurrentLevel            DATA_REF(int16_t, 0x01934B70)
 
 static int __fastcall
 EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
@@ -60,10 +59,10 @@ EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
 
     snprintf(strbuf, 260, "%s_STG%02i", fname, CurrentLevel);
 
-    const int err = texLoadTextureFile(strbuf, ptlo);
+    const int err = texLoadTexturePrsFile(strbuf, ptlo);
 
     if (err == -1)
-        return texLoadTextureFile(fname, ptlo);
+        return texLoadTexturePrsFile(fname, ptlo);
 
     return err;
 }
@@ -80,7 +79,7 @@ RF_GinjaLoadObjectFile(const utf8* fname)
     return MDL_GinjaLoadObjectFile(buf);
 }
 
-#define ObjectGlobalLightManagerTaskPointer     DataRef(TASK*, 0x01A5A660)
+#define ObjectGlobalLightManagerTaskPointer     DATA_REF(TASK*, 0x01A5A660)
 
 static void
 ObjectGlobalLightSWDestructor(TASK* tp)
@@ -88,7 +87,7 @@ ObjectGlobalLightSWDestructor(TASK* tp)
     ObjectGlobalLightManagerTaskPointer = NULL;
 }
 
-#define ObjectGlobalLightManager    FuncPtr(void, __cdecl, (TASK*), 0x004CAB20)
+#define ObjectGlobalLightManager    FUNC_PTR(void, __cdecl, (TASK*), 0x004CAB20)
 
 static hook_info* ObjectGlobalLightManagerHookInfo;
 static void
@@ -99,8 +98,8 @@ ObjectGlobalLightManagerHook(TASK* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-#define ObjectGoalringDisp          FuncPtr(void, __cdecl, (TASK*), 0x006C6CD0)
-#define ObjectGoalringDispSort      FuncPtr(void, __cdecl, (TASK*), 0x006C6F10)
+#define ObjectGoalringDisp          FUNC_PTR(void, __cdecl, (TASK*), 0x006C6CD0)
+#define ObjectGoalringDispSort      FUNC_PTR(void, __cdecl, (TASK*), 0x006C6F10)
 
 static void
 ObjectGoalringDispSortNew(TASK* tp)
@@ -175,11 +174,11 @@ RFM_CommonInit(void)
 
     if (RF_ConfigGetInt(CNF_COMMON_TR_BLOON))
     {
-        WriteNoOP(0x006DB64D, 0x006DB656); // Balloon
-        WriteRetn(0x6DB3B0);
+        WriteNOP( 0x006DB64D, 0x006DB656); // Balloon
+        WriteRetn(0x06DB3B0);
 
         WriteData(0x00624E45, DISP_SORT, uint8_t); // Baloon (Cart)
-        WriteNoOP(0x00625199, 0x0062519B);
+        WriteNOP( 0x00625199, 0x0062519B);
 
         static const double bloondbl = 85.0;
 
@@ -197,7 +196,7 @@ RFM_CommonInit(void)
             I've just combined the disp and disp_sort functions **/
 
         SwitchDisplayer(0x006C651E, DISP_SORT); // Disp
-        WriteNoOP(0x006C6525, 0x006C652C);      // tp->disp_sort = ObjectGoalringDispSort;
+        WriteNOP(0x006C6525, 0x006C652C);       // tp->disp_sort = ObjectGoalringDispSort;
 
         WritePointer(0x006C6521, ObjectGoalringDispSortNew);
     }

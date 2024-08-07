@@ -1,13 +1,13 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
@@ -38,7 +38,7 @@ ObjectBlock2DisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectBlock2    FuncPtr(void, __cdecl, (TASK*), 0x004CF370)
+#define ObjectBlock2    FUNC_PTR(void, __cdecl, (TASK*), 0x004CF370)
 
 static hook_info* HookInfoObjectBlock2;
 static void
@@ -73,7 +73,7 @@ ObjectBlockDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectBlock    FuncPtr(void, __cdecl, (TASK*), 0x004CE240)
+#define ObjectBlock    FUNC_PTR(void, __cdecl, (TASK*), 0x004CE240)
 static hook_info* HookInfoObjectBlock;
 static void
 ObjectBlockHook(TASK* tp)

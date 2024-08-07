@@ -1,12 +1,13 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
@@ -42,9 +43,9 @@ CHS_GoalRingInit(void)
 //  WriteRetn(0x006C6F10);             // Kill disp_sort
 
     /** Ensure modifier displayer is awlays active **/
-    WriteNoOP(0x006C653A, 0x006C653E); // Force disp_shad
-    WriteNoOP(0x006C6543, 0x006C6545); // ^
-    WriteNoOP(0x006C6546, 0x006C655D); // ^
+    WriteNOP(0x006C653A, 0x006C653E); // Force disp_shad
+    WriteNOP(0x006C6543, 0x006C6545); // ^
+    WriteNOP(0x006C6546, 0x006C655D); // ^
 
     KillCall(0x006C6519); // Kill SetStencilInfo
 }

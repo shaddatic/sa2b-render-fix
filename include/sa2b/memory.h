@@ -34,10 +34,10 @@ void*   MemReCalloc( void* p, size_t nbBytePre, size_t nbByteNew ); /* Calls ReA
 /************************/
 /*  Memory Set          */
 /************************/
-void*   MemSet(   void* pDst, uint8_t  val, size_t nb );
-void*   MemSet16( void* pDst, uint16_t val, size_t nb );
-void*   MemSet32( void* pDst, uint32_t val, size_t nb );
-void*   MemSet64( void* pDst, uint64_t val, size_t nb );
+void*   MemSet(   void* pDst, u8  val, size_t nb );
+void*   MemSet16( void* pDst, u16 val, size_t nb );
+void*   MemSet32( void* pDst, u32 val, size_t nb );
+void*   MemSet64( void* pDst, u64 val, size_t nb );
 
 /************************/
 /*  Memory Copy         */

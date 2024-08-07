@@ -1,13 +1,14 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
@@ -30,7 +31,7 @@ ObjectMDFireBallDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectMDFireBall    FuncPtr(void, __cdecl, (TASK*), 0x005C1280)
+#define ObjectMDFireBall    FUNC_PTR(void, __cdecl, (TASK*), 0x005C1280)
 
 static hook_info* HookInfoObjectMDFireBall;
 static void

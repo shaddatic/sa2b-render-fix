@@ -27,8 +27,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define ___new_p        FuncPtr(void*, __cdecl, (size_t), 0x007A5DA1)
-#define ___delete_p     FuncPtr(void , __cdecl, (void*) , 0x007A5974)
+#define ___new_p        FUNC_PTR(void*, __cdecl, (size_t), 0x007A5DA1)
+#define ___delete_p     FUNC_PTR(void , __cdecl, (void*) , 0x007A5974)
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

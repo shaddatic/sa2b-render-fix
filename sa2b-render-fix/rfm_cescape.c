@@ -4,10 +4,10 @@
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/set.h>
+#include <sa2b/sonic/set.h>
 
 /** Object **/
-#include <sa2b/src/object/o_light.h>
+#include <sa2b/sonic/object/o_light.h>
 
 /** Render Fix **/
 #include <rf_core.h>

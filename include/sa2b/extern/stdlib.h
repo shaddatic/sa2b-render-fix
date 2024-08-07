@@ -38,12 +38,12 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#define ___malloc_p         FuncPtr(void* , __cdecl, (size_t)       , 0x007A84A5)
-#define ___free_p           FuncPtr(void  , __cdecl, (void*)        , 0x007A80DD)
-#define ___realloc_p        FuncPtr(void* , __cdecl, (void*, size_t), 0x007A8607)
-#define ___rand_p           FuncPtr(int32_t, __cdecl, (void)         , 0x007A89D8)
-#define ___srand_p          FuncPtr(void  , __cdecl, (uint32_t)       , 0x007A89C6)
-#define ___exit_p           FuncPtr(void  , __cdecl, (int32_t)       , 0x007ACB70)
+#define ___malloc_p         FUNC_PTR(void* , __cdecl, (size_t)       , 0x007A84A5)
+#define ___free_p           FUNC_PTR(void  , __cdecl, (void*)        , 0x007A80DD)
+#define ___realloc_p        FUNC_PTR(void* , __cdecl, (void*, size_t), 0x007A8607)
+#define ___rand_p           FUNC_PTR(int32_t, __cdecl, (void)         , 0x007A89D8)
+#define ___srand_p          FUNC_PTR(void  , __cdecl, (uint32_t)       , 0x007A89C6)
+#define ___exit_p           FUNC_PTR(void  , __cdecl, (int32_t)       , 0x007ACB70)
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

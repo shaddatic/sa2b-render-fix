@@ -1,18 +1,18 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/camera.h>
-#include <sa2b/src/debug.h>
-#include <sa2b/src/score.h>
-#include <sa2b/src/game.h>
-#include <sa2b/src/player.h>
-#include <sa2b/src/light.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/camera.h>
+#include <sa2b/sonic/debug.h>
+#include <sa2b/sonic/score.h>
+#include <sa2b/sonic/game.h>
+#include <sa2b/sonic/player.h>
+#include <sa2b/sonic/light.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -20,16 +20,16 @@
 #include <rf_mod.h>
 #include <rf_feature.h>
 
-#define byte_0174AFFD           DataRef(int8_t  , 0x0174AFFD)
-#define SomeCountMax            DataRef(size_t  , 0x01A5A3D0)
+#define byte_0174AFFD           DATA_REF(int8_t  , 0x0174AFFD)
+#define SomeCountMax            DATA_REF(size_t  , 0x01A5A3D0)
 
-#define sub_00493A90            FuncPtr(void, __cdecl, (void), 0x493A90)
-#define njExecuteFade           FuncPtr(void, __cdecl, (void), 0x004785A0)
-#define DisplayGameHUD          FuncPtr(void, __cdecl, (void), 0x0044E9C0)
+#define sub_00493A90            FUNC_PTR(void, __cdecl, (void), 0x493A90)
+#define njExecuteFade           FUNC_PTR(void, __cdecl, (void), 0x004785A0)
+#define DisplayGameHUD          FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
 
-#define pExecute                DataRef(task_exec, 0x01A5A274)
+#define pExecute                DATA_REF(task_exec, 0x01A5A274)
 
-#define SortDispSortList        FuncPtr(void, __cdecl, (TASK*, float), 0x00492F60)
+#define SortDispSortList        FUNC_PTR(void, __cdecl, (TASK*, float), 0x00492F60)
 
 static void
 TaskDisplayDisplayer(TASK* btpl)
@@ -233,14 +233,14 @@ DrawModBuffer(int index)
         RFMOD_DrawBuffer();
 }
 
-#define TaskDisplayShadows  FuncPtr(void, __cdecl, (void), 0x0046FBC0)
+#define TaskDisplayShadows  FUNC_PTR(void, __cdecl, (void), 0x0046FBC0)
 
-#define SetBaseScreenInfo   FuncPtr(void, __cdecl, (void), 0x00458B90)
-#define BackupScreenInfo    FuncPtr(void, __cdecl, (void), 0x00458EA0)
-#define RestoreScreenInfo   FuncPtr(void, __cdecl, (void), 0x00458EE0)
+#define SetBaseScreenInfo   FUNC_PTR(void, __cdecl, (void), 0x00458B90)
+#define BackupScreenInfo    FUNC_PTR(void, __cdecl, (void), 0x00458EA0)
+#define RestoreScreenInfo   FUNC_PTR(void, __cdecl, (void), 0x00458EE0)
 
-#define MultiIntroPno       DataRef(int8_t, 0x0174B009)
-#define IsSplitscreen       DataRef(bool  , 0x0174AFE0)
+#define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
+#define IsSplitscreen       DATA_REF(bool  , 0x0174AFE0)
 
 static void
 TaskDisplayAll(void)
@@ -249,11 +249,11 @@ TaskDisplayAll(void)
 
     if (byte_0174AFFD == 1)
     {
-        no_draw = cameraControlWorkIndex == 0;
+        no_draw = cameraNumber == 0;
     }
     else if (byte_0174AFFD == 2)
     {
-        no_draw = cameraControlWorkIndex == 1;
+        no_draw = cameraNumber == 1;
     }
     else
     {

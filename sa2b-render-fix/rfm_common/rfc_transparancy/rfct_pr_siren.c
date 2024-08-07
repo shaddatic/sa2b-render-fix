@@ -1,19 +1,19 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_util.h>
 #include <rf_mdlutil.h>
 
-#define texlist_pr_siren        DataAry(NJS_TEXLIST   , 0x01043D40, [1])
-#define object_pr_siren         DataAry(NJS_CNK_OBJECT, 0x0104467C, [1])
+#define texlist_pr_siren        DATA_ARY(NJS_TEXLIST   , 0x01043D40, [1])
+#define object_pr_siren         DATA_ARY(NJS_CNK_OBJECT, 0x0104467C, [1])
 
 static void
 ObjectPRSirenDisplayer(TASK* tp)
@@ -43,8 +43,8 @@ ObjectPRSirenDisplayer(TASK* tp)
     njPopMatrixEx();
 }
 
-#define texlist_rn_siren        DataAry(NJS_TEXLIST   , 0x00BF5948, [1])
-#define object_rn_siren         DataAry(NJS_CNK_OBJECT, 0x00BF627C, [1])
+#define texlist_rn_siren        DATA_ARY(NJS_TEXLIST   , 0x00BF5948, [1])
+#define object_rn_siren         DATA_ARY(NJS_CNK_OBJECT, 0x00BF627C, [1])
 
 static void
 ObjectRNSirenDisplayer(TASK* tp)

@@ -9,7 +9,7 @@
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Source **/
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -43,7 +43,7 @@ MOD_TRILIST;
 
 typedef struct
 {
-    float32_t r, g, b, a;
+    f32 r, g, b, a;
 }
 MOD_COLOR;
 
@@ -95,15 +95,15 @@ RFMOD_SetAlpha(float a)
 void
 RFMOD_SetColorI(uint8_t r, uint8_t g, uint8_t b)
 {
-    ModColor.r = (float32_t)r * INV_255;
-    ModColor.g = (float32_t)g * INV_255;
-    ModColor.b = (float32_t)b * INV_255;
+    ModColor.r = (f32)r * INV_255;
+    ModColor.g = (f32)g * INV_255;
+    ModColor.b = (f32)b * INV_255;
 }
 
 void
 RFMOD_SetAlphaI(uint8_t a)
 {
-    ModColor.a = (float32_t)a * INV_255;
+    ModColor.a = (f32)a * INV_255;
 }
 
 void
@@ -119,13 +119,13 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
 
     if (stacktop >= ModBufferMax)
     {
-        OutputDebugString("RFDBG: Modifier buffer is full!");
+        OutputString("RFDBG: Modifier buffer is full!");
         return;
     }
 
     if (ModTriListNum == ModTriListMax)
     {
-        OutputDebugString("RFDBG: Modifier tri list list is full!");
+        OutputString("RFDBG: Modifier tri list list is full!");
         return;
     }
 
@@ -152,7 +152,7 @@ DrawModifierList(size_t startTri, size_t nbTri)
 static void
 DrawScreenQuad(void)
 {
-#   define MOD_SCREEN_QUAD_NUM     (arylen(ModScreenQuad) - 2)
+#   define MOD_SCREEN_QUAD_NUM     (ARYLEN(ModScreenQuad) - 2)
 #   define SCREEN_QUAD_Z           (0.5f)
 
     static const NJS_POINT3 ModScreenQuad[] =
@@ -533,7 +533,7 @@ RFMOD_CreateBuffer(void)
 #define GJD_ALPHAMODE_ATEST (1)
 #define GJD_ALPHAMODE_BLEND (2)
 
-#define _gj_alpha_mode_     DataRef(uint32_t, 0x025EFE50)
+#define _gj_alpha_mode_     DATA_REF(uint32_t, 0x025EFE50)
 
 static hook_info* HookInfoGxEnd;
 
@@ -568,7 +568,7 @@ GX_EndStencilCheck(void)
 
 static hook_info* HookInfoGjDraw;
 
-#define sub_41BE30      FuncPtr(void, __cdecl, (int, char), 0x0041BE30)
+#define sub_41BE30      FUNC_PTR(void, __cdecl, (int, char), 0x0041BE30)
 
 static void __cdecl
 GjDrawStencilCheck(int a1, char a2)

@@ -1,6 +1,5 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
-#include <sa2b/mods.h>
+#include <sa2b/writemem.h>
 
 /** Render Fix **/
 #include <rf_core.h>

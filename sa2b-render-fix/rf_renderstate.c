@@ -1,5 +1,5 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** GX **/
@@ -45,16 +45,16 @@ VertexDeclarationInfo;
 #define CNK_FST_ENV                 (NJD_FST_ENV>>NJD_FST_SHIFT)
 #define CNK_FST_NAT                 (NJD_FST_NAT>>NJD_FST_SHIFT)
 
-#define ParseStripFlags             FuncPtr(void, __cdecl, (uint8_t), 0x0042CA20)
-#define SetOpaqueDraw               FuncPtr(void, __cdecl, (void)   , 0x0042C030)
-#define SetAlphaTestDraw            FuncPtr(void, __cdecl, (void)   , 0x0042C0A0)
-#define SetTransparentDraw          FuncPtr(void, __cdecl, (void)   , 0x0042C170)
+#define ParseStripFlags             FUNC_PTR(void, __cdecl, (uint8_t), 0x0042CA20)
+#define SetOpaqueDraw               FUNC_PTR(void, __cdecl, (void)   , 0x0042C030)
+#define SetAlphaTestDraw            FUNC_PTR(void, __cdecl, (void)   , 0x0042C0A0)
+#define SetTransparentDraw          FUNC_PTR(void, __cdecl, (void)   , 0x0042C170)
 
-#define ForceUseAlpha               DataRef(bool, 0x01A55832)
-#define ForceDstInverseOtherColor   DataRef(bool, 0x01A55833)
-#define pTexSurface                 DataRef(int*, 0x01A55840)
+#define ForceUseAlpha               DATA_REF(bool, 0x01A55832)
+#define ForceDstInverseOtherColor   DATA_REF(bool, 0x01A55833)
+#define pTexSurface                 DATA_REF(int*, 0x01A55840)
 
-#define VertexDeclInfo              DataRef(VertexDeclarationInfo*, 0x0174F7E8)
+#define VertexDeclInfo              DATA_REF(VertexDeclarationInfo*, 0x0174F7E8)
 
 static void
 CopyLastVertex(void)
@@ -147,7 +147,7 @@ __SetGXCull(void)
     }
 }
 
-#define _njCnkDrawModelSub      FuncPtr(int, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
+#define _njCnkDrawModelSub      FUNC_PTR(int, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
 
 static hook_info* njCnkDrawModelSubHookInfo;
 static int
@@ -374,7 +374,7 @@ RF_RenderStateInit(void)
     njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 
     /** Replace Alpha Test set **/
-    WriteNoOP(0x0042C0CE, 0x0042C104);
+    WriteNOP( 0x0042C0CE, 0x0042C104);
     WriteCall(0x0042C0CE, SetAlphaTestFunc);
     WriteCall(0x0042C0D3, SetAlphaRef);
 

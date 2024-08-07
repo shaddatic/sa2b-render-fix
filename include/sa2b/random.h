@@ -66,6 +66,6 @@ EXTERN_END
 
 /** Array Chance Calculation 
     Returns a random element of given array **/
-#define mtRandomArray(ary)      (ary[mtRandomInt(arylen(ary)-1)])
+#define mtRandomArray(ary)      (ary[mtRandomInt(ARYLEN(ary)-1)])
 
 #endif /* _SAMT_RANDOM_H_ */

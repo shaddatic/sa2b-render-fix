@@ -1,13 +1,14 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
-#include <sa2b/src/njctrl.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
+#include <sa2b/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
@@ -49,7 +50,7 @@ EnemyGenericModInit(TASK* tp)
     tp->disp_shad = EnemyGenericDisplayerMod;
 }
 
-#define EnemyAIInit     FuncPtr(void, __cdecl, (TASK*, TASKWK*), 0x004FE050)
+#define EnemyAIInit     FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x004FE050)
 
 static void
 EnemyAIInitHook(TASK* tp, TASKWK* twp)
@@ -192,7 +193,7 @@ EnemyPathModInit(TASK* tp)
     tp->disp_shad = EnemyPathDisplayerMod;
 }
 
-#define EnemyPathInit       FuncPtr(void, __cdecl, (TASK*, TASKWK*), 0x00504610)
+#define EnemyPathInit       FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x00504610)
 static void
 EnemyPathInitHook(TASK* tp, TASKWK* twp)
 {
@@ -233,7 +234,7 @@ __EnemyChaosPathInitHook(void)
 }
 
 
-#define EnemyE1000Init      FuncPtr(void, __cdecl, (TASK*, TASKWK*), 0x0050C510)
+#define EnemyE1000Init      FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x0050C510)
 static void
 EnemyE1000InitHook(TASK* tp, TASKWK* twp)
 {
@@ -259,7 +260,7 @@ __EnemySaruInitHook(void)
 }
 
 
-#define EnemyGhoraInit      FuncPtr(void, __cdecl, (TASK*), 0x0050E750)
+#define EnemyGhoraInit      FUNC_PTR(void, __cdecl, (TASK*), 0x0050E750)
 
 static void
 EnemyGhoraInitHook(TASK* tp)
@@ -440,7 +441,7 @@ __EnemyKumiInitHook(void)
     }
 }
 
-#define OutOfRange      FuncPtr(int32_t, __cdecl, (NJS_POINT3*, float32_t), 0x007983F0)
+#define OutOfRange      FUNC_PTR(int32_t, __cdecl, (NJS_POINT3*, f32), 0x007983F0)
 
 static void
 EnemyKyokoDisplayerMod(TASK* tp)
@@ -485,7 +486,7 @@ EnemyKyokoDisplayerMod(TASK* tp)
 
 }
 
-#define EnemyKyokoInit      FuncPtr(void, __cdecl, (TASK*), 0x004FAE40)
+#define EnemyKyokoInit      FUNC_PTR(void, __cdecl, (TASK*), 0x004FAE40)
 
 static void
 EnemyKyokoInitHook(TASK* tp)

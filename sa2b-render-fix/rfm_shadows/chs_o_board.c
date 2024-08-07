@@ -1,20 +1,21 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/player.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/player.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
 #include <rf_draw.h>
 
-#define mtx_BoardCE     DataRef(NJS_MATRIX, 0x01A282F8)
-#define mtx_BoardMH     DataRef(NJS_MATRIX, 0x01A513B0)
+#define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
+#define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)
 
 static NJS_CNK_OBJECT* object_o_board_mod;
 
@@ -121,7 +122,7 @@ ObjectBoardCEDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define object_board_mh     DataAry(NJS_CNK_OBJECT, 0x00AE79A4, [1])
+#define object_board_mh     DATA_ARY(NJS_CNK_OBJECT, 0x00AE79A4, [1])
 
 void
 ObjectBoardMHDisplayerMod(TASK* tp)

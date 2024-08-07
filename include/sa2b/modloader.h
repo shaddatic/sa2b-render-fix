@@ -10,8 +10,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _SAMT_MODLOADER_H_
-#define _SAMT_MODLOADER_H_
+#ifndef H_SAMT_MODLOADER
+#define H_SAMT_MODLOADER
 
 /************************/
 /*  External Headers    */
@@ -24,7 +24,8 @@ EXTERN_START
 /************************/
 /*  Constants           */
 /************************/
-#define ML_VERSION          (13) /* supported Mod loader version                     */
+/****** Mod Loader Version **********************************************************/
+#define ML_VERSION          (13) /* supported Mod loader version                    */
 
 /************************/
 /*  Functions           */
@@ -98,7 +99,7 @@ void        ML_SetWindowTitle( const wchar_t* wtitle );
 *     - scale   : scale of the font in pixels (not independent of screen resolution)
 *     - color   : color in ARGB format (eg. 0xFF'EE'DD'CC)
 */
-void        ML_SetDebugFontScale( float32_t scale );
+void        ML_SetDebugFontScale( f32       scale );
 void        ML_SetDebugFontColor( uint32_t  color );
 /*
 *   Register the display of a debug string for one frame. They're drawn at the end
@@ -186,4 +187,4 @@ void    ML_PopMotionInterpolationFix(  void );
 
 EXTERN_END
 
-#endif/*_SAMT_MODLOADER_H_*/
+#endif/*H_SAMT_MODLOADER*/

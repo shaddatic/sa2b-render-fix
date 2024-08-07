@@ -9,7 +9,7 @@
 /** Self **/
 #include <rf_objpak.h>
 
-#define struc_36Instance    DataRef(char*, 0x01A557BC)
+#define struc_36Instance    DATA_REF(char*, 0x01A557BC)
 
 #define ToFlt(val) (*(float*)(&val))
 

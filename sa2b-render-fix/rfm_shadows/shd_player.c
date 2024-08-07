@@ -1,23 +1,24 @@
 #include <sa2b/core.h>
 #include <sa2b/config.h>
-#include <sa2b/memutil.h>
-#include <sa2b/mods.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
+#include <sa2b/modinfo.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Player **/
-#include <sa2b/src/player.h>
+#include <sa2b/sonic/player.h>
 
 /** Figure **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/src/figure/sonic.h>
-#include <sa2b/src/figure/shadow.h>
-#include <sa2b/src/figure/miles.h>
-#include <sa2b/src/figure/knuckles.h>
-#include <sa2b/src/figure/rouge.h>
-#include <sa2b/src/figure/ewalker.h>
-#include <sa2b/src/figure/twalker.h>
+#include <sa2b/sonic/figure/sonic.h>
+#include <sa2b/sonic/figure/shadow.h>
+#include <sa2b/sonic/figure/miles.h>
+#include <sa2b/sonic/figure/knuckles.h>
+#include <sa2b/sonic/figure/rouge.h>
+#include <sa2b/sonic/figure/ewalker.h>
+#include <sa2b/sonic/figure/twalker.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
@@ -559,12 +560,12 @@ __njCnkDrawMotionHook(void)
 static config*
 GetDisableUpgradeModelsConfig(void)
 {
-    mod_handle* shadow = ModGetHandleDll("SA2DisableUpgradeModels");
+    const mod_info* p_modinfo = MI_GetInfoByDLL("SA2DisableUpgradeModels");
 
-    if (!shadow)
+    if (!p_modinfo)
         return NULL;
 
-    return ModGetConfig(shadow);
+    return MI_GetConfig(p_modinfo);
 }
 
 void

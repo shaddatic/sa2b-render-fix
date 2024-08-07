@@ -35,9 +35,6 @@ void    SAMT_Init(const char* path, const HelperFunctions* pHelperFunctions);
 /** Init DX9 device control module **/
 void    DX9_Init( void );
 
-/** Init SAMT input module **/
-void    InputInit( void );
-
 /** Init mersenne twister random number generator **/
 void    mtRandInit( void );
 
@@ -89,9 +86,9 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    OnExit(uint32_t uExitCode, int a1, int a2)
+    OnExit(u32 code, s32 a1, s32 a2)
     {
-
+        
     }
 *
 *   Execute on device lost:

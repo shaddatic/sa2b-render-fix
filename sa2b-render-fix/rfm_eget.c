@@ -1,6 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -26,6 +26,6 @@ RFM_EmblemGetInit(void)
 
     if (RF_ConfigGetInt(CNF_EGET_PTCLFIX))
     {
-        WriteNoOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
+        WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
     }
 }

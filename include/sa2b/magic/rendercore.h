@@ -714,7 +714,7 @@ namespace Magic::RenderCore
 /************************/
 /*  Data                */
 /************************/
-#define g_pRenderDevice     DataRef(Magic::RenderCore::RenderDevice_DX9*, 0x01A557C0)
+#define g_pRenderDevice     DATA_REF(Magic::RenderCore::RenderDevice_DX9*, 0x01A557C0)
 
 #endif/*__cplusplus*/
 

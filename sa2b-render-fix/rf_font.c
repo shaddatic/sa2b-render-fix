@@ -3,7 +3,7 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/memutil.h>   /* WriteRetn                                            */
+#include <sa2b/writeop.h>   /* WriteRetn                                            */
 #include <sa2b/memory.h>    /* MemFree, mAlloc, mCalloc                             */
 #include <sa2b/file.h>      /* uFileLoad                                            */
 
@@ -125,10 +125,10 @@ RFS_FONT;
 /************************/
 /*  External Variables  */
 /************************/
-#define FontBuffers         DataAry(FONT_LANGUAGE, 0x00B5D658, [NB_FONT_LANG])
-#define FontChBuffers       DataAry(FONT_CHAO    , 0x012E9BC4, [NB_FONT_TYPE])
+#define FontBuffers         DATA_ARY(FONT_LANGUAGE, 0x00B5D658, [NB_FONT_LANG])
+#define FontChBuffers       DATA_ARY(FONT_CHAO    , 0x012E9BC4, [NB_FONT_TYPE])
 
-#define ga_InputWay         DataAry(int32_t      , 0x0174B5FC, [4]           )
+#define ga_InputWay         DATA_ARY(int32_t      , 0x0174B5FC, [4]           )
 
 /************************/
 /*  File Variables      */

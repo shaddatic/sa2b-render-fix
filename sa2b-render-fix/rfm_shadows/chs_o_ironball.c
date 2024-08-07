@@ -1,13 +1,14 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
@@ -52,7 +53,7 @@ ObjectIronBall2DisplayerMod(TASK* tp)
 void
 CHS_IronBall2Init(void)
 {
-    WriteNoOP(0x006D3C7C, 0x006D3C82);
+    WriteNOP(0x006D3C7C, 0x006D3C82);
     SwitchDisplayer(0x006D3C82, DISP_SHAD);
     WriteJump(0x006D4340, ObjectIronBall2DisplayerMod);
 }

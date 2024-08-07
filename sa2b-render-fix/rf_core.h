@@ -20,7 +20,7 @@
 #include <sa2b/util/c_nullptr.h>
 
 /** Source **/
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/debug.h>
 
 /************************/
 /*  Functions           */

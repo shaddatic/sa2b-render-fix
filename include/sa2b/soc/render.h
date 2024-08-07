@@ -37,8 +37,8 @@ typedef struct D3DVIEWPORT9
     uint32_t  Y;
     uint32_t  Width;
     uint32_t  Height;
-    float32_t MinZ;
-    float32_t MaxZ;
+    f32       MinZ;
+    f32       MaxZ;
 }
 D3DVIEWPORT9;
 
@@ -94,7 +94,7 @@ struct SOCRender
 /************************/
 /*  Data                */
 /************************/
-#define g_pSOCRender        DataRef(SOCRender*, 0x01A557BC)
+#define g_pSOCRender        DATA_REF(SOCRender*, 0x01A557BC)
 
 #endif/*__cplusplus*/
 

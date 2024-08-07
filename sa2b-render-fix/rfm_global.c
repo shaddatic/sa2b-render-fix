@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** GX **/
@@ -11,7 +12,7 @@
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/display.h>
+#include <sa2b/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -141,7 +142,7 @@ RFM_GlobalInit(void)
         ReplaceFloat(0x004B1290, &ptcldbl00); // StartRocketRocket (Final Rush)
         ReplaceFloat(0x004B1296, &ptcldbl01);
 
-        WriteNoOP(0x00492506, 0x0049250C); // ptcl * 0.5
+        WriteNOP(0x00492506, 0x0049250C); // ptcl * 0.5
 
         /** PtclPolygon **/
         static double ptclpolyscl;

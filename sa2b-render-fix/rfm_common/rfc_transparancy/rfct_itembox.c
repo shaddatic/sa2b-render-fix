@@ -1,12 +1,12 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/njctrl.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -21,11 +21,11 @@ typedef struct
 }
 ITEMBOX_INFO;
 
-#define texlist_itembox         DataAry(NJS_TEXLIST  , 0x00B493F8, [1])
-#define model_itembox_bubble    DataAry(NJS_CNK_MODEL, 0x00B497C4, [1])
+#define texlist_itembox         DATA_ARY(NJS_TEXLIST  , 0x00B493F8, [1])
+#define model_itembox_bubble    DATA_ARY(NJS_CNK_MODEL, 0x00B497C4, [1])
 
-#define ItemBoxInfoList         DataAry(ITEMBOX_INFO, 0x00B4D120, [11])
-#define DisableObjectFog        DataRef(bool32_t    , 0x01AEFE64)
+#define ItemBoxInfoList         DATA_ARY(ITEMBOX_INFO, 0x00B4D120, [11])
+#define DisableObjectFog        DATA_REF(b32         , 0x01AEFE64)
 
 static const void* const DrawItemBoxItemTexture_p = (void*)0x006DF030;
 static int32_t
@@ -96,13 +96,13 @@ ObjectItemBoxDispSort_RF(TASK* tp)
 
 
 
-#define texlist_itemboxair          DataAry(NJS_TEXLIST  , 0x00B48784, [1])
-#define model_itemboxair_bubble     DataAry(NJS_CNK_MODEL, 0x00B48B44, [1])
+#define texlist_itemboxair          DATA_ARY(NJS_TEXLIST  , 0x00B48784, [1])
+#define model_itemboxair_bubble     DATA_ARY(NJS_CNK_MODEL, 0x00B48B44, [1])
 
-#define model_itemboxair_base       DataAry(NJS_CNK_MODEL, 0x00B492EC, [1])
-#define model_itemboxair_top        DataAry(NJS_CNK_MODEL, 0x00B48F64, [1])
+#define model_itemboxair_base       DATA_ARY(NJS_CNK_MODEL, 0x00B492EC, [1])
+#define model_itemboxair_top        DATA_ARY(NJS_CNK_MODEL, 0x00B48F64, [1])
 
-#define ItemBoxAirInfoList          DataAry(ITEMBOX_INFO, 0x00B493A0, [11])
+#define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
 
 static void
 ObjectItemBoxAirDispSort_RF(TASK* tp)

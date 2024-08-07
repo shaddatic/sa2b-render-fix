@@ -20,7 +20,7 @@
 #include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
 
 /****** Game ************************************************************************/
-#include <sa2b/src/motion.h>    /* MOTION_CTRL                                      */
+#include <sa2b/sonic/motion.h>    /* MOTION_CTRL                                      */
 
 EXTERN_START
 

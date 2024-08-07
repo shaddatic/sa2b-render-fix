@@ -6,8 +6,8 @@
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/texture.h>
-#include <sa2b/src/landtable.h>
+#include <sa2b/sonic/texture.h>
+#include <sa2b/sonic/landtable.h>
 
 /** Std **/
 #include <stdio.h>
@@ -426,7 +426,7 @@ RF_CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32_t flag)
     {
         NJS_CNK_OBJECT* object = (NJS_CNK_OBJECT*)plentry->pObject;
 
-        for (int j = 0; j < arylen(models); ++j)
+        for (int j = 0; j < ARYLEN(models); ++j)
         {
             if (models[j] == NULL)
             {
@@ -562,7 +562,7 @@ RF_CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32_t flag)
     {
         NJS_CNK_OBJECT* object = (NJS_CNK_OBJECT*)plentry->pObject;
 
-        for (int j = 0; j < arylen(models); ++j)
+        for (int j = 0; j < ARYLEN(models); ++j)
         {
             if (models[j] == NULL)
             {

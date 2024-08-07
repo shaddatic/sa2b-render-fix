@@ -5,7 +5,7 @@
 
 /** Source **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/src/shaders.h>
+#include <sa2b/sonic/shaders.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Std **/

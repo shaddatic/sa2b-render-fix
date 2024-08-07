@@ -1,20 +1,21 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/njctrl.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_util.h>
 
-#define texlist_e_jet1      DataAry(NJS_TEXLIST, 0x0145F5D4, [1])
+#define texlist_e_jet1      DATA_ARY(NJS_TEXLIST, 0x0145F5D4, [1])
 
-#define EnemyJetDisplayer   FuncPtr(void, __cdecl, (TASK*), 0x00511230)
+#define EnemyJetDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x00511230)
 
 static NJS_TEXANIM texanim = {
     .sx = 32,

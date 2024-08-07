@@ -1,7 +1,7 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/funchook.h>
-#include <sa2b/mods.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>

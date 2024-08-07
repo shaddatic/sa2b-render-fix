@@ -1,12 +1,13 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
@@ -27,7 +28,7 @@ ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
     }
 }
 
-#define object_o_eq_robot_mod       DataAry(NJS_CNK_OBJECT, 0x00C42144, [1])
+#define object_o_eq_robot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1])
 
 static void
 ObjectRobotDisplayerMod(TASK* tp)
@@ -70,7 +71,7 @@ ObjectRobotDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectRobotInit     FuncPtr(void, __cdecl, (TASK*), 0x00691720)
+#define ObjectRobotInit     FUNC_PTR(void, __cdecl, (TASK*), 0x00691720)
 
 static void
 ObjectRobotInitHook(TASK* tp)

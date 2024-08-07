@@ -11,8 +11,8 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _SAMT_STRING_H_
-#define _SAMT_STRING_H_
+#ifndef H_SAMT_STRING
+#define H_SAMT_STRING
 
 EXTERN_START
 
@@ -259,4 +259,4 @@ void    StringPathToParent( utf8* strPath, size_t maxSize );
 
 EXTERN_END
 
-#endif/*_SAMT_STRING_H_*/
+#endif/*H_SAMT_STRING*/

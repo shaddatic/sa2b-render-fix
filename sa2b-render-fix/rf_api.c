@@ -1,5 +1,5 @@
 #include <sa2b/core.h>
-#include <sa2b/mods.h>
+#include <sa2b/modinfo.h>
 #include <sa2b/modloader.h>
 
 /** Utility **/
@@ -40,16 +40,16 @@ typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const char*, const HelperFuncti
 static void
 ApiCallByFuncName(const char* name)
 {
-    const size_t nb_mod = ModGetTotalNumber();
+    const size_t nb_mod = MI_GetTotalNumber();
 
     for (size_t i = 0; i < nb_mod; ++i)
     {
-        const mod_handle* mhp = ModGetHandlePosition(i);
+        const mod_info* p_mi = MI_GetInfoByPosition(i);
 
-        RF_INIT* const init = ModGetExport(mhp, name);
+        RF_INIT* const init = MI_GetExport(p_mi, name);
 
         if (init)
-            init(&rfapi_core, ModGetPath(mhp), ML_GetHelperFunctions());
+            init(&rfapi_core, p_mi->cPath, ML_GetHelperFunctions());
     }
 }
 

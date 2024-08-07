@@ -10,7 +10,7 @@
 #include <sa2b/ninja/ninja.h>
 
 /** Game **/
-#include <sa2b/src/light.h>
+#include <sa2b/sonic/light.h>
 
 /** Self **/
 #include <rf_light.h>

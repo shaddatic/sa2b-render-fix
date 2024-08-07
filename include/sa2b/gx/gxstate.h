@@ -29,7 +29,7 @@ EXTERN_START
 void    GX_SetCullMode(int32_t mode);
 
 /** Sets transparency blending mode **/
-void    GX_SetBlendMode(int32_t mdSrc, int32_t mdDst, bool32_t bAlphaBlend);
+void    GX_SetBlendMode(int32_t mdSrc, int32_t mdDst, b32 bAlphaBlend);
 
 /** Set size of point primitives in pixels **/
 void    GX_SetPointSize(uint8_t pxSize);
@@ -39,7 +39,7 @@ void    GX_SetPointSize(uint8_t pxSize);
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define GX_SetCullMode_p             FuncPtr(void, __fastcall, (int32_t), 0x00420440)
+#   define GX_SetCullMode_p             FUNC_PTR(void, __fastcall, (int32_t), 0x00420440)
 
 /** User-function ptrs **/
 #   define GX_SetBlendMode_p            ((void*)0x00420480)

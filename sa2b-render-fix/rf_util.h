@@ -13,19 +13,20 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct textable     TEX_FILETABLE;
+typedef struct prstable     TEX_PRSTABLE;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Swap tex table entries **/
-void    RF_SwapTexFileTableIndex( TEX_FILETABLE* pTexTable, int idx1, int idx2 );
+void    RF_SwapTexFileTableIndex( TEX_PRSTABLE* pTexTable, int idx1, int idx2 );
 
 EXTERN_END
 
@@ -50,7 +51,7 @@ EXTERN_END
 *   Hook 'mov dword ptr'
 */
 /** Replace a 'mov dword ptr' with a call to a function **/
-#define WriteCallToMovDwordPtr(addr, func)              WriteNoOP((addr), (addr) + 7); WriteCall((addr), (func))
+#define WriteCallToMovDwordPtr(addr, func)              WriteNOP((addr), (addr) + 7); WriteCall((addr), (func))
 
 /*
 *   Replace float pointer
@@ -61,6 +62,6 @@ EXTERN_END
 /*
 *   Func Macros
 */
-#define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_FILETABLE*)(_textable), (_idx1), (_idx2))
+#define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PRSTABLE*)(_textable), (_idx1), (_idx2))
 
 #endif/*_RF_UTIL_H_*/

@@ -1,12 +1,13 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Game **/
-#include <sa2b/src/light.h>
+#include <sa2b/sonic/light.h>
 
 /** Render Fix **/
 #include <rf_core.h>

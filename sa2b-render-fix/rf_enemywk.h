@@ -16,8 +16,8 @@
 /************************/
 #include <sa2b/ninja/ninja.h>
 
-#include <sa2b/src/task/motionwk.h>
-#include <sa2b/src/shadow.h>
+#include <sa2b/sonic/task/motionwk.h>
+#include <sa2b/sonic/shadow.h>
 
 /************************/
 /*  Structures           */

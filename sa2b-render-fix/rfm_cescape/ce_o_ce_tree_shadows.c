@@ -1,16 +1,16 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/set.h>
-#include <sa2b/src/c_colli.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/set.h>
+#include <sa2b/sonic/c_colli.h>
 
 /** Object **/
-#include <sa2b/src/object/o_light.h>
+#include <sa2b/sonic/object/o_light.h>
 
 static OBJ_CONDITION objcond_treelightsw;
 

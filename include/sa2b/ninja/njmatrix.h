@@ -26,7 +26,7 @@ enum {
 /*******************************/
 /* Global Variables for Matrix */
 /*******************************/
-#define _nj_unit_matrix_            DataRef(GJS_MATRIX, 0x025F02A0)
+#define _nj_unit_matrix_            DATA_REF(GJS_MATRIX, 0x025F02A0)
 
 /*
     Prototype Declarations

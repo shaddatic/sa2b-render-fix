@@ -1,16 +1,17 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/move.h>
-#include <sa2b/src/motion.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/move.h>
+#include <sa2b/sonic/motion.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
@@ -29,11 +30,11 @@ typedef struct bosswk
 }
 BOSSWK;
 
-#define BossBogyGlassCheapShadow    FuncPtr(void, __cdecl, (int), 0x00613F20)
+#define BossBogyGlassCheapShadow    FUNC_PTR(void, __cdecl, (int), 0x00613F20)
 
 static NJS_CNK_OBJECT* object_b_bigbogy_mod;
 
-#define motion_b_bigbogy_mod        DataAry(NJS_MOTION, 0x010131E4, [1])
+#define motion_b_bigbogy_mod        DATA_ARY(NJS_MOTION, 0x010131E4, [1])
 
 static void
 BossBogyDisplayerMod(TASK* tp)
@@ -64,9 +65,9 @@ BossBogyDisplayerMod(TASK* tp)
 static NJS_CNK_OBJECT* object_b_grobo_body_mod;
 static NJS_CNK_OBJECT* object_b_grobo_foot_mod;
 
-#define BossBigFootBodyPos          DataRef(NJS_POINT3, 0x01A27E84)
-#define BossBigFootLeftFootPos      DataRef(NJS_POINT3, 0x01A27F44)
-#define BossBigFootRightFootPos     DataRef(NJS_POINT3, 0x01A27EFC)
+#define BossBigFootBodyPos          DATA_REF(NJS_POINT3, 0x01A27E84)
+#define BossBigFootLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27F44)
+#define BossBigFootRightFootPos     DATA_REF(NJS_POINT3, 0x01A27EFC)
 
 static void
 BossBigFootDrawMod(TASK* tp)
@@ -100,8 +101,8 @@ BossBigFootDrawMod(TASK* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define BossBigFootInvMatrix        DataRef(NJS_MATRIX, 0x01A27E90)
-#define BossBigFootInvTransMatrix   DataRef(NJS_MATRIX, 0x01A27E54)
+#define BossBigFootInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27E90)
+#define BossBigFootInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27E54)
 
 static void
 BossBigFootDisplayerMod(TASK* tp)
@@ -151,9 +152,9 @@ BossBigFootDisplayerMod(TASK* tp)
     BossBigFootDrawMod(tp);
 }
 
-#define BossHotShotBodyPos          DataRef(NJS_POINT3, 0x01A27D34)
-#define BossHotShotLeftFootPos      DataRef(NJS_POINT3, 0x01A27E00)
-#define BossHotShotRightFootPos     DataRef(NJS_POINT3, 0x01A27DB8)
+#define BossHotShotBodyPos          DATA_REF(NJS_POINT3, 0x01A27D34)
+#define BossHotShotLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27E00)
+#define BossHotShotRightFootPos     DATA_REF(NJS_POINT3, 0x01A27DB8)
 
 static void
 BossHotShotDrawMod(TASK* tp)
@@ -187,8 +188,8 @@ BossHotShotDrawMod(TASK* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define BossHotShotInvMatrix        DataRef(NJS_MATRIX, 0x01A27D40)
-#define BossHotShotInvTransMatrix   DataRef(NJS_MATRIX, 0x01A27D04)
+#define BossHotShotInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27D40)
+#define BossHotShotInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27D04)
 
 static void
 BossHotShotDisplayerMod(TASK* tp)
@@ -240,7 +241,7 @@ BossHotShotDisplayerMod(TASK* tp)
 
 static NJS_CNK_OBJECT* object_b_fdog_mod;
 
-#define BossFlyingDogBodyPos    DataRef(NJS_POINT3, 0x01A27FBC)
+#define BossFlyingDogBodyPos    DATA_REF(NJS_POINT3, 0x01A27FBC)
 
 static void
 BossFlyingDogDrawMod(TASK* tp)
@@ -257,8 +258,8 @@ BossFlyingDogDrawMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define BossFlyingDogInvMatrix        DataRef(NJS_MATRIX, 0x01A27FC8)
-#define BossFlyingDogInvTransMatrix   DataRef(NJS_MATRIX, 0x01A27F8C)
+#define BossFlyingDogInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27FC8)
+#define BossFlyingDogInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27F8C)
 
 static void
 BossFlyingDogDispMod(TASK* tp)

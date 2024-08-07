@@ -289,7 +289,7 @@ typedef struct {
     High level motion functions
 */
 
-#define _nj_cnk_motion_callback_        DataRef(void*, 0x01A55834)
+#define _nj_cnk_motion_callback_        DATA_REF(void*, 0x01A55834)
 
 /*  set shape buffer    */
 void    njInitShape(void* buf, Sint32 size);
@@ -328,8 +328,8 @@ void    njMultiLightMotion(const NJS_MLIGHT_MOTION* mlight, Float frame);
     Low level motion functions
 */
 
-#define _nj_motion_info_        DataAry(NJS_CUR_MOTION_INFO , 0x025EFE60, [2])
-#define _nj_motinfo_ptr_        DataRef(NJS_CUR_MOTION_INFO*, 0x025EFE54)
+#define _nj_motion_info_        DATA_ARY(NJS_CUR_MOTION_INFO , 0x025EFE60, [2])
+#define _nj_motinfo_ptr_        DATA_REF(NJS_CUR_MOTION_INFO*, 0x025EFE54)
 
 //  motion core
 void    njStartMotionEx(const NJS_MOTION* motion, Float frame);

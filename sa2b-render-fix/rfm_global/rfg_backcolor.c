@@ -1,12 +1,13 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/display.h>
+#include <sa2b/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -15,7 +16,7 @@ static Uint32 _nj_back_color_0_;
 static Uint32 _nj_back_color_1_;
 static Uint32 _nj_back_color_2_;
 
-#define FadeColor   DataRef(NJS_COLOR, 0x0171CDA0)
+#define FadeColor   DATA_REF(NJS_COLOR, 0x0171CDA0)
 
 void __cdecl
 njDrawBackColor2(void)
@@ -82,8 +83,6 @@ njSetBackColor2(Uint32 col1, Uint32 col2, Uint32 col3)
     _nj_back_color_0_ = col1;
     _nj_back_color_1_ = col2;
     _nj_back_color_2_ = col3;
-
-    OutputDebugFormat("Backcolor: %X, %X, %X", col1, col2, col3);
 }
 
 __declspec(naked)
@@ -147,7 +146,7 @@ __SetBackColor(void)
 }
 #pragma warning( pop )
 
-#define UnloadRELFile       FuncPtr(void, __cdecl, (), 0x00454CC0)
+#define UnloadRELFile       FUNC_PTR(void, __cdecl, (), 0x00454CC0)
 
 static hook_info* HookInfoUnloadRELFile;
 static void

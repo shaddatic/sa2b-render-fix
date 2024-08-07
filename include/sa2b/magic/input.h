@@ -429,9 +429,9 @@ namespace Magic::INPUT
 
     struct Input
     {
-        struct vtbl
+        struct vftbl
         {
-            void(__thiscall* Destructor)(Input* _this);
+            void(__thiscall* Destructor)(Input* _this, char);
             void(__thiscall* Initialize)(Input* _this);
             void(__thiscall* Finalize)(Input* _this);
             void(__thiscall* Update)(Input* _this);
@@ -443,8 +443,8 @@ namespace Magic::INPUT
             int(__thiscall* GetMouseNum)(Input* _this);
             int(__thiscall* GetKeyboardNum)(Input* _this);
             int(__thiscall* GetJoystickNum)(Input* _this);
-            void(__thiscall* Unknown)(Input* _this);
-        }*vftbl;
+            int(__thiscall* IsInputImpl)(Input* _this);
+        }*vft;
         InputImpl* m_pInputImpl;
     };
 }

@@ -1,5 +1,5 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>

@@ -1,14 +1,15 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/file.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/model.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
 /** Std **/
 #include <stdio.h>
@@ -96,7 +97,7 @@ ResolveMotionPointers(NJS_MOTION* pMotion, uintptr_t offset, size_t nbObject)
 {
     int nb_mkey = 0;
 
-    for (int i = 0, m = 1; i < bitsin(pMotion->type); ++i, m <<= 1)
+    for (int i = 0, m = 1; i < BITSIN(pMotion->type); ++i, m <<= 1)
     {
         if (pMotion->type & m)
             ++nb_mkey;

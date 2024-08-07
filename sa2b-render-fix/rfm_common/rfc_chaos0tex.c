@@ -1,14 +1,15 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/player.h>
+#include <sa2b/sonic/player.h>
 
 /** Figure **/
-#include <sa2b/src/figure/knuckles.h>
+#include <sa2b/sonic/figure/knuckles.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -96,9 +97,9 @@ __SwapChaosTexID_Dely()
 void
 RFC_Chaos0TexInit()
 {
-    WriteNoOP(0x00731F0C, 0x00731FAA);
+    WriteNOP( 0x00731F0C, 0x00731FAA);
     WriteCall(0x00731F0C, __SwapChaosTexID);
     
-    WriteNoOP(0x0073257F, 0x0073261A);
+    WriteNOP( 0x0073257F, 0x0073261A);
     WriteCall(0x0073257F, __SwapChaosTexID_Dely);
 }

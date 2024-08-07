@@ -1,12 +1,13 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>
@@ -20,12 +21,12 @@ typedef union
     int16_t ss[2];
     uint32_t ui;
     int32_t si;
-    float32_t f;
+    f32     f;
 }
 GLOBAL_BUFFER;
 
-#define GlobalBuffer        DataAry(GLOBAL_BUFFER , 0x01DEFE20, [1])
-#define object_car_mod      DataAry(NJS_CNK_OBJECT, 0x00B4D254, [1])
+#define GlobalBuffer        DATA_ARY(GLOBAL_BUFFER , 0x01DEFE20, [1])
+#define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
 
 static void
 TruckTranslateModVertex(float sizeX, float sizeZ, Angle3* pAng)
@@ -51,7 +52,7 @@ TruckTranslateModVertex(float sizeX, float sizeZ, Angle3* pAng)
     njRotateY(NULL, pAng->y);
     njRotateX(NULL, pAng->x);
     njRotateZ(NULL, pAng->z);
-    njCalcPoints(NULL, inpts, outpts, arylen(inpts));
+    njCalcPoints(NULL, inpts, outpts, ARYLEN(inpts));
 
     njPopMatrixEx();
     njPushMatrix(&_nj_unit_matrix_);

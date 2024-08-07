@@ -1,38 +1,39 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
 /** Chao **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/src/chao/chao.h>
-#include <sa2b/src/chao/al_egg.h>
-#include <sa2b/src/chao/al_world.h>
-#include <sa2b/src/chao/alo_growtree.h>
-#include <sa2b/src/chao/alo_chaosdrive.h>
-#include <sa2b/src/chao/alo_obake_head.h>
-#include <sa2b/src/chao/alo_seed.h>
-#include <sa2b/src/chao/alo_fruit.h>
-#include <sa2b/src/chao/al_minimal.h>
+#include <sa2b/sonic/chao/chao.h>
+#include <sa2b/sonic/chao/al_egg.h>
+#include <sa2b/sonic/chao/al_world.h>
+#include <sa2b/sonic/chao/alo_growtree.h>
+#include <sa2b/sonic/chao/alo_chaosdrive.h>
+#include <sa2b/sonic/chao/alo_obake_head.h>
+#include <sa2b/sonic/chao/alo_seed.h>
+#include <sa2b/sonic/chao/alo_fruit.h>
+#include <sa2b/sonic/chao/al_minimal.h>
 #undef  SAMT_INCL_FUNCPTRS
-#include <sa2b/src/chao/al_chao_info.h>
-#include <sa2b/src/chao/al_stage.h>
-#include <sa2b/src/chao/al_global.h>
-#include <sa2b/src/chao/al_misc.h>
+#include <sa2b/sonic/chao/al_chao_info.h>
+#include <sa2b/sonic/chao/al_stage.h>
+#include <sa2b/sonic/chao/al_global.h>
+#include <sa2b/sonic/chao/al_misc.h>
 
 /** AL Toys **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/src/chao/al_toy/alo_ball.h>
-#include <sa2b/src/chao/al_toy/alo_box.h>
-#include <sa2b/src/chao/al_toy/alo_horse.h>
-#include <sa2b/src/chao/al_toy/alo_radicase.h>
-#include <sa2b/src/chao/al_toy/alo_tv.h>
+#include <sa2b/sonic/chao/al_toy/alo_ball.h>
+#include <sa2b/sonic/chao/al_toy/alo_box.h>
+#include <sa2b/sonic/chao/al_toy/alo_horse.h>
+#include <sa2b/sonic/chao/al_toy/alo_radicase.h>
+#include <sa2b/sonic/chao/al_toy/alo_tv.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
@@ -191,7 +192,7 @@ ChaoDisplayerMod(TASK* tp)
 
 static hook_info* HookInfoCreateChaoExtra;
 static TASK*
-CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, bool32_t IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy)
+CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy)
 {
     TASK* tp;
 
@@ -347,7 +348,7 @@ ALO_RaceTreeDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ALO_RaceTree        FuncPtr(void, __cdecl, (TASK*), 0x00537E70)
+#define ALO_RaceTree        FUNC_PTR(void, __cdecl, (TASK*), 0x00537E70)
 
 static hook_info* HookInfoALO_RaceTree;
 static void
@@ -691,7 +692,7 @@ ALO_RaceFruitDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ALO_RaceFruit       FuncPtr(void, __cdecl, (TASK*), 0x0055A560)
+#define ALO_RaceFruit       FUNC_PTR(void, __cdecl, (TASK*), 0x0055A560)
 
 static hook_info* HookInfoALO_RaceFruit;
 static void

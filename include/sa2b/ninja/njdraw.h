@@ -136,7 +136,7 @@ void    njDrawTexture3DHExStart(Int trans);
 void    njDrawTexture3DHExSetData(NJS_TEXTUREH_VTX* p, Int count);
 void    njDrawTexture3DHExEnd(void);
 
-#define _nj_quad_color_     DataRef(Uint32, 0x01A54FF0)
+#define _nj_quad_color_     DATA_REF(Uint32, 0x01A54FF0)
 
 void    njQuadTextureStart(Sint32 trans);
 void    njQuadTextureEnd(void);

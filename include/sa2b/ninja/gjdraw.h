@@ -35,7 +35,7 @@ EXTERN_START
 /*  Draw                */
 /************************/
 /****** Render Mode *****************************************************************/
-#define _gj_render_mode_            DataRef(Sint32, 0x025EFEE0)
+#define _gj_render_mode_            DATA_REF(Sint32, 0x025EFEE0)
 
 /** Set render mode **/
 void    gjSetRenderMode( Sint32 mode );
@@ -69,10 +69,10 @@ void    gjBeginDrawCnkModel( void );
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define gjTransformObject_p         FuncPtr(void, __cdecl, (GJS_OBJECT*, int(__cdecl*)(GJS_MODEL*)), 0x0042DC20)
-#   define gjBeginDrawCnkModel_p       FuncPtr(void, __cdecl, (void)                                  , 0x0042D340)
-#   define gjBeginDrawModel_p          FuncPtr(void, __cdecl, (void)                                  , 0x0042BFF0)
-#   define gjDrawObject_p              FuncPtr(void, __cdecl, (GJS_OBJECT*)                           , 0x0042B530)
+#   define gjTransformObject_p         FUNC_PTR(void, __cdecl, (GJS_OBJECT*, int(__cdecl*)(GJS_MODEL*)), 0x0042DC20)
+#   define gjBeginDrawCnkModel_p       FUNC_PTR(void, __cdecl, (void)                                  , 0x0042D340)
+#   define gjBeginDrawModel_p          FUNC_PTR(void, __cdecl, (void)                                  , 0x0042BFF0)
+#   define gjDrawObject_p              FUNC_PTR(void, __cdecl, (GJS_OBJECT*)                           , 0x0042B530)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

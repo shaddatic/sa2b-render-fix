@@ -1,6 +1,7 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -9,7 +10,7 @@
 #include <sa2b/c_mtx/c_mtx.h>
 
 /** Source **/
-#include <sa2b/src/display.h>
+#include <sa2b/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -74,7 +75,7 @@ SendScreenRatioToShader(float resW, float resH)
     RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
 }
 
-#define GX_SetViewport      FuncPtr(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
+#define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
 
 static hook_info* GX_SetViewportHookInfo;
 static void
@@ -132,14 +133,14 @@ RFG_3DSpriteInit(void)
 
     /** Fix njDrawSprite3D forcing sprites
         in front of the camera **/
-    WriteNoOP(0x0077D835, 0x0077D83A); // Kill `if (z < -1.0f) z = -1.0f;`
+    WriteNOP(0x0077D835, 0x0077D83A); // Kill `if (z < -1.0f) z = -1.0f;`
 
     /** Fix Multi-screen desync and squish **/
     GX_SetViewportHookInfo = FuncHook(GX_SetViewport, GX_SetViewportHook);
 
     /** Fix lens flairs "un-squishing" themselves,
         which causes stretching with the above fix **/
-    WriteNoOP(0x006C79EE, 0x006C79F8);
+    WriteNOP(0x006C79EE, 0x006C79F8);
 
     /** Fix hint text in 2P **/
     HintTextDisplayerHookInfo = FuncHook(HintTextDisplayer_p, __HintTextDisplayerHook);

@@ -1,20 +1,20 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/njctrl.h>
-#include <sa2b/src/score.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/njctrl.h>
+#include <sa2b/sonic/score.h>
 
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_file.h>
 
-#define DisableObjectFog        DataRef(bool32_t, 0x01AEFE64)
-#define texlist_udreel          DataAry(NJS_TEXLIST, 0x00B129F8, [1])
+#define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)
+#define texlist_udreel          DATA_ARY(NJS_TEXLIST, 0x00B129F8, [1])
 
 static NJS_CNK_OBJECT* object_o_udreel;
 
@@ -86,7 +86,7 @@ ObjectUDReelCnkDisplayer(TASK* tp)
     njPopMatrixEx();
 }
 
-#define texlist_udreel_golem    DataAry(NJS_TEXLIST, 0x166CFF0, [1])
+#define texlist_udreel_golem    DATA_ARY(NJS_TEXLIST, 0x166CFF0, [1])
 
 static void
 ObjectUDReelGolemCnkDisplayer(TASK* tp)

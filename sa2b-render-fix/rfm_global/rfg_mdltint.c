@@ -1,12 +1,11 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
-#include <sa2b/mods.h>
+#include <sa2b/writemem.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/datadll.h>
+#include <sa2b/sonic/datadll.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -162,23 +161,23 @@ void
 RFG_ModelTintFixBaseInit(void)
 {
     /** Chunk **/
-    for (int i = 0; i < arylen(ChunkObjectList); ++i)
+    for (int i = 0; i < ARYLEN(ChunkObjectList); ++i)
     {
         CnkObjectTintFix(ChunkObjectList[i]);
     }
 
-    for (int i = 0; i < arylen(ChunkModelList); ++i)
+    for (int i = 0; i < ARYLEN(ChunkModelList); ++i)
     {
         CnkModelTintFix(ChunkModelList[i]);
     }
 
     /** Ginja **/
-    for (int i = 0; i < arylen(GinjaObjectList); ++i)
+    for (int i = 0; i < ARYLEN(GinjaObjectList); ++i)
     {
         GjsObjectTintFix(GinjaObjectList[i]);
     }
 
-    for (int i = 0; i < arylen(GinjaModelList); ++i)
+    for (int i = 0; i < ARYLEN(GinjaModelList); ++i)
     {
         GjsModelTintFix(GinjaModelList[i]);
     }
@@ -217,12 +216,12 @@ RFG_ModelTintFixBaseInit(void)
 void
 RFG_ModelTintFixDefaultInit(void)
 {
-    for (int i = 0; i < arylen(ChunkModelListExtra); ++i)
+    for (int i = 0; i < ARYLEN(ChunkModelListExtra); ++i)
     {
         CnkModelTintFix(ChunkModelListExtra[i]);
     }
 
-    for (int i = 0; i < arylen(GinjaModelListExtra); ++i)
+    for (int i = 0; i < ARYLEN(GinjaModelListExtra); ++i)
     {
         GjsModelTintFix(GinjaModelListExtra[i]);
     }

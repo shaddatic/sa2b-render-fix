@@ -1,18 +1,19 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
 #include <rf_util.h>
 
-#define ModModModelList     DataAry(NJS_CNK_MODEL*, 0x00B4D830, [3])
+#define ModModModelList     DATA_ARY(NJS_CNK_MODEL*, 0x00B4D830, [3])
 
 static void
 ObjectModModDisplayer(TASK* tp)

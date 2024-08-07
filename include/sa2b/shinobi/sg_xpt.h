@@ -31,10 +31,10 @@ typedef int32_t         Sint32;         /*  signed 4 byte integer       */
 
 typedef int32_t         Int;            /*  default integer             */
 
-typedef float32_t       Float;          /*  4 byte real number          */
+typedef f32             Float;          /*  4 byte real number          */
 
 typedef void            Void;           /*  void                        */
 
-typedef bool32_t        Bool;           /*  Bool                        */
+typedef b32             Bool;           /*  Bool                        */
 
 #endif/*_SG_XPT_H_*/

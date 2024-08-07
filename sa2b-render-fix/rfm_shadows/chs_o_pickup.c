@@ -1,13 +1,14 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
@@ -30,7 +31,7 @@ ObjectPickUpDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectPickUpDisplayer   FuncPtr(void, __cdecl, (TASK*), 0x006BC7A0)
+#define ObjectPickUpDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x006BC7A0)
 
 static void
 ObjectPickUpInitDisplayers(TASK* tp)
@@ -55,6 +56,6 @@ __ObjectPickUpInitDisplayers(TASK* tp)
 void
 CHS_PickUpInit(void)
 {
-    WriteNoOP(0x006BC9E7, 0x006BC9EE); // NOP mov dword ptr
+    WriteNOP( 0x006BC9E7, 0x006BC9EE); // NOP mov dword ptr
     WriteCall(0x006BC9E7, __ObjectPickUpInitDisplayers);
 }

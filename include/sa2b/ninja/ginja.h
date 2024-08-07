@@ -27,15 +27,15 @@ EXTERN_START
 /************************/
 /****** Matrix **************************************************************/
 /** Current matrix pointer **/
-#define _gj_matrix_                 DataRef(GJS_MATRIX*, 0x01A557FC)
+#define _gj_matrix_                 DATA_REF(GJS_MATRIX*, 0x01A557FC)
 
 /** Matrix limits **/
-#define _gj_base_matrix_            DataRef(GJS_MATRIX*, 0x0267053C)
-#define _gj_max_matrix_             DataRef(GJS_MATRIX*, 0x0267053C)
+#define _gj_base_matrix_            DATA_REF(GJS_MATRIX*, 0x0267053C)
+#define _gj_max_matrix_             DATA_REF(GJS_MATRIX*, 0x0267053C)
 
 /****** Fog *****************************************************************/
 /** Fog status **/
-#define _gj_fog_enable_             DataRef(Int        , 0x025EFFCC)
+#define _gj_fog_enable_             DATA_REF(Int        , 0x025EFFCC)
 
 /************************/
 /*  Functions           */

@@ -1,15 +1,16 @@
 #include <sa2b/core.h>
 #include <sa2b/config.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writeop.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/display.h>
-#include <sa2b/src/njctrl.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/display.h>
+#include <sa2b/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -133,7 +134,7 @@ __SOCDrawSpriteOnlyConstMat(void)
     }
 }
 
-#define DisplayStageMap                 FuncPtr(void, __cdecl, (float, float), 0x00675DF0)
+#define DisplayStageMap                 FUNC_PTR(void, __cdecl, (float, float), 0x00675DF0)
 
 static hook_info* HookInfoDisplayStageMap;
 static void
@@ -149,12 +150,12 @@ DisplayStageMapHook(float scroll, float fade)
     ResetConstantMaterial();
 }
 
-#define flt_1A3D660                     DataRef(float, 0x1A3D660)
+#define flt_1A3D660                     DATA_REF(float, 0x1A3D660)
 
-#define SetConstMatAndBackupConstAttr   FuncPtr(void, __cdecl, (float), 0x00433D00)
-#define RestoreConstMatAndConstAttr     FuncPtr(void, __cdecl, (void) , 0x00433D40)
+#define SetConstMatAndBackupConstAttr   FUNC_PTR(void, __cdecl, (float), 0x00433D00)
+#define RestoreConstMatAndConstAttr     FUNC_PTR(void, __cdecl, (void) , 0x00433D40)
 
-#define screenEffectDisp                FuncPtr(void, __cdecl, (TASK*), 0x00667E40)
+#define screenEffectDisp                FUNC_PTR(void, __cdecl, (TASK*), 0x00667E40)
 
 static hook_info* HookInfoScreenEffectDisp;
 static void
@@ -256,7 +257,7 @@ RFM_MenusInit(void)
 {
     if (RF_ConfigGetInt(CNF_MENUS_FADEFIX))
     {
-        WriteNoOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
+        WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
 
         HookInfoDisplayStageMap  = FuncHook(DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
         HookInfoScreenEffectDisp = FuncHook(screenEffectDisp, screenEffectDispHook); // ^

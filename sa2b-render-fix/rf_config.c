@@ -43,7 +43,7 @@ RF_ConfigGetBool(const RFS_CNF_BOOL* pCnf)
     return RF_ConfigDirectGetBool(pCnf->sect, pCnf->key, pCnf->def);
 }
 
-float64_t
+f64
 RF_ConfigGetFloat(const RFS_CNF_FLOAT* pCnf)
 {
     return RF_ConfigDirectGetFloat(pCnf->sect, pCnf->key, pCnf->def);
@@ -72,7 +72,7 @@ RF_ConfigSetBool(const RFS_CNF_BOOL* pCnf, bool set)
 }
 
 void
-RF_ConfigSetFloat(const RFS_CNF_FLOAT* pCnf, float64_t set)
+RF_ConfigSetFloat(const RFS_CNF_FLOAT* pCnf, f64 set)
 {
     RF_ConfigDirectSetFloat(pCnf->sect, pCnf->key, set);
 }
@@ -105,8 +105,8 @@ RF_ConfigDirectGetBool(const utf8* section, const utf8* key, bool def)
     return ConfigGetBool(ConfigPointer, section, key, def);
 }
 
-float64_t
-RF_ConfigDirectGetFloat(const utf8* section, const utf8* key, float64_t def)
+f64
+RF_ConfigDirectGetFloat(const utf8* section, const utf8* key, f64 def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -149,7 +149,7 @@ RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
 }
 
 void
-RF_ConfigDirectSetFloat(const utf8* section, const utf8* key, float64_t set)
+RF_ConfigDirectSetFloat(const utf8* section, const utf8* key, f64 set)
 {
     ConfigSet = true;
 

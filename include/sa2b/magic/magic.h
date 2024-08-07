@@ -17,37 +17,13 @@
 #ifndef _MAGIC_H_
 #define _MAGIC_H_
 
-#ifdef  __cplusplus
-
-/************************/
-/*  Base                */
-/************************/
-namespace Magic::Base
-{
-    template <typename T>
-    class Singleton
-    {
-    private:
-        static T* const m_pSubject;
-    public:
-        T* GetSubject()
-        {
-            if (!m_pSubject)
-            {
-                m_pSubject = new T();
-            }
-            return m_pSubject;
-        }
-    };
-}
-
 /************************/
 /*  Magic               */
 /************************/
+#include <sa2b/magic/base.h>
 #include <sa2b/magic/input.h>
 #include <sa2b/magic/math.h>
 #include <sa2b/magic/rendercore.h>
-
-#endif/*__cplusplus*/
+#include <sa2b/magic/media.h>
 
 #endif/*_MAGIC_H_*/

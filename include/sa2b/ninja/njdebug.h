@@ -13,6 +13,8 @@
 #ifndef _NJDEBUG_H_
 #define _NJDEBUG_H_
 
+#include <sa2b/shinobi/sg_xpt.h>
+
 #define NJM_GET_X(n)        ((Sint16)((n)>>16))
 #define NJM_GET_Y(n)        ((Sint16)((n)&0x0000FFFF))
 #define NJM_LOCATION(x,y)   ((x)<<16|(y))

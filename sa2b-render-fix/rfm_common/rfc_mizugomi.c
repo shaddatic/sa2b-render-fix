@@ -1,11 +1,12 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
+#include <sa2b/writeop.h>
 
 #include <sa2b/ninja/ninja.h>
 
-#include <sa2b/src/task.h>
+#include <sa2b/sonic/task.h>
 
-#define njDrawSomethingStart    FuncPtr(void, __cdecl, (int), 0x00491160)
+#define njDrawSomethingStart    FUNC_PTR(void, __cdecl, (int), 0x00491160)
 
 const int njDrawSomeSprite_p = 0x00491600;
 static void
@@ -24,7 +25,7 @@ njDrawSomeSprite(NJS_POINT3* p, int n, float pri, float w, float h, Uint32 col)
     }
 }
 
-#define texlist_mizugomi_am     DataAry(NJS_TEXLIST, 0x0162DD08, [1])
+#define texlist_mizugomi_am     DATA_ARY(NJS_TEXLIST, 0x0162DD08, [1])
 
 #define GET_MIZUWK(tp_)     ((MIZUWK*)tp_->mwp) 
 
@@ -67,7 +68,7 @@ MizugomiDisplayer_AM(TASK* tp)
     njFogEnable();
 }
 
-#define pMizugomiEQ     DataRef(TASK*, 0x01AEFC18)
+#define pMizugomiEQ     DATA_REF(TASK*, 0x01AEFC18)
 
 static void
 BGMizugomiEQ(void)
@@ -91,7 +92,7 @@ __BGMizugomiEQ(void)
 
 #define texlist_mizugomi_dc     DataPtr(NJS_TEXLIST, 0x00B6F51C)
 
-#define pMizugomiCCK            DataRef(TASK*, 0x01AEE2B0)
+#define pMizugomiCCK            DATA_REF(TASK*, 0x01AEE2B0)
 
 static void
 BGMizugomiDCOff(void)
@@ -131,7 +132,7 @@ __BGMizugomiDCOn(void)
     }
 }
 
-#define MizugomiCreateCCK   FuncPtr(void, __cdecl, (void), 0x006605D0)
+#define MizugomiCreateCCK   FUNC_PTR(void, __cdecl, (void), 0x006605D0)
 
 static void
 BGMizugomiDCBegin(void)

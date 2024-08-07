@@ -1,19 +1,19 @@
 #include <sa2b/core.h>
-#include <sa2b/memutil.h>
+#include <sa2b/writemem.h>
 #include <sa2b/funchook.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/src/task.h>
-#include <sa2b/src/debug.h>
+#include <sa2b/sonic/task.h>
+#include <sa2b/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_draw.h>
 #include <rf_util.h>
 
-#define dword_1945E08   DataRef(int, 0x1945E08)
+#define dword_1945E08   DATA_REF(int, 0x1945E08)
 
 static void
 ChaosDriveDisplayerMod(TASK* tp)
