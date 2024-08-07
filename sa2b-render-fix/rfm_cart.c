@@ -33,7 +33,7 @@ RFM_CartInit(void)
 
     if (RF_ConfigGetInt(CNF_CART_KANBAN))
     {
-        WriteNOP(0x006220CE, 0x006220E5);
+        WriteData(0x006224EC, -1063 + 39, s32);
     }
 
     switch (RF_ConfigGetInt(CNF_CART_CARTSPRITE)) {
