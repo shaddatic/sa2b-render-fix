@@ -59,21 +59,15 @@ static dx9_vtx_decl* ModVtxDeclaration;
 static MOD_COLOR ModColor;
 
 static size_t   ModBufferInitTriNum     = NB_MOD_TRI;
-static size_t   ModBufferInitTriListNum = NB_MOD_TRILIST;
 
 static MOD_TRI* ModBuffer;
 static size_t   ModBufferNum;
 static size_t   ModBufferMax;
 
-static MOD_TRILIST* ModTriListList;
-static size_t       ModTriListNum;
-static size_t       ModTriListMax;
-
 void
 RFMOD_ClearBuffer(void)
 {
     ModBufferNum = 0;
-    ModTriListNum = 0;
 }
 
 void
@@ -131,15 +125,6 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
         return;
     }
 
-    if (ModTriListNum == ModTriListMax)
-    {
-        OutputString("RFDBG: Modifier tri list list is full!");
-        return;
-    }
-
-    ModTriListList[ModTriListNum].startTri = (uint16_t)ModBufferNum;
-    ModTriListList[ModTriListNum].nbTri    = nbPoly;
-
     if (ModInvertWinding)
     {
         for (size_t i = ModBufferNum; i < stacktop; ++i)
@@ -160,7 +145,6 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
     }
 
     ModBufferNum = stacktop;
-    ++ModTriListNum;
 }
 
 static void
@@ -222,7 +206,7 @@ ModLoadRenderState(void)
     DX9_LoadStencilTwoSidedState();
     DX9_LoadAlphaBlendState();
 }
-
+#if 0
 static void
 DrawBufferAccurate(void)
 {
@@ -353,6 +337,7 @@ DrawBufferAccurate(void)
     /** Load render state **/
     ModLoadRenderState();
 }
+#endif
 
 static void
 DrawBufferFast(void)
@@ -500,7 +485,7 @@ RFMOD_DrawBuffer(void)
 
     switch (ModMode) {
     case MODMD_ACCURATE:
-        DrawBufferAccurate();
+        DrawBufferFast();
         break;
 
     case MODMD_FAST:
@@ -543,10 +528,6 @@ RFMOD_CreateBuffer(void)
     ModBuffer    = mAlloc(MOD_TRI, ModBufferInitTriNum);
     ModBufferMax = ModBufferInitTriNum;
     ModBufferNum = 0;
-
-    ModTriListList = mAlloc(MOD_TRILIST, ModBufferInitTriListNum);
-    ModTriListMax  = ModBufferInitTriListNum;
-    ModTriListNum  = 0;
 }
 
 #define GJD_ALPHAMODE_SOLID (0)
@@ -625,8 +606,7 @@ GjDrawStencilCheck(int a1, char a2)
 void
 RFCTRL_SetModBufferSize(size_t nbTri, size_t nbTriList)
 {
-    SetIfGreater(ModBufferInitTriNum    , nbTri);
-    SetIfGreater(ModBufferInitTriListNum, nbTriList);
+    SetIfGreater(ModBufferInitTriNum, nbTri);
 }
 
 void
