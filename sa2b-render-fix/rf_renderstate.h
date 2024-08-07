@@ -88,7 +88,7 @@ void    RFRS_SetAlphaTestFunc( RFRS_CMPMD mode );
 void    RFRS_SetAlphaTestRef( int32_t value );
 
 /** Set modifier mode **/
-void    RFRS_SetModMode( RFRS_MODMD mode );
+void    RFRS_SetModifierMode( RFRS_MODMD mode );
 
 /** Set defaults **/
 void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode  );

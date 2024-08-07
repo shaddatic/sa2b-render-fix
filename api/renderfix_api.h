@@ -87,6 +87,15 @@ typedef enum
 }
 RFRS_ALPHAREF;
 
+typedef enum
+{
+    RFRS_MODMD_END = -1,
+
+    RFRS_MODMD_NORMAL,
+    RFRS_MODMD_INVERSE,
+}
+RFRS_MODMD;
+
 /****** Font Enums ******************************************************************/
 /** Font language **/
 typedef enum
@@ -392,6 +401,17 @@ typedef struct
     */
     void(__cdecl* SetAlphaTestFunc)( RFRS_CMPMD mode );
     void(__cdecl* SetAlphaTestRef)(  int32_t    ref  );
+
+    /****** Version >= 1 ************************************************************/
+    /*
+    *   Set the winding mode of modifier models. All modifiers must be drawn with
+    *   matching normals. If a model has inverted normals, or is being drawn with
+    *   negative scale, this must be set to 'INVERSE'.
+    *
+    *   Parameters:
+    *     - mode    : winding mode to use (default 'NORMAL')
+    */
+    void(__cdecl* SetModifierMode)( RFRS_MODMD mode );
 }
 RFAPI_RENDERSTATE;
 

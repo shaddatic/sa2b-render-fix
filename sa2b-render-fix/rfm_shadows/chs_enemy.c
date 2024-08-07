@@ -508,7 +508,7 @@ EnemyShoukoDisplayerMod(TASK* tp)
 
     /** The shouko's modifier model is inverted by default, was on Dreamcast too.
         So, just invert the modifier render state **/
-    RFRS_SetModMode(RFRS_MODMD_INVERSE);
+    RFRS_SetModifierMode(RFRS_MODMD_INVERSE);
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -522,7 +522,7 @@ EnemyShoukoDisplayerMod(TASK* tp)
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    RFRS_SetModMode(RFRS_MODMD_END);
+    RFRS_SetModifierMode(RFRS_MODMD_END);
 }
 
 static void

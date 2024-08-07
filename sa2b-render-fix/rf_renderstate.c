@@ -329,7 +329,7 @@ RFRS_SetAlphaTestRef(int32_t value)
 }
 
 void
-RFRS_SetModMode(RFRS_MODMD mode)
+RFRS_SetModifierMode(RFRS_MODMD mode)
 {
     RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
 }

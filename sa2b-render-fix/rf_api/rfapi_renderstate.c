@@ -10,7 +10,7 @@
 #include <rf_renderstate.h>
 
 /** Constants **/
-#define STATE_API_VER    (0)
+#define STATE_API_VER    (1)
 
 /** Exports **/
 EXTERN
@@ -22,4 +22,6 @@ const RFAPI_RENDERSTATE rfapi_rstate =
     .SetTransMode     = RFRS_SetTransMode,
     .SetAlphaTestFunc = RFRS_SetAlphaTestFunc,
     .SetAlphaTestRef  = RFRS_SetAlphaTestRef,
+
+    .SetModifierMode  = RFRS_SetModifierMode,
 };

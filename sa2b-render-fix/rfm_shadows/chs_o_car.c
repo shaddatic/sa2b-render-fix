@@ -59,11 +59,11 @@ DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
     };
 
     if (IsCarFlipped(pAng))
-        RFRS_SetModMode(RFRS_MODMD_INVERSE);
+        RFRS_SetModifierMode(RFRS_MODMD_INVERSE);
 
     njCnkModDrawModel(&model);
 
-    RFRS_SetModMode(RFRS_MODMD_END);
+    RFRS_SetModifierMode(RFRS_MODMD_END);
 }
 
 typedef struct 
