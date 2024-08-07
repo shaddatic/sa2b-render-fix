@@ -16,12 +16,31 @@
 #include <rf_file.h>
 #include <rf_draw.h>
 #include <rf_util.h>
+#include <rf_renderstate.h>
 
 #define GlobalBuffer        DATA_ARY(int, 0x01DEFE20, [1])
 
 #define ModTurnVertex       FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
 
 #define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
+
+static bool
+IsCarFlipped(Angle3* pAng)
+{
+    size_t nb = 0;
+
+    const Sangle x = pAng->x;
+
+    if (x > 0x4000 || x < -0x4000)
+        ++nb;
+
+    const Sangle z = pAng->z;
+
+    if (z > 0x4000 || z < -0x4000)
+        ++nb;
+
+    return (nb % 2);
+}
 
 static void
 DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
@@ -39,7 +58,12 @@ DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
         .r      = (r * 2) + car_model->r
     };
 
+    if (IsCarFlipped(pAng))
+        RFRS_SetModMode(RFRS_MODMD_INVERSE);
+
     njCnkModDrawModel(&model);
+
+    RFRS_SetModMode(RFRS_MODMD_END);
 }
 
 typedef struct 
