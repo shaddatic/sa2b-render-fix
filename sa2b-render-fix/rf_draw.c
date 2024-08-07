@@ -103,7 +103,7 @@ njCnkModDrawModel(NJS_CNK_MODEL* model)
 
     NJS_POINT3* vtx_buf = &base_vtx_buf[offst];
 
-    njCalcPoints(NULL, (NJS_POINT3*)vlist, vtx_buf, nbidx);
+    RFMOD_CalcVertexes((NJS_POINT3*)vlist, vtx_buf, nbidx);
 
     Sint16* plist = model->plist;
 

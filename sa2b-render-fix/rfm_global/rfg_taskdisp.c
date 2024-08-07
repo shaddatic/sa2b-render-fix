@@ -1,5 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
+#include <sa2b/funchook.h>
 #include <sa2b/writeop.h>
 
 /** Ninja **/
@@ -242,6 +243,17 @@ DrawModBuffer(int index)
 #define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
 #define IsSplitscreen       DATA_REF(bool  , 0x0174AFE0)
 
+static hook_info* TaskDisplayShadowsHookInfo;
+
+static void
+TaskDisplayShadowsHook(void)
+{
+    RFMOD_ClearBuffer(); 
+    RFMOD_SetInvViewMatrix();
+
+    FuncHookCall( TaskDisplayShadowsHookInfo, TaskDisplayShadows() );
+}
+
 static void
 TaskDisplayAll(void)
 {
@@ -265,11 +277,7 @@ TaskDisplayAll(void)
         gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
         TaskDisplayDisplayer(btp[0]);
 
-        ClearModBuffer();     // Clear buffer for new frame
-
-        BackupScreenInfo();
-        TaskDisplayShadows(); // Draw the shadows, can screw with screen so backup
-        RestoreScreenInfo();
+        RFMOD_CalcBuffer();     // Calculate buffer for new frame
 
         SetLighting(DefaultPlayerLight); // Reset lighting
 
@@ -394,6 +402,8 @@ RFG_TaskDisplayInit(void)
 {
     WriteJump(0x00470010, TaskDisplayAll);
 
+    TaskDisplayShadowsHookInfo = FuncHook(TaskDisplayShadows, TaskDisplayShadowsHook);
+
     /** Draw HUD **/
     KillCall(0x0043D134);
     KillCall(0x0043D26F);
@@ -402,8 +412,8 @@ RFG_TaskDisplayInit(void)
     KillCall(0x0043D4F8);
     
     /** Draw shadows **/
-    KillCall(0x0047050E);
-    KillCall(0x004708A3);
+//  KillCall(0x0047050E);
+//  KillCall(0x004708A3);
 
     if (RF_ConfigGetInt(CNF_SHADOW_CHSMD) <= CNFE_SHADOW_CHSMD_PERFORMANCE)
     {

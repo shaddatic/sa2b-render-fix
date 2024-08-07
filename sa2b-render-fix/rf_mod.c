@@ -64,6 +64,34 @@ static MOD_TRI* ModBuffer;
 static size_t   ModBufferNum;
 static size_t   ModBufferMax;
 
+static MOD_TRI* ModDispBuffer;
+
+static NJS_MATRIX InvViewMtx;
+
+void
+RFMOD_SetInvViewMatrix(void)
+{
+    njGetMatrix(&InvViewMtx);
+    njInvertMatrix(&InvViewMtx);
+}
+
+void
+RFMOD_CalcVertexes(const NJS_POINT3* const pSrc, NJS_POINT3* const pDst, const Int num)
+{
+    NJS_MATRIX mtx;
+
+    njSetMatrix(&mtx, &InvViewMtx);
+    njMultiMatrix(&mtx, _gj_matrix_);
+
+    njCalcPoints(&mtx, (NJS_POINT3*)pSrc, pDst, num);
+}
+
+void
+RFMOD_CalcBuffer(void)
+{
+    njCalcPoints(NULL, (NJS_POINT3*)ModBuffer, (NJS_POINT3*)ModDispBuffer, ModBufferNum*3);
+}
+
 void
 RFMOD_ClearBuffer(void)
 {
@@ -150,7 +178,7 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
 static void
 DrawModifierList(void)
 {
-    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, ModBufferNum, ModBuffer, sizeof(NJS_POINT3));
+    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, ModBufferNum, ModDispBuffer, sizeof(NJS_POINT3));
 }
 
 static void
@@ -393,6 +421,8 @@ RFMOD_CreateBuffer(void)
     ModBuffer    = mAlloc(MOD_TRI, ModBufferInitTriNum);
     ModBufferMax = ModBufferInitTriNum;
     ModBufferNum = 0;
+
+    ModDispBuffer = mAlloc(MOD_TRI, ModBufferInitTriNum);
 }
 
 #define GJD_ALPHAMODE_SOLID (0)

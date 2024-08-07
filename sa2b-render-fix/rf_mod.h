@@ -48,6 +48,12 @@ void    RFMOD_OffShadow(void);
 
 void    RFMOD_SetInvertMode(bool bInv);
 
+void    RFMOD_SetInvViewMatrix(void);
+
+void    RFMOD_CalcVertexes(const NJS_POINT3* pSrc, NJS_POINT3* pDst, Int num);
+
+void    RFMOD_CalcBuffer(void);
+
 EXTERN_END
 
 #endif/*_RF_MOD_H_*/
