@@ -13,6 +13,7 @@
 #include <sa2b/sonic/njctrl.h>
 #include <sa2b/sonic/texture.h>
 #include <sa2b/sonic/datadll.h>
+#include <sa2b/sonic/set.h>
 
 /** Std **/
 #include <stdio.h>
@@ -123,6 +124,9 @@ RFM_CommonInit(void)
         CnkObjectMaterialFlagOn(p_obj[0], NJD_FST_UA);
         CnkObjectMaterialFlagOn(p_obj[1], NJD_FST_UA);
     }
+
+    /** Restore Big the Cat in Wild Canyon **/
+    DATA_ARY(OBJ_ITEMENTRY, 0x00BD7440, [100])[82] = DATA_ARY(OBJ_ITEMENTRY, 0x0109E830, [100])[85];
 
     if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM))
     {
