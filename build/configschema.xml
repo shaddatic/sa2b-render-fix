@@ -55,7 +55,7 @@ The original games used 'Half Width'.</HelpText>
 			<Property name="mode_gl" display="Global Shadow Mode" type="eSHAD_MODE" defaultvalue="2">
 				<HelpText>Which shadow type should be used globally (excluding player characters). 'Modifier' is the Dreamcast shadow system.</HelpText>
 			</Property>
-			<Property name="mode_pl" display="Player Shadow Mode" type="eSHAD_PL_MODE" defaultvalue="2">
+			<Property name="mode_pl" display="Player Shadow Mode" type="eSHAD_PL_MODE" defaultvalue="3">
 				<HelpText>Which shadow type is cast by the player character. 'Modifier' is the Dreamcast shadow system.</HelpText>
 			</Property>
 			<Property name="opacity_gl" display="Global Opacity" type="eSHAD_OPACITY" defaultvalue="1">

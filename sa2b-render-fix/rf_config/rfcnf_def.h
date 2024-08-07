@@ -208,7 +208,7 @@ CNFE_CART_CARTSPRITE;
 /** Shadows section **/
 #define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "mod_shadow"          , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
 #define CNF_SHADOW_GLMD             CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
-#define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_EQUIPMENT            )   /* Character Shadows */
+#define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_MODIFIER             )   /* Character Shadows */
 #define CNF_SHADOW_RES              CNFO_INT(   CNFS_SHADOW         , "resolution"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
 #define CNF_SHADOW_GLOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_gl"          , CNFE_SHADOW_OPACITY_DREAMCAST         )   /* Global Opacity */
 #define CNF_SHADOW_CHOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_ch"          , CNFE_SHADOW_OPACITY_DREAMCAST_CHAO    )   /* Chao World Opacity */
