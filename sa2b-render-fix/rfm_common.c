@@ -12,6 +12,7 @@
 #include <sa2b/sonic/score.h>
 #include <sa2b/sonic/njctrl.h>
 #include <sa2b/sonic/texture.h>
+#include <sa2b/sonic/datadll.h>
 
 /** Std **/
 #include <stdio.h>
@@ -114,6 +115,14 @@ RFM_CommonInit(void)
     RFC_TransparancyInit();
 
     WriteData(0x0044FE36, 0x1, uint8_t); // Fix green hill "CLEAR!" text
+
+    /** 2p character select cursor **/
+    {
+        NJS_CNK_OBJECT** p_obj = GetDataDllAddr(NJS_CNK_OBJECT*, "cursorObj");
+
+        CnkObjectMaterialFlagOn(p_obj[0], NJD_FST_UA);
+        CnkObjectMaterialFlagOn(p_obj[1], NJD_FST_UA);
+    }
 
     if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM))
     {
