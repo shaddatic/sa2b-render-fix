@@ -81,9 +81,9 @@ AnimateMotion(ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl)
 int32_t
 njCnkModDrawModel(NJS_CNK_MODEL* model)
 {
-    if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
-        if (model->r > 0 && njCnkModelClip(model))
-            return 1;
+//  if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
+//      if (model->r > 0 && njCnkModelClip(model))
+//          return 1;
 
     Sint32* vlist = model->vlist;
 
