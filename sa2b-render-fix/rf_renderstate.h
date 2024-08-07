@@ -57,6 +57,15 @@ typedef enum
 }
 RFRS_ALPHAREF;
 
+typedef enum
+{
+    RFRS_MODMD_END = -1,
+
+    RFRS_MODMD_NORMAL,
+    RFRS_MODMD_INVERSE,
+}
+RFRS_MODMD;
+
 #endif/*_RF_EXTERN_API_*/
 
 /************************/
@@ -77,6 +86,9 @@ void    RFRS_SetAlphaTestFunc( RFRS_CMPMD mode );
 
 /** Set alpha test reference **/
 void    RFRS_SetAlphaTestRef( int32_t value );
+
+/** Set modifier mode **/
+void    RFRS_SetModMode( RFRS_MODMD mode );
 
 /** Set defaults **/
 void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode  );

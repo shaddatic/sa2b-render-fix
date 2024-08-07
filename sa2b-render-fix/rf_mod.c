@@ -112,6 +112,14 @@ RFMOD_SetDrawMode(RFE_MOD_MODE mode)
     ModMode = mode;
 }
 
+static bool ModInvertWinding;
+
+void
+RFMOD_SetInvertMode(bool bInv)
+{
+    ModInvertWinding = bInv;
+}
+
 void
 RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
 {
@@ -132,11 +140,23 @@ RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
     ModTriListList[ModTriListNum].startTri = (uint16_t)ModBufferNum;
     ModTriListList[ModTriListNum].nbTri    = nbPoly;
 
-    for (size_t i = ModBufferNum; i < stacktop; ++i)
+    if (ModInvertWinding)
     {
-        ModBuffer[i].vtx[0] = vtxBuf[*plist++];
-        ModBuffer[i].vtx[1] = vtxBuf[*plist++];
-        ModBuffer[i].vtx[2] = vtxBuf[*plist++];
+        for (size_t i = ModBufferNum; i < stacktop; ++i)
+        {
+            ModBuffer[i].vtx[2] = vtxBuf[*plist++];
+            ModBuffer[i].vtx[1] = vtxBuf[*plist++];
+            ModBuffer[i].vtx[0] = vtxBuf[*plist++];
+        }
+    }
+    else
+    {
+        for (size_t i = ModBufferNum; i < stacktop; ++i)
+        {
+            ModBuffer[i].vtx[0] = vtxBuf[*plist++];
+            ModBuffer[i].vtx[1] = vtxBuf[*plist++];
+            ModBuffer[i].vtx[2] = vtxBuf[*plist++];
+        }
     }
 
     ModBufferNum = stacktop;

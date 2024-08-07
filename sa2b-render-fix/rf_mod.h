@@ -47,6 +47,8 @@ void    RFMOD_Resume(void);
 void    RFMOD_OnShadow(void);
 void    RFMOD_OffShadow(void);
 
+void    RFMOD_SetInvertMode(bool bInv);
+
 EXTERN_END
 
 #endif/*_RF_MOD_H_*/

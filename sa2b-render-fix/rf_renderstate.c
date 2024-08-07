@@ -13,6 +13,7 @@
 #include <rf_config.h>
 #include <rf_eventinfo.h>
 #include <rf_magic.h>
+#include <rf_mod.h>
 
 /** Self **/
 #include <rf_renderstate.h>
@@ -325,6 +326,12 @@ RFRS_SetAlphaTestRef(int32_t value)
     }
 
     AlphaRefOverride = value;
+}
+
+void
+RFRS_SetModMode(RFRS_MODMD mode)
+{
+    RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
 }
 
 void
