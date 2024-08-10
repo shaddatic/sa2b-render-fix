@@ -9,7 +9,7 @@
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Source **/
-#include <sa2b/sonic/debug.h>
+#include <sa2b/sonic/shaders.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -207,10 +207,74 @@ ModLoadRenderState(void)
     DX9_LoadAlphaBlendState();
 }
 
+typedef struct
+{
+    s16 unk;
+    s16 mode;
+    NJS_COLOR color;
+    f32 far;
+    f32 near;
+    f32 fogtable[128];
+}
+FOG_DATA;
+
+#define FogDataP        DATA_REF(FOG_DATA*, 0x01AEFEA4)
+
+static void
+LerpModAndFogColor(MOD_COLOR* const pModCol, const NJS_COLOR* const pFogCol, const f32 density)
+{
+    const f32 inv_density = 1.f - density;
+
+    pModCol->r = (pModCol->r * inv_density) + (((f32)pFogCol->argb.r/255.f) * density);
+    pModCol->g = (pModCol->g * inv_density) + (((f32)pFogCol->argb.g/255.f) * density);
+    pModCol->b = (pModCol->b * inv_density) + (((f32)pFogCol->argb.b/255.f) * density);
+
+    //pModCol->a *= inv_density;
+}
+
+static bool
+ModSetShaderColor(void)
+{
+    if (FogDataP && ShaderMode & SHADERMODE_FOG)
+    {
+        f32 density = (100.f - FogDataP->near) / (FogDataP->far - FogDataP->near);
+
+        if (density <= 0.f)
+            return false;
+        
+        if (density >= 1.f)
+            goto NO_FOG;
+
+        switch (FogDataP->mode) {
+        case 2:
+            density = 1.f - exp2f(-8.f * density);
+            break;
+        case 3: case 4: case 5:
+            density = 1.f - exp2f(-8.f * density * density);
+            break;
+        }
+
+        MOD_COLOR col = ModColor;
+
+        LerpModAndFogColor(&col, &FogDataP->color, density);
+
+        DX9_SetPxlShaderConstantF(&col, 0, 4);
+        return true;
+    }
+
+NO_FOG:
+    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
+    return true;
+}
 
 static void
 DrawBufferFast(void)
 {
+    /** Early fail if the shadows wouldn't
+        be visible in the fog **/
+    if ( !ModSetShaderColor() )
+        return;
+
     /****** Initial Setup ******/
     /** Save render state **/
     ModSaveRenderState();
@@ -219,8 +283,6 @@ DrawBufferFast(void)
     DX9_SetVtxShader(ModVtxShader);
     DX9_SetPxlShader(ModPxlShader);
     DX9_SetVtxDecl(ModVtxDeclaration);
-
-    DX9_SetPxlShaderConstantF(&ModColor, 0, 4);
 
     /** Enable stencil **/
     DX9_SetStencil(true);
@@ -253,10 +315,9 @@ DrawBufferFast(void)
 
     /****** Write to the Stencil Buffer ******/
     /****** 1st pass: ******/
-    /** This pass draws both sides of the entire modifier
-        buffer in just one draw call. While very fast, it
-        causes visual bugs in scenarios involving inverted
-        modifier models. **/
+    /** This pass draws both sides of the entire modifier buffer in just one draw
+        call. While very fast, it can cause visual bugs in scenarios involving
+        inverted modifier models. But that's why we have the new render state! **/
     DX9_SetStencilTwoSided(true);
 
     DX9_SetStencilFunc(DX9_CMP_ALW);
