@@ -29,6 +29,35 @@ GetMatrixCol(NJS_VECTOR* pVec, size_t nbCol)
     pVec->z = (*_gj_matrix_)[8 + nbCol];
 }
 
+void
+RFU_LerpPoints(NJS_POINT3* pOutPt, const NJS_POINT3* pPt1, const NJS_POINT3* pPt2, f32 ratioPt1)
+{
+    const f32 inv_ratio = 1.f - ratioPt1;
+
+    pOutPt->x = (pPt1->x * ratioPt1) + (pPt2->x * inv_ratio);
+    pOutPt->y = (pPt1->y * ratioPt1) + (pPt2->y * inv_ratio);
+    pOutPt->z = (pPt1->z * ratioPt1) + (pPt2->z * inv_ratio);
+}
+
+void
+RFU_ProjectTo2D(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
+{
+    f32 inv_dist = _nj_screen_.dist / pInPos->z;
+
+    pOutPos->x = -(pInPos->x * _nj_screen_.ax * inv_dist) + 320.f;
+    pOutPos->y =  (pInPos->y * _nj_screen_.ay * inv_dist) + 240.f;
+}
+
+void
+RFU_ProjectPointTo2D(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
+{
+    NJS_POINT3 pt3;
+
+    njCalcPoint(NULL, pInPos, &pt3);
+
+    RFU_ProjectPointTo2D(&pt3, pOutPos);
+}
+
 bool
 CalculateMatrixInverted(void)
 {
