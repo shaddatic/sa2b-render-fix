@@ -32,6 +32,7 @@
     <ClCompile Include="rfm_cart.c" />
     <ClCompile Include="rfm_global.c" />
     <ClCompile Include="rfm_global\rfg_3dsprite.c" />
+    <ClCompile Include="rfm_global\rfg_drawline.c" />
     <ClCompile Include="rfm_global\rfg_spotlight_fix.c" />
     <ClCompile Include="rfm_mstreet.c" />
     <ClCompile Include="rfm_shadows\chs_boss.c" />

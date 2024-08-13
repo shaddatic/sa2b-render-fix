@@ -31,6 +31,8 @@ void    RFG_TaskDisplayInit( void );
 
 void    RFG_3DSpriteInit( void );
 
+void    RFG_DrawLineInit( void );
+
 EXTERN_END
 
 #endif/*_RFM_GLOBAL_INTERNAL_H_*/
