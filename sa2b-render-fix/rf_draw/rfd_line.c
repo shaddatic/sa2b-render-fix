@@ -222,15 +222,15 @@ rjDrawLine2DExSetList(const NJS_POINT2* vtx, const Float ooz, const Sint32 Count
     }
 }
 
-
 void
 rjDrawLineExEnd(void)
 {
     return;
 }
 
+/****** Combined ********************************************************************/
 void
-rjDrawLineStrip3DEx(const NJS_POINT3* const vtx, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineStrip3D(const NJS_POINT3* const vtx, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine3DExSetStrip(vtx, Count);
@@ -238,7 +238,7 @@ rjDrawLineStrip3DEx(const NJS_POINT3* const vtx, const Sint32 Count, const Float
 }
 
 void
-rjDrawLineList3DEx(const NJS_POINT3* const vtx, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineList3D(const NJS_POINT3* const vtx, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine3DExSetList(vtx, Count);
@@ -246,7 +246,7 @@ rjDrawLineList3DEx(const NJS_POINT3* const vtx, const Sint32 Count, const Float 
 }
 
 void
-rjDrawLineStrip2DEx(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineStrip2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine2DExSetStrip(vtx, ooz, Count);
@@ -254,7 +254,7 @@ rjDrawLineStrip2DEx(const NJS_POINT2* const vtx, const Float ooz, const Sint32 C
 }
 
 void
-rjDrawLineList2DEx(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineList2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine2DExSetList(vtx, ooz, Count);

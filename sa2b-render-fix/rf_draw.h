@@ -158,6 +158,35 @@ void    rjDrawLine2DExSetStrip( const NJS_POINT2* vtx, Float ooz, Sint32 Count )
 */
 void    rjDrawLineExEnd( void );
 
+/****** Draw Line (Combined) ********************************************************/
+/*
+*   Description:
+*     Draw 3D line in either strip or list mode. Internally calls the seperated line
+*   draw functions
+*
+*   Parameters:
+*     - vtx     : list of line vertexes
+*     - Count   : number of line vertexes
+*     - r       : radius, in 480p pixels
+*     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
+*/
+void    rjDrawLineStrip3D( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+/*
+*   Description:
+*     Draw 2D line in either strip or list mode. Internally calls the seperated line
+*   draw functions
+*
+*   Parameters:
+*     - vtx     : list of line vertexes
+*     - ooz     : 1/z, 'z' being the depth of the line
+*     - Count   : number of line vertexes
+*     - r       : radius, in 480p pixels
+*     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
+*/
+void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+
 EXTERN_END
 
 #endif/*_RF_DRAW_H_*/
