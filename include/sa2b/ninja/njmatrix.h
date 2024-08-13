@@ -1,7 +1,14 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/ninja/njmatrix.h'
 *
-*   Contains Ninja matrix enums, values, and functions
+*   Description:
+*     Ninja matrix header.
+*
+*   Notes:
+*     - Where the matrix parameter of a function is noted as (optional), a 'NULL'
+*     value will use the current matrix instead of an arbitrary matrix.
+*     - Noted rotation orders are reversed from their order in code. For example:
+*     XYZ order, in code, will call 'njRotate#' in 'ZYX' order. 
 *
 *   Contributors:
 *     - SEGA,
@@ -9,161 +16,511 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef    _NJ_MATRIX_H_
-#define    _NJ_MATRIX_H_
+#ifndef H_NJ_MATRIX
+#define H_NJ_MATRIX
 
-/*--------------------------------------*/
-/*      Matrix                          */
-/*--------------------------------------*/
-typedef Float* NJS_MATRIX_PTR;
+/************************/
+/*  External Headers    */
+/************************/
+/****** System **********************************************************************/
+#include <sa2b/shinobi/sg_xpt.h> /* shinobi types                                   */
 
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
+
+EXTERN_START
+
+/************************/
+/*  Types               */
+/************************/
+/****** Matrix **********************************************************************/
+typedef Float*              NJS_MATRIX_PTR; /* matrix pointer                       */
+
+/************************/
+/*  Enums               */
+/************************/
+/****** Matrix **********************************************************************/
 enum {
-    M00, M10, M20, M30,
-    M01, M11, M21, M31,
-    M02, M12, M22, M32
+    M00, M10, M20, M30,     /* matrix row 1                                         */
+    M01, M11, M21, M31,     /* matrix row 2                                         */
+    M02, M12, M22, M32      /* matrix row 3                                         */
 };
 
-/*******************************/
-/* Global Variables for Matrix */
-/*******************************/
-#define _nj_unit_matrix_            DATA_REF(GJS_MATRIX, 0x025F02A0)
+/************************/
+/*  Global Variables    */
+/************************/
+/****** Unit Matrix *****************************************************************/
+#define _nj_unit_matrix_            DATA_REF(NJS_MATRIX, 0x025F02A0)
 
+/************************/
+/*  Prototypes          */
+/************************/
+/****** Push/Pop Matrix *************************************************************/
 /*
-    Prototype Declarations
+*   Description:
+*     Push the matrix stack, and set current matrix to 'm'
+*
+*   Parameters:
+*     - m       : matrix to set (optional)
+*
+*   Returns:
+*     'true' on success, or 'false' if the top of the matrix stack is reached
 */
-
-/*  Push and pop current matrix into a matrix stack */
-Bool    njPushMatrix(NJS_MATRIX* m);
-Bool    njPopMatrix(Uint32 n);
-
-/*  Retrieve a current matrix or copy a matrix to another.  */
-void    njGetMatrix(NJS_MATRIX* m);
-void    njSetMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
-
-/*  Add or subtract two specified matrices  */
-void    njAddMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
-void    njSubMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
-
-/*  Make a specified matrix be unit     */
-void    njUnitMatrix(NJS_MATRIX* m);
-
-/*  Multiply two specified matrices */
-void    njMultiMatrix(NJS_MATRIX* md, const NJS_MATRIX* ms);
-void    njPostMultiMatrix(NJS_MATRIX* md, const NJS_MATRIX* ms);
-
-
+Bool    njPushMatrix( const NJS_MATRIX* m );
 /*
-    Make and multiply matrix mainly for an object node.
+*   Description:
+*     Pop the matrix stack 'n' times
+*
+*   Parameters:
+*     - n       : number of matrices to pop
+*
+*   Returns:
+*     'true' on success, or 'false' if the bottom of the matrix stack is reached
 */
-/*  Translation */
-void    njTranslate(NJS_MATRIX* m, Float x, Float y, Float z);
-void    njTranslateV(NJS_MATRIX* m, NJS_VECTOR* v);
-/*  Rotation    */
-void    njRotateX(NJS_MATRIX* m, Angle ang);
-void    njRotateY(NJS_MATRIX* m, Angle ang);
-void    njRotateZ(NJS_MATRIX* m, Angle ang);
-void    njRotateXYZ(NJS_MATRIX* m, Angle angx, Angle angy, Angle angz);
-void    njRotateZXY(NJS_MATRIX* m, Angle angx, Angle angy, Angle angz);
-void    njRotate(NJS_MATRIX* m, NJS_VECTOR* v, Angle ang);
-/*  Scaling */
-void    njScale(NJS_MATRIX* m, Float sx, Float sy, Float sz);
-void    njScaleV(NJS_MATRIX* m, NJS_VECTOR* v);
+Bool    njPopMatrix( Uint32 n );
 
-
-/*  Make an invert or transpose matrix  */
-Bool    njInvertMatrix(NJS_MATRIX* m);
-void    njTransposeMatrix(NJS_MATRIX* m);   // MIA
-
-/*  Get some part of a sepcified matrix     */
-void    njGetTranslation(NJS_MATRIX* m, NJS_POINT3* p);
-void    njUnitTransPortion(NJS_MATRIX* m);
-void    njUnitRotPortion(NJS_MATRIX* m);
-
+/****** Get/Set Matrix **************************************************************/
 /*
-    Transform the notation of specified vector(s) or point(s) by a specified matrix.
-    In other words, multiply a specified matrix and specified vector(s) or point(s).
+*   Description:
+*     Copy current matrix into 'm'
+*
+*   Parameters:
+*     - m       : return pointer matrix
 */
-void    njCalcPoint(NJS_MATRIX* m, NJS_POINT3* ps, NJS_POINT3* pd);
-void    njCalcVector(NJS_MATRIX* m, NJS_VECTOR* vs, NJS_VECTOR* vd);
-void    njCalcPoints(NJS_MATRIX* m, NJS_POINT3* ps, NJS_POINT3* pd, Int num);
-void    njCalcVectors(NJS_MATRIX* m, NJS_VECTOR* vs, NJS_VECTOR* vd, Int num);
-
-/*  Add or subtract vector    */
-void    njAddVector(NJS_VECTOR* vd, NJS_VECTOR* vs);
-void    njSubVector(NJS_VECTOR* vd, NJS_VECTOR* vs);
-
-/*  Make the length of a specified vector to be unit    */
-Float    njUnitVector(NJS_VECTOR* v);
-
-/*  Calculate the length of a specified vector  */
-Float    njScalor(NJS_VECTOR* v);
-Float    njScalor2(NJS_VECTOR* v);
-
-/*  Calculate the inner product or outer product of specified vectors   */
-Float    njInnerProduct(NJS_VECTOR* v1, NJS_VECTOR* v2);
-Float    njOuterProduct(NJS_VECTOR* v1, NJS_VECTOR* v2, NJS_VECTOR* ov);
-
-/*  Make the mirror matrix of a specified plane     */
-void    njMirror(NJS_MATRIX* m, NJS_PLANE* pl);         // MIA
-
-/*  Make the projection matrix of a specified plane     */
-void    njProject(NJS_MATRIX* m, NJS_PLANE* pl);                                // MIA
-void    njProject2(NJS_MATRIX* m, NJS_PLANE* pl, NJS_POINT3* v, NJS_POINT3* p); // MIA
-
-
+void    njGetMatrix( NJS_MATRIX* m );
 /*
-    Transform a specified point with a specified matrix and calculate the projected 2D point.
-    This function is equivalnt to the following :
-    NJS_POINT3            cm;
-    njCalcPoint( m, p3, &cm );
-    njCalcScreen( &cm, p2->x, p2->y );
+*   Description:
+*     Copy a matrix into 'm'
+*
+*   Parameters:
+*     - m       : return pointer matrix
 */
-void    njProjectScreen(NJS_MATRIX* m, NJS_POINT3* p3, NJS_POINT2* p2);
+void    njSetMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
 
+/****** Add/Sub Matrix **************************************************************/
+/*
+*   Description:
+*     Add a matrix onto another matrix
+*
+*   Parameters:
+*     - md      : destination matrix (optional)
+*     - ms      : matrix to add
+*/
+void    njAddMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
+/*
+*   Description:
+*     Subtract a matrix from another matrix
+*
+*   Parameters:
+*     - md      : destination matrix (optional)
+*     - ms      : matrix to subtract
+*/
+void    njSubMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
 
-/*  Make a quaternion notation correspond to a specified euler notation */
+/****** Unit/Identity Matrix ********************************************************/
+/*
+*   Description:
+*     Set a matrix to be a unit matrix
+*
+*   Parameters:
+*     - m       : matrix to set to unit (optional)
+*/
+void    njUnitMatrix( NJS_MATRIX* m );
+
+/****** Multiply Matrices ***********************************************************/
+/*
+*   Description:
+*     Pre-multiply two matrices together
+*
+*   Parameters:
+*     - md      : destination matrix (optional)
+*     - ms      : matrix to multiply with
+*/
+void    njMultiMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
+/*
+*   Description:
+*     Post-multiply two matrices together
+*
+*   Parameters:
+*     - md      : destination matrix (optional)
+*     - ms      : matrix to multiply with
+*/
+void    njPostMultiMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
+
+/****** Translate Matrix ************************************************************/
+/*
+*   Description:
+*     Transform a matrix by a point or vector in 3D space
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - x       : x part of point/vector
+*     - y       : y part of point/vector
+*     - z       : z part of point/vector
+*/
+void    njTranslate( NJS_MATRIX* m, Float x, Float y, Float z );
+/*
+*   Description:
+*     Transform a matrix by a point or vector in 3D space using NJS_VECTOR
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - v       : point/vector
+*/
+void    njTranslateV( NJS_MATRIX* m, const NJS_VECTOR* v );
+
+/****** Rotate Matrix ***************************************************************/
+/*
+*   Description:
+*     Rotate a matrix by an Angle
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - ang     : angle to rotate
+*/
+void    njRotateX( NJS_MATRIX* m, Angle ang );
+void    njRotateY( NJS_MATRIX* m, Angle ang );
+void    njRotateZ( NJS_MATRIX* m, Angle ang );
+/*
+*   Description:
+*     Rotate a matrix by a euler angle in either XYZ or ZXY order
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - angx    : x part angle
+*     - angy    : y part angle
+*     - angz    : z part angle
+*/
+void    njRotateXYZ( NJS_MATRIX* m, Angle angx, Angle angy, Angle angz );
+void    njRotateZXY( NJS_MATRIX* m, Angle angx, Angle angy, Angle angz );
+/*
+*   Description:
+*     Rotate a matrix by an Angle on an axis defined by a vector
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - v       : vector axis
+*     - ang     : angle to rotate
+*/
+void    njRotate( NJS_MATRIX* m, const NJS_VECTOR* v, Angle ang );
+
+/****** Scale Matrix ****************************************************************/
+/*
+*   Description:
+*     Scale a matrix in 3D space
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - sx      : x part of scale
+*     - sy      : y part of scale
+*     - sz      : z part of scale
+*/
+void    njScale( NJS_MATRIX* m, Float sx, Float sy, Float sz );
+/*
+*   Description:
+*     Scale a matrix in 3D space using a vector
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - v       : vector scale
+*/
+void    njScaleV( NJS_MATRIX* m, const NJS_VECTOR* v );
+
+/****** Invert Matrix ***************************************************************/
+/*
+*   Description:
+*    Invert a matrix
+*
+*   Parameters:
+*     - m       : matrix to invert (optional)
+* 
+*   Returns:
+*     Always 'true'
+*/
+Bool    njInvertMatrix( NJS_MATRIX* m );
+
+/****** Transpose Matrix ************************************************************/
+/*
+*   Description:
+*    Transpose a matrix
+*
+*   Parameters:
+*     - m       : matrix to transpose (optional)
+*/
+void    njTransposeMatrix( NJS_MATRIX* m );
+
+/****** Portion Matrix **************************************************************/
+/*
+*   Description:
+*     Get translation portion of a matrix
+*
+*   Parameters:
+*     - m       : matrix to get translation of
+*     - p       : return pointer of translation
+*/
+void    njGetTranslation( const NJS_MATRIX* m, NJS_POINT3* p );
+/*
+*   Description:
+*     Set translation portion of a matrix to unit
+*
+*   Parameters:
+*     - m       : matrix to set translation portion of
+*/
+void    njUnitTransPortion( NJS_MATRIX* m );
+/*
+*   Description:
+*     Set rotation portion of a matrix to unit (or essentially, non-translation
+*   portion to unit)
+*
+*   Parameters:
+*     - m       : matrix to set rotation portion of
+*/
+void    njUnitRotPortion( NJS_MATRIX* m );
+
+/****** Calculate Matrix ************************************************************/
+/*
+*   Description:
+*     Transform a point by a matrix
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - ps      : point to transform
+*     - pd      : destination point
+*/
+void    njCalcPoint( const NJS_MATRIX* m, const NJS_POINT3* ps, NJS_POINT3* pd );
+/*
+*   Description:
+*     Transform a vector by a matrix
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - ps      : vector to transform 
+*     - pd      : destination vector 
+*/
+void    njCalcVector( const NJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd );
+/*
+*   Description:
+*     Transform a set of points by a matrix
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - ps      : points to transform 
+*     - pd      : destination points
+*     - num     : number of points
+*/
+void    njCalcPoints( const NJS_MATRIX* m, const NJS_POINT3* ps, NJS_POINT3* pd, Int num );
+/*
+*   Description:
+*     Transform a set of vectors by a matrix
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - ps      : vectors to transform 
+*     - pd      : destination vectors
+*     - num     : number of vectors
+*/
+void    njCalcVectors( const NJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd, Int num );
+
+/****** Add/Sub Vector **************************************************************/
+/*
+*   Description:
+*     Add a vector onto another vector
+*
+*   Parameters:
+*     - vd      : destination vector
+*     - vs      : vector to add
+*/
+void    njAddVector(NJS_VECTOR* vd, const NJS_VECTOR* vs);
+/*
+*   Description:
+*     Subtract a vector from another vector
+*
+*   Parameters:
+*     - vd      : destination vector
+*     - vs      : vector to subtract
+*/
+void    njSubVector(NJS_VECTOR* vd, const NJS_VECTOR* vs);
+
+/****** Unit Vector *****************************************************************/
+/*
+*   Description:
+*     Set a vector to be a unit vector. In other words, normalize a vectors length
+*   to between '0' and '1'
+*
+*   Parameters:
+*     - v       : vector to normalize
+*
+*   Returns:
+*     Length of vector before unit calculation
+*/
+Float    njUnitVector( NJS_VECTOR* v );
+
+/****** Scalor Vector *****************************************************************/
+/*
+*   Description:
+*     Calculate the length of a vector
+*
+*   Parameters:
+*     - v       : vector
+*
+*   Returns:
+*     Length of vector
+*/
+Float    njScalor( const NJS_VECTOR* v );
+/*
+*   Description:
+*     Calculate the length of a vector without calling 'njSqrt'. Faster if only
+*   relative size is important.
+*
+*   Parameters:
+*     - v       : vector
+*
+*   Returns:
+*     Length of vector before 'njSqrt'
+*/
+Float    njScalor2( const NJS_VECTOR* v );
+
+/****** Vector Product **************************************************************/
+/*
+*   Description:
+*     Calculate the dot/inner product of two vectors
+*
+*   Parameters:
+*     - v1      : vector 1
+*     - v2      : vector 2
+*
+*   Returns:
+*     Dot/inner product of 'v1' and 'v2'
+*/
+Float    njInnerProduct( const NJS_VECTOR* v1, const NJS_VECTOR* v2 );
+/*
+*   Description:
+*     Calculate the cross/outer product of two vectors
+*
+*   Parameters:
+*     - v1      : vector 1
+*     - v2      : vector 2
+*     - ov      : destination cross/outer product
+*
+*   Returns:
+*     Length of cross/outer product
+*/
+Float    njOuterProduct( const NJS_VECTOR* v1, const NJS_VECTOR* v2, NJS_VECTOR* ov );
+
+/****** Project Screen **************************************************************/
+/*
+*   Description:
+*     Calculate the projected 2D screen coordinates of an arbitrary 3D point with a
+*   matrix. The calculated values are in hardware screen coordinates, and not
+*   NJS_SCREEN local coordinates. This function is equivalent to:
+*   {
+*     NJS_POINT3 cm;
+* 
+*     njCalcPoint(m, p3, &cm);
+*     njCalcScreen(&cm, &p2->x, &p2->y);
+*   }
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - p3      : 3D point to project
+*     - p2      : destination 2D coordinates
+*/
+void    njProjectScreen( const NJS_MATRIX* m, const NJS_POINT3* p3, NJS_POINT2* p2 ); // 'm' is unused, always 'NULL'
+
+/****** Angle to Quaternion *********************************************************/
+/*
+*   Description:
+*     Convert a euler angle in XYZ or ZXY order to a quaternion angle.
+*
+*   Parameters:
+*     - ang     : euler angle
+*     - qua     : destination quaternion
+*/
 void    njXYZAngleToQuaternion(const Angle ang[3], NJS_QUATERNION* qua);
 void    njZXYAngleToQuaternion(const Angle ang[3], NJS_QUATERNION* qua);
 
-/*  Make a quaternion notation correspond to the rotation around any specified axis */
-void    njCreateQuaternion(Float nx, Float ny, Float nz, Angle ang, NJS_QUATERNION* qua);
-void    njCreateQuaternionV(const NJS_VECTOR* pAxis, Angle ang, NJS_QUATERNION* qua);
-
-/*  Calculate the interpolated quaternion between two specified quaternions at a specified rate*/
-void    njInterpolateQuaternion(const NJS_QUATERNION* qua0, const NJS_QUATERNION* qua1, Float rate, NJS_QUATERNION* qua);
-
-/*  Multiply two quaternions    */
-void    njMultiQuaternion(const NJS_QUATERNION* q1, const NJS_QUATERNION* q2, NJS_QUATERNION* dq);
-
-/************************/
-/*  Matrix Ex Function  */
-/************************/
-
-/*  Push and pop current matrix into a matrix stack */
+/****** Push/Pop Matrix Ex **********************************************************/
+/*
+*   Description:
+*     Push current matrix onto the matrix stack
+*
+*   Returns:
+*     'true' on success, or 'false' if the top of the matrix stack is reached
+*/
 Bool    njPushMatrixEx(void);
+/*
+*   Description:
+*     Pop matrix stack once
+*
+*   Returns:
+*     'true' on success, or 'false' if the bottom of the matrix stack is reached
+*/
 Bool    njPopMatrixEx(void);
 
-/*  Make and multiply matrix mainly for an object node. */
-void    njTranslateEx(NJS_VECTOR* v);
-void    njRotateEx(Angle* ang, Sint32 lv);
-void    njScaleEx(NJS_VECTOR* v);
-void    njQuaternionEx(NJS_QUATERNION* qua);
-void    njQuaternionEx2(Float re, Float im[3]);
-
+/****** Transform Matrix Ex *********************************************************/
 /*
-    Transform the notation of a specified vectoror point by a current matrix.
-    In other words, multiply a current matrix and a specified vector or point.
+*   Description:
+*     Transform the current matrix by a point or vector in 3D space
+*
+*   Parameters:
+*     - v       : point/vector
 */
-void    njCalcPointEx(NJS_POINT3* ps, NJS_POINT3* pd);
-void    njCalcVectorEx(NJS_VECTOR* vs, NJS_VECTOR* vd);
+void    njTranslateEx( const NJS_VECTOR* v );
+/*
+*   Description:
+*     Rotate the current matrix by a euler Angle in XYZ or ZXY order
+* 
+*   Parameters:
+*     - ang     : list of 3 angles
+*     - lv      : use light wave rotation order (ZXY)
+*/
+void    njRotateEx( const Angle* ang, Sint32 lv );
+/*
+*   Description:
+*     Scale the current matrix in 3D space using a vector
+*
+*   Parameters:
+*     - v       : vector
+*/
+void    njScaleEx( const NJS_VECTOR* v );
+/*
+*   Description:
+*     Rotate the current matrix using a quaternion
+* 
+*   Parameters:
+*     - qua     : quaternion
+*/
+void    njQuaternionEx( const NJS_QUATERNION* qua );
+/*
+*   Description:
+*     Rotate the current matrix using a quaternion
+* 
+*   Parameters:
+*     - re      : real part of quaternion
+*     - im      : imaginary part of quaternion
+*/
+void    njQuaternionEx2( Float re, const Float im[3] );
 
-/****************************/
-/*  Matrix Old Function     */
-/****************************/
+/****** Calculate Matrix Ex *********************************************************/
+/*
+*   Description:
+*     Transform a point by the current matrix
+*
+*   Parameters:
+*     - ps      : point to transform
+*     - pd      : destination point
+*/
+void    njCalcPointEx( const NJS_POINT3* ps, NJS_POINT3* pd );
+/*
+*   Description:
+*     Transform a vector by the current matrix
+*
+*   Parameters:
+*     - ps      : vector to transform
+*     - pd      : destination vector 
+*/
+void    njCalcVectorEx( const NJS_VECTOR* vs, NJS_VECTOR* vd );
 
-void    njAddMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
-void    njSubMatrix(NJS_MATRIX* md, NJS_MATRIX* ms);
+EXTERN_END
 
-void    njClearMatrix();
-
-#endif    /* _NJ_MATRIX_H_ */
+#endif/*H_NJ_MATRIX*/
