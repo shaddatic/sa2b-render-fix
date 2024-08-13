@@ -120,6 +120,44 @@ void    rjDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
 */
 void    rjDrawPolygon2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
 
+/****** Draw Line *******************************************************************/
+/*
+*   Description:
+*     Begin draw line and set draw parameters.
+*
+*   Parameters:
+*     - r         : radius, in 480p pixels
+*     - BaseColor : line color to draw (in 0xAA'RR'GG'BB format)
+*     - Trans     : use transparancy
+*/
+void    rjDrawLineExStart( Float r, Uint32 BaseColor, Sint32 Trans );
+/*
+*   Description:
+*     Draw 3D line in either strip or list mode.
+*
+*   Parameters:
+*     - vtx     : list of line vertexes
+*     - Count   : number of line vertexes
+*/
+void    rjDrawLine3DExSetStrip( const NJS_POINT3* vtx, Sint32 Count );
+void    rjDrawLine3DExSetList(  const NJS_POINT3* vtx, Sint32 Count  );
+/*
+*   Description:
+*     Draw 2D line in either strip or list mode.
+*
+*   Parameters:
+*     - vtx     : list of line vertexes
+*     - ooz     : 1/z, 'z' being the depth of the line
+*     - Count   : number of line vertexes
+*/
+void    rjDrawLine2DExSetList(  const NJS_POINT2* vtx, Float ooz, Sint32 Count );
+void    rjDrawLine2DExSetStrip( const NJS_POINT2* vtx, Float ooz, Sint32 Count );
+/*
+*   Description:
+*     End draw line.
+*/
+void    rjDrawLineExEnd( void );
+
 EXTERN_END
 
 #endif/*_RF_DRAW_H_*/
