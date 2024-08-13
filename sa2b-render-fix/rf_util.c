@@ -40,22 +40,22 @@ RFU_LerpPoints(NJS_POINT3* pOutPt, const NJS_POINT3* pPt1, const NJS_POINT3* pPt
 }
 
 void
-RFU_ProjectTo2D(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
+RFU_CalculateScreen(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
 {
-    f32 inv_dist = _nj_screen_.dist / pInPos->z;
+    const f32 inv_dist = _nj_screen_.dist / pInPos->z;
 
     pOutPos->x = -(pInPos->x * _nj_screen_.ax * inv_dist) + 320.f;
     pOutPos->y =  (pInPos->y * _nj_screen_.ay * inv_dist) + 240.f;
 }
 
 void
-RFU_ProjectPointTo2D(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
+RFU_ProjectScreen(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
 {
     NJS_POINT3 pt3;
 
     njCalcPoint(NULL, pInPos, &pt3);
 
-    RFU_ProjectPointTo2D(&pt3, pOutPos);
+    RFU_CalculateScreen(&pt3, pOutPos);
 }
 
 bool

@@ -43,23 +43,26 @@ void    RF_SwapTexFileTableIndex( TEX_PRSTABLE* pTexTable, int idx1, int idx2 );
 void    RFU_LerpPoints( NJS_POINT3* pOutPt, const NJS_POINT3* pPt1, const NJS_POINT3* pPt2, f32 ratioPt1 );
 /*
 *   Description:
-*     Project a 3D point in screenspace to a 2D point in screenspace. A 3D
+*     Calculate a 3D point in screenspace to a 2D point in screenspace. A 3D
 *   screenspace point is calculated by using 'njCalcPoint' on a 3D worldspace point
 *
 *   Parameters:
 *     - pInPos   : pointer to screenspace 3D point
 *     - pOutPos  : return pointer for screenspace 2D point
 */
-void    RFU_ProjectTo2D( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
+void    RFU_CalculateScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
 /*
 *   Description:
-*     Project a 3D point in worldspace to a 2D point in screenspace.
+*     Project a 3D point in worldspace to a 2D point in screenspace. This is the same
+*   as:
+*     njCalcPoint(NULL, &pt3);
+*     RFU_CalculateScreen(&pt3, &pt2);
 *
 *   Parameters:
 *     - pInPos   : pointer to worldspace 3D point
 *     - pOutPos  : return pointer for screenspace 2D point
 */
-void    RFU_ProjectPointTo2D( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
+void    RFU_ProjectScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
 
 EXTERN_END
 
