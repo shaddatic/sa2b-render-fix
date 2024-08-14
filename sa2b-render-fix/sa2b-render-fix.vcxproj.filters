@@ -273,6 +273,9 @@
     <ClCompile Include="rf_draw\rfd_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_draw\rfd_anymdl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

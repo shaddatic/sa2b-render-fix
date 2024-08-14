@@ -73,6 +73,7 @@
     <ClCompile Include="rf_api\rfapi_font.c" />
     <ClCompile Include="rf_api\rfapi_renderstate.c" />
     <ClCompile Include="rf_api\rfapi_shader.c" />
+    <ClCompile Include="rf_draw\rfd_anymdl.c" />
     <ClCompile Include="rf_draw\rfd_line.c" />
     <ClCompile Include="rf_font.c" />
     <ClCompile Include="rf_light.c" />

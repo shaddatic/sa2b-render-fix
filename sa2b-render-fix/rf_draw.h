@@ -187,6 +187,27 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 
+/****** Any Model Draw **************************************************************/
+/*
+*   Description:
+*     Draw either a Chunk or Ginja model
+*
+*   Paremters:
+*     - model   : chunk or ginja model
+*
+*   Returns:
+*     '0' on success, or '1' if the model didn't draw 
+*/
+int     rjAnyDrawModel( void* model );
+/*
+*   Description:
+*     Draw either a Chunk or Ginja object
+*
+*   Paremters:
+*     - object  : chunk or ginja object
+*/
+void    rjAnyDrawObject( void* object );
+
 EXTERN_END
 
 #endif/*_RF_DRAW_H_*/
