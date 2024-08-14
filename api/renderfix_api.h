@@ -59,10 +59,17 @@ typedef enum
 {
     RFRS_TRANSMD_END = -1,      /* end and reset to default                         */
 
-    RFRS_TRANSMD_AUTO,          /* set trans mode by model flags and global state   */
-    RFRS_TRANSMD_OPAQUE,        /* draw opaque                                      */
-    RFRS_TRANSMD_ALPHATEST,     /* draw with alpha test (and Z buffer)              */
-    RFRS_TRANSMD_TRANSPARENT,   /* draw fully transparant (no Z buffer)             */
+    RFRS_TRANSMD_AUTO,          /* set transparancy mode automatically    (default) */
+    RFRS_TRANSMD_OPAQUE,        /* draw without transparancy                        */
+    RFRS_TRANSMD_ALPHATEST,     /* draw transparancy and alpha test    (& Z buffer) */
+    RFRS_TRANSMD_TRANSPARENT,   /* draw transparancy                  (no Z buffer) */
+    /*
+    *     The following modes only change which transparancy mode is used, and leave
+    *   'OPAQUE' mode as-is. They were implemented in version 1.3.2 and will simply
+    *   do nothing in earlier versions.
+    */
+    RFRS_TRANSMD_AUTO_ATEST,    /* auto, use alpha test for transparancy            */
+    RFRS_TRANSMD_AUTO_TRANS,    /* auto, do not use alpha test for transparancy     */
 }
 RFRS_TRANSMD;
 

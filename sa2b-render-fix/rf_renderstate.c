@@ -165,6 +165,8 @@ SetOpaqueDrawNew(void)
     switch (TransModeOverride) {
     case RFRS_TRANSMD_AUTO:
     case RFRS_TRANSMD_OPAQUE:
+    case RFRS_TRANSMD_AUTO_ATEST:
+    case RFRS_TRANSMD_AUTO_TRANS:
         SetTransModeOpaque();
         break;
 
@@ -188,10 +190,12 @@ SetAlphaTestDrawNew(void)
 
     case RFRS_TRANSMD_AUTO:
     case RFRS_TRANSMD_ALPHATEST:
+    case RFRS_TRANSMD_AUTO_ATEST:
         SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
         break;
 
     case RFRS_TRANSMD_TRANSPARENT:
+    case RFRS_TRANSMD_AUTO_TRANS:
         SetTransModeTransparent();
         break;
     }
@@ -206,11 +210,13 @@ SetTransparentDrawNew(void)
         break;
 
     case RFRS_TRANSMD_ALPHATEST:
+    case RFRS_TRANSMD_AUTO_ATEST:
         SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
         break;
 
     case RFRS_TRANSMD_AUTO:
     case RFRS_TRANSMD_TRANSPARENT:
+    case RFRS_TRANSMD_AUTO_TRANS:
         SetTransModeTransparent();
         break;
     }
@@ -242,6 +248,8 @@ RFRS_SetTransMode(RFRS_TRANSMD mode)
     case RFRS_TRANSMD_OPAQUE:
     case RFRS_TRANSMD_ALPHATEST:
     case RFRS_TRANSMD_TRANSPARENT:
+    case RFRS_TRANSMD_AUTO_ATEST:
+    case RFRS_TRANSMD_AUTO_TRANS:
         TransModeOverride = mode;
         break;
 
