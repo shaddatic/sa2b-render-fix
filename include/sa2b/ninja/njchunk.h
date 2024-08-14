@@ -510,12 +510,12 @@ void    njCnkTransformObject( NJS_CNK_OBJECT* object, int(__cdecl* callback)(NJS
 /*
     Internal Draw
 */
-void    _njCnkDrawModel( NJS_CNK_MODEL* model );
+Sint32  _njCnkDrawModel( NJS_CNK_MODEL* model );
 
 /*
     Draw
 */
-void    njCnkDrawModel( NJS_CNK_MODEL* model );
+Sint32  njCnkDrawModel( NJS_CNK_MODEL* model );
 void    njCnkDrawObject( NJS_CNK_OBJECT* object );
 
 void    njCnkDrawModel_Broken( NJS_CNK_MODEL* model );
