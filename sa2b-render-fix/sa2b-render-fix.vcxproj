@@ -98,6 +98,7 @@
     <ClCompile Include="rf_mod.c" />
     <ClCompile Include="rf_renderstate\rfrs_backface.c" />
     <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c" />
+    <ClCompile Include="rf_renderstate\rfrs_transmode.c" />
     <ClCompile Include="rf_shader.c" />
     <ClCompile Include="rf_usermsg.c" />
     <ClCompile Include="rf_util.c" />

@@ -38,6 +38,27 @@ void    RFRS_BackFaceCullingInit( void );
 */
 void    SetChunkStripHideMode( bool bHide );
 
+/****** Transparancy Mode ***********************************************************/
+/*
+*   Description:
+*     Set opaque rendering
+*/
+void    SetTransModeOpaque( void );
+/*
+*   Description:
+*     Set transparancy rendering with alpha test and Z writing
+*
+*   Parameters:
+*     - func    : alpha test func
+*     - ref     : alpha reference value
+*/
+void    SetTransModeAlphaTest( RFRS_CMPMD func, int32_t ref );
+/*
+*   Description:
+*     Set transparancy rendering with no Z writing
+*/
+void    SetTransModeTransparent( void );
+
 EXTERN_END
 
 #endif/*H_RF_RENDERSTATE_INTERNAL*/

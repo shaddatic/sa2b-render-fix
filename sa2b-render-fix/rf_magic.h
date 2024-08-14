@@ -38,8 +38,14 @@ RFE_MAGIC_SHADER;
 /************************/
 EXTERN_START
 /** Set alpha test params **/
+void    RF_MagicSetAlphaTestEnable(bool state);
 void    RF_MagicSetAlphaRef(uint32_t value);
 void    RF_MagicSetAlphaTestFunc(RFE_MAGIC_CMP func);
+
+/** Set Z test params **/
+void    RF_MagicSetZEnable(bool state);
+void    RF_MagicSetZWrite(bool state);
+void    RF_MagicSetZFunc(RFE_MAGIC_CMP func);
 
 /** Set size of point primitives in pixels **/
 void    RF_MagicSetPointSize( float size );

@@ -282,6 +282,9 @@
     <ClCompile Include="rf_renderstate\rfrs_backface.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_renderstate\rfrs_transmode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

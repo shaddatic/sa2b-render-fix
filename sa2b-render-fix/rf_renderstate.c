@@ -12,7 +12,6 @@
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_eventinfo.h>
-#include <rf_magic.h>
 #include <rf_mod.h>
 
 /** Self **/
@@ -132,37 +131,21 @@ ParseStripFlagsHook(uint8_t flag)
         use_alpha
     );
 
-    switch (TransModeOverride) {
-    case RFRS_TRANSMD_AUTO:
-        if (use_alpha)
+    if (use_alpha)
+    {
+        if ((flag & CNK_FST_NAT) ||
+            (_nj_cnk_blend_mode_ & NJD_FBS_MASK) == NJD_FBS_ONE ||
+            (_nj_cnk_blend_mode_ & NJD_FBD_MASK) == NJD_FBD_ONE ||
+            !pTexSurface ||
+            *pTexSurface != 14)
         {
-            if ((flag & CNK_FST_NAT) ||
-                (_nj_cnk_blend_mode_ & NJD_FBS_MASK) == NJD_FBS_ONE ||
-                (_nj_cnk_blend_mode_ & NJD_FBD_MASK) == NJD_FBD_ONE ||
-                !pTexSurface ||
-                *pTexSurface != 14)
-            {
-                SetTransparentDraw();
-            }
-            else
-                SetAlphaTestDraw();
+            SetTransparentDraw();
         }
         else
-            SetOpaqueDraw();
-        break;
-
-    case RFRS_TRANSMD_OPAQUE:
-        SetOpaqueDraw();
-        break;
-
-    case RFRS_TRANSMD_ALPHATEST:
-        SetAlphaTestDraw();
-        break;
-
-    case RFRS_TRANSMD_TRANSPARENT:
-        SetTransparentDraw();
-        break;
+            SetAlphaTestDraw();
     }
+    else
+        SetOpaqueDraw();
 }
 
 #define _njCnkDrawModelSub      FUNC_PTR(void, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
@@ -177,15 +160,60 @@ CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
 }
 
 static void
-SetAlphaTestFunc(void)
+SetOpaqueDrawNew(void)
 {
-    RF_MagicSetAlphaTestFunc(AlphaFuncOverride);
+    switch (TransModeOverride) {
+    case RFRS_TRANSMD_AUTO:
+    case RFRS_TRANSMD_OPAQUE:
+        SetTransModeOpaque();
+        break;
+
+    case RFRS_TRANSMD_ALPHATEST:
+        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
+        break;
+
+    case RFRS_TRANSMD_TRANSPARENT:
+        SetTransModeTransparent();
+        break;
+    }
 }
 
 static void
-SetAlphaRef(void)
+SetAlphaTestDrawNew(void)
 {
-    RF_MagicSetAlphaRef(AlphaRefOverride);
+    switch (TransModeOverride) {
+    case RFRS_TRANSMD_OPAQUE:
+        SetTransModeOpaque();
+        break;
+
+    case RFRS_TRANSMD_AUTO:
+    case RFRS_TRANSMD_ALPHATEST:
+        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
+        break;
+
+    case RFRS_TRANSMD_TRANSPARENT:
+        SetTransModeTransparent();
+        break;
+    }
+}
+
+static void
+SetTransparentDrawNew(void)
+{
+    switch (TransModeOverride) {
+    case RFRS_TRANSMD_OPAQUE:
+        SetTransModeOpaque();
+        break;
+
+    case RFRS_TRANSMD_ALPHATEST:
+        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
+        break;
+
+    case RFRS_TRANSMD_AUTO:
+    case RFRS_TRANSMD_TRANSPARENT:
+        SetTransModeTransparent();
+        break;
+    }
 }
 
 /** extern **/
@@ -323,10 +351,9 @@ RF_RenderStateInit(void)
 
     njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 
-    /** Replace Alpha Test set **/
-    WriteNOP( 0x0042C0CE, 0x0042C104);
-    WriteCall(0x0042C0CE, SetAlphaTestFunc);
-    WriteCall(0x0042C0D3, SetAlphaRef);
+    WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
+    WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);
+    WriteJump(SetTransparentDraw, SetTransparentDrawNew);
 
     CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }
