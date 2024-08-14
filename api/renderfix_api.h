@@ -96,6 +96,16 @@ typedef enum
 }
 RFRS_MODMD;
 
+typedef enum
+{
+    RFRS_CNKDRAWMD_END = -1,    /* end and reset to default                         */
+
+    RFRS_CNKDRAWMD_ALL,         /* draw all strips                                  */
+    RFRS_CNKDRAWMD_OPAQUE,      /* draw only opaque strips                          */
+    RFRS_CNKDRAWMD_TRANSPARENT, /* draw only transparent strips                     */
+}
+RFRS_CNKDRAWMD;
+
 /****** Font Enums ******************************************************************/
 /** Font language **/
 typedef enum

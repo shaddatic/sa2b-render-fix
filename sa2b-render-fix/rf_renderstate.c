@@ -17,24 +17,7 @@
 
 /** Self **/
 #include <rf_renderstate.h>
-
-typedef struct
-{
-    float gap0;
-    int field_4;
-    float field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    void* D3DVertexDeclaration;
-    int field_20;
-    uint32_t StrideSize;
-    int field_28;
-    int field_2C;
-    int field_30;
-}
-VertexDeclarationInfo;
+#include <rf_renderstate/rfrs_internal.h>
 
 /** Constants **/
 #define CNK_FST_IL                  (NJD_FST_IL >>NJD_FST_SHIFT)
@@ -55,128 +38,49 @@ VertexDeclarationInfo;
 #define ForceDstInverseOtherColor   DATA_REF(bool, 0x01A55833)
 #define pTexSurface                 DATA_REF(int*, 0x01A55840)
 
-#define VertexDeclInfo              DATA_REF(VertexDeclarationInfo*, 0x0174F7E8)
+static RFRS_CULLMD    CullModeDefault;
+static RFRS_TRANSMD   TransModeDefault;
+static RFRS_CMPMD     AlphaFuncDefault    = RFRS_CMPMD_GTR;
+static uint32_t       AlphaRefDefault     = 64;
+static RFRS_CNKDRAWMD CnkDrawModeDefault;
 
-static void
-CopyLastVertex(void)
-{
-    const int stride = VertexDeclInfo->StrideSize;
-    const int vtxbuf = _gx_vtx_buf_base_;
-    const int lastvtx = _gx_vtx_buf_offset_ - stride;
-
-    memcpy((char*)vtxbuf + _gx_vtx_buf_offset_, (char*)vtxbuf + lastvtx, stride);
-    ++_gx_nb_vtx_;
-    _gx_vtx_buf_offset_ += stride;
-}
-
-static void
-SetCull(int16_t vtxCount)
-{
-    bool ccw = false;
-
-    if (vtxCount < 0)
-    {
-        vtxCount = -vtxCount;
-        ccw = true;
-    }
-
-    const int stride = VertexDeclInfo->StrideSize;
-
-    if (!_gx_nb_vtx_)
-    {
-        _gx_vtx_buf_offset_cpy_ = 0;
-        _gx_prim_type_ = 0x98;
-        _gx_vtx_buf_start_ = _gx_vtx_buf_offset_;
-        _gx_cull_ = ccw;
-        _gx_nb_vtx_ += vtxCount;
-
-        if (ccw)
-        {
-            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
-            ++_gx_nb_vtx_;
-            _gx_vtx_buf_offset_ += stride;
-        }
-
-        return;
-    }
-
-    if (((_gx_nb_vtx_ - 2) & 0x80000001) == 0)
-    {
-        if (ccw)
-        {
-            CopyLastVertex();
-            CopyLastVertex();
-            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
-            _gx_cull_ = ccw;
-            _gx_vtx_buf_offset_ += stride;
-            _gx_nb_vtx_ += vtxCount + 1;
-            return;
-        }
-    }
-    else
-    {
-        if (!ccw)
-        {
-            CopyLastVertex();
-            CopyLastVertex();
-            _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
-            _gx_cull_ = ccw;
-            _gx_vtx_buf_offset_ += stride;
-            _gx_nb_vtx_ += vtxCount + 1;
-            return;
-        }
-    }
-
-    CopyLastVertex();
-
-    _gx_vtx_buf_offset_cpy_ = _gx_vtx_buf_offset_;
-    _gx_cull_ = ccw;
-    _gx_vtx_buf_offset_ += stride;
-    _gx_nb_vtx_ += vtxCount + 1;
-}
-
-__declspec(naked)
-static void
-__SetGXCull(void)
-{
-    __asm
-    {
-        push eax
-        call SetCull
-        add esp, 4
-        retn
-    }
-}
-
-#define _njCnkDrawModelSub      FUNC_PTR(int, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
-
-static hook_info* njCnkDrawModelSubHookInfo;
-static int
-CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
-{
-    int result;
-    FuncHookCall( njCnkDrawModelSubHookInfo, result = _njCnkDrawModelSub(model) );
-
-    GX_SetCullMode(GXD_CULLMODE_NONE);
-
-    return result;
-}
-
-static RFRS_CULLMD  CullModeDefault;
-static RFRS_TRANSMD TransModeDefault;
-static RFRS_CMPMD   AlphaFuncDefault    = RFRS_CMPMD_GTR;
-static uint32_t     AlphaRefDefault     = 64;
-
-static RFRS_CULLMD  CullModeOverride;
-static RFRS_TRANSMD TransModeOverride;
-static RFRS_CMPMD   AlphaFuncOverride   = RFRS_CMPMD_GTR;
-static uint32_t     AlphaRefOverride    = 64;
+static RFRS_CULLMD    CullModeOverride;
+static RFRS_TRANSMD   TransModeOverride;
+static RFRS_CMPMD     AlphaFuncOverride   = RFRS_CMPMD_GTR;
+static uint32_t       AlphaRefOverride    = 64;
+static RFRS_CNKDRAWMD CnkDrawModeOverride;
 
 static bool CullEventPatch;
 
 static void
 ParseStripFlagsHook(uint8_t flag)
 {
+    const bool fst_ua = (flag & (CNK_FST_NAT | CNK_FST_UA));
+
+    switch (CnkDrawModeOverride) {
+    case RFRS_CNKDRAWMD_ALL:
+        break;
+
+    case RFRS_CNKDRAWMD_OPAQUE:
+        if (fst_ua)
+        {
+            SetChunkStripHideMode(true);
+            return;
+        }
+        break;
+
+    case RFRS_CNKDRAWMD_TRANSPARENT:
+        if (!fst_ua)
+        {
+            SetChunkStripHideMode(true);
+            return;
+        }
+        break;
+    }
+
+    const bool fst_db = (flag & CNK_FST_DB);
+
+    /** Event patch, temporary **/
     if (CullEventPatch)
     {
         switch (CutsceneMode) {
@@ -188,9 +92,10 @@ ParseStripFlagsHook(uint8_t flag)
         }
     }
 
+    /** Set culling mode **/
     switch (CullModeOverride) {
     case RFRS_CULLMD_AUTO:
-        GX_SetCullMode((flag & CNK_FST_DB) ? GXD_CULLMODE_NONE : GXD_CULLMODE_CW);
+        GX_SetCullMode(fst_db ? GXD_CULLMODE_NONE : GXD_CULLMODE_CW);
         break;
 
     CULL_OFF:
@@ -203,11 +108,23 @@ ParseStripFlagsHook(uint8_t flag)
         break;
 
     case RFRS_CULLMD_INVERSE:
+
+        /** if this strip isn't double sided,
+            hide it's inverse face **/
+        if (!fst_db)
+        {
+            SetChunkStripHideMode(true);
+            return;
+        }
+
         GX_SetCullMode(GXD_CULLMODE_CCW);
         break;
-    };
+    }
 
-    const bool use_alpha = ForceUseAlpha ? true : (flag & (CNK_FST_NAT | CNK_FST_UA));
+    /** Allow strip drawing **/
+    SetChunkStripHideMode(false);
+
+    const bool use_alpha = ForceUseAlpha | fst_ua;
 
     GX_SetBlendMode(
         (_nj_cnk_blend_mode_ >> NJD_FBS_SHIFT) & 0x7,
@@ -246,6 +163,17 @@ ParseStripFlagsHook(uint8_t flag)
         SetTransparentDraw();
         break;
     }
+}
+
+#define _njCnkDrawModelSub      FUNC_PTR(void, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
+
+static hook_info* njCnkDrawModelSubHookInfo;
+static void
+CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
+{
+    FuncHookCall( njCnkDrawModelSubHookInfo, _njCnkDrawModelSub(model) );
+
+    GX_SetCullMode(GXD_CULLMODE_NONE);
 }
 
 static void
@@ -335,6 +263,23 @@ RFRS_SetModifierMode(RFRS_MODMD mode)
 }
 
 void
+RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
+{
+    switch (mode) {
+    case RFRS_CNKDRAWMD_ALL:
+    case RFRS_CNKDRAWMD_OPAQUE:
+    case RFRS_CNKDRAWMD_TRANSPARENT:
+        CnkDrawModeOverride = mode;
+        break;
+
+    case RFRS_CNKDRAWMD_END:
+        CnkDrawModeOverride = CnkDrawModeDefault;
+        break;
+    }
+    
+}
+
+void
 RFRS_SetDefaultCullMode(RFRS_CULLMD mode)
 {
     CullModeDefault = mode;
@@ -363,20 +308,18 @@ RFRS_SetDefaultAlphaTestRef(int32_t mode)
 }
 
 void
+RFRS_SetDefaultCnkDrawMode(RFRS_CNKDRAWMD mode)
+{
+    CnkDrawModeDefault = mode;
+    CnkDrawModeOverride = mode;
+}
+
+void
 RF_RenderStateInit(void)
 {
     WriteJump(ParseStripFlags, ParseStripFlagsHook);
 
-    WriteCall(0x0042E22D, __SetGXCull);
-    WriteCall(0x0042E388, __SetGXCull);
-    WriteCall(0x0042E59D, __SetGXCull);
-    WriteCall(0x0042E7B1, __SetGXCull);
-    WriteCall(0x0042E9EE, __SetGXCull);
-    WriteCall(0x0042F0FB, __SetGXCull);
-    WriteCall(0x0042F1ED, __SetGXCull);
-    WriteCall(0x0042F2FB, __SetGXCull);
-    WriteCall(0x0042F40D, __SetGXCull);
-    WriteCall(0x0077F908, __SetGXCull);
+    RFRS_BackFaceCullingInit();
 
     njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 

@@ -96,6 +96,8 @@
     <ClCompile Include="rf_file.c" />
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_mod.c" />
+    <ClCompile Include="rf_renderstate\rfrs_backface.c" />
+    <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c" />
     <ClCompile Include="rf_shader.c" />
     <ClCompile Include="rf_usermsg.c" />
     <ClCompile Include="rf_util.c" />
@@ -149,6 +151,7 @@
     <ClInclude Include="rf_file.h" />
     <ClInclude Include="rf_mdlutil.h" />
     <ClInclude Include="rf_mod.h" />
+    <ClInclude Include="rf_renderstate\rfrs_internal.h" />
     <ClInclude Include="rf_shader.h" />
     <ClInclude Include="rf_util.h" />
     <ClInclude Include="rf_usermsg.h" />

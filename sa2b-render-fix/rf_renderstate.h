@@ -59,12 +59,22 @@ RFRS_ALPHAREF;
 
 typedef enum
 {
-    RFRS_MODMD_END = -1,
+    RFRS_MODMD_END = -1,        /* end and reset to default                         */
 
-    RFRS_MODMD_NORMAL,
-    RFRS_MODMD_INVERSE,
+    RFRS_MODMD_NORMAL,          /* draw modifiers with regular winding              */
+    RFRS_MODMD_INVERSE,         /* draw modifiers with inverse winding              */
 }
 RFRS_MODMD;
+
+typedef enum
+{
+    RFRS_CNKDRAWMD_END = -1,    /* end and reset to default                         */
+
+    RFRS_CNKDRAWMD_ALL,         /* draw all strips                                  */
+    RFRS_CNKDRAWMD_OPAQUE,      /* draw only opaque strips                          */
+    RFRS_CNKDRAWMD_TRANSPARENT, /* draw only transparent strips                     */
+}
+RFRS_CNKDRAWMD;
 
 #endif/*_RF_EXTERN_API_*/
 
@@ -90,11 +100,16 @@ void    RFRS_SetAlphaTestRef( int32_t value );
 /** Set modifier mode **/
 void    RFRS_SetModifierMode( RFRS_MODMD mode );
 
+/** Set modifier mode **/
+void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
+
 /** Set defaults **/
-void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode  );
-void    RFRS_SetDefaultTransMode(     RFRS_TRANSMD mode  );
-void    RFRS_SetDefaultAlphaTestFunc( RFRS_CMPMD   mode  );
-void    RFRS_SetDefaultAlphaTestRef(  int32_t      value );
+void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode   );
+void    RFRS_SetDefaultTransMode(     RFRS_TRANSMD mode   );
+void    RFRS_SetDefaultAlphaTestFunc( RFRS_CMPMD   mode   );
+void    RFRS_SetDefaultAlphaTestRef(  int32_t      value  );
+
+void    RFRS_SetDefaultCnkDrawMode(   RFRS_CNKDRAWMD mode );
 
 EXTERN_END
 

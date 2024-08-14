@@ -276,6 +276,12 @@
     <ClCompile Include="rf_draw\rfd_anymdl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_renderstate\rfrs_backface.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -414,6 +420,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_draw\rfd_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_renderstate\rfrs_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
