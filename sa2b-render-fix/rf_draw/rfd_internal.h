@@ -5,7 +5,7 @@
 *     Internal header for RF Draw module
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 */
 #ifndef H_RF_DRAW_INTERNAL
 #define H_RF_DRAW_INTERNAL
