@@ -228,8 +228,6 @@ LerpModAndFogColor(MOD_COLOR* const pModCol, const NJS_COLOR* const pFogCol, con
     pModCol->r = (pModCol->r * inv_density) + (((f32)pFogCol->argb.r/255.f) * density);
     pModCol->g = (pModCol->g * inv_density) + (((f32)pFogCol->argb.g/255.f) * density);
     pModCol->b = (pModCol->b * inv_density) + (((f32)pFogCol->argb.b/255.f) * density);
-
-    //pModCol->a *= inv_density;
 }
 
 static bool
@@ -240,10 +238,10 @@ ModSetShaderColor(void)
         f32 density = (100.f - FogDataP->near) / (FogDataP->far - FogDataP->near);
 
         if (density <= 0.f)
-            return false;
+            goto NO_FOG;
         
         if (density >= 1.f)
-            goto NO_FOG;
+            return false;
 
         switch (FogDataP->mode) {
         case 2:
