@@ -115,6 +115,12 @@ RFM_CommonInit(void)
 {
     RFC_TransparancyInit();
 
+    if (RF_ConfigGetInt(CNF_EXP_EDGEBLEND))
+    {
+        RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_NEQ);
+        RFRS_SetDefaultAlphaTestRef(0);
+    }
+
     WriteData(0x0044FE36, 0x1, uint8_t); // Fix green hill "CLEAR!" text
 
     /** 2p character select cursor **/

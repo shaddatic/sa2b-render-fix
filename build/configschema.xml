@@ -208,6 +208,9 @@ The original games used 'Half Width'.</HelpText>
 			<Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
 				<HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
 			</Property>
+			<Property name="edge_blend" display="Better Edge Blending" type="eBOOL" defaultvalue="0">
+				<HelpText>Improves texture blending on the edges between opaque/partially-transparent and fully transparent pixels.</HelpText>
+			</Property>
 		</Group>
 		<Group name="compatibility" display="Compatibility Settings">
 			<Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">
