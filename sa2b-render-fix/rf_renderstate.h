@@ -107,7 +107,7 @@ void    RFRS_SetAlphaTestRef( int32_t value );
 /** Set modifier mode **/
 void    RFRS_SetModifierMode( RFRS_MODMD mode );
 
-/** Set modifier mode **/
+/** Set chunk draw mode **/
 void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
 
 /** Set defaults **/

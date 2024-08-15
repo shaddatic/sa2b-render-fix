@@ -429,6 +429,14 @@ typedef struct
     *     - mode    : winding mode to use (default 'NORMAL')
     */
     void(__cdecl* SetModifierMode)( RFRS_MODMD mode );
+    /*
+    *   Set the draw mode of opaque/transparent Chunk strips. This is useful for
+    *   drawing Chunk models in two passes for transparancy sorting.
+    *
+    *   Parameters:
+    *     - mode    : strip type(s) to draw (default 'ALL')
+    */
+    void(__cdecl* SetCnkDrawMode)( RFRS_CNKDRAWMD mode );
 }
 RFAPI_RENDERSTATE;
 
