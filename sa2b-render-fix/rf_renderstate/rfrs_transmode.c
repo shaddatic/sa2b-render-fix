@@ -85,7 +85,7 @@ SetTransModeTransparent(void)
         RF_MagicSetAlphaTestEnable(false);
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESS);
+        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(false);
 
         _gj_alpha_mode_ = GJE_ALPHAMD_TRANSPARENT;
