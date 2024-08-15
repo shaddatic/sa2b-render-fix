@@ -400,8 +400,7 @@ typedef struct
 
     /**** Transparancy Mode ****/
     /*
-    *   Set transparancy rendering to a specific mode. Only has an effect for Chunk
-    *   model rendering.
+    *   Set transparancy rendering to a specific mode.
     *
     *   Parameters:
     *     - mode    : Transparancy mode to be set (default 'AUTO')
