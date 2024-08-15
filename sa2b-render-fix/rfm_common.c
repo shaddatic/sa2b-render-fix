@@ -25,6 +25,7 @@
 #include <rf_file.h>
 #include <rf_mdlutil.h>
 #include <rf_util.h>
+#include <rf_renderstate.h>
 
 /** Self **/
 #include <rfm_common.h>
@@ -108,6 +109,43 @@ ObjectGoalringDispSortNew(TASK* tp)
 {
     ObjectGoalringDisp(tp);
     ObjectGoalringDispSort(tp);
+}
+
+#define LandDisplayer               FUNC_PTR(void, __cdecl, (TASK*), 0x0047C270)
+#define LandDisplayerTrans          FUNC_PTR(void, __cdecl, (TASK*), 0x0047C270)
+#define DrawMotLandEntry            FUNC_PTR(void, __cdecl, (void) , 0x0047C6E0)
+
+static hook_info* LandDisplayerHookInfo;
+static void
+LandDisplayerHook(TASK* const tp)
+{
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+
+    FuncHookCall( LandDisplayerHookInfo, LandDisplayer(tp) );
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+}
+
+static hook_info* LandDisplayerTransHookInfo;
+static void
+LandDisplayerTransHook(TASK* const tp)
+{
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+    FuncHookCall( LandDisplayerTransHookInfo, LandDisplayerTrans(tp) );
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+}
+
+static hook_info* DrawMotLandEntryHookInfo;
+static void
+DrawMotLandEntryHook(void)
+{
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_ALL);
+
+    FuncHookCall( DrawMotLandEntryHookInfo, DrawMotLandEntry() );
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
 
 void
@@ -255,6 +293,12 @@ RFM_CommonInit(void)
     }
 
     ObjectGlobalLightManagerHookInfo = FuncHook(ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
+
+    /** Add two pass drawing for Chunk land tables **/
+    LandDisplayerHookInfo      = FuncHook(LandDisplayer     , LandDisplayerHook);
+    LandDisplayerTransHookInfo = FuncHook(LandDisplayerTrans, LandDisplayerTransHook);
+    DrawMotLandEntryHookInfo   = FuncHook(DrawMotLandEntry  , DrawMotLandEntryHook);
+    WriteNOP(0x0047C2B5, 0x0047C2BE); // Force Chunk to draw twice
 
     /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
     static const double chaokey_chk_fix = 300.0;
