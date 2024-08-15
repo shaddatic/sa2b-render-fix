@@ -47,7 +47,7 @@ SetTransModeOpaque(void)
         RF_MagicSetAlphaTestEnable(false); // this isn't done in vanilla, this certainly slowed the game down some
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESS);
+        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(true);
 
         _gj_alpha_mode_ = GJE_ALPHAMD_OPAQUE;
@@ -67,7 +67,7 @@ SetTransModeAlphaTest(const RFRS_CMPMD func, const int32_t ref)
         RF_MagicSetAlphaRef(ref);
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESS);
+        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(true);
 
         _gj_alpha_mode_ = GJE_ALPHAMD_ALPHATEST;
