@@ -96,10 +96,10 @@ RFRS_ALPHAREF;
 
 typedef enum
 {
-    RFRS_MODMD_END = -1,
+    RFRS_MODMD_END = -1,        /* end and reset to default                         */
 
-    RFRS_MODMD_NORMAL,
-    RFRS_MODMD_INVERSE,
+    RFRS_MODMD_NORMAL,          /* draw modifiers with regular winding              */
+    RFRS_MODMD_INVERSE,         /* draw modifiers with inverse winding              */
 }
 RFRS_MODMD;
 
