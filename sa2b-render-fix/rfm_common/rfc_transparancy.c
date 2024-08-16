@@ -106,6 +106,8 @@ RFC_TransparancyInit(void)
         SwitchDisplayer(0x005B4944, DISP_SORT); // Mission Street Cars
         ObjectMSCarDispHookInfo = FuncHook(ObjectMSCarDisp, ObjectMSCarDispHook);
 
+        SwitchDisplayer(0x0070397F, DISP_SORT); // PC Chained Hoops
+
         if (RF_ConfigGetInt(CNF_COMPAT_DCSHADCRASH))
         {
             WriteNOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
