@@ -157,11 +157,11 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
 }
 
 static DC_EVENT_HEADER*
-EventLoadModifierFile(void)
+EventLoadModifierFile(const int evNum)
 {
     char str[260];
 
-    snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", GetModPath(), EventNum);
+    snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", GetModPath(), evNum);
 
     DC_EVENT_HEADER* fevent = uFileLoad(str, NULL);
 
@@ -179,7 +179,7 @@ EventLoadModifierFile(void)
 }
 
 static DC_EVENT_HEADER* EventCurModHeader;
-static bool EventFileLoadAttempted;
+static int              EventFileLoadNum;
 
 static void
 EventDisplayMod(int scene)
@@ -206,10 +206,13 @@ EventDisplayMod(int scene)
 static void
 EventDisplayerMod(TASK* tp)
 {
-    if (!EventFileLoadAttempted)
+    if (EventFileLoadNum != EventNum)
     {
-        EventCurModHeader = EventLoadModifierFile();
-        EventFileLoadAttempted = true;
+        if (EventCurModHeader)
+            MemFree(EventCurModHeader);
+
+        EventCurModHeader = EventLoadModifierFile(EventNum);
+        EventFileLoadNum = EventNum;
     }
 
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
@@ -229,7 +232,7 @@ EventDestructor(TASK* tp)
         MemFree(EventCurModHeader);
 
     EventCurModHeader = NULL;
-    EventFileLoadAttempted = false;
+    EventFileLoadNum = -1;
 }
 
 void
