@@ -1,4 +1,5 @@
 #include <sa2b/core.h>
+#include <sa2b/writemem.h>
 #include <sa2b/writeop.h>
 #include <sa2b/funchook.h>
 
@@ -361,9 +362,22 @@ RF_RenderStateInit(void)
 
     njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 
+    /** Transparancy draw set **/
     WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
     WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);
     WriteJump(SetTransparentDraw, SetTransparentDrawNew);
+
+    /** Fix direct calls to Magic draw set **/
+    WriteNOP( 0x005FF290, 0x005FF2E2);
+    WriteData(0x005FF290, 0x56, u8); // push esi
+    WriteData(0x005FF291, 0x57, u8); // push edi
+    WriteCall(0x005FF292, SetTransparentDrawNew);
+
+    WriteNOP( 0x00600569, 0x006005B3);
+    WriteData(0x00600569, 0x83, u8);  // add esp, 8
+    WriteData(0x0060056A, 0xC4, u8);  // ^^^
+    WriteData(0x0060056B, 0x08, u8);  // ^^^
+    WriteCall(0x0060056C, SetTransparentDrawNew);
 
     CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }
