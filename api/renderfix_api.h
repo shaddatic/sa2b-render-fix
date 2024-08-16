@@ -363,6 +363,43 @@ typedef struct
     *     - attr    : draw attributes
     */
     void(__cdecl* DrawPolygon2D)(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
+
+    /****** Version >= 2 ************************************************************/
+    /*
+    *   Description:
+    *     Draw a 3D line in either strip or list mode. 'Strip' will use the end
+    *   vertex of the last line as the start vertex of the next line; 'List' will
+    *   draw each pair of vertexes as seperate lines. Eg:
+    *
+    *     - Strip: (0, 1), (1, 2), (2, 3)
+    *     - List : (0, 1), (2, 3), (4, 5)
+    *
+    *   Parameters:
+    *     - vtx     : list of line vertexes
+    *     - Count   : number of line vertexes
+    *     - r       : radius, in 480p pixels
+    *     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
+    */
+    void(__cdecl* DrawLineStrip3D)( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+    void(__cdecl* DrawLineList3D)(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+    /*
+    *   Description:
+    *     Draw a 2D line in either strip or list mode. 'Strip' will use the end
+    *   vertex of the last line as the start vertex of the next line; 'List' will
+    *   draw each pair of vertexes as seperate lines. Eg:
+    *
+    *     - Strip: (0, 1), (1, 2), (2, 3)
+    *     - List : (0, 1), (2, 3), (4, 5)
+    *
+    *   Parameters:
+    *     - vtx     : list of line vertexes
+    *     - ooz     : 1/z, 'z' being the depth of the line
+    *     - Count   : number of line vertexes
+    *     - r       : radius, in 480p pixels
+    *     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
+    */
+    void(__cdecl* DrawLineStrip2D)( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+    void(__cdecl* DrawLineList2D)(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 }
 RFAPI_DRAW;
 
