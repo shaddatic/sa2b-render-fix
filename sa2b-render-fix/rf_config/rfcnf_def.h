@@ -143,6 +143,16 @@ typedef enum
 }
 CNFE_CART_CARTSPRITE;
 
+/****** Event Section *******************************************************/
+/** Cart Sprite Fix **/
+typedef enum
+{
+    CNFE_EVENT_43MD_DISABLED,
+    CNFE_EVENT_43MD_VANILLA,
+    CNFE_EVENT_43MD_ALWAYS,
+}
+CNFE_CART_CARTSPRITE;
+
 /****** Misc Section ********************************************************/
 /** Cart Sprite Fix **/
 typedef enum
@@ -150,7 +160,7 @@ typedef enum
     CNFE_MISC_PAUSEFONTCOL_DARKER,
     CNFE_MISC_PAUSEFONTCOL_LIGHTER,
 }
-CNFE_CART_CARTSPRITE;
+CNFE_MISC_PAUSEFONTCOL;
 
 /************************/
 /*  Constants           */
@@ -271,10 +281,10 @@ CNFE_CART_CARTSPRITE;
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
-#define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "disp_replace"        , CNFE_BOOL_DISABLED                    )   /* Enhanced Displayer */
-#define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_DISABLED                    )   /* Draw Player Equipment */
+#define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Enhanced Displayer */
+#define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_DRAWMOD           CNFO_INT(   CNFS_EVENT          , "draw_mod"            , CNFE_BOOL_ENABLED                     )   /* Draw Shadow Modifiers */
-#define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_BOOL_DISABLED                    )   /* Enforce 4:3 Mode */
+#define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
 #define CNF_EVENT_TEXANIM           CNFO_INT(   CNFS_EVENT          , "texanim"             , CNFE_BOOL_ENABLED                     )   /* Fix Texture Animations */
 
 /** Miscellaneous section **/

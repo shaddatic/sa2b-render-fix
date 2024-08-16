@@ -18,6 +18,7 @@
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_eventinfo.h>
+#include <rf_renderstate.h>
 
 /** Self **/
 #include <rfm_event.h>
@@ -126,50 +127,67 @@ EventDrawReflectionLists(int idxScene)
     }
 }
 
+/** It completely ignores 'poly' 1 and 3 if I don't do this.
+    Genuinely, the optimizer is screwing with it **/
+#pragma optimize("", off)
+static void
+DrawLeft43Bar(NJS_POLYGON_VTX* poly, f32 scrnshft)
+{
+    const f32 scrnpos = 0.f - scrnshft;
+
+    poly[0].x = scrnpos;
+    poly[1].x = scrnpos;
+    poly[2].x = 0.f;
+    poly[3].x = 0.f;
+
+    njDrawPolygon(poly, 4, false);
+}
+#pragma optimize("", on)
+
+#pragma optimize("", off)
+static void
+DrawRight43Bar(NJS_POLYGON_VTX* poly, f32 scrnshft)
+{
+    const f32 scrnpos = 640.f + scrnshft;
+
+    poly[0].x = scrnpos;
+    poly[1].x = scrnpos;
+    poly[2].x = 640.f;
+    poly[3].x = 640.f;
+
+    njDrawPolygon(poly, 4, false);
+}
+#pragma optimize("", off)
+
 static void
 Draw43Bars(void)
 {
-    const float disp_ratio = GetDisplayRatio();
+    const f32 disp_ratio = GetDisplayRatio();
 
     if (EventEnforce43 == EV_43MD_ALWAYS && disp_ratio > 1.0f)
     {
-        NJS_COLOR   colors[4];
-        NJS_POINT2  points[4];
+        NJS_POLYGON_VTX poly[4];
 
-        const float screenratio = (disp_ratio - 1.0f) * (320.0f) + 1.0f;
+        /** Init polyvtx **/
+        {
+            poly[0].y   = 0.0f;
+            poly[0].z   = 1.0f;
+            poly[0].col = 0xFF000000;
+            poly[1].y   = 481.0f;
+            poly[1].z   = 1.0f;
+            poly[1].col = 0xFF000000;
+            poly[2].y   = 0.0f;
+            poly[2].z   = 1.0f;
+            poly[2].col = 0xFF000000;
+            poly[3].y   = 481.0f;
+            poly[3].z   = 1.0f;
+            poly[3].col = 0xFF000000;
+        }
 
-        colors[0].color = 0xFF000000;
-        colors[1].color = 0xFF000000;
-        colors[2].color = 0xFF000000;
-        colors[3].color = 0xFF000000;
+        const f32 scrnshft = (disp_ratio - 1.0f) * (320.0f) + 1.0f;
 
-        points[0].x = 0.0f - screenratio;
-        points[0].y = 0.0f;
-
-        points[1].x = 0.0f - screenratio;
-        points[1].y = 481.0f;
-
-        points[2].x = 0.0f;
-        points[2].y = 0.0f;
-
-        points[3].x = 0.0f;
-        points[3].y = 481.0f;
-
-        NJS_POINT2COL poly = {
-            .p = points,
-            .col = colors,
-            .tex = NULL,
-            .num = 4
-        };
-
-        njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL);
-
-        points[0].x = 640.0f;
-        points[1].x = 640.0f;
-        points[2].x = 640.0f + screenratio;
-        points[3].x = 640.0f + screenratio;
-
-        njDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL);
+        DrawLeft43Bar( poly, scrnshft);
+        DrawRight43Bar(poly, scrnshft);
     }
 }
 
@@ -179,6 +197,13 @@ EventDisplayerDelayHook(TASK* tp)
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
+    const int old_rmode = _gj_render_mode_;
+
+    _gj_render_mode_ = GJD_DRAW_TRANS;
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+    /** Draw **/
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
@@ -186,10 +211,10 @@ EventDisplayerDelayHook(TASK* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    for (int i = 1; i < NB_EVENT_LAYER; ++i)
+    for (int i = 0; i < NB_EVENT_LAYER; ++i)
     {
         EventDrawObjects(EVENT_BASE_SCENE, i, false);
-        EventDrawObjects(EventScene   , i, false);
+        EventDrawObjects(EventScene      , i, false);
     }
 
     if (EventUseFlare)
@@ -205,6 +230,11 @@ EventDisplayerDelayHook(TASK* tp)
     EventDrawScreenQuad();
 
     Draw43Bars();
+
+    /** End **/
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+
+    _gj_render_mode_ = old_rmode;
 }
 
 static void
@@ -213,6 +243,13 @@ EventDisplayerHook(TASK* tp)
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
+    const int old_rmode = _gj_render_mode_;
+
+    _gj_render_mode_ = GJD_DRAW_SOLID;
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+
+    /** Draw **/
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
@@ -228,21 +265,25 @@ EventDisplayerHook(TASK* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    //EventDrawObjects(EVENT_BASE_SCENE, 0, false);
-    //EventDrawObjects(EventScene   , 0, false);
-
     for (int i = 0; i < NB_EVENT_LAYER; ++i)
     {
         EventDrawObjects(EVENT_BASE_SCENE, i, false);
-        EventDrawObjects(EventScene, i, false);
+        EventDrawObjects(EventScene      , i, false);
     }
 
     if (EventEquipmentEnable)
     {
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_ALL);
+
         OnControl3D(NJD_CONTROL_3D_TRANS_MODIFIER | NJD_CONTROL_3D_SHADOW);
         EventDrawEquipment();
         OffControl3D(NJD_CONTROL_3D_TRANS_MODIFIER | NJD_CONTROL_3D_SHADOW);
     }
+
+    /** End **/
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+
+    _gj_render_mode_ = old_rmode;
 }
 
 static void
@@ -300,16 +341,15 @@ RFM_EventInit(void)
     {
         WriteJump(0x005FABF0, EventDisplayerHook);
         WriteJump(0x005FAD20, EventDisplayerDelayHook);
-    }
 
-    EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
+        EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
+        EventEnforce43       = RF_ConfigGetInt(CNF_EVENT_43MD);
+    }
 
     if (RF_ConfigGetInt(CNF_EVENT_DRAWMOD))
     {
         EV_ModifierInit();
     }
-
-    EventEnforce43 = (RF_ConfigGetInt(CNF_EVENT_43MD) == 1) ? EV_43MD_ALWAYS : EV_43MD_NEVER;
 
     //WriteJump(0x005FA4D0, EventEntrySetLight);
     //WriteData(0x005FA404, 4, uint8_t);

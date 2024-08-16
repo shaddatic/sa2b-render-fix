@@ -177,8 +177,23 @@ The original games used 'Half Width'.</HelpText>
 			</Property>
 		</Group>
 		<Group name="event" display="Events">
+			<Property name="rf_disp" display="Enhanced Event Renderer" type="eBOOL" defaultvalue="1">
+				<HelpText>Use Render Fix's custom event renderer which fixes some in-built transparancy sorting issues, such as player equipment and modifier shadows, and allows for other effects such as a forced 4:3 aspect ratio.</HelpText>
+			</Property>
+			<Property name="draw_equip" display="Draw Player Equipment" type="eBOOL" defaultvalue="1">
+				<HelpText>Draw player upgrades/equipment in events.
+
+NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+			</Property>
+			<Property name="enforce_43" display="Force 4:3 Aspect Ratio" type="eEV_43MD" defaultvalue="2">
+				<HelpText>Force the event into 4:3 by drawing black bars at the side of the screen. This covers up many issues that the player was never intended to see.
+
+NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+			</Property>
 			<Property name="draw_mod" display="Draw Shadow Modifiers" type="eBOOL" defaultvalue="1">
-				<HelpText>Draw shadow modifiers from the Dreamcast version.</HelpText>
+				<HelpText>Draw shadow modifiers from the Dreamcast version.
+
+NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			</Property>
 			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
 				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
@@ -311,6 +326,10 @@ The original games used 'Half Width'.</HelpText>
 		<Enum name="eCART_SPRITE">
 			<EnumMember name="2" display="Enabled"></EnumMember>
 			<EnumMember name="1" display="Dreamcast"></EnumMember>
+			<EnumMember name="0" display="Off/Disabled"></EnumMember>
+		</Enum>
+		<Enum name="eEV_43MD">
+			<EnumMember name="2" display="Enabled"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
 		<Enum name="ePAUSE_FONT_COL">
