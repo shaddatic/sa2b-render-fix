@@ -5,6 +5,13 @@
 #include <sa2b/core.h>      /* core                                                 */
 #include <sa2b/writemem.h>  /* WriteData, WritePointer                              */
 #include <sa2b/writeop.h>   /* WriteNOP                                             */
+#include <sa2b/funchook.h>  /* FuncHook                                             */
+
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/ninja.h> /* ninja                                              */
+
+/****** Game ************************************************************************/
+#include <sa2b/sonic/task.h> /* task                                                */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
@@ -14,6 +21,30 @@
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_transparancy/rfct_internal.h> /* self                      */
 
+/************************/
+/*  Game Functions      */
+/************************/
+/****** MS Car Displayer ************************************************************/
+#define ObjectMSCarDisp         FUNC_PTR(void, __cdecl, (TASK*), 0x005B56D0)
+
+/************************/
+/*  Source              */
+/************************/
+/****** Static **********************************************************************/
+static hook_info* ObjectMSCarDispHookInfo;
+static void
+ObjectMSCarDispHook(TASK* tp)
+{
+    const int backup_rmode = _gj_render_mode_;
+
+    _gj_render_mode_ = GJD_DRAW_SOLID | GJD_DRAW_TRANS;
+
+    FuncHookCall( ObjectMSCarDispHookInfo, ObjectMSCarDisp(tp) );
+
+    _gj_render_mode_ = backup_rmode;
+}
+
+/****** Init ************************************************************************/
 void
 RFC_TransparancyInit(void)
 {
@@ -73,6 +104,7 @@ RFC_TransparancyInit(void)
         SwitchDisplayer(0x0063D70F, DISP_DELY); // Dry Lagoon BgDisp
 
         SwitchDisplayer(0x005B4944, DISP_SORT); // Mission Street Cars
+        ObjectMSCarDispHookInfo = FuncHook(ObjectMSCarDisp, ObjectMSCarDispHook);
 
         if (RF_ConfigGetInt(CNF_COMPAT_DCSHADCRASH))
         {
