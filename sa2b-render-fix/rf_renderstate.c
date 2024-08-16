@@ -54,6 +54,8 @@ static bool CullEventPatch;
 static void
 ParseStripFlagsHook(uint8_t flag)
 {
+    bool hide_strip = false;
+
     const bool fst_ua = (flag & (CNK_FST_NAT | CNK_FST_UA));
 
     switch (CnkDrawModeOverride) {
@@ -109,11 +111,11 @@ ParseStripFlagsHook(uint8_t flag)
     case RFRS_CULLMD_INVERSE:
 
         /** if this strip isn't double sided,
-            hide it's inverse face **/
+            hide it's inverse face. But still set blending modes **/
         if (!fst_db)
         {
-            SetChunkStripHideMode(true);
-            return;
+            hide_strip = true;
+            break;
         }
 
         GX_SetCullMode(GXD_CULLMODE_CCW);
@@ -121,7 +123,7 @@ ParseStripFlagsHook(uint8_t flag)
     }
 
     /** Allow strip drawing **/
-    SetChunkStripHideMode(false);
+    SetChunkStripHideMode(hide_strip);
 
     const bool use_alpha = ForceUseAlpha | fst_ua;
 
