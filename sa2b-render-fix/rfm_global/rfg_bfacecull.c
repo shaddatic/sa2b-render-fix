@@ -147,6 +147,7 @@ RFG_BackfaceCullingInit(void)
         CnkModelMaterialFlagOn(0x00AA28A4,  2, NJD_FST_DB); // ^
 
         CnkModelMaterialFlagOn(0x00AA21A4,  1, NJD_FST_DB); // Snake Dish Chain
+        CnkModelMaterialFlagOn(0x00ABA8E4,  1, NJD_FST_DB); // Snake Dish Chain 2
 
         CnkModelMaterialFlagOn(0x00AB171C, -1, NJD_FST_DB); // Hang Ring Chains
 
