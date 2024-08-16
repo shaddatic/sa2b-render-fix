@@ -23,6 +23,7 @@ const RFAPI_RENDERSTATE rfapi_rstate =
     .SetAlphaTestFunc = RFRS_SetAlphaTestFunc,
     .SetAlphaTestRef  = RFRS_SetAlphaTestRef,
 
+    /** Ver 1 **/
     .SetModifierMode  = RFRS_SetModifierMode,
     .SetCnkDrawMode   = RFRS_SetCnkDrawMode,
 };
