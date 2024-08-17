@@ -371,8 +371,8 @@ typedef struct
     *   vertex of the last line as the start vertex of the next line; 'List' will
     *   draw each pair of vertexes as seperate lines. Eg:
     *
-    *     - Strip: (0, 1), (1, 2), (2, 3)
-    *     - List : (0, 1), (2, 3), (4, 5)
+    *     - Strip: (0, 1), (1, 2), (2, 3), ...
+    *     - List : (0, 1), (2, 3), (4, 5), ...
     *
     *   Parameters:
     *     - vtx     : list of line vertexes
@@ -388,8 +388,8 @@ typedef struct
     *   vertex of the last line as the start vertex of the next line; 'List' will
     *   draw each pair of vertexes as seperate lines. Eg:
     *
-    *     - Strip: (0, 1), (1, 2), (2, 3)
-    *     - List : (0, 1), (2, 3), (4, 5)
+    *     - Strip: (0, 1), (1, 2), (2, 3), ...
+    *     - List : (0, 1), (2, 3), (4, 5), ...
     *
     *   Parameters:
     *     - vtx     : list of line vertexes
