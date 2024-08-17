@@ -40,6 +40,13 @@ static NJS_CNK_MODEL* model_basic_shadow;
 
 /** Static functions **/
 static void
+CHS_ObjectBurstInit(void)
+{
+    WriteRetn(0x004AF660); // Kill disp_shad
+    KillCall( 0x004AE522); // Kill SetStencilInfo
+}
+
+static void
 SetShadowOpacityGlobal(void)
 {
     RFMOD_SetAlpha(ShadowOpacityGlobal);
@@ -176,6 +183,7 @@ RFM_ShadowsInit(void)
         CHS_ChaoWorldInit();
         CHS_TruckInit();
         CHS_CarInit();
+        CHS_ObjectBurstInit();
         break;
 
     case CNFE_SHADOW_GLMD_VANILLA:
