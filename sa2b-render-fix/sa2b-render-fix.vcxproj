@@ -176,7 +176,6 @@
     <None Include="models\e_t_emi_emblem.nja" />
     <None Include="rf_model\bunchin_shadow.nja" />
     <None Include="rf_model\ce_truck_hood.nja" />
-    <None Include="rf_model\eget.nja" />
     <None Include="rf_model\e_a_emi_emblem.nja" />
     <None Include="rf_model\e_b_kumi_emblem.nja" />
     <None Include="rf_model\e_b_pathkumi_emblem.nja" />

@@ -28,8 +28,6 @@
 
 #include <rf_model/ce_truck_hood.nja>
 
-#include <rf_model/eget.nja>
-
 #include <rf_model/minemizu.nja>
 
 #include <rf_model/bunchin_shadow.nja>

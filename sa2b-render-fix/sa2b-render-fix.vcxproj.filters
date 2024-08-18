@@ -457,7 +457,6 @@
     <None Include="rf_model\e_shouko_wing_port.nja" />
     <None Include="rf_model\e_shouko_wing_starboard.nja" />
     <None Include="rf_model\e_t_emi_emblem.nja" />
-    <None Include="rf_model\eget.nja" />
     <None Include="rf_model\minemizu.nja" />
     <None Include="rf_texture\jo_tree.tls" />
     <None Include="rf_model\msger_shadow.nja" />
