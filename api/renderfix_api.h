@@ -173,9 +173,11 @@ typedef struct
     *   the default buffer. If this is called multiple times, the largest values
     *   will be used.
     * 
+    *   As of version 1.3.2, the 'nbTriList' parameter is obsolete and does nothing.
+    * 
     *   Parameters:
     *     - nbTri     : Total number of triangles the buffer can store (default 2048)
-    *     - nbTriList : Total number of models the buffer can store (default 128)
+    *     - nbTriList : Total number of models the buffer can store (obsolete)
     */
     void(__cdecl* SetModBufferSize)(size_t nbTri, size_t nbTriList);
 
