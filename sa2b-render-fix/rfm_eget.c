@@ -18,13 +18,13 @@ EXTERN NJS_CNK_OBJECT object_eget[];
 void
 RFM_EmblemGetInit(void)
 {
-    if (RF_ConfigGetInt(CNF_EGET_FADEIN))
+    if (RF_ConfigGetInt(CNF_EGET_PTCLFIX))
     {
         SwitchDisplayer(0x0079860F, DISP_SORT);
         MemCopy((void*)0x0096DE1C, object_eget, sizeof(NJS_CNK_OBJECT));
     }
 
-    if (RF_ConfigGetInt(CNF_EGET_PTCLFIX))
+    if (RF_ConfigGetInt(CNF_EGET_FADEIN))
     {
         WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
     }
