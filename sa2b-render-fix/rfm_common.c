@@ -300,6 +300,10 @@ RFM_CommonInit(void)
     DrawMotLandEntryHookInfo   = FuncHook(DrawMotLandEntry  , DrawMotLandEntryHook);
     WriteNOP(0x0047C2B5, 0x0047C2BE); // Force Chunk to draw twice
 
+    /** Fix keys in Death Chamber & Egg Quaters glowing eye effect caused by the
+        programmer referencing the wrong model array **/
+    WritePointer(0x006D276B, 0x00B4324C);
+
     /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
     static const double chaokey_chk_fix = 300.0;
     ReplaceFloat(0x006E9B4A, &chaokey_chk_fix);
