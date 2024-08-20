@@ -272,11 +272,14 @@ TaskDisplayShadAllTasks(void)
     /** Clear mod buffer for new frame **/
     RFMOD_ClearBuffer();
 
+    /** Screen must always be backed up, some things require it:
+        like the searchbox hint in 2P mode (?). **/
+    BackupScreenInfo();
+
     if (ShadowMapCount) // Delayed by 1 frame
     {
         /** Draw the modifiers and shadow maps,
-            can screw with screen so backup (slow) **/
-        BackupScreenInfo();
+            can screw with screen so restore too (slow) **/
         TaskDisplayShadows();
         RestoreScreenInfo();
     }
