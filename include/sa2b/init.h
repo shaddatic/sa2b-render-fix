@@ -35,9 +35,6 @@ void    SAMT_Init(const char* path, const HelperFunctions* pHelperFunctions);
 /** Init DX9 device control module **/
 void    DX9_Init( void );
 
-/** Init mersenne twister random number generator **/
-void    mtRandInit( void );
-
 EXTERN_END
 
 #endif/*_SAMT_INIT_H_*/
