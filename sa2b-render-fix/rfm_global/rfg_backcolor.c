@@ -12,6 +12,8 @@
 /** Render Fix **/
 #include <rf_core.h>
 
+#define BACKCOLOR_Z_VAL     (1.f/16'000'000.f)
+
 static Uint32 _nj_back_color_0_;
 static Uint32 _nj_back_color_1_;
 static Uint32 _nj_back_color_2_;
@@ -24,31 +26,33 @@ njDrawBackColor2(void)
     if (FadeColor.argb.a == 0xFF)
         return;
 
-    NJS_COLOR   colors[4];
-    NJS_POINT2  points[4];
+    NJS_POLYGON_VTX vtx[4];
 
-    float screenratio = (GetDisplayRatio() - 1.0f) * 320.0f;
+    vtx[0].z = BACKCOLOR_Z_VAL;
+    vtx[1].z = BACKCOLOR_Z_VAL;
+    vtx[2].z = BACKCOLOR_Z_VAL;
+    vtx[3].z = BACKCOLOR_Z_VAL;
 
-    points[0].x = 0.0f - screenratio;
-    points[0].y = 0.0f;
+    vtx[0].col = _nj_back_color_1_;
+    vtx[1].col = _nj_back_color_0_;
+    vtx[2].col = _nj_back_color_2_;
+    vtx[3].col = _nj_back_color_0_;
 
-    points[1].x = 0.0f - screenratio;
-    points[1].y = 480.0f;
+    const f32 scrn_ratio = (GetDisplayRatio() - 1.0f) * 320.0f;
 
-    points[2].x = 640.0f + screenratio;
-    points[2].y = 0.0f;
+    vtx[0].x = 0.0f - scrn_ratio;
+    vtx[0].y = 0.0f;
 
-    points[3].x = 640.0f + screenratio;
-    points[3].y = 480.0f;
+    vtx[1].x = 0.0f - scrn_ratio;
+    vtx[1].y = 480.0f;
 
-    colors[0].color = _nj_back_color_1_;
-    colors[1].color = _nj_back_color_0_;
-    colors[2].color = _nj_back_color_2_;
-    colors[3].color = _nj_back_color_0_;
+    vtx[2].x = 640.0f + scrn_ratio;
+    vtx[2].y = 0.0f;
 
-    NJS_POINT2COL poly = { points, colors, 0, 4 };
+    vtx[3].x = 640.0f + scrn_ratio;
+    vtx[3].y = 480.0f;
 
-    njDrawPolygon2D(&poly, 4, -16000000.0f, NJD_FILL);
+    njDrawPolygon(vtx, 4, false);
 }
 
 const void* const RendererClear_p = (void*)0x00867B20;
