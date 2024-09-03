@@ -144,4 +144,8 @@ RFG_3DSpriteInit(void)
 
     /** Fix hint text in 2P **/
     HintTextDisplayerHookInfo = FuncHook(HintTextDisplayer_p, __HintTextDisplayerHook);
+
+    /** Fix ectoplasm effects "un-squishing" themselves,
+        which causes stretching with the above fix **/
+    WriteNOP(0x0075A911, 0x0075A924);
 }
