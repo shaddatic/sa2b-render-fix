@@ -114,6 +114,12 @@ RFC_TransparancyInit(void)
         }
     }
 
+    /** Chao World Lobby Exit **/
+    WriteData(0x0057F39F, 0x54, u8);   // swap the draw calls for the base and plating models.
+    WriteData(0x0057F3B3, 0xB7, u8);   // ^^
+    WriteNOP( 0x0057F519, 0x0057F52D); // kill duplicate plate draw during 'disp_dely', as it breaks with the new LESSEQUAL Z compare
+    WriteData(0x0057F54E, 0x08, u8);   // add esp, 10h -> add esp, 8h
+
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
     RFCT_PrisonSirenInit();
