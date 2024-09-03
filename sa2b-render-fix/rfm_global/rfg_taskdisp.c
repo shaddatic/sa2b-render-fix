@@ -399,14 +399,17 @@ TaskDisplayAll(void)
     /** Draw game HUD **/
     if (ulGlobalMode == MD_ACTION && !MultiIntroPno && playerpwp[0])
     {
-        if (IsSplitscreen)
+        if (!IsSplitscreen)
         {
+            DisplayGameHUD();
+        }
+        else if (cameraNumber == 0)
+        {
+            BackupScreenInfo();
             SetBaseScreenInfo();
             DisplayGameHUD();
             RestoreScreenInfo();
         }
-        else
-            DisplayGameHUD();
     }
     
     /** Draw fade **/
