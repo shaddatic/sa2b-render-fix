@@ -462,24 +462,39 @@ RFMOD_CreateBuffer(void)
 
 static hook_info* HookInfoGxEnd;
 
-static void
-GX_EndStencilCheck(void)
+static s32
+ModifierBegin(void)
 {
-    int i = 0;
+    switch (_gj_alpha_mode_) {
+    case GJD_ALPHAMODE_SOLID:
+        if (_nj_control_3d_flag_ & (NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_SHADOW_OPAQUE))
+        {
+            RFMOD_OnShadow();
+            return 2;
+        }
 
-    if (_gj_alpha_mode_ == GJD_ALPHAMODE_BLEND)
-    {
+        return 0;
+
+    case GJD_ALPHAMODE_ATEST:
+        if (_nj_control_3d_flag_ & NJD_CONTROL_3D_SHADOW)
+        {
+            RFMOD_OnShadow();
+            return 2;
+        }
+
+        return 0;
+
+    case GJD_ALPHAMODE_BLEND:
         RFMOD_Suspend();
-        i = 1;
-    }
-    else if (_nj_control_3d_flag_ & NJD_CONTROL_3D_SHADOW)
-    {
-        RFMOD_OnShadow();
-        i = 2;
+        return 1;
     }
 
-    FuncHookCall( HookInfoGxEnd, GX_End() );
+    return 0;
+}
 
+static void
+ModifierEnd(const s32 i)
+{
     switch (i) {
     case 1:
         RFMOD_Resume();
@@ -491,6 +506,16 @@ GX_EndStencilCheck(void)
     }
 }
 
+static void
+GX_EndStencilCheck(void)
+{
+    const s32 i = ModifierBegin();
+
+    FuncHookCall( HookInfoGxEnd, GX_End() );
+
+    ModifierEnd(i);
+}
+
 static hook_info* HookInfoGjDraw;
 
 #define sub_41BE30      FUNC_PTR(void, __cdecl, (int, char), 0x0041BE30)
@@ -498,30 +523,11 @@ static hook_info* HookInfoGjDraw;
 static void __cdecl
 GjDrawStencilCheck(int a1, char a2)
 {
-    int i = 0;
-
-    if (_gj_alpha_mode_ == GJD_ALPHAMODE_BLEND)
-    {
-        RFMOD_Suspend();
-        i = 1;
-    }
-    else if (_nj_control_3d_flag_ & NJD_CONTROL_3D_SHADOW)
-    {
-        RFMOD_OnShadow();
-        i = 2;
-    }
+    const s32 i = ModifierBegin();
 
     FuncHookCall( HookInfoGjDraw, sub_41BE30(a1, a2) );
 
-    switch (i) {
-    case 1:
-        RFMOD_Resume();
-        break;
-
-    case 2:
-        RFMOD_OffShadow();
-        break;
-    }
+    ModifierEnd(i);
 }
 
 /** Extern **/
