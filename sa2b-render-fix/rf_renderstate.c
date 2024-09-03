@@ -243,6 +243,12 @@ RFRS_SetCullMode(RFRS_CULLMD mode)
     }
 }
 
+RFRS_CULLMD
+RFRS_GetCullMode(void)
+{
+    return CullModeOverride;
+}
+
 void
 RFRS_SetTransMode(RFRS_TRANSMD mode)
 {
@@ -260,6 +266,12 @@ RFRS_SetTransMode(RFRS_TRANSMD mode)
         TransModeOverride = TransModeDefault;
         break;
     }
+}
+
+RFRS_TRANSMD
+RFRS_GetTransMode(void)
+{
+    return TransModeOverride;
 }
 
 void
@@ -283,6 +295,12 @@ RFRS_SetAlphaTestFunc(RFRS_CMPMD mode)
     }
 }
 
+RFRS_CMPMD
+RFRS_GetAlphaTestFunc(void)
+{
+    return AlphaFuncOverride;
+}
+
 void
 RFRS_SetAlphaTestRef(int32_t value)
 {
@@ -295,10 +313,22 @@ RFRS_SetAlphaTestRef(int32_t value)
     AlphaRefOverride = value;
 }
 
+int32_t
+RFRS_GetAlphaTestRef(void)
+{
+    return AlphaRefOverride;
+}
+
 void
 RFRS_SetModifierMode(RFRS_MODMD mode)
 {
     RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
+}
+
+RFRS_MODMD
+RFRS_GetModifierMode(void)
+{
+    return 0;
 }
 
 void
@@ -316,6 +346,12 @@ RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
         break;
     }
     
+}
+
+RFRS_CNKDRAWMD
+RFRS_GetCnkDrawMode(void)
+{
+    return CnkDrawModeOverride;
 }
 
 void

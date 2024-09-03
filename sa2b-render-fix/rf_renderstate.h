@@ -110,6 +110,26 @@ void    RFRS_SetModifierMode( RFRS_MODMD mode );
 /** Set chunk draw mode **/
 void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
 
+/****** Get Render State ************************************************************/
+/** Get cull mode **/
+RFRS_CULLMD RFRS_GetCullMode( void );
+
+/** Get transparancy mode **/
+RFRS_TRANSMD RFRS_GetTransMode( void );
+
+/** Get alpha test func **/
+RFRS_CMPMD RFRS_GetAlphaTestFunc( void );
+
+/** Get alpha test reference **/
+int32_t RFRS_GetAlphaTestRef( void );
+
+/** Get modifier mode **/
+RFRS_MODMD RFRS_GetModifierMode( void );
+
+/** Get chunk draw mode **/
+RFRS_CNKDRAWMD RFRS_GetCnkDrawMode( void );
+
+/****** Set Default *****************************************************************/
 /** Set defaults **/
 void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode   );
 void    RFRS_SetDefaultTransMode(     RFRS_TRANSMD mode   );
