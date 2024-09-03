@@ -17,6 +17,14 @@
 #include <rf_mdlutil.h>
 
 /*
+*   Constants
+*/
+#define NJD_BITSOFF_MAX     (NJD_CB_DP+1)
+#define NJD_TINYOFF_MAX     (NJD_CT_TID2+1)
+#define NJD_MATOFF_MAX      (NJD_CM_DAS2+1)
+#define NJD_STRIPOFF_MAX    (NJD_CS_UVH2+1)
+
+/*
 *   Tint Fixing
 */
 #pragma region gjs_tintfix
@@ -83,7 +91,7 @@ TintCheckAndFix(Sint16* pDif)
     }
 }
 
-void
+static void
 RF_CnkTintFix(Sint16* pPList)
 {
     Sint16* plist = pPList;
@@ -91,69 +99,77 @@ RF_CnkTintFix(Sint16* pPList)
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                    TintCheckAndFix(plist);
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                    TintCheckAndFix(plist);
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    TintCheckAndFix(plist);
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        plist += ((u16*)plist)[1] + 2;
+        if (type == NJD_NULLOFF)
+        {
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            switch (type) {
+            case NJD_CM_D:
+                TintCheckAndFix(&plist[2]);
+            case NJD_CM_A:
+            case NJD_CM_S:
+                break;
+            case NJD_CM_DA:
+            case NJD_CM_DS:
+                TintCheckAndFix(&plist[2]);
+            case NJD_CM_AS:
+                break;
+            case NJD_CM_DAS:
+                TintCheckAndFix(&plist[2]);
+                break;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
 }
 
@@ -188,11 +204,8 @@ RF_CnkModelFlipWinding(NJS_CNK_MODEL* pModel)
     RF_CnkModelFlipStripWinding(pModel, -1, -1);
 }
 
-#define plist (*ppPList)
-#define idxTri (*pIdxTri)
-
 static void
-FlipTriStrip(Sint16** ppPList, int* pIdxTri)
+FlipTriStrip(Sint16* plist, int idxTri)
 {
     int nbstrip = plist[2] & 0x3FFF;
 
@@ -221,91 +234,86 @@ FlipTriStrip(Sint16** ppPList, int* pIdxTri)
     }
 }
 
-#undef plist
-#undef idxTri
-
 void
-RF_CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
+RF_CnkStripFlipStripWinding(Sint16* pPList, int idxStrip, int idxTri)
 {
-    int16_t* plist = pModel->plist;
+    Sint16* plist = pPList;
     int type;
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        if (idxStrip < 0)
+        if (type == NJD_NULLOFF)
         {
-            int tmp = -1;
-            FlipTriStrip(&plist, &tmp);
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
         }
-        else if (idxStrip-- == 0)
+
+        if (type < NJD_BITSOFF_MAX)
         {
-            FlipTriStrip(&plist, &idxTri);
-            return;
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
         }
-        else
+
+        if (type < NJD_TINYOFF_MAX)
         {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            /** Next offset **/
             plist += ((u16*)plist)[1] + 2;
+            continue;
         }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            if (idxStrip < 0)
+            {
+                FlipTriStrip(plist, -1);
+            }
+            else if (idxStrip-- == 0)
+            {
+                FlipTriStrip(plist, idxTri);
+                return;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
+}
+
+void
+RF_CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
+{
+    RF_CnkStripFlipStripWinding(pModel->plist, idxStrip, idxTri);
 }
 
 #pragma endregion
@@ -318,81 +326,69 @@ RF_CnkModelFlipStripWinding(NJS_CNK_MODEL* pModel, int idxStrip, int idxTri)
 void
 RF_CnkMaterialFlagOn(Sint16* pPList, int idxMat, uint32_t flag)
 {
-    Sint16* plist = pPList;
+    const Sint16* plist = pPList;
     int type;
 
     while (1)
     {
-        while (1)
+        type = ((u8*)plist)[0];
+
+        if (type == NJD_NULLOFF) // Null Offset
         {
-            while (1)
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+            if (idxMat == -1)
             {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
+                ((u16*)plist)[0] |= flag;
+            }
+            else if (idxMat-- == 0)
+            {
+                ((u16*)plist)[0] |= flag;
+                return;
             }
 
-            if (type >= NJD_STRIPOFF)
-                break;
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
         }
 
-        if (type == NJD_ENDOFF)
-            break;
-
-        if (idxMat == -1)
-        {
-            ((u16*)plist)[0] |= flag;
-        }
-        else if (idxMat-- == 0)
-        {
-            ((u16*)plist)[0] |= flag;
-            return;
-        }
-
-        plist += ((u16*)plist)[1] + 2;
+        /** NJD_ENDOFF **/
+        break;
     }
 }
 
@@ -450,85 +446,72 @@ RF_CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32_t flag)
 #pragma endregion
 #pragma region cnk_stripflag_off
 
-
 void
 RF_CnkMaterialFlagOff(Sint16* pPList, int idxMat, uint32_t flag)
 {
-    Sint16* plist = pPList;
+    const Sint16* plist = pPList;
     int type;
 
     while (1)
     {
-        while (1)
+        type = ((u8*)plist)[0];
+
+        if (type == NJD_NULLOFF) // Null Offset
         {
-            while (1)
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+            if (idxMat == -1)
             {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
+                ((u16*)plist)[0] &= ~flag;
+            }
+            else if (idxMat-- == 0)
+            {
+                ((u16*)plist)[0] &= ~flag;
+                return;
             }
 
-            if (type >= NJD_STRIPOFF)
-                break;
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
         }
 
-        if (type == NJD_ENDOFF)
-            break;
-
-        if (idxMat == -1)
-        {
-            ((u16*)plist)[0] &= ~flag;
-        }
-        else if (idxMat-- == 0)
-        {
-            ((u16*)plist)[0] &= ~flag;
-            return;
-        }
-
-        plist += ((u16*)plist)[1] + 2;
+        /** NJD_ENDOFF **/
+        break;
     }
 }
 
@@ -595,78 +578,71 @@ RF_CnkBlendingSrc(Sint16* pPList, int idxMat, uint16_t src)
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                if (idxMat == -1)
-                {
-                    ((u16*)plist)[0] &= ~NJD_FBS_MASK;
-                    ((u16*)plist)[0] |= src;
-                }
-                else if (idxMat-- == 0)
-                {
-                    ((u16*)plist)[0] &= ~NJD_FBS_MASK;
-                    ((u16*)plist)[0] |= src;
-                    return;
-                }
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        plist += ((u16*)plist)[1] + 2;
+        if (type == NJD_NULLOFF)
+        {
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            if (idxMat == -1)
+            {
+                ((u16*)plist)[0] = ( ((u16*)plist)[0] & ~NJD_FBS_MASK ) | src;
+            }
+            else if (idxMat-- == 0)
+            {
+                ((u16*)plist)[0] = ( ((u16*)plist)[0] & ~NJD_FBS_MASK ) | src;
+                return;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
 }
 
@@ -695,78 +671,71 @@ RF_CnkBlendingDst(Sint16* pPList, int idxMat, uint16_t dst)
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                if (idxMat == -1)
-                {
-                    ((u16*)plist)[0] &= ~NJD_FBD_MASK;
-                    ((u16*)plist)[0] |= dst;
-                }
-                else if (idxMat-- == 0)
-                {
-                    ((u16*)plist)[0] &= ~NJD_FBD_MASK;
-                    ((u16*)plist)[0] |= dst;
-                    return;
-                }
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        plist += ((u16*)plist)[1] + 2;
+        if (type == NJD_NULLOFF)
+        {
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            if (idxMat == -1)
+            {
+                ((u16*)plist)[0] = ( ((u16*)plist)[0] & ~NJD_FBD_MASK ) | dst;
+            }
+            else if (idxMat-- == 0)
+            {
+                ((u16*)plist)[0] = ( ((u16*)plist)[0] & ~NJD_FBD_MASK ) | dst;
+                return;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
 }
 
@@ -797,83 +766,75 @@ void
 RF_CnkChangeTexID(Sint16* pPList, int idxTID, Sint16 texID)
 {
     Sint16* plist = pPList;
-
     int type;
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((Uint8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    if (idxTID == -1)
-                    {
-                        plist[1] = (plist[1] & 0xE000) | (texID & 0x1FFF);
-                    }
-                    else if (idxTID-- == 0)
-                    {
-                        plist[1] = (plist[1] & 0xE000) | (texID & 0x1FFF);
-                        return;
-                    }
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        int stripsize = ((Uint16*)plist)[1];
+        if (type == NJD_NULLOFF)
+        {
+            /** NJD_NULLOFF **/
 
-        plist += stripsize + 2;
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            if (idxTID == -1)
+            {
+                plist[1] = (plist[1] & 0xE000) | (texID & 0x1FFF);
+            }
+            else if (idxTID-- == 0)
+            {
+                plist[1] = (plist[1] & 0xE000) | (texID & 0x1FFF);
+                return;
+            }
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
 }
 
@@ -901,6 +862,17 @@ RF_CnkObjectChangeTexID(NJS_CNK_OBJECT* pObject, Sint16 texID)
 */
 #pragma region cnk_material_param
 
+static void
+SetDiffuse(Sint16* plist, int a, int r, int g, int b)
+{
+    uint8_t* col = (u8*)plist;
+
+    if (a != -1) col[3] = (u8)a;
+    if (r != -1) col[2] = (u8)r;
+    if (g != -1) col[1] = (u8)g;
+    if (b != -1) col[0] = (u8)b;
+}
+
 void
 RF_CnkMaterialDiffuse(Sint16* pPList, int idxMat, int a, int r, int g, int b)
 {
@@ -909,99 +881,107 @@ RF_CnkMaterialDiffuse(Sint16* pPList, int idxMat, int a, int r, int g, int b)
 
     while (1)
     {
-        while (1)
-        {
-            while (1)
-            {
-                while (1)
-                {
-                    while (1)
-                    {
-                        while (1)
-                        {
-                            type = ((u8*)plist)[0];
-
-                            if (type >= NJD_BITSOFF)
-                                break;
-
-                            ++plist;
-                        }
-
-                        if (type >= NJD_TINYOFF)
-                            break;
-
-                        ++plist;
-                    }
-
-                    if (type >= NJD_MATOFF)
-                        break;
-
-                    plist += 2;
-                }
-
-                if (type >= NJD_VERTOFF)
-                    break;
-
-                plist += 2;
-
-                switch (type) {
-                case NJD_CM_D:
-                    if (!idxMat)
-                    {
-                    SET_COLOR:
-
-                        uint8_t* col = (u8*)plist;
-
-                        if (a != -1)
-                            col[3] = (u8)a;
-                        if (r != -1)
-                            col[2] = (u8)r;
-                        if (g != -1)
-                            col[1] = (u8)g;
-                        if (b != -1)
-                            col[0] = (u8)b;
-
-                        return;
-                    }
-
-                    --idxMat;
-
-                case NJD_CM_A:
-                case NJD_CM_S:
-                    plist += 2;
-                    break;
-                case NJD_CM_DA:
-                case NJD_CM_DS:
-                    if (!idxMat)
-                        goto SET_COLOR;
-
-                    --idxMat;
-
-                case NJD_CM_AS:
-                    plist += 4;
-                    break;
-                case NJD_CM_DAS:
-                    if (!idxMat)
-                        goto SET_COLOR;
-
-                    --idxMat;
-
-                    plist += 6;
-                    break;
-                }
-            }
-
-            if (type >= NJD_STRIPOFF)
-                break;
-        }
+        type = ((u8*)plist)[0];
 
         if (type == NJD_ENDOFF)
+        {
+            /** NJD_ENDOFF **/
             break;
+        }
 
-        plist += ((u16*)plist)[1] + 2;
+        if (type == NJD_NULLOFF)
+        {
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type < NJD_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type < NJD_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            switch (type) {
+            case NJD_CM_D:
+
+                if (idxMat < 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                }
+                else if (idxMat-- == 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                    return;
+                }
+
+                break;
+
+            case NJD_CM_DA:
+            case NJD_CM_DS:
+
+                if (idxMat < 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                }
+                else if (idxMat-- == 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                    return;
+                }
+
+                break;
+
+            case NJD_CM_DAS:
+
+                if (idxMat < 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                }
+                else if (idxMat-- == 0)
+                {
+                    SetDiffuse(plist, a, r, g, b);
+                    return;
+                }
+
+                break;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type < NJD_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
     }
-
-    RF_DebugFuncError("'idxStrip' param is out of range!");
 }
 
 void
