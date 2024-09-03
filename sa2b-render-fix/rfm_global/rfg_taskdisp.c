@@ -314,6 +314,11 @@ TaskDisplayAll(void)
         no_draw = byte_0174AFFD == 3;
     }
 
+    /** Some tasks don't reset the constant material. This is normally handled in
+        the task 'disp_shad' exec function, but since that doesn't run anymore we
+        need to handle it ourselves. This was likely a thing on DC too **/
+    ResetConstantMaterial();
+
     /** Draw Displayer **/
     {
         gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
