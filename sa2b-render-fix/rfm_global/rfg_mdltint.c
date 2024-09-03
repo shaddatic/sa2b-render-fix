@@ -95,6 +95,7 @@ static int ChunkObjectList[] =
     0x0101DAEC, // Big Bogy
 
     0x013F8320, // Boss Last 1
+    0x017048DC, // Boss Last 2
 
     0x00BF627C, // Iron Gate sirens
 };
@@ -137,6 +138,9 @@ static int ChunkModelList[] =
     0x00B18ECC, // Bunchin (Under)
     0x00B18E0C, // Bunchin (Rims)
     0x00B18094, // Bunchin (Handle)
+
+    0x01704DCC, // Boss Last 2 (Cannon Inner)
+    0x01705964, // Boss Last 2 (Cannon Outer)
 };
 
 /*
