@@ -144,6 +144,7 @@ void    njSetYCoefficientEx(Float fFilterRate, Float fBrightness);
 /************************/
 /*  View                */
 /************************/
+void    njSetScreen( const NJS_SCREEN *s );
 void    njSetScreenDist(Float dist);
 void    njSetPerspective(Angle ang);
 void    njSetScreenCenter(Float x, Float y);
