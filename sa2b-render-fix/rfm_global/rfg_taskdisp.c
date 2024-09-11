@@ -296,6 +296,32 @@ TaskDisplayShadAllTasks(void)
     }
 }
 
+#define GX_SetViewport          FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
+#define GX_SetScreenRect        FUNC_PTR(void, __cdecl, (float, float, float, float)              , 0x00420390)
+
+static void
+SetBaseScreenKeepRect(void)
+{
+    const NJS_SCREEN scrn =
+    {
+        .dist = _nj_screen_.dist,
+        .cx   = 320.f,
+        .cy   = 240.f,
+        .w    = 640.f,
+        .h    = 480.f,
+    };
+
+    njSetScreen(&scrn);
+
+    const f32 a1 = scrn.cx - (scrn.w * 0.5f);
+    const f32 a2 = scrn.cy - (scrn.h * 0.5f);
+    
+    GX_SetViewport(a1, a2, scrn.w, scrn.h, 0.f, 1.f);
+//  GX_SetScreenRect(a1, a2, scrn.w, scrn.h);
+
+    gjSetPerspective((scrn.w/scrn.h), 1.f, 100000.f);
+}
+
 static void
 TaskDisplayAll(void)
 {
@@ -406,10 +432,10 @@ TaskDisplayAll(void)
         {
             DisplayGameHUD();
         }
-        else if (cameraNumber == 0)
+        else
         {
             BackupScreenInfo();
-            SetBaseScreenInfo();
+            SetBaseScreenKeepRect();
             DisplayGameHUD();
             RestoreScreenInfo();
         }
