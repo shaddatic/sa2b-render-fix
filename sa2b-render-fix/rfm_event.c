@@ -157,7 +157,7 @@ DrawRight43Bar(NJS_POLYGON_VTX* poly, f32 scrnshft)
 
     njDrawPolygon(poly, 4, false);
 }
-#pragma optimize("", off)
+#pragma optimize("", on)
 
 static void
 Draw43Bars(void)
