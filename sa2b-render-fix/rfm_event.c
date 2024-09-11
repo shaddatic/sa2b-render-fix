@@ -24,83 +24,6 @@
 #include <rfm_event.h>
 #include <rfm_event/ev_internal.h>
 
-const int EventAnimateTexture_p = 0x006021A0;
-void
-EventAnimateTexture(EventTexAnimSub1* a1, int a2, int a3)
-{
-    __asm
-    {
-        push[a3]
-        mov edi, [a2]
-        mov edx, [a1]
-        call EventAnimateTexture_p
-        add esp, 4
-    }
-}
-
-const int EndiswapEventTexAnim1_p = 0x005FE8A0;
-void
-EndiswapEventTexAnim1(EventTexAnimSub1* a1)
-{
-    __asm
-    {
-        mov eax, [a1]
-        call EndiswapEventTexAnim1_p
-    }
-}
-
-const int EndiswapEventTexAnim0_p = 0x005FE670;
-void
-EndiswapEventTexAnim0(EventTexAnimSub0* a1)
-{
-    __asm
-    {
-        mov eax, [a1]
-        call EndiswapEventTexAnim0_p
-    }
-}
-
-static void
-EndiswapEventTexAnim(EventTexAnim* p)
-{
-    EndianSwap(&p->count);
-
-    EndianSwap(&p->somethingelse);
-
-    if (p->somethingelse)
-        *(int32_t*)&p->somethingelse -= 2132869184; // idky I'm doing this
-
-    EndianSwap(&p->something);
-
-    if (p->something)
-        *(int32_t*)&p->something -= 2132869184;
-
-    for (EventTexAnimSub1* ptexanim = p->somethingelse; ptexanim->entries; ++ptexanim)
-    {
-        if (p->somethingelse)
-            EndiswapEventTexAnim1(ptexanim);
-    }
-
-    for (int i = 0; i < p->count; ++i)
-    {
-        if (p->something)
-            EndiswapEventTexAnim0(&p->something[i]);
-    }
-}
-
-__declspec(naked)
-static void
-__EndiswapEventTexAnim(void)
-{
-    __asm
-    {
-        push ebx
-        call EndiswapEventTexAnim
-        pop ebx
-        retn
-    }
-}
-
 #define NB_EVENT_LAYER      (5)
 #define EVENT_BASE_SCENE    (0)
 
@@ -332,10 +255,7 @@ EventEntrySetLight(Uint32 flag)
 void
 RFM_EventInit(void)
 {
-    if (RF_ConfigGetInt(CNF_EVENT_TEXANIM))
-    {
-        WriteCall(0x005FEFF7, __EndiswapEventTexAnim);
-    }
+    EV_ByteSwapInit();
 
     if (RF_ConfigGetInt(CNF_EVENT_DISPREPLCE))
     {
@@ -350,7 +270,4 @@ RFM_EventInit(void)
     {
         EV_ModifierInit();
     }
-
-    //WriteJump(0x005FA4D0, EventEntrySetLight);
-    //WriteData(0x005FA404, 4, uint8_t);
 }

@@ -15,7 +15,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-void    EV_ModifierInit();
+void    EV_ModifierInit(void);
+
+void    EV_ByteSwapInit(void);
 
 EXTERN_END
 
