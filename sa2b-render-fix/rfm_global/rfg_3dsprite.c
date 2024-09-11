@@ -17,7 +17,7 @@
 #include <rf_magic.h>
 
 static void
-FixNinjaDrawSomething(float* pri, GJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
+FixNinjaDrawSomething(float* pri, NJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
 {
     C_MTXMultVec(m, ps, pd, false);
 
