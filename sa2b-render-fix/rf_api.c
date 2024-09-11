@@ -32,7 +32,7 @@ RFAPI_CORE rfapi_core =
 {
     .version = CORE_API_VER,
 
-    .rf_version = { 1,3,2,2 },
+    .rf_version = { 1,3,2,3 },
 };
 
 typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const char*, const HelperFunctions*);
