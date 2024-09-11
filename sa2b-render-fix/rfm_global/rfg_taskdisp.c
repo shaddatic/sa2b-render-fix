@@ -280,6 +280,8 @@ TaskDisplayShadAllTasks(void)
         BackupScreenInfo();
         TaskDisplayShadows();
         RestoreScreenInfo();
+
+        SetLighting(DefaultPlayerLight); // Reset lighting
     }
     else
     {
@@ -323,8 +325,6 @@ TaskDisplayAll(void)
         TaskDisplayDisplayer(btp[0]);
 
         TaskDisplayShadAllTasks();
-
-        SetLighting(DefaultPlayerLight); // Reset lighting
 
         gjSetRenderMode(GJD_DRAW_SOLID);
         TaskDisplayDisplayer(btp[1]);
