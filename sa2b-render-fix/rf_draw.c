@@ -34,31 +34,31 @@
 /*  Source              */
 /************************/
 int 
-njCnkNullDrawModel(NJS_CNK_MODEL* model)
+njCnkNullDrawModel(const NJS_CNK_MODEL* model)
 {
     return 0;
 }
 
 void
-njCnkNullDrawObject(NJS_CNK_OBJECT* object)
+njCnkNullDrawObject(const NJS_CNK_OBJECT* object)
 {
     njCnkTransformObject(object, njCnkNullDrawModel);
 }
 
 void
-njCnkAnimateMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, float frame)
+njCnkAnimateMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
 {
     njDrawMotion(object, motion, frame, njCnkNullDrawModel);
 }
 
 void
-njCnkAnimateMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame)
+njCnkAnimateMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame)
 {
     njDrawMotionLink(object, motion_link, frame, njCnkNullDrawModel);
 }
 
 void
-AnimateMotion(ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl)
+AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
 {
     if (pMtnCtrl->flag & 0x02)
     {
@@ -79,7 +79,7 @@ AnimateMotion(ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl)
 }
 
 int32_t
-njCnkModDrawModel(NJS_CNK_MODEL* model)
+njCnkModDrawModel(const NJS_CNK_MODEL* model)
 {
     if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
         if (model->r > 0 && njCnkModelClip(model))
@@ -129,25 +129,25 @@ njCnkModDrawModel(NJS_CNK_MODEL* model)
 }
 
 void
-njCnkModDrawObject(NJS_CNK_OBJECT* object)
+njCnkModDrawObject(const NJS_CNK_OBJECT* object)
 {
     njCnkTransformObject(object, njCnkModDrawModel);
 }
 
 void
-njCnkModDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, float frame)
+njCnkModDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
 {
     njDrawMotion(object, motion, frame, njCnkModDrawModel);
 }
 
 void
-njCnkModDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame)
+njCnkModDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame)
 {
     njDrawMotionLink(object, motion_link, frame, njCnkModDrawModel);
 }
 
 void
-rjDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans)
+rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 {
     TexExCount = count;
     njDrawTextureEx(polygon, 4, trans);
@@ -155,7 +155,7 @@ rjDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 }
 
 void
-rjDrawPolygon2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
+rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 {
     Poly2DN = n;
     njDrawPolygon2D(p, 4, pri, attr);

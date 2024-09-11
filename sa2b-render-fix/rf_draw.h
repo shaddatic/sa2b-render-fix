@@ -42,8 +42,8 @@ void    RF_DrawInit(void);
 *     - model   : Pointer to a Chunk model
 *     - object  : Pointer to a Chunk object
 */
-int     njCnkNullDrawModel(  NJS_CNK_MODEL*  model  );
-void    njCnkNullDrawObject( NJS_CNK_OBJECT* object );
+int     njCnkNullDrawModel(  const NJS_CNK_MODEL*  model  );
+void    njCnkNullDrawObject( const NJS_CNK_OBJECT* object );
 /*
 *   Goes through the steps of animating, such as matrix calculations & calling
 *   motion callbacks, without actually drawing anything.
@@ -54,8 +54,8 @@ void    njCnkNullDrawObject( NJS_CNK_OBJECT* object );
 *     - motion_link : Pointer to a Ninja Motion Link
 *     - frame       : Frame of the motion to draw
 */
-void    njCnkAnimateMotion(     NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
-void    njCnkAnimateMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
+void    njCnkAnimateMotion(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
+void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
 /*
 *   Null Draw SA2 motion control.
 *
@@ -63,7 +63,7 @@ void    njCnkAnimateMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_
 *     - pObject  : a Ninja object of any type
 *     - pMtnCtrl : a motion control pointer
 */
-void    AnimateMotion( ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl );
+void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
 
 /****** Modifier Volume *************************************************************/
 /*
@@ -74,8 +74,8 @@ void    AnimateMotion( ANY_OBJECT* pObject, MOTION_CTRL* pMtnCtrl );
 *     - model   : Pointer to a Chunk modifier volume model
 *     - object  : Pointer to a Chunk modifier volume object
 */
-int32_t njCnkModDrawModel(  NJS_CNK_MODEL*  model  );
-void    njCnkModDrawObject( NJS_CNK_OBJECT* object );
+int32_t njCnkModDrawModel(  const NJS_CNK_MODEL*  model  );
+void    njCnkModDrawObject( const NJS_CNK_OBJECT* object );
 /*
 *   Draw modifier volume motions. Should only be called inside a Tasks'
 *   'disp_shad' (offset 0x2C) displayer function.
@@ -86,8 +86,8 @@ void    njCnkModDrawObject( NJS_CNK_OBJECT* object );
 *     - motion_link : Pointer to a Ninja Motion Link
 *     - frame       : Frame of the motion to draw
 */
-void    njCnkModDrawMotion(     NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
-void    njCnkModDrawMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
+void    njCnkModDrawMotion(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
+void    njCnkModDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
 
 /****** Generic Shadows *************************************************************/
 /*
@@ -105,7 +105,7 @@ void    AL_ShadowDraw(   void );
 *     - count   : NJS_TEXTURE_VTX entry count
 *     - trans   : is transparent
 */
-void    rjDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
+void    rjDrawTextureEx( const NJS_TEXTURE_VTX* polygon, Int count, Int trans );
 /*
 *   Draw a multi-vertex, 2D polygon.
 *
@@ -118,7 +118,7 @@ void    rjDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
 *     - pri     : draw priority (-1<->-65535)
 *     - attr    : draw attributes
 */
-void    rjDrawPolygon2D(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
+void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
 /****** Draw Line *******************************************************************/
 /*

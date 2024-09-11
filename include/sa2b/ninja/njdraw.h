@@ -104,9 +104,9 @@ typedef struct {
 /************************/
 /*  Draw                */
 /************************/
-void    njDrawPolygon(NJS_POLYGON_VTX* polygon, Int count, Int trans);
-void    njDrawTexture(NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag);
-void    njDrawTextureEx(NJS_TEXTURE_VTX* polygon, Int count, Int trans); /* Ignores 'count' argument, always 4 */
+void    njDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans);
+void    njDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag);
+void    njDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans); /* Ignores 'count' argument, always 4 */
 void    njDrawTextureHEx(NJS_TEXTUREH_VTX* polygon, Int count, Int trans);
 
 void    njDrawPolygon2DExStart(Int trans);
@@ -121,9 +121,9 @@ void    njDrawTexture2DHExStart(Int trans);
 void    njDrawTexture2DHExSetData(NJS_TEXTUREH_VTX* p, Int count);
 void    njDrawTexture2DHExEnd(void);
 
-void    njDrawPolygon3DEx(NJS_POLYGON_VTX* p, Int count, Int trans);
+void    njDrawPolygon3DEx(const NJS_POLYGON_VTX* p, Int count, Int trans);
 void    njDrawPolygon3DExStart(Int trans);
-void    njDrawPolygon3DExSetData(NJS_POLYGON_VTX* p, Int count);
+void    njDrawPolygon3DExSetData(const NJS_POLYGON_VTX* p, Int count);
 void    njDrawPolygon3DExEnd(void);
 
 void    njDrawTexture3DEx(NJS_TEXTURE_VTX* p, Int count, Int trans);
@@ -165,16 +165,16 @@ void    njDrawLine2DExSetList(NJS_POINT2* vtx, Float ooz, Sint32 Count);
 *     - pri     : Draw priority, between -1.f & -65535.f
 *     - attr    : Draw attributes
 */
-void    njDrawPoint2D(    NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
-void    njDrawLine2D(     NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
-void    njDrawTriangle2D( NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
-void    njDrawPolygon2D(  NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr ); /* Ignores 'n' argument, always uses 4 */
-void    njDrawCircle2D(   NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawPoint2D(    const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawLine2D(     const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawTriangle2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+void    njDrawPolygon2D(  const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr ); /* Ignores 'n' argument, always uses 4 */
+void    njDrawCircle2D(   const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
 /************************/
 /*  Sprite              */
 /************************/
-void    njDrawSprite2D( NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
-void    njDrawSprite3D( NJS_SPRITE* sp, Int n,            Uint32 attr );
+void    njDrawSprite2D( const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
+void    njDrawSprite3D( const NJS_SPRITE* sp, Int n,            Uint32 attr );
 
 #endif

@@ -504,21 +504,21 @@ void    njSetDepthQueue( Float dnear, Float dfar );   // MIA
 /*
     Internals
 */
-Bool    njCnkModelClip( NJS_CNK_MODEL* model );
-void    njCnkTransformObject( NJS_CNK_OBJECT* object, int(__cdecl* callback)(NJS_CNK_MODEL*) );
+Bool    njCnkModelClip( const NJS_CNK_MODEL* model );
+void    njCnkTransformObject( const NJS_CNK_OBJECT* object, int(__cdecl* callback)(const NJS_CNK_MODEL*) );
 
 /*
     Internal Draw
 */
-Sint32  _njCnkDrawModel( NJS_CNK_MODEL* model );
+Sint32  _njCnkDrawModel( const NJS_CNK_MODEL* model );
 
 /*
     Draw
 */
-Sint32  njCnkDrawModel( NJS_CNK_MODEL* model );
-void    njCnkDrawObject( NJS_CNK_OBJECT* object );
+Sint32  njCnkDrawModel( const NJS_CNK_MODEL* model );
+void    njCnkDrawObject( const NJS_CNK_OBJECT* object );
 
-void    njCnkDrawModel_Broken( NJS_CNK_MODEL* model );
+void    njCnkDrawModel_Broken( const NJS_CNK_MODEL* model );
 
 /*
     Blending mode
