@@ -290,8 +290,8 @@ typedef struct
     *     - model   : Pointer to a Chunk model
     *     - object  : Pointer to a Chunk object
     */
-    int32_t(__cdecl* CnkNullDrawModel)(  NJS_CNK_MODEL*  model  );
-    void   (__cdecl* CnkNullDrawObject)( NJS_CNK_OBJECT* object );
+    int32_t(__cdecl* CnkNullDrawModel)(  const NJS_CNK_MODEL*  model  );
+    void   (__cdecl* CnkNullDrawObject)( const NJS_CNK_OBJECT* object );
 
     /**** Animate Motion (Null Draw) ****/
     /*
@@ -305,8 +305,8 @@ typedef struct
     *     - motion_link : Pointer to a Ninja Motion Link
     *     - frame       : Frame of the motion to draw
     */
-    void   (__cdecl* CnkAnimateMotion)(     NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
-    void   (__cdecl* CnkAnimateMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
+    void   (__cdecl* CnkAnimateMotion)(     const NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
+    void   (__cdecl* CnkAnimateMotionLink)( const NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
 
     /**** Modifier Draw ****/
     /*
@@ -317,8 +317,8 @@ typedef struct
     *     - model   : Pointer to a Chunk modifier volume model
     *     - object  : Pointer to a Chunk modifier volume object
     */
-    int32_t(__cdecl* CnkModDrawModel)(  NJS_CNK_MODEL*  model  );
-    void   (__cdecl* CnkModDrawObject)( NJS_CNK_OBJECT* object );
+    int32_t(__cdecl* CnkModDrawModel)(  const NJS_CNK_MODEL*  model  );
+    void   (__cdecl* CnkModDrawObject)( const NJS_CNK_OBJECT* object );
 
     /**** Modifier Draw Motion ****/
     /*
@@ -331,8 +331,8 @@ typedef struct
     *     - motion_link : Pointer to a Ninja Motion Link
     *     - frame       : Frame of the motion to draw
     */
-    void   (__cdecl* CnkModDrawMotion)(     NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
-    void   (__cdecl* CnkModDrawMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
+    void   (__cdecl* CnkModDrawMotion)(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
+    void   (__cdecl* CnkModDrawMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
 
     /**** Modifier Common Draw ****/
     /*
@@ -351,7 +351,7 @@ typedef struct
     *     - count   : number of entries in 'polygon'
     *     - trans   : is transparent
     */
-    void(__cdecl* DrawTextureEx)(NJS_TEXTURE_VTX* polygon, Int count, Int trans);
+    void(__cdecl* DrawTextureEx)(const NJS_TEXTURE_VTX* polygon, Int count, Int trans);
     /*
     *   Draw a multi-vertex, 2D polygon with 'n'.
     *
@@ -364,7 +364,7 @@ typedef struct
     *     - pri     : draw priority (-1<->-65535)
     *     - attr    : draw attributes
     */
-    void(__cdecl* DrawPolygon2D)(NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
+    void(__cdecl* DrawPolygon2D)(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
 
     /****** Version >= 2 ************************************************************/
     /*
