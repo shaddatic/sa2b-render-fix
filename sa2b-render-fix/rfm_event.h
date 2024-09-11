@@ -15,7 +15,7 @@
 /************************/
 EXTERN_START
 /** Initialize **/
-void    RFM_EventInit();
+void    RFM_EventInit(void);
 
 EXTERN_END
 
