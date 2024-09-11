@@ -24,6 +24,7 @@
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_pr_siren.c" />
     <ClCompile Include="rfm_common\rfc_transparancy.c" />
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c" />
+    <ClCompile Include="rfm_event\ev_byteswap.c" />
     <ClCompile Include="rfm_global\rfg_bfacecull.c" />
     <ClCompile Include="rfm_b_bigbogy.c" />
     <ClCompile Include="rfm_common\rfc_chaos0tex.c" />
@@ -73,7 +74,6 @@
     <ClCompile Include="rf_api\rfapi_font.c" />
     <ClCompile Include="rf_api\rfapi_renderstate.c" />
     <ClCompile Include="rf_api\rfapi_shader.c" />
-    <ClCompile Include="rf_draw\rfd_anymdl.c" />
     <ClCompile Include="rf_draw\rfd_line.c" />
     <ClCompile Include="rf_font.c" />
     <ClCompile Include="rf_light.c" />

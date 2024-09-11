@@ -273,9 +273,6 @@
     <ClCompile Include="rf_draw\rfd_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_anymdl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -283,6 +280,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_renderstate\rfrs_transmode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_byteswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
