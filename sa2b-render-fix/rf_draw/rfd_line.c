@@ -88,7 +88,7 @@ LineDraw(const NJS_POINT2* const pPtN, const NJS_POINT2* const pPtF, const f32 o
     /** calc poly list **/
     for (int i = 0; i < LINE_PTS_NUM; ++i)
     {
-        NJS_POINT3 calc_d = { .x = poly[i].x * mag, .y = poly[i].y     };
+        NJS_POINT3 calc_d = { .x = poly[i].x * mag, .y = poly[i].y };
 
         njCalcPoint(&m, &calc_d, &calc_d);
 
