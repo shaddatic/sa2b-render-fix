@@ -65,12 +65,20 @@ EventSceneData;
 
 typedef struct
 {
+    int count;
+    int AlphaValues[32];
+    NJS_VECTOR* ReflectionVtxs;
+}
+EV_REFLECT_DATA;
+
+typedef struct
+{
     EventSceneData* scenes;
     NJS_TEXLIST* texlist;
     int nbScene;
     Sint16* SpriteSizes;
-    void* reflections;
-    NJS_CNK_OBJECT* BlurModels;
+    EV_REFLECT_DATA* reflections;
+    NJS_CNK_OBJECT* BlareObjects;
     NJS_CNK_OBJECT* MechParts;
     NJS_CNK_OBJECT* MilesTails;
     void* UpgradeData;
