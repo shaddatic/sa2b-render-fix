@@ -56,7 +56,7 @@ typedef struct {
  * NJS_OBJECT
  */
 typedef struct obj {
-    uint32_t        evalflags;  /* evalation flags              */
+    Uint32          evalflags;  /* evalation flags              */
     NJS_MODEL*      model;      /* model data pointer           */
     Float           pos[3];     /* translation                  */
     Angle           ang[3];     /* rotation or im part of quat  */

@@ -21,14 +21,6 @@ RF_SwapTexFileTableIndex(TEX_PRSTABLE* pTexTable, int idx1, int idx2)
     pTexTable[idx2] = tmp;
 }
 
-static void
-GetMatrixCol(NJS_VECTOR* pVec, size_t nbCol)
-{
-    pVec->x = (*_gj_matrix_)[0 + nbCol];
-    pVec->y = (*_gj_matrix_)[4 + nbCol];
-    pVec->z = (*_gj_matrix_)[8 + nbCol];
-}
-
 void
 RFU_LerpPoints(NJS_POINT3* pOutPt, const NJS_POINT3* pPt1, const NJS_POINT3* pPt2, f32 ratioPt1)
 {
@@ -59,23 +51,20 @@ RFU_ProjectScreen(const NJS_POINT3* const pInPos, NJS_POINT2* const pOutPos)
 }
 
 bool
-CalculateMatrixInverted(void)
+RFU_CalcInvertedMatrix(const NJS_MATRIX* m)
 {
-    NJS_VECTOR x1, y1, z1;
+    if (!m)
+        m = _nj_curr_matrix_;
 
-    GetMatrixCol(&x1, 0);
-    GetMatrixCol(&y1, 1);
-    GetMatrixCol(&z1, 2);
+    NJS_VECTOR x1 = { m->m[0][0], m->m[1][0], m->m[2][0] };
+    NJS_VECTOR y1 = { m->m[0][1], m->m[1][1], m->m[2][1] };
+    NJS_VECTOR z1 = { m->m[0][2], m->m[1][2], m->m[2][2] };
 
     NJS_VECTOR cz; // cx, cy, cz; // Calculated
 
-    njOuterProduct(&x1, &y1, &cz);
-//  njOuterProduct(&z1, &x1, &cy);
-//  njOuterProduct(&y1, &z1, &cx);
+    njOuterProduct2(&x1, &y1, &cz);
 
     const f32 sz1 = njInnerProduct(&cz, &z1);
-//  const f32 sy1 = njInnerProduct(&cy, &y1);
-//  const f32 sx1 = njInnerProduct(&cx, &x1);
 
     return (sz1 < 0.0f);
 }

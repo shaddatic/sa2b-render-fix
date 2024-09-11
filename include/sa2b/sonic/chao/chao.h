@@ -24,7 +24,7 @@
 #include <sa2b/sonic/motion.h>
 
 /** Task Work **/
-#include <sa2b/sonic/task/taskwk.h>
+#include <sa2b/sonic/task.h>
 
 /** Colli Info **/
 #include <sa2b/sonic/c_colli/ccl_info.h>

@@ -21,7 +21,7 @@
 /*  Includes            */
 /************************/
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/njcommon.h>
+#include <sa2b/ninja/njmatrix.h>
 
 /****** Magic ***********************************************************************/
 #include <sa2b/magic/rendercore.h>
@@ -33,12 +33,12 @@
 
 typedef struct D3DVIEWPORT9
 {
-    uint32_t  X;
-    uint32_t  Y;
-    uint32_t  Width;
-    uint32_t  Height;
-    f32       MinZ;
-    f32       MaxZ;
+    u32 X;
+    u32 Y;
+    u32 Width;
+    u32 Height;
+    f32 MinZ;
+    f32 MaxZ;
 }
 D3DVIEWPORT9;
 

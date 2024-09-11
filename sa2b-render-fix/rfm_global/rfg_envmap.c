@@ -12,9 +12,9 @@
 #include <rf_core.h>
 
 static void
-FlipEnv2(GJS_MATRIX* mat0, GJS_MATRIX* mat1, GJS_MATRIX* mat2)
+FlipEnv2(NJS_MATRIX* mat0, NJS_MATRIX* mat1, NJS_MATRIX* mat2)
 {
-    (*mat0)[0] = 0.5f;
+    mat0->m[0][0] = 0.5f;
 
     C_MTXConcat(mat0, mat1, mat2);
 }

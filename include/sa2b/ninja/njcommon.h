@@ -55,11 +55,8 @@
 /*--------------------------------------*/
 typedef Sint32  Angle;
 typedef Sint16  Sangle;
-typedef Float   GJS_MATRIX[12];
 typedef Sint8   NJS_SYS_ATTR[64];
 typedef void  (*NJS_INT_FUNC)(void);
-
-typedef GJS_MATRIX NJS_MATRIX;
 
 typedef struct
 {

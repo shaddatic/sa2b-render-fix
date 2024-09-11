@@ -17,6 +17,7 @@
 #include <sa2b/writeop.h>
 
 #include <sa2b/ninja/njcommon.h>
+#include <sa2b/ninja/njmatrix.h>
 
 /************************/
 /*  Abstract Types      */
@@ -63,6 +64,14 @@ void    RFU_CalculateScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
 *     - pOutPos  : return pointer for screenspace 2D point
 */
 void    RFU_ProjectScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
+/*
+*   Description:
+*     Calculate if a matrix has inverted scaling
+*
+*   Parameters:
+*     - m       : matrix to calcluate, or '_nj_curr_matrix_' if 'NULL'
+*/
+bool    RFU_CalcInvertedMatrix( const NJS_MATRIX* m );
 
 EXTERN_END
 

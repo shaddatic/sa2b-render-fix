@@ -23,7 +23,7 @@ EXTERN_START
 
 #include <sa2b/ninja/njmatrix.h>
 #include <sa2b/ninja/njcamera.h>
-#include <sa2b/ninja/njLight.h>
+#include <sa2b/ninja/njlight.h>
 #include <sa2b/ninja/njmotion.h>
 #include <sa2b/ninja/njtexture.h>
 #include <sa2b/ninja/njdraw.h>

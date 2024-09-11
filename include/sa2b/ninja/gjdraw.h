@@ -41,24 +41,24 @@ EXTERN_START
 void    gjSetRenderMode( Sint32 mode );
 
 /****** Transform *******************************************************************/
-void    gjTransformObject( GJS_OBJECT* object, int(__cdecl* callback)(GJS_MODEL*) );
+void    gjTransformObject( const GJS_OBJECT* object, int(__cdecl* callback)(const GJS_MODEL*) );
 
 /****** Model ***********************************************************************/
 /** Begin Draw Ginja Models **/
 void    gjBeginDrawModel( void );
 
 /** Draw model **/
-void    gjDrawModel( GJS_MODEL* model );
+void    gjDrawModel( const GJS_MODEL* model );
 
 /****** Motion **********************************************************************/
-#define _gj_motion_callback_        (*(void(__cdecl**)(GJS_OBJECT*))0x01D19C48)
+#define _gj_motion_callback_        (*(void(__cdecl**)(const GJS_OBJECT*))0x01D19C48)
 
 /** Set Ginja motion callback **/
-void    gjSetMotionCallback( void (*func)(GJS_OBJECT* gjsobj) );
+void    gjSetMotionCallback( void (*func)(const GJS_OBJECT* gjsobj) );
 
 /** Draw Ginja Motion **/
-void    gjDrawMotion(     GJS_OBJECT* object, NJS_MOTION*      motion,     Float frame );
-void    gjDrawMotionLink( GJS_OBJECT* object, NJS_MOTION_LINK* motionlink, Float frame );
+void    gjDrawMotion(     const GJS_OBJECT* object, const NJS_MOTION*      motion,     Float frame );
+void    gjDrawMotionLink( const GJS_OBJECT* object, const NJS_MOTION_LINK* motionlink, Float frame );
 
 /****** Ginja Chunk *****************************************************************/
 /** Begin draw chunk models **/
@@ -69,10 +69,10 @@ void    gjBeginDrawCnkModel( void );
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define gjTransformObject_p         FUNC_PTR(void, __cdecl, (GJS_OBJECT*, int(__cdecl*)(GJS_MODEL*)), 0x0042DC20)
-#   define gjBeginDrawCnkModel_p       FUNC_PTR(void, __cdecl, (void)                                  , 0x0042D340)
-#   define gjBeginDrawModel_p          FUNC_PTR(void, __cdecl, (void)                                  , 0x0042BFF0)
-#   define gjDrawObject_p              FUNC_PTR(void, __cdecl, (GJS_OBJECT*)                           , 0x0042B530)
+#   define gjTransformObject_p         FUNC_PTR(void, __cdecl, (const GJS_OBJECT*, int(__cdecl*)(const GJS_MODEL*)), 0x0042DC20)
+#   define gjBeginDrawCnkModel_p       FUNC_PTR(void, __cdecl, (void)                                              , 0x0042D340)
+#   define gjBeginDrawModel_p          FUNC_PTR(void, __cdecl, (void)                                              , 0x0042BFF0)
+#   define gjDrawObject_p              FUNC_PTR(void, __cdecl, (const GJS_OBJECT*)                                 , 0x0042B530)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -52,7 +52,7 @@ typedef struct
     Uint32          attr;       /* vertex attribute                                 */
     union {
         void*       vp;         /* void pointer                                     */
-        GJS_MATRIX* matrix;     /* vertex matrix list                               */
+        NJS_MATRIX* matrix;     /* vertex matrix list                               */
         NJS_POINT3* points;     /* vertex point list                                */
         NJS_VECTOR* normals;    /* vertex normal list                               */
         NJS_COLOR*  vertcolor;  /* vertex color list                                */

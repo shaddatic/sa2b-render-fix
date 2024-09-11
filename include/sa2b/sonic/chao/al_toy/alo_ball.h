@@ -18,6 +18,7 @@
 /*  Includes            */
 /************************/
 #include <sa2b/ninja/njcommon.h>
+#include <sa2b/ninja/njmatrix.h>
 
 /************************/
 /*  Abstract Types      */

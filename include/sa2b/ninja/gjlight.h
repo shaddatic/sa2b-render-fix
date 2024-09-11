@@ -33,17 +33,17 @@
 /************************/
 EXTERN_START
 /** Enable/disable different lights **/
-void    gjSetLightSwitch(Int light_idx, Bool light_on);
+void    gjSetLightSwitch(Int light, Bool flag);
 
 /** Set global ambient light color **/
-void    gjSetAmbient(Float b, Float g, Float r);
+void    gjSetAmbient(Float ar, Float ag, Float ab);
 
 /** Set specific light attribute **/
-void    gjSetLightColor(Int light_idx, Float r, Float g, Float b);
-void    gjSetLightVector(Int light_idx, Float x, Float y, Float z);
+void    gjSetLightColor(Int light, Float r, Float g, Float b);
+void    gjSetLightVector(Int light, Float vx, Float vy, Float vz);
 
 /** Update light **/
-void    gjLoadLight(Int light_idx);
+void    gjLoadLight(Int light);
 
 EXTERN_END
 

@@ -1,16 +1,28 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/ninja/njchunk.h'
 *
-*   Contains structs and functions for the Ninja Chunk model
+*   Description:
+*     Contains structs and functions for the Ninja Chunk model
 *
 *   Contributors:
-*     - SEGA,
+*     - SEGA
 *     - Shaddatic
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _NINJA_CHUNK_H_
-#define _NINJA_CHUNK_H_
+#ifndef H_NJ_CHUNK
+#define H_NJ_CHUNK
+
+/************************/
+/*  External Headers    */
+/************************/
+/****** System **********************************************************************/
+#include <sa2b/shinobi/sg_xpt.h> /* shinobi types                                   */
+
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
+
+EXTERN_START
 
 /*======================================*/
 /*                                      */
@@ -99,9 +111,9 @@
 
 /* Bump */
 #define NJD_CM_BU   (NJD_MATOFF+8)  /* [CHead][12(Size)][dx(16)][dy(16)][dz(16)]
-                                       [ux(16)][uy(16)][uz(16)]            */
+[ux(16)][uy(16)][uz(16)]            */
 
-                                       /* 2para modifier */
+/* 2para modifier */
 #define NJD_CM_D2   (NJD_MATOFF+9)  /* [CHead][4(Size)][ARGB]              */
 #define NJD_CM_A2   (NJD_MATOFF+10) /* [CHead][4(Size)][NRGB] N: NOOP(255) */
 #define NJD_CM_DA2  (NJD_MATOFF+11) /* [CHead][8(Size)][ARGB][NRGB]        */
@@ -525,8 +537,6 @@ void    njCnkDrawModel_Broken( const NJS_CNK_MODEL* model );
 */
 void    njSetCnkBlendMode( Uint32 attr );
 
-#endif /* _NINJA_CHUNK_H_ */
+EXTERN_END
 
-/*
- * End Of File
- */
+#endif/*H_NJ_CHUNK*/
