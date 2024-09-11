@@ -15,32 +15,40 @@
 /************************/
 #include <sa2b/ninja/njcommon.h>
 
+EXTERN_START
+
 /************************/
-/*  Enums               */
+/*  Constants           */
 /************************/
-typedef enum
-{
-    GJLIGHT_1,  /* Light 1              */
-    GJLIGHT_2,  /* Light 2              */
-    GJLIGHT_3,  /* Light 3              */
-    GJLIGHT_4,  /* Light 4              */
-    GJLIGHT_5,  /* Unimplemented        */
-}
-RFE_GJLIGHT;
+#define	NJD_CNK_MULTILIGHT_1            (1) /* light 1                              */
+#define	NJD_CNK_MULTILIGHT_2            (2) /* light 2                              */
+#define	NJD_CNK_MULTILIGHT_3            (3) /* light 3                              */
+#define	NJD_CNK_MULTILIGHT_4            (4) /* light 4                              */
+#define	NJD_CNK_MULTILIGHT_5            (5) /* unimplimented                        */
+#define	NJD_CNK_MULTILIGHT_6            (6) /* unimplimented                        */
+
+#define	NJD_CNK_MULTILIGHT_ALL          (0) /* all lights                           */
 
 /************************/
 /*  Functions           */
 /************************/
-EXTERN_START
 /** Set Ginja light to global **/
-void    RFL_SetGjGlobalLight( RFE_GJLIGHT idxLight, const NJS_VECTOR* pVec );
+void    rjCnkSetLightVectorEx( Int light, Float vx, Float vy, Float vz );
 
 /** Set light color **/
-void    RFL_SetGjLightColor( RFE_GJLIGHT idxLight, float r, float g, float b );
+void    rjCnkSetLightColor( Int light, Float r, Float g, Float b );
+
+/** Set light ambient color **/
+void    rjCnkSetAmbient( Float r, Float g, Float b );
+
+/** Set light ambient color as if 'njCnkSet___MultiAmbient' **/
+void    rjCnkSetMultiAmbient( Float r, Float g, Float b );
 
 /** Turn light on and off **/
-void    RFL_GjLightOn(  RFE_GJLIGHT idxLight );
-void    RFL_GjLightOff( RFE_GJLIGHT idxLight );
+void    rjCnkSetLightSwitch( Int light, Int flag );
+
+/** Set light vectors to reflect current matrix **/
+void    rjCnkSetLightMatrices( void );
 
 EXTERN_END
 

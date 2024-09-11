@@ -22,8 +22,8 @@
 /************************/
 typedef struct gxs_light_attr
 {
-    NJS_POINT3 pos;
     NJS_VECTOR vec;
+    NJS_POINT3 pos;
     NJS_ARGB   color;
     NJS_ARGB   attenA;
     NJS_VECTOR attenK;

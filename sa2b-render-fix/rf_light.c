@@ -15,60 +15,113 @@
 /** Self **/
 #include <rf_light.h>
 
+#define MAX_LIGHT       (4)
+
 void
-RFL_SetGjGlobalLight(RFE_GJLIGHT idxLight, const NJS_VECTOR* pVec)
+rjCnkSetLightVectorEx(Int light, Float vx, Float vy, Float vz)
 {
-    GXS_LIGHT_ATTR* const litep = _gj_lights_[idxLight].pAttr;
-
-    litep->attenA.a =  0.0f;
-    litep->attenA.r =  0.0f;
-    litep->attenA.g =  0.0f;
-    litep->attenA.b =  90.0f;
-
-    litep->attenK.x =  4.0f;
-    litep->attenK.y =  0.0f;
-    litep->attenK.z = -3.0f;
-
+    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
     {
-        NJS_VECTOR ans_vec;
+        for (int i = 0; i < MAX_LIGHT; ++i)
+        {
+            GXS_LIGHT_ATTR* const litep = _gj_lights_[i].pAttr;
 
-        C_MTXMultVecSR(_gj_matrix_, pVec, &ans_vec);
+            litep->attenA.a =  0.0f;
+            litep->attenA.r =  0.0f;
+            litep->attenA.g =  0.0f;
+            litep->attenA.b =  90.0f;
 
-        litep->pos.x = -ans_vec.x * 100000000.0f;
-        litep->pos.y = -ans_vec.y * 100000000.0f;
-        litep->pos.z = -ans_vec.z * 100000000.0f;
+            litep->attenK.x =  4.0f;
+            litep->attenK.y =  0.0f;
+            litep->attenK.z = -3.0f;
+
+            litep->vec.x = vx * -100000.0f;
+            litep->vec.y = vy * -100000.0f;
+            litep->vec.z = vz * -100000.0f;
+
+            litep->pos = (NJS_VECTOR){ 0 };
+        }
     }
+    else if (light <= MAX_LIGHT)
     {
-        NJS_VECTOR new_vec;
+        light--;
 
-        new_vec.x = pVec->x * -100000.0f;
-        new_vec.y = pVec->y * -100000.0f;
-        new_vec.z = pVec->z * -100000.0f;
+        GXS_LIGHT_ATTR* const litep = _gj_lights_[light].pAttr;
 
-        C_MTXMultVec(_gj_matrix_, &new_vec, &new_vec, false);
+        litep->attenA.a =  0.0f;
+        litep->attenA.r =  0.0f;
+        litep->attenA.g =  0.0f;
+        litep->attenA.b =  90.0f;
 
-        litep->pos = new_vec;
+        litep->attenK.x =  4.0f;
+        litep->attenK.y =  0.0f;
+        litep->attenK.z = -3.0f;
+
+        litep->vec.x = vx * -100000.0f;
+        litep->vec.y = vy * -100000.0f;
+        litep->vec.z = vz * -100000.0f;
+
+        litep->pos = (NJS_VECTOR){ 0 };
     }
-
-    litep->vec = (NJS_VECTOR){ 0 };
 }
 
 void
-RFL_SetGjLightColor(RFE_GJLIGHT idxLight, float r, float g, float b)
+rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
 {
-    gjSetLightColor(idxLight, r, g, b);
+    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
+    {
+        for (int i = 0; i < MAX_LIGHT; ++i)
+        {
+            gjSetLightColor(i, lr, lg, lb);
+        }
+    }
+    else if (light <= MAX_LIGHT)
+    {
+        light--;
+
+        gjSetLightColor(light, lr, lg, lb);
+    }
 }
 
 void
-RFL_GjLightOn(RFE_GJLIGHT idxLight)
+rjCnkSetAmbient(Float ar, Float ag, Float ab)
 {
-    gjSetLightSwitch(idxLight, true);
-    gjLoadLight(idxLight);
+    gjSetAmbient(ar, ag, ab);
 }
 
 void
-RFL_GjLightOff(RFE_GJLIGHT idxLight)
+rjCnkSetMultiAmbient(Float ar, Float ag, Float ab)
 {
-    gjSetLightSwitch(idxLight, false);
-    gjLoadLight(idxLight);
+    gjSetAmbient(ar * 0.5f, ag * 0.5f, ab * 0.5f);
+}
+
+void
+rjCnkSetLightSwitch(Int light, Int flag)
+{
+    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
+    {
+        for (int i = 0; i < MAX_LIGHT; ++i)
+        {
+            gjSetLightSwitch(i, flag);
+            gjLoadLight(i);
+        }
+    }
+    else if (light <= MAX_LIGHT)
+    {
+        light--;
+
+        gjSetLightSwitch(light, flag);
+        gjLoadLight(light);
+    }
+}
+
+void
+rjCnkSetLightMatrices(void)
+{
+    for (int i = 0; i < MAX_LIGHT; ++i)
+    {
+        GXS_LIGHT_ATTR* const litep = _gj_lights_[i].pAttr;
+
+        njCalcVector(NULL, &litep->vec, &litep->vec);
+    }
 }
