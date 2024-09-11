@@ -47,6 +47,20 @@ CHS_ObjectBurstInit(void)
 }
 
 static void
+CHS_ObjectMSMadBox(void)
+{
+    WriteRetn(0x0064FD40); // Kill disp_shad
+    KillCall( 0x0064F999); // Kill SetStencilInfo
+}
+
+static void
+CHS_ObjectMDContWood(void)
+{
+    WriteRetn(0x005C43C0); // Kill disp_shad
+    KillCall( 0x005C455E); // Kill SetStencilInfo
+}
+
+static void
 SetShadowOpacityGlobal(void)
 {
     RFMOD_SetAlpha(ShadowOpacityGlobal);
@@ -184,6 +198,8 @@ RFM_ShadowsInit(void)
         CHS_TruckInit();
         CHS_CarInit();
         CHS_ObjectBurstInit();
+        CHS_ObjectMSMadBox();
+        CHS_ObjectMDContWood();
         break;
 
     case CNFE_SHADOW_GLMD_VANILLA:
