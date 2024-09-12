@@ -267,16 +267,25 @@ TaskDisplayDispShad(TASK* btpl)
     while (tp != base_tp);
 }
 
+static bool ForceShadowMaps;
+
+void
+RFG_ForceShadowMaps(void)
+{
+    ForceShadowMaps = true;
+}
+
 static void
 TaskDisplayShadAllTasks(void)
 {
     /** Clear mod buffer for new frame **/
     RFMOD_ClearBuffer();
 
-    if (ShadowMapCount) // Delayed by 1 frame
+    if (ForceShadowMaps)// || ShadowMapCount) // Delayed by 1 frame
     {
-        /** Draw the modifiers and shadow maps,
-            can screw with screen so backup & restore too (slow) **/
+        /** Draw the modifiers and shadow maps.
+            Can screw with screen and lighting,
+            so backup & restore too (slow) **/
         BackupScreenInfo();
         TaskDisplayShadows();
         RestoreScreenInfo();

@@ -20,6 +20,9 @@
 #include <rfm_shadows.h>
 #include <rfm_shadows/shd_internal.h>
 
+/** External Functions **/
+void RFG_ForceShadowMaps( void );
+
 /** Constants **/
 #define CHEAP_SHDW_MD_NORM  (0x50)
 #define CHEAP_SHDW_MD_CHAO  (0x73)
@@ -204,6 +207,7 @@ RFM_ShadowsInit(void)
 
     case CNFE_SHADOW_GLMD_VANILLA:
         /** Vanilla shadows **/
+        RFG_ForceShadowMaps();
         break;
 
     case CNFE_SHADOW_GLMD_DISABLED:
@@ -224,14 +228,17 @@ RFM_ShadowsInit(void)
     case CNFE_SHADOW_PLMD_EQUIPMENT:
         EnhancedPlayerShadowsInit();
         EnhancedPlayerShadowsEquipmentInit();
+        RFG_ForceShadowMaps();
         break;
 
     case CNFE_SHADOW_PLMD_ENHANCED:
         EnhancedPlayerShadowsInit();
+        RFG_ForceShadowMaps();
         break;
 
     case CNFE_SHADOW_PLMD_VANILLA:
         /** Vanilla **/
+        RFG_ForceShadowMaps();
         break;
     }
 
