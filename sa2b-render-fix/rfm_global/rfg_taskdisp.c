@@ -281,7 +281,7 @@ TaskDisplayShadAllTasks(void)
     /** Clear mod buffer for new frame **/
     RFMOD_ClearBuffer();
 
-    if (ForceShadowMaps)// || ShadowMapCount) // Delayed by 1 frame
+    if (ForceShadowMaps || ShadowMapCount) // Delayed by 1 frame
     {
         /** Draw the modifiers and shadow maps.
             Can screw with screen and lighting,
