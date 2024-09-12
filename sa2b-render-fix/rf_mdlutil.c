@@ -865,7 +865,7 @@ RF_CnkObjectChangeTexID(NJS_CNK_OBJECT* pObject, Sint16 texID)
 static void
 SetDiffuse(Sint16* plist, int a, int r, int g, int b)
 {
-    uint8_t* col = (u8*)plist;
+    uint8_t* const col = (u8*)&plist[2];
 
     if (a != -1) col[3] = (u8)a;
     if (r != -1) col[2] = (u8)r;
