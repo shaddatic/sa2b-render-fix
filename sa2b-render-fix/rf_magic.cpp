@@ -64,6 +64,13 @@ RF_MagicSetPointSize(float size)
 
 EXTERN
 void
+RF_MagicSetShaderConstantMatrix(RFE_MAGIC_SHADER type, int32_t reg, const float* mtx)
+{
+    g_pRenderDevice->vft->ShaderSetConstant8(g_pRenderDevice, type, reg, (const Magic::MATH::Matrix4<float>*)mtx);
+}
+
+EXTERN
+void
 RF_MagicSetShaderConstantVec4(RFE_MAGIC_SHADER type, int32_t reg, float x, float y, float z, float w)
 {
     const Magic::MATH::Vector4<float> vec4 = {
@@ -74,4 +81,11 @@ RF_MagicSetShaderConstantVec4(RFE_MAGIC_SHADER type, int32_t reg, float x, float
     };
 
     g_pRenderDevice->vft->ShaderSetConstant9(g_pRenderDevice, type, reg, &vec4);
+}
+
+EXTERN
+void
+RF_MagicSetShaderConstantFloat(RFE_MAGIC_SHADER type, int32_t reg, f32 f, int32_t i)
+{
+    g_pRenderDevice->vft->ShaderSetConstant10(g_pRenderDevice, type, reg, &f, i);
 }
