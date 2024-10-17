@@ -137,22 +137,8 @@ RF_CnkTintFix(Sint16* pPList)
         if (type < NJD_MATOFF_MAX)
         {
             /** NJD_MATOFF **/
-
-            switch (type) {
-            case NJD_CM_D:
+            if (type & 1)
                 TintCheckAndFix(&plist[2]);
-            case NJD_CM_A:
-            case NJD_CM_S:
-                break;
-            case NJD_CM_DA:
-            case NJD_CM_DS:
-                TintCheckAndFix(&plist[2]);
-            case NJD_CM_AS:
-                break;
-            case NJD_CM_DAS:
-                TintCheckAndFix(&plist[2]);
-                break;
-            }
 
             /** Next offset **/
             plist += ((u16*)plist)[1] + 2;
