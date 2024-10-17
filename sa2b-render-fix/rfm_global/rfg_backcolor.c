@@ -150,7 +150,7 @@ __SetBackColor(void)
 }
 #pragma warning( pop )
 
-#define UnloadRELFile       FUNC_PTR(void, __cdecl, (), 0x00454CC0)
+#define UnloadRELFile       FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
 
 static hook_info HookInfoUnloadRELFile[1];
 static void
