@@ -72,7 +72,7 @@ ADX_WORK;
 /*  Data                */
 /************************/
 /****** ADX Task ********************************************************************/
-#define ADXtaskP            DATA_REF(TASK*    , 0x01A55994)
+#define ADXtaskP            DATA_REF(task*    , 0x01A55994)
 #define ADXworkP            DATA_REF(ADX_WORK*, 0x01A55998)
 
 /****** Voice Constants *************************************************************/
@@ -193,7 +193,7 @@ void    Serif_StopNum( int32_t num );
 /****** ADX *************************************************************************/
 /*
 *   Description:
-*     Begin the ADX_TaskLoop TASK
+*     Begin the ADX_TaskLoop Task
 *
 *   Returns:
 *     1 on success, 0 on error
@@ -201,7 +201,7 @@ void    Serif_StopNum( int32_t num );
 int32_t ADX_TaskInit( void );
 /*
 *   Description:
-*     Close the ADX_TaskLoop TASK
+*     Close the ADX_TaskLoop Task
 */
 void    ADX_Close( void );
 

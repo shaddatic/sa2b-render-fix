@@ -115,7 +115,7 @@ Draw43Bars(void)
 }
 
 static void
-EventDisplayerDelayHook(TASK* tp)
+EventDisplayerDelayHook(task* tp)
 {
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
@@ -161,7 +161,7 @@ EventDisplayerDelayHook(TASK* tp)
 }
 
 static void
-EventDisplayerHook(TASK* tp)
+EventDisplayerHook(task* tp)
 {
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;

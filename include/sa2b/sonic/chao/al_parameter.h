@@ -16,7 +16,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Enums               */
@@ -40,12 +40,12 @@ enum
 EXTERN_START
 /** Check alignment **/
 b32     AL_IsHero(uint8_t type);
-b32     AL_IsHero2(TASK* pChaoTask);
+b32     AL_IsHero2(task* pChaoTask);
 b32     AL_IsDark(uint8_t type);
-b32     AL_IsDark2(TASK* pChaoTask);
+b32     AL_IsDark2(task* pChaoTask);
 
 /** Get Chao skill points adjusted by stage **/
-uint32_t AL_ParameterGetSkill(TASK* tp, uint16_t SkillKind);
+uint32_t AL_ParameterGetSkill(task* tp, uint16_t SkillKind);
 
 /** Set param control timers to 0 **/
 void     AL_ParameterControlInit(void);

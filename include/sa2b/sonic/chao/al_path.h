@@ -21,7 +21,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task        TASK;
+typedef struct task        task;
 
 /************************/
 /*  Data                */
@@ -35,7 +35,7 @@ typedef struct task        TASK;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t AL_PathSearch(TASK* tp);
+int32_t AL_PathSearch(task* tp);
 
 void    CrossProduct(NJS_POINT3* pPos0, NJS_POINT3* pPos1, NJS_POINT3* pPos2, NJS_POINT3* pAnswer);
 
@@ -46,7 +46,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define AL_PathSearch_p      FUNC_PTR(int32_t, __cdecl, (TASK* tp), 0x0053E3E0)
+#   define AL_PathSearch_p      FUNC_PTR(int32_t, __cdecl, (task* tp), 0x0053E3E0)
 
 /** User-Function ptrs **/
 #   define CrossProduct_p       ((void*)0x0053E390)

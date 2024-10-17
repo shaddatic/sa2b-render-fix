@@ -16,14 +16,14 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Task functions **/
-void    ALR_TreeExecutor(TASK* tp);
+void    ALR_TreeExecutor(task* tp);
 
 EXTERN_END
 
@@ -32,7 +32,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALR_TreeExecutor_p       FUNC_PTR(void, __cdecl, (TASK*), 0x00537620)
+#   define ALR_TreeExecutor_p       FUNC_PTR(void, __cdecl, (task*), 0x00537620)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

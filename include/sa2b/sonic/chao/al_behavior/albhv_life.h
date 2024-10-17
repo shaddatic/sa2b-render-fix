@@ -23,16 +23,16 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t ALBHV_Mayu( TASK* tp );
-int32_t ALBHV_Dead( TASK* tp );
+int32_t ALBHV_Mayu( task* tp );
+int32_t ALBHV_Dead( task* tp );
 
 /*
 *   Mayu Functions
 */
-void    CreateMayu( TASK* tp, char kind );
+void    CreateMayu( task* tp, char kind );
 
 /** Task functions **/
-void    MayuDisplayer( TASK* tp );
+void    MayuDisplayer( task* tp );
 
 EXTERN_END
 
@@ -41,7 +41,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define MayuDisplayer_p      FUNC_PTR(void, __cdecl, (TASK*), 0x568A70)
+#   define MayuDisplayer_p      FUNC_PTR(void, __cdecl, (task*), 0x568A70)
 
 /** Behavior ptrs **/
 #   define ALBHV_Mayu_p         BhvFUNC_PTR(0x00568D30)

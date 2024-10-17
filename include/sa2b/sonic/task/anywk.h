@@ -16,7 +16,7 @@
 /************************/
 /*  Structures          */
 /************************/
-#define TO_ANYWK(p) ((ANYWK*)p)
+#define TO_ANYWK(p) ((anywk*)p)
 
 typedef struct anywk
 {
@@ -31,6 +31,6 @@ typedef struct anywk
         void*     ptr[4];
     } work;
 }
-ANYWK;
+anywk;
 
 #endif/*_SA2B_TASK_ANYWK_H_*/

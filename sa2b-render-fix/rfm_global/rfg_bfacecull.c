@@ -44,10 +44,10 @@ JumpAuraFixFlagOff(void)
     gjUpdateFog();
 }
 
-#define BgDisp_CCK      FUNC_PTR(void, __cdecl, (TASK*), 0x65F6D0)
+#define BgDisp_CCK      FUNC_PTR(void, __cdecl, (task*), 0x65F6D0)
 
 static void
-BGDisp_CCKFix(TASK* tp)
+BGDisp_CCKFix(task* tp)
 {
     SaveControl3D();
     SaveConstantAttr();
@@ -61,10 +61,10 @@ BGDisp_CCKFix(TASK* tp)
     LoadControl3D();
 }
 
-#define BgDisp_CCR      FUNC_PTR(void, __cdecl, (TASK*), 0x4DC140)
+#define BgDisp_CCR      FUNC_PTR(void, __cdecl, (task*), 0x4DC140)
 
 static void
-BGDisp_CCRFix(TASK* tp)
+BGDisp_CCRFix(task* tp)
 {
     SaveControl3D();
     SaveConstantAttr();
@@ -78,10 +78,10 @@ BGDisp_CCRFix(TASK* tp)
     LoadControl3D();
 }
 
-#define BgDisp_CCS      FUNC_PTR(void, __cdecl, (TASK*), 0x4CB840)
+#define BgDisp_CCS      FUNC_PTR(void, __cdecl, (task*), 0x4CB840)
 
 static void
-BGDisp_CCSFix(TASK* tp)
+BGDisp_CCSFix(task* tp)
 {
     SaveControl3D();
     SaveConstantAttr();

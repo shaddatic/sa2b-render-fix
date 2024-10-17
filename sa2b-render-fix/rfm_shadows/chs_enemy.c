@@ -17,7 +17,7 @@
 #include <rf_renderstate.h>
 
 static void
-DrawEnemyMod(ENEMYWK* ewp, TASKWK* twp)
+DrawEnemyMod(ENEMYWK* ewp, taskwk* twp)
 {
     const float mod_scl   = ewp->shadow_scl;
     const float mod_scl_z = ewp->shadow_scl_ratio * mod_scl;
@@ -37,24 +37,24 @@ DrawEnemyMod(ENEMYWK* ewp, TASKWK* twp)
 }
 
 static void
-EnemyGenericDisplayerMod(TASK* tp)
+EnemyGenericDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     DrawEnemyMod(ewp, twp);
 }
 
 static void
-EnemyGenericModInit(TASK* tp)
+EnemyGenericModInit(task* tp)
 {
     tp->disp_shad = EnemyGenericDisplayerMod;
 }
 
-#define EnemyAIInit     FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x004FE050)
+#define EnemyAIInit     FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x004FE050)
 
 static void
-EnemyAIInitHook(TASK* tp, TASKWK* twp)
+EnemyAIInitHook(task* tp, taskwk* twp)
 {
     EnemyAIInit(tp, twp);
     EnemyGenericModInit(tp);
@@ -81,9 +81,9 @@ __ObjectBigTheCatInitHook(void)
 }
 
 static void
-EnemyGoldDisplayerMod(TASK* tp)
+EnemyGoldDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 2)
@@ -96,7 +96,7 @@ EnemyGoldDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyGoldModInit(TASK* tp)
+EnemyGoldModInit(task* tp)
 {
     tp->disp_shad = EnemyGoldDisplayerMod;
 }
@@ -117,9 +117,9 @@ __EnemyGoldInitHook(void)
 }
 
 static void
-EnemyNamieDisplayerMod(TASK* tp)
+EnemyNamieDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->btimer)
@@ -127,7 +127,7 @@ EnemyNamieDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyNamieModInit(TASK* tp)
+EnemyNamieModInit(task* tp)
 {
     tp->disp_shad = EnemyNamieDisplayerMod;
 }
@@ -148,9 +148,9 @@ __EnemyNamieInitHook(void)
 }
 
 static void
-EnemyNamieRocketDisplayerMod(TASK* tp)
+EnemyNamieRocketDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (tp->ptp->twp->btimer == 1)
@@ -158,7 +158,7 @@ EnemyNamieRocketDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyNamieRocketModInit(TASK* tp)
+EnemyNamieRocketModInit(task* tp)
 {
     tp->disp_shad = EnemyNamieRocketDisplayerMod;
 }
@@ -179,9 +179,9 @@ __EnemyNamieRocketInitHook(void)
 }
 
 static void
-EnemyPathDisplayerMod(TASK* tp)
+EnemyPathDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if ((twp->btimer & 2) && (twp->smode == 0 || twp->smode == 1))
@@ -189,14 +189,14 @@ EnemyPathDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyPathModInit(TASK* tp)
+EnemyPathModInit(task* tp)
 {
     tp->disp_shad = EnemyPathDisplayerMod;
 }
 
-#define EnemyPathInit       FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x00504610)
+#define EnemyPathInit       FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x00504610)
 static void
-EnemyPathInitHook(TASK* tp, TASKWK* twp)
+EnemyPathInitHook(task* tp, taskwk* twp)
 {
     EnemyPathInit(tp, twp);
     EnemyPathModInit(tp);
@@ -204,9 +204,9 @@ EnemyPathInitHook(TASK* tp, TASKWK* twp)
 
 
 static void
-EnemyChaosPathDisplayerMod(TASK* tp)
+EnemyChaosPathDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 1 && twp->btimer & 2)
@@ -214,7 +214,7 @@ EnemyChaosPathDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyChaosPathModInit(TASK* tp)
+EnemyChaosPathModInit(task* tp)
 {
     tp->disp_shad = EnemyChaosPathDisplayerMod;
 }
@@ -235,9 +235,9 @@ __EnemyChaosPathInitHook(void)
 }
 
 
-#define EnemyE1000Init      FUNC_PTR(void, __cdecl, (TASK*, TASKWK*), 0x0050C510)
+#define EnemyE1000Init      FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x0050C510)
 static void
-EnemyE1000InitHook(TASK* tp, TASKWK* twp)
+EnemyE1000InitHook(task* tp, taskwk* twp)
 {
     EnemyE1000Init(tp, twp);
     EnemyGenericModInit(tp);
@@ -261,10 +261,10 @@ __EnemySaruInitHook(void)
 }
 
 
-#define EnemyGhoraInit      FUNC_PTR(void, __cdecl, (TASK*), 0x0050E750)
+#define EnemyGhoraInit      FUNC_PTR(void, __cdecl, (task*), 0x0050E750)
 
 static void
-EnemyGhoraInitHook(TASK* tp)
+EnemyGhoraInitHook(task* tp)
 {
     EnemyGhoraInit(tp);
     EnemyGenericModInit(tp);
@@ -302,9 +302,9 @@ __EnemyFireballOrbiterInitHook(void)
 }
 
 static void
-EnemyAkahigeRocketDisplayerMod(TASK* tp)
+EnemyAkahigeRocketDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (tp->ptp->twp->btimer == 1)
@@ -312,7 +312,7 @@ EnemyAkahigeRocketDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyAkahigeRocketModInit(TASK* tp)
+EnemyAkahigeRocketModInit(task* tp)
 {
     tp->disp_shad = EnemyAkahigeRocketDisplayerMod;
 }
@@ -334,9 +334,9 @@ __EnemyAkahigeRocketInitHook(void)
 
 
 static void
-EnemyAkahigeDisplayerMod(TASK* tp)
+EnemyAkahigeDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->btimer)
@@ -344,7 +344,7 @@ EnemyAkahigeDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyAkahigeModInit(TASK* tp)
+EnemyAkahigeModInit(task* tp)
 {
     tp->disp_shad = EnemyAkahigeDisplayerMod;
 }
@@ -366,9 +366,9 @@ __EnemyAkahigeInitHook(void)
 
 
 static void
-EnemyBataBeeDisplayerMod(TASK* tp)
+EnemyBataBeeDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 1)
@@ -376,7 +376,7 @@ EnemyBataBeeDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyBataBeeModInit(TASK* tp)
+EnemyBataBeeModInit(task* tp)
 {
     tp->disp_shad = EnemyBataBeeDisplayerMod;
 }
@@ -412,9 +412,9 @@ __EnemyBeetonInitHook(void)
 }
 
 static void
-EnemyKumiDisplayerMod(TASK* tp)
+EnemyKumiDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 2)
@@ -422,7 +422,7 @@ EnemyKumiDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyKumiModInit(TASK* tp)
+EnemyKumiModInit(task* tp)
 {
     tp->disp_shad = EnemyKumiDisplayerMod;
 }
@@ -445,9 +445,9 @@ __EnemyKumiInitHook(void)
 #define OutOfRange      FUNC_PTR(int32_t, __cdecl, (NJS_POINT3*, f32), 0x007983F0)
 
 static void
-EnemyKyokoDisplayerMod(TASK* tp)
+EnemyKyokoDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (OutOfRange(&twp->pos, 40.0f))
         return;
@@ -487,10 +487,10 @@ EnemyKyokoDisplayerMod(TASK* tp)
 
 }
 
-#define EnemyKyokoInit      FUNC_PTR(void, __cdecl, (TASK*), 0x004FAE40)
+#define EnemyKyokoInit      FUNC_PTR(void, __cdecl, (task*), 0x004FAE40)
 
 static void
-EnemyKyokoInitHook(TASK* tp)
+EnemyKyokoInitHook(task* tp)
 {
     EnemyKyokoInit(tp);
     tp->disp_shad = EnemyKyokoDisplayerMod;
@@ -499,9 +499,9 @@ EnemyKyokoInitHook(TASK* tp)
 static NJS_CNK_OBJECT* object_e_shouko_mod;
 
 static void
-EnemyShoukoDisplayerMod(TASK* tp)
+EnemyShoukoDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (twp->mode == 1)
         return;
@@ -526,7 +526,7 @@ EnemyShoukoDisplayerMod(TASK* tp)
 }
 
 static void
-EnemyShoukoModInit(TASK* tp)
+EnemyShoukoModInit(task* tp)
 {
     tp->disp_shad = EnemyShoukoDisplayerMod;
 }

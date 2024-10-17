@@ -19,7 +19,7 @@
 /*  Ext. Opaque Types   */
 /************************/
 /****** Task ************************************************************************/
-typedef struct task         TASK;
+typedef struct task         task;
 
 EXTERN_START
 
@@ -56,7 +56,7 @@ VIBWK;
 /*  Data                */
 /************************/
 /****** VibTask *********************************************************************/
-#define VibTaskP            DATA_ARY(TASK*, 0x01A5588C, [4])
+#define VibTaskP            DATA_ARY(task*, 0x01A5588C, [4])
 
 /************************/
 /*  Functions           */
@@ -83,8 +83,8 @@ void    SetVibTask( int pno, char Flag, char Power, char Freq, int Inc, int Time
 void    VibStop( void );
 
 /****** VibTask Task Functions ******************************************************/
-void    VibTask(     TASK* tp );    /* executor                                     */
-void    VibTaskDest( TASK* tp );    /* destructor                                   */
+void    VibTask(     task* tp );    /* executor                                     */
+void    VibTaskDest( task* tp );    /* destructor                                   */
 
 /************************/
 /*  Function Ptrs       */
@@ -92,8 +92,8 @@ void    VibTaskDest( TASK* tp );    /* destructor                               
 #ifdef  SAMT_INCL_FUNCPTRS
 /****** Function Pointer ************************************************************/
 #   define VibStop_p            FUNC_PTR(void, __cdecl, (void) , 0x00439060)
-#   define VibTask_p            FUNC_PTR(void, __cdecl, (TASK*), 0x00438D30)
-#   define VibTaskDest_p        FUNC_PTR(void, __cdecl, (TASK*), 0x00438C90)
+#   define VibTask_p            FUNC_PTR(void, __cdecl, (task*), 0x00438D30)
+#   define VibTaskDest_p        FUNC_PTR(void, __cdecl, (task*), 0x00438C90)
 
 /****** User-Function Pointer *******************************************************/
 #   define SetVibTask_p         ((void*)0x00438DC0)

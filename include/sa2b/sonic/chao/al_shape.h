@@ -22,7 +22,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task        TASK;
+typedef struct task        task;
 
 /************************/
 /*  Structures          */
@@ -175,7 +175,7 @@ typedef NJS_CNK_OBJECT*         AL_RootObject_t[144];
 /************************/
 EXTERN_START
 /** Initialize Chao shape data **/
-int32_t AL_ShapeInit( TASK* tp );
+int32_t AL_ShapeInit( task* tp );
 
 /** Copy and free chao object **/
 AL_OBJECT*  AL_CopyChaoObject( NJS_CNK_OBJECT* pSrcObject, NJS_CNK_OBJECT* pChildObject, AL_OBJECT* pParentObject );
@@ -193,7 +193,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define AL_ShapeInit_p               FUNC_PTR(int32_t    , __cdecl, (TASK*)                                       , 0x0056C9D0)
+#   define AL_ShapeInit_p               FUNC_PTR(int32_t    , __cdecl, (task*)                                       , 0x0056C9D0)
 #   define AL_CopyChaoObject_p          FUNC_PTR(AL_OBJECT*, __cdecl, (NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, AL_OBJECT*), 0x0056BED0)
 #   define AL_FreeChaoObject_p          FUNC_PTR(void      , __cdecl, (AL_OBJECT*)                                  , 0x0056BD40)
 #   define AL_CreateOrgVertexList_p     FUNC_PTR(int32_t    , __cdecl, (AL_OBJECT*)                                  , 0x0056C800)

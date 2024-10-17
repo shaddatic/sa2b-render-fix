@@ -136,7 +136,7 @@ __SOCDrawSpriteOnlyConstMat(void)
 
 #define DisplayStageMap                 FUNC_PTR(void, __cdecl, (float, float), 0x00675DF0)
 
-static hook_info* HookInfoDisplayStageMap;
+static hook_info HookInfoDisplayStageMap[1];
 static void
 DisplayStageMapHook(float scroll, float fade)
 {
@@ -155,11 +155,11 @@ DisplayStageMapHook(float scroll, float fade)
 #define SetConstMatAndBackupConstAttr   FUNC_PTR(void, __cdecl, (float), 0x00433D00)
 #define RestoreConstMatAndConstAttr     FUNC_PTR(void, __cdecl, (void) , 0x00433D40)
 
-#define screenEffectDisp                FUNC_PTR(void, __cdecl, (TASK*), 0x00667E40)
+#define screenEffectDisp                FUNC_PTR(void, __cdecl, (task*), 0x00667E40)
 
-static hook_info* HookInfoScreenEffectDisp;
+static hook_info HookInfoScreenEffectDisp[1];
 static void
-screenEffectDispHook(TASK* tp)
+screenEffectDispHook(task* tp)
 {
     if (flt_1A3D660 != 0.0f)
         SetConstMatAndBackupConstAttr(flt_1A3D660);
@@ -259,8 +259,8 @@ RFM_MenusInit(void)
     {
         WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
 
-        HookInfoDisplayStageMap  = FuncHook(DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
-        HookInfoScreenEffectDisp = FuncHook(screenEffectDisp, screenEffectDispHook); // ^
+        FuncHook(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
+        FuncHook(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
 
         WriteCall(0x00675EA8, __SOCDrawSpriteWithConstMat); // Stage Map
         WriteCall(0x00675F58, __SOCDrawSpriteWithConstMat); // ^

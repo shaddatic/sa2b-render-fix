@@ -82,42 +82,42 @@ RF_GinjaLoadObjectFile(const utf8* fname)
     return MDL_GinjaLoadObjectFile(buf);
 }
 
-#define ObjectGlobalLightManagerTaskPointer     DATA_REF(TASK*, 0x01A5A660)
+#define ObjectGlobalLightManagerTaskPointer     DATA_REF(task*, 0x01A5A660)
 
 static void
-ObjectGlobalLightSWDestructor(TASK* tp)
+ObjectGlobalLightSWDestructor(task* tp)
 {
     ObjectGlobalLightManagerTaskPointer = NULL;
 }
 
-#define ObjectGlobalLightManager    FUNC_PTR(void, __cdecl, (TASK*), 0x004CAB20)
+#define ObjectGlobalLightManager    FUNC_PTR(void, __cdecl, (task*), 0x004CAB20)
 
-static hook_info* ObjectGlobalLightManagerHookInfo;
+static hook_info ObjectGlobalLightManagerHookInfo[1];
 static void
-ObjectGlobalLightManagerHook(TASK* tp)
+ObjectGlobalLightManagerHook(task* tp)
 {
     FuncHookCall( ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager(tp) );
 
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-#define ObjectGoalringDisp          FUNC_PTR(void, __cdecl, (TASK*), 0x006C6CD0)
-#define ObjectGoalringDispSort      FUNC_PTR(void, __cdecl, (TASK*), 0x006C6F10)
+#define ObjectGoalringDisp          FUNC_PTR(void, __cdecl, (task*), 0x006C6CD0)
+#define ObjectGoalringDispSort      FUNC_PTR(void, __cdecl, (task*), 0x006C6F10)
 
 static void
-ObjectGoalringDispSortNew(TASK* tp)
+ObjectGoalringDispSortNew(task* tp)
 {
     ObjectGoalringDisp(tp);
     ObjectGoalringDispSort(tp);
 }
 
-#define LandDisplayer               FUNC_PTR(void, __cdecl, (TASK*), 0x0047C270)
-#define LandDisplayerTrans          FUNC_PTR(void, __cdecl, (TASK*), 0x0047C270)
+#define LandDisplayer               FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
+#define LandDisplayerTrans          FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
 #define DrawMotLandEntry            FUNC_PTR(void, __cdecl, (void) , 0x0047C6E0)
 
-static hook_info* LandDisplayerHookInfo;
+static hook_info LandDisplayerHookInfo[1];
 static void
-LandDisplayerHook(TASK* const tp)
+LandDisplayerHook(task* const tp)
 {
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
 
@@ -126,9 +126,9 @@ LandDisplayerHook(TASK* const tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
 
-static hook_info* LandDisplayerTransHookInfo;
+static hook_info LandDisplayerTransHookInfo[1];
 static void
-LandDisplayerTransHook(TASK* const tp)
+LandDisplayerTransHook(task* const tp)
 {
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
@@ -137,7 +137,7 @@ LandDisplayerTransHook(TASK* const tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
 
-static hook_info* DrawMotLandEntryHookInfo;
+static hook_info DrawMotLandEntryHookInfo[1];
 static void
 DrawMotLandEntryHook(void)
 {
@@ -292,12 +292,12 @@ RFM_CommonInit(void)
         RFC_Chaos0TexInit();
     }
 
-    ObjectGlobalLightManagerHookInfo = FuncHook(ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
+    FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 
     /** Add two pass drawing for Chunk land tables **/
-    LandDisplayerHookInfo      = FuncHook(LandDisplayer     , LandDisplayerHook);
-    LandDisplayerTransHookInfo = FuncHook(LandDisplayerTrans, LandDisplayerTransHook);
-    DrawMotLandEntryHookInfo   = FuncHook(DrawMotLandEntry  , DrawMotLandEntryHook);
+    FuncHook(LandDisplayerHookInfo     , LandDisplayer     , LandDisplayerHook);
+    FuncHook(LandDisplayerTransHookInfo, LandDisplayerTrans, LandDisplayerTransHook);
+    FuncHook(DrawMotLandEntryHookInfo  , DrawMotLandEntry  , DrawMotLandEntryHook);
     WriteNOP(0x0047C2B5, 0x0047C2BE); // Force Chunk to draw twice
 
     /** Fix keys in Death Chamber & Egg Quaters glowing eye effect caused by the

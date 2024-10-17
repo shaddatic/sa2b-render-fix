@@ -2,7 +2,7 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/sonic/task/taskwk.h'
 *
 *   Description:
-*       Definitions and macros for the TASKWK struct type.
+*       Definitions and macros for the TaskWK struct type.
 *
 *   Contributors:
 *     - SEGA - Sonic Team,
@@ -27,9 +27,9 @@ typedef struct colliwk  COLLIWK;
 /************************/
 /*  Structures          */
 /************************/
-#define TO_TASKWK(_p)       ((TASKWK*)(_p))
+#define TO_TASKWK(_p)       ((taskwk*)(_p))
 
-#define TASKWK()        \
+#define TASKWK          \
 struct {                \
     int8_t mode;        \
     int8_t smode;       \
@@ -45,8 +45,8 @@ struct {                \
 
 typedef struct taskwk
 {
-    TASKWK();
+    TASKWK;
 }
-TASKWK;
+taskwk;
 
 #endif/*_SA2B_TASK_TASKWK_H_*/

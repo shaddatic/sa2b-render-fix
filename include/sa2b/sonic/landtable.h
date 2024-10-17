@@ -16,7 +16,7 @@
 /************************/
 /*  Abstract types      */
 /************************/
-typedef struct task        TASK;
+typedef struct task        task;
 typedef struct zxsdwstr    ZXSDWSTR;
 
 /************************/
@@ -66,11 +66,11 @@ OBJ_LANDENTRY;
 
 typedef struct _OBJ_MOTLANDENTRY
 {
-    f32         fFrame;
-    f32         fStep;
-    f32         fMaxFrame;
-    ANY_OBJECT* pObject;
-    NJS_MOTION* pMotion;
+    f32             fFrame;
+    f32             fStep;
+    f32             fMaxFrame;
+    NJS_CNK_OBJECT* pObject;
+    NJS_MOTION*     pMotion;
 }
 OBJ_MOTLANDENTRY;
 
@@ -94,14 +94,14 @@ typedef struct _OBJ_LANDCOLL
 {
     s32         slAttribute;
     NJS_OBJECT* pObject;
-    TASK*       pTask;
+    task*       ptask;
 }
 OBJ_LANDCOLL;
 
 /************************/
 /*  Data                */
 /************************/
-#define LandTaskP               DATA_REF(TASK*         , 0x01945A04)
+#define LandTaskP               DATA_REF(task*         , 0x01945A04)
 
 #define boolLandTableGinja      DATA_REF(b32           , 0x01A5A2D8)
 #define mleriRangeRad           DATA_REF(f32           , 0x0171CAA4)

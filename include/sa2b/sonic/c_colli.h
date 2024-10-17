@@ -22,8 +22,8 @@
 /************************/
 /*  Abstracted Types    */
 /************************/
-typedef struct task         TASK;
-typedef struct taskwk       TASKWK;
+typedef struct task         task;
+typedef struct taskwk       taskwk;
 
 /************************/
 /*  Enums               */
@@ -87,7 +87,7 @@ enum
 /************************/
 typedef struct
 {
-    TASK*   pTask;
+    task*   pTask;
     void*   FuncAddr;
     int32_t CurrNum;
     int32_t Kind;
@@ -99,7 +99,7 @@ typedef struct c_colli_hit_info
     int8_t   my_num;
     int8_t   hit_num;
     uint16_t flag;
-    TASK*    hit_tp;
+    task*    hit_tp;
 }
 CCL_HIT_INFO;
 
@@ -113,7 +113,7 @@ typedef struct colliwk
     CCL_INFO*       info;
     CCL_HIT_INFO    hit_info[16];
     NJS_POINT3      normal;
-    TASK*           mytask;
+    task*           mytask;
     int16_t         my_num;
     int16_t         hit_num;
     struct colliwk* hit_cwp;
@@ -129,14 +129,14 @@ COLLIWK;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t       CCL_Init(  TASK* tp, CCL_INFO* info, int32_t nbInfo, uint8_t id );
-void          CCL_Entry( TASK* tp );
+int32_t       CCL_Init(  task* tp, CCL_INFO* info, int32_t nbInfo, uint8_t id );
+void          CCL_Entry( task* tp );
 
-TASK*         CCL_IsHitKind( TASK* tp, uint8_t kind );
+task*         CCL_IsHitKind( task* tp, uint8_t kind );
 
-b32           CCL_IsPushed( TASKWK* twp );
+b32           CCL_IsPushed( taskwk* twp );
 
-CCL_HIT_INFO* CCL_IsHitKindEx( TASK* tp, uint8_t kind );
+CCL_HIT_INFO* CCL_IsHitKindEx( task* tp, uint8_t kind );
 
 void          CCL_ClearSearch( void );
 
@@ -147,7 +147,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define CCL_IsHitKindEx_p       FUNC_PTR(CCL_HIT_INFO*, __cdecl, (TASK*, uint8_t), 0x00486760)
+#   define CCL_IsHitKindEx_p       FUNC_PTR(CCL_HIT_INFO*, __cdecl, (task*, uint8_t), 0x00486760)
 
 /** User-Function ptrs **/
 #   define CCL_Init_p              ((void*)0x0047E520)

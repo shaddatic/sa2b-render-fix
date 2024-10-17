@@ -21,7 +21,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 typedef struct al_model     AL_MODEL;
 typedef struct al_object    AL_OBJECT;
 
@@ -35,7 +35,7 @@ typedef struct al_object    AL_OBJECT;
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t AL_MatSetChaoColor( TASK* tp, int16_t ColorNum );
+int32_t AL_MatSetChaoColor( task* tp, int16_t ColorNum );
 
 void    AL_MatChangeModelTexture(  AL_MODEL*  pModel,  uint16_t TexID );
 void    AL_MatChangeObjectTexture( AL_OBJECT* pObject, uint16_t TexID );

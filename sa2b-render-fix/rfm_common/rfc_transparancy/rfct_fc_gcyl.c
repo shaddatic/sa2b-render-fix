@@ -33,9 +33,9 @@
 /*  Source              */
 /************************/
 static void
-GravityCylinderDisplayerSorted(TASK* tp)
+GravityCylinderDisplayerSorted(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     const int game_timer = GetGameTime();
 

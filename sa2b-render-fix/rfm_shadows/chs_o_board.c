@@ -38,9 +38,9 @@ BoardGetAttributes(uintptr_t* ppUnk, NJS_TEXLIST** ppTexList, NJS_CNK_OBJECT** p
 }
 
 static void
-ObjectBoardCEDisplayerMod(TASK* tp)
+ObjectBoardCEDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     PLAYERWK* pwp = playerpwp[twp->smode];
 
@@ -125,9 +125,9 @@ ObjectBoardCEDisplayerMod(TASK* tp)
 #define object_board_mh     DATA_ARY(NJS_CNK_OBJECT, 0x00AE79A4, [1])
 
 void
-ObjectBoardMHDisplayerMod(TASK* tp)
+ObjectBoardMHDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     PLAYERWK* pwp = playerpwp[twp->smode];
 
@@ -204,7 +204,7 @@ ObjectBoardMHDisplayerMod(TASK* tp)
 }
 
 void
-ObjectBoardMHHook(TASK* tp)
+ObjectBoardMHHook(task* tp)
 {
     tp->twp->smode = tp->twp->ang.x & 1;
     tp->exec = (void*)0x006F7AF0;

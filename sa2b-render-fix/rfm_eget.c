@@ -18,11 +18,11 @@
 /** Self **/
 #include <rfm_eget.h>
 
-#define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (TASK*), 0x007986A0)
+#define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x007986A0)
 
-static hook_info* getEmblemDisplayerHookInfo;
+static hook_info getEmblemDisplayerHookInfo[1];
 static void
-getEmblemDisplayerHook(TASK* const tp)
+getEmblemDisplayerHook(task* const tp)
 {
     RFRS_SetTransMode(RFRS_TRANSMD_AUTO_ATEST);
 
@@ -37,7 +37,7 @@ RFM_EmblemGetInit(void)
     if (RF_ConfigGetInt(CNF_EGET_PTCLFIX))
     {
         SwitchDisplayer(0x0079860F, DISP);
-        getEmblemDisplayerHookInfo = FuncHook(getEmblemDisplayer, getEmblemDisplayerHook);
+        FuncHook(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
     }
 
     if (RF_ConfigGetInt(CNF_EGET_FADEIN))

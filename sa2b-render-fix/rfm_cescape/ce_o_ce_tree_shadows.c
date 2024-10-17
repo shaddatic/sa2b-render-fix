@@ -15,7 +15,7 @@
 static OBJ_CONDITION objcond_treelightsw;
 
 static void
-CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
+CreateNewLightSW(task* tp, float posX, float posY, float posZ)
 {
     NJS_POINT3 point = {
         .x = 0.0f,
@@ -23,7 +23,7 @@ CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
         .z = 0.0f
     };
 
-    TASK* ctp = CreateChildTask(TELE_TWK, ObjectLightSW, tp);
+    task* ctp = CreateChildTask(TELE_TWK, ObjectLightSW, tp);
 
     njPushMatrixEx();
 
@@ -47,14 +47,14 @@ CreateNewLightSW(TASK* tp, float posX, float posY, float posZ)
 }
 
 void
-ObjectTreeShadows(TASK* tp)
+ObjectTreeShadows(task* tp)
 {
     if (CheckRangeOut(tp))
         return;
 
     tp->exec = ObjectGenericExec;
 
-    TASKWK* twp = tp->twp;
+    taskwk* twp = tp->twp;
 
     njPushMatrix(&_nj_unit_matrix_);
 

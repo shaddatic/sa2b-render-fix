@@ -22,7 +22,7 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t ALBHV_JumpToPond( TASK* tp );
+int32_t ALBHV_JumpToPond( task* tp );
 
 EXTERN_END
 

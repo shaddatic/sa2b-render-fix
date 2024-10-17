@@ -25,13 +25,13 @@ __FlipEnv2(void)
 {
     __asm
     {
-        push ecx
         push edx
+        push ecx
         push eax
         call FlipEnv2
         pop eax
-        pop edx
         pop ecx
+        pop edx
         retn
     }
 }

@@ -35,7 +35,7 @@
 /** Self (?) **/
 
 /** Constant **/
-#define SonicDisplayer      FUNC_PTR(void, __cdecl, (TASK*), 0x00720090)
+#define SonicDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00720090)
 
 static NJS_CNK_OBJECT* object_sonic_head_mod;
 static NJS_CNK_OBJECT* object_amy_head_mod;
@@ -72,7 +72,7 @@ static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below th
 #define BALL_OBJ_NUM_AMY        (401)
 
 static void
-SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+SonicDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -133,7 +133,7 @@ SonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+TeriosDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -191,7 +191,7 @@ TeriosDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-AmyDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+AmyDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -252,7 +252,7 @@ AmyDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-MetalSonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+MetalSonicDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -305,9 +305,9 @@ MetalSonicDrawMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 #define MetalSonicMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
 
 static void __cdecl
-SonicDisplayerShadowHook(TASK* tp)
+SonicDisplayerShadowHook(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     SONICWK* const swp = GET_SONICWK(tp);
 
     njGetMatrix(&mtx_SonicBase);
@@ -440,7 +440,7 @@ SonicDisplayerShadowHook(TASK* tp)
 }
 
 static void
-MilesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+MilesDisplayMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -548,9 +548,9 @@ MilesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-MilesDisplayerShadowHook(TASK* tp)
+MilesDisplayerShadowHook(task* tp)
 {
-    TASKWK*  const     twp = tp->twp;
+    taskwk*  const     twp = tp->twp;
     MILESWK* const mileswp = GET_MILESWK(tp);
 
     njGetMatrix(&mtx_MilesBase);
@@ -610,7 +610,7 @@ MilesDisplayerShadowHook(TASK* tp)
 }
 
 static void
-EggmanDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+EggmanDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -665,9 +665,9 @@ EggmanDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-EggmanDisplayerShadowHook(TASK* tp)
+EggmanDisplayerShadowHook(task* tp)
 {
-    TASKWK*   const      twp = tp->twp;
+    taskwk*   const      twp = tp->twp;
     EGGMANWK* const eggmanwp = GET_EGGMANWK(tp);
 
     njGetMatrix(&mtx_EggmanBase);
@@ -719,7 +719,7 @@ EggmanDisplayerShadowHook(TASK* tp)
 }
 
 static void
-KnucklesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
+KnucklesDisplayMod(taskwk* twp, PLAYERWK* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -773,7 +773,7 @@ KnucklesDisplayMod(TASKWK* twp, PLAYERWK* pwp, int motion)
 
 #define PlayerNumCheck      DATA_REF(bool, 0x0174B009)
 
-#define KnucklesDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x0072EF20)
+#define KnucklesDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x0072EF20)
 
 
 static const void* const sub_446960_p = (void*)0x00446960;
@@ -797,7 +797,7 @@ sub_446960(Angle ang1, Angle ang2, Sangle sang)
 }
 
 static void
-RougeDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+RougeDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -852,7 +852,7 @@ RougeDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-TikalDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+TikalDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -907,7 +907,7 @@ TikalDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-ChaosDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+ChaosDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -962,9 +962,9 @@ ChaosDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-KnucklesDisplayerShadowHook(TASK* tp)
+KnucklesDisplayerShadowHook(task* tp)
 {
-    TASKWK* const  twp = tp->twp;
+    taskwk* const  twp = tp->twp;
     KNUCKLESWK* const knwp = GET_KNUCKLESWK(tp);
 
     njGetMatrix(&mtx_KnucklesBase);
@@ -1035,7 +1035,7 @@ KnucklesDisplayerShadowHook(TASK* tp)
         /** Flying **/
         if (mtnnum == 105)
         {
-            MOTIONWK* mwp = tp->mwp;
+            motionwk* mwp = tp->mwp;
 
             knwp->someAng0 = sub_446960(-(Sangle)(mwp->ang_aim.x - twp->ang.y), 2048, knwp->someAng0);
 
@@ -1104,7 +1104,7 @@ KnucklesDisplayerShadowHook(TASK* tp)
 }
 
 static void
-TornadoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+TornadoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1148,7 +1148,7 @@ TornadoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 
 
 static void
-EggWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+EggWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1183,7 +1183,7 @@ EggWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-ChaoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+ChaoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1218,7 +1218,7 @@ ChaoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-DarkChaoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
+DarkChaoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1256,9 +1256,9 @@ DarkChaoWalkerDisplayMod(TASKWK* twp, PLAYERWK* pwp, int mtnnum)
 #define DarkChaoWalkerMotionCallBack_p  ((void*)0x00746B00)
 
 static void
-EggWalkerDisplayerShadowHook(TASK* tp)
+EggWalkerDisplayerShadowHook(task* tp)
 {
-    TASKWK*   const twp = tp->twp;
+    taskwk*   const twp = tp->twp;
     WALKERWK* const wwp = GET_WALKERWK(tp);
 
     njGetMatrix(&mtx_EWalkerBase);

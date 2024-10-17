@@ -152,7 +152,7 @@ __SetBackColor(void)
 
 #define UnloadRELFile       FUNC_PTR(void, __cdecl, (), 0x00454CC0)
 
-static hook_info* HookInfoUnloadRELFile;
+static hook_info HookInfoUnloadRELFile[1];
 static void
 UnloadRELFileHook(void)
 {
@@ -179,5 +179,5 @@ RFG_NinjaBackColorInit(void)
     KillCall(0x0043B146); // Unk Menu
 
     /** Always reset back color on level exit **/
-    HookInfoUnloadRELFile = FuncHook(UnloadRELFile, UnloadRELFileHook);
+    FuncHook(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
 }

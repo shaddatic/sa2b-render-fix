@@ -15,7 +15,7 @@
 
 #define texlist_e_jet1      DATA_ARY(NJS_TEXLIST, 0x0145F5D4, [1])
 
-#define EnemyJetDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x00511230)
+#define EnemyJetDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x00511230)
 
 static NJS_TEXANIM texanim = {
     .sx = 32,
@@ -35,9 +35,9 @@ static NJS_TEXANIM texanim = {
 };
 
 static void
-EnemyJetDisplayer_(TASK* tp)
+EnemyJetDisplayer_(task* tp)
 {
-    TASK* const ptp = tp->ptp;
+    task* const ptp = tp->ptp;
 
     if (!ptp || ptp->ctp == tp || tp->last->disp != EnemyJetDisplayer)
     {
@@ -48,7 +48,7 @@ EnemyJetDisplayer_(TASK* tp)
         njFogDisable();
     }
 
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     NJS_SPRITE sprite = {
         .p     = twp->pos,

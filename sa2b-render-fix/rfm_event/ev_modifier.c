@@ -204,7 +204,7 @@ EventDisplayMod(int scene)
 }
 
 static void
-EventDisplayerMod(TASK* tp)
+EventDisplayerMod(task* tp)
 {
     if (EventFileLoadNum != EventNum)
     {
@@ -226,7 +226,7 @@ EventDisplayerMod(TASK* tp)
 }
 
 static void
-EventDestructor(TASK* tp)
+EventDestructor(task* tp)
 {
     if (EventCurModHeader)
         MemFree(EventCurModHeader);

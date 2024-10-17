@@ -21,8 +21,9 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct item_save_info   ITEM_SAVE_INFO;
+typedef struct cnkobj           NJS_CNK_OBJECT;
 
 /************************/
 /*  Enums               */
@@ -53,21 +54,29 @@ typedef enum
     FRUIT_KINOKO_B,
     FRUIT_MINTCANDY,
     FRUIT_GRAPE,
+#if 0
     FRUIT_DX_DEFAULT,
+#endif
     FRUIT_END,
 }
 eFRUIT_KIND;
 
 /************************/
+/*  Game Data           */
+/************************/
+#define FruitObjectList             DATA_ARY(NJS_CNK_OBJECT*, 0x013340C8, [24])
+#define SmallFruitObjectList        DATA_ARY(NJS_CNK_OBJECT*, 0x01334128, [24])
+
+/************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_FruitCreate( eFRUIT_KIND kind, NJS_POINT3* pPos, int32_t AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
+task*   ALO_FruitCreate( eFRUIT_KIND kind, NJS_POINT3* pPos, int32_t AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
 
 /** Task functions **/
-void    ALO_FruitExecutor(   TASK* tp );
-void    ALO_FruitDisplayer(  TASK* tp );
-void    ALO_FruitDestructor( TASK* tp ); /* Same destructor as many other Chao objects */
+void    ALO_FruitExecutor(   task* tp );
+void    ALO_FruitDisplayer(  task* tp );
+void    ALO_FruitDestructor( task* tp ); /* Same destructor as many other Chao objects */
 
 EXTERN_END
 
@@ -76,10 +85,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_FruitCreate_p            FUNC_PTR(TASK*, __cdecl, (eFRUIT_KIND, NJS_POINT3*, int32_t, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00546180)
-#   define ALO_FruitExecutor_p          FUNC_PTR(void , __cdecl, (TASK*)                                                          , 0x00545E40)
-#   define ALO_FruitDisplayer_p         FUNC_PTR(void , __cdecl, (TASK*)                                                          , 0x00545EE0)
-#   define ALO_FruitDestructor_p        FUNC_PTR(void , __cdecl, (TASK*)                                                          , 0x0057B9B0)
+#   define ALO_FruitCreate_p            FUNC_PTR(task*, __cdecl, (eFRUIT_KIND, NJS_POINT3*, int32_t, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00546180)
+#   define ALO_FruitExecutor_p          FUNC_PTR(void , __cdecl, (task*)                                                          , 0x00545E40)
+#   define ALO_FruitDisplayer_p         FUNC_PTR(void , __cdecl, (task*)                                                          , 0x00545EE0)
+#   define ALO_FruitDestructor_p        FUNC_PTR(void , __cdecl, (task*)                                                          , 0x0057B9B0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

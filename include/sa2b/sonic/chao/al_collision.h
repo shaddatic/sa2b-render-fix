@@ -17,13 +17,13 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_DetectCollisionStandard(TASK* tp);
+void    AL_DetectCollisionStandard(task* tp);
 
 EXTERN_END
 

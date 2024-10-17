@@ -16,9 +16,9 @@
 #define ModModModelList     DATA_ARY(NJS_CNK_MODEL*, 0x00B4D830, [3])
 
 static void
-ObjectModModDisplayer(TASK* tp)
+ObjectModModDisplayer(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 

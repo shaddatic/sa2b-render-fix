@@ -13,13 +13,13 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ObjectTreeShadows(TASK* tp);
+void    ObjectTreeShadows(task* tp);
 
 EXTERN_END
 

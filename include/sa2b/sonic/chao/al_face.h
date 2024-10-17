@@ -17,7 +17,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task TASK;
+typedef struct task task;
 
 /************************/
 /*  Enums               */
@@ -106,21 +106,21 @@ eAL_MOUTH_NUM;
 /************************/
 EXTERN_START
 /** Set eye for number of frames **/
-void    AL_FaceSetEye(TASK* tp, eAL_EYE_NUM EyeNum, int32_t timer);
+void    AL_FaceSetEye(task* tp, eAL_EYE_NUM EyeNum, int32_t timer);
 /** Change eye permanently **/
-void    AL_FaceChangeEye(TASK* tp, eAL_EYE_NUM EyeNum);
+void    AL_FaceChangeEye(task* tp, eAL_EYE_NUM EyeNum);
 /** Return eye to Chao's default **/
-void    AL_FaceReturnDefaultEye(TASK* tp);
+void    AL_FaceReturnDefaultEye(task* tp);
 
 /** Set mouth for number of frames **/
-void    AL_FaceSetMouth(TASK* tp, eAL_MOUTH_NUM MouthNum, int32_t timer);
+void    AL_FaceSetMouth(task* tp, eAL_MOUTH_NUM MouthNum, int32_t timer);
 /** Change mouth permanently **/
-void    AL_FaceChangeMouth(TASK* tp, eAL_MOUTH_NUM MouthNum);
+void    AL_FaceChangeMouth(task* tp, eAL_MOUTH_NUM MouthNum);
 /** Return mouth to Chao's default **/
-void    AL_FaceReturnDefaultMouth(TASK* tp);
+void    AL_FaceReturnDefaultMouth(task* tp);
 
 /** Internal functions **/
-void    AL_FaceEyeLidControl(TASK* tp);
+void    AL_FaceEyeLidControl(task* tp);
 
 EXTERN_END
 
@@ -129,7 +129,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define AL_FaceEyeLidControl_p       FUNC_PTR(void, __cdecl, (TASK*), 0x0053A1E0)
+#   define AL_FaceEyeLidControl_p       FUNC_PTR(void, __cdecl, (task*), 0x0053A1E0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

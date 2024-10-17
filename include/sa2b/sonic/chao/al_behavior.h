@@ -17,17 +17,17 @@
 /************************/
 /*  Defines             */
 /************************/
-#define BhvFUNC_PTR(ADDR)   FUNC_PTR(int32_t, __cdecl, (TASK*), ADDR)
+#define BhvFUNC_PTR(ADDR)   FUNC_PTR(int32_t, __cdecl, (task*), ADDR)
 
 /************************/
 /*  Absract Types       */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Typedefs             */
 /************************/
-typedef int32_t(__cdecl* BHV_FUNC)(TASK*);
+typedef int32_t(__cdecl* BHV_FUNC)(task*);
 
 /************************/
 /*  Enums               */
@@ -44,10 +44,10 @@ enum
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_SetBehavior(TASK* tp, BHV_FUNC bhav);
-void    AL_SetBehaviorWithTimer(TASK* tp, BHV_FUNC bhav, int timer);
+void    AL_SetBehavior(task* tp, BHV_FUNC bhav);
+void    AL_SetBehaviorWithTimer(task* tp, BHV_FUNC bhav, int timer);
 
-void    AL_SetNextBehavior(TASK* tp, BHV_FUNC bhav);
+void    AL_SetNextBehavior(task* tp, BHV_FUNC bhav);
 
 EXTERN_END
 

@@ -49,9 +49,9 @@ bool    StringMatch( const utf8* str1, const utf8* str2, size_t maxSize );
 *     - maxSize : maximum size, in bytes, of 'str'
 *
 *   Returns:
-*     An index to the first instance of 'key' inside 'str'
+*     An index to the first instance of 'key' inside 'str', or '-1' if no instance exists
 */
-size_t  StringSearch( const utf8* str, const utf8* key, size_t maxSize );
+s32     StringSearch( const utf8* str, const utf8* key, size_t maxSize );
 /*
 *   Description:
 *     Calculate the size of a string in bytes, including the NULL terminator
@@ -132,9 +132,9 @@ bool    StringMatchW( const wchar_t* str1, const wchar_t* str2, size_t maxSize )
 *     - maxSize : maximum size, in 2 byte units, of 'str'
 *
 *   Returns:
-*     An index to the first instance of 'key' inside 'str'
+*     An index to the first instance of 'key' inside 'str', or '-1' if no instance exists
 */
-size_t  StringSearchW( const wchar_t* str, const wchar_t* key, size_t maxSize );
+s32     StringSearchW( const wchar_t* str, const wchar_t* key, size_t maxSize );
 /*
 *   Description:
 *     Calculate the size of a string in 2 byte units, including the NULL terminator

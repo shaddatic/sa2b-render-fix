@@ -22,7 +22,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Enums               */
@@ -85,7 +85,7 @@ typedef struct al_entry_work
     int16_t command;
     int16_t command_value;
     int16_t state;
-    TASK* tp;
+    task* tp;
     struct al_entry_work* pCommu;
     struct al_entry_work* pLockOn;
 }
@@ -96,7 +96,7 @@ ALW_ENTRY_WORK;
 /************************/
 #define ChaoWorldLoadFlag       DATA_REF(b32           , 0x01A5AF0C)
 
-#define WorldMasterTask         DATA_REF(TASK*         , 0x01A0F94C)
+#define WorldMasterTask         DATA_REF(task*         , 0x01A0F94C)
 
 #define WorldEntryList          DATA_ARY(ALW_ENTRY_WORK, 0x01DC0FC0, [11][64])
 #define nbWorldEntry            DATA_ARY(int32_t       , 0x01DC0F80, [11])
@@ -120,34 +120,34 @@ int32_t  AL_ConfirmLoadIsBusy( void );
 void     ALW_Create( void );
 
 /** Make new entry **/
-int32_t  ALW_Entry(  uint16_t category, TASK* tp, uint16_t kind                  );
-int32_t  ALW_Entry2( uint16_t category, TASK* tp, uint16_t kind, void* pSaveInfo );
+int32_t  ALW_Entry(  uint16_t category, task* tp, uint16_t kind                  );
+int32_t  ALW_Entry2( uint16_t category, task* tp, uint16_t kind, void* pSaveInfo );
 
 /** Get max entry by 'category' **/
 int32_t  ALW_GetMaxEntry( uint16_t category ); /* Toolkit addition */
 
-/** Get TASK in 'catergory' by 'num' **/
-TASK*    ALW_GetTask( int32_t category, uint16_t num );
+/** Get Task in 'catergory' by 'num' **/
+task*    ALW_GetTask( int32_t category, uint16_t num );
 
-/** Get TASK attributes **/
-int32_t  ALW_GetCategory( TASK* tp );
-uint16_t ALW_GetKind(     TASK* tp ); /* Toolkit addition */
+/** Get Task attributes **/
+int32_t  ALW_GetCategory( task* tp );
+uint16_t ALW_GetKind(     task* tp ); /* Toolkit addition */
 
 /** ALW attention **/
-ALW_ENTRY_WORK* ALW_IsAttention(  TASK* tp             ); /* Returns current attention */
-int32_t         ALW_AttentionOn(  TASK* tp1, TASK* tp2 ); /* Set attention */
-int32_t         ALW_AttentionOff( TASK* tp             ); /* Attention off */
+ALW_ENTRY_WORK* ALW_IsAttention(  task* tp             ); /* Returns current attention */
+int32_t         ALW_AttentionOn(  task* tp1, task* tp2 ); /* Set attention */
+int32_t         ALW_AttentionOff( task* tp             ); /* Attention off */
 
-int32_t         ALW_IsSheAttentionOtherOne( TASK* pMyTask, TASK* pHerTask );
+int32_t         ALW_IsSheAttentionOtherOne( task* pMyTask, task* pHerTask );
 
 /** ALW communication **/
-ALW_ENTRY_WORK* ALW_IsCommunication(  TASK* tp             ); /* Returns current communication */
-int32_t         ALW_CommunicationOn(  TASK* tp1, TASK* tp2 ); /* Set communication */
-int32_t         ALW_CommunicationOff( TASK* tp             ); /* Communication off */
+ALW_ENTRY_WORK* ALW_IsCommunication(  task* tp             ); /* Returns current communication */
+int32_t         ALW_CommunicationOn(  task* tp1, task* tp2 ); /* Set communication */
+int32_t         ALW_CommunicationOff( task* tp             ); /* Communication off */
 
-ALW_ENTRY_WORK* ALW_IsCommunicationEx( TASK* tp, uint16_t category ); /* Returns current communication by 'category' */
+ALW_ENTRY_WORK* ALW_IsCommunicationEx( task* tp, uint16_t category ); /* Returns current communication by 'category' */
 
-int32_t         ALW_RecieveCommand( TASK* tp );
+int32_t         ALW_RecieveCommand( task* tp );
 
 EXTERN_END
 

@@ -460,8 +460,6 @@ RFMOD_CreateBuffer(void)
 
 #define _gj_alpha_mode_     DATA_REF(uint32_t, 0x025EFE50)
 
-static hook_info* HookInfoGxEnd;
-
 static s32
 ModifierBegin(void)
 {
@@ -506,6 +504,8 @@ ModifierEnd(const s32 i)
     }
 }
 
+static hook_info HookInfoGxEnd[1];
+
 static void
 GX_EndStencilCheck(void)
 {
@@ -516,7 +516,7 @@ GX_EndStencilCheck(void)
     ModifierEnd(i);
 }
 
-static hook_info* HookInfoGjDraw;
+static hook_info HookInfoGjDraw[1];
 
 #define sub_41BE30      FUNC_PTR(void, __cdecl, (int, char), 0x0041BE30)
 
@@ -558,6 +558,6 @@ RFMOD_Init(void)
     RFMOD_CreateBuffer();
 
     /** Draw hooks **/
-    HookInfoGxEnd  = FuncHook(GX_End_p,   GX_EndStencilCheck);
-    HookInfoGjDraw = FuncHook(sub_41BE30, GjDrawStencilCheck);
+    FuncHook(HookInfoGxEnd , GX_End_p,   GX_EndStencilCheck);
+    FuncHook(HookInfoGjDraw, sub_41BE30, GjDrawStencilCheck);
 }

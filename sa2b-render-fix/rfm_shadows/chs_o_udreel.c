@@ -16,9 +16,9 @@
 #include <rf_util.h>
 
 static void
-ObjectUdreelDisplayerMod(TASK* tp)
+ObjectUdreelDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -31,9 +31,9 @@ ObjectUdreelDisplayerMod(TASK* tp)
 }
 
 static void
-ObjectGolemUdreelDisplayerMod(TASK* tp)
+ObjectGolemUdreelDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -45,16 +45,16 @@ ObjectGolemUdreelDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectGolemUdreel       FUNC_PTR(void, __cdecl, (TASK*), 0x004BB5D0)
+#define ObjectGolemUdreel       FUNC_PTR(void, __cdecl, (task*), 0x004BB5D0)
 
-static hook_info* HookInfoGolemUdreel;
+static hook_info HookInfoGolemUdreel[1];
 
 static void
-ObjectGolemUdreelHook(TASK* tp)
+ObjectGolemUdreelHook(task* tp)
 {
-    FuncHookRestore(HookInfoGolemUdreel);
+    HookInfoUnhook(HookInfoGolemUdreel);
     ObjectGolemUdreel(tp);
-    FuncHookRehook(HookInfoGolemUdreel);
+    HookInfoRehook(HookInfoGolemUdreel);
 
     if (tp->disp)
         tp->disp_shad = ObjectGolemUdreelDisplayerMod;
@@ -66,7 +66,7 @@ CHS_UdreelInit(void)
     WriteJump(0x006E6320, ObjectUdreelDisplayerMod);
     SwitchDisplayer(0x006E56A2, DISP_SHAD);
 
-    HookInfoGolemUdreel = FuncHook(ObjectGolemUdreel, ObjectGolemUdreelHook);
+    FuncHook(HookInfoGolemUdreel, ObjectGolemUdreel, ObjectGolemUdreelHook);
     KillCall(0x004BC47C);
     KillCall(0x004BC6FE);
 }

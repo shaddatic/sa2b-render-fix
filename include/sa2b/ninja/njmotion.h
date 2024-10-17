@@ -365,10 +365,10 @@ void    njCalcShapeLinkVlist(const NJS_CNK_MODEL* cnkmodel);
 
 //  Motion, Shape, MotionLink, ShapeLink with a specified function.
 void	njDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame,
-    Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel));
+    Sint32(*pDrawFunc)(const NJS_CNK_MODEL* cnkmodel));
 
 void	njDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link,
-    Float rate, Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel));
+    Float rate, Sint32(*pDrawFunc)(const NJS_CNK_MODEL* cnkmodel));
 
 void    njCnkDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame, Float sframe);
 void    njCnkDrawShapeLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate);

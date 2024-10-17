@@ -26,7 +26,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct al_gene          AL_GENE;
 typedef struct chao_param_gc    CHAO_PARAM_GC;
 
@@ -154,12 +154,12 @@ EGG_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   CreateEgg(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, const NJS_POINT3* pPos, int32_t type);
+task*   CreateEgg(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, const NJS_POINT3* pPos, int32_t type);
 
 /** Task functions **/
-void    AL_EggExecutor(TASK* tp);
-void    AL_EggDisplayer(TASK* tp);
-void    AL_EggDestructor(TASK* tp); /* Same function as many other ALO objects */
+void    AL_EggExecutor(task* tp);
+void    AL_EggDisplayer(task* tp);
+void    AL_EggDestructor(task* tp); /* Same function as many other ALO objects */
 
 EXTERN_END
 
@@ -168,10 +168,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define CreateEgg_p              FUNC_PTR(TASK*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, int32_t, const NJS_POINT3*, int32_t), 0x0057B9C0)
-#   define AL_EggExecutor_p         FUNC_PTR(void , __cdecl, (TASK*)                                                        , 0x0057B520)
-#   define AL_EggDisplayer_p        FUNC_PTR(void , __cdecl, (TASK*)                                                        , 0x0057B640)
-#   define AL_EggDestructor_p       FUNC_PTR(void , __cdecl, (TASK*)                                                        , 0x0057B9B0)
+#   define CreateEgg_p              FUNC_PTR(task*, __cdecl, (AL_GENE*, CHAO_PARAM_GC*, int32_t, const NJS_POINT3*, int32_t), 0x0057B9C0)
+#   define AL_EggExecutor_p         FUNC_PTR(void , __cdecl, (task*)                                                        , 0x0057B520)
+#   define AL_EggDisplayer_p        FUNC_PTR(void , __cdecl, (task*)                                                        , 0x0057B640)
+#   define AL_EggDestructor_p       FUNC_PTR(void , __cdecl, (task*)                                                        , 0x0057B9B0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

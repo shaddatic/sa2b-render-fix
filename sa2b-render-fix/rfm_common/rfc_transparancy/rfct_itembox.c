@@ -17,7 +17,7 @@
 typedef struct 
 {
     int texid;
-    void(__cdecl* exec)(TASK* tp, int pno);
+    void(__cdecl* exec)(task* tp, int pno);
 }
 ITEMBOX_INFO;
 
@@ -49,9 +49,9 @@ DrawItemBoxItemTexture(int texid, NJS_POINT3* pos, Angle angy, float scl)
 }
 
 static void
-ObjectItemBoxDispSort_RF(TASK* tp)
+ObjectItemBoxDispSort_RF(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -105,9 +105,9 @@ ObjectItemBoxDispSort_RF(TASK* tp)
 #define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
 
 static void
-ObjectItemBoxAirDispSort_RF(TASK* tp)
+ObjectItemBoxAirDispSort_RF(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 

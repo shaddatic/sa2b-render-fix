@@ -20,7 +20,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Enums               */
@@ -99,7 +99,7 @@ typedef struct
     GBAManMode mode;
     int32_t debugDisp;
     int32_t IsBusy;
-    TASK* tp;
+    task* tp;
     b32 IsOdekake;
     CHAO_PARAM_GC* pChaoParam;
     GBA_PORT_INFO PortInfo[4];

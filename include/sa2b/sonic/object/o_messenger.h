@@ -15,7 +15,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
@@ -26,9 +26,9 @@ int32_t  LoadMessengerFile(const char* f);
 int32_t  FreeMessengerFile(void);
 
 /** Task functions **/
-void    ObjectMessengerCreate(TASK* tp);
-void    ObjectMessengerExec(TASK* tp);
-void    ObjectMessengerDestructor(TASK* tp);
+void    ObjectMessengerCreate(task* tp);
+void    ObjectMessengerExec(task* tp);
+void    ObjectMessengerDestructor(task* tp);
 
 EXTERN_END
 
@@ -37,9 +37,9 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#   define ObjectMessengerCreate_p          FUNC_PTR(void, __cdecl, (TASK*), 0x6C0780)
-#   define ObjectMessengerExec_p            FUNC_PTR(void, __cdecl, (TASK*), 0x006BE2E0)
-#   define ObjectMessengerDestructor_p      FUNC_PTR(void, __cdecl, (TASK*), 0x006C0970)
+#   define ObjectMessengerCreate_p          FUNC_PTR(void, __cdecl, (task*), 0x6C0780)
+#   define ObjectMessengerExec_p            FUNC_PTR(void, __cdecl, (task*), 0x006BE2E0)
+#   define ObjectMessengerDestructor_p      FUNC_PTR(void, __cdecl, (task*), 0x006C0970)
 #   define FreeMessengerFile_p              FUNC_PTR(int32_t, __cdecl, (), 0x006BD5D0)
 
 /** User-Function ptr **/

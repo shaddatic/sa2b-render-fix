@@ -22,7 +22,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 typedef struct al_object    AL_OBJECT;
 
 /************************/
@@ -52,15 +52,15 @@ AL_MOTION_INFO;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_InitCalcMotionMatrix(TASK* tp);
+void    AL_InitCalcMotionMatrix(task* tp);
 void    AL_CalcMotionMatrixTranslate(AL_OBJECT* pObject);
 void    AL_CalcMotionMatrixRotation(AL_OBJECT* pObject);
 void    AL_CalcMotionMartix(AL_OBJECT* pObject); /* Not a typo */
 void    AL_SetCurrMatrixSub(AL_OBJECT* pObject);
-void    AL_SetCurrMatrix(TASK* tp);
-void    AL_CalcShadowPos(TASK* tp);
-void    AL_BuyoBuyoObject(TASK* tp, AL_OBJECT* pObject);
-void    AL_BuyoBuyoControl(TASK* tp);
+void    AL_SetCurrMatrix(task* tp);
+void    AL_CalcShadowPos(task* tp);
+void    AL_BuyoBuyoObject(task* tp, AL_OBJECT* pObject);
+void    AL_BuyoBuyoControl(task* tp);
 
 EXTERN_END
 
@@ -70,8 +70,8 @@ EXTERN_END
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define AL_SetCurrMatrixSub_p            FUNC_PTR(void, __cdecl, (AL_OBJECT*)       , 0x0056F010)
-#   define AL_BuyoBuyoObject_p              FUNC_PTR(void, __cdecl, (TASK*, AL_OBJECT*), 0x0056F5C0)
-#   define AL_BuyoBuyoControl_p             FUNC_PTR(void, __cdecl, (TASK*)            , 0x0056FC20)
+#   define AL_BuyoBuyoObject_p              FUNC_PTR(void, __cdecl, (task*, AL_OBJECT*), 0x0056F5C0)
+#   define AL_BuyoBuyoControl_p             FUNC_PTR(void, __cdecl, (task*)            , 0x0056FC20)
 
 /** User-Function ptrs **/
 #   define AL_InitCalcMotionMatrix_p        ((void*)0x0056E9C0);

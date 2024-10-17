@@ -13,9 +13,9 @@
 #include <rf_draw.h>
 
 static void
-ObjectGoalringDisplayerMod(TASK* tp)
+ObjectGoalringDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     /** Is not a Chao **/
     if (twp->ang.x % 3 != 1)

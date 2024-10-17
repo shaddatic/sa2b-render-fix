@@ -22,12 +22,12 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Data                */
 /************************/
-#define ALO_RadicaseTaskPointer     DATA_REF(TASK*, 0x01AED2E0)
+#define ALO_RadicaseTaskPointer     DATA_REF(task*, 0x01AED2E0)
 
 /************************/
 /*  Functions           */
@@ -36,9 +36,9 @@ EXTERN_START
 void    ALO_RadicaseCreate( NJS_POINT3* pPos );
 
 /** Internal task functions **/
-void    ALO_RadicaseExecutor(   TASK* tp );
-void    ALO_RadicaseDisplayer(  TASK* tp );
-void    ALO_RadicaseDestructor( TASK* tp );
+void    ALO_RadicaseExecutor(   task* tp );
+void    ALO_RadicaseDisplayer(  task* tp );
+void    ALO_RadicaseDestructor( task* tp );
 
 EXTERN_END
 
@@ -48,9 +48,9 @@ EXTERN_END
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define ALO_RadicaseCreate_p         FUNC_PTR(void, __cdecl, (NJS_POINT3*), 0x0057CCA0)
-#   define ALO_RadicaseExecutor_p       FUNC_PTR(void, __cdecl, (TASK*)      , 0x0057C840)
-#   define ALO_RadicaseDisplayer_p      FUNC_PTR(void, __cdecl, (TASK*)      , 0x0057CA80)
-#   define ALO_RadicaseDestructor_p     FUNC_PTR(void, __cdecl, (TASK*)      , 0x0057CC80)
+#   define ALO_RadicaseExecutor_p       FUNC_PTR(void, __cdecl, (task*)      , 0x0057C840)
+#   define ALO_RadicaseDisplayer_p      FUNC_PTR(void, __cdecl, (task*)      , 0x0057CA80)
+#   define ALO_RadicaseDestructor_p     FUNC_PTR(void, __cdecl, (task*)      , 0x0057CC80)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

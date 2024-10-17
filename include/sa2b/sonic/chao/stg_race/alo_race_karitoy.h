@@ -16,14 +16,14 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Task functions **/
-void    ALO_RaceKariToyExecutor(TASK* tp);
+void    ALO_RaceKariToyExecutor(task* tp);
 
 EXTERN_END
 
@@ -32,7 +32,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_RaceKariToyExecutor_p        FUNC_PTR(void, __cdecl, (TASK*), 0x00560470)
+#   define ALO_RaceKariToyExecutor_p        FUNC_PTR(void, __cdecl, (task*), 0x00560470)
 
 #endif/*SAMT_INCL_FUNCPTRS */
 

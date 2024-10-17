@@ -16,7 +16,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Includes            */
@@ -30,7 +30,7 @@ EXTERN_START
 void    CreateFallObject(NJS_POINT3* pPos);
 
 /** Task functions **/
-void    FallObjectExecutor(TASK* tp);
+void    FallObjectExecutor(task* tp);
 
 EXTERN_END
 
@@ -40,7 +40,7 @@ EXTERN_END
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define CreateFallObject_p       FUNC_PTR(void, __cdecl, (NJS_POINT3*), 0x0053B0A0)
-#   define FallObjectExecutor_p     FUNC_PTR(void, __cdecl, (TASK*)      , 0x0053AE10)
+#   define FallObjectExecutor_p     FUNC_PTR(void, __cdecl, (task*)      , 0x0053AE10)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -37,13 +37,13 @@ static NJS_CNK_OBJECT* object_b_bigbogy_mod;
 #define motion_b_bigbogy_mod        DATA_ARY(NJS_MOTION, 0x010131E4, [1])
 
 static void
-BossBogyDisplayerMod(TASK* tp)
+BossBogyDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     BOSSWK* const bwp = GET_BOSSWK(tp);
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
 
-    ANYWK* const unk = (ANYWK*)bwp->pOtherWork;
+    anywk* const unk = (anywk*)bwp->pOtherWork;
 
     if (unk->work.ub[1] == 2)
     {
@@ -70,9 +70,9 @@ static NJS_CNK_OBJECT* object_b_grobo_foot_mod;
 #define BossBigFootRightFootPos     DATA_REF(NJS_POINT3, 0x01A27EFC)
 
 static void
-BossBigFootDrawMod(TASK* tp)
+BossBigFootDrawMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -105,9 +105,9 @@ BossBigFootDrawMod(TASK* tp)
 #define BossBigFootInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27E54)
 
 static void
-BossBigFootDisplayerMod(TASK* tp)
+BossBigFootDisplayerMod(task* tp)
 {
-    TASKWK*    const twp = tp->twp;
+    taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
     BOSSWK*    const bwp = GET_BOSSWK(tp);
 
@@ -157,9 +157,9 @@ BossBigFootDisplayerMod(TASK* tp)
 #define BossHotShotRightFootPos     DATA_REF(NJS_POINT3, 0x01A27DB8)
 
 static void
-BossHotShotDrawMod(TASK* tp)
+BossHotShotDrawMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -192,9 +192,9 @@ BossHotShotDrawMod(TASK* tp)
 #define BossHotShotInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27D04)
 
 static void
-BossHotShotDisplayerMod(TASK* tp)
+BossHotShotDisplayerMod(task* tp)
 {
-    TASKWK*    const twp = tp->twp;
+    taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
     BOSSWK*    const bwp = GET_BOSSWK(tp);
 
@@ -244,9 +244,9 @@ static NJS_CNK_OBJECT* object_b_fdog_mod;
 #define BossFlyingDogBodyPos    DATA_REF(NJS_POINT3, 0x01A27FBC)
 
 static void
-BossFlyingDogDrawMod(TASK* tp)
+BossFlyingDogDrawMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -262,9 +262,9 @@ BossFlyingDogDrawMod(TASK* tp)
 #define BossFlyingDogInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27F8C)
 
 static void
-BossFlyingDogDispMod(TASK* tp)
+BossFlyingDogDispMod(task* tp)
 {
-    TASKWK*    const twp = tp->twp;
+    taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
     BOSSWK*    const bwp = GET_BOSSWK(tp);
 
@@ -303,9 +303,9 @@ BossFlyingDogDispMod(TASK* tp)
 static NJS_CNK_OBJECT* object_b_grobo_missile_mod;
 
 static void
-GRoboMissileDispMod(TASK* tp)
+GRoboMissileDispMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (twp->mode != 1)
         return;
@@ -341,9 +341,9 @@ __GRoboMissileMovHook(void)
 }
 
 static void
-BossLastEnergyDispMod(TASK* tp)
+BossLastEnergyDispMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (twp->mode != 3)
         return;

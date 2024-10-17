@@ -153,7 +153,7 @@ ParseStripFlagsHook(uint8_t flag)
 
 #define _njCnkDrawModelSub      FUNC_PTR(void, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
 
-static hook_info* njCnkDrawModelSubHookInfo;
+static hook_info njCnkDrawModelSubHookInfo[1];
 static void
 CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
 {
@@ -396,7 +396,7 @@ RF_RenderStateInit(void)
 
     RFRS_BackFaceCullingInit();
 
-    njCnkDrawModelSubHookInfo = FuncHook(_njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
+    FuncHook(njCnkDrawModelSubHookInfo, _njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
 
     /** Transparancy draw set **/
     WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);

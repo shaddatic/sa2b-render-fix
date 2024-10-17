@@ -77,7 +77,7 @@ SendScreenRatioToShader(float resW, float resH)
 
 #define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
 
-static hook_info* GX_SetViewportHookInfo;
+static hook_info GX_SetViewportHookInfo[1];
 static void
 GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
 {
@@ -97,7 +97,7 @@ HintTextDisplayer(void* p)
     }
 }
 
-static hook_info* HintTextDisplayerHookInfo;
+static hook_info HintTextDisplayerHookInfo[1];
 static void
 HintTextDisplayerHook(void* p)
 {
@@ -136,14 +136,14 @@ RFG_3DSpriteInit(void)
     WriteNOP(0x0077D835, 0x0077D83A); // Kill `if (z < -1.0f) z = -1.0f;`
 
     /** Fix Multi-screen desync and squish **/
-    GX_SetViewportHookInfo = FuncHook(GX_SetViewport, GX_SetViewportHook);
+    FuncHook(GX_SetViewportHookInfo, GX_SetViewport, GX_SetViewportHook);
 
     /** Fix lens flairs "un-squishing" themselves,
         which causes stretching with the above fix **/
     WriteNOP(0x006C79EE, 0x006C79F8);
 
     /** Fix hint text in 2P **/
-    HintTextDisplayerHookInfo = FuncHook(HintTextDisplayer_p, __HintTextDisplayerHook);
+    FuncHook(HintTextDisplayerHookInfo, HintTextDisplayer_p, __HintTextDisplayerHook);
 
     /** Fix ectoplasm effects "un-squishing" themselves,
         which causes stretching with the above fix **/

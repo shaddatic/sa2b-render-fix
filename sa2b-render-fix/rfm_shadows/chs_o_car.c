@@ -100,12 +100,12 @@ PosInRange(NJS_POINT3* pPos, f32 maxRange, f32* pAnsDist)
 #define stru_10D9810    DATA_ARY(CAR_INFO, 0x010D9810, [30])
 
 static void
-ObjectCECarDisplayerMod(TASK* tp)
+ObjectCECarDisplayerMod(task* tp)
 {
     if (DisableCars)
         return;
 
-    TASKWK*   const twp   = tp->twp;
+    taskwk*   const twp   = tp->twp;
     CAR_INFO* const carip = &stru_10D9810[(int)(twp->scl.y + 0.1f) % 30];
 
     if (twp->btimer < 10 || (twp->btimer < 20 && (GameTimer & 0x1)))
@@ -123,7 +123,7 @@ ObjectCECarDisplayerMod(TASK* tp)
 
     njPushMatrixEx();
 
-    ANYWK* const carwp = TO_ANYWK(tp->mwp);
+    anywk* const carwp = TO_ANYWK(tp->mwp);
 
     const float trans_y = twp->pos.y + carwp[5].work.f[1] + 1.0f + carwp[6].work.f[2];
 
@@ -140,11 +140,11 @@ ObjectCECarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectCECar         FUNC_PTR(void, __cdecl, (TASK*), 0x005DE4E0)
+#define ObjectCECar         FUNC_PTR(void, __cdecl, (task*), 0x005DE4E0)
 
-static hook_info* ObjectCECarHookInfo;
+static hook_info ObjectCECarHookInfo[1];
 void
-ObjectCECarHook(TASK* tp)
+ObjectCECarHook(task* tp)
 {
     FuncHookCall( ObjectCECarHookInfo, ObjectCECar(tp) );
 
@@ -154,9 +154,9 @@ ObjectCECarHook(TASK* tp)
 }
 
 static void
-ObjectCECarCrashDisplayerMod(TASK* tp)
+ObjectCECarCrashDisplayerMod(task* tp)
 {
-    TASKWK*   const twp   = tp->twp;
+    taskwk*   const twp   = tp->twp;
     CAR_INFO* const carip = (CAR_INFO*)tp->awp;
 
     njPushMatrixEx();
@@ -170,12 +170,12 @@ ObjectCECarCrashDisplayerMod(TASK* tp)
 #define stru_1195F80    DATA_ARY(CAR_INFO, 0x01195F80, [15])
 
 static void
-ObjectMSCarDisplayerMod(TASK* tp)
+ObjectMSCarDisplayerMod(task* tp)
 {
     if (DisableCars)
         return;
 
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     CAR_INFO* const carip = &stru_1195F80[(int)(twp->scl.y + 0.1f) % 15];
 
     if (twp->btimer < 10 || (twp->btimer < 20 && (GameTimer & 0x1)))
@@ -193,7 +193,7 @@ ObjectMSCarDisplayerMod(TASK* tp)
 
     njPushMatrixEx();
 
-    ANYWK* const carwp = TO_ANYWK(tp->mwp);
+    anywk* const carwp = TO_ANYWK(tp->mwp);
 
     const float trans_y = twp->pos.y + carwp[2].work.f[3] + 1.0f + carwp[4].work.f[0];
 
@@ -210,11 +210,11 @@ ObjectMSCarDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectMSCar2        FUNC_PTR(void, __cdecl, (TASK*), 0x005B4850)
+#define ObjectMSCar2        FUNC_PTR(void, __cdecl, (task*), 0x005B4850)
 
-static hook_info* ObjectMSCar2HookInfo;
+static hook_info ObjectMSCar2HookInfo[1];
 void
-ObjectMSCar2Hook(TASK* tp)
+ObjectMSCar2Hook(task* tp)
 {
     FuncHookCall( ObjectMSCar2HookInfo, ObjectMSCar2(tp) );
 
@@ -224,9 +224,9 @@ ObjectMSCar2Hook(TASK* tp)
 }
 
 static void
-ObjectMSCarCrashDisplayerMod(TASK* tp)
+ObjectMSCarCrashDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     CAR_INFO* const carip = (CAR_INFO*)tp->awp;
 
     njPushMatrixEx();
@@ -241,13 +241,13 @@ void
 CHS_CarInit(void)
 {
     /** City Escape **/
-    ObjectCECarHookInfo = FuncHook(ObjectCECar, ObjectCECarHook);
+    FuncHook(ObjectCECarHookInfo, ObjectCECar, ObjectCECarHook);
 
     WriteJump(0x005E2930, ObjectCECarCrashDisplayerMod);
     KillCall(0x005E150F); // SetStencilInfo
 
     /** Mission Street **/
-    ObjectMSCar2HookInfo = FuncHook(ObjectMSCar2, ObjectMSCar2Hook);
+    FuncHook(ObjectMSCar2HookInfo, ObjectMSCar2, ObjectMSCar2Hook);
 
     WriteJump(0x005B75C0, ObjectMSCarCrashDisplayerMod);
     KillCall(0x005B6148); // SetStencilInfo

@@ -58,7 +58,7 @@ enum /* ssGameMode */
     MD_GAME_FADEOUT_MISS,
     MD_GAME_FADEOUT_RESTART = 0x0D,
     MD_GAME_PAUSE = 0x11,
-    NUM_GAMEMD,
+    NUM_GAMEMD = 0x32,
 };
 
 enum

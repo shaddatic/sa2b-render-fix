@@ -63,7 +63,7 @@ ENEMY_MTN;
 
 typedef struct enemywk
 {
-    MOTIONWK();
+    MOTIONWK;
 
     int unk3;
     char byte44;

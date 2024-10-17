@@ -16,10 +16,10 @@
 static NJS_CNK_OBJECT* object_o_cc_block_mod;
 
 static void
-ObjectBlock2DisplayerMod(TASK* tp)
+ObjectBlock2DisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK*  const awp = tp->awp;
+    taskwk* const twp = tp->twp;
+    anywk*  const awp = tp->awp;
 
     if ((twp->ang.z & 1) == 0)
         return;
@@ -38,11 +38,11 @@ ObjectBlock2DisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectBlock2    FUNC_PTR(void, __cdecl, (TASK*), 0x004CF370)
+#define ObjectBlock2    FUNC_PTR(void, __cdecl, (task*), 0x004CF370)
 
-static hook_info* HookInfoObjectBlock2;
+static hook_info HookInfoObjectBlock2[1];
 static void
-ObjectBlock2Hook(TASK* tp)
+ObjectBlock2Hook(task* tp)
 {
     FuncHookCall( HookInfoObjectBlock2, ObjectBlock2(tp) );
 
@@ -51,10 +51,10 @@ ObjectBlock2Hook(TASK* tp)
 }
 
 static void
-ObjectBlockDisplayerMod(TASK* tp)
+ObjectBlockDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK* const awp = tp->awp;
+    taskwk* const twp = tp->twp;
+    anywk* const awp = tp->awp;
 
     if ((twp->ang.z & 2) == 0)
         return;
@@ -73,10 +73,10 @@ ObjectBlockDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectBlock    FUNC_PTR(void, __cdecl, (TASK*), 0x004CE240)
-static hook_info* HookInfoObjectBlock;
+#define ObjectBlock    FUNC_PTR(void, __cdecl, (task*), 0x004CE240)
+static hook_info HookInfoObjectBlock[1];
 static void
-ObjectBlockHook(TASK* tp)
+ObjectBlockHook(task* tp)
 {
     FuncHookCall( HookInfoObjectBlock, ObjectBlock(tp) );
 
@@ -87,8 +87,8 @@ ObjectBlockHook(TASK* tp)
 void
 CHS_CCBlockInit(void)
 {
-    HookInfoObjectBlock2 = FuncHook(ObjectBlock2, ObjectBlock2Hook);
-    HookInfoObjectBlock  = FuncHook(ObjectBlock , ObjectBlockHook);
+    FuncHook(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
+    FuncHook(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
 
     object_o_cc_block_mod = RF_ChunkLoadObjectFile("o_cc_block_mod");
 }

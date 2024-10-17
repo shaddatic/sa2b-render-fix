@@ -21,7 +21,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct item_save_info   ITEM_SAVE_INFO;
 
 /************************/
@@ -122,11 +122,11 @@ eHEAD_PARTS;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_ObakeHeadCreate(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+task*   ALO_ObakeHeadCreate(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
 
 /** Task functions **/
-void    ALO_ObakeHeadExecutor(TASK* tp);
-void    ALO_ObakeHeadDisplayer(TASK* tp);
+void    ALO_ObakeHeadExecutor(task* tp);
+void    ALO_ObakeHeadDisplayer(task* tp);
 
 EXTERN_END
 
@@ -135,9 +135,9 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_ObakeHeadCreate_p            FUNC_PTR(TASK*, __cdecl, (eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x0054A540)
-#   define ALO_ObakeHeadExecutor_p          FUNC_PTR(void , __cdecl, (TASK*)                                                                                       , 0x0054A050)
-#   define ALO_ObakeHeadDisplayer_p         FUNC_PTR(void , __cdecl, (TASK*)                                                                                       , 0x0054A0F0)
+#   define ALO_ObakeHeadCreate_p            FUNC_PTR(task*, __cdecl, (eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo), 0x0054A540)
+#   define ALO_ObakeHeadExecutor_p          FUNC_PTR(void , __cdecl, (task*)                                                                                       , 0x0054A050)
+#   define ALO_ObakeHeadDisplayer_p         FUNC_PTR(void , __cdecl, (task*)                                                                                       , 0x0054A0F0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -37,9 +37,9 @@ typedef struct
 MIZUWK;
 
 static void
-MizugomiDisplayer_AM(TASK* tp)
+MizugomiDisplayer_AM(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     MIZUWK* const mwp = GET_MIZUWK(tp);
 
     if (twp->mode)
@@ -68,7 +68,7 @@ MizugomiDisplayer_AM(TASK* tp)
     njFogEnable();
 }
 
-#define pMizugomiEQ     DATA_REF(TASK*, 0x01AEFC18)
+#define pMizugomiEQ     DATA_REF(task*, 0x01AEFC18)
 
 static void
 BGMizugomiEQ(void)
@@ -92,7 +92,7 @@ __BGMizugomiEQ(void)
 
 #define texlist_mizugomi_dc     DataPtr(NJS_TEXLIST, 0x00B6F51C)
 
-#define pMizugomiCCK            DATA_REF(TASK*, 0x01AEE2B0)
+#define pMizugomiCCK            DATA_REF(task*, 0x01AEE2B0)
 
 static void
 BGMizugomiDCOff(void)

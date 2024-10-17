@@ -22,7 +22,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 typedef struct cnkobj       NJS_CNK_OBJECT;
 typedef struct al_object    AL_OBJECT;
 
@@ -115,16 +115,16 @@ AL_ITEM_INFO;
 /************************/
 EXTERN_START
 /** Place an item/object, like a toy, onto a part of the Chao **/
-void    AL_SetItem(TASK* tp, int32_t TreeNum, NJS_CNK_OBJECT* pObject);
-void    AL_SetItemOffset(TASK* tp, int32_t TreeNum, AL_ITEM_INFO* pInfo);
+void    AL_SetItem(task* tp, int32_t TreeNum, NJS_CNK_OBJECT* pObject);
+void    AL_SetItemOffset(task* tp, int32_t TreeNum, AL_ITEM_INFO* pInfo);
 
 /** Clear items **/
-void    AL_RemoveItemAll(TASK* tp);
+void    AL_RemoveItemAll(task* tp);
 
 /** Set minimal part **/
-void    AL_SetMiminalParts(TASK* tp, int32_t PartsKind, int32_t MinimalType);
+void    AL_SetMiminalParts(task* tp, int32_t PartsKind, int32_t MinimalType);
 /** Clear minimal parts **/
-void    AL_ClearParts(TASK* tp);
+void    AL_ClearParts(task* tp);
 
 /** Internal functions **/
 void    AL_RemoveItemAllSub(AL_OBJECT* pObject);

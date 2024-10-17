@@ -22,21 +22,21 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
-typedef struct taskwk       TASKWK;
-typedef struct forcewk      FORCEWK;
+typedef struct task         task;
+typedef struct taskwk       taskwk;
+typedef struct forcewk      forcewk;
 
 /************************/
 /*  Structures          */
 /************************/
-#define TO_FORCEWK(_p)      ((FORCEWK*)(_p))
+#define TO_FORCEWK(_p)      ((forcewk*)(_p))
 
 typedef struct forcewk
 {
-    void(__cdecl* call_back)(TASK*, TASKWK*, FORCEWK*);
+    void(__cdecl* call_back)(task*, taskwk*, forcewk*);
     Angle3        ang_spd;
     NJS_POINT3    pos_spd;
 }
-FORCEWK;
+forcewk;
 
 #endif/*_SA2B_TASK_FORCEWK_H_*/

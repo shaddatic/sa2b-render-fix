@@ -140,10 +140,10 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
 }
 
 static void
-ObjectTruckDisplayerMod(TASK* tp)
+ObjectTruckDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK* const trkwp = TO_ANYWK(tp->mwp);
+    taskwk* const twp = tp->twp;
+    anywk* const trkwp = TO_ANYWK(tp->mwp);
 
     njPushMatrixEx();
 

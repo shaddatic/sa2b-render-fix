@@ -15,9 +15,9 @@
 #include <rf_util.h>
 
 static void
-ObjectIronBall2DisplayerMod(TASK* tp)
+ObjectIronBall2DisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 

@@ -15,7 +15,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct al_gene          AL_GENE;
 typedef struct chao_param_gc    CHAO_PARAM_GC;
 
@@ -27,7 +27,7 @@ EXTERN_START
 void    AL_GeneCreate(AL_GENE* pGene);
 
 /** Initial gene analysis **/
-void    AL_GeneAnalyze(TASK* tp);
+void    AL_GeneAnalyze(task* tp);
 
 /** Internally called by 'AL_GeneAnalyze()' & 'AL_GeneAnalyze2()' **/
 void    AL_GeneAnalyzeCommon(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC);

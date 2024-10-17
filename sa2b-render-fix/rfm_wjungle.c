@@ -23,9 +23,9 @@
 #define object_water_w_jungle       DATA_ARY(NJS_CNK_OBJECT, 0xEAD2BC, [1])
 
 static void
-BgDispSort(TASK* tp)
+BgDispSort(task* tp)
 {
-    TASKWK* twp = tp->twp;
+    taskwk* twp = tp->twp;
 
     if ((byte_174AFFD == 1 && cameraNumber == 0) || 
         (byte_174AFFD == 2 && cameraNumber == 1) ||

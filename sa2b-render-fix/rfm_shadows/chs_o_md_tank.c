@@ -16,9 +16,9 @@
 static NJS_CNK_OBJECT* object_o_md_contbox_mod;
 
 static void
-ObjectMDContainerBoxDisplayerMod(TASK* tp)
+ObjectMDContainerBoxDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (twp->smode)
         return;
@@ -33,11 +33,11 @@ ObjectMDContainerBoxDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectTank      FUNC_PTR(void, __cdecl, (TASK*), 0x005C37A0)
+#define ObjectTank      FUNC_PTR(void, __cdecl, (task*), 0x005C37A0)
 
-static hook_info* HookInfoObjectTank;
+static hook_info HookInfoObjectTank[1];
 static void
-ObjectTankHook(TASK* tp)
+ObjectTankHook(task* tp)
 {
     FuncHookCall( HookInfoObjectTank, ObjectTank(tp) );
 
@@ -48,7 +48,7 @@ ObjectTankHook(TASK* tp)
 void
 CHS_TankInit(void)
 {
-    HookInfoObjectTank = FuncHook(ObjectTank, ObjectTankHook);
+    FuncHook(HookInfoObjectTank, ObjectTank, ObjectTankHook);
 
     object_o_md_contbox_mod = RF_ChunkLoadObjectFile("o_md_tank_mod");
 }

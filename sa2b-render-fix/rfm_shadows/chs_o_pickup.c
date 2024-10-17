@@ -14,9 +14,9 @@
 #include <rf_draw.h>
 
 static void
-ObjectPickUpDisplayerMod(TASK* tp)
+ObjectPickUpDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (twp->flag & 0x8000)
         return;
@@ -31,10 +31,10 @@ ObjectPickUpDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectPickUpDisplayer   FUNC_PTR(void, __cdecl, (TASK*), 0x006BC7A0)
+#define ObjectPickUpDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x006BC7A0)
 
 static void
-ObjectPickUpInitDisplayers(TASK* tp)
+ObjectPickUpInitDisplayers(task* tp)
 {
     tp->disp = ObjectPickUpDisplayer;
     tp->disp_shad = ObjectPickUpDisplayerMod;
@@ -42,7 +42,7 @@ ObjectPickUpInitDisplayers(TASK* tp)
 
 __declspec(naked)
 static void
-__ObjectPickUpInitDisplayers(TASK* tp)
+__ObjectPickUpInitDisplayers(task* tp)
 {
     __asm
     {

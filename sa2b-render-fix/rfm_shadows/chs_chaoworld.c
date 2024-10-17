@@ -57,7 +57,7 @@ AL_ShadowDraw(void)
 }
 
 static void
-ChaoDisplayerMod(TASK* tp)
+ChaoDisplayerMod(task* tp)
 {
     CHAOWK*         const cwp = GET_CHAOWK(tp);
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -190,11 +190,11 @@ ChaoDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoCreateChaoExtra;
-static TASK*
+static hook_info HookInfoCreateChaoExtra[1];
+static task*
 CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall(HookInfoCreateChaoExtra, tp = CreateChaoExtra(pParamGC, IsParamCopy, pElement, pPos, angy));
 
@@ -212,7 +212,7 @@ static const float LeafAdjList[11] = { 7.7f, 7.3f, 7.8f, 7.1f };
 static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
 
 static void
-ALO_GrowTreeDisplayerMod(TASK* tp)
+ALO_GrowTreeDisplayerMod(task* tp)
 {
     TREE_WORK* const twp = GET_TREE_WORK(tp);
 
@@ -288,11 +288,11 @@ ALO_GrowTreeDisplayerMod(TASK* tp)
     }
 }
 
-static hook_info* HookInfoALO_GrowTreeCreate;
-static TASK*
+static hook_info HookInfoALO_GrowTreeCreate[1];
+static task*
 ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoALO_GrowTreeCreate, tp = ALO_GrowTreeCreate(pPos, pInfo) );
 
@@ -305,7 +305,7 @@ ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
 }
 
 static void
-ALO_RaceTreeDisplayerMod(TASK* tp)
+ALO_RaceTreeDisplayerMod(task* tp)
 {
     TREE_WORK* const twp = GET_TREE_WORK(tp);
 
@@ -348,11 +348,11 @@ ALO_RaceTreeDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ALO_RaceTree        FUNC_PTR(void, __cdecl, (TASK*), 0x00537E70)
+#define ALO_RaceTree        FUNC_PTR(void, __cdecl, (task*), 0x00537E70)
 
-static hook_info* HookInfoALO_RaceTree;
+static hook_info HookInfoALO_RaceTree[1];
 static void
-ALO_RaceTreeHook(TASK* tp)
+ALO_RaceTreeHook(task* tp)
 {
     FuncHookCall( HookInfoALO_RaceTree, ALO_RaceTree(tp) );
 
@@ -360,7 +360,7 @@ ALO_RaceTreeHook(TASK* tp)
 }
 
 static void
-AL_EggDisplayerMod(TASK* tp)
+AL_EggDisplayerMod(task* tp)
 {
     CHAOWK*         const cwp   = GET_CHAOWK(tp);
     EGG_WORK*       const eggwp = GET_EGG_WORK(tp);
@@ -402,11 +402,11 @@ AL_EggDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoCreateEgg;
-static TASK*
+static hook_info HookInfoCreateEgg[1];
+static task*
 CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, const NJS_POINT3* pPos, int32_t type)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoCreateEgg, tp = CreateEgg(pGene, pParamGC, IsParamCopy, pPos, type) );
 
@@ -419,7 +419,7 @@ CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, cons
 }
 
 static void
-ALO_ChaosDriveDisplayerMod(TASK* tp)
+ALO_ChaosDriveDisplayerMod(task* tp)
 {
     AL_CHAOSDRIVE_WORK* const cdwp = GET_AL_CHAOSDRIVE_WORK(tp);
 
@@ -446,11 +446,11 @@ ALO_ChaosDriveDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_ChaosDriveCreate;
-static TASK*
+static hook_info HookInfoALO_ChaosDriveCreate[1];
+static task*
 ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoALO_ChaosDriveCreate, tp = ALO_ChaosDriveCreate(kind, pPos, pVelo, pSaveInfo) );
 
@@ -463,9 +463,9 @@ ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM
 }
 
 static void
-ALO_ObakeHeadDisplayerMod(TASK* tp)
+ALO_ObakeHeadDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
@@ -494,11 +494,11 @@ ALO_ObakeHeadDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_ObakeHeadCreate;
-static TASK*
+static hook_info HookInfoALO_ObakeHeadCreate[1];
+static task*
 ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoALO_ObakeHeadCreate, tp = ALO_ObakeHeadCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
@@ -511,9 +511,9 @@ ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECT
 }
 
 static void
-ALO_SeedDisplayerMod(TASK* tp)
+ALO_SeedDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 1.5f, 1.0f))
@@ -539,11 +539,11 @@ ALO_SeedDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_SeedCreate;
-static TASK*
+static hook_info HookInfoALO_SeedCreate[1];
+static task*
 ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoALO_SeedCreate, tp = ALO_SeedCreate(kind, pPos, pVelo, pSaveInfo) );
 
@@ -556,9 +556,9 @@ ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_S
 }
 
 static void
-ALO_FruitDisplayerMod(TASK* tp)
+ALO_FruitDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
@@ -598,11 +598,11 @@ ALO_FruitDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_FruitCreate;
-static TASK*
+static hook_info HookInfoALO_FruitCreate[1];
+static task*
 ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoALO_FruitCreate, tp = ALO_FruitCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
@@ -615,7 +615,7 @@ ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* 
 }
 
 static void
-AL_MinimalDisplayerMod(TASK* tp)
+AL_MinimalDisplayerMod(task* tp)
 {
     MINIMAL_WORK*   const miniwp = GET_MINIMAL_WORK(tp);
     ALW_ENTRY_WORK* const ewp    = GET_ALW_ENTRY_WORK(tp);
@@ -645,11 +645,11 @@ AL_MinimalDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoAL_MinimalCreate;
-static TASK*
+static hook_info HookInfoAL_MinimalCreate[1];
+static task*
 AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
-    TASK* tp;
+    task* tp;
 
     FuncHookCall( HookInfoAL_MinimalCreate, tp = AL_MinimalCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
@@ -662,9 +662,9 @@ AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR*
 }
 
 static void
-ALO_RaceFruitDisplayerMod(TASK* tp)
+ALO_RaceFruitDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
@@ -692,11 +692,11 @@ ALO_RaceFruitDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ALO_RaceFruit       FUNC_PTR(void, __cdecl, (TASK*), 0x0055A560)
+#define ALO_RaceFruit       FUNC_PTR(void, __cdecl, (task*), 0x0055A560)
 
-static hook_info* HookInfoALO_RaceFruit;
+static hook_info HookInfoALO_RaceFruit[1];
 static void
-ALO_RaceFruitHook(TASK* tp)
+ALO_RaceFruitHook(task* tp)
 {
     FuncHookCall( HookInfoALO_RaceFruit, ALO_RaceFruit(tp) );
 
@@ -704,9 +704,9 @@ ALO_RaceFruitHook(TASK* tp)
 }
 
 static void
-ALO_BallDisplayerMod(TASK* tp)
+ALO_BallDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.0f, 0.0f))
@@ -735,9 +735,9 @@ ALO_BallDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_Ball;
+static hook_info HookInfoALO_Ball[1];
 static void
-ALO_BallHook(TASK* tp)
+ALO_BallHook(task* tp)
 {
     FuncHookCall( HookInfoALO_Ball, ALO_Ball(tp) );
 
@@ -745,9 +745,9 @@ ALO_BallHook(TASK* tp)
 }
 
 static void
-ALO_BoxDisplayerMod(TASK* tp)
+ALO_BoxDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     if (!AL_IsOnScreen2(tp, 2.5f, 1.0f))
         return;
@@ -779,9 +779,9 @@ ALO_BoxCreateMovHook(void)
 }
 
 static void
-ALO_HorseDisplayerMod(TASK* tp)
+ALO_HorseDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!ewp)
@@ -805,9 +805,9 @@ ALO_HorseDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoALO_Horse;
+static hook_info HookInfoALO_Horse[1];
 static void
-ALO_HorseHook(TASK* tp)
+ALO_HorseHook(task* tp)
 {
     FuncHookCall( HookInfoALO_Horse, ALO_Horse(tp) );
 
@@ -815,9 +815,9 @@ ALO_HorseHook(TASK* tp)
 }
 
 static void
-ALO_RadicaseDisplayerMod(TASK* tp)
+ALO_RadicaseDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 3.0f, 1.0f))
@@ -855,9 +855,9 @@ ALO_RadicaseCreateMovHook(void)
 }
 
 static void
-ALO_TVDisplayerMod(TASK* tp)
+ALO_TVDisplayerMod(task* tp)
 {
-    TASKWK*         const twp = tp->twp;
+    taskwk*         const twp = tp->twp;
     ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!ewp)
@@ -910,27 +910,27 @@ CHS_ChaoWorldInit(void)
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex
 
     /** Chao **/
-    HookInfoCreateChaoExtra = FuncHook(CreateChaoExtra_p, CreateChaoExtraHook);
+    FuncHook(HookInfoCreateChaoExtra, CreateChaoExtra_p, CreateChaoExtraHook);
     WriteRetn(0x005405D0); // AL_DrawChaoShadow
 
     /** Grow Tree **/
-    HookInfoALO_GrowTreeCreate = FuncHook(ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
+    FuncHook(HookInfoALO_GrowTreeCreate, ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
 
     if (RF_ConfigGetInt(CNF_MISC_RACETREEMOD))
-        HookInfoALO_RaceTree = FuncHook(ALO_RaceTree, ALO_RaceTreeHook);
+        FuncHook(HookInfoALO_RaceTree, ALO_RaceTree, ALO_RaceTreeHook);
 
     /** AL Objects **/
-    HookInfoCreateEgg            = FuncHook(CreateEgg_p           , CreateEggHook);
-    HookInfoALO_ChaosDriveCreate = FuncHook(ALO_ChaosDriveCreate_p, ALO_ChaosDriveCreateHook);
-    HookInfoALO_ObakeHeadCreate  = FuncHook(ALO_ObakeHeadCreate_p , ALO_ObakeHeadCreateHook);
-    HookInfoALO_SeedCreate       = FuncHook(ALO_SeedCreate_p      , ALO_SeedCreateHook);
-    HookInfoALO_FruitCreate      = FuncHook(ALO_FruitCreate_p     , ALO_FruitCreateHook);
-    HookInfoAL_MinimalCreate     = FuncHook(AL_MinimalCreate_p    , AL_MinimalCreateHook);
-    HookInfoALO_RaceFruit        = FuncHook(ALO_RaceFruit         , ALO_RaceFruitHook);
+    FuncHook(HookInfoCreateEgg           , CreateEgg_p           , CreateEggHook);
+    FuncHook(HookInfoALO_ChaosDriveCreate, ALO_ChaosDriveCreate_p, ALO_ChaosDriveCreateHook);
+    FuncHook(HookInfoALO_ObakeHeadCreate , ALO_ObakeHeadCreate_p , ALO_ObakeHeadCreateHook);
+    FuncHook(HookInfoALO_SeedCreate      , ALO_SeedCreate_p      , ALO_SeedCreateHook);
+    FuncHook(HookInfoALO_FruitCreate     , ALO_FruitCreate_p     , ALO_FruitCreateHook);
+    FuncHook(HookInfoAL_MinimalCreate    , AL_MinimalCreate_p    , AL_MinimalCreateHook);
+    FuncHook(HookInfoALO_RaceFruit       , ALO_RaceFruit         , ALO_RaceFruitHook);
 
     /** Toys **/
-    HookInfoALO_Ball  = FuncHook(ALO_Ball_p , ALO_BallHook);
-    HookInfoALO_Horse = FuncHook(ALO_Horse_p, ALO_HorseHook);
+    FuncHook(HookInfoALO_Ball , ALO_Ball_p , ALO_BallHook);
+    FuncHook(HookInfoALO_Horse, ALO_Horse_p, ALO_HorseHook);
 
     WriteCallToMovDwordPtr(0x0058092A, ALO_BoxCreateMovHook);
     WriteCallToMovDwordPtr(0x0057CD2B, ALO_RadicaseCreateMovHook);

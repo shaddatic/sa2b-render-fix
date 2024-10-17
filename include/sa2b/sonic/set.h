@@ -17,13 +17,13 @@ EXTERN_START
 /************************/
 /*  Abstracted Types    */
 /************************/
-typedef struct task        TASK;
-typedef struct taskwk    TASKWK;
+typedef struct task        task;
+typedef struct taskwk    TaskWk;
 
 /************************/
 /*  Typedefs            */
 /************************/
-typedef void(__cdecl* task_exec)(TASK*);
+typedef void(__cdecl* EDIT_FUNC)(task*);
 
 /************************/
 /*  Constants           */
@@ -81,7 +81,7 @@ typedef struct _OBJ_CONDITION
     uint8_t        scCount;
     uint8_t        scUserFlag;
     int16_t        ssCondition;
-    TASK*          pTask;
+    task*          ptask;
     OBJ_EDITENTRY* pObjEditEntry;
     UNION_STATUS   unionStatus;
 }
@@ -93,7 +93,7 @@ typedef struct _OBJ_ITEMENTRY
     uint8_t   ucLevel;
     int16_t   ssAttribute;
     f32       fRange;
-    task_exec fnExec;
+    EDIT_FUNC fnExec;
     char*     strObjName;
 }
 OBJ_ITEMENTRY;
@@ -108,7 +108,7 @@ OBJ_ITEMTABLE;
 /************************/
 /*  Data                */
 /************************/
-#define SetObjectTaskP          DATA_REF(TASK*, 0x01A5A340)
+#define SetObjectTaskP          DATA_REF(task*, 0x01A5A340)
 
 /************************/
 /*  Functions           */
@@ -155,14 +155,14 @@ b32     FreeSetObject( void );
 */
 void    ReviveSetObject( void );
 
-int32_t CheckRangeOut(TASK* tp);
-int32_t CheckRangeOutWithR(TASK* tp, float fRange);
+int32_t CheckRangeOut(task* tp);
+int32_t CheckRangeOutWithR(task* tp, float fRange);
 
-void    SetBroken(   TASK* pTask );
-void    SetNoRevive( TASK* pTask );
-void    SetContinue( TASK* pTask );
+void    SetBroken(   task* pTask );
+void    SetNoRevive( task* pTask );
+void    SetContinue( task* pTask );
 
-b32     CheckBroken( TASK* pTask );
+b32     CheckBroken( task* pTask );
 
 /*
 *   Description:
@@ -171,7 +171,7 @@ b32     CheckBroken( TASK* pTask );
 *   Parameters:
 *     - pTask   : task pointer
 */
-void    Dead(TASK* pTask);
+void    Dead(task* pTask);
 /*
 *   Description:
 *     Set object flags to 'dead' and free task
@@ -179,14 +179,14 @@ void    Dead(TASK* pTask);
 *   Parameters:
 *     - pTask   : task pointer
 */
-void    DeadOut(TASK* pTask);
+void    DeadOut(task* pTask);
 
 /****** User Flag *******************************************************************/
-void    SetUserFlag(TASK* tp, int8_t flag);
-int8_t  GetUserFlag(TASK* tp);
+void    SetUserFlag(task* tp, int8_t flag);
+int8_t  GetUserFlag(task* tp);
 
 /****** Other ***********************************************************************/
-void    ObjectGenericExec(TASK* tp);
+void    ObjectGenericExec(task* tp);
 
 /************************/
 /*  Function Ptrs       */
@@ -195,7 +195,7 @@ void    ObjectGenericExec(TASK* tp);
 /** Function ptr **/
 #   define CreateSetObject_p            FUNC_PTR(b32 , __cdecl, (OBJ_ITEMTABLE*, OBJ_EDITTABLE*), 0x00487E40)
 #   define ReviveSetObject_p            FUNC_PTR(void, __cdecl, (void)                          , 0x00488AD0)
-#   define ObjectGenericExec_p          FUNC_PTR(void, __cdecl, (TASK*)                         , 0x005B4250)
+#   define ObjectGenericExec_p          FUNC_PTR(void, __cdecl, (task*)                         , 0x005B4250)
 
 /** User-Function ptr **/
 #   define LoadSetFile_p                ((void*)0x00488DD0)

@@ -2,67 +2,96 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/funchook.h'
 *
 *   Description:
-*       Contains functions for non-destructively hooking into
-*   game code so it can be reversed, allowing the original 
-*   function (or any previous hook) to be called as normal.
+*     Functions for non-destructively hooking game code and functions, allowing
+*   hooks to be reversed and the original code to be called as normal.
 *
 *   Contributors:
 *     - Shaddatic
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _SAMT_FUNCHOOK_H_
-#define _SAMT_FUNCHOOK_H_
+#ifndef H_SAMT_FUNCHOOK
+#define H_SAMT_FUNCHOOK
 
-/************************/
-/*  Abstract Types      */
-/************************/
-typedef struct _hook_info           hook_info;
-typedef struct _trampoline_info     trampoline_info;
-
-/************************/
-/*  Functions           */
-/************************/
 EXTERN_START
+
+/************************/
+/*  Structures          */
+/************************/
+/****** Hook Info *******************************************************************/
+typedef struct hook_info
+{
+    int d[4];               /* opaque data                                          */
+}
+hook_info;
+
+/************************/
+/*  Prototypes          */
+/************************/
+/****** Hook Info *******************************************************************/
 /*
-*   # Func Hook
-* 
-*       A hook that applies to whole functions. This can be
-*   used to replace functions outright, or more commonly to
-*   allow calling of the original function by restoring it
-*   first.
+*   Description:
+*     Reverse a hook by restoring original code using a populated hook info.
+*
+*   Parameters:
+*     - info    : hook info pointer
 */
-/** Hook & create a new 'hook_info' **/
-hook_info*  
-        FuncHookCreate( void* pDst, const void* pJump );
-
-/** Restore original code for calling, &
-    rehook code once call is complete **/
-void    FuncHookRestore( const hook_info* pHookInfo );
-void    FuncHookRehook(  const hook_info* pHookInfo );
-
-/** Release hook and 'hook_info' **/
-void    FuncHookFree( hook_info* pHookInfo );
-
+void    HookInfoUnhook( const hook_info* info );
 /*
-*   # Call Hook
-* 
-*       A hook that applies only to function call instructions.
-*   This can be used to only replace certain instances of a
-*   function, or to allow calling of the original function 
-*   without the use of a FuncHook.
+*   Description:
+*     Rehook a function using a populated hook info.
+*
+*   Parameters:
+*     - info    : hook info pointer
 */
-/** Hook & create a new 'hook_info' **/
-hook_info*  
-        CallHookCreate( void* pDst, const void* pCall );
+void    HookInfoRehook( const hook_info* info );
+/*
+*   Description:
+*     Restore the original code and clear the hook info
+*
+*   Parameters:
+*     - info    : hook info pointer
+*/
+void    HookInfoFree( hook_info* info );
 
-/** Restore original code & rehook **/
-void    CallHookRestore( const hook_info* pHookInfo );
-void    CallHookRehook(  const hook_info* pHookInfo );
+/****** Function Hook ***************************************************************/
+/*
+*   Description:
+*     Hook a function with optional hook info, allowing for the original
+*   function be called normally by unhooking the code before calling.
+*     Hook pointer should point to the top of the function. Calling methods and
+*   function arguments must be handled by the user.
+*     
+*   Notes:
+*     - If no hook info is given, operates the same as 'WriteJump'.
+* 
+*   Parameters:
+*     - info    : hook info to populate         (optional)
+*     - hook    : address of function to hook
+*     - func    : function to call from hook
+*/
+void    FuncHookCreate( hook_info* info, void* hook, const void* func );
 
-/** Release hook and 'hook_info' **/
-void    CallHookFree( hook_info* pHookInfo );
+/****** Call Hook *******************************************************************/
+/*
+*   Description:
+*     Hook a call instruction with optional hook info, allowing for the original
+*   code be called normally by unhooking it before calling.
+*     Hook pointer should point to a valid call instruction, or a clear space in
+*   memory where a call instruction can be placed. Calling methods and function
+*   arguments must be handled by the user.
+*
+*   Notes:
+*     - If no hook info is given, operates the same as 'WriteCall'.
+*
+*   Parameters:
+*     - info    : hook info to populate         (optional)
+*     - hook    : address of call instruction to hook
+*     - func    : function to call from hook
+*/
+void    CallHookCreate( hook_info* info, void* hook, const void* func );
 
+/****** Trampoline Hook *************************************************************/
 /*
 *   # Trampoline
 *
@@ -79,21 +108,21 @@ void    CallHookFree( hook_info* pHookInfo );
 /** Hook with trampoline **/
 void    TrampolineCreate( void* pDst, const void* pCall );
 
-EXTERN_END
-
 /************************/
 /*  Macro               */
 /************************/
 /** Create hook **/
-#define FuncHook(_pdst, _pjump)                 FuncHookCreate((void*)(_pdst), (void*)(_pjump))
-#define CallHook(_pdst, _pcall)                 CallHookCreate((void*)(_pdst), (void*)(_pcall))
+#define FuncHook(info, hook, func)           FuncHookCreate(info, (void*)(hook), (const void*)(func))
+#define CallHook(info, hook, func)           CallHookCreate(info, (void*)(hook), (const void*)(func))
 
 /** Call original hooked function **/
-#define FuncHookCall(_hook_info, _hook_call)    FuncHookRestore(_hook_info); \
-                                                _hook_call; \
-                                                FuncHookRehook(_hook_info)
+#define FuncHookCall(info, code)                HookInfoUnhook(info); \
+                                                code; \
+                                                HookInfoRehook(info)
 
 /** Create trampoline **/
 #define Trampoline(_pdst, _pcall)               TrampolineCreate((void*)(_pdst), (void*)(_pcall))
 
-#endif/*_SAMT_FUNCHOOK_H_*/
+EXTERN_END
+
+#endif/*H_SAMT_FUNCHOOK*/

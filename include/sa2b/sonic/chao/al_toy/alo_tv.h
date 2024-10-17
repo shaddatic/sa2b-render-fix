@@ -22,12 +22,12 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Data                */
 /************************/
-#define ALO_TVTaskPointer       DATA_REF(TASK*, 0x01AED288)
+#define ALO_TVTaskPointer       DATA_REF(task*, 0x01AED288)
 
 /************************/
 /*  Functions           */
@@ -36,9 +36,9 @@ EXTERN_START
 void    ALO_TVCreate(NJS_POINT3* pPos);
 
 /** Internal task functions **/
-void    ALO_TVExecutor(TASK* tp);
-void    ALO_TVDisplayer(TASK* tp);
-void    ALO_TVDestructor(TASK* tp);
+void    ALO_TVExecutor(task* tp);
+void    ALO_TVDisplayer(task* tp);
+void    ALO_TVDestructor(task* tp);
 
 EXTERN_END
 
@@ -48,9 +48,9 @@ EXTERN_END
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define ALO_TVCreate_p           FUNC_PTR(void, __cdecl, (NJS_POINT3*), 0x0055CB90)
-#   define ALO_TVExecutor_p         FUNC_PTR(void, __cdecl, (TASK*)      , 0x0055C540)
-#   define ALO_TVDisplayer_p        FUNC_PTR(void, __cdecl, (TASK*)      , 0x0055C9E0)
-#   define ALO_TVDestructor_p       FUNC_PTR(void, __cdecl, (TASK*)      , 0x0055CB70)
+#   define ALO_TVExecutor_p         FUNC_PTR(void, __cdecl, (task*)      , 0x0055C540)
+#   define ALO_TVDisplayer_p        FUNC_PTR(void, __cdecl, (task*)      , 0x0055C9E0)
+#   define ALO_TVDestructor_p       FUNC_PTR(void, __cdecl, (task*)      , 0x0055CB70)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

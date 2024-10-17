@@ -16,9 +16,9 @@
 #define dword_1945E08   DATA_REF(int, 0x1945E08)
 
 static void
-ChaosDriveDisplayerMod(TASK* tp)
+ChaosDriveDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 

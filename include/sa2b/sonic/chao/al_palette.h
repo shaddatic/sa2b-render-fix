@@ -16,13 +16,13 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-void  AL_PaletteInit(TASK* tp);
+void  AL_PaletteInit(task* tp);
 
 EXTERN_END
 
@@ -31,7 +31,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#define AL_PaletteInit_p        FUNC_PTR(void, __cdecl, (TASK*), 0x00534DE0)
+#define AL_PaletteInit_p        FUNC_PTR(void, __cdecl, (task*), 0x00534DE0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

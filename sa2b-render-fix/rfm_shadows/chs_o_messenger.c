@@ -13,9 +13,9 @@
 #include <rf_draw.h>
 
 static void
-ObjectMessengerDisplayerMod(TASK* tp)
+ObjectMessengerDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     NJS_POINT3 point;
 

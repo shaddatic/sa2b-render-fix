@@ -78,7 +78,8 @@ RF_LoadPxlShader(const utf8* fname)
     return RF_DirectLoadPxlShader(buf);
 }
 
-static hook_info* HookInfoSetAndLoadShader;
+static bool      IsHookedSetAndLoadShader;
+static hook_info HookInfoSetAndLoadShader[1];
 
 static void __stdcall
 SetAndLoadShaderHook(int shader)
@@ -98,8 +99,11 @@ RF_ReplaceVtxShader(int index, dx9_vtx_shader* pVtxShader)
     if (index < 0 || index > 12)
         return;
 
-    if (!HookInfoSetAndLoadShader)
-        HookInfoSetAndLoadShader = FuncHook(SetAndLoadShader_p, SetAndLoadShaderHook);
+    if (!IsHookedSetAndLoadShader)
+    {
+        FuncHook(HookInfoSetAndLoadShader, SetAndLoadShader_p, SetAndLoadShaderHook);
+        IsHookedSetAndLoadShader = true;
+    }
 
     ShaderVtxEntries[index] = pVtxShader;
 }
@@ -110,8 +114,11 @@ RF_ReplacePxlShader(int index, dx9_pxl_shader* pPxlShader)
     if (index < 0 || index > 12)
         return;
 
-    if (!HookInfoSetAndLoadShader)
-        HookInfoSetAndLoadShader = FuncHook(SetAndLoadShader_p, SetAndLoadShaderHook);
+    if (!IsHookedSetAndLoadShader)
+    {
+        FuncHook(HookInfoSetAndLoadShader, SetAndLoadShader_p, SetAndLoadShaderHook);
+        IsHookedSetAndLoadShader = true;
+    }
 
     ShaderPxlEntries[index] = pPxlShader;
 }

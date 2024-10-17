@@ -16,13 +16,13 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t  AL_CalcIconColor(TASK* tp);
+int32_t  AL_CalcIconColor(task* tp);
 
 EXTERN_END
 

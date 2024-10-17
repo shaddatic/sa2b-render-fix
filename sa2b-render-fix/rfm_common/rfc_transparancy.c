@@ -25,15 +25,15 @@
 /*  Game Functions      */
 /************************/
 /****** MS Car Displayer ************************************************************/
-#define ObjectMSCarDisp         FUNC_PTR(void, __cdecl, (TASK*), 0x005B56D0)
+#define ObjectMSCarDisp         FUNC_PTR(void, __cdecl, (task*), 0x005B56D0)
 
 /************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
-static hook_info* ObjectMSCarDispHookInfo;
+static hook_info ObjectMSCarDispHookInfo[1];
 static void
-ObjectMSCarDispHook(TASK* tp)
+ObjectMSCarDispHook(task* tp)
 {
     const int backup_rmode = _gj_render_mode_;
 
@@ -104,7 +104,7 @@ RFC_TransparancyInit(void)
         SwitchDisplayer(0x0063D70F, DISP_DELY); // Dry Lagoon BgDisp
 
         SwitchDisplayer(0x005B4944, DISP_SORT); // Mission Street Cars
-        ObjectMSCarDispHookInfo = FuncHook(ObjectMSCarDisp, ObjectMSCarDispHook);
+        FuncHook(ObjectMSCarDispHookInfo, ObjectMSCarDisp, ObjectMSCarDispHook);
 
         SwitchDisplayer(0x0070397F, DISP_SORT); // PC Chained Hoops
 

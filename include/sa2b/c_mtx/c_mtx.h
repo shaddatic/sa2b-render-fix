@@ -34,7 +34,7 @@ void    C_MTXMultVec(const NJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd, 
 void    C_MTXMultVecSR(const NJS_MATRIX* m, const NJS_VECTOR* vs, NJS_VECTOR* vd);
 
 /** Multiply matrices **/
-void    C_MTXConcat(NJS_MATRIX* md, NJS_MATRIX* md2, NJS_MATRIX* ms);
+void    C_MTXConcat(const NJS_MATRIX* mpre, const NJS_MATRIX* mpst, NJS_MATRIX* md);
 
 /** Modify matrices **/
 void    C_MTXScale(NJS_MATRIX* m, float x, float y, float z);

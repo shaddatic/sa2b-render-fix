@@ -21,9 +21,9 @@
 EXTERN_START
 int32_t AL_KW_GetPlayerCharacterNum( void );
 
-void    AL_KW_MeetPlayer( TASK* tp );
+void    AL_KW_MeetPlayer( task* tp );
 
-void    AL_KW_AddPlayerLike( TASK* pChaoTask, int32_t add );
+void    AL_KW_AddPlayerLike( task* pChaoTask, int32_t add );
 
 EXTERN_END
 

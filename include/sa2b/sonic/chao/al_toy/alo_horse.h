@@ -22,7 +22,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 
 /************************/
 /*  Functions           */
@@ -31,10 +31,10 @@ EXTERN_START
 void    ALO_HorseCreate(NJS_POINT3* pPos);
 
 /** Internal task functions **/
-void    ALO_Horse(TASK* tp);
-void    ALO_HorseExecutor(TASK* tp);
-void    ALO_HorseDisplayer(TASK* tp);
-void    ALO_HorseDestructor(TASK* tp); // Same function as many other ALO objects
+void    ALO_Horse(task* tp);
+void    ALO_HorseExecutor(task* tp);
+void    ALO_HorseDisplayer(task* tp);
+void    ALO_HorseDestructor(task* tp); // Same function as many other ALO objects
 
 EXTERN_END
 
@@ -43,10 +43,10 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_Horse_p              FUNC_PTR(void, __cdecl, (TASK*), 0x00580E80)
-#   define ALO_HorseExecutor_p      FUNC_PTR(void, __cdecl, (TASK*), 0x00580BC0)
-#   define ALO_HorseDisplayer_p     FUNC_PTR(void, __cdecl, (TASK*), 0x00580CA0)
-#   define ALO_HorseDestructor_p    FUNC_PTR(void, __cdecl, (TASK*), 0x0057B9B0)
+#   define ALO_Horse_p              FUNC_PTR(void, __cdecl, (task*), 0x00580E80)
+#   define ALO_HorseExecutor_p      FUNC_PTR(void, __cdecl, (task*), 0x00580BC0)
+#   define ALO_HorseDisplayer_p     FUNC_PTR(void, __cdecl, (task*), 0x00580CA0)
+#   define ALO_HorseDestructor_p    FUNC_PTR(void, __cdecl, (task*), 0x0057B9B0)
 
 /** User-Function ptrs **/
 #   define ALO_HorseCreate_p        ((void*)0x00580F30)

@@ -24,7 +24,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 typedef struct cnkobj   NJS_CNK_OBJECT;
 
 /************************/
@@ -126,8 +126,8 @@ SAngle3;
 /************************/
 EXTERN_START
 /** Calculate if position is on screen **/
-b32     AL_IsOnScreen2(TASK* tp, f32 radius, f32 OffsetY);
-b32     AL_IsOnScreen3(TASK* tp, f32 radius, f32 HalfHeight, f32 OffsetY);
+b32     AL_IsOnScreen2(task* tp, f32 radius, f32 OffsetY);
+b32     AL_IsOnScreen3(task* tp, f32 radius, f32 HalfHeight, f32 OffsetY);
 
 /*
 *   Description:
@@ -148,7 +148,7 @@ b32     AL_IsOnScreen3(TASK* tp, f32 radius, f32 HalfHeight, f32 OffsetY);
 OBJ_EDITTABLE* AL_LoadSetFile( const char* set_name );
 
 /** Clear CCL 'Search' and get task of first hit **/
-TASK*   AL_IsHitKindWithNum(TASK* tp, int32_t info_num, uint8_t kind);
+task*   AL_IsHitKindWithNum(task* tp, int32_t info_num, uint8_t kind);
 
 /** Interpolate 'p1' & 'p2' into 'pAnswer' at 'ratio' **/
 void    AL_InterpolateAngle(Angle3* pAng1, Angle3* pAng2, Angle3* pAnswer, f32 ratio);

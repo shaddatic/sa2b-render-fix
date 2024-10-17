@@ -1,7 +1,7 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/sonic/task.h'
 *
-*   Contains defines, structs, functions, and enums related to the TASK system
+*   Contains defines, structs, functions, and enums related to the Task system
 *
 *   Contributors:
 *     - SEGA - Sonic Team,
@@ -32,12 +32,12 @@ typedef struct _OBJ_CONDITION   OBJ_CONDITION;
 /************************/
 /*  Typedefs            */
 /************************/
-typedef void(__cdecl* task_exec)(TASK*);
+typedef void(__cdecl* task_exec)(struct task*);
 
 /************************/
 /*  Enums               */
 /************************/
-typedef enum tasklevel
+typedef enum
 {
     LEV_0,
     LEV_1,
@@ -49,7 +49,7 @@ typedef enum tasklevel
     LEV_C,
     LEV_M
 }
-eTASK_LEV;
+tasklevel;
 
 /************************/
 /*  Structures          */
@@ -71,14 +71,17 @@ typedef struct task
     task_exec       disp_last;  /* Last Displayer       (Drawn 5th) */
     task_exec       disp_shad;  /* Shadow Displayer                 */
 
-    /** Task Work Pointers **/
+    /** Set Pointers **/
     OBJ_CONDITION*  ocp;        /* Set Data                         */
-    TASKWK*         twp;        /* Task Work                        */
-    MOTIONWK*       mwp;        /* Motion Work                      */
-    FORCEWK*        fwp;        /* Force Work          (Array of 2) */
-    ANYWK*          awp;        /* Any Work                         */
-    char*           name;       /* Task Name                        */
-    char*           name2;      /* Task Name       (Copy of 'name') */
+
+    /** Task Work Pointers **/
+    struct taskwk*   twp;       /* Task Work                        */
+    struct motionwk* mwp;       /* Motion Work                      */
+    struct forcewk*  fwp;       /* Force Work          (Array of 2) */
+    struct anywk*    awp;       /* Any Work                         */
+
+    char*            name;      /* Task Name                        */
+    char*            name2;     /* Task Name       (Copy of 'name') */
 
     union {
         int8_t    b[4];
@@ -88,12 +91,12 @@ typedef struct task
         void*     ptr;
     } thp;                      /* Needs more research              */
 }
-TASK;
+task;
 
 /************************/
 /*  Data                */
 /************************/
-#define btp                 DATA_ARY(TASK*, 0x01A5A254, [8]) /* Task lists */
+#define btp                 DATA_ARY(task*, 0x01A5A254, [8]) /* Task lists */
 
 /************************/
 /*  Task Element Flags  */
@@ -109,21 +112,21 @@ TASK;
 /************************/
 EXTERN_START
 /****** Create Task *****************************************************************/
-/** Create new TASK **/
-TASK*   CreateElementalTask(uint8_t im, int32_t level, task_exec exec, const char* name);
-/** Create new task as a child of another TASK **/
-TASK*   CreateChildTask(int16_t im, task_exec exec, TASK* tp);
+/** Create new Task **/
+task*   CreateElementalTask(uint8_t im, tasklevel level, task_exec exec, const char* name);
+/** Create new task as a child of another Task **/
+task*   CreateChildTask(int16_t im, task_exec exec, task* tp);
 
 /****** Free Task *******************************************************************/
-/** Queue TASK for freeing **/
-void    FreeTask(TASK* tp);
+/** Queue Task for freeing **/
+void    FreeTask(task* tp);
 
 /****** Task Exec *******************************************************************/
-/** Generic TASK_EXEC **/
-void    no_op(TASK* tp);
+/** Generic Task_EXEC **/
+void    no_op(task* tp);
 
 /****** Task Destructor Exec ********************************************************/
-void    DestroyTask(TASK* tp);
+void    DestroyTask(task* tp);
 
 EXTERN_END
 
@@ -132,8 +135,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#   define CreateChildTask_p        FUNC_PTR(TASK*, __cdecl, (s16, task_exec, TASK*), 0x00470C00)
-#   define DestroyTask_p            FUNC_PTR(void , __cdecl, (TASK*)                , 0x0046F720)
+#   define CreateChildTask_p        FUNC_PTR(task*, __cdecl, (s16, task_exec, task*), 0x00470C00)
+#   define DestroyTask_p            FUNC_PTR(void , __cdecl, (task*)                , 0x0046F720)
 
 /** User-Function ptr **/
 #   define CreateElementalTask_p    ((void*)0x0046F610);

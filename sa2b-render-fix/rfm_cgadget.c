@@ -11,12 +11,12 @@
 #include <rf_core.h>
 #include <rf_config.h>
 
-static hook_info* BgDispCGHookInfo;
+static hook_info BgDispCGHookInfo[1];
 
-#define BgDispCG    FUNC_PTR(void, __cdecl, (TASK*), 0x00771DD0)
+#define BgDispCG    FUNC_PTR(void, __cdecl, (task*), 0x00771DD0)
 
 static void
-BgDispCGHook(TASK* tp)
+BgDispCGHook(task* tp)
 {
     FuncHookCall( BgDispCGHookInfo, BgDispCG(tp) );
 
@@ -26,5 +26,5 @@ BgDispCGHook(TASK* tp)
 void
 RFM_CrazyGadgetInit(void)
 {
-    BgDispCGHookInfo = FuncHook(BgDispCG, BgDispCGHook);
+     FuncHook(BgDispCGHookInfo, BgDispCG, BgDispCGHook);
 }

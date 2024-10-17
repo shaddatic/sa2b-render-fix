@@ -21,7 +21,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct colliwk          COLLIWK;
 typedef struct tree_save_info   TREE_SAVE_INFO;
 
@@ -30,16 +30,16 @@ typedef struct tree_save_info   TREE_SAVE_INFO;
 /************************/
 typedef enum
 {
-    TREE_NONE,
-    TREE_MORIMORI,
-    TREE_PAKUPAKU,
-    TREE_HERO,
-    TREE_DARK,
-    TREE_MARU,
-    TREE_SANKAKU,
-    TREE_SIKAKU,
-    TREE_LOCAL,
-    TREE_END,
+    TREE_NONE,                  /* none tree type                                   */
+    TREE_MORIMORI,              /* strong fruit tree                                */
+    TREE_PAKUPAKU,              /* tasty fruit tree                                 */
+    TREE_HERO,                  /* hero fruit tree                                  */
+    TREE_DARK,                  /* dark fruit tree                                  */
+    TREE_MARU,                  /* round fruit tree                                 */
+    TREE_SANKAKU,               /* triangle fruit tree                              */
+    TREE_SIKAKU,                /* square fruit tree                                */
+    TREE_LOCAL,                 /* local garden tree                                */
+    TREE_END,                   /* nb tree                                          */
 }
 eTREE_KIND;
 
@@ -85,7 +85,7 @@ FRUIT_INFO;
 
 #define GET_TREE_WORK(_tp)      ((TREE_WORK*)_tp->twp)
 
-typedef struct // TASKWK
+typedef struct // TaskWK
 {
     int8_t mode;
     int8_t smode;
@@ -138,16 +138,23 @@ TREE_WORK;
 #define LeafPhaseList           DATA_ARY(Angle     , 0x012E8AEC, [11])
 #define FruitPhaseList          DATA_ARY(Angle     , 0x013291B4, [4])
 
+/*
+*     Tree Objects start at 'MORIMORI', so the array should be indexed as: 
+*
+*       TreeObjectList[twp->kind - 1][$tree_stage]
+*/
+#define TreeObjectList          DATA_ARY(NJS_CNK_OBJECT*, 0x01329148, [TREE_END][3])
+
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_GrowTreeCreate(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo);
+task*   ALO_GrowTreeCreate(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo);
 
 /** Task functions **/
-void    ALO_GrowTreeExecutor(   TASK* tp );
-void    ALO_GrowTreeDisplayer(  TASK* tp );
-void    ALO_GrowTreeDestructor( TASK* tp );
+void    ALO_GrowTreeExecutor(   task* tp );
+void    ALO_GrowTreeDisplayer(  task* tp );
+void    ALO_GrowTreeDestructor( task* tp );
 
 /** Internal functions **/
 void    CalcFruitPos(NJS_POINT3* pPos, TREE_WORK* pTree, int32_t FruitNum);
@@ -160,10 +167,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_GrowTreeCreate_p         FUNC_PTR(TASK*, __cdecl, (NJS_POINT3*, TREE_SAVE_INFO*)                     , 0x00548210)
-#   define ALO_GrowTreeExecutor_p       FUNC_PTR(void , __cdecl, (TASK*)                                            , 0x00546810)
-#   define ALO_GrowTreeDisplayer_p      FUNC_PTR(void , __cdecl, (TASK*)                                            , 0x00547E70)
-#   define ALO_GrowTreeDestructor_p     FUNC_PTR(void , __cdecl, (TASK*)                                            , 0x005481E0)
+#   define ALO_GrowTreeCreate_p         FUNC_PTR(task*, __cdecl, (NJS_POINT3*, TREE_SAVE_INFO*)                     , 0x00548210)
+#   define ALO_GrowTreeExecutor_p       FUNC_PTR(void , __cdecl, (task*)                                            , 0x00546810)
+#   define ALO_GrowTreeDisplayer_p      FUNC_PTR(void , __cdecl, (task*)                                            , 0x00547E70)
+#   define ALO_GrowTreeDestructor_p     FUNC_PTR(void , __cdecl, (task*)                                            , 0x005481E0)
 #   define CalcFruitPos_p               FUNC_PTR(void , __cdecl, (NJS_POINT3*, TREE_WORK*, int32_t)                 , 0x00546670)
 #   define CalcFruitPosSub_p            FUNC_PTR(void , __cdecl, (NJS_POINT3*, TREE_WORK*, NJS_CNK_OBJECT*, int32_t), 0x00546530)
 

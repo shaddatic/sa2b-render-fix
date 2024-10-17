@@ -31,10 +31,10 @@ ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
 #define object_o_eq_robot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1])
 
 static void
-ObjectRobotDisplayerMod(TASK* tp)
+ObjectRobotDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK*  const awp = tp->awp;
+    taskwk* const twp = tp->twp;
+    anywk*  const awp = tp->awp;
 
     if (!awp[10].work.ul[3])
         return;
@@ -71,10 +71,10 @@ ObjectRobotDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectRobotInit     FUNC_PTR(void, __cdecl, (TASK*), 0x00691720)
+#define ObjectRobotInit     FUNC_PTR(void, __cdecl, (task*), 0x00691720)
 
 static void
-ObjectRobotInitHook(TASK* tp)
+ObjectRobotInitHook(task* tp)
 {
     ObjectRobotInit(tp);
     tp->disp_shad = ObjectRobotDisplayerMod;

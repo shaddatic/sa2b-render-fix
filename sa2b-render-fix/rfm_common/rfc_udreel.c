@@ -19,10 +19,10 @@
 static NJS_CNK_OBJECT* object_o_udreel;
 
 static void
-ObjectUDReelCnkDisplayer(TASK* tp)
+ObjectUDReelCnkDisplayer(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK* const rwp = TO_ANYWK(tp->mwp);
+    taskwk* const twp = tp->twp;
+    anywk* const rwp = TO_ANYWK(tp->mwp);
 
     njSetTexture(texlist_udreel);
 
@@ -89,10 +89,10 @@ ObjectUDReelCnkDisplayer(TASK* tp)
 #define texlist_udreel_golem    DATA_ARY(NJS_TEXLIST, 0x166CFF0, [1])
 
 static void
-ObjectUDReelGolemCnkDisplayer(TASK* tp)
+ObjectUDReelGolemCnkDisplayer(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK* const rwp = TO_ANYWK(tp->mwp);
+    taskwk* const twp = tp->twp;
+    anywk* const rwp = TO_ANYWK(tp->mwp);
 
     njSetTexture(texlist_udreel_golem);
 

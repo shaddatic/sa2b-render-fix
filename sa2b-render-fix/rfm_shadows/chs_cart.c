@@ -57,7 +57,7 @@ NJS_CNK_OBJECT* object_cart_rouge_mod;
 NJS_CNK_OBJECT* object_cart_mod;
 
 static void
-cartDisplayerMod(TASK* tp)
+cartDisplayerMod(task* tp)
 {
     CARTWK* const cwp = GET_CARTWK(tp);
 
@@ -118,11 +118,11 @@ cartDisplayerMod(TASK* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (TASK*), 0x00623E10)
+#define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00623E10)
 
-static hook_info* HookInfoCourseDisplayDisplayer;
+static hook_info HookInfoCourseDisplayDisplayer[1];
 static void
-courseDisplayDisplayerHook(TASK* tp)
+courseDisplayDisplayerHook(task* tp)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -139,7 +139,7 @@ CHS_CartInit(void)
     WriteJump(0x0061CB80, cartDisplayerMod);
     WriteCall(0x0061C60F, CreateNoStencilTexture);
 
-    HookInfoCourseDisplayDisplayer = FuncHook(courseDisplayDisplayer, courseDisplayDisplayerHook);
+    FuncHook(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
 
     /** Models **/
     object_cart_miles_mod = RF_ChunkLoadObjectFile("cart_miles_mod");

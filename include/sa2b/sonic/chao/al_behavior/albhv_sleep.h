@@ -22,8 +22,8 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t ALBHV_Sleep(       TASK* tp );
-int32_t ALBHV_SleepSelect( TASK* tp );
+int32_t ALBHV_Sleep(       task* tp );
+int32_t ALBHV_SleepSelect( task* tp );
 
 EXTERN_END
 

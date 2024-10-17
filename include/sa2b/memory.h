@@ -64,6 +64,18 @@ EXTERN_END
 #define mAlloc(type, nb)                    (type*)MemAlloc((nb) * sizeof(type))
 #define mCalloc(type, nb)                   (type*)MemCalloc((nb), sizeof(type))
 
+/** Macro MemCopy##() **/
+#define mCopy(  dst, src, type, nb)           (type*)MemCopy(dst, src, ((sizeof(type)  ) * nb))
+
+#define mCopy16(dst, src, type, nb)           static_assert(!(sizeof(type) % 2), "'type' size is not a multiple of 2"); \
+                                              (void)MemCopy16(dst, src, ((sizeof(type)/2) * nb))
+
+#define mCopy32(dst, src, type, nb)           static_assert(!(sizeof(type) % 4), "'type' size is not a multiple of 4"); \
+                                              (void)MemCopy32(dst, src, ((sizeof(type)/4) * nb))
+
+#define mCopy64(dst, src, type, nb)           static_assert(!(sizeof(type) % 8), "'type' size is not a multiple of 8"); \
+                                              (void)MemCopy64(dst, src, ((sizeof(type)/8) * nb))
+
 /** Macro MemReAlloc() **/
 #define mReAlloc(type, p, nb)               (type*)MemReAlloc((p), sizeof(type)*(nb))
 

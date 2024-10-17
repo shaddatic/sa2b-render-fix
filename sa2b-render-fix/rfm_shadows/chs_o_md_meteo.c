@@ -17,9 +17,9 @@
 static NJS_CNK_OBJECT* object_o_md_meteo_mod;
 
 static void
-ObjectMDFireBallDisplayerMod(TASK* tp)
+ObjectMDFireBallDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -31,11 +31,11 @@ ObjectMDFireBallDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectMDFireBall    FUNC_PTR(void, __cdecl, (TASK*), 0x005C1280)
+#define ObjectMDFireBall    FUNC_PTR(void, __cdecl, (task*), 0x005C1280)
 
-static hook_info* HookInfoObjectMDFireBall;
+static hook_info HookInfoObjectMDFireBall[1];
 static void
-ObjectMDFireBallHook(TASK* tp)
+ObjectMDFireBallHook(task* tp)
 {
     FuncHookCall(HookInfoObjectMDFireBall, ObjectMDFireBall(tp));
 
@@ -43,9 +43,9 @@ ObjectMDFireBallHook(TASK* tp)
 }
 
 static void
-ObjectMeteoBigDisplayerMod(TASK* tp)
+ObjectMeteoBigDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
@@ -58,7 +58,7 @@ ObjectMeteoBigDisplayerMod(TASK* tp)
 void
 CHS_MeteoBigInit(void)
 {
-    HookInfoObjectMDFireBall = FuncHook(ObjectMDFireBall, ObjectMDFireBallHook);
+    FuncHook(HookInfoObjectMDFireBall, ObjectMDFireBall, ObjectMDFireBallHook);
 
     WriteJump(0x005C5120, ObjectMeteoBigDisplayerMod);
     KillCall(0x005C4E04); // Kill SetStencilInfo

@@ -464,15 +464,15 @@ EXTERN_START
 #define NJD_EVAL_UNIT_SCL       BIT_2   /* ignore scaling */
 #define NJD_EVAL_HIDE           BIT_3   /* do not draw model */
 #define NJD_EVAL_BREAK          BIT_4   /* terminate tracing children */
-#define NJD_EVAL_ZXY_ANG        BIT_5 
-#define NJD_EVAL_SKIP           BIT_6
-#define NJD_EVAL_SHAPE_SKIP     BIT_7
-#define NJD_EVAL_CLIP           BIT_8
-#define NJD_EVAL_MODIFIER       BIT_9
-#define NJD_EVAL_QUATERNION     BIT_10
-#define NJD_EVAL_ROTATE_BASE    BIT_11
-#define NJD_EVAL_ROTATE_SET     BIT_12
-#define NJD_EVAL_ENVELOPE       BIT_13
+#define NJD_EVAL_ZXY_ANG        BIT_5   /* use LightWave rotation order */
+#define NJD_EVAL_SKIP           BIT_6   /* skip object for motion data */
+#define NJD_EVAL_SHAPE_SKIP     BIT_7   /* skip object for shape motion data */
+#define NJD_EVAL_CLIP           BIT_8   /* if the model is clipped, stop tracing object children */
+#define NJD_EVAL_MODIFIER       BIT_9   /* object is a modifier volume */
+#define NJD_EVAL_QUATERNION     BIT_10  /* object uses quaternion rotation */
+#define NJD_EVAL_ROTATE_BASE    BIT_11  /* cache rotation data before the object is processed */
+#define NJD_EVAL_ROTATE_SET     BIT_12  /* use cached rotation data */
+#define NJD_EVAL_ENVELOPE       BIT_13  /* ??? */
 #define NJD_EVAL_MASK           0x3fff 
 
 /*------------------*/

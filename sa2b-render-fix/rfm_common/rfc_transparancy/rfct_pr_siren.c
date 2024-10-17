@@ -16,9 +16,9 @@
 #define object_pr_siren         DATA_ARY(NJS_CNK_OBJECT, 0x0104467C, [1])
 
 static void
-ObjectPRSirenDisplayer(TASK* tp)
+ObjectPRSirenDisplayer(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njSetTexture(texlist_pr_siren);
 
@@ -47,9 +47,9 @@ ObjectPRSirenDisplayer(TASK* tp)
 #define object_rn_siren         DATA_ARY(NJS_CNK_OBJECT, 0x00BF627C, [1])
 
 static void
-ObjectRNSirenDisplayer(TASK* tp)
+ObjectRNSirenDisplayer(task* tp)
 {
-    TASKWK* const twp = tp->twp;
+    taskwk* const twp = tp->twp;
 
     njSetTexture(texlist_rn_siren);
 

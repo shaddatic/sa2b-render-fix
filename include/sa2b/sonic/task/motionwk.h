@@ -22,9 +22,9 @@
 /************************/
 /*  Structures          */
 /************************/
-#define TO_MOTIONWK(_p)     ((MOTIONWK*)(_p))
+#define TO_MOTIONWK(_p)     ((motionwk*)(_p))
 
-#define MOTIONWK()          \
+#define MOTIONWK            \
 struct {                    \
     union {                 \
         int8_t    b[4];     \
@@ -44,8 +44,8 @@ struct {                    \
 
 typedef struct motionwk
 {
-    MOTIONWK();
+    MOTIONWK;
 }
-MOTIONWK;
+motionwk;
 
 #endif/*_SA2B_TASK_MOTIONWK_H_*/

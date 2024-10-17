@@ -15,10 +15,10 @@
 #define dword_1945E08   DATA_REF(int, 0x1945E08)
 
 static void
-MinimalDisplayerMod(TASK* tp)
+MinimalDisplayerMod(task* tp)
 {
-    TASKWK* const twp = tp->twp;
-    ANYWK*  const awp = tp->awp;
+    taskwk* const twp = tp->twp;
+    anywk*  const awp = tp->awp;
 
     const uint32_t mode = awp->work.ul[0];
 
@@ -57,24 +57,24 @@ MinimalDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-#define ObjectMinimal       FUNC_PTR(void, __cdecl, (TASK*), 0x0048ADE0)
+#define ObjectMinimal       FUNC_PTR(void, __cdecl, (task*), 0x0048ADE0)
 
-static hook_info* HookInfoObjectMinimal;
+static hook_info HookInfoObjectMinimal[1];
 static void
-ObjectMinimalHook(TASK* tp)
+ObjectMinimalHook(task* tp)
 {
     FuncHookCall( HookInfoObjectMinimal, ObjectMinimal(tp) );
 
     tp->disp_shad = MinimalDisplayerMod;
 }
 
-#define MinimalCreate       FUNC_PTR(TASK*, __cdecl, (f32, f32, f32, int, uint32_t), 0x0048AAD0)
+#define MinimalCreate       FUNC_PTR(task*, __cdecl, (f32, f32, f32, int, uint32_t), 0x0048AAD0)
 
-static hook_info* HookInfoMinimalCreate;
-static TASK*
+static hook_info HookInfoMinimalCreate[1];
+static task*
 MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 {
-    TASK* minitp;
+    task* minitp;
 
     FuncHookCall( HookInfoMinimalCreate, minitp = MinimalCreate(posX, posY, posZ, num, flag) );
 
@@ -86,6 +86,6 @@ MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 void
 CHS_MinimalInit(void)
 {
-    HookInfoObjectMinimal = FuncHook(ObjectMinimal, ObjectMinimalHook);
-    HookInfoMinimalCreate = FuncHook(MinimalCreate, MinimalCreateHook);
+    FuncHook(HookInfoObjectMinimal, ObjectMinimal, ObjectMinimalHook);
+    FuncHook(HookInfoMinimalCreate, MinimalCreate, MinimalCreateHook);
 }

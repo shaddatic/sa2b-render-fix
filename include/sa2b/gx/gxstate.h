@@ -18,9 +18,10 @@ EXTERN_START
 /*  Constants           */
 /************************/
 /** Cull Modes **/
-#define GXD_CULLMODE_NONE       (0)
-#define GXD_CULLMODE_CW         (1)
-#define GXD_CULLMODE_CCW        (2)
+#define GXD_CULLMODE_NONE       (0) /* don't cull any triangles                     */
+#define GXD_CULLMODE_CW         (1) /* cull clockwise triangles                     */
+#define GXD_CULLMODE_CCW        (2) /* cull counter-clockwise triangles             */
+#define GXD_CULLMODE_ALL        (3) /* cull all triangles                           */
 
 /************************/
 /*  Functions           */

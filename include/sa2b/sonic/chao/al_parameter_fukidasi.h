@@ -17,7 +17,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct chao_param_gc    CHAO_PARAM_GC;
 
 /************************/
@@ -54,7 +54,7 @@ typedef struct // ANYWK
     int32_t phase2;
     int32_t location;
     int32_t loc_timer;
-    TASK* pChaoTask;
+    task* pChaotask;
     CHAO_PARAM_GC* pParamGC;
     int32_t mExpUpdating;
     int32_t mExpUpdateWait;
@@ -66,21 +66,21 @@ SParamFukidasiWork;
 /************************/
 /*  Data                */
 /************************/
-#define pChaoParamFukidasiTask      DATA_REF(TASK*, 0x01AED28C)
+#define pChaoParamFukidasiTask      DATA_REF(task*, 0x01AED28C)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Open parameter window with linked Chao **/
-void    AL_OpenParameterFukidasi(TASK* pChaoTask);
+void    AL_OpenParameterFukidasi(task* pChaoTask);
 /** Close parameter window if 'pChaoTask' matches or is NULL **/
-void    AL_CloseParameterFukidasi(TASK* pChaoTask);
+void    AL_CloseParameterFukidasi(task* pChaoTask);
 
 /** Task functions **/
-void    ParamFukidasiExecutor(TASK* tp);
-void    ParamFukidasiDisplayer(TASK* tp);
-void    ParamFukidasiDestructor(TASK* tp);
+void    ParamFukidasiExecutor(task* tp);
+void    ParamFukidasiDisplayer(task* tp);
+void    ParamFukidasiDestructor(task* tp);
 
 EXTERN_END
 
@@ -89,10 +89,10 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define AL_CloseParameterFukidasi_p      FUNC_PTR(void, __fastcall, (TASK*), 0x00565B90)
-#   define ParamFukidasiExecutor_p          FUNC_PTR(void, __cdecl   , (TASK*), 0x00564C80)
-#   define ParamFukidasiDisplayer_p         FUNC_PTR(void, __cdecl   , (TASK*), 0x00565200)
-#   define ParamFukidasiDestructor_p        FUNC_PTR(void, __cdecl   , (TASK*), 0x005659C0)
+#   define AL_CloseParameterFukidasi_p      FUNC_PTR(void, __fastcall, (task*), 0x00565B90)
+#   define ParamFukidasiExecutor_p          FUNC_PTR(void, __cdecl   , (task*), 0x00564C80)
+#   define ParamFukidasiDisplayer_p         FUNC_PTR(void, __cdecl   , (task*), 0x00565200)
+#   define ParamFukidasiDestructor_p        FUNC_PTR(void, __cdecl   , (task*), 0x005659C0)
 
 /** User-Function ptrs **/
 #   define AL_OpenParameterFukidasi_p       ((void*)0x005659E0)

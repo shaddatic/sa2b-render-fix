@@ -21,35 +21,35 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task        TASK;
-typedef struct taskwk    TASKWK;
+typedef struct task        task;
+typedef struct taskwk    TaskWk;
 
 /************************/
 /*  Structures          */
 /************************/
-#define GET_ODEKAKE_WORK(tp) ((ODAKAKE_WORK*)tp->awp)
+#define GET_ODEKAKE_WORK(tp) ((ODEKAKE_WORK*)tp->awp)
 
-typedef struct // ANYWK
+typedef struct // AnyWk
 {
-    int32_t ButtonState;
-    int32_t CoverMode;
-    f32       CoverFrame;
-    f32       ButtonPos;
-    TASK* pChaoTask;
-    int32_t FileFlag;
-    int32_t BuyoFlag;
-    int32_t BuyoPhase;
-    int32_t MonitorMode;
-    int32_t MonitorCount;
-    int32_t MonitorTimer;
-    int32_t ring;
+    s32     ButtonState;
+    s32     CoverMode;
+    f32     CoverFrame;
+    f32     ButtonPos;
+    task*   pChaotask;
+    s32     FileFlag;
+    s32     BuyoFlag;
+    s32     BuyoPhase;
+    s32     MonitorMode;
+    s32     MonitorCount;
+    s32     MonitorTimer;
+    s32     ring;
 }
-ODAKAKE_WORK;
+ODEKAKE_WORK;
 
 /************************/
 /*  Data                */
 /************************/
-#define OdekakeTaskPointer      DATA_REF(TASK*, 0x01AED318)
+#define OdekakeTaskPointer      DATA_REF(task*, 0x01AED318)
 #define EnteringOdekake         DATA_REF(b32  , 0x01AED31C)
 
 /** Crappy, half-baked, replacement case model by SOC **/
@@ -62,10 +62,10 @@ EXTERN_START
 void    ALO_OdekakeMachineCreate(NJS_POINT3* pPos, Angle angy);
 
 /** Task functions **/
-void    ALO_OdekakeMachine(TASK* tp);
-void    ALO_OdekakeMachineExecutor(TASK* tp);
-void    ALO_OdekakeMachineDisplayerNeut(TASK* tp);
-void    ALO_OdekakeMachineDestructor(TASK* tp);
+void    ALO_OdekakeMachine(task* tp);
+void    ALO_OdekakeMachineExecutor(task* tp);
+void    ALO_OdekakeMachineDisplayerNeut(task* tp);
+void    ALO_OdekakeMachineDestructor(task* tp);
 
 EXTERN_END
 
@@ -74,10 +74,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_OdekakeMachine_p                     FUNC_PTR(void, __cdecl, (TASK*), 0x0057E460)
-#   define ALO_OdekakeMachineExecutor_p             FUNC_PTR(void, __cdecl, (TASK*), 0x0057D540)
-#   define ALO_OdekakeMachineDisplayerNeut_p        FUNC_PTR(void, __cdecl, (TASK*), 0x0057E060)
-#   define ALO_OdekakeMachineDestructor_p           FUNC_PTR(void, __cdecl, (TASK*), 0x0057E040)
+#   define ALO_OdekakeMachine_p                     FUNC_PTR(void, __cdecl, (task*), 0x0057E460)
+#   define ALO_OdekakeMachineExecutor_p             FUNC_PTR(void, __cdecl, (task*), 0x0057D540)
+#   define ALO_OdekakeMachineDisplayerNeut_p        FUNC_PTR(void, __cdecl, (task*), 0x0057E060)
+#   define ALO_OdekakeMachineDestructor_p           FUNC_PTR(void, __cdecl, (task*), 0x0057E040)
 
 /** User-Function ptrs **/
 #   define ALO_OdekakeMachineCreate_p               ((void*)0x0057E4F0)

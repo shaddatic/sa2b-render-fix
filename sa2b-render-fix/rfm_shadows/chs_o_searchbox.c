@@ -13,10 +13,10 @@
 /** Render Fix **/
 #include <rf_draw.h>
 
-#define ObjectSearchBox     FUNC_PTR(void, __cdecl, (TASK*), 0x006E7F60)
+#define ObjectSearchBox     FUNC_PTR(void, __cdecl, (task*), 0x006E7F60)
 
 static void
-ObjectSearchBoxDisplayerMod(TASK* tp)
+ObjectSearchBoxDisplayerMod(task* tp)
 {
     njPushMatrixEx();
 
@@ -30,14 +30,14 @@ ObjectSearchBoxDisplayerMod(TASK* tp)
     njPopMatrixEx();
 }
 
-static hook_info* HookInfoObjectSearchBox;
+static hook_info HookInfoObjectSearchBox[1];
 
 static void
-ObjectSearchBoxHook(TASK* tp)
+ObjectSearchBoxHook(task* tp)
 {
-    FuncHookRestore(HookInfoObjectSearchBox);
+    HookInfoUnhook(HookInfoObjectSearchBox);
     ObjectSearchBox(tp);
-    FuncHookRehook(HookInfoObjectSearchBox);
+    HookInfoRehook(HookInfoObjectSearchBox);
 
     if (tp->disp)
         tp->disp_shad = ObjectSearchBoxDisplayerMod;
@@ -47,5 +47,5 @@ void
 CHS_SearchBoxInit(void)
 {
     WriteRetn(0x006E7E90);
-    HookInfoObjectSearchBox = FuncHook(ObjectSearchBox, ObjectSearchBoxHook);
+    FuncHook(HookInfoObjectSearchBox, ObjectSearchBox, ObjectSearchBoxHook);
 }

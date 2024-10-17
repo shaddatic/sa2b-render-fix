@@ -30,21 +30,21 @@
 
 #define pExecute                DATA_REF(task_exec, 0x01A5A274)
 
-#define SortDispSortList        FUNC_PTR(void, __cdecl, (TASK*, float), 0x00492F60)
+#define SortDispSortList        FUNC_PTR(void, __cdecl, (task*, float), 0x00492F60)
 
 static void
-TaskDisplayDisplayer(TASK* btpl)
+TaskDisplayDisplayer(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp;
 
@@ -62,7 +62,7 @@ TaskDisplayDisplayer(TASK* btpl)
 
 const void* const TaskDisplayDispSortedList_p = (void*)0x00470D20;
 static void
-TaskDisplayDispSort(TASK* btpl)
+TaskDisplayDispSort(task* btpl)
 {
     if (!btpl)
         return;
@@ -75,18 +75,18 @@ TaskDisplayDispSort(TASK* btpl)
 }
 
 static void
-TaskDisplayDispSort_NoSort(TASK* btpl)
+TaskDisplayDispSort_NoSort(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp_sort;
 
@@ -103,18 +103,18 @@ TaskDisplayDispSort_NoSort(TASK* btpl)
 }
 
 static void
-TaskDisplayDispSort_Buffer(TASK* btpl)
+TaskDisplayDispSort_Buffer(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         if (tp->disp_sort && tp->twp)
             SortDispSortList(tp, -1.0);
@@ -125,18 +125,18 @@ TaskDisplayDispSort_Buffer(TASK* btpl)
 }
 
 static void
-TaskDisplayDispDelayed(TASK* btpl)
+TaskDisplayDispDelayed(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp_dely;
 
@@ -153,18 +153,18 @@ TaskDisplayDispDelayed(TASK* btpl)
 }
 
 static void
-TaskDisplayDispLate(TASK* btpl)
+TaskDisplayDispLate(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp_late;
 
@@ -181,18 +181,18 @@ TaskDisplayDispLate(TASK* btpl)
 }
 
 static void
-TaskDisplayDispLast(TASK* btpl)
+TaskDisplayDispLast(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp_last;
 
@@ -240,18 +240,18 @@ DrawModBuffer(int index)
 #define ShadowMapCount      DATA_REF(s16, 0x01A5A3EC)
 
 static void
-TaskDisplayDispShad(TASK* btpl)
+TaskDisplayDispShad(task* btpl)
 {
     if (!btpl)
         return;
 
-    TASK* const base_tp = btpl;
+    task* const base_tp = btpl;
 
-    TASK* tp = btpl;
+    task* tp = btpl;
 
     do
     {
-        TASK* const nexttp = tp->next;
+        task* const nexttp = tp->next;
 
         pExecute = tp->disp_shad;
 

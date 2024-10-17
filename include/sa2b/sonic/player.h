@@ -29,9 +29,9 @@
 /*  Abstract Types      */
 /************************/
 /** Task **/
-typedef struct task         TASK;
-typedef struct taskwk       TASKWK;
-typedef struct motionwk     MOTIONWK;
+typedef struct task         task;
+typedef struct taskwk       taskwk;
+typedef struct motionwk     motionwk;
 
 /** Path **/
 typedef struct pathtag      PATH_TAG;
@@ -39,7 +39,7 @@ typedef struct pathtag      PATH_TAG;
 /************************/
 /*  Typedefs            */
 /************************/
-typedef void(__cdecl* task_exec)(TASK*);
+typedef void(__cdecl* task_exec)(task*);
 
 /************************/
 /*  Constants           */
@@ -314,11 +314,11 @@ typedef struct playerwk
     uint32_t last_attr;
 
     CSTS*   cstsp;
-    TASK*   htp;              // Holding Task Pointer
-    TASK*   nhtp;             // Next Holding Task Pointer
-    TASK*   ttp;              // Target Task Pointer
-    TASK*   mlotp;            // Mobile Land Object Task Pointer 
-    TASK*   sctp;             // Stand Colli Task Pointer
+    task*   htp;              // Holding Task Pointer
+    task*   nhtp;             // Next Holding Task Pointer
+    task*   ttp;              // Target Task Pointer
+    task*   mlotp;            // Mobile Land Object Task Pointer 
+    task*   sctp;             // Stand Colli Task Pointer
     int32_t unki_3;         // Seemingly unused
     int32_t unki_4;         // ^
 
@@ -339,7 +339,7 @@ typedef struct playerwk
     f32        unkf_5;
     NJS_POINT3 unkp3_0;
     uint8_t    gap_164[12];
-    TASK*      unktp_1;
+    task*      unktp_1;
 
     MOTION_JVWK mj;
 
@@ -420,10 +420,10 @@ PL_OBJECT;
 #define usPlayer2           DATA_REF(int32_t    , 0x01934BE4)
 
 /** Player Work Pointers **/
-#define playermwp           DATA_ARY(MOTIONWK*  , 0x01DE95E0, [8])
+#define playermwp           DATA_ARY(motionwk*  , 0x01DE95E0, [8])
 #define playerpwp           DATA_ARY(PLAYERWK*  , 0x01DE9600, [8])
-#define playertwp           DATA_ARY(TASKWK*    , 0x01DEA6C0, [8])
-#define playertp            DATA_ARY(TASK*      , 0x01DEA6E0, [8])
+#define playertwp           DATA_ARY(taskwk*    , 0x01DEA6C0, [8])
+#define playertp            DATA_ARY(task*      , 0x01DEA6E0, [8])
 
 /** Backup Task Functions For When Player Disabled **/
 #define pExecSave           DATA_ARY(task_exec  , 0x019458F0, [8])
@@ -443,13 +443,13 @@ typedef NJS_POINT3          pos_history_t[8][256];
 /*  Functions           */
 /************************/
 EXTERN_START
-/** Enable/Disable the player TASK **/
+/** Enable/Disable the player Task **/
 void    PlayerEnable(  uint8_t pno );
 void    PlayerDisable( uint8_t pno );
 
 /** Get Player Number from Task 
     if not a player, returns -1 **/
-int32_t GetTaskPlayerNumber( TASK* tp );
+int32_t GetTaskPlayerNumber( task* tp );
 
 /** Get the closest player to a point **/
 int32_t GetTheNearestPlayerNumber( NJS_POINT3* pos );
@@ -465,7 +465,7 @@ void    GetBarrierP(int32_t pno);
 void    GetInvincibleBodyForAMomentP(int32_t pno);
 
 /** Held task functions **/
-void    HoldTaskP(int32_t pno, TASK* htp);
+void    HoldTaskP(int32_t pno, task* htp);
 void    StopHoldingTaskP(int32_t pno);
 
 /** Get total number of players/characters **/
@@ -476,7 +476,7 @@ int32_t CountCharacters( void );
 /************************/
 #ifdef  SAMT_INCL_INLINED
 
-void    StopHoldingTaskP_inl(int32_t pno, TASKWK* ptwp);
+void    StopHoldingTaskP_inl(int32_t pno, TaskWK* ptwp);
 
 #endif/*SAMT_INCL_INLINED*/
 

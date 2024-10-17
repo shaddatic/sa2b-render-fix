@@ -17,9 +17,9 @@
 static NJS_CNK_OBJECT* object_o_bunchin_mod;
 
 static void
-ObjectBunchinDisplayerMod(TASK* tp)
+ObjectBunchinDisplayerMod(task* tp)
 {
-    TASKWK*  const twp = tp->twp;
+    taskwk*  const twp = tp->twp;
     ENEMYWK* const ewp = GET_ENEMYWK(tp);
 
     njPushMatrixEx();

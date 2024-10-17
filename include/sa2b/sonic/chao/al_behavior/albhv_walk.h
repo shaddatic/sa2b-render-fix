@@ -22,9 +22,9 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-void    AL_WalkSelect( TASK* tp );
+void    AL_WalkSelect( task* tp );
 
-int32_t ALBHV_Move( TASK* tp );
+int32_t ALBHV_Move( task* tp );
 
 EXTERN_END
 

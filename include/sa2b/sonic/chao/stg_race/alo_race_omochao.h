@@ -16,14 +16,14 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task     TASK;
+typedef struct task     task;
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
 /** Task functions **/
-void    ALR_OmochaoExecutor(TASK* tp);
+void    ALR_OmochaoExecutor(task* tp);
 
 EXTERN_END
 
@@ -32,7 +32,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALR_OmochaoExecutor_p        FUNC_PTR(void, __cdecl, (TASK*), 0x0056A830)
+#   define ALR_OmochaoExecutor_p        FUNC_PTR(void, __cdecl, (task*), 0x0056A830)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

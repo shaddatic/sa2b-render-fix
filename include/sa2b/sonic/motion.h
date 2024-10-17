@@ -15,11 +15,15 @@
 /************************/
 /*  Includes            */
 /************************/
+/****** Hook Info *******************************************************************/
 #include <sa2b/ninja/ninja.h>
+
+EXTERN_START
 
 /************************/
 /*  Enums               */
 /************************/
+/****** Hook Info *******************************************************************/
 enum
 {
     MD_MTN_LOOP,
@@ -35,6 +39,7 @@ enum
 /************************/
 /*  Structures          */
 /************************/
+/****** Hook Info *******************************************************************/
 typedef struct
 {
     NJS_MOTION* pMotion;
@@ -76,7 +81,11 @@ MOTION_CTRL;
 /************************/
 /*  Functions           */
 /************************/
-EXTERN_START
+/****** Init Motion *****************************************************************/
+/*
+*   Description:
+*     Init a motion control structure with a motion table
+*/
 void        MotionInit( MOTION_CTRL* pMtnCtrl, MOTION_TABLE* pTable );
 
 void        MotionControl( MOTION_CTRL* pMtnCtrl );
@@ -91,10 +100,10 @@ void        SetMotionNum( MOTION_CTRL* pMtnCtrl, int32_t MtnNum );
 
 void        SetMotionNext( MOTION_CTRL* pMtnCtrl );
 
-int32_t     GetMotionNum( MOTION_CTRL* pMtnCtrl );
+s32         GetMotionNum( const MOTION_CTRL* pMtnCtrl );
 
-f32         GetMotionFrame(   MOTION_CTRL* pMtnCtrl );
-int32_t     GetMotionPosture( MOTION_CTRL* pMtnCtrl );
+f32         GetMotionFrame(   const MOTION_CTRL* pMtnCtrl );
+s32         GetMotionPosture( const MOTION_CTRL* pMtnCtrl );
 
 void        SetMotionChange( MOTION_CTRL* pMtnCtrl, int32_t MtnNum );
 void        SetMotionSkip(   MOTION_CTRL* pMtnCtrl, int32_t MtnNum );

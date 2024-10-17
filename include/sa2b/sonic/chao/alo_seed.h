@@ -26,7 +26,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task             TASK;
+typedef struct task             task;
 typedef struct item_save_info   ITEM_SAVE_INFO;
 
 /************************/
@@ -55,12 +55,12 @@ eSEED_KIND;
 /*  Functions           */
 /************************/
 EXTERN_START
-TASK*   ALO_SeedCreate(eSEED_KIND kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
+task*   ALO_SeedCreate(eSEED_KIND kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo);
 
 /** Task functions **/
-void    ALO_SeedExecutor(TASK* tp);
-void    ALO_SeedDisplayer(TASK* tp);
-void    ALO_SeedDestructor(TASK* tp); // Same function as many other ALO objects
+void    ALO_SeedExecutor(task* tp);
+void    ALO_SeedDisplayer(task* tp);
+void    ALO_SeedDestructor(task* tp); // Same function as many other ALO objects
 
 EXTERN_END
 
@@ -69,10 +69,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_SeedCreate_p         FUNC_PTR(TASK*, __cdecl, (eSEED_KIND, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00549B00)
-#   define ALO_SeedExecutor_p       FUNC_PTR(void , __cdecl, (TASK*)                                                , 0x00549860)
-#   define ALO_SeedDisplayer_p      FUNC_PTR(void , __cdecl, (TASK*)                                                , 0x005498E0)
-#   define ALO_SeedDestructor_p     FUNC_PTR(void , __cdecl, (TASK*)                                                , 0x0057B9B0) 
+#   define ALO_SeedCreate_p         FUNC_PTR(task*, __cdecl, (eSEED_KIND, NJS_POINT3*, NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00549B00)
+#   define ALO_SeedExecutor_p       FUNC_PTR(void , __cdecl, (task*)                                                , 0x00549860)
+#   define ALO_SeedDisplayer_p      FUNC_PTR(void , __cdecl, (task*)                                                , 0x005498E0)
+#   define ALO_SeedDestructor_p     FUNC_PTR(void , __cdecl, (task*)                                                , 0x0057B9B0) 
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

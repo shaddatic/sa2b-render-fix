@@ -28,7 +28,7 @@
 /************************/
 /*  Abstract Types      */
 /************************/
-typedef struct task         TASK;
+typedef struct task         task;
 typedef struct colliwk      COLLIWK;
 
 /************************/
@@ -38,7 +38,7 @@ typedef struct colliwk      COLLIWK;
 
 typedef struct
 {
-    TASKWK();
+    TASKWK;
 
     uint16_t type;
     NJS_POINT3 spd;
@@ -59,7 +59,7 @@ AL_CAMERA_WORK;
 /************************/
 /*  Data                */
 /************************/
-#define AL_NormalCameraTaskPointer      DATA_REF(TASK*   , 0x01AED2E8)
+#define AL_NormalCameraTaskPointer      DATA_REF(task*   , 0x01AED2E8)
 
 /** Collision info **/
 #define colli_info_alcam                DATA_ARY(CCL_INFO, 0x008A57B0, [2])
@@ -74,17 +74,17 @@ EXTERN_START
 void    ALCAM_CreateCameraManager(void);
 
 /** Task functions **/
-void    ALCAM_CameraManagerExecutor(TASK* tp);
-void    ALCAM_CameraManagerDestructor(TASK* tp);
+void    ALCAM_CameraManagerExecutor(task* tp);
+void    ALCAM_CameraManagerDestructor(task* tp);
 
 /*
 *   AL Camera Task
 */
-TASK*   AL_CreateNormalCameraTask(void);
+task*   AL_CreateNormalCameraTask(void);
 
 /** Task functions **/
-void    AL_NormalCameraExecutor(TASK* tp);
-void    AL_NormalCameraDestructor(TASK* tp);
+void    AL_NormalCameraExecutor(task* tp);
+void    AL_NormalCameraDestructor(task* tp);
 
 EXTERN_END
 
@@ -94,11 +94,11 @@ EXTERN_END
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define ALCAM_CreateCameraManager_p          FUNC_PTR(void , __cdecl, (void) , 0x0057D4C0)
-#   define ALCAM_CameraManagerExecutor_p        FUNC_PTR(void , __cdecl, (TASK*), 0x0057D400)
-#   define ALCAM_CameraManagerDestructor_p      FUNC_PTR(void , __cdecl, (TASK*), 0x0057D410)
-#   define AL_CreateNormalCameraTask_p          FUNC_PTR(TASK*, __cdecl, (void) , 0x0057D2E0)
-#   define AL_NormalCameraExecutor_p            FUNC_PTR(void , __cdecl, (TASK*), 0x0057CD50)
-#   define AL_NormalCameraDestructor_p          FUNC_PTR(void , __cdecl, (TASK*), 0x0057D2D0)
+#   define ALCAM_CameraManagerExecutor_p        FUNC_PTR(void , __cdecl, (task*), 0x0057D400)
+#   define ALCAM_CameraManagerDestructor_p      FUNC_PTR(void , __cdecl, (task*), 0x0057D410)
+#   define AL_CreateNormalCameraTask_p          FUNC_PTR(task*, __cdecl, (void) , 0x0057D2E0)
+#   define AL_NormalCameraExecutor_p            FUNC_PTR(void , __cdecl, (task*), 0x0057CD50)
+#   define AL_NormalCameraDestructor_p          FUNC_PTR(void , __cdecl, (task*), 0x0057D2D0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 
