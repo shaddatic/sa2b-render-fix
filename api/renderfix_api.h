@@ -173,13 +173,15 @@ typedef struct
     *   the default buffer. If this is called multiple times, the largest values
     *   will be used.
     * 
-    *   As of version 1.3.2, the 'nbTriList' parameter is obsolete and does nothing.
+    *   Updates:
+    *     - 1.3.2 : the 'nbTriList' parameter is obsolete and does nothing.
+          - 1.3.3 : both parameters switched to 'int32_t', over 'size_t'
     * 
     *   Parameters:
     *     - nbTri     : Total number of triangles the buffer can store (default 2048)
     *     - nbTriList : Total number of models the buffer can store (obsolete)
     */
-    void(__cdecl* SetModBufferSize)(size_t nbTri, size_t nbTriList);
+    void(__cdecl* SetModBufferSize)(int32_t nbTri, int32_t nbTriList);
 
     /*
     *   Disable modifier shadows in Chao World. Useful if you intend to implement

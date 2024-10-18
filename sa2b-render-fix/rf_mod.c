@@ -30,12 +30,6 @@
 
 typedef struct
 {
-    NJS_POINT3 vtx[3];
-}
-MOD_TRI;
-
-typedef struct
-{
     uint16_t startTri;
     uint16_t nbTri;
 }
@@ -58,11 +52,11 @@ static dx9_vtx_decl* ModVtxDeclaration;
 
 static MOD_COLOR ModColor;
 
-static size_t   ModBufferInitTriNum     = NB_MOD_TRI;
+static s32      ModBufferInitTriNum     = NB_MOD_TRI;
 
 static MOD_TRI* ModBuffer;
-static size_t   ModBufferNum;
-static size_t   ModBufferMax;
+static s32      ModBufferNum;
+static s32      ModBufferMax;
 
 void
 RFMOD_ClearBuffer(void)
@@ -114,37 +108,28 @@ RFMOD_SetInvertMode(bool bInv)
     ModInvertWinding = bInv;
 }
 
-void
-RFMOD_PushPolygon(Sint16* plist, NJS_POINT3* vtxBuf, uint16_t nbPoly)
+bool
+RFMOD_GetInvertMode(void)
 {
-    const size_t stacktop = nbPoly + ModBufferNum;
+    return ModInvertWinding;
+}
 
-    if (stacktop >= ModBufferMax)
+MOD_TRI*
+RFMOD_GetBuffer(s32 nbTri)
+{
+    const s32 buf_cur = ModBufferNum;
+
+    const s32 buf_top = nbTri + buf_cur;
+
+    if (buf_top >= ModBufferMax)
     {
         OutputString("RFDBG: Modifier buffer is full!");
-        return;
+        return nullptr;
     }
 
-    if (ModInvertWinding)
-    {
-        for (size_t i = ModBufferNum; i < stacktop; ++i)
-        {
-            ModBuffer[i].vtx[2] = vtxBuf[*plist++];
-            ModBuffer[i].vtx[1] = vtxBuf[*plist++];
-            ModBuffer[i].vtx[0] = vtxBuf[*plist++];
-        }
-    }
-    else
-    {
-        for (size_t i = ModBufferNum; i < stacktop; ++i)
-        {
-            ModBuffer[i].vtx[0] = vtxBuf[*plist++];
-            ModBuffer[i].vtx[1] = vtxBuf[*plist++];
-            ModBuffer[i].vtx[2] = vtxBuf[*plist++];
-        }
-    }
+    ModBufferNum = buf_top;
 
-    ModBufferNum = stacktop;
+    return &ModBuffer[buf_cur];
 }
 
 static void
@@ -505,7 +490,6 @@ ModifierEnd(const s32 i)
 }
 
 static hook_info HookInfoGxEnd[1];
-
 static void
 GX_EndStencilCheck(void)
 {
@@ -534,7 +518,7 @@ GjDrawStencilCheck(int a1, char a2)
 #define SetIfGreater(_var, _value)  if (_var < _value) _var = _value
 
 void
-RFCTRL_SetModBufferSize(size_t nbTri, size_t nbTriList)
+RFCTRL_SetModBufferSize(s32 nbTri, s32 nbTriList)
 {
     SetIfGreater(ModBufferInitTriNum, nbTri);
 }
