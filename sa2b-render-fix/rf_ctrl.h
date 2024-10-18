@@ -15,7 +15,7 @@
 /************************/
 EXTERN_START
 /** Modifier buffer **/
-void    RFCTRL_SetModBufferSize( size_t nbTri, size_t nbTriList );  /* Set Modifier buffer size                */
+void    RFCTRL_SetModBufferSize( s32 nbTri, s32 nbTriList );  /* Set Modifier buffer size                */
 
 /** Cheap Shadows **/
 void    RFCTRL_CheapShadowChaoWorldDisable( void );                 /* Don't apply cheap shadows in Chao World */
