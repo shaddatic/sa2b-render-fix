@@ -18,6 +18,19 @@
 /************************/
 /****** Static **********************************************************************/
 static void
+rjCnkModVertexSH(const Sint32* const pVList, CNK_VERTEX_BUFFER* const pVtxBuf)
+{
+    const CNK_VLIST_SH* vlist = (void*)pVList;
+
+    const int nb_vtx = vlist->nbindeces;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
+    }
+}
+
+static void
 rjCnkModVertexVNSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 {
     const CNK_VLIST_VN_SH* vlist = (void*)pVList;
@@ -26,7 +39,7 @@ rjCnkModVertexVNSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint( NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
+        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
     }
 }
 
@@ -39,7 +52,7 @@ rjCnkModVertex(const Sint32* const pVList, CNK_VERTEX_BUFFER* const pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint( NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
+        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
     }
 }
 
@@ -65,7 +78,7 @@ rjCnkModVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint( NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
+        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
     }
 }
 
@@ -78,7 +91,7 @@ rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint( NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
+        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
     }
 }
 
@@ -105,6 +118,10 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
         CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[pvhead->indexoffset];
 
         switch (type) {
+        case NJD_CV_SH:
+            rjCnkModVertexSH(vlist, p_vbuf);
+            break;
+
         case NJD_CV_VN_SH:
             rjCnkModVertexVNSH(vlist, p_vbuf);
             break;
