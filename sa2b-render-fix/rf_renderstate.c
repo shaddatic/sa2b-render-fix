@@ -1,25 +1,32 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/funchook.h>
+/************************/
+/*  Includes            */
+/************************/
+/****** Core Toolkit ****************************************************************/
+#include <sa2b/core.h>          /* core                                             */
+#include <sa2b/writeop.h>       /* Writejump                                        */
+#include <sa2b/writemem.h>      /* writedata                                        */
+#include <sa2b/funchook.h>      /* funchook                                         */
 
-/** GX **/
-#include <sa2b/gx/gx.h>
+/****** GX **************************************************************************/
+#include <sa2b/gx/gx.h>         /* gx                                               */
 
-/** Ninja **/
-#include <sa2b/ninja/ninja.h>
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/ninja.h> /* ninja                                              */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_eventinfo.h>
-#include <rf_mod.h>
+/****** Render Fix ******************************************************************/
+#include <rf_core.h>            /* core                                             */
+#include <rf_config.h>          /* config core                                      */
+#include <rf_eventinfo.h>       /* event info                                       */
+#include <rf_mod.h>             /* modifier                                         */
 
-/** Self **/
-#include <rf_renderstate.h>
-#include <rf_renderstate/rfrs_internal.h>
+/****** Self ************************************************************************/
+#include <rf_renderstate.h>               /* self                                   */
+#include <rf_renderstate/rfrs_internal.h> /* children                               */
 
-/** Constants **/
+/************************/
+/*  Constants           */
+/************************/
+/****** Unshifted Strip Flags *******************************************************/
 #define CNK_FST_IL                  (NJD_FST_IL >>NJD_FST_SHIFT)
 #define CNK_FST_IS                  (NJD_FST_IS >>NJD_FST_SHIFT)
 #define CNK_FST_IA                  (NJD_FST_IA >>NJD_FST_SHIFT)
@@ -29,29 +36,49 @@
 #define CNK_FST_ENV                 (NJD_FST_ENV>>NJD_FST_SHIFT)
 #define CNK_FST_NAT                 (NJD_FST_NAT>>NJD_FST_SHIFT)
 
+/************************/
+/*  Game Functions      */
+/************************/
+/****** Cnk FST *********************************************************************/
 #define ParseStripFlags             FUNC_PTR(void, __cdecl, (uint8_t), 0x0042CA20)
+
+/****** Trans Mode ******************************************************************/
 #define SetOpaqueDraw               FUNC_PTR(void, __cdecl, (void)   , 0x0042C030)
 #define SetAlphaTestDraw            FUNC_PTR(void, __cdecl, (void)   , 0x0042C0A0)
 #define SetTransparentDraw          FUNC_PTR(void, __cdecl, (void)   , 0x0042C170)
 
+/************************/
+/*  Game References     */
+/************************/
+/****** Shadow Map ******************************************************************/
 #define ForceUseAlpha               DATA_REF(bool, 0x01A55832)
 #define ForceDstInverseOtherColor   DATA_REF(bool, 0x01A55833)
 #define pTexSurface                 DATA_REF(int*, 0x01A55840)
 
+/************************/
+/*  Source Data         */
+/************************/
+/****** Default States **************************************************************/
 static RFRS_CULLMD    CullModeDefault;
 static RFRS_TRANSMD   TransModeDefault;
 static RFRS_CMPMD     AlphaFuncDefault    = RFRS_CMPMD_GTR;
 static uint32_t       AlphaRefDefault     = 64;
 static RFRS_CNKDRAWMD CnkDrawModeDefault;
 
+/****** Override States *************************************************************/
 static RFRS_CULLMD    CullModeOverride;
 static RFRS_TRANSMD   TransModeOverride;
 static RFRS_CMPMD     AlphaFuncOverride   = RFRS_CMPMD_GTR;
 static uint32_t       AlphaRefOverride    = 64;
 static RFRS_CNKDRAWMD CnkDrawModeOverride;
 
+/****** Hacky Event Patch ***********************************************************/
 static bool CullEventPatch;
 
+/************************/
+/*  Source              */
+/************************/
+/****** CnkDraw *********************************************************************/
 static void
 ParseStripFlagsHook(uint8_t flag)
 {
@@ -162,6 +189,7 @@ CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
     GX_SetCullMode(GXD_CULLMODE_NONE);
 }
 
+/****** Trans Mode ******************************************************************/
 static void
 SetOpaqueDrawNew(void)
 {
@@ -225,7 +253,7 @@ SetTransparentDrawNew(void)
     }
 }
 
-/** extern **/
+/****** Set Render Mode *************************************************************/
 void
 RFRS_SetCullMode(RFRS_CULLMD mode)
 {
@@ -241,12 +269,6 @@ RFRS_SetCullMode(RFRS_CULLMD mode)
         CullModeOverride = CullModeDefault;
         break;
     }
-}
-
-RFRS_CULLMD
-RFRS_GetCullMode(void)
-{
-    return CullModeOverride;
 }
 
 void
@@ -266,12 +288,6 @@ RFRS_SetTransMode(RFRS_TRANSMD mode)
         TransModeOverride = TransModeDefault;
         break;
     }
-}
-
-RFRS_TRANSMD
-RFRS_GetTransMode(void)
-{
-    return TransModeOverride;
 }
 
 void
@@ -295,11 +311,6 @@ RFRS_SetAlphaTestFunc(RFRS_CMPMD mode)
     }
 }
 
-RFRS_CMPMD
-RFRS_GetAlphaTestFunc(void)
-{
-    return AlphaFuncOverride;
-}
 
 void
 RFRS_SetAlphaTestRef(int32_t value)
@@ -313,22 +324,10 @@ RFRS_SetAlphaTestRef(int32_t value)
     AlphaRefOverride = value;
 }
 
-int32_t
-RFRS_GetAlphaTestRef(void)
-{
-    return AlphaRefOverride;
-}
-
 void
 RFRS_SetModifierMode(RFRS_MODMD mode)
 {
     RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
-}
-
-RFRS_MODMD
-RFRS_GetModifierMode(void)
-{
-    return 0;
 }
 
 void
@@ -348,12 +347,44 @@ RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
     
 }
 
+/****** Get Render Mode *************************************************************/
+RFRS_CULLMD
+RFRS_GetCullMode(void)
+{
+    return CullModeOverride;
+}
+
+RFRS_TRANSMD
+RFRS_GetTransMode(void)
+{
+    return TransModeOverride;
+}
+
+RFRS_CMPMD
+RFRS_GetAlphaTestFunc(void)
+{
+    return AlphaFuncOverride;
+}
+
+int32_t
+RFRS_GetAlphaTestRef(void)
+{
+    return AlphaRefOverride;
+}
+
+RFRS_MODMD
+RFRS_GetModifierMode(void)
+{
+    return 0;
+}
+
 RFRS_CNKDRAWMD
 RFRS_GetCnkDrawMode(void)
 {
     return CnkDrawModeOverride;
 }
 
+/****** Set Default Render Mode *****************************************************/
 void
 RFRS_SetDefaultCullMode(RFRS_CULLMD mode)
 {
@@ -389,6 +420,7 @@ RFRS_SetDefaultCnkDrawMode(RFRS_CNKDRAWMD mode)
     CnkDrawModeOverride = mode;
 }
 
+/****** Init ************************************************************************/
 void
 RF_RenderStateInit(void)
 {
