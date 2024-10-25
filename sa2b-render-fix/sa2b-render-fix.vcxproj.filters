@@ -285,6 +285,9 @@
     <ClCompile Include="rfm_event\ev_byteswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_draw\rfd_shape.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
