@@ -21,11 +21,12 @@
 /*  Constants           */
 /************************/
 /****** Cnk Offsets *****************************************************************/
-#define NJD_BITSOFF_MAX         (NJD_CB_DP  +1) /* bits offset                      */
-#define NJD_TINYOFF_MAX         (NJD_CT_TID2+1) /* tiny/tex offset                  */
-#define NJD_MATOFF_MAX          (NJD_CM_DAS2+1) /* material offset                  */
-#define NJD_VOLOFF_MAX          (NJD_CO_ST  +1) /* volume offset                    */
-#define NJD_STRIPOFF_MAX        (NJD_CS_UVH2+1) /* strip offset                     */
+#define NJD_BITSOFF_MAX         (NJD_CB_DP  +1)  /* bits offset                     */
+#define NJD_TINYOFF_MAX         (NJD_CT_TID2+1)  /* tiny/tex offset                 */
+#define NJD_MATOFF_MAX          (NJD_CM_DAS2+1)  /* material offset                 */
+#define NJD_VERTOFF_MAX         (NJD_CV_NF_D8+1) /* vertex offset                   */
+#define NJD_VOLOFF_MAX          (NJD_CO_ST  +1)  /* volume offset                   */
+#define NJD_STRIPOFF_MAX        (NJD_CS_UVH2+1)  /* strip offset                    */
 
 /************************/
 /*  Macro               */
@@ -42,6 +43,20 @@
 
 /****** PList Vertex Normal *********************************************************/
 #define GET_PVN(vn)         ((f32)(vn) * (1.f/32767.f))
+
+/****** Strip to Triangle ***********************************************************/
+/*
+*   Description:
+*     Start vertex index variabnles for converting a strip triangle to a regular
+*   triangle by un-stripping the verteces.
+*
+*   Paramters:
+*     - vidx    : starting vertex index into the stripped triangle
+*     - vinc    : increment value depending on the triangle winding
+*     - binv    : if this triangle has inverted inverted
+*/
+#define VIDX_START(vidx, vinc, binv)  \
+    if (!(binv)) { vidx = 0; vinc = 1; } else { vidx = 2; vinc = -1; }
 
 /************************/
 /*  Structures          */

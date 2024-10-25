@@ -77,38 +77,30 @@ rjCnkModStrip(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbu
 
         const int nb_tri = (nb_strip - 2);
 
-        bool invert = (p_str->len < 0);
-
-        if (RFMOD_GetInvertMode())
-            invert = !invert;
+        bool inv_strip = RFMOD_GetInvertMode() ? !(p_str->len < 0) : (p_str->len < 0);
 
         /** nb_strip -> nb_tri **/
         MOD_TRI* p_modbuf = RFMOD_GetBuffer(nb_tri);
 
-        for (int j = 0; j < nb_tri; ++j)
+        for (int tidx = 0; tidx < nb_tri; ++tidx)
         {
-            int idx[3];
+            /** vertex index and vertex increment for de-strip-ing the triangle **/
+            int vidx, vinc;
 
-            if (!invert)
-            {
-                idx[0] = p_str->d[j+0].i;
-                idx[1] = p_str->d[j+1].i;
-                idx[2] = p_str->d[j+2].i;
-            }
-            else
-            {
-                idx[2] = p_str->d[j+0].i;
-                idx[1] = p_str->d[j+1].i;
-                idx[0] = p_str->d[j+2].i;
-            }
+            VIDX_START(vidx, vinc, inv_strip);
 
-            p_modbuf->vtx[0] = njvtxbuf[idx[0]].pos;
-            p_modbuf->vtx[1] = njvtxbuf[idx[1]].pos;
-            p_modbuf->vtx[2] = njvtxbuf[idx[2]].pos;
+            for (int k = 0; k < 3; ++k)
+            {
+                const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+
+                p_modbuf->vtx[k] = p_vtx->pos;
+
+                vidx += vinc;
+            }
 
             p_modbuf++;
 
-            invert = !invert;
+            inv_strip = !inv_strip;
         }
 
         p_str = NEXT_STRIP(p_str, nb_strip, ufo);
@@ -133,38 +125,29 @@ rjCnkModStripUV(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtx
 
         const int nb_tri = (nb_strip - 2);
 
-        bool invert = (p_str->len < 0);
-
-        if (RFMOD_GetInvertMode())
-            invert = !invert;
+        bool inv_strip = RFMOD_GetInvertMode() ? !(p_str->len < 0) : (p_str->len < 0);
 
         /** nb_strip -> nb_tri **/
         MOD_TRI* p_modbuf = RFMOD_GetBuffer(nb_tri);
 
-        for (int j = 0; j < nb_tri; ++j)
+        for (int tidx = 0; tidx < nb_tri; ++tidx)
         {
-            int idx[3];
+            int vidx, vinc;
 
-            if (!invert)
-            {
-                idx[0] = p_str->d[j+0].i;
-                idx[1] = p_str->d[j+1].i;
-                idx[2] = p_str->d[j+2].i;
-            }
-            else
-            {
-                idx[2] = p_str->d[j+0].i;
-                idx[1] = p_str->d[j+1].i;
-                idx[0] = p_str->d[j+2].i;
-            }
+            VIDX_START(vidx, vinc, inv_strip);
 
-            p_modbuf->vtx[0] = njvtxbuf[idx[0]].pos;
-            p_modbuf->vtx[1] = njvtxbuf[idx[1]].pos;
-            p_modbuf->vtx[2] = njvtxbuf[idx[2]].pos;
+            for (int k = 0; k < 3; ++k)
+            {
+                const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+
+                p_modbuf->vtx[k] = p_vtx->pos;
+
+                vidx += vinc;
+            }
 
             p_modbuf++;
 
-            invert = !invert;
+            inv_strip = !inv_strip;
         }
 
         p_str = NEXT_STRIP(p_str, nb_strip, ufo);
