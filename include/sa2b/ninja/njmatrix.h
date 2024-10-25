@@ -443,12 +443,15 @@ Float   njOuterProduct2( const NJS_VECTOR* v1, const NJS_VECTOR* v2, NJS_VECTOR*
 *     njCalcScreen(&cm, &p2->x, &p2->y);
 *   }
 *
+*   Notes:
+*     - 'm' parameter is unused and always 'NULL'
+*
 *   Parameters:
 *     - m       : matrix (optional)
 *     - p3      : 3D point to project
 *     - p2      : destination 2D coordinates
 */
-void    njProjectScreen( const NJS_MATRIX* m, const NJS_POINT3* p3, NJS_POINT2* p2 ); // 'm' is unused, always 'NULL'
+void    njProjectScreen( const NJS_MATRIX* m, const NJS_POINT3* p3, NJS_POINT2* p2 );
 
 /****** Angle to Quaternion *********************************************************/
 /*
@@ -459,8 +462,21 @@ void    njProjectScreen( const NJS_MATRIX* m, const NJS_POINT3* p3, NJS_POINT2* 
 *     - ang     : euler angle
 *     - qua     : destination quaternion
 */
-void    njXYZAngleToQuaternion(const Angle ang[3], NJS_QUATERNION* qua);
-void    njZXYAngleToQuaternion(const Angle ang[3], NJS_QUATERNION* qua);
+void    njXYZAngleToQuaternion( const Angle ang[3], NJS_QUATERNION* qua );
+void    njZXYAngleToQuaternion( const Angle ang[3], NJS_QUATERNION* qua );
+
+/****** Interpolate Quaternion *********************************************************/
+/*
+*   Description:
+*     Interpolate two quaternions at a given ratio.
+*
+*   Parameters:
+*     - qua0    : quaternion 1
+*     - qua1    : quaternion 2
+*     - rate    : ratio of quat 2, quat 1 will use (1 - 'rate') (0~1)
+*     - qua     : result quaternion
+*/
+void    njInterpolateQuaternion( const NJS_QUATERNION *qua0, const NJS_QUATERNION *qua1, Float rate, NJS_QUATERNION *qua );
 
 /****** Push/Pop Matrix Ex **********************************************************/
 /*

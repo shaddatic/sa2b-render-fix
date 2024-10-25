@@ -61,9 +61,6 @@ void    GX_Startup(void);
 /** Populates buffers with Ginja model data **/
 void    GX_PushDisplayList(uint8_t* pPrim, uint32_t nbPrim);
 
-/** Set a texture matrix **/
-void    GX_LoadTexMtxImm(float* mtx, int texidx, int type_);
-
 /** Draws and clears buffer **/
 void    GX_End(void);
 

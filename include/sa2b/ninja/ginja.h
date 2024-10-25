@@ -2,8 +2,8 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/ninja/ginja.h'
 *
 *   Description:
-*       Ginja constants, structs, and functions. It is a
-*   modified version of Ninja used for the GameCube.
+*     Ginja constants, structs, and functions. It is a modified version of Ninja
+*   used for the GameCube.
 *
 *   Contributors:
 *     - SEGA,
@@ -31,6 +31,9 @@ EXTERN_START
 /************************/
 /*  Functions           */
 /************************/
+/****** Start Vertex ****************************************************************/
+void    gjStartVertex3D( const NJS_MATRIX* m, u32 index );
+
 /****** View ************************************************************************/
 void    gjSetPerspective( Float screen_ratio, Float near_clip, Float far_clip );
 

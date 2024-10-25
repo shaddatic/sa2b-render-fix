@@ -49,8 +49,9 @@
 /*  Includes            */
 /************************/
 /****** Standard Library ************************************************************/
-#include <stddef.h>                     /*  NULL, size_t, etc                       */
-#include <stdbool.h>                    /*  bool (until C23)                        */
+#include <stddef.h>                     /* NULL, size_t, etc                        */
+#include <stdbool.h>                    /* bool (until C23)                         */
+#include <stdint.h>                     /* verbose stdint types                     */
 
 /************************/
 /*  Core Definitions    */
@@ -67,10 +68,6 @@
 #endif/*__cplusplus*/
 
 EXTERN_START
-
-/****** Verbose Types ***************************************************************/
-/** Integer types **/
-#include <stdint.h>                     /* stdint types                             */
 
 /****** Short-Hand Types ************************************************************/
 /** Integer types **/
@@ -91,8 +88,7 @@ typedef double              f64;        /* 8 byte real number                   
 typedef int32_t             b32;        /* 4 byte boolean                           */
 
 /****** Other Types *****************************************************************/
-/** Character types **/                                                             
-typedef char                ascii;      /* ASCII character (none)                   */
+/** Character types **/
 typedef char                utf8;       /* UTF-8 character (u8)                     */
 
 /** Byte **/
@@ -117,7 +113,9 @@ const char* GetModPath(void);
 *   Parameters:
 *     - ary     : array variable
 */
-#define ARYLEN(ary)             (sizeof(ary)/sizeof(0[ary]))
+#ifndef ARYLEN
+#   define ARYLEN(ary)         (sizeof(ary)/sizeof(0[ary]))
+#endif/*ARYLEN*/
 /*
 *   Description:
 *     Gets the total number of elements in a defined array type. This macro is
@@ -136,7 +134,9 @@ const char* GetModPath(void);
 *   Parameters:
 *     - type    : type/variable
 */
-#define BITSIN(type)            (sizeof(type)*8)
+#ifndef BITSIN
+#   define BITSIN(type)        (sizeof(type)*8)
+#endif/*BITSIN*/
 
 /****** Function *********************************************************************/
 /*
@@ -212,8 +212,8 @@ const char* GetModPath(void);
 *     #define SomeData    DATA_REF(int*, 0x12345678)
 *
 *   Parameters:
-*     - type    : Type of the data, can be a pointer type
-*     - addr    : Constant address of the data
+*     - type    : type of the data, can be a pointer type
+*     - addr    : constant address of the data
 */
 #define DATA_REF(type, addr)                (*(type*const)(addr))
 /*
@@ -224,9 +224,9 @@ const char* GetModPath(void);
 *     #define SomeArray   DATA_ARY(double, 0x12345678, [23][2])
 *
 *   Parameters:
-*     - type    : Type of the data the array contains
-*     - addr    : Constant address of the start of the array
-*     - nb      : Number of elements in the array, can be multi-dimensional
+*     - type    : type of the data the array contains
+*     - addr    : constant address of the start of the array
+*     - nb      : number of elements in the array, can be multi-dimensional
 */
 #define DATA_ARY(type, addr, nb)            (*(type(*const)nb)(addr))
 /*
@@ -237,12 +237,26 @@ const char* GetModPath(void);
 *     #define SomeFunc    FUNC_PTR(void*, __cdecl, (int), 0x12345678)
 *
 *   Parameters:
-*     - type    : Return type of the function
-*     - meth    : Calling method of the function; __cdecl is default
-*     - args    : Arguments to the function
-*     - addr    : Address of the start of the function
+*     - type    : return type of the function
+*     - meth    : calling method of the function; __cdecl is default
+*     - args    : arguments to the function
+*     - addr    : constant address of the start of the function
 */
 #define FUNC_PTR(type, meth, args, addr)    ((type(meth*const)args)(addr))
+/*
+*   Description:
+*     Define a function pointer reference at an arbitrary address.
+*
+*   Example:
+*     #define SomeFuncPtr   FUNC_REF(void*, __cdecl, (int), 0x12345678)
+*
+*   Parameters:
+*     - type    : return type of the function
+*     - meth    : calling method of the function; __cdecl is default
+*     - args    : arguments to the function
+*     - addr    : constant address of the pointer reference
+*/
+#define FUNC_REF(type, meth, args, addr)    (*(type(meth**const)args)(addr))
 
 EXTERN_END
 

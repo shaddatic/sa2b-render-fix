@@ -511,13 +511,12 @@ void    njInit3D( NJS_VERTEX_BUF* vbuf, Int vn );     // MIA
 void    njControl3D( Uint32 flag );
 void    njSetConstantAttr( Uint32 and_attr, Uint32 or_attr );
 void    njSetConstantMaterial( NJS_ARGB* mat );
-void    njSetDepthQueue( Float dnear, Float dfar );   // MIA
 
 /*
     Internals
 */
 Bool    njCnkModelClip( const NJS_CNK_MODEL* model );
-void    njCnkTransformObject( const NJS_CNK_OBJECT* object, int(__cdecl* callback)(const NJS_CNK_MODEL*) );
+void    njCnkTransformObject( const NJS_CNK_OBJECT* object, int(__cdecl* callback)(NJS_CNK_MODEL*) );
 
 /*
     Internal Draw
