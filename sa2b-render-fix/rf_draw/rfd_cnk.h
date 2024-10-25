@@ -32,16 +32,58 @@
 /*  Macro               */
 /************************/
 /****** Strip Switch ****************************************************************/
-#define STSW(type)          ((type) - NJD_STRIPOFF) /* for switch entries           */
+/*
+*   Description:
+*     Normalizes Cnk strip type values to start from 0 for use in a switch.
+*
+*   Paramters:
+*     - type    : raw strip type
+*/
+#define STSW(type)          ((type) - NJD_STRIPOFF)
 
 /****** Volume Switch ***************************************************************/
-#define VOSW(type)          ((type) - NJD_VOLOFF)   /* for switch entries           */
+/*
+*   Description:
+*     Normalizes Cnk volume type values to start from 0 for use in a switch.
+*
+*   Paramters:
+*     - type    : raw volume type
+*/
+#define VOSW(type)          ((type) - NJD_VOLOFF)
 
 /****** Strip ***********************************************************************/
+/*
+*   Description:
+*     Move plist pointer from the base of the current strip chunk to the base of the
+*   next strip chunk in the list.
+*
+*   Paramters:
+*     - pst     : current plist strip pointer
+*     - nbst    : number of strip verteces in the current strip
+*     - ufo     : user offset value
+*
+*   Returns:
+*     Pointer to next strip chunk
+*/
 #define NEXT_STRIP(pst, nbst, ufo)  \
     ((void*)((uintptr_t)(pst) + (sizeof((pst)->d[0]) * nbst) + sizeof((p_str)->len) + ((ufo) * 2)))
 
-/****** PList Vertex Normal *********************************************************/
+/****** PList Info ******************************************************************/
+/*
+*   Description:
+*     Get multiplier to convert strip UVs into normalized 0~1 UVs
+*
+*   Paramters:
+*     - uvh     : if the strip uses HD UVs
+*/
+#define GET_UV_MUL(uvh)     ((uvh) ? (1.f/1023.f) : (1.f/255.f))
+/*
+*   Description:
+*     Get vertex normal information stored in the Cnk strip info.
+*
+*   Paramters:
+*     - vn      : s16 normal value
+*/
 #define GET_PVN(vn)         ((f32)(vn) * (1.f/32767.f))
 
 /****** Strip to Triangle ***********************************************************/
@@ -67,7 +109,7 @@ typedef struct cnk_vtx_buf
     NJS_POINT3 pos;
     NJS_VECTOR norm;
     Uint32     color;
-    Sint32     unknown;
+    Sint32     dmy;
 }
 CNK_VERTEX_BUFFER;
 
@@ -243,5 +285,12 @@ typedef struct
     d[];
 }
 CNK_STRIP;
+
+/************************/
+/*  Game References     */
+/************************/
+/****** Cnk Matrix ******************************************************************/
+#define _env_matrix_44_         DATA_REF(NJS_MATRIX44, 0x01AF14E0)
+#define _unit_matrix_44_        DATA_REF(NJS_MATRIX44, 0x01AF1A10)
 
 #endif/*H_RF_DRAW_CNK*/
