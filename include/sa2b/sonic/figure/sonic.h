@@ -27,7 +27,7 @@
 
 typedef struct sonicwk
 {
-    PLAYERWK pw;
+    playerwk pw;
 
     char field_35C[4];
     int16_t flag;

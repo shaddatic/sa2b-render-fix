@@ -22,7 +22,6 @@
 /*  Abstract Types      */
 /************************/
 typedef struct task        task;
-typedef struct taskwk    TaskWk;
 
 /************************/
 /*  Structures          */

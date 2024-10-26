@@ -27,7 +27,7 @@
 
 typedef struct eggmanwk
 {
-    PLAYERWK     pw;
+    playerwk     pw;
     int16_t      unktimer;  // Unused timer
     NJS_TEXLIST* pTexList;
     PL_OBJECT*   pObject;

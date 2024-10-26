@@ -42,7 +42,7 @@ ObjectBoardCEDisplayerMod(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    PLAYERWK* pwp = playerpwp[twp->smode];
+    playerwk* pwp = playerpwp[twp->smode];
 
     if (!pwp)
         return;
@@ -129,7 +129,7 @@ ObjectBoardMHDisplayerMod(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    PLAYERWK* pwp = playerpwp[twp->smode];
+    playerwk* pwp = playerpwp[twp->smode];
 
     if (!pwp)
         return;

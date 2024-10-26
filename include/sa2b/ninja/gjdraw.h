@@ -60,17 +60,12 @@ void    gjSetMotionCallback( void (*func)(const GJS_OBJECT* gjsobj) );
 void    gjDrawMotion(     const GJS_OBJECT* object, const NJS_MOTION*      motion,     Float frame );
 void    gjDrawMotionLink( const GJS_OBJECT* object, const NJS_MOTION_LINK* motionlink, Float frame );
 
-/****** Ginja Chunk *****************************************************************/
-/** Begin draw chunk models **/
-void    gjBeginDrawCnkModel( void );
-
 /************************/
 /*  Function Ptrs       */
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
 #   define gjTransformObject_p         FUNC_PTR(void, __cdecl, (const GJS_OBJECT*, int(__cdecl*)(const GJS_MODEL*)), 0x0042DC20)
-#   define gjBeginDrawCnkModel_p       FUNC_PTR(void, __cdecl, (void)                                              , 0x0042D340)
 #   define gjBeginDrawModel_p          FUNC_PTR(void, __cdecl, (void)                                              , 0x0042BFF0)
 #   define gjDrawObject_p              FUNC_PTR(void, __cdecl, (const GJS_OBJECT*)                                 , 0x0042B530)
 

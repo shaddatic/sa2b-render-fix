@@ -27,7 +27,7 @@
 
 typedef struct mileswk
 {
-    PLAYERWK pw;
+    playerwk pw;
 
     char field_38A[16];
     Angle TailsAngX;
@@ -39,7 +39,7 @@ typedef struct mileswk
     NJS_TEXLIST* TextureList;
     PL_OBJECT* ModelList;
     PL_MOTION* MotionList;
-    SHADOWWK shadow_tails;
+    shadowwk shadow_tails;
 }
 MILESWK;
 

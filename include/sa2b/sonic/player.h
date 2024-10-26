@@ -268,7 +268,7 @@ typedef struct player_stencil
 }
 PL_STENCIL;
 
-#define GET_PLAYERWK(tp)    ((PLAYERWK*)tp->awp)
+#define GET_PLAYERWK(tp)    ((playerwk*)tp->awp)
 
 typedef struct playerwk
 {
@@ -343,8 +343,8 @@ typedef struct playerwk
 
     MOTION_JVWK mj;
 
-    SHADOWWK shadow;
-    SHADOWWK front_shadow;
+    shadowwk shadow;
+    shadowwk front_shadow;
 
     NJS_POINT3 righthand_pos;
     NJS_POINT3 lefthand_pos;
@@ -375,7 +375,7 @@ typedef struct playerwk
 
     PL_STENCIL stencil;
 }
-PLAYERWK;
+playerwk;
 
 typedef struct player_motion
 {
@@ -421,7 +421,7 @@ PL_OBJECT;
 
 /** Player Work Pointers **/
 #define playermwp           DATA_ARY(motionwk*  , 0x01DE95E0, [8])
-#define playerpwp           DATA_ARY(PLAYERWK*  , 0x01DE9600, [8])
+#define playerpwp           DATA_ARY(playerwk*  , 0x01DE9600, [8])
 #define playertwp           DATA_ARY(taskwk*    , 0x01DEA6C0, [8])
 #define playertp            DATA_ARY(task*      , 0x01DEA6E0, [8])
 
@@ -476,7 +476,7 @@ int32_t CountCharacters( void );
 /************************/
 #ifdef  SAMT_INCL_INLINED
 
-void    StopHoldingTaskP_inl(int32_t pno, TaskWK* ptwp);
+void    StopHoldingTaskP_inl(int32_t pno, taskwk* ptwp);
 
 #endif/*SAMT_INCL_INLINED*/
 

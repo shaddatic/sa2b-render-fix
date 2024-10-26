@@ -27,7 +27,7 @@
 
 typedef struct walkerwk
 {
-    PLAYERWK pw;
+    playerwk pw;
 
     char field_35C;
     char field_35D;

@@ -99,11 +99,9 @@ typedef struct {
 
 #define _nj_control_3d_flag_                DATA_REF(Uint32    , 0x025F02D8)
 
-#define _nj_vertex_buf_                     DATA_REF(void*     , 0x025EFE48)
 #define _nj_constant_attr_and_              DATA_REF(Uint32    , 0x025F0268)
 #define _nj_constant_attr_or_               DATA_REF(Uint32    , 0x025F02D4)
 #define _nj_constant_material_              DATA_REF(NJS_ARGB  , 0x025EFFD0) 
-#define _nj_cnk_blend_mode_                 DATA_REF(Uint32    , 0x025F0264)
 
 /************************/
 /*  System              */

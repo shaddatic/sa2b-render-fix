@@ -25,7 +25,7 @@
 typedef struct
 {
     NJS_POINT3 pos;
-    XSSUNIT hit[6];
+    xssunit    hit[6];
 }
 xyyzzxsdwstr;
 

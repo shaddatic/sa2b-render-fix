@@ -72,7 +72,7 @@ static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below th
 #define BALL_OBJ_NUM_AMY        (401)
 
 static void
-SonicDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
+SonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -133,7 +133,7 @@ SonicDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-TeriosDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
+TeriosDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -191,7 +191,7 @@ TeriosDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-AmyDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
+AmyDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -252,7 +252,7 @@ AmyDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
 }
 
 static void
-MetalSonicDrawMod(taskwk* twp, PLAYERWK* pwp, int motion)
+MetalSonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -440,7 +440,7 @@ SonicDisplayerShadowHook(task* tp)
 }
 
 static void
-MilesDisplayMod(taskwk* twp, PLAYERWK* pwp, int motion)
+MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -610,7 +610,7 @@ MilesDisplayerShadowHook(task* tp)
 }
 
 static void
-EggmanDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -719,7 +719,7 @@ EggmanDisplayerShadowHook(task* tp)
 }
 
 static void
-KnucklesDisplayMod(taskwk* twp, PLAYERWK* pwp, int motion)
+KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -797,7 +797,7 @@ sub_446960(Angle ang1, Angle ang2, Sangle sang)
 }
 
 static void
-RougeDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+RougeDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -852,7 +852,7 @@ RougeDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-TikalDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+TikalDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -907,7 +907,7 @@ TikalDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-ChaosDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1104,7 +1104,7 @@ KnucklesDisplayerShadowHook(task* tp)
 }
 
 static void
-TornadoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1148,7 +1148,7 @@ TornadoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 
 
 static void
-EggWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1183,7 +1183,7 @@ EggWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-ChaoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+ChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -1218,7 +1218,7 @@ ChaoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
 }
 
 static void
-DarkChaoWalkerDisplayMod(taskwk* twp, PLAYERWK* pwp, int mtnnum)
+DarkChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 

@@ -24,6 +24,8 @@
 #include <sa2b/gx/gxlight.h>
 #include <sa2b/gx/gxstate.h>
 
+#include <sa2b/ninja/njmatrix.h>
+
 /************************/
 /*  Constants           */
 /************************/
@@ -34,6 +36,23 @@
 #define GXD_PRIM_LINE           (0xA8)
 #define GXD_PRIM_LINESTRIP      (0xB0)
 #define GXD_PRIM_POINT          (0xB8)
+
+/** Texture Matrix **/
+#define GXD_TEXMTX0             (0)
+#define GXD_TEXMTX1             (1)
+#define GXD_TEXMTX2             (2)
+#define GXD_TEXMTX3             (3)
+#define GXD_TEXMTX4             (4)
+#define GXD_TEXMTX5             (5)
+#define GXD_TEXMTX6             (6)
+#define GXD_TEXMTX7             (7)
+#define GXD_TEXMTX8             (8)
+#define GXD_TEXMTX9             (9)
+
+/** Texture Src Gen **/
+#define GXD_TG_POS              (0)
+#define GXD_TG_NRM              (1)
+#define GXD_TG_TEXCOORD0        (2)
 
 /************************/
 /*  Data                */
@@ -61,6 +80,9 @@ void    GX_Startup(void);
 /** Populates buffers with Ginja model data **/
 void    GX_PushDisplayList(uint8_t* pPrim, uint32_t nbPrim);
 
+/** Set a texture matrix **/
+void    GX_SetTexMtx( const NJS_MATRIX44* m, int texmtx, int srcgen );
+
 /** Draws and clears buffer **/
 void    GX_End(void);
 
@@ -69,11 +91,14 @@ EXTERN_END
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef  SAMT_INCL_FUNCPTRS
-/** Function ptr **/
+#ifdef SAMT_INCL_FUNCPTRS
+/****** Function Pointer ************************************************************/
 #   define GX_Startup_p                 FUNC_PTR(void, __cdecl   , (void)              , 0x004205E0)
 #   define GX_PushDisplayList_p         FUNC_PTR(void, __cdecl   , (uint8_t*, uint32_t), 0x0041C9B0)
 #   define GX_End_p                     FUNC_PTR(void, __cdecl   , (void)              , 0x0041C070)
+
+/****** User-Function Pointer *******************************************************/
+#   define GX_SetTexMtx_p               ((void*)0x00424480)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -159,7 +159,7 @@ CAMADJUSTWK_KNUCKLES;
 #define CameraMode                  DATA_ARY(OBJ_CAMERAMODE  , 0x008ABD38, [28])
 #define CameraAdjust                DATA_ARY(OBJ_CAMERAADJUST, 0x008ABE88, [14])
 
-#define camera_twp                  DATA_REF(TaskWK*         , 0x01A5A784)
+#define camera_twp                  DATA_REF(taskwk*         , 0x01A5A784)
 
 /************************/
 /*  Prototypes          */

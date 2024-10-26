@@ -28,8 +28,8 @@ typedef struct task     task;
 typedef struct
 {
     NJS_POINT3 pos;
-    XSSUNIT hit[6];
-    XSSUNIT pre_hit[6];
+    xssunit hit[6];
+    xssunit pre_hit[6];
 }
 XYZ_SHADOW_WORK;
 

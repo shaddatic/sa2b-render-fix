@@ -20,6 +20,8 @@
 /** System **/
 #include <sa2b/shinobi/sg_xpt.h>
 
+#include <sa2b/ninja/njmatrix.h>
+
 EXTERN_START
 
 /************************/

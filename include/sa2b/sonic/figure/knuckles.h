@@ -27,7 +27,7 @@
 
 typedef struct knuckleswk
 {
-    PLAYERWK pw;
+    playerwk pw;
 
     char field_308[78];
     signed __int16 someAng0;

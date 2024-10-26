@@ -32,13 +32,13 @@ TEX_PRSTABLE;
 typedef NJS_TEXLIST**      TEX_TEXTABLE;
 
 /************************/
-/*  Functions           */
+/*  Game References     */
 /************************/
 /****** Texname Buffer **************************************************************/
 #define texname_tex         DATA_ARY(NJS_TEXNAME, 0x01940870, [512])
 
 /************************/
-/*  Functions           */
+/*  Prototypes          */
 /************************/
 /****** Texture File ****************************************************************/
 /*

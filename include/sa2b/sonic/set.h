@@ -18,7 +18,6 @@ EXTERN_START
 /*  Abstracted Types    */
 /************************/
 typedef struct task        task;
-typedef struct taskwk    TaskWk;
 
 /************************/
 /*  Typedefs            */

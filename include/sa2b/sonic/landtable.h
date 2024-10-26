@@ -17,7 +17,7 @@
 /*  Abstract types      */
 /************************/
 typedef struct task        task;
-typedef struct zxsdwstr    ZXSDWSTR;
+typedef struct zxsdwstr    zxsdwstr;
 
 /************************/
 /*  Includes            */
@@ -38,9 +38,9 @@ typedef struct zxsdwstr    ZXSDWSTR;
 #define LANDATTR_FOOTSTEPS      (0x00000800)
 #define LANDATTR_NOLANDING      (0x00001000)
 #define LANDATTR_NOALPHA        (0x00002000)
-#define LANDATTR_NOSHADOW       (0x00008000)
+#define LANDATTR_NOSHADOW       (0x00008000) /* no shadow maps                      */
 #define LANDATTR_ACCELERATE     (0x00100000)
-#define LANDATTR_NOFOG          (0x00400000)
+#define LANDATTR_NOFOG          (0x00400000) /* disable fog for land entry          */
 #define LANDATTR_COMPILED       (0x02000000) /* compiled with DirectCompile         */
 #define LANDATTR_NOCOMPILE      (0x04000000) /* don't compile model                 */
 #define LANDATTR_DYNAMIC        (0x08000000)
@@ -138,7 +138,7 @@ int32_t LandChangeChunkLandTable(OBJ_LANDTABLE* land);
 
 void    ListGroundForCollision(f32 xPosition, f32 yPosition, f32 zPosition, f32 fRadius);
 
-int32_t CL_ColPolCheckZxShadow(ZXSDWSTR* zssp, NJS_OBJECT* obp);
+int32_t CL_ColPolCheckZxShadow(zxsdwstr* zssp, NJS_OBJECT* obp);
 
 EXTERN_END
 
