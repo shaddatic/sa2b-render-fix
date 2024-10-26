@@ -20,7 +20,7 @@
 void
 rjCnkSetLightVectorEx(Int light, Float vx, Float vy, Float vz)
 {
-    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
+    if (light == RFD_CNK_MULTILIGHT_ALL) // all lights
     {
         for (int i = 0; i < MAX_LIGHT; ++i)
         {
@@ -68,7 +68,7 @@ rjCnkSetLightVectorEx(Int light, Float vx, Float vy, Float vz)
 void
 rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
 {
-    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
+    if (light == RFD_CNK_MULTILIGHT_ALL) // all lights
     {
         for (int i = 0; i < MAX_LIGHT; ++i)
         {
@@ -98,7 +98,7 @@ rjCnkSetMultiAmbient(Float ar, Float ag, Float ab)
 void
 rjCnkSetLightSwitch(Int light, Int flag)
 {
-    if (light == NJD_CNK_MULTILIGHT_ALL) // all lights
+    if (light == RFD_CNK_MULTILIGHT_ALL) // all lights
     {
         for (int i = 0; i < MAX_LIGHT; ++i)
         {

@@ -20,14 +20,14 @@ EXTERN_START
 /************************/
 /*  Constants           */
 /************************/
-#define	NJD_CNK_MULTILIGHT_1            (1) /* light 1                              */
-#define	NJD_CNK_MULTILIGHT_2            (2) /* light 2                              */
-#define	NJD_CNK_MULTILIGHT_3            (3) /* light 3                              */
-#define	NJD_CNK_MULTILIGHT_4            (4) /* light 4                              */
-#define	NJD_CNK_MULTILIGHT_5            (5) /* unimplimented                        */
-#define	NJD_CNK_MULTILIGHT_6            (6) /* unimplimented                        */
+#define	RFD_CNK_MULTILIGHT_1            (1) /* light 1                              */
+#define	RFD_CNK_MULTILIGHT_2            (2) /* light 2                              */
+#define	RFD_CNK_MULTILIGHT_3            (3) /* light 3                              */
+#define	RFD_CNK_MULTILIGHT_4            (4) /* light 4                              */
+#define	RFD_CNK_MULTILIGHT_5            (5) /* unimplimented                        */
+#define	RFD_CNK_MULTILIGHT_6            (6) /* unimplimented                        */
 
-#define	NJD_CNK_MULTILIGHT_ALL          (0) /* all lights                           */
+#define	RFD_CNK_MULTILIGHT_ALL          (0) /* all lights                           */
 
 /************************/
 /*  Functions           */
