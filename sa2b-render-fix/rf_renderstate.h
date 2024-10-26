@@ -10,10 +10,20 @@
 #ifndef _RF_RENDERSTATE_H_
 #define _RF_RENDERSTATE_H_
 
+#ifndef _RF_EXTERN_API_H_
+
+/************************/
+/*  Constants           */
+/************************/
+/****** Cnk Draw Func Bits **********************************************************/
+#define RFRS_CNKFUNCMD_EASYBIT      (0x01) /* using easy draw variant               */
+#define RFRS_CNKFUNCMD_SIMPLEBIT    (0x02) /* using simple draw variant             */
+#define RFRS_CNKFUNCMD_MULTIBIT     (0x04) /* using multi draw variant              */
+#define RFRS_CNKFUNCMD_DIRECTBIT    (0x08) /* using direct draw                     */
+
 /************************/
 /*  Enums               */
 /************************/
-#ifndef _RF_EXTERN_API_H_
 typedef enum
 {
     RFRS_CULLMD_END = -1,        /* End and reset to default                        */
@@ -83,6 +93,28 @@ typedef enum
 }
 RFRS_CNKDRAWMD;
 
+typedef enum
+{
+    RFRS_CNKFUNCMD_END = -1,     /* end and reset to default                        */
+
+    RFRS_CNKFUNCMD_NORMAL,       /* parameters will be parsed normally              */
+    RFRS_CNKFUNCMD_EASY = 1,     /* parameters will be parsed as if EasyDraw        */
+    RFRS_CNKFUNCMD_SIMPLE,       /* parameters will be parsed as if SimpleDraw      */
+    RFRS_CNKFUNCMD_EASYMULTI = 5,/* parameters will be parsed as if EasyMultiDraw   */
+    RFRS_CNKFUNCMD_SIMPLEMULTI,  /* parameters will be parsed as if SimpleMultiDraw */
+    RFRS_CNKFUNCMD_DIRECT = 8,   /* parameters will be parsed as if DirectDraw      */
+}
+RFRS_CNKFUNCMD;
+
+typedef enum
+{
+    RFRS_CNKPASSMD_END = -1,    /* end and reset to default                         */
+
+    RFRS_CNKPASSMD_NORMAL,      /* draw inverse tris first, then normal tris        */
+    RFRS_CNKPASSMD_INVERSE,     /* draw normal tris first, then inverse tris        */
+}
+RFRS_CNKPASSMD;
+
 #endif/*_RF_EXTERN_API_*/
 
 /************************/
@@ -110,6 +142,12 @@ void    RFRS_SetModifierMode( RFRS_MODMD mode );
 /** Set chunk draw mode **/
 void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
 
+/** Set chunk func mode **/
+void    RFRS_SetCnkFuncMode( RFRS_CNKFUNCMD mode );
+
+/** Set chunk pass mode **/
+void    RFRS_SetCnkPassMode( RFRS_CNKPASSMD mode );
+
 /****** Get Render State ************************************************************/
 /** Get cull mode **/
 RFRS_CULLMD RFRS_GetCullMode( void );
@@ -129,6 +167,12 @@ RFRS_MODMD RFRS_GetModifierMode( void );
 /** Get chunk draw mode **/
 RFRS_CNKDRAWMD RFRS_GetCnkDrawMode( void );
 
+/** Get chunk func mode **/
+RFRS_CNKFUNCMD  RFRS_GetCnkFuncMode( void );
+
+/** Get chunk pass mode **/
+RFRS_CNKPASSMD  RFRS_GetCnkPassMode( void );
+
 /****** Set Default *****************************************************************/
 /** Set defaults **/
 void    RFRS_SetDefaultCullMode(      RFRS_CULLMD  mode   );
@@ -137,6 +181,9 @@ void    RFRS_SetDefaultAlphaTestFunc( RFRS_CMPMD   mode   );
 void    RFRS_SetDefaultAlphaTestRef(  int32_t      value  );
 
 void    RFRS_SetDefaultCnkDrawMode(   RFRS_CNKDRAWMD mode );
+
+void    RFRS_SetDefaultCnkFuncMode( RFRS_CNKFUNCMD mode );
+void    RFRS_SetDefaultCnkPassMode( RFRS_CNKPASSMD mode );
 
 EXTERN_END
 

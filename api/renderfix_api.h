@@ -41,6 +41,15 @@ typedef double                  float64_t;  /* 8 byte wide float value          
 typedef char                    utf8;       /* supports UTF-8 strings               */
 
 /************************/
+/*  Constants           */
+/************************/
+/****** Cnk Draw Func Bits **********************************************************/
+#define RFRS_CNKFUNCMD_EASYBIT      (0x01) /* using easy draw variant               */
+#define RFRS_CNKFUNCMD_SIMPLEBIT    (0x02) /* using simple draw variant             */
+#define RFRS_CNKFUNCMD_MULTIBIT     (0x04) /* using multi draw variant              */
+#define RFRS_CNKFUNCMD_DIRECTBIT    (0x08) /* using direct draw                     */
+
+/************************/
 /*  Enums               */
 /************************/
 /****** Render State Enums **********************************************************/
@@ -112,6 +121,28 @@ typedef enum
     RFRS_CNKDRAWMD_TRANSPARENT, /* draw only transparent strips                     */
 }
 RFRS_CNKDRAWMD;
+
+typedef enum
+{
+    RFRS_CNKFUNCMD_END = -1,     /* end and reset to default                        */
+
+    RFRS_CNKFUNCMD_NORMAL,       /* parameters will be parsed normally              */
+    RFRS_CNKFUNCMD_EASY = 1,     /* parameters will be parsed as if EasyDraw        */
+    RFRS_CNKFUNCMD_SIMPLE,       /* parameters will be parsed as if SimpleDraw      */
+    RFRS_CNKFUNCMD_EASYMULTI = 5,/* parameters will be parsed as if EasyMultiDraw   */
+    RFRS_CNKFUNCMD_SIMPLEMULTI,  /* parameters will be parsed as if SimpleMultiDraw */
+    RFRS_CNKFUNCMD_DIRECT = 8,   /* parameters will be parsed as if DirectDraw      */
+}
+RFRS_CNKFUNCMD;
+
+typedef enum
+{
+    RFRS_CNKPASSMD_END = -1,    /* end and reset to default                         */
+
+    RFRS_CNKPASSMD_NORMAL,      /* draw inverse tris first, then normal tris        */
+    RFRS_CNKPASSMD_INVERSE,     /* draw normal tris first, then inverse tris        */
+}
+RFRS_CNKPASSMD;
 
 /****** Font Enums ******************************************************************/
 /** Font language **/

@@ -59,18 +59,22 @@
 /*  Source Data         */
 /************************/
 /****** Default States **************************************************************/
-static RFRS_CULLMD    CullModeDefault;
-static RFRS_TRANSMD   TransModeDefault;
-static RFRS_CMPMD     AlphaFuncDefault    = RFRS_CMPMD_GTR;
-static uint32_t       AlphaRefDefault     = 64;
-static RFRS_CNKDRAWMD CnkDrawModeDefault;
+static RFRS_CULLMD      CullModeDefault;
+static RFRS_TRANSMD     TransModeDefault;
+static RFRS_CMPMD       AlphaFuncDefault    = RFRS_CMPMD_GTR;
+static uint32_t         AlphaRefDefault     = 64;
+static RFRS_CNKDRAWMD   CnkDrawModeDefault;
+static RFRS_CNKFUNCMD   CnkFuncModeDefault  = RFRS_CNKFUNCMD_SIMPLE;
+static RFRS_CNKPASSMD   CnkPassModeDefault;
 
 /****** Override States *************************************************************/
-static RFRS_CULLMD    CullModeOverride;
-static RFRS_TRANSMD   TransModeOverride;
-static RFRS_CMPMD     AlphaFuncOverride   = RFRS_CMPMD_GTR;
-static uint32_t       AlphaRefOverride    = 64;
-static RFRS_CNKDRAWMD CnkDrawModeOverride;
+static RFRS_CULLMD      CullModeOverride;
+static RFRS_TRANSMD     TransModeOverride;
+static RFRS_CMPMD       AlphaFuncOverride   = RFRS_CMPMD_GTR;
+static uint32_t         AlphaRefOverride    = 64;
+static RFRS_CNKDRAWMD   CnkDrawModeOverride;
+static RFRS_CNKFUNCMD   CnkFuncModeOverride = RFRS_CNKFUNCMD_SIMPLE;
+static RFRS_CNKPASSMD   CnkPassModeOverride;
 
 /****** Hacky Event Patch ***********************************************************/
 static bool CullEventPatch;
@@ -347,6 +351,40 @@ RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
     
 }
 
+void
+RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD mode)
+{
+    switch (mode) {
+    case RFRS_CNKFUNCMD_NORMAL:
+    case RFRS_CNKFUNCMD_EASY:
+    case RFRS_CNKFUNCMD_SIMPLE:
+    case RFRS_CNKFUNCMD_EASYMULTI:
+    case RFRS_CNKFUNCMD_SIMPLEMULTI:
+    case RFRS_CNKFUNCMD_DIRECT:
+        CnkFuncModeOverride = mode;
+        break;
+
+    case RFRS_CNKFUNCMD_END:
+        CnkFuncModeOverride = CnkFuncModeDefault;
+        break;
+    }
+}
+
+void
+RFRS_SetCnkPassMode(RFRS_CNKPASSMD mode)
+{
+    switch (mode) {
+    case RFRS_CNKPASSMD_NORMAL:
+    case RFRS_CNKPASSMD_INVERSE:
+        CnkPassModeOverride = mode;
+        break;
+
+    case RFRS_CNKPASSMD_END:
+        CnkPassModeOverride = CnkPassModeDefault;
+        break;
+    }
+}
+
 /****** Get Render Mode *************************************************************/
 RFRS_CULLMD
 RFRS_GetCullMode(void)
@@ -384,6 +422,18 @@ RFRS_GetCnkDrawMode(void)
     return CnkDrawModeOverride;
 }
 
+RFRS_CNKFUNCMD
+RFRS_GetCnkFuncMode(void)
+{
+    return CnkFuncModeOverride;
+}
+
+RFRS_CNKPASSMD
+RFRS_GetCnkPassMode(void)
+{
+    return CnkPassModeOverride;
+}
+
 /****** Set Default Render Mode *****************************************************/
 void
 RFRS_SetDefaultCullMode(RFRS_CULLMD mode)
@@ -418,6 +468,20 @@ RFRS_SetDefaultCnkDrawMode(RFRS_CNKDRAWMD mode)
 {
     CnkDrawModeDefault = mode;
     CnkDrawModeOverride = mode;
+}
+
+void
+RFRS_SetDefaultCnkFuncMode(RFRS_CNKFUNCMD mode)
+{
+    CnkFuncModeDefault = mode;
+    CnkFuncModeOverride = mode;
+}
+
+void
+RFRS_SetDefaultCnkPassMode(RFRS_CNKPASSMD mode)
+{
+    CnkPassModeDefault = mode;
+    CnkPassModeOverride = mode;
 }
 
 /****** Init ************************************************************************/
