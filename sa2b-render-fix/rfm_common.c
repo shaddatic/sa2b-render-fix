@@ -14,6 +14,7 @@
 #include <sa2b/sonic/texture.h>
 #include <sa2b/sonic/datadll.h>
 #include <sa2b/sonic/set.h>
+#include <sa2b/sonic/landtable.h>
 
 /** Std **/
 #include <stdio.h>
@@ -146,6 +147,41 @@ DrawMotLandEntryHook(void)
     FuncHookCall( DrawMotLandEntryHookInfo, DrawMotLandEntry() );
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+}
+
+#define gjSetShadow         FUNC_PTR(void, __cdecl, (const void*, const f32)  , 0x00495EB0)
+#define gjTranslateShadow   FUNC_PTR(void, __cdecl, (const void*, const void*), 0x00496160)
+#define gjClearLandShadow   FUNC_PTR(void, __cdecl, (void)                    , 0x00496310)
+
+static void
+CnkDrawLT(const OBJ_LANDENTRY* const pLandEntry)
+{
+    const NJS_CNK_OBJECT* const p_obj = pLandEntry->pObject;
+
+    if ( !(pLandEntry->slAttribute & LANDATTR_NOSHADOW) )
+    {
+        gjSetShadow(&pLandEntry->xCenter, pLandEntry->r);
+        gjTranslateShadow(p_obj->pos, p_obj->ang);
+
+        njCnkDrawModel_Broken(p_obj->model);
+
+        gjClearLandShadow();
+    }
+    else
+        njCnkDrawModel_Broken(p_obj->model);
+}
+
+__declspec(naked)
+static void
+___CnkDrawLT(void)
+{
+    __asm
+    {
+        push edi
+        call CnkDrawLT
+        pop edi
+        retn
+    }
 }
 
 void
@@ -299,6 +335,12 @@ RFM_CommonInit(void)
     FuncHook(LandDisplayerTransHookInfo, LandDisplayerTrans, LandDisplayerTransHook);
     FuncHook(DrawMotLandEntryHookInfo  , DrawMotLandEntry  , DrawMotLandEntryHook);
     WriteNOP(0x0047C2B5, 0x0047C2BE); // Force Chunk to draw twice
+
+    /** Add Chunk shadow map support for LTs **/
+    WriteCall(0x0047C454, ___CnkDrawLT);
+    WriteCall(0x0047C462, ___CnkDrawLT);
+    WriteCall(0x0047C604, ___CnkDrawLT);
+    WriteCall(0x0047C612, ___CnkDrawLT);
 
     /** Fix keys in Death Chamber & Egg Quaters glowing eye effect caused by the
         programmer referencing the wrong model array **/
