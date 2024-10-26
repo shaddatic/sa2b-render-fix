@@ -68,7 +68,7 @@ AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
         motion_link.frame[0]  = pMtnCtrl->minfo[0].frame;
 
         motion_link.motion[1] = pMtnCtrl->minfo[1].pMotion;
-        motion_link.frame[1] =  pMtnCtrl->minfo[1].frame;
+        motion_link.frame[1]  = pMtnCtrl->minfo[1].frame;
         
         njCnkAnimateMotionLink(pObject, &motion_link, pMtnCtrl->ratio);
     }
