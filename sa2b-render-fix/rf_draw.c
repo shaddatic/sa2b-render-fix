@@ -64,15 +64,13 @@ AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
     {
         NJS_MOTION_LINK motion_link;
 
-        NJS_MOTION* motion_one = pMtnCtrl->minfo[0].pMotion;
-        motion_link.frame[0] = pMtnCtrl->minfo[0].frame;
-        float frame_two = pMtnCtrl->minfo[1].frame;
-        motion_link.motion[0] = motion_one;
-        NJS_MOTION* motion_two = pMtnCtrl->minfo[1].pMotion;
-        motion_link.frame[1] = frame_two;
-        float frame = pMtnCtrl->ratio;
-        motion_link.motion[1] = motion_two;
-        njCnkAnimateMotionLink(pObject, &motion_link, frame);
+        motion_link.motion[0] = pMtnCtrl->minfo[0].pMotion;
+        motion_link.frame[0]  = pMtnCtrl->minfo[0].frame;
+
+        motion_link.motion[1] = pMtnCtrl->minfo[1].pMotion;
+        motion_link.frame[1] =  pMtnCtrl->minfo[1].frame;
+        
+        njCnkAnimateMotionLink(pObject, &motion_link, pMtnCtrl->ratio);
     }
     else
         njCnkAnimateMotion(pObject, pMtnCtrl->minfo[0].pMotion, pMtnCtrl->minfo[0].frame);
