@@ -42,6 +42,26 @@ void    rjCnkBeginDrawModel( void );
 */
 void    rjCnkDrawModelSub( const NJS_CNK_MODEL* model );
 
+/****** Cnk Shape *******************************************************************/
+/*
+*   Description:
+*     Draw shape motion with cnkobj tree and BE flag.
+*
+*   Paramters:
+*     - cnkobj      : current object
+*     - bBE         : big endian shape flag
+*/
+void    rjCnkPushPopShape( const NJS_CNK_OBJECT* cnkobj, int bBE );
+/*
+*   Description:
+*     Draw shape motion link with cnkobj tree and BE flag.
+*
+*   Paramters:
+*     - cnkobj      : current object
+*     - bBE         : big endian shape flag
+*/
+void    rjCnkPushPopShapeLink( const NJS_CNK_OBJECT* cnkobj, int bBE );
+
 EXTERN_END
 
 #endif/*H_RF_DRAW_INTERNAL*/
