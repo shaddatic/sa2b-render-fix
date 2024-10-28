@@ -18,6 +18,13 @@
 #include <rf_draw/rfd_cnk.h>      /* chunk util                                     */
 
 /************************/
+/*  Game Functions      */
+/************************/
+/****** Shape ***********************************************************************/
+#define ShapeCalcVList          FUNC_PTR(void, __cdecl, (const NJS_CNK_MODEL*, Sint32**, int), 0x00783990)
+#define ShapeLinkCalcVList      FUNC_PTR(void, __cdecl, (const NJS_CNK_MODEL*, Sint32**, int), 0x007856A0)
+
+/************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
@@ -621,4 +628,108 @@ rjShapeLinkIntLinearVlist(const NJS_MKEY_P *Vertex1Key, int Vertex1NbKeys, const
 
         src_cnk_base += 1 + cnk_size;
     }
+}
+
+void
+rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int byteswap)
+{
+    do
+    {
+        njPushMatrixEx();
+
+        njMotionTransformEx(cnkobj);
+
+        if (_nj_cnk_motion_callback_)
+            _nj_cnk_motion_callback_((void*)cnkobj);
+
+        const Uint32   eval  = cnkobj->evalflags;
+        NJS_CNK_MODEL* model = (void*)cnkobj->model;
+
+        if (eval & NJD_EVAL_SHAPE_SKIP)
+        {
+            if (model && !(eval & NJD_EVAL_HIDE))
+                _nj_obj_motion_info_[0].draw_func_p((void*)model);
+        }
+        else
+        {
+            if (model && !(eval & NJD_EVAL_HIDE))
+            {
+                Sint32* shp_vlist;
+
+                ShapeCalcVList(model, &shp_vlist, byteswap);
+
+                njSetNextShapeNodeEx();
+
+                Sint32* const old_vlist = model->vlist;
+
+                model->vlist = shp_vlist;
+
+                _nj_obj_motion_info_[0].draw_func_p(model);
+
+                model->vlist = old_vlist;
+            }
+            else
+                njSetNextShapeNodeEx();
+        }
+
+        if (cnkobj->child)
+            rjCnkPushPopShape(cnkobj->child, byteswap);
+
+        njPopMatrixEx();
+
+        cnkobj = cnkobj->sibling;
+    }
+    while (cnkobj);
+}
+
+void
+rjCnkPushPopShapeLink(const NJS_CNK_OBJECT* cnkobj, int byteswap)
+{
+    do
+    {
+        njPushMatrixEx();
+
+        njMotionLinkTransformEx(cnkobj);
+
+        if (_nj_cnk_motion_callback_)
+            _nj_cnk_motion_callback_((void*)cnkobj);
+
+        const Uint32   eval  = cnkobj->evalflags;
+        NJS_CNK_MODEL* model = (void*)cnkobj->model;
+
+        if (eval & NJD_EVAL_SHAPE_SKIP)
+        {
+            if (model && !(eval & NJD_EVAL_HIDE))
+                _nj_obj_motion_info_[0].draw_func_p((void*)model);
+        }
+        else
+        {
+            if (model && !(eval & NJD_EVAL_HIDE))
+            {
+                Sint32* shp_vlist;
+
+                ShapeLinkCalcVList(model, &shp_vlist, byteswap);
+
+                njSetNextShapeLinkNode();
+
+                Sint32* const old_vlist = model->vlist;
+
+                model->vlist = shp_vlist;
+
+                _nj_obj_motion_info_[0].draw_func_p(model);
+
+                model->vlist = old_vlist;
+            }
+            else
+                njSetNextShapeLinkNode();
+        }
+
+        if (cnkobj->child)
+            rjCnkPushPopShapeLink(cnkobj->child, byteswap);
+
+        njPopMatrixEx();
+
+        cnkobj = cnkobj->sibling;
+    }
+    while (cnkobj);
 }
