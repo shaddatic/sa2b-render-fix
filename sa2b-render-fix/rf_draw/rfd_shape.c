@@ -631,7 +631,7 @@ rjShapeLinkIntLinearVlist(const NJS_MKEY_P *Vertex1Key, int Vertex1NbKeys, const
 }
 
 void
-rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int byteswap)
+rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int bBE)
 {
     do
     {
@@ -656,7 +656,7 @@ rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int byteswap)
             {
                 Sint32* shp_vlist;
 
-                ShapeCalcVList(model, &shp_vlist, byteswap);
+                ShapeCalcVList(model, &shp_vlist, bBE);
 
                 njSetNextShapeNodeEx();
 
@@ -673,7 +673,7 @@ rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int byteswap)
         }
 
         if (cnkobj->child)
-            rjCnkPushPopShape(cnkobj->child, byteswap);
+            rjCnkPushPopShape(cnkobj->child, bBE);
 
         njPopMatrixEx();
 
@@ -683,7 +683,7 @@ rjCnkPushPopShape(const NJS_CNK_OBJECT* cnkobj, int byteswap)
 }
 
 void
-rjCnkPushPopShapeLink(const NJS_CNK_OBJECT* cnkobj, int byteswap)
+rjCnkPushPopShapeLink(const NJS_CNK_OBJECT* cnkobj, int bBE)
 {
     do
     {
@@ -708,7 +708,7 @@ rjCnkPushPopShapeLink(const NJS_CNK_OBJECT* cnkobj, int byteswap)
             {
                 Sint32* shp_vlist;
 
-                ShapeLinkCalcVList(model, &shp_vlist, byteswap);
+                ShapeLinkCalcVList(model, &shp_vlist, bBE);
 
                 njSetNextShapeLinkNode();
 
@@ -725,7 +725,7 @@ rjCnkPushPopShapeLink(const NJS_CNK_OBJECT* cnkobj, int byteswap)
         }
 
         if (cnkobj->child)
-            rjCnkPushPopShapeLink(cnkobj->child, byteswap);
+            rjCnkPushPopShapeLink(cnkobj->child, bBE);
 
         njPopMatrixEx();
 
