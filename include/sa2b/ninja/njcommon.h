@@ -163,8 +163,8 @@ typedef struct {
 } NJS_BGRA;
 
 typedef union {
-    Uint32  color;
-    NJS_TEX tex;
+    Uint32   color;
+    NJS_TEX  tex;
     NJS_BGRA argb;
 } NJS_COLOR;
 

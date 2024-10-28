@@ -736,6 +736,7 @@ void	njDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* moti
 *
 *   Notes:
 *     - If 'shape' is 'nullptr', function is the same as 'DrawMotion'
+*     - Does not call the motion callback, removed for Battle
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -753,6 +754,7 @@ void	njDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, 
 *
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
+*     - Does not call the motion callback, removed for Battle
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -771,6 +773,7 @@ void	njDrawShapeLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motio
 *   Notes:
 *     - If 'shape' is 'nullptr', function is the same as 'DrawMotion'
 *     - The motion data is still little endian, only shape data is endi-swapped
+*     - Does not call the motion callback, removed for Battle
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -789,6 +792,7 @@ void	njDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
 *     - The motion data is still little endian, only shape data is endi-swapped
+*     - Does not call the motion callback, removed for Battle
 *
 *   Parameters:
 *     - object      : object to animate and draw

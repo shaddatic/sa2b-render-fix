@@ -256,13 +256,13 @@ typedef struct // To be moved
     int32_t min_filter;
     int32_t mag_filter;
     int32_t bank;
+    int32_t unk;
 }
 TEXTURE_INFO;
 
 typedef struct player_stencil
 {
     TEXTURE_INFO texture;
-    int32_t      unk;
     void*        texp;
     NJS_MATRIX   mat;
 }

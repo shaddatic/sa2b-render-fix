@@ -101,7 +101,8 @@ void    njGetMatrix( NJS_MATRIX* m );
 *     Copy a matrix into 'm'
 *
 *   Parameters:
-*     - m       : return pointer matrix
+*     - md      : destination matrix (optional)
+*     - ms      : matrix to set 'md' to
 */
 void    njSetMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
 
