@@ -107,4 +107,7 @@ RF_DrawInit(void)
     /** RF Chunk draw functions **/
     WriteJump(0x0042D340, rjCnkBeginDrawModel);
     WriteJump(0x0042D500, rjCnkDrawModelSub);
+
+    WriteJump(0x00784890, rjCnkPushPopShape);
+    WriteJump(0x00784E70, rjCnkPushPopShapeLink);
 }
