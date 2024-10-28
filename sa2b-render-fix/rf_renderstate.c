@@ -24,36 +24,12 @@
 #include <rf_renderstate/rfrs_internal.h> /* children                               */
 
 /************************/
-/*  Constants           */
-/************************/
-/****** Unshifted Strip Flags *******************************************************/
-#define CNK_FST_IL                  (NJD_FST_IL >>NJD_FST_SHIFT)
-#define CNK_FST_IS                  (NJD_FST_IS >>NJD_FST_SHIFT)
-#define CNK_FST_IA                  (NJD_FST_IA >>NJD_FST_SHIFT)
-#define CNK_FST_UA                  (NJD_FST_UA >>NJD_FST_SHIFT)
-#define CNK_FST_DB                  (NJD_FST_DB >>NJD_FST_SHIFT)
-#define CNK_FST_FL                  (NJD_FST_FL >>NJD_FST_SHIFT)
-#define CNK_FST_ENV                 (NJD_FST_ENV>>NJD_FST_SHIFT)
-#define CNK_FST_NAT                 (NJD_FST_NAT>>NJD_FST_SHIFT)
-
-/************************/
 /*  Game Functions      */
 /************************/
-/****** Cnk FST *********************************************************************/
-#define ParseStripFlags             FUNC_PTR(void, __cdecl, (uint8_t), 0x0042CA20)
-
 /****** Trans Mode ******************************************************************/
 #define SetOpaqueDraw               FUNC_PTR(void, __cdecl, (void)   , 0x0042C030)
 #define SetAlphaTestDraw            FUNC_PTR(void, __cdecl, (void)   , 0x0042C0A0)
 #define SetTransparentDraw          FUNC_PTR(void, __cdecl, (void)   , 0x0042C170)
-
-/************************/
-/*  Game References     */
-/************************/
-/****** Shadow Map ******************************************************************/
-#define ForceUseAlpha               DATA_REF(bool, 0x01A55832)
-#define ForceDstInverseOtherColor   DATA_REF(bool, 0x01A55833)
-#define pTexSurface                 DATA_REF(int*, 0x01A55840)
 
 /************************/
 /*  Source Data         */
@@ -82,117 +58,6 @@ static bool CullEventPatch;
 /************************/
 /*  Source              */
 /************************/
-/****** CnkDraw *********************************************************************/
-static void
-ParseStripFlagsHook(uint8_t flag)
-{
-    bool hide_strip = false;
-
-    const bool fst_ua = (flag & (CNK_FST_NAT | CNK_FST_UA));
-
-    switch (CnkDrawModeOverride) {
-    case RFRS_CNKDRAWMD_ALL:
-        break;
-
-    case RFRS_CNKDRAWMD_OPAQUE:
-        if (fst_ua)
-        {
-            SetChunkStripHideMode(true);
-            return;
-        }
-        break;
-
-    case RFRS_CNKDRAWMD_TRANSPARENT:
-        if (!fst_ua)
-        {
-            SetChunkStripHideMode(true);
-            return;
-        }
-        break;
-    }
-
-    const bool fst_db = (flag & CNK_FST_DB);
-
-    /** Event patch, temporary **/
-    if (CullEventPatch)
-    {
-        switch (CutsceneMode) {
-        case 0: case 4: case 7:
-            break;
-
-        default:
-            goto CULL_OFF;
-        }
-    }
-
-    /** Set culling mode **/
-    switch (CullModeOverride) {
-    case RFRS_CULLMD_AUTO:
-        GX_SetCullMode(fst_db ? GXD_CULLMODE_NONE : GXD_CULLMODE_CW);
-        break;
-
-    CULL_OFF:
-    case RFRS_CULLMD_NONE:
-        GX_SetCullMode(GXD_CULLMODE_NONE);
-        break;
-
-    case RFRS_CULLMD_NORMAL:
-        GX_SetCullMode(GXD_CULLMODE_CW);
-        break;
-
-    case RFRS_CULLMD_INVERSE:
-
-        /** if this strip isn't double sided,
-            hide it's inverse face. But still set blending modes **/
-        if (!fst_db)
-        {
-            hide_strip = true;
-            break;
-        }
-
-        GX_SetCullMode(GXD_CULLMODE_CCW);
-        break;
-    }
-
-    /** Allow strip drawing **/
-    SetChunkStripHideMode(hide_strip);
-
-    const bool use_alpha = ForceUseAlpha | fst_ua;
-
-    GX_SetBlendMode(
-        (_nj_cnk_blend_mode_ >> NJD_FBS_SHIFT) & 0x7,
-        ForceDstInverseOtherColor ? 3 : (_nj_cnk_blend_mode_ >> NJD_FBD_SHIFT) & 0x7,
-        use_alpha
-    );
-
-    if (use_alpha)
-    {
-        if ((flag & CNK_FST_NAT) ||
-            (_nj_cnk_blend_mode_ & NJD_FBS_MASK) == NJD_FBS_ONE ||
-            (_nj_cnk_blend_mode_ & NJD_FBD_MASK) == NJD_FBD_ONE ||
-            !pTexSurface ||
-            *pTexSurface != 14)
-        {
-            SetTransparentDraw();
-        }
-        else
-            SetAlphaTestDraw();
-    }
-    else
-        SetOpaqueDraw();
-}
-
-#define _njCnkDrawModelSub      FUNC_PTR(void, __cdecl, (NJS_CNK_MODEL*), 0x0042D500)
-
-static hook_info njCnkDrawModelSubHookInfo[1];
-static void
-CnkDrawModelSubUnsetCulling(NJS_CNK_MODEL* model)
-{
-    FuncHookCall( njCnkDrawModelSubHookInfo, _njCnkDrawModelSub(model) );
-
-    GX_SetCullMode(GXD_CULLMODE_NONE);
-}
-
 /****** Trans Mode ******************************************************************/
 static void
 SetOpaqueDrawNew(void)
@@ -488,12 +353,6 @@ RFRS_SetDefaultCnkPassMode(RFRS_CNKPASSMD mode)
 void
 RF_RenderStateInit(void)
 {
-    WriteJump(ParseStripFlags, ParseStripFlagsHook);
-
-    RFRS_BackFaceCullingInit();
-
-    FuncHook(njCnkDrawModelSubHookInfo, _njCnkDrawModelSub, CnkDrawModelSubUnsetCulling);
-
     /** Transparancy draw set **/
     WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
     WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);

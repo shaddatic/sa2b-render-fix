@@ -21,23 +21,6 @@ EXTERN_START
 /************************/
 /*  Prototypes          */
 /************************/
-/****** Chunk Draw ******************************************************************/
-/*
-*   Description:
-*     Init back face culling rendering
-*/
-void    RFRS_BackFaceCullingInit( void );
-
-/****** Chunk Draw ******************************************************************/
-/*
-*   Description:
-*     Set hide/draw state for following Chunk strips
-*
-*   Parameters:
-*     - bHide   : if following strips should be hidden
-*/
-void    SetChunkStripHideMode( bool bHide );
-
 /****** Transparancy Mode ***********************************************************/
 /*
 *   Description:

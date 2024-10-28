@@ -103,4 +103,8 @@ RF_DrawInit(void)
 
     /** Allow 'n' argument to be writeable **/
     WriteData(&Poly2DN, 4, int32_t);
+
+    /** RF Chunk draw functions **/
+    WriteJump(0x0042D340, rjCnkBeginDrawModel);
+    WriteJump(0x0042D500, rjCnkDrawModelSub);
 }

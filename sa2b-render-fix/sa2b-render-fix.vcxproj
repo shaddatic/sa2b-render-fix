@@ -74,7 +74,14 @@
     <ClCompile Include="rf_api\rfapi_font.c" />
     <ClCompile Include="rf_api\rfapi_renderstate.c" />
     <ClCompile Include="rf_api\rfapi_shader.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_ctx.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_external.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_strip.c" />
     <ClCompile Include="rf_draw\rfd_shape.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_shdmap.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_vlist.c" />
     <ClCompile Include="rf_draw\rfd_cnkmod.c" />
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_plist.c" />
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_vlist.c" />
@@ -100,8 +107,6 @@
     <ClCompile Include="rf_file.c" />
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_mod.c" />
-    <ClCompile Include="rf_renderstate\rfrs_backface.c" />
-    <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c" />
     <ClCompile Include="rf_renderstate\rfrs_transmode.c" />
     <ClCompile Include="rf_shader.c" />
     <ClCompile Include="rf_usermsg.c" />
@@ -139,6 +144,8 @@
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_internal.h" />
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_internal.h" />
     <ClInclude Include="rf_draw\rfd_cnkmod\rfdmod_internal.h" />
     <ClInclude Include="rf_draw\rfd_cnk.h" />
     <ClInclude Include="rf_draw\rfd_internal.h" />

@@ -273,16 +273,40 @@
     <ClCompile Include="rf_draw\rfd_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_renderstate\rfrs_cnkdraw.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_renderstate\rfrs_backface.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_renderstate\rfrs_transmode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_external.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_vlist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rfm_event\ev_byteswap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_ctx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_strip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_vlist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_plist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_shdmap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_shape.c">
@@ -429,6 +453,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_renderstate\rfrs_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_cnkmod\rfdmod_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_cnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
