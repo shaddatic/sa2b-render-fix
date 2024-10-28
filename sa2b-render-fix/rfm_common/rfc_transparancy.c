@@ -17,6 +17,7 @@
 #include <rf_core.h>        /* core                                                 */
 #include <rf_util.h>        /* ReplaceFloat, SwitchDisplayer                        */
 #include <rf_config.h>      /* RF_ConfigGet                                         */
+#include <rf_mdlutil.h>     /* cnkmatflag                                           */
 
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_transparancy/rfct_internal.h> /* self                      */
@@ -26,6 +27,12 @@
 /************************/
 /****** MS Car Displayer ************************************************************/
 #define ObjectMSCarDisp         FUNC_PTR(void, __cdecl, (task*), 0x005B56D0)
+
+/************************/
+/*  Game References     */
+/************************/
+/****** Dry Lagoon Models ***********************************************************/
+#define ButterflyList           DATA_ARY(NJS_CNK_MODEL* , 0x00DDB64C, [9]) 
 
 /************************/
 /*  Source              */
@@ -119,6 +126,12 @@ RFC_TransparancyInit(void)
     WriteData(0x0057F3B3, 0xB7, u8);   // ^^
     WriteNOP( 0x0057F519, 0x0057F52D); // kill duplicate plate draw during 'disp_dely', as it breaks with the new LESSEQUAL Z compare
     WriteData(0x0057F54E, 0x08, u8);   // add esp, 10h -> add esp, 8h
+
+    /** Dry Lagoon Butterfly flag fix (a material lacks UA when it should) **/
+    for (int i = 0; i < ARYLEN(ButterflyList); ++i)
+    {
+        CnkModelMaterialFlagOn(ButterflyList[i], 0, NJD_FST_UA);
+    }
 
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
