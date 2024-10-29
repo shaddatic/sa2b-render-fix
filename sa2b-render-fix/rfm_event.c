@@ -209,49 +209,6 @@ EventDisplayerHook(task* tp)
     _gj_render_mode_ = old_rmode;
 }
 
-static void
-EventEntrySetLight(Uint32 flag)
-{
-    gjSetLightSwitch(1, true);
-    gjLoadLight(1);
-
-    //gjSetAmbient(0.2f, 0.2f, 0.2f);
-
-    if (flag & 0x4 && false)
-    {
-        gjSetLightSwitch(2, true);
-        gjLoadLight(2);
-    }
-    else
-        gjSetLightSwitch(2, false);
-
-    if (flag & 0x8)
-    {
-        OutputString("flag 8");
-    }
-
-    if (flag & 0x10)
-    {
-        gjSetLightSwitch(3, true);
-        gjLoadLight(3);
-        gjSetLightSwitch(4, true);
-        gjLoadLight(4);
-    }
-    else
-    {
-        gjSetLightSwitch(3, false);
-        gjSetLightSwitch(4, false);
-    }
-
-    if (flag & 0x20)
-    {
-        gjSetLightSwitch(4, true);
-        gjLoadLight(4);
-    }
-    else
-        gjSetLightSwitch(4, false);
-}
-
 void
 RFM_EventInit(void)
 {
