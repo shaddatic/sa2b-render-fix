@@ -196,10 +196,10 @@ rjCnkContextStrip(CNK_CTX* pCtx)
         const bool fst_nat = (fst & NJD_FST_NAT);
         const bool notex   = (pCtx->flag & CTXFLG_STRIP_NOTEX);
 
-        if ( fst_nat ||                    // IF NoAlphaTest flag
-            bld_src == NJD_FBS_ONE ||      // OR src is ONE
-            bld_dst == NJD_FBD_ONE ||      // OR dst is ONE
-            !notex || *pTexSurface != 14 ) // OR no alpha test tex flag
+        if ( fst_nat ||                      // IF NoAlphaTest flag
+            bld_src == NJD_FBS_ONE ||        // OR src is ONE
+            bld_dst == NJD_FBD_ONE ||        // OR dst is ONE
+          ( !notex && *pTexSurface != 14 ) ) // OR no alpha test tex flag
         {
             SetTransparentDraw();
         }
