@@ -187,6 +187,127 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 
+/************************************************************************************/
+/*
+*   RF Chunk Draw
+*/
+
+/****** Internal Chunk Draw *********************************************************/
+/*
+*   Description:
+*     Internal draw function for Chunk model for use as a model draw callback in
+*   DrawObject, DrawMotion, etc. Doesn't call 'CnkBeginDrawModel'.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn, or '-1' if the model was clipped.
+*/
+Sint32  _rjCnkDrawModel( const NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Setup Render Fix parameters for a new Chunk draw.
+*/
+void    rjCnkBeginDrawModel( void );
+
+/****** Chunk Draw ******************************************************************/
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model           : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn, or '-1' if the model was clipped.
+*/
+Sint32  rjCnkDrawModel( const NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk object tree.
+*
+*   Parameters:
+*     - object          : chunk object
+*/
+void    rjCnkDrawObject( const NJS_CNK_OBJECT* object );
+
+/****** Chunk Draw Motion ***********************************************************/
+/*
+*   Description:
+*     Draw a Chunk motion.
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion          : motion data for 'object'
+*     - frame           : frame of animation
+*/
+void    rjCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two Chunk motions.
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion_link     : motion link data and motion datas for 'object'
+*     - rate            : ratio of transition from motion 1 to motion 2 (0~1)
+*/
+void    rjCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
+
+/****** Chunk Draw Shape ***********************************************************/
+/*
+*   Description:
+*     Draw a Chunk shape motion.
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion          : motion data for 'object'
+*     - shape           : shape data for 'object'   (optional)
+*     - frame           : frame of animation/shape
+*/
+void    rjCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two Chunk shape motions.
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion_link     : motion data for 'object'
+*     - shape_link      : shape data for 'object'   (optional)
+*     - rate            : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*/
+void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+
+/****** Chunk Draw Shape BE *********************************************************/
+/*
+*   Description:
+*     Draw a big endian Chunk shape motion.
+*
+*   Notes:
+*     - The 'motion' data is still little endian
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion          : motion data for 'object'
+*     - shape           : shape data for 'object'   (optional)
+*     - frame           : frame of animation/shape
+*/
+void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two big endian Chunk shape motions.
+*
+*   Notes:
+*     - The 'motion_link' data is still little endian
+*
+*   Parameters:
+*     - object          : object to animate and draw
+*     - motion_link     : motion data for 'object'
+*     - shape_link      : shape data for 'object'   (optional)
+*     - rate            : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*/
+void    rjCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+
 EXTERN_END
 
 #endif/*_RF_DRAW_H_*/
