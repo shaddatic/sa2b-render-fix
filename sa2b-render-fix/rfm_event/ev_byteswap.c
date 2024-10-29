@@ -24,6 +24,12 @@
 
 #define FixPointer(p)   (*(uintptr_t*)p) -= PTR_OFFSET;
 
+static bool
+EV_IsByteswapped(const void* p)
+{
+    return ( (uintptr_t)(&EventData) <= (uintptr_t)(p) && (uintptr_t)(0x0241FE20) > (uintptr_t)(p) );
+}
+
 const int EventAnimateTexture_p = 0x006021A0;
 static void
 EventAnimateTexture(EventTexAnimSub1* a1, int a2, int a3)
