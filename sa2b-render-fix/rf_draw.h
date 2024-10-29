@@ -2,13 +2,13 @@
 *   SA2 Render Fix - '/rf_draw.h'
 *
 *   Description:
-*       Contains useful draw functions
+*     Render Fix custom draw functions.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 */
-#ifndef _RF_DRAW_H_
-#define _RF_DRAW_H_
+#ifndef H_RF_DRAW
+#define H_RF_DRAW
 
 /************************/
 /*  External Headers    */
@@ -31,7 +31,7 @@ EXTERN_START
 /*
 *   Init Render Fix 'Ninja' module
 */
-void    RF_DrawInit(void);
+void    RF_DrawInit( void );
 
 /****** Null Draw *******************************************************************/
 /*
@@ -65,29 +65,52 @@ void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_L
 */
 void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
 
+/************************************************************************************/
+/*
+*   Chunk Modifier Volume
+*
+*   Notes:
+*     - Modifiers should only be drawn inside the 'disp_shad' (offset 0x2C) task
+*       displayer function.
+*/
+
 /****** Modifier Volume *************************************************************/
 /*
-*   Draw modifier volume models and objects. Should only be called inside a
-*   Tasks' 'disp_shad' (offset 0x2C) displayer function.
+*   Description:
+*     Draw a Chunk modifier volume model.
 *
 *   Parameters:
-*     - model   : Pointer to a Chunk modifier volume model
-*     - object  : Pointer to a Chunk modifier volume object
+*     - model       : chunk modifier volume model
 */
-int32_t njCnkModDrawModel(  const NJS_CNK_MODEL*  model  );
+Sint32  njCnkModDrawModel( const NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a modifier volume object tree.
+*
+*   Parameters:
+*     - object      : chunk modifier volume object
+*/
 void    njCnkModDrawObject( const NJS_CNK_OBJECT* object );
 /*
-*   Draw modifier volume motions. Should only be called inside a Tasks'
-*   'disp_shad' (offset 0x2C) displayer function.
+*   Description:
+*     Draw a Chunk modifier volume motion.
 *
 *   Parameters:
-*     - object      : Pointer to a Chunk modifier volume object
-*     - motion      : Pointer to a Ninja Motion array
-*     - motion_link : Pointer to a Ninja Motion Link
-*     - frame       : Frame of the motion to draw
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - frame       : frame of animation
 */
-void    njCnkModDrawMotion(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
-void    njCnkModDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
+void    njCnkModDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two Chunk modifier volume motions.
+*
+*   Parameters:
+*     - object      : chunk modifier volume object to animate
+*     - motion_link : motion link data and motion datas for 'object'
+*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
+*/
+void    njCnkModDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame );
 
 /****** Generic Shadows *************************************************************/
 /*
@@ -217,7 +240,7 @@ void    rjCnkBeginDrawModel( void );
 *     Draw a Chunk model.
 *
 *   Parameters:
-*     - model           : chunk model pointer
+*     - model       : chunk model pointer
 *
 *   Returns:
 *     '0' if drawn, or '-1' if the model was clipped.
@@ -228,7 +251,7 @@ Sint32  rjCnkDrawModel( const NJS_CNK_MODEL* model );
 *     Draw a Chunk object tree.
 *
 *   Parameters:
-*     - object          : chunk object
+*     - object      : chunk object
 */
 void    rjCnkDrawObject( const NJS_CNK_OBJECT* object );
 
@@ -238,9 +261,9 @@ void    rjCnkDrawObject( const NJS_CNK_OBJECT* object );
 *     Draw a Chunk motion.
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion          : motion data for 'object'
-*     - frame           : frame of animation
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - frame       : frame of animation
 */
 void    rjCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
 /*
@@ -248,9 +271,9 @@ void    rjCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
 *     Interpolate and draw two Chunk motions.
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion_link     : motion link data and motion datas for 'object'
-*     - rate            : ratio of transition from motion 1 to motion 2 (0~1)
+*     - object      : object to animate and draw
+*     - motion_link : motion link data and motion datas for 'object'
+*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
 */
 void    rjCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
 
@@ -260,10 +283,10 @@ void    rjCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK
 *     Draw a Chunk shape motion.
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion          : motion data for 'object'
-*     - shape           : shape data for 'object'   (optional)
-*     - frame           : frame of animation/shape
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - shape       : shape data for 'object'   (optional)
+*     - frame       : frame of animation/shape
 */
 void    rjCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
 /*
@@ -271,10 +294,10 @@ void    rjCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* mo
 *     Interpolate and draw two Chunk shape motions.
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion_link     : motion data for 'object'
-*     - shape_link      : shape data for 'object'   (optional)
-*     - rate            : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*     - object      : object to animate and draw
+*     - motion_link : motion data for 'object'
+*     - shape_link  : shape data for 'object'   (optional)
+*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
 void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
@@ -287,10 +310,10 @@ void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION
 *     - The 'motion' data is still little endian
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion          : motion data for 'object'
-*     - shape           : shape data for 'object'   (optional)
-*     - frame           : frame of animation/shape
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - shape       : shape data for 'object'   (optional)
+*     - frame       : frame of animation/shape
 */
 void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
 /*
@@ -301,13 +324,13 @@ void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 *     - The 'motion_link' data is still little endian
 *
 *   Parameters:
-*     - object          : object to animate and draw
-*     - motion_link     : motion data for 'object'
-*     - shape_link      : shape data for 'object'   (optional)
-*     - rate            : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*     - object      : object to animate and draw
+*     - motion_link : motion data for 'object'
+*     - shape_link  : shape data for 'object'   (optional)
+*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
 void    rjCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
 EXTERN_END
 
-#endif/*_RF_DRAW_H_*/
+#endif/*H_RF_DRAW*/
