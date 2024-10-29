@@ -175,7 +175,7 @@ EventByteSwapMainFile(EventFileHeader* pEvHead)
 
     // Other stuff
 
-    EndianSwap(&pEvHead->UpgradeData);
+    EndianSwap(&pEvHead->Equipment);
 
     EndianSwap(&pEvHead->UVAnims);
     EndianSwap(&pEvHead->dropShadow);

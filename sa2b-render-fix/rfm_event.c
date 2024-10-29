@@ -145,9 +145,9 @@ EventDisplayerDelayHook(task* tp)
 
     EventDrawSprites();
 
-    if (EventOverrideInfo[10] == 1)
+    if (EventDebugInfo == 1)
         EventDebug();
-    if (EventOverrideInfo[10] == 2)
+    if (EventDebugInfo == 2)
         EventDebugNull();
 
     EventDrawScreenQuad();
@@ -158,6 +158,15 @@ EventDisplayerDelayHook(task* tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
     _gj_render_mode_ = old_rmode;
+}
+
+static void
+EventResetEquipmentFlags(void)
+{
+    for (int i = 0; i < ARYLEN(EventEquipmentFlags); ++i)
+    {
+        EventEquipmentFlags[i] = 0;
+    }
 }
 
 static void
@@ -183,8 +192,7 @@ EventDisplayerHook(task* tp)
 
     njSetTexture(EventData.texlist);
 
-    for (int i = 0; i < 9; ++i)
-        EventOverrideInfo[i] = 0;
+    EventResetEquipmentFlags();
 
     njCnkSetMotionCallback(NULL);
 
