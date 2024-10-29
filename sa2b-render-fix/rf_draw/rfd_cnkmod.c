@@ -21,7 +21,7 @@
 /*  Includes            */
 /************************/
 /****** Extern **********************************************************************/
-int32_t
+Sint32
 njCnkModDrawModel(const NJS_CNK_MODEL* model)
 {
     if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
@@ -44,13 +44,13 @@ njCnkModDrawObject(const NJS_CNK_OBJECT* const object)
 }
 
 void
-njCnkModDrawMotion(const NJS_CNK_OBJECT* const object, const NJS_MOTION* const motion, const float frame)
+njCnkModDrawMotion(const NJS_CNK_OBJECT* const object, const NJS_MOTION* const motion, const Float frame)
 {
     njDrawMotion(object, motion, frame, njCnkModDrawModel);
 }
 
 void
-njCnkModDrawMotionLink(const NJS_CNK_OBJECT* const object, const NJS_MOTION_LINK* const motion_link, const float frame)
+njCnkModDrawMotionLink(const NJS_CNK_OBJECT* const object, const NJS_MOTION_LINK* const motion_link, const Float frame)
 {
     njDrawMotionLink(object, motion_link, frame, njCnkModDrawModel);
 }
