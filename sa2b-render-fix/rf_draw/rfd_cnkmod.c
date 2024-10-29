@@ -26,7 +26,7 @@ njCnkModDrawModel(const NJS_CNK_MODEL* model)
 {
     if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
         if (model->r > 0 && njCnkModelClip(model))
-            return 1;
+            return -1;
 
     if (model->vlist)
         rjCnkModVList(model->vlist, _nj_vertex_buf_);

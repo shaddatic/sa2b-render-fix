@@ -117,24 +117,23 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
 Sint32
 _rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
-    if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP) || model->r <= 0.f || !njCnkModelClip(model) ) 
-    {
-        rjCnkDrawModelSub(model);
-        return 0;
-    }
+    if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
+        if (model->r > 0.f && njCnkModelClip(model))
+            return -1;
 
-    return -1;
+    rjCnkDrawModelSub(model);
+    return 0;
 }
 
 Sint32
 rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
-    if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP) || model->r <= 0.f || !njCnkModelClip(model) ) 
-    {
-        rjCnkBeginDrawModel();
-        rjCnkDrawModelSub(model);
-    }
+    if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
+        if (model->r > 0.f && njCnkModelClip(model))
+            return -1;
 
+    rjCnkBeginDrawModel();
+    rjCnkDrawModelSub(model);
     return 0;
 }
 
