@@ -258,9 +258,6 @@
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_ninja.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_font.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -310,6 +307,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_shape.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_njcnk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -465,6 +465,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_draw\rfd_cnk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_njcnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
