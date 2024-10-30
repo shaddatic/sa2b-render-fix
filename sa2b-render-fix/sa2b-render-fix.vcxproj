@@ -187,7 +187,6 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
-    <None Include="rf_model\bunchin_shadow.nja" />
     <None Include="rf_model\ce_truck_hood.nja" />
     <None Include="rf_model\e_a_emi_emblem.nja" />
     <None Include="rf_model\e_b_kumi_emblem.nja" />
@@ -203,7 +202,6 @@
     <None Include="rf_model\e_s_ai_shield.nja" />
     <None Include="rf_model\e_t_emi_emblem.nja" />
     <None Include="rf_model\minemizu.nja" />
-    <None Include="rf_model\msger_shadow.nja" />
     <None Include="rf_texture\jo_tree.tls" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

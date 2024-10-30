@@ -36,38 +36,6 @@ __FlipEnv2(void)
     }
 }
 
-static const int njCnkDrawModel_p = 0x0042E660;
-__declspec(naked)
-static void
-__FixCnkDrawModel(void)
-{
-    __asm
-    {
-        push eax
-        call njCnkDrawModel_p
-        pop eax
-        retn
-    }
-}
-
-/** Drawing Ginja models as shadows for some reason breaks env maps.
-    So, we just replace said draw functions with Cnk equivelants **/
-EXTERN NJS_CNK_MODEL model_bunchin_shadow[];
-
-static void
-BunchinShadowDraw(void) // The crushers
-{
-    njCnkDrawModel(model_bunchin_shadow);
-}
-
-EXTERN NJS_CNK_MODEL model_msger_shadow[];
-
-static void
-OmochaoShadowDraw(void)
-{
-    njCnkDrawModel(model_msger_shadow);
-}
-
 /** Init **/
 void
 RFG_EnvMapFlip(void)
@@ -75,13 +43,4 @@ RFG_EnvMapFlip(void)
     WriteCall(0x0042D4B0, __FlipEnv2); // Chunk
     WriteCall(0x0042B6A4, __FlipEnv2); // Ginja
     WriteCall(0x0056DEEB, __FlipEnv2); // chDraw
-}
-
-void
-RFG_EnvMapFix(void)
-{
-    WriteJump(0x0042E6C0, __FixCnkDrawModel);
-
-    WriteCall(0x006DCD5D, BunchinShadowDraw);
-    WriteCall(0x006C0E6F, OmochaoShadowDraw);
 }

@@ -24,7 +24,6 @@ void    RFG_ModelTintFixDefaultInit( void );
 
 void    RFG_SpotLightFixInit( void );
 
-void    RFG_EnvMapFix( void );
 void    RFG_EnvMapFlip( void );
 
 void    RFG_TaskDisplayInit( void );

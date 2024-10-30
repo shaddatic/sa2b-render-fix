@@ -30,9 +30,6 @@
 
 #include <rf_model/minemizu.nja>
 
-#include <rf_model/bunchin_shadow.nja>
-#include <rf_model/msger_shadow.nja>
-
 #include <rf_model/e_s_ai_shield.nja>
 
 #pragma warning( pop )

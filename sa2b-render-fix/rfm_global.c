@@ -194,11 +194,6 @@ RFM_GlobalInit(void)
         RFG_EnvMapFlip();
     }
 
-    if (RF_ConfigGetInt(CNF_DEBUG_ENVFIX))
-    {
-        RFG_EnvMapFix();
-    }
-
     RFG_TaskDisplayInit();
 
     if (RF_ConfigGetInt(CNF_GLOBAL_SPRITE))
