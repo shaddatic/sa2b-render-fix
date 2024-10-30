@@ -95,7 +95,7 @@
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_itembox.c" />
     <ClCompile Include="rfm_common\rfc_udreel.c" />
     <ClCompile Include="rf_config.c" />
-    <ClCompile Include="rf_ninja.c" />
+    <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="rf_objpak.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="rfm_common.c" />
@@ -153,7 +153,7 @@
     <ClInclude Include="rf_light.h" />
     <ClInclude Include="rf_magic.h" />
     <ClInclude Include="rf_modchk.h" />
-    <ClInclude Include="rf_ninja.h" />
+    <ClInclude Include="rf_njcnk.h" />
     <ClInclude Include="rf_renderstate.h" />
     <ClInclude Include="rf_dxvk.h" />
     <ClInclude Include="rf_enemywk.h" />
