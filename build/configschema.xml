@@ -220,6 +220,9 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="edge_blend" display="Better Edge Blending" type="eBOOL" defaultvalue="0">
 				<HelpText>Improves texture blending on the edges between opaque/partially-transparent and fully transparent pixels.</HelpText>
 			</Property>
+			<Property name="event_draw" display="New RF Event Renderer" type="eBOOL" defaultvalue="0">
+				<HelpText>Use the experimental, entirely custom Render Fix Event system. It restores the DC lighting system, fixes reflections, un-tints and correctly applies backface culling to objects, and much more. It pulls much of this off by emulating the original DC draw functions and their quirks, making it about as accurate to DC as possible.</HelpText>
+			</Property>
 		</Group>
 		<Group name="compatibility" display="Compatibility Settings">
 			<Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">

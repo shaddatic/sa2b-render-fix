@@ -201,6 +201,20 @@ EventDisplayMod(int scene)
                 njCnkModDrawObject(p_entry->pObject);
         }
     }
+
+    //{
+    //    EventScrollTexture(nbScene, i);
+    //
+    //    njCnkModDrawObject(p_entry->object);
+    //    break;
+    //}
+    //
+    //{
+    //    EventScrollTexture(nbScene, i);
+    //
+    //    njCnkModDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+    //    break;
+    //}
 }
 
 static void

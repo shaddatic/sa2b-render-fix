@@ -309,7 +309,28 @@
     <ClCompile Include="rf_draw\rfd_shape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_event\ev_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_njcnk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_olddraw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_draw\evd_reflection.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_draw\evd_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_draw\evd_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_draw\evd_43bars.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_camera.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -443,9 +464,6 @@
     <ClInclude Include="rfm_common\rfc_transparancy\rfct_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_ninja.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -468,6 +486,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_njcnk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_event\ev_draw\evd_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
