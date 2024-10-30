@@ -285,7 +285,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_DRAWMOD           CNFO_INT(   CNFS_EVENT          , "draw_mod"            , CNFE_BOOL_ENABLED                     )   /* Draw Shadow Modifiers */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
-#define CNF_EVENT_TEXANIM           CNFO_INT(   CNFS_EVENT          , "texanim"             , CNFE_BOOL_ENABLED                     )   /* Fix Texture Animations */
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */

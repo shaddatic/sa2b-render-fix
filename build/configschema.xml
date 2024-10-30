@@ -195,9 +195,6 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 
 NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			</Property>
-			<Property name="texanim" display="Fix Texture Animations" type="eBOOL" defaultvalue="1">
-				<HelpText>Rewrites the conversion code to fix a bug that caused only one texture animated model to work per event.</HelpText>
-			</Property>
 		</Group>
 		<Group name="misc" display="Miscellaneous">
 			<Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">

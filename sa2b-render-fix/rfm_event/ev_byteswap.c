@@ -195,9 +195,6 @@ EventByteSwapMainFile(EventFileHeader* pEvHead)
 void
 EV_ByteSwapInit(void)
 {
-    if (RF_ConfigGetInt(CNF_EVENT_TEXANIM))
-    {
-        WriteCall(0x005FEFF7, ___EventByteSwapTexAnim);
-//      WriteJump(0x005FE320, ___EventByteSwapReflection);
-    }
+    WriteCall(0x005FEFF7, ___EventByteSwapTexAnim);
+    WriteJump(0x005FE320, ___EventByteSwapReflection);
 }
