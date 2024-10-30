@@ -1,11 +1,11 @@
 /*
-*   SA2 Render Fix - '/rf_modchk.h'
+*   SA2 Render Fix - '/rf_njcnk.h'
 *
 *   Description:
-*       Module for checking mod issues and conflicts.
+*     Emulated Dreamcast draw functions for Chunk
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 */
 #ifndef H_RF_NJCNK
 #define H_RF_NJCNK
