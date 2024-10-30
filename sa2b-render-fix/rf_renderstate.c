@@ -52,9 +52,6 @@ static RFRS_CNKDRAWMD   CnkDrawModeOverride;
 static RFRS_CNKFUNCMD   CnkFuncModeOverride = RFRS_CNKFUNCMD_SIMPLE;
 static RFRS_CNKPASSMD   CnkPassModeOverride;
 
-/****** Hacky Event Patch ***********************************************************/
-static bool CullEventPatch;
-
 /************************/
 /*  Source              */
 /************************/
@@ -369,6 +366,4 @@ RF_RenderStateInit(void)
     WriteData(0x0060056A, 0xC4, u8);  // ^^^
     WriteData(0x0060056B, 0x08, u8);  // ^^^
     WriteCall(0x0060056C, SetTransparentDrawNew);
-
-    CullEventPatch = RF_ConfigGetInt(CNF_DEBUG_BFC_EVENT) == 1;
 }

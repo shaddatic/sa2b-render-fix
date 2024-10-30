@@ -307,7 +307,6 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */
 #define CNF_DEBUG_ENVFIX            CNFO_INT(   CNFS_DEBUG          , "env_fix"             , CNFE_BOOL_ENABLED                     )   /* Fix Environment Map Rendering */
-#define CNF_DEBUG_BFC_EVENT         CNFO_INT(   CNFS_DEBUG          , "bfc_event"           , CNFE_BOOL_ENABLED                     )   /* Disable Back-Face Culling in Events */
 #define CNF_DEBUG_CHAOS0TEX         CNFO_INT(   CNFS_DEBUG          , "chaos0tex"           , CNFE_BOOL_ENABLED                     )   /* Custom Chaos 0 Model Support */
 #define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */

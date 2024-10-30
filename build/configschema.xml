@@ -245,9 +245,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="env_fix" display="Fix Environment Map Rendering" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes a PC only, broken draw function that breakes environment maps (shiny effect).</HelpText>
 			</Property>
-			<Property name="bfc_event" display="Disable Back-Face Culling in Events" type="eBOOL" defaultvalue="1">
-				<HelpText>Disables back-face culling in events/cutscenes.</HelpText>
-			</Property>
 			<Property name="chaos0tex" display="Custom Chaos 0 Model Support" type="eBOOL" defaultvalue="1">
 				<HelpText>Overrides the texture animation system Chaos 0 uses to allow the use of custom models, if this is off the game will otherwise crash.</HelpText>
 			</Property>
