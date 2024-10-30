@@ -29,7 +29,6 @@
 /** Globals **/
 static bool RfgBackColor;
 static bool RfgSpotLight;
-static bool RfgEnvMapFlip;
 static int  RfgFixMdlTint;
 
 /** Static functions **/
@@ -74,7 +73,7 @@ RFF_SpotLightFix(void)
 bool
 RFF_EnvMapFlip(void)
 {
-    return RfgEnvMapFlip;
+    return true;
 }
 
 bool
@@ -188,9 +187,9 @@ RFM_GlobalInit(void)
         RFG_SpotLightFixInit();
     }
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_ENVFLIP))
+    if ( true ) // this used to be a setting, but is now always on
     {
-        RfgEnvMapFlip = true;
+//      RfgEnvMapFlip = true;
         RFG_EnvMapFlip();
     }
 

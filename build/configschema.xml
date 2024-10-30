@@ -26,9 +26,6 @@
 			<Property name="spotlite" display="Fix Spot Lights" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes many spot lights, such as the Egg Walker's flashlight, by replacing a, commonly used, vertex shader that incorrectly treats them as directional lights.</HelpText>
 			</Property>
-			<Property name="env_flip" display="Flip Environment Map Textures" type="eBOOL" defaultvalue="1">
-				<HelpText>Flips environment map textures (shiny effect) horizontally to match the Dreamcast version.</HelpText>
-			</Property>
 		</Group>
 		<Group name="font" display="Text and Font Settings">
 			<Property name="kanji" display="Japanese Script Font" type="eFONT_KANJI" defaultvalue="0">
