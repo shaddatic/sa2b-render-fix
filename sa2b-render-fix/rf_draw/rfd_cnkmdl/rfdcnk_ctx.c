@@ -52,7 +52,7 @@ GX_SetChanMatColor(s32 chan, GXS_COLOR color)
 }
 
 static void
-ArgbToGx(const NJS_ARGB* pArgb, GXS_COLOR* pGxCol)
+ArgbToGx(const NJS_ARGB* restrict pArgb, GXS_COLOR* restrict pGxCol)
 {
     pGxCol->a = (u8)( CLAMP(pArgb->a, 0.f, 1.f) * 255.f );
     pGxCol->r = (u8)( CLAMP(pArgb->r, 0.f, 1.f) * 255.f );
@@ -61,7 +61,7 @@ ArgbToGx(const NJS_ARGB* pArgb, GXS_COLOR* pGxCol)
 }
 
 static void
-BgraToArgb(const NJS_BGRA* pBgra, NJS_ARGB* pArgb)
+BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
 {
     pArgb->a = ( (f32)pBgra->a * (1.f/255.f) );
     pArgb->r = ( (f32)pBgra->r * (1.f/255.f) );
