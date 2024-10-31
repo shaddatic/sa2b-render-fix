@@ -54,10 +54,10 @@ GX_SetChanMatColor(s32 chan, GXS_COLOR color)
 static void
 ArgbToGx(const NJS_ARGB* pArgb, GXS_COLOR* pGxCol)
 {
-    pGxCol->a = (u8)( pArgb->a * 255.f );
-    pGxCol->r = (u8)( pArgb->r * 255.f );
-    pGxCol->g = (u8)( pArgb->g * 255.f );
-    pGxCol->b = (u8)( pArgb->b * 255.f );
+    pGxCol->a = (u8)( CLAMP(pArgb->a, 0.f, 1.f) * 255.f );
+    pGxCol->r = (u8)( CLAMP(pArgb->r, 0.f, 1.f) * 255.f );
+    pGxCol->g = (u8)( CLAMP(pArgb->g, 0.f, 1.f) * 255.f );
+    pGxCol->b = (u8)( CLAMP(pArgb->b, 0.f, 1.f) * 255.f );
 }
 
 static void
