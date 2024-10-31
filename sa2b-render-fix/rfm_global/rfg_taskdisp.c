@@ -331,6 +331,14 @@ SetBaseScreenKeepRect(void)
     gjSetPerspective((scrn.w/scrn.h), 1.f, 100000.f);
 }
 
+#define ZankiTexlistList        DATA_ARY(NJS_TEXLIST*, 0x0173B3D8, [17])
+
+static bool
+PlayerHUDDraw(void)
+{
+    return ( playerpwp[0] && ZankiTexlistList[playerpwp[0]->ch_num_multi]->textures[0].texaddr );
+}
+
 static void
 TaskDisplayAll(void)
 {
@@ -435,7 +443,7 @@ TaskDisplayAll(void)
     }
 
     /** Draw game HUD **/
-    if (ulGlobalMode == MD_ACTION && !MultiIntroPno && playerpwp[0])
+    if (ulGlobalMode == MD_ACTION && !MultiIntroPno && PlayerHUDDraw())
     {
         if (!IsSplitscreen)
         {
