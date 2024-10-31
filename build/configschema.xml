@@ -69,8 +69,8 @@ The original games used 'Half Width'.</HelpText>
 			</Property>
 		</Group>
 		<Group name="common" display="Common Settings">
-			<Property name="trans_sorting" display="Transparancy Sorting Fixes" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes many common transparancy sorting issues found throughout the game.</HelpText>
+			<Property name="trans_sorting" display="Transparancy Fixes and Restorations" type="eBOOL" defaultvalue="1">
+				<HelpText>Fixes and restores many common missing transparancy effects and transparancy sorting issues found throughout the game.</HelpText>
 			</Property>
 			<Property name="e_jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
