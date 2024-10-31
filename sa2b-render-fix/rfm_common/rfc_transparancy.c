@@ -133,6 +133,20 @@ RFC_TransparancyInit(void)
         CnkModelMaterialFlagOn(ButterflyList[i], 0, NJD_FST_UA);
     }
 
+    /** Enemy chaos transparancy fix **/
+    {
+        CnkMaterialFlagOn(0x01470D58, 0, NJD_FST_UA | NJD_FST_DB);
+        CnkMaterialFlagOn(0x01481448, 0, NJD_FST_UA | NJD_FST_DB);
+        CnkMaterialFlagOn(0x0147A608, 0, NJD_FST_UA | NJD_FST_DB);
+        CnkMaterialFlagOn(0x014869A0, 0, NJD_FST_UA | NJD_FST_DB);
+        CnkMaterialFlagOn(0x01476D78, 0, NJD_FST_UA | NJD_FST_DB);
+        CnkMaterialFlagOn(0x0148BE88, 0, NJD_FST_UA | NJD_FST_DB);
+
+        /** They won't draw correctly unless we set it to use disp_sort **/
+
+        SwitchDisplayer(0x00508358, DISP_SORT);
+    }
+
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
     RFCT_PrisonSirenInit();

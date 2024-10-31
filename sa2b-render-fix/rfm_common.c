@@ -242,29 +242,6 @@ RFM_CommonInit(void)
         WriteCall(0x004FE3E6, EnemyLoadTextureStage);
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_TR_CHAOS))
-    {
-        constexpr int chaos_alpha = 0xBB;
-
-        CnkMaterialDiffuse(0x01470D58, 0, chaos_alpha, -1, -1, -1);
-        CnkMaterialDiffuse(0x01481448, 0, chaos_alpha, -1, -1, -1);
-        CnkMaterialDiffuse(0x0147A608, 0, chaos_alpha, -1, -1, -1);
-        CnkMaterialDiffuse(0x014869A0, 0, chaos_alpha, -1, -1, -1);
-        CnkMaterialDiffuse(0x01476D78, 0, chaos_alpha, -1, -1, -1);
-        CnkMaterialDiffuse(0x0148BE88, 0, chaos_alpha, -1, -1, -1);
-
-        CnkMaterialFlagOn(0x01470D58, 0, NJD_FST_UA);
-        CnkMaterialFlagOn(0x01481448, 0, NJD_FST_UA);
-        CnkMaterialFlagOn(0x0147A608, 0, NJD_FST_UA);
-        CnkMaterialFlagOn(0x014869A0, 0, NJD_FST_UA);
-        CnkMaterialFlagOn(0x01476D78, 0, NJD_FST_UA);
-        CnkMaterialFlagOn(0x0148BE88, 0, NJD_FST_UA);
-
-        /** They won't draw correctly unless we set it to use disp_sort **/
-
-        SwitchDisplayer(0x00508358, DISP_SORT);
-    }
-
     if (RF_ConfigGetInt(CNF_COMMON_TR_BLOON))
     {
         WriteNOP( 0x006DB64D, 0x006DB656); // Balloon
