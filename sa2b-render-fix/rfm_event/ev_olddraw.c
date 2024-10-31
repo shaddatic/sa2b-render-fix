@@ -50,9 +50,13 @@ EventDisplayerDelayHook(task* tp)
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
+    SaveControl3D();
+    SaveConstantAttr();
     const int old_rmode = _gj_render_mode_;
 
-    _gj_render_mode_ = GJD_DRAW_TRANS;
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    OnConstantAttr(0, NJD_FST_DB);
+    _gj_render_mode_ = GJD_DRAW_SOLID;
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
@@ -88,6 +92,9 @@ EventDisplayerDelayHook(task* tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
     _gj_render_mode_ = old_rmode;
+
+    LoadConstantAttr();
+    LoadControl3D();
 }
 
 static void
@@ -105,8 +112,12 @@ EventDisplayerHook(task* tp)
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
+    SaveControl3D();
+    SaveConstantAttr();
     const int old_rmode = _gj_render_mode_;
 
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    OnConstantAttr(0, NJD_FST_DB);
     _gj_render_mode_ = GJD_DRAW_SOLID;
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
@@ -145,6 +156,8 @@ EventDisplayerHook(task* tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
     _gj_render_mode_ = old_rmode;
+    LoadConstantAttr();
+    LoadControl3D();
 }
 
 /****** Init ************************************************************************/
