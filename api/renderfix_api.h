@@ -756,6 +756,74 @@ typedef struct
     *     - mode        : chunk draw mode (default: 'ALL')
     */
     void(__cdecl* SetCnkDrawMode)( RFRS_CNKDRAWMD mode );
+
+    /****** Version >= 2 ************************************************************/
+    /*
+    *   Description:
+    *     Set the Chunk draw function emulation mode. Dreamcast used a number of
+    *   different function variants for drawing, and this allows you to emulate each of
+    *   their quirks.
+    *
+    *   Parameters:
+    *     - mode        : chunk function emulation mode (default: 'SIMPLE')
+    */
+    void(__cdecl* SetCnkFuncMode)( RFRS_CNKFUNCMD mode );
+    /*
+    *   Description:
+    *     Set the transparency pass mode. If the scaling is inverted, this should be set
+    *   to 'INVERSE' so the front and back faces of transparent strips can be correctly
+    *   sorted.
+    *
+    *   Parameters:
+    *     - mode        : chunk transparency pass mode (default: 'NORMAL')
+    */
+    void(__cdecl* SetCnkPassMode)( RFRS_CNKPASSMD mode );
+
+    /********************************************************/
+    /*
+    *   Get Renderstate
+    */
+    /********************************************************/
+    /*
+    *   Description:
+    *     Get the current triangle culling mode.
+    */
+    RFRS_CULLMD(__cdecl* GetCullMode)( void );
+    /*
+    *   Description:
+    *     Get the current transparency mode.
+    */
+    RFRS_TRANSMD(__cdecl* GetTransMode)( void );
+    /*
+    *   Description:
+    *     Get the current alpha test compare mode.
+    */
+    RFRS_CMPMD(__cdecl* GetAlphaTestFunc)( void );
+    /*
+    *   Description:
+    *     Get the current alpha test reference value.
+    */
+    int32_t(__cdecl* GetAlphaTestRef)( void );
+    /*
+    *   Description:
+    *     Get the current modifier mode.
+    */
+    RFRS_MODMD(__cdecl* GetModifierMode)( void );
+    /*
+    *   Description:
+    *     Get the current Chunk Draw mode.
+    */
+    RFRS_CNKDRAWMD(__cdecl* GetCnkDrawMode)( void );
+    /*
+    *   Description:
+    *     Get the current Chunk function emulation mode.
+    */
+    RFRS_CNKFUNCMD(__cdecl* GetCnkFuncMode)( void );
+    /*
+    *   Description:
+    *     Get the current Chunk transparancy pass mode.
+    */
+    RFRS_CNKPASSMD(__cdecl* GetCnkPassMode)( void );
 }
 RFAPI_RENDERSTATE;
 
