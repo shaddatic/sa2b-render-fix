@@ -35,29 +35,50 @@ void    RF_DrawInit( void );
 
 /****** Null Draw *******************************************************************/
 /*
-*   Goes through the steps of drawing, such as matrix calculations, without
+*   Description:
+*     Emulates a successful Chunk draw, but doesn't actually draw anything.
+* 
+*   Parameters:
+*     - model   : chunk model
+*
+*   Returns:
+*     Always '0' as if model was drawn.
+*/
+Sint32  njCnkNullDrawModel( const NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Goes through the steps of drawing, such as matrix transformations, without
 *   actually drawing anything.
 *
 *   Parameters:
-*     - model   : Pointer to a Chunk model
-*     - object  : Pointer to a Chunk object
+*     - object  : chunk object
 */
-int     njCnkNullDrawModel(  const NJS_CNK_MODEL*  model  );
 void    njCnkNullDrawObject( const NJS_CNK_OBJECT* object );
 /*
-*   Goes through the steps of animating, such as matrix calculations & calling
+*   Description:
+*     Goes through the steps of animating, such as matrix calculations & calling
 *   motion callbacks, without actually drawing anything.
 *
 *   Parameters:
-*     - object      : Pointer to a Chunk object
-*     - motion      : Pointer to a Ninja Motion array
-*     - motion_link : Pointer to a Ninja Motion Link
-*     - frame       : Frame of the motion to draw
+*     - object      : chunk object to animate
+*     - motion      : motion data for 'object'
+*     - frame       : frame of animation
 */
-void    njCnkAnimateMotion(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
-void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
+void    njCnkAnimateMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
 /*
-*   Null Draw SA2 motion control.
+*   Description:
+*     Goes through the steps of animating, such as interpolating the motions, matrix
+*   calculations, & calling motion callbacks, without actually drawing anything.
+*
+*   Parameters:
+*     - object      : chunk object to animate
+*     - motion_link : motion link data and motion datas for 'object'
+*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
+*/
+void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
+/*
+*   Description:
+*     Animate an SA2 motion control without actually drawing anything.
 *
 *   Parameters:
 *     - pObject  : a Ninja object of any type
@@ -81,6 +102,9 @@ void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
 *
 *   Parameters:
 *     - model       : chunk modifier volume model
+*
+*   Returns:
+*     '0' if drawn, or '-1' if the model was clipped.
 */
 Sint32  njCnkModDrawModel( const NJS_CNK_MODEL* model );
 /*
@@ -111,6 +135,50 @@ void    njCnkModDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* moti
 *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
 */
 void    njCnkModDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame );
+/*
+*   Description:
+*     Draw a Chunk modifier volume motion.
+*
+*   Parameters:
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - shape       : shape data for 'object'   (optional)
+*     - frame       : frame of animation/shape
+*/
+void    rjCnkModDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two Chunk modifier volume motions.
+*
+*   Parameters:
+*     - object      : object to animate and draw
+*     - motion_link : motion data for 'object'
+*     - shape_link  : shape data for 'object'   (optional)
+*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*/
+void    rjCnkModDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+/*
+*   Description:
+*     Draw a Chunk modifier volume motion.
+*
+*   Parameters:
+*     - object      : object to animate and draw
+*     - motion      : motion data for 'object'
+*     - shape       : shape data for 'object'   (optional)
+*     - frame       : frame of animation/shape
+*/
+void    rjCnkModDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+/*
+*   Description:
+*     Interpolate and draw two Chunk modifier volume motions.
+*
+*   Parameters:
+*     - object      : object to animate and draw
+*     - motion_link : motion data for 'object'
+*     - shape_link  : shape data for 'object'   (optional)
+*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*/
+void    rjCnkModDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
 /****** Generic Shadows *************************************************************/
 /*

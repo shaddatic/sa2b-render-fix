@@ -167,8 +167,9 @@ void    RFRS_SetAlphaTestFunc( RFRS_CMPMD mode );
 void    RFRS_SetAlphaTestRef(  int32_t   value );
 /*
 *   Description:
-*     Set modifier winding mode. If modifiers are drawn with inverted scaling, this
-*   must be set to 'INVERTED' for the modifiers to work correctly.
+*     Set modifier model winding mode. If modifiers have inverted normals, such
+*   as being drawn with inverted scaling, this must be set to 'INVERTED' for the
+*   modifiers to work correctly.
 *
 *   Parameters:
 *     - mode        : modifier mode (default: 'NORMAL')
@@ -176,11 +177,8 @@ void    RFRS_SetAlphaTestRef(  int32_t   value );
 void    RFRS_SetModifierMode( RFRS_MODMD mode );
 /*
 *   Description:
-*     Set the Chunk strip draw mode, allowing for opaque and transparant strips
-*   to be drawn seperately.
-*
-*   Notes:
-*     - Useful for transparency sorting
+*     Set the draw mode of opaque/transparent Chunk strips, allowing for opaque and
+*   transparant strips to be drawn seperately for sorting reasons.
 *
 *   Parameters:
 *     - mode        : chunk draw mode (default: 'ALL')
