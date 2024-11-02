@@ -216,9 +216,9 @@ RFE_FONT_TYPE;
 *   The Render Fix 'Control' API is for controlling aspects of RF and its features.
 * 
 *   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : No
-*     - Otherwise       : No
+*     - RF_EarlyInit : Yes
+*     - RF_Init      : No
+*     - After Init   : No
 */
 typedef struct
 {
@@ -260,9 +260,9 @@ RFAPI_CONTROL;
 *   the feature isn't available there yet, contact me and I'll add it.
 * 
 *   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : Yes
-*     - Otherwise       : No
+*     - RF_EarlyInit : Yes
+*     - RF_Init      : Yes
+*     - After Init   : No
 */
 typedef struct
 {
@@ -296,9 +296,9 @@ RFAPI_CONFIG;
 *   enabled, or specific user-settings for those features.
 *
 *   Availablility:
-*     - In RF_EarlyInit : No
-*     - In RF_Init      : Yes
-*     - Otherwise       : Yes
+*     - RF_EarlyInit : No
+*     - RF_Init      : Yes
+*     - After Init   : Yes
 */
 typedef struct
 {
@@ -332,9 +332,9 @@ RFAPI_FEATURE;
 *   screen.
 *
 *   Availablility:
-*     - In RF_EarlyInit : No
-*     - In RF_Init      : Yes
-*     - Otherwise       : Yes
+*     - RF_EarlyInit : No
+*     - RF_Init      : Yes
+*     - After Init   : Yes
 */
 typedef struct
 {
@@ -477,9 +477,9 @@ RFAPI_DRAW;
 *   state back to default.
 *
 *   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : Yes
-*     - Otherwise       : Yes
+*     - RF_EarlyInit : Yes
+*     - RF_Init      : Yes
+*     - After Init   : Yes
 */
 typedef struct
 {
@@ -545,9 +545,9 @@ RFAPI_RENDERSTATE;
 *   The Render Fix 'Shader' API is for loading & replacing DirectX 9 shaders.
 *
 *   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : Yes
-*     - Otherwise       : Yes
+*     - RF_EarlyInit : Yes
+*     - RF_Init      : Yes
+*     - After Init   : Yes
 */
 typedef struct
 {
@@ -587,9 +587,9 @@ RFAPI_SHADER;
 *   The Render Fix 'Font' API is for loading and setting game text fonts.
 *
 *   Availablility:
-*     - In RF_EarlyInit : Yes
-*     - In RF_Init      : Yes
-*     - Otherwise       : Yes
+*     - RF_EarlyInit : Yes
+*     - RF_Init      : Yes
+*     - After Init   : Yes
 */
 typedef struct
 {
