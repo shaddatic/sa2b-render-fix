@@ -48,6 +48,7 @@ static RFRS_CULLMD      CullModeOverride;
 static RFRS_TRANSMD     TransModeOverride;
 static RFRS_CMPMD       AlphaFuncOverride   = RFRS_CMPMD_GTR;
 static uint32_t         AlphaRefOverride    = 64;
+static RFRS_MODMD       CnkModModeOverride;
 static RFRS_CNKDRAWMD   CnkDrawModeOverride;
 static RFRS_CNKFUNCMD   CnkFuncModeOverride = RFRS_CNKFUNCMD_SIMPLE;
 static RFRS_CNKPASSMD   CnkPassModeOverride;
@@ -194,6 +195,9 @@ void
 RFRS_SetModifierMode(RFRS_MODMD mode)
 {
     RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
+
+    CnkModModeOverride = (mode != RFRS_MODMD_INVERSE) ?
+                         RFRS_MODMD_NORMAL : RFRS_MODMD_INVERSE;
 }
 
 void
@@ -275,7 +279,7 @@ RFRS_GetAlphaTestRef(void)
 RFRS_MODMD
 RFRS_GetModifierMode(void)
 {
-    return 0;
+    return CnkModModeOverride;
 }
 
 RFRS_CNKDRAWMD
