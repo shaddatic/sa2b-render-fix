@@ -341,68 +341,115 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;                           /* structure version                */
 
-    /**** Null Draw ****/
+    /**** Null Draw/Animate Motion ****/
     /*
-    *   Goes through the steps of drawing, such as matrix calculations, without
-    *   actually drawing anything. Useful if said calculations are all you need.
+    *   Description:
+    *     Emulates a successful Chunk draw, but doesn't actually draw anything.
     * 
     *   Parameters:
-    *     - model   : Pointer to a Chunk model
-    *     - object  : Pointer to a Chunk object
+    *     - model   : chunk model
+    *
+    *   Returns:
+    *     Always '0' as if model was drawn.
     */
-    int32_t(__cdecl* CnkNullDrawModel)(  const NJS_CNK_MODEL*  model  );
-    void   (__cdecl* CnkNullDrawObject)( const NJS_CNK_OBJECT* object );
+    Sint32 (__cdecl* CnkNullDrawModel)( const NJS_CNK_MODEL* model );
+    /*
+    *   Description:
+    *     Goes through the steps of drawing, such as matrix transformations, without
+    *   actually drawing anything.
+    * 
+    *   Parameters:
+    *     - object  : chunk object
+    */
+    void (__cdecl* CnkNullDrawObject)( const NJS_CNK_OBJECT* object );
+    /*
+    *   Description:
+    *     Goes through the steps of animating, such as matrix calculations & calling
+    *   motion callbacks, without actually drawing anything.
+    * 
+    *   Parameters:
+    *     - object      : chunk object to animate
+    *     - motion      : motion data for 'object'
+    *     - frame       : frame of animation
+    */
+    void (__cdecl* CnkAnimateMotion)( const NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame );
+    /*
+    *   Description:
+    *     Goes through the steps of animating, such as interpolating the motions, matrix
+    *   calculations, & calling motion callbacks, without actually drawing anything.
+    *
+    *   Parameters:
+    *     - object      : chunk object to animate
+    *     - motion_link : motion link data and motion datas for 'object'
+    *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
+    */
+    void (__cdecl* CnkAnimateMotionLink)( const NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate );
 
-    /**** Animate Motion (Null Draw) ****/
+    /********************************************************/
     /*
-    *   Goes through the steps of animating, such as matrix calculations & calling
-    *   motion callbacks, without actually drawing anything. Useful if said
-    *   calculations or callbacks are all you need.
+    *   Chunk Modifier Volume
     * 
-    *   Parameters:
-    *     - object      : Pointer to a Chunk object
-    *     - motion      : Pointer to a Ninja Motion array
-    *     - motion_link : Pointer to a Ninja Motion Link
-    *     - frame       : Frame of the motion to draw
+    *   Notes:
+    *     - Modifiers should only be drawn inside the 'disp_shad' (offset 0x2C) task
+    *       displayer function.
     */
-    void   (__cdecl* CnkAnimateMotion)(     const NJS_CNK_OBJECT* object, NJS_MOTION*      motion,      float frame );
-    void   (__cdecl* CnkAnimateMotionLink)( const NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, float frame );
 
-    /**** Modifier Draw ****/
+    /**** Modifier Draw ********/
     /*
-    *   Draw modifier volume models and objects. Should only be called inside a
-    *   Tasks' 'disp_shad' (offset 0x2C) displayer function.
-    * 
+    *   Description:
+    *     Draw a Chunk modifier volume model.
+    *
     *   Parameters:
-    *     - model   : Pointer to a Chunk modifier volume model
-    *     - object  : Pointer to a Chunk modifier volume object
+    *     - model       : chunk modifier volume model
+    *
+    *   Returns:
+    *     '0' if drawn, or '-1' if the model was clipped.
     */
-    int32_t(__cdecl* CnkModDrawModel)(  const NJS_CNK_MODEL*  model  );
-    void   (__cdecl* CnkModDrawObject)( const NJS_CNK_OBJECT* object );
-
-    /**** Modifier Draw Motion ****/
+    Sint32 (__cdecl* CnkModDrawModel)( const NJS_CNK_MODEL* model );
     /*
-    *   Draw modifier volume motions. Should only be called inside a Tasks'
-    *   'disp_shad' (offset 0x2C) displayer function.
-    * 
+    *   Description:
+    *     Draw a modifier volume object tree.
+    *
     *   Parameters:
-    *     - object      : Pointer to a Chunk modifier volume object
-    *     - motion      : Pointer to a Ninja Motion array
-    *     - motion_link : Pointer to a Ninja Motion Link
-    *     - frame       : Frame of the motion to draw
+    *     - object      : chunk modifier volume object
     */
-    void   (__cdecl* CnkModDrawMotion)(     const NJS_CNK_OBJECT* object, const NJS_MOTION*      motion,      float frame );
-    void   (__cdecl* CnkModDrawMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame );
+    void (__cdecl* CnkModDrawObject)( const NJS_CNK_OBJECT* object );
+    /*
+    *   Description:
+    *     Draw a Chunk modifier volume motion.
+    *
+    *   Parameters:
+    *     - object      : object to animate and draw
+    *     - motion      : motion data for 'object'
+    *     - frame       : frame of animation
+    */
+    void (__cdecl* CnkModDrawMotion)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+    /*
+    *   Description:
+    *     Interpolate and draw two Chunk modifier volume motions.
+    *
+    *   Parameters:
+    *     - object      : chunk modifier volume object to animate
+    *     - motion_link : motion link data and motion datas for 'object'
+    *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
+    */
+    void (__cdecl* CnkModDrawMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
 
     /**** Modifier Common Draw ****/
     /*
-    *   Draw common modifier models. Should only be called inside a Tasks'
-    *   'disp_shad' (offset 0x2C) displayer function.
+    *   Description:
+    *     Draw common modifier models.
     */
-    void   (__cdecl* DrawBasicShadow)( void );
-    void   (__cdecl* AL_ShadowDraw)(   void );
+    void (__cdecl* DrawBasicShadow)( void );
+    void (__cdecl* AL_ShadowDraw)( void );
 
     /****** Version >= 1 ************************************************************/
+
+    /********************************************************/
+    /*
+    *   2D Draw
+    */
+    /********************************************************/
     /*
     *   Draw a multi-vertex, 2D texture with 'count'.
     *
@@ -411,12 +458,12 @@ typedef struct
     *     - count   : number of entries in 'polygon'
     *     - trans   : is transparent
     */
-    void(__cdecl* DrawTextureEx)(const NJS_TEXTURE_VTX* polygon, Int count, Int trans);
+    void (__cdecl* DrawTextureEx)(const NJS_TEXTURE_VTX* polygon, Int count, Int trans);
     /*
     *   Draw a multi-vertex, 2D polygon with 'n'.
     *
     *   Examples:
-    *       p->DrawPolygon2D(poly, count, -1.0f, NJD_FILL | NJD_TRANSPARENT)
+    *     - p->DrawPolygon2D(poly, count, -1.0f, NJD_FILL|NJD_TRANSPARENT)
     *
     *   Parameters:
     *     - p       : POINT2COL list
@@ -424,9 +471,15 @@ typedef struct
     *     - pri     : draw priority (-1<->-65535)
     *     - attr    : draw attributes
     */
-    void(__cdecl* DrawPolygon2D)(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
+    void (__cdecl* DrawPolygon2D)(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr);
 
     /****** Version >= 2 ************************************************************/
+
+    /********************************************************/
+    /*
+    *   Draw Line (2D/3D)
+    */
+    /********************************************************/
     /*
     *   Description:
     *     Draw a 3D line in either strip or list mode. 'Strip' will use the end
@@ -442,8 +495,8 @@ typedef struct
     *     - r       : radius, in 480p pixels
     *     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
     */
-    void(__cdecl* DrawLineStrip3D)( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
-    void(__cdecl* DrawLineList3D)(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+    void (__cdecl* DrawLineStrip3D)( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+    void (__cdecl* DrawLineList3D)(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
     /*
     *   Description:
     *     Draw a 2D line in either strip or list mode. 'Strip' will use the end
@@ -460,8 +513,8 @@ typedef struct
     *     - r       : radius, in 480p pixels
     *     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
     */
-    void(__cdecl* DrawLineStrip2D)( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
-    void(__cdecl* DrawLineList2D)(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+    void (__cdecl* DrawLineStrip2D)( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+    void (__cdecl* DrawLineList2D)(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 }
 RFAPI_DRAW;
 
