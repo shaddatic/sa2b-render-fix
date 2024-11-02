@@ -696,53 +696,64 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;                           /* structure version                */
 
-    /**** Back Face Culling ****/
+    /********************************************************/
     /*
-    *   Set back-face culling to a specific mode. Useful for forcing a specific cull
-    *   mode for effects, or overriding the user setting for back-face culling. Only
-    *   has an effect for Chunk model rendering.
+    *   Set Renderstate
+    */
+    /********************************************************/
+    /*
+    *   Description:
+    *     Set triangle culling mode for Chunk draw.
     * 
+    *   Notes:
+    *     - 'NONE' draws all tris, but 'INVERSE' only draws double sided tris
+    *     - Users may enabled 'NONE' by default by disabling back-face culling
+    *     - Useful for transparency sorting
+    *
     *   Parameters:
-    *     - mode    : Culling mode to be set (default 'AUTO'/'NONE')
+    *     - mode        : culling mode to set (default: 'AUTO'/'NONE')
     */
     void(__cdecl* SetCullMode)( RFRS_CULLMD mode );
-
-    /**** Transparancy Mode ****/
     /*
-    *   Set transparancy rendering to a specific mode.
+    *   Description:
+    *     Set transparency rendering mode.
+    *
+    *   Notes:
+    *     - Useful for forcing the Z buffer on & off via alpha test
     *
     *   Parameters:
-    *     - mode    : Transparancy mode to be set (default 'AUTO')
+    *     - mode        : transparency mode (default: 'AUTO')
     */
     void(__cdecl* SetTransMode)( RFRS_TRANSMD mode );
-
-    /**** Alpha Test ****/
     /*
-    *   Set alpha test compare function and reference value.
+    *   Description:
+    *     Set alpha test compare function and reference value.
     *
     *   Parameters:
-    *     - mode    : Compare mode to be used (default 'GEQ')
-    *     - ref     : A value from 0<->255 to compare against (default 64)
+    *     - mode        : Compare mode to be used (default: 'GTR')
+    *     - value       : A value from 0~255 to compare against (default: 64)
     */
     void(__cdecl* SetAlphaTestFunc)( RFRS_CMPMD mode );
-    void(__cdecl* SetAlphaTestRef)(  int32_t    ref  );
+    void(__cdecl* SetAlphaTestRef)(  int32_t   value );
 
     /****** Version >= 1 ************************************************************/
     /*
-    *   Set the winding mode of modifier models. All modifiers must be drawn with
-    *   matching normals. If a model has inverted normals, or is being drawn with
-    *   negative scale, this must be set to 'INVERSE'.
+    *   Description:
+    *     Set modifier model winding mode. If modifiers have inverted normals, such
+    *   as being drawn with inverted scaling, this must be set to 'INVERTED' for the
+    *   modifiers to work correctly.
     *
     *   Parameters:
-    *     - mode    : winding mode to use (default 'NORMAL')
+    *     - mode        : modifier mode (default: 'NORMAL')
     */
     void(__cdecl* SetModifierMode)( RFRS_MODMD mode );
     /*
-    *   Set the draw mode of opaque/transparent Chunk strips. This is useful for
-    *   drawing Chunk models in two passes for transparancy sorting.
+    *   Description:
+    *     Set the draw mode of opaque/transparent Chunk strips, allowing for opaque
+    *   and transparant strips to be drawn seperately for sorting reasons.
     *
     *   Parameters:
-    *     - mode    : strip type(s) to draw (default 'ALL')
+    *     - mode        : chunk draw mode (default: 'ALL')
     */
     void(__cdecl* SetCnkDrawMode)( RFRS_CNKDRAWMD mode );
 }
