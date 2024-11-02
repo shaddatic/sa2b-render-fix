@@ -223,7 +223,7 @@ RFE_FONT_TYPE;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /*
     *   Set Render Fix's modifier triangle buffer to a different size. Most useful
@@ -267,7 +267,7 @@ RFAPI_CONTROL;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /*
     *   Read user-settings inside Render Fix's configuration (config.ini) file. It's
@@ -303,7 +303,7 @@ RFAPI_CONFIG;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Global ****/
     bool (__cdecl* BackColorDraw)(void);    /* the back-color is enabled            */
@@ -339,7 +339,7 @@ RFAPI_FEATURE;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Null Draw ****/
     /*
@@ -484,7 +484,7 @@ RFAPI_DRAW;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Back Face Culling ****/
     /*
@@ -552,7 +552,7 @@ RFAPI_RENDERSTATE;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Load shader ****/
     /*
@@ -594,7 +594,7 @@ RFAPI_SHADER;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Font ****/
     /*
@@ -703,7 +703,7 @@ RF_VERSION;
 typedef struct
 {
     /****** Version >= 0 ************************************************************/
-    uint32_t version;
+    uint32_t version;                           /* structure version                */
 
     /**** Mod Version ****/
     RF_VERSION modver;                          /* current Render Fix version       */
