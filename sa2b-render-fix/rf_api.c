@@ -28,11 +28,20 @@
 #define CORE_API_VER    (1)
 
 EXPORT_DLL
-RFAPI_CORE rfapi_core =
+const RFAPI_CORE rfapi_core =
 {
     .version = CORE_API_VER,
 
     .modver = { 1,3,3,0 },
+
+    .pApiControl     = &rfapi_control,
+    .pApiConfig      = &rfapi_config,
+    .pApiFeature     = &rfapi_feature,
+    .pApiDraw        = &rfapi_draw,
+    .pApiRenderState = &rfapi_rstate,
+    .pApiShader      = &rfapi_shader,
+
+    .pApiFont = &rfapi_font,
 };
 
 typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const char*, const HelperFunctions*);
@@ -56,30 +65,11 @@ ApiCallByFuncName(const char* name)
 void
 RFAPI_Init(void)
 {
-    /** Enable usable APIs **/
-    rfapi_core.pApiControl     = &rfapi_control;
-    rfapi_core.pApiConfig      = &rfapi_config;
-    rfapi_core.pApiRenderState = &rfapi_rstate;
-    rfapi_core.pApiShader      = &rfapi_shader;
-    rfapi_core.pApiFont        = &rfapi_font;
-
     ApiCallByFuncName("RF_EarlyInit");
-
-    /** Disable Control API, as it can't be
-        used past this point **/
-    rfapi_core.pApiControl = nullptr;
 }
 
 void
 RFAPI_End(void)
 {
-    /** Enable newly Init'd APIs **/
-    rfapi_core.pApiFeature     = &rfapi_feature;
-    rfapi_core.pApiDraw        = &rfapi_draw;
-
     ApiCallByFuncName("RF_Init");
-
-    /** Disable Config API, as it can't be
-        used past this point **/
-    rfapi_core.pApiConfig = nullptr;
 }

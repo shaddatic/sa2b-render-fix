@@ -357,7 +357,7 @@ typedef struct
     *   Description:
     *     Goes through the steps of drawing, such as matrix transformations, without
     *   actually drawing anything.
-    * 
+    *
     *   Parameters:
     *     - object  : chunk object
     */
@@ -366,7 +366,7 @@ typedef struct
     *   Description:
     *     Goes through the steps of animating, such as matrix calculations & calling
     *   motion callbacks, without actually drawing anything.
-    * 
+    *
     *   Parameters:
     *     - object      : chunk object to animate
     *     - motion      : motion data for 'object'
@@ -388,7 +388,7 @@ typedef struct
     /********************************************************/
     /*
     *   Chunk Modifier Volume
-    * 
+    *
     *   Notes:
     *     - Modifiers should only be drawn inside the 'disp_shad' (offset 0x2C) task
     *       displayer function.
@@ -704,7 +704,7 @@ typedef struct
     /*
     *   Description:
     *     Set triangle culling mode for Chunk draw.
-    * 
+    *
     *   Notes:
     *     - 'NONE' draws all tris, but 'INVERSE' only draws double sided tris
     *     - Users may enabled 'NONE' by default by disabling back-face culling
@@ -976,9 +976,8 @@ RFAPI_FONT;
 /************************/
 /*
 *   The Render Fix 'Core' API is the central hub for all the other APIs. It can be
-*   accessed through one of the RF mod function exports as a parameter, or directly
-*   by searching Render Fix for the 'rfapi_core' dllexport. If it can't be found,
-*   the loaded RF version is before v1.3.
+*   accessed through one of the RF mod function exports as a parameter. Versions
+*   before 1.3 did not have an API, and therefore can't call the exported function.
 */
 typedef struct
 {
