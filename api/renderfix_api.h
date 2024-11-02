@@ -9,7 +9,7 @@
     & will essentially be random outside the user-exported functions.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 *
 *   Feel free to import this file into your project
 */
@@ -20,7 +20,7 @@
 /*  Mod Loader          */
 /************************/
 #ifdef  SA2MODLOADER_H
-typedef NJS_OBJECT      NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility        */
+typedef NJS_OBJECT          NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility    */
 
 #endif/*SA2MODLOADER_H*/
 
@@ -37,7 +37,7 @@ typedef struct rfs_font         RFS_FONT;       /* Render Fix font object       
 /************************/
 /*  Types               */
 /************************/
-typedef double                  float64_t;  /* 8 byte wide float value              */
+typedef double                  f64;        /* 8 byte wide float value              */
 typedef char                    utf8;       /* supports UTF-8 strings               */
 
 /************************/
@@ -256,7 +256,7 @@ typedef struct
     */
     int32_t    (__cdecl* ConfigGetInt)(    const char* section, const char* key, int32_t     deflt );
     bool       (__cdecl* ConfigGetBool)(   const char* section, const char* key, bool        deflt );
-    float64_t  (__cdecl* ConfigGetFloat)(  const char* section, const char* key, float64_t   deflt );
+    f64        (__cdecl* ConfigGetFloat)(  const char* section, const char* key, f64         deflt );
     const utf8*(__cdecl* ConfigGetString)( const char* section, const char* key, const utf8* deflt );
 }
 RFAPI_CONFIG;
