@@ -478,6 +478,17 @@ TaskDisplayAll(void)
     }
 
     gjSetRenderMode(GJD_DRAW_SOLID | GJD_DRAW_TRANS);
+
+#if 0
+    ML_SetDebugFontColor(0xFFFFFFFF);
+    ML_SetDebugFontScale(24.f);
+
+    ML_DisplayDebugString(NJM_LOCATION(1 , 15), "GLOBAL MD:");
+    ML_DisplayDebugInt(   NJM_LOCATION(12, 15), ulGlobalMode, 2);
+
+    ML_DisplayDebugString(NJM_LOCATION(1 , 16), "GAME MD:");
+    ML_DisplayDebugInt(   NJM_LOCATION(12, 16), ssGameMode, 2);
+#endif
 }
 
 void
