@@ -308,7 +308,7 @@ typedef struct
     /**** Global ****/
     bool (__cdecl* BackColorDraw)(void);    /* the back-color is enabled            */
     bool (__cdecl* SpotLightFix)(void);     /* spot lights have been fixed          */
-    bool (__cdecl* EnvMapFlip)(void);       /* env maps have been flipped           */
+    bool (__cdecl* EnvMapFlip)(void);       /* (always true as of 1.3.3)            */
     bool (__cdecl* BackFaceCulling)(void);  /* back-face culling is AUTO by default */
     bool (__cdecl* FixModelTint)(void);     /* model tinting is fixed               */
 
@@ -319,7 +319,7 @@ typedef struct
     /**** Cheap Shadows ****/
     bool (__cdecl* CheapShadow)(void);                  /* modifier shadows are enabled                 */
     bool (__cdecl* CheapShadowPerformance)(void);       /* the modifiers are in Performance mode        */
-    bool (__cdecl* CheapShadowUltraPerformance)(void);  /* the modifiers are in Ultra Performance mode  */
+    bool (__cdecl* CheapShadowUltraPerformance)(void);  /* (always false as of 1.3.2)                   */
     bool (__cdecl* CheapShadowPlayer)(void);            /* the player is using modifier shadows         */
 }
 RFAPI_FEATURE;
