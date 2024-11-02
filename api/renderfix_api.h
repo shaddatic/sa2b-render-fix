@@ -25,6 +25,33 @@ typedef NJS_OBJECT          NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility
 #endif/*SA2MODLOADER_H*/
 
 /************************/
+/*  Macros              */
+/************************/
+/****** RF Version ******************************************************************/
+/*
+*   Description:
+*     Macro for checking the current Render Fix version against a given version.
+* 
+*   Examples:
+*     - if ( !RFD_CHECKVER(pApiCore, 1,3,3,0) ) // check if RF version too low
+*
+*   Paramters:
+*     - api         : core api pointer
+*     - rel         : minimum release part value
+*     - maj         : minimum major part value 
+*     - sem         : minimum semi-major part value 
+*     - min         : minimum minor part value 
+* 
+*   Returns:
+*     'true' if the current version is equal to, or above, the given version, or 'false' if it is below
+*/
+#define RFD_CHECKVER(api, rel, maj, sem, min) \
+          ( (int)(api)->modver.release   > (rel) || ( (int)(api)->modver.release   == (rel) && \
+          ( (int)(api)->modver.major     > (maj) || ( (int)(api)->modver.major     == (maj) && \
+          ( (int)(api)->modver.semimajor > (sem) || ( (int)(api)->modver.semimajor == (sem) && \
+          ( (int)(api)->modver.minor     > (min) || ( (int)(api)->modver.minor     == (min) ))))))) )
+
+/************************/
 /*  Abstract Types      */
 /************************/
 /****** Shader **********************************************************************/
@@ -666,7 +693,10 @@ RFAPI_FONT;
 */
 typedef struct
 {
-    uint8_t release, major, minor, hotfix;
+    uint8_t release;            /* release version part    (eg. the '1' in v1.2.3.4) */
+    uint8_t major;              /* major version part      (eg. the '2' in v1.2.3.4) */
+    uint8_t semimajor;          /* semi-major version part (eg. the '3' in v1.2.3.4) */
+    uint8_t minor;              /* minor version part      (eg. the '4' in v1.2.3.4) */
 }
 RF_VERSION;
 
@@ -675,8 +705,8 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;
 
-    /**** Mod version ****/
-    RF_VERSION rf_version;                      /* current Render Fix version       */
+    /**** Mod Version ****/
+    RF_VERSION modver;                          /* current Render Fix version       */
 
     /**** APIs ****/
     const RFAPI_CONTROL*     pApiControl;       /* Control API                      */
