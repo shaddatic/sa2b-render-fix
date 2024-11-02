@@ -25,13 +25,13 @@ enum /* ulGlobalMode */
     MD_LOGO,
     MD_TITLE,
     MD_UNKOWN_03,
-    MD_ACTION_INIT,
+    MD_ACTION_INIT,     /* gameplay/action init                                     */
     MD_ACTION,          /* gameplay/action                                          */
     MD_UNKOWN_06,
     MD_EVENT_INIT,      /* init event                                               */
     MD_EVENT,           /* event                                                    */
     MD_UNKOWN_09,
-    MD_UNKOWN_10,
+    MD_UNKOWN_10,       /* main menu 2p auto play                                   */
     MD_UNKOWN_11,
     MD_SEQUENCE_NEXT,   /* progress to next sequence section                        */
     MD_ADVERTISE_INIT,  /* init advertise menus                                     */
@@ -52,12 +52,14 @@ enum /* ulGlobalMode */
 
 enum /* ssGameMode */
 {
-    MD_GAME_INIT,
-    MD_GAME_FADEIN = 0x07,
-    MD_GAME_FADEOUT_CLEAR = 0x08,
+    MD_GAME_NONE,                   /* not currently in-game (eg. in menu or event) */
+    MD_GAME_INIT,                   /* stage loading                                */
+    MD_GAME_FADEIN = 0x07,          /* screen fading in                             */
+    MD_GAME_FADEOUT_CLEAR = 0x08,   /* screen fading out after clearing stage       */
     MD_GAME_FADEOUT_MISS,
-    MD_GAME_FADEOUT_RESTART = 0x0D,
-    MD_GAME_PAUSE = 0x11,
+    MD_GAME_FADEOUT_RESTART = 0x0D, /* screen fading out for restart                */
+    MD_GAME_MAIN  = 0x10,           /* game playing as normal                       */
+    MD_GAME_PAUSE = 0x11,           /* game paused                                  */
     NUM_GAMEMD = 0x32,
 };
 
