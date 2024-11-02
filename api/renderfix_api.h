@@ -13,8 +13,8 @@
 *
 *   Feel free to import this file into your project
 */
-#ifndef _RF_EXTERN_API_H_
-#define _RF_EXTERN_API_H_
+#ifndef H_RF_EXTERN_API
+#define H_RF_EXTERN_API
 
 /************************/
 /*  Mod Loader          */
@@ -691,4 +691,4 @@ typedef struct
 }
 RFAPI_CORE;
 
-#endif/*_RF_EXTERN_API_H_*/
+#endif/*H_RF_EXTERN_API*/

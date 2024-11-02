@@ -13,7 +13,7 @@
 
 EXTERN_START
 
-#ifndef _RF_EXTERN_API_
+#ifndef H_RF_EXTERN_API
 
 /************************/
 /*  Constants           */
@@ -118,7 +118,7 @@ typedef enum
 }
 RFRS_CNKPASSMD;
 
-#endif/*_RF_EXTERN_API_*/
+#endif/*H_RF_EXTERN_API*/
 
 /************************/
 /*  Functions           */

@@ -20,7 +20,8 @@ typedef struct rfs_font     RFS_FONT;
 /************************/
 /*  Enums               */
 /************************/
-#ifndef _RF_EXTERN_API_H_
+#ifndef H_RF_EXTERN_API
+
 typedef enum
 {
     FONT_LANG_JAP,  /* Japanese                                                     */
@@ -55,7 +56,7 @@ typedef enum
 }
 RFE_FONT_TYPE;
 
-#endif _RF_EXTERN_API_H_
+#endif H_RF_EXTERN_API
 
 /************************/
 /*  Functions           */
