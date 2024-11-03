@@ -18,6 +18,7 @@
 #include <rf_util.h>        /* ReplaceFloat, SwitchDisplayer                        */
 #include <rf_config.h>      /* RF_ConfigGet                                         */
 #include <rf_mdlutil.h>     /* cnkmatflag                                           */
+#include <rf_renderstate.h> /* renderstate                                          */
 
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_transparancy/rfct_internal.h> /* self                      */
@@ -49,6 +50,20 @@ ObjectMSCarDispHook(task* tp)
     FuncHookCall( ObjectMSCarDispHookInfo, ObjectMSCarDisp(tp) );
 
     _gj_render_mode_ = backup_rmode;
+}
+
+static void
+TransformObjectWithSorting(const NJS_CNK_OBJECT* object, void* pFunc)
+{
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+
+    njCnkTransformObject(object, pFunc);
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+    njCnkTransformObject(object, pFunc);
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
 
 /****** Init ************************************************************************/
@@ -146,6 +161,10 @@ RFC_TransparancyInit(void)
 
         SwitchDisplayer(0x00508358, DISP_SORT);
     }
+
+    /** Carts **/
+    WriteCall(0x0061CB2F, TransformObjectWithSorting);
+    WriteCall(0x0068B837, TransformObjectWithSorting); // menu
 
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
