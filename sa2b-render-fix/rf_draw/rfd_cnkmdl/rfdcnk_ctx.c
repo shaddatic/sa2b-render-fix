@@ -75,7 +75,7 @@ static Uint32 BlendSrc;
 static Uint32 BlendDst;
 
 static void
-rjCnkContextBlend(CNK_CTX* pCtx)
+rjCnkContextBlend(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_BLEND) )
         return;
@@ -98,7 +98,7 @@ rjCnkContextBlend(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextTiny(CNK_CTX* pCtx)
+rjCnkContextTiny(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
         return;
@@ -109,7 +109,7 @@ rjCnkContextTiny(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextDiff(CNK_CTX* pCtx)
+rjCnkContextDiff(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_DIFF) )
         return;
@@ -169,7 +169,7 @@ rjCnkContextDiff(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextAmbi(CNK_CTX* pCtx)
+rjCnkContextAmbi(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_AMBI) )
         return;
@@ -178,7 +178,7 @@ rjCnkContextAmbi(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextSpec(CNK_CTX* pCtx)
+rjCnkContextSpec(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_SPEC) )
         return;
@@ -187,7 +187,7 @@ rjCnkContextSpec(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextStrip(CNK_CTX* pCtx)
+rjCnkContextStrip(CNK_CTX* restrict pCtx)
 {
     const Sint16 fst = pCtx->fst;
 
@@ -214,7 +214,7 @@ rjCnkContextStrip(CNK_CTX* pCtx)
 }
 
 static void
-rjCnkContextLight(const CNK_CTX* pCtx)
+rjCnkContextLight(const CNK_CTX* restrict pCtx)
 {
     const int fst_8 = (pCtx->fst >> 8);
 
@@ -228,7 +228,7 @@ rjCnkContextLight(const CNK_CTX* pCtx)
 
 /****** Extern **********************************************************************/
 void
-rjCnkSetBlend(CNK_CTX* const pCtx, const Sint16* const plist)
+rjCnkSetBlend(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     pCtx->blend = plist[0] & (NJD_FBS_MASK|NJD_FBD_MASK);
 
@@ -236,7 +236,7 @@ rjCnkSetBlend(CNK_CTX* const pCtx, const Sint16* const plist)
 }
 
 void
-rjCnkSetMaterial(CNK_CTX* const pCtx, const Sint16* const plist)
+rjCnkSetMaterial(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     rjCnkSetBlend(pCtx, plist);
 
@@ -265,7 +265,7 @@ rjCnkSetMaterial(CNK_CTX* const pCtx, const Sint16* const plist)
 }
 
 void
-rjCnkSetTexture(CNK_CTX* const pCtx, const Sint16* const plist)
+rjCnkSetTexture(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     pCtx->tiny = *(CNK_TINY*)(&plist[0]);
 
@@ -273,7 +273,7 @@ rjCnkSetTexture(CNK_CTX* const pCtx, const Sint16* const plist)
 }
 
 void
-rjCnkSetStrip(CNK_CTX* const pCtx, const Sint16* const plist)
+rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     Sint16 fst = plist[0];
 
@@ -303,7 +303,7 @@ rjCnkSetStrip(CNK_CTX* const pCtx, const Sint16* const plist)
 }
 
 void
-rjCnkContext(CNK_CTX* const pCtx)
+rjCnkContext(CNK_CTX* restrict pCtx)
 {
     rjCnkContextBlend(pCtx);
     rjCnkContextTiny(pCtx);
