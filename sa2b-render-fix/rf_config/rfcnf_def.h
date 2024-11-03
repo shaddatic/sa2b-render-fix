@@ -213,7 +213,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_GLOBAL_PTCLSCALE        CNFO_INT(   CNFS_GLOBAL         , "ptcl_scl"            , CNFE_BOOL_ENABLED                     )   /* Fix Particle Scale */
 #define CNF_GLOBAL_SPRITE           CNFO_INT(   CNFS_GLOBAL         , "sprite"              , CNFE_BOOL_ENABLED                     )   /* Fix 3D Sprites */
 #define CNF_GLOBAL_LINE             CNFO_INT(   CNFS_GLOBAL         , "line"                , CNFE_BOOL_ENABLED                     )   /* Fix line scale */
-#define CNF_GLOBAL_MDLTINT          CNFO_INT(   CNFS_GLOBAL         , "model_tint"          , CNFE_GLOBAL_MDLTINT_ENABLED           )   /* Fix Model Tints */
 #define CNF_GLOBAL_SCRNTINT         CNFO_INT(   CNFS_GLOBAL         , "screen_tint"         , CNFE_BOOL_ENABLED                     )   /* Fix Screen Tint */
 #define CNF_GLOBAL_SPOTLITE         CNFO_INT(   CNFS_GLOBAL         , "spotlite"            , CNFE_BOOL_ENABLED                     )   /* Fix Spot Lights */
 

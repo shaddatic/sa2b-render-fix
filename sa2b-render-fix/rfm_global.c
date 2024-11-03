@@ -29,7 +29,6 @@
 /** Globals **/
 static bool RfgBackColor;
 static bool RfgSpotLight;
-static int  RfgFixMdlTint;
 
 /** Static functions **/
 static int __cdecl
@@ -79,7 +78,7 @@ RFF_EnvMapFlip(void)
 bool
 RFF_FixModelTint(void)
 {
-    return RfgFixMdlTint;
+    return true;
 }
 
 void
@@ -152,29 +151,7 @@ RFM_GlobalInit(void)
         WriteJump(GX_SetPointSize_p, __SetPointSize);
     }
 
-    const int mdl_tint = RF_ConfigGetInt(CNF_GLOBAL_MDLTINT);
-
-    switch (mdl_tint) {
-    case CNFE_GLOBAL_MDLTINT_EXTENDED:
-        RFG_ModelTintFixBaseInit();
-        RFG_ModelTintFixDefaultInit();
-//      RFG_ModelTintFixExtendedInit();
-        break;
-
-    case CNFE_GLOBAL_MDLTINT_ENABLED:
-        RFG_ModelTintFixBaseInit();
-        RFG_ModelTintFixDefaultInit();
-        break;
-
-    case CNFE_GLOBAL_MDLTINT_DREAMCAST:
-        RFG_ModelTintFixBaseInit();
-        break;
-
-    case CNFE_GLOBAL_MDLTINT_DISABLED:
-        break;
-    }
-
-    RfgFixMdlTint = mdl_tint;
+    RFG_ModelTintInit();
 
     if (RF_ConfigGetInt(CNF_GLOBAL_SCRNTINT))
     {

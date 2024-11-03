@@ -20,9 +20,6 @@
 			<Property name="line" display="Fix Line Draw" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the size of line primitives. In the vanilla game, they are always 1 pixel wide. This makes them hard to see at high resolutions. This setting uses Render Fix's own line drawing function, and sets the size to 2 pixels (scaling from 480p) to match the width on the Dreamcast version.</HelpText>
 			</Property>
-			<Property name="model_tint" display="Fix Model Tints" type="eTINT" defaultvalue="2">
-				<HelpText>Fixes a dark tint some models incorrectly have due to unset diffuse values. 'Match Dreamcast' leaves some models tinted to match the Dreamcast version. (Note: They may still not look correct due to missing specular!)</HelpText>
-			</Property>
 			<Property name="spotlite" display="Fix Spot Lights" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes many spot lights, such as the Egg Walker's flashlight, by replacing a, commonly used, vertex shader that incorrectly treats them as directional lights.</HelpText>
 			</Property>
@@ -250,11 +247,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 	<Enums>
 		<Enum name="eBOOL">
 			<EnumMember name="1" display="Enabled"></EnumMember>
-			<EnumMember name="0" display="Off/Disabled"></EnumMember>
-		</Enum>
-		<Enum name="eTINT">
-			<EnumMember name="2" display="Enabled"></EnumMember>
-			<EnumMember name="1" display="Match Dreamcast"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
 		<Enum name="eFONT_KANJI">

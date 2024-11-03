@@ -19,8 +19,7 @@ void    RFG_NinjaBackColorInit( void );
 
 void    RFG_BackfaceCullingInit( void );
 
-void    RFG_ModelTintFixBaseInit( void );
-void    RFG_ModelTintFixDefaultInit( void );
+void    RFG_ModelTintInit( void );
 
 void    RFG_SpotLightFixInit( void );
 
