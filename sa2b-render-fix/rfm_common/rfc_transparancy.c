@@ -11,7 +11,8 @@
 #include <sa2b/ninja/ninja.h> /* ninja                                              */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/task.h> /* task                                                */
+#include <sa2b/sonic/task.h>    /* task                                             */
+#include <sa2b/sonic/datadll.h> /* data_dll                                         */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
@@ -165,6 +166,20 @@ RFC_TransparancyInit(void)
     /** Carts **/
     WriteCall(0x0061CB2F, TransformObjectWithSorting);
     WriteCall(0x0068B837, TransformObjectWithSorting); // menu
+
+    /** Chaos Drives **/
+    WriteCall(0x0054531F, TransformObjectWithSorting); // chao
+    WriteCall(0x0048F305, TransformObjectWithSorting); // game
+
+    WriteData(0x0044FE36, 0x1, uint8_t); // Fix green hill "CLEAR!" text
+
+    /** 2p character select cursor **/
+    {
+        NJS_CNK_OBJECT** p_obj = GetDataDllAddr(NJS_CNK_OBJECT*, "cursorObj");
+
+        CnkObjectMaterialFlagOn(p_obj[0], NJD_FST_UA);
+        CnkObjectMaterialFlagOn(p_obj[1], NJD_FST_UA);
+    }
 
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
