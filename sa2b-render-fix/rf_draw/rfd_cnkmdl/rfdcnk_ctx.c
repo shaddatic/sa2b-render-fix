@@ -24,6 +24,8 @@
 /****** Shifted FST *****************************************************************/
 #define CNK_FST_UA              (NJD_FST_UA>>NJD_FST_SHIFT) /* use alpha            */
 
+#define CNK_BLD_ONE             (NJD_FBS_ONE>>NJD_FBS_SHIFT)
+
 /************************/
 /*  Source              */
 /************************/
@@ -69,35 +71,47 @@ BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
     pArgb->b = ( (f32)pBgra->b * (1.f/255.f) );
 }
 
+static Uint32 BlendSrc;
+static Uint32 BlendDst;
+
 static void
 rjCnkContextBlend(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & (CTXFLG_CTX_BLEND) )
+    if ( !(pCtx->flag & CTXFLG_CTX_BLEND) )
         return;
+
+    Sint32 bld;
 
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_BLEND_MODE )
     {
-        pCtx->blend = _nj_cnk_blend_mode_;
+        bld = _nj_cnk_blend_mode_;
+    }
+    else
+    {
+        bld = pCtx->blend;
     }
 
-    pCtx->flag |= CTXFLG_CTX_BLEND;
+    BlendSrc = (bld & NJD_FBS_MASK) >> NJD_FBS_SHIFT;
+    BlendDst = (bld & NJD_FBD_MASK) >> NJD_FBD_SHIFT;
+
+    pCtx->flag &= ~CTXFLG_CTX_BLEND;
 }
 
 static void
 rjCnkContextTiny(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & (CTXFLG_CTX_TINY|CTXFLG_STRIP_NOTEX) )
+    if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
         return;
 
     CnkParseTinyData_Ext(pCtx->tiny.flag, pCtx->tiny.id);
 
-    pCtx->flag |= CTXFLG_CTX_TINY;
+    pCtx->flag &= ~CTXFLG_CTX_TINY;
 }
 
 static void
 rjCnkContextDiff(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & (CTXFLG_CTX_DIFF) )
+    if ( !(pCtx->flag & CTXFLG_CTX_DIFF) )
         return;
 
     GXS_COLOR color;
@@ -151,55 +165,44 @@ rjCnkContextDiff(CNK_CTX* pCtx)
 
     GX_SetChanMatColor(0, color);
 
-    pCtx->flag |= CTXFLG_CTX_DIFF;
+    pCtx->flag &= ~CTXFLG_CTX_DIFF;
 }
 
 static void
 rjCnkContextAmbi(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & CTXFLG_CTX_AMBI )
+    if ( !(pCtx->flag & CTXFLG_CTX_AMBI) )
         return;
 
-    pCtx->flag |= CTXFLG_CTX_AMBI;
+    pCtx->flag &= ~CTXFLG_CTX_AMBI;
 }
 
 static void
 rjCnkContextSpec(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & CTXFLG_CTX_SPEC )
+    if ( !(pCtx->flag & CTXFLG_CTX_SPEC) )
         return;
 
-    pCtx->flag |= CTXFLG_CTX_SPEC;
-}
-
-inline bool
-CheckAlphaTest(const bool nat, const Sint16 blend, const bool notex)
-{
-    return !nat && !(notex) && *pTexSurface == 14;
+    pCtx->flag &= ~CTXFLG_CTX_SPEC;
 }
 
 static void
 rjCnkContextStrip(CNK_CTX* pCtx)
 {
     const Sint16 fst = pCtx->fst;
-    const Sint16 bld = pCtx->blend;
 
-    const Sint16 bld_src = (bld & NJD_FBS_MASK);
-    const Sint16 bld_dst = (bld & NJD_FBD_MASK);
+    const bool fst_ua  = ( fst & (NJD_FST_UA|NJD_FST_NAT) );
 
-    const bool fst_ua  = (fst & NJD_FST_UA);
-
-    GX_SetBlendMode((bld_src >> NJD_FBS_SHIFT), (bld_dst >> NJD_FBD_SHIFT), fst_ua);
+    GX_SetBlendMode(BlendSrc, BlendDst, fst_ua);
 
     if (fst_ua)
     {
-        const bool fst_nat = (fst & NJD_FST_NAT);
-        const bool notex   = (pCtx->flag & CTXFLG_STRIP_NOTEX);
+        const bool notex = (pCtx->flag & CTXFLG_STRIP_NOTEX);
 
-        if ( fst_nat ||                      // IF NoAlphaTest flag
-            bld_src == NJD_FBS_ONE ||        // OR src is ONE
-            bld_dst == NJD_FBD_ONE ||        // OR dst is ONE
-          ( !notex && *pTexSurface != 14 ) ) // OR no alpha test tex flag
+        if ( (fst & NJD_FST_NAT)    ||    // IF NoAlphaTest flag
+            BlendSrc == CNK_BLD_ONE ||    // OR src is ONE
+            BlendDst == CNK_BLD_ONE ||    // OR dst is ONE
+            notex || *pTexSurface != 14 ) // OR no alpha test tex flag
         {
             SetTransparentDraw();
         }
@@ -220,16 +223,16 @@ rjCnkContextLight(const CNK_CTX* pCtx)
     _nj_cnk_last_strip_flags_ = fst_8;
 
     if (light_flag & 1)
-        CnkSetupLights_Ext((s8)fst_8);
+        CnkSetupLights_Ext(fst_8);
 }
 
 /****** Extern **********************************************************************/
 void
 rjCnkSetBlend(CNK_CTX* const pCtx, const Sint16* const plist)
 {
-    pCtx->blend = plist[0] & (NJD_FBS_MASK | NJD_FBD_MASK);
+    pCtx->blend = plist[0] & (NJD_FBS_MASK|NJD_FBD_MASK);
 
-    pCtx->flag &= ~CTXFLG_CTX_BLEND;
+    pCtx->flag |= CTXFLG_CTX_BLEND;
 }
 
 void
@@ -258,7 +261,7 @@ rjCnkSetMaterial(CNK_CTX* const pCtx, const Sint16* const plist)
         pCtx->spec = *(CNK_SPEC*)(&plist[mat_index]);
     }
 
-    pCtx->flag &= ~( flag << CTXFLG_SHIFT_MAT );
+    pCtx->flag |= ( flag << CTXFLG_SHIFT_MAT );
 }
 
 void
@@ -266,7 +269,7 @@ rjCnkSetTexture(CNK_CTX* const pCtx, const Sint16* const plist)
 {
     pCtx->tiny = *(CNK_TINY*)(&plist[0]);
 
-    pCtx->flag &= ~CTXFLG_CTX_TINY;
+    pCtx->flag |= CTXFLG_CTX_TINY;
 }
 
 void
