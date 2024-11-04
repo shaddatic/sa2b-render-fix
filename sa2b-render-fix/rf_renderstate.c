@@ -37,8 +37,8 @@
 /****** Default States **************************************************************/
 static RFRS_CULLMD      CullModeDefault;
 static RFRS_TRANSMD     TransModeDefault;
-static RFRS_CMPMD       AlphaFuncDefault    = RFRS_CMPMD_GTR;
-static uint32_t         AlphaRefDefault     = 64;
+static RFRS_CMPMD       AlphaFuncDefault    = RFRS_CMPMD_NEQ;
+static uint32_t         AlphaRefDefault     = 0;
 static RFRS_CNKDRAWMD   CnkDrawModeDefault;
 static RFRS_CNKFUNCMD   CnkFuncModeDefault  = RFRS_CNKFUNCMD_SIMPLE;
 static RFRS_CNKPASSMD   CnkPassModeDefault;
@@ -46,8 +46,8 @@ static RFRS_CNKPASSMD   CnkPassModeDefault;
 /****** Override States *************************************************************/
 static RFRS_CULLMD      CullModeOverride;
 static RFRS_TRANSMD     TransModeOverride;
-static RFRS_CMPMD       AlphaFuncOverride   = RFRS_CMPMD_GTR;
-static uint32_t         AlphaRefOverride    = 64;
+static RFRS_CMPMD       AlphaFuncOverride   = RFRS_CMPMD_NEQ;
+static uint32_t         AlphaRefOverride    = 0;
 static RFRS_MODMD       CnkModModeOverride;
 static RFRS_CNKDRAWMD   CnkDrawModeOverride;
 static RFRS_CNKFUNCMD   CnkFuncModeOverride = RFRS_CNKFUNCMD_SIMPLE;
@@ -354,9 +354,6 @@ RFRS_SetDefaultCnkPassMode(RFRS_CNKPASSMD mode)
 void
 RF_RenderStateInit(void)
 {
-    RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_NEQ);
-    RFRS_SetDefaultAlphaTestRef(0);
-
     /** Transparancy draw set **/
     WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
     WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);
