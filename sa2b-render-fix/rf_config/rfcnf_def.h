@@ -298,7 +298,6 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Compatibility section **/
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_JUMPAURA         CNFO_INT(   CNFS_COMPAT         , "jmp_aura"            , CNFE_BOOL_DISABLED                    )   /* Force Jump Aura DB Flag */
-#define CNF_COMPAT_DCSHADCRASH      CNFO_INT(   CNFS_COMPAT         , "dcshad_crash"        , CNFE_BOOL_DISABLED                    )   /* Patch DC Shadows Crash Issue */
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */

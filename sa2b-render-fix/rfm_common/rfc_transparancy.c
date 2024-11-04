@@ -130,11 +130,6 @@ RFC_TransparancyInit(void)
         FuncHook(ObjectMSCarDispHookInfo, ObjectMSCarDisp, ObjectMSCarDispHook);
 
         SwitchDisplayer(0x0070397F, DISP_SORT); // PC Chained Hoops
-
-        if (RF_ConfigGetInt(CNF_COMPAT_DCSHADCRASH))
-        {
-            WriteNOP(0x00612C86, 0x00612CAA);  // DC Shadows crash patch for Boss Bogy
-        }
     }
 
     /** Chao World Lobby Exit **/
