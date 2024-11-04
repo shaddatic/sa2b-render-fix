@@ -208,7 +208,6 @@ CNFE_MISC_PAUSEFONTCOL;
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
-#define CNF_GLOBAL_BFACECULL        CNFO_INT(   CNFS_GLOBAL         , "backface_cull"       , CNFE_BOOL_ENABLED                     )   /* Back-Face Culling */
 #define CNF_GLOBAL_BACKCOLOR        CNFO_INT(   CNFS_GLOBAL         , "backcolor"           , CNFE_BOOL_ENABLED                     )   /* Draw Back-Color */
 #define CNF_GLOBAL_PTCLSCALE        CNFO_INT(   CNFS_GLOBAL         , "ptcl_scl"            , CNFE_BOOL_ENABLED                     )   /* Fix Particle Scale */
 #define CNF_GLOBAL_SPRITE           CNFO_INT(   CNFS_GLOBAL         , "sprite"              , CNFE_BOOL_ENABLED                     )   /* Fix 3D Sprites */
@@ -299,6 +298,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_JUMPAURA         CNFO_INT(   CNFS_COMPAT         , "jmp_aura"            , CNFE_BOOL_DISABLED                    )   /* Force Jump Aura DB Flag */
 #define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
+#define CNF_COMPAT_OFFBFC           CNFO_INT(   CNFS_COMPAT         , "off_bfc"             , CNFE_BOOL_DISABLED                    )   /* Disable Back-Face Culling */
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */

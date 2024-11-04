@@ -89,7 +89,7 @@ RFM_GlobalInit(void)
         WriteJump(0x0042FAD0, njSearchTexMemList_);
     }
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_BFACECULL))
+    if ( RF_ConfigGetInt(CNF_COMPAT_OFFBFC) == CNFE_BOOL_DISABLED )
     {
         RFG_BackfaceCullingInit();
     }
