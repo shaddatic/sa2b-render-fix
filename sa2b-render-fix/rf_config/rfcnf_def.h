@@ -298,6 +298,7 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Compatibility section **/
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_JUMPAURA         CNFO_INT(   CNFS_COMPAT         , "jmp_aura"            , CNFE_BOOL_DISABLED                    )   /* Force Jump Aura DB Flag */
+#define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */
