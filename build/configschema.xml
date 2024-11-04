@@ -222,9 +222,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="jmp_aura" display="Force Jump Aura to Double Sided" type="eBOOL" defaultvalue="0">
 				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
 			</Property>
-			<Property name="dcshad_crash" display="Patch DC Shadows Crash Issue" type="eBOOL" defaultvalue="0">
-				<HelpText>King Boom Boo's fight crashes with DC Shadows enabled, this patches the small code oversight.</HelpText>
-			</Property>
 		</Group>
 		<Group name="debug" display="Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
