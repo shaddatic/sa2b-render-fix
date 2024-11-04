@@ -188,12 +188,6 @@ RFM_CommonInit(void)
 {
     RFC_TransparancyInit();
 
-    if (RF_ConfigGetInt(CNF_EXP_EDGEBLEND))
-    {
-        RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_NEQ);
-        RFRS_SetDefaultAlphaTestRef(0);
-    }
-
     /** Restore Big the Cat in Wild Canyon **/
     DATA_ARY(OBJ_ITEMENTRY, 0x00BD7440, [100])[82] = DATA_ARY(OBJ_ITEMENTRY, 0x0109E830, [100])[85];
 

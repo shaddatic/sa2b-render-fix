@@ -354,6 +354,9 @@ RFRS_SetDefaultCnkPassMode(RFRS_CNKPASSMD mode)
 void
 RF_RenderStateInit(void)
 {
+    RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_NEQ);
+    RFRS_SetDefaultAlphaTestRef(0);
+
     /** Transparancy draw set **/
     WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
     WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);

@@ -293,7 +293,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_MILESTAILMOD        CNFO_INT(   CNFS_EXP            , "miles_tail_mod"      , CNFE_BOOL_DISABLED                    )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
-#define CNF_EXP_EDGEBLEND           CNFO_INT(   CNFS_EXP            , "edge_blend"          , CNFE_BOOL_DISABLED                    )   /* Better Edge Blending */
 #define CNF_EXP_EVDRAW              CNFO_INT(   CNFS_EXP            , "event_draw"          , CNFE_BOOL_DISABLED                    )   /* New RF Event Renderer */
 
 /** Compatibility section **/
