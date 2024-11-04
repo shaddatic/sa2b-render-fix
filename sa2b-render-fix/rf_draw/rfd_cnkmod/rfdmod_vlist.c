@@ -18,32 +18,6 @@
 /************************/
 /****** Static **********************************************************************/
 static void
-rjCnkModVertexSH(const Sint32* const pVList, CNK_VERTEX_BUFFER* const pVtxBuf)
-{
-    const CNK_VLIST_SH* vlist = (void*)pVList;
-
-    const int nb_vtx = vlist->nbindeces;
-
-    for (int i = 0; i < nb_vtx; ++i)
-    {
-        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
-    }
-}
-
-static void
-rjCnkModVertexVNSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
-{
-    const CNK_VLIST_VN_SH* vlist = (void*)pVList;
-
-    const int nb_vtx = vlist->nbindeces;
-
-    for (int i = 0; i < nb_vtx; ++i)
-    {
-        njCalcPoint(NULL, &vlist->d[i].pos , &pVtxBuf[i].pos);
-    }
-}
-
-static void
 rjCnkModVertex(const Sint32* const pVList, CNK_VERTEX_BUFFER* const pVtxBuf)
 {
     const CNK_VLIST_CV* vlist = (void*)pVList;
@@ -95,6 +69,46 @@ rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
     }
 }
 
+static void
+rjCnkModVertexVNNF(const Sint32* pVList, int type, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VLIST_VN_NF* vlist = (void*)pVList;
+
+    const int nb_vtx = vlist->nbindeces;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        NJS_POINT3 pos;
+
+        njCalcPoint(NULL, &vlist->d[i].pos , &pos);
+
+        CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ vlist->d[i].idx ];
+
+        const f32 mul = (f32)((f64)vlist->d[i].mul * (1.0/255.0));
+
+        pos.x *= mul;
+        pos.y *= mul;
+        pos.z *= mul;
+
+        switch (type)
+        {
+            case 0:
+            {
+                p_vbuf->pos  = pos;
+                break;
+            }
+            case 2:
+            case 1:
+            {
+                p_vbuf->pos.x += pos.x;
+                p_vbuf->pos.y += pos.y;
+                p_vbuf->pos.z += pos.z;
+                break;
+            }
+        }
+    }
+}
+
 /****** Extern **********************************************************************/
 int32_t
 rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
@@ -118,14 +132,6 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
         CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[pvhead->indexoffset];
 
         switch (type) {
-        case NJD_CV_SH:
-            rjCnkModVertexSH(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN_SH:
-            rjCnkModVertexVNSH(vlist, p_vbuf);
-            break;
-
         case NJD_CV: /** Original Mod Vertex Fmt **/
             rjCnkModVertex(vlist, p_vbuf);
             break;
@@ -143,7 +149,8 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
             break;
 
         case NJD_CV_VN_NF:
-            return 1;
+            rjCnkModVertexVNNF(vlist, pvhead->chunkhead & 0x7F, p_vbuf);
+            break;
         }
 
         /** Next data chunk **/
