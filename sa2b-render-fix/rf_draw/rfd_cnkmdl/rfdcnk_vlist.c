@@ -179,11 +179,6 @@ rjCnkVertexVNNF(const Sint32* pVList, int type, CNK_VERTEX_BUFFER* pVtxBuf)
                 break;
             }
             case 2:
-            {
-                p_vbuf->color = 0xFFFFFFFF;
-
-            //  [[fallthrough]];
-            }
             case 1:
             {
                 p_vbuf->pos.x += pos.x;
