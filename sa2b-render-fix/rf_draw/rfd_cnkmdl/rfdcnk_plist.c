@@ -39,7 +39,7 @@ GetStripDrawState(CNK_CTX* const pCtx)
     const Sint16 fst = pCtx->fst;
 
     /** if current draw mode doesn't match the transparent state of this strip, skip it **/
-    const bool fst_ua = (fst & (NJD_FST_UA | NJD_FST_NAT));
+    const bool fst_ua = (fst & (NJD_FST_UA|NJD_FST_NAT));
 
     if ( (bool)(ctxflg & CTXFLG_DRAW_TRANS) != fst_ua )
         return false;
@@ -287,7 +287,7 @@ GetCnkStripFlags(const Sint16* pPList, u32* pFlag)
 
             rjCnkSetStrip(&ctx, plist);
 
-            if ( ctx.fst & (NJD_FST_UA) )
+            if ( ctx.fst & (NJD_FST_UA|NJD_FST_NAT) )
             {
                 *pFlag |= CNKST_HAS_TRANS;
 
