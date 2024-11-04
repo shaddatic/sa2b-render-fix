@@ -24,8 +24,6 @@
 /****** Shifted FST *****************************************************************/
 #define CNK_FST_UA              (NJD_FST_UA>>NJD_FST_SHIFT) /* use alpha            */
 
-#define CNK_BLD_ONE             (NJD_FBS_ONE>>NJD_FBS_SHIFT)
-
 /************************/
 /*  Source              */
 /************************/
@@ -71,28 +69,16 @@ BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
     pArgb->b = ( (f32)pBgra->b * (1.f/255.f) );
 }
 
-static Uint32 BlendSrc;
-static Uint32 BlendDst;
-
 static void
 rjCnkContextBlend(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_BLEND) )
         return;
 
-    Sint32 bld;
-
-    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_BLEND_MODE )
+    if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_BLEND_MODE) )
     {
-        bld = _nj_cnk_blend_mode_;
+        _nj_cnk_blend_mode_ = pCtx->blend;
     }
-    else
-    {
-        bld = pCtx->blend;
-    }
-
-    BlendSrc = (bld & NJD_FBS_MASK) >> NJD_FBS_SHIFT;
-    BlendDst = (bld & NJD_FBD_MASK) >> NJD_FBD_SHIFT;
 
     pCtx->flag &= ~CTXFLG_CTX_BLEND;
 }
@@ -187,21 +173,32 @@ rjCnkContextSpec(CNK_CTX* restrict pCtx)
 }
 
 static void
+SetBlendMode(s32 src, s32 dst, bool ua)
+{
+    GX_SetBlendMode((src>>NJD_FBS_SHIFT), (dst>>NJD_FBD_SHIFT), ua);
+}
+
+static void
 rjCnkContextStrip(CNK_CTX* restrict pCtx)
 {
     const Sint16 fst = pCtx->fst;
 
     const bool fst_ua  = ( fst & (NJD_FST_UA|NJD_FST_NAT) );
 
-    GX_SetBlendMode(BlendSrc, BlendDst, fst_ua);
+    const s32 bld = _nj_cnk_blend_mode_;
+
+    const s32 bld_src = (bld & NJD_FBS_MASK);
+    const s32 bld_dst = (bld & NJD_FBD_MASK);
+
+    SetBlendMode(bld_src, bld_dst, fst_ua);
 
     if (fst_ua)
     {
         const bool notex = (pCtx->flag & CTXFLG_STRIP_NOTEX);
 
-        if ( (fst & NJD_FST_NAT)    ||    // IF NoAlphaTest flag
-            BlendSrc == CNK_BLD_ONE ||    // OR src is ONE
-            BlendDst == CNK_BLD_ONE ||    // OR dst is ONE
+        if ( (fst & NJD_FST_NAT)   ||     // IF NoAlphaTest flag
+            bld_src == NJD_FBS_ONE ||     // OR src is ONE
+            bld_dst == NJD_FBD_ONE ||     // OR dst is ONE
             notex || *pTexSurface != 14 ) // OR no alpha test tex flag
         {
             SetTransparentDraw();
