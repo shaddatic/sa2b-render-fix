@@ -269,8 +269,8 @@ rjCnkSetTexture(CNK_CTX* restrict pCtx, const Sint16* plist)
     pCtx->flag |= CTXFLG_CTX_TINY;
 }
 
-void
-rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
+Sint16
+GetCnkStripFlags(const Sint16* plist)
 {
     Sint16 fst = plist[0];
 
@@ -296,7 +296,13 @@ rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
         fst |= NJD_FST_DB;
     }
 
-    pCtx->fst = fst;
+    return fst;
+}
+
+void
+rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
+{
+    pCtx->fst = GetCnkStripFlags(plist);
 }
 
 void

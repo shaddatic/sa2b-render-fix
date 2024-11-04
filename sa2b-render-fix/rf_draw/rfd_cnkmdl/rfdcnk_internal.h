@@ -141,7 +141,7 @@ CNK_CTX;
 *   Paramters:
 *     - pCtx        : chunk context
 */
-void    rjCnkContext( CNK_CTX* pCtx );
+void    rjCnkContext( CNK_CTX* restrict pCtx );
 /*
 *   Description:
 *     Set blend types to context.
@@ -150,7 +150,7 @@ void    rjCnkContext( CNK_CTX* pCtx );
 *     - pCtx        : chunk context
 *     - plist       : bits/material plist header
 */
-void    rjCnkSetBlend( CNK_CTX* pCtx, const Sint16* plist );
+void    rjCnkSetBlend( CNK_CTX* restrict pCtx, const Sint16* plist );
 /*
 *   Description:
 *     Set material colors to context.
@@ -159,7 +159,7 @@ void    rjCnkSetBlend( CNK_CTX* pCtx, const Sint16* plist );
 *     - pCtx        : chunk context
 *     - plist       : material plist header
 */
-void    rjCnkSetMaterial( CNK_CTX* pCtx, const Sint16* plist );
+void    rjCnkSetMaterial( CNK_CTX* restrict pCtx, const Sint16* plist );
 /*
 *   Description:
 *     Set texture parameters to context.
@@ -168,7 +168,7 @@ void    rjCnkSetMaterial( CNK_CTX* pCtx, const Sint16* plist );
 *     - pCtx        : chunk context
 *     - plist       : tiny plist header
 */
-void    rjCnkSetTexture( CNK_CTX* pCtx, const Sint16* plist );
+void    rjCnkSetTexture( CNK_CTX* restrict pCtx, const Sint16* plist );
 /*
 *   Description:
 *     Set strip flags and constant/func/render state flags to context
@@ -177,7 +177,24 @@ void    rjCnkSetTexture( CNK_CTX* pCtx, const Sint16* plist );
 *     - pCtx        : chunk context
 *     - plist       : strip plist header
 */
-void    rjCnkSetStrip( CNK_CTX* pCtx, const Sint16* plist );
+void    rjCnkSetStrip( CNK_CTX* restrict pCtx, const Sint16* plist );
+
+/****** Internal Ctx ****************************************************************/
+/*
+*   Description:
+*     Get strip flags from strip chunk, taking into account Ninja constant and
+*   Render Fix renderstate.
+*
+*   Notes:
+*     - called by 'rjCnkSetStrip'
+*
+*   Paramters:
+*     - plist       : strip plist header
+*
+*   Returns:
+*     Strip flags after applying Ninja constant and renderstate.
+*/
+Sint16  GetCnkStripFlags( const Sint16* plist );
 
 /****** Cnk Functions ***************************************************************/
 /*

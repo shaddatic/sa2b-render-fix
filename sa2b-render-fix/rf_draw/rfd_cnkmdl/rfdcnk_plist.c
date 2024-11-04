@@ -199,7 +199,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
 }
 
 static void
-GetCnkStripFlags(const Sint16* pPList, u32* pFlag)
+ExecCnkPlist(const Sint16* pPList, u32* pFlag)
 {
     const Sint16* plist = pPList;
     int type;
@@ -251,7 +251,7 @@ GetCnkStripFlags(const Sint16* pPList, u32* pFlag)
 
                 cache_idx = ((u8*)plist)[1];
 
-                GetCnkStripFlags(_nj_cnk_polygon_cache_tbl_[cache_idx], pFlag);
+                ExecCnkPlist(_nj_cnk_polygon_cache_tbl_[cache_idx], pFlag);
 
                 --_nj_cnk_polygon_cache_num_;
                 break;
@@ -283,15 +283,13 @@ GetCnkStripFlags(const Sint16* pPList, u32* pFlag)
         if (type < NJD_STRIPOFF_MAX)
         {
             /** NJD_STRIPOFF **/
-            CNK_CTX ctx;
+            const Sint16 fst = GetCnkStripFlags(plist);
 
-            rjCnkSetStrip(&ctx, plist);
-
-            if ( ctx.fst & (NJD_FST_UA|NJD_FST_NAT) )
+            if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
             {
                 *pFlag |= CNKST_HAS_TRANS;
 
-                if ( ctx.fst & (NJD_FST_DB) )
+                if ( fst & (NJD_FST_DB) )
                     *pFlag |= CNKST_HAS_TRANSDB;
             }
             else
@@ -401,7 +399,7 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
     GX_SetCullMode(GXD_CULLMODE_CW);
 
     u32 flag = 0;
-    GetCnkStripFlags(pPList, &flag);
+    ExecCnkPlist(pPList, &flag);
 
     switch ( RFRS_GetCnkDrawMode() ) {
     case RFRS_CNKDRAWMD_ALL:
