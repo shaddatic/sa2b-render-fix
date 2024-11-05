@@ -24,11 +24,16 @@
 #include <rfm_event/ev_draw/evd_internal.h> /* children                             */
 
 /************************/
-/*  Includes            */
+/*  Game Functions      */
 /************************/
-/****** Self ************************************************************************/
+/****** Event ***********************************************************************/
 #define SetEntryMotionCallback      FUNC_PTR(void, __fastcall, (NJS_CNK_OBJECT*), 0x00601B50)
+#define gjDrawObject                FUNC_PTR(void, __cdecl   , (GJS_OBJECT*)    , 0x0042B530)
 
+/************************/
+/*  Source              */
+/************************/
+/****** Static **********************************************************************/
 static void
 EventScrollTexture(const int nbScene, const int nbEntry)
 {
@@ -42,8 +47,6 @@ EventScrollTexture(const int nbScene, const int nbEntry)
         add esp, 4
     }
 }
-
-#define gjDrawObject        FUNC_PTR(void, __cdecl, (GJS_OBJECT*), 0x0042B530)
 
 static void
 EventSceneDraw(const int nbScene, const int nbLayer)
@@ -148,7 +151,6 @@ EventSceneDraw(const int nbScene, const int nbLayer)
                 if (use_gj)
                 {
                     gjDrawObject(p_entry->GjsObject);
-
                     njFogEnable();
                     break;
                 }
