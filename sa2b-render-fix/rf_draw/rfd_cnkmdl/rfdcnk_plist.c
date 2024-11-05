@@ -312,25 +312,27 @@ DrawOpaqueStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf)
 //  pCtx->flag &= ~CTXFLG_DRAW_TRANS;  // implied
 //  pCtx->flag &= ~CTXFLG_CULL_MASK;   // ^
 
-    switch ( RFRS_GetCullMode() ) {
-    case RFRS_CULLMD_NORMAL:
-
-        pCtx->flag |= CTXFLG_CULL_NORMAL;
-        rjCnkPlistSub(pCtx, plist, njvtxbuf);
-        break;
-
-    case RFRS_CULLMD_INVERSE:
-
-        pCtx->flag |= CTXFLG_CULL_INVERSE;
-        rjCnkPlistSub(pCtx, plist, njvtxbuf);
-        break;
-
-    case RFRS_CULLMD_AUTO:
-    case RFRS_CULLMD_NONE:
-
-        pCtx->flag |= (CTXFLG_CULL_NORMAL|CTXFLG_CULL_INVERSE);
-        rjCnkPlistSub(pCtx, plist, njvtxbuf);
-        break;
+    switch ( RFRS_GetCullMode() )
+    {
+        case RFRS_CULLMD_NORMAL:
+        {
+            pCtx->flag |= CTXFLG_CULL_NORMAL;
+            rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            break;
+        }
+        case RFRS_CULLMD_INVERSE:
+        {
+            pCtx->flag |= CTXFLG_CULL_INVERSE;
+            rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            break;
+        }
+        case RFRS_CULLMD_AUTO:
+        case RFRS_CULLMD_NONE:
+        {
+            pCtx->flag |= (CTXFLG_CULL_NORMAL|CTXFLG_CULL_INVERSE);
+            rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            break;
+        }
     }
 }
 
@@ -340,52 +342,54 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf, const s
     pCtx->flag |=  CTXFLG_DRAW_TRANS;
     pCtx->flag &= ~CTXFLG_MASK_CULL;
 
-    switch ( RFRS_GetCullMode() ) {
-    case RFRS_CULLMD_NORMAL:
-
-        pCtx->flag |= CTXFLG_CULL_NORMAL;
-        rjCnkPlistSub(pCtx, plist, njvtxbuf);
-        break;
-
-    case RFRS_CULLMD_INVERSE:
-
-        if ( flag & CNKST_HAS_TRANSDB )
-        {
-            pCtx->flag |= CTXFLG_CULL_INVERSE;
-            rjCnkPlistSub(pCtx, plist, njvtxbuf);
-        }
-        break;
-
-    case RFRS_CULLMD_AUTO:
-    case RFRS_CULLMD_NONE:
-
-        if ( flag & CNKST_HAS_TRANSDB )
-        {
-            if ( RFRS_GetCnkPassMode() == RFRS_CNKPASSMD_NORMAL )
-            {
-                pCtx->flag |= CTXFLG_CULL_INVERSE;
-                rjCnkPlistSub(pCtx, plist, njvtxbuf);
-                pCtx->flag &= ~CTXFLG_CULL_INVERSE;
-
-                pCtx->flag |= CTXFLG_CULL_NORMAL;
-                rjCnkPlistSub(pCtx, plist, njvtxbuf);
-            }
-            else // draw inverse order
-            {
-                pCtx->flag |= CTXFLG_CULL_NORMAL;
-                rjCnkPlistSub(pCtx, plist, njvtxbuf);
-                pCtx->flag &= ~CTXFLG_CULL_NORMAL;
-
-                pCtx->flag |= CTXFLG_CULL_INVERSE;
-                rjCnkPlistSub(pCtx, plist, njvtxbuf);
-            }
-        }
-        else
+    switch ( RFRS_GetCullMode() )
+    {
+        case RFRS_CULLMD_NORMAL:
         {
             pCtx->flag |= CTXFLG_CULL_NORMAL;
             rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            break;
         }
-        break;
+        case RFRS_CULLMD_INVERSE:
+        {
+            if ( flag & CNKST_HAS_TRANSDB )
+            {
+                pCtx->flag |= CTXFLG_CULL_INVERSE;
+                rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            }
+            break;
+        }
+        case RFRS_CULLMD_AUTO:
+        case RFRS_CULLMD_NONE:
+        {
+            if ( flag & CNKST_HAS_TRANSDB )
+            {
+                if ( RFRS_GetCnkPassMode() == RFRS_CNKPASSMD_NORMAL )
+                {
+                    pCtx->flag |= CTXFLG_CULL_INVERSE;
+                    rjCnkPlistSub(pCtx, plist, njvtxbuf);
+                    pCtx->flag &= ~CTXFLG_CULL_INVERSE;
+
+                    pCtx->flag |= CTXFLG_CULL_NORMAL;
+                    rjCnkPlistSub(pCtx, plist, njvtxbuf);
+                }
+                else // draw inverse order
+                {
+                    pCtx->flag |= CTXFLG_CULL_NORMAL;
+                    rjCnkPlistSub(pCtx, plist, njvtxbuf);
+                    pCtx->flag &= ~CTXFLG_CULL_NORMAL;
+
+                    pCtx->flag |= CTXFLG_CULL_INVERSE;
+                    rjCnkPlistSub(pCtx, plist, njvtxbuf);
+                }
+            }
+            else
+            {
+                pCtx->flag |= CTXFLG_CULL_NORMAL;
+                rjCnkPlistSub(pCtx, plist, njvtxbuf);
+            }
+            break;
+        }
     }
 }
 
@@ -401,27 +405,32 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
     u32 flag = 0;
     ExecCnkPlist(pPList, &flag);
 
-    switch ( RFRS_GetCnkDrawMode() ) {
-    case RFRS_CNKDRAWMD_ALL:
+    switch ( RFRS_GetCnkDrawMode() )
+    {
+        case RFRS_CNKDRAWMD_ALL:
+        {
+            if (flag & CNKST_HAS_OPAQUE)
+                DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
 
-        if (flag & CNKST_HAS_OPAQUE)
-            DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
+            if (flag & CNKST_HAS_TRANS)
+                DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
 
-        if (flag & CNKST_HAS_TRANS)
-            DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
-        break;
+            break;
+        }
+        case RFRS_CNKDRAWMD_OPAQUE:
+        {
+            if (flag & CNKST_HAS_OPAQUE)
+                DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
 
-    case RFRS_CNKDRAWMD_OPAQUE:
+            break;
+        }
+        case RFRS_CNKDRAWMD_TRANSPARENT:
+        {
+            if (flag & CNKST_HAS_TRANS)
+                DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
 
-        if (flag & CNKST_HAS_OPAQUE)
-            DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
-        break;
-
-    case RFRS_CNKDRAWMD_TRANSPARENT:
-
-        if (flag & CNKST_HAS_TRANS)
-            DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
-        break;
+            break;
+        }
     }
 
     /** Unset culling mode **/
