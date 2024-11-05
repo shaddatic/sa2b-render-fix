@@ -204,7 +204,7 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
     const Sint16* plist = pPList;
     int type;
 
-    while (1)
+    for ( ; ; )
     {
         type = ((u8*)plist)[0];
 

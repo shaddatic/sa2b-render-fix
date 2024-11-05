@@ -117,7 +117,7 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
 
     int type;
 
-    while (1)
+    for ( ; ; )
     {
         type = ((u8*)vlist)[0];
 
