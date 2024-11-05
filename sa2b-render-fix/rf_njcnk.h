@@ -22,25 +22,31 @@ EXTERN_START
 /*  Prototypes          */
 /************************/
 /****** Easy ************************************************************************/
-void    njCnkEasyDrawModel(const NJS_CNK_MODEL* model);
+Sint32  njCnkEasyDrawModel(const NJS_CNK_MODEL* model);
 void    njCnkEasyDrawObject(const NJS_CNK_OBJECT* object);
-void    njCnkEasyMultiDrawObject(const NJS_CNK_OBJECT* object);
 void    njCnkEasyDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
-void    njCnkEasyMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
 void    njCnkEasyDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
-void    njCnkEasyMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
 void    njCnkEasyDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
-void    njCnkEasyMultiDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
 
 /****** Simple **********************************************************************/
-void    njCnkSimpleDrawModel(const NJS_CNK_MODEL* model);
+Sint32  njCnkSimpleDrawModel(const NJS_CNK_MODEL* model);
 void    njCnkSimpleDrawObject(const NJS_CNK_OBJECT* object);
-void    njCnkSimpleMultiDrawObject(const NJS_CNK_OBJECT* object);
 void    njCnkSimpleDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
-void    njCnkSimpleMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
 void    njCnkSimpleDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
-void    njCnkSimpleMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
 void    njCnkSimpleDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
+
+/****** Easy Multi ******************************************************************/
+Sint32  njCnkEasyMultiDrawModel(const NJS_CNK_MODEL* model);
+void    njCnkEasyMultiDrawObject(const NJS_CNK_OBJECT* object);
+void    njCnkEasyMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
+void    njCnkEasyMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
+void    njCnkEasyMultiDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
+
+/****** Simple Multi ****************************************************************/
+Sint32  njCnkSimpleMultiDrawModel(const NJS_CNK_MODEL* model);
+void    njCnkSimpleMultiDrawObject(const NJS_CNK_OBJECT* object);
+void    njCnkSimpleMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame);
+void    njCnkSimpleMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
 void    njCnkSimpleMultiDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame);
 
 EXTERN_END
