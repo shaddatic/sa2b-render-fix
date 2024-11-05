@@ -34,7 +34,7 @@
 /*  Game References     */
 /************************/
 /****** Dry Lagoon Models ***********************************************************/
-#define ButterflyList           DATA_ARY(NJS_CNK_MODEL* , 0x00DDB64C, [9]) 
+#define ButterflyList           DATA_ARY(NJS_CNK_MODEL*, 0x00DDB64C, [9])
 
 /************************/
 /*  Source              */
@@ -175,6 +175,10 @@ RFC_TransparancyInit(void)
         CnkObjectMaterialFlagOn(p_obj[0], NJD_FST_UA);
         CnkObjectMaterialFlagOn(p_obj[1], NJD_FST_UA);
     }
+
+    /** Chao Garden Bunny Minimal Ears **/
+    CnkObjectMaterialFlagOn(0x012941D4, NJD_FST_UA);
+    CnkObjectMaterialFlagOn(0x01293FCC, NJD_FST_UA);
 
     RFCT_ExplosionInit();
     RFCT_ItemBoxInit();
