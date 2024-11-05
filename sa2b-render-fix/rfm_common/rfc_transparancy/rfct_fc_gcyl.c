@@ -58,7 +58,7 @@ GravityCylinderDisplayerSorted(task* tp)
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
         RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-        njCnkDrawModel_Broken(object_gcyl->model);
+        njCnkCacheDrawModel(object_gcyl->model);
         RFRS_SetCullMode(RFRS_CULLMD_END);
 
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
@@ -67,14 +67,14 @@ GravityCylinderDisplayerSorted(task* tp)
     /** Animated green arrows **/
     {
         CnkModelChangeTexID(object_gcyl_tanim->model, 0, ((game_timer >> 1) & 7) + 7);
-        njCnkDrawModel_Broken(object_gcyl_tanim->model);
+        njCnkCacheDrawModel(object_gcyl_tanim->model);
     }
 
     /** Inner half ring **/
     {
         njPushMatrixEx();
         njRotateY(NULL, game_timer << 9);
-        njCnkDrawModel_Broken(object_gcyl_inner->model);
+        njCnkCacheDrawModel(object_gcyl_inner->model);
         njPopMatrixEx();
     }
 
@@ -83,7 +83,7 @@ GravityCylinderDisplayerSorted(task* tp)
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
         RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-        njCnkDrawModel_Broken(object_gcyl->model);
+        njCnkCacheDrawModel(object_gcyl->model);
         RFRS_SetCullMode(RFRS_CULLMD_END);
 
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);

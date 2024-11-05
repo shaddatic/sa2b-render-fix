@@ -162,12 +162,12 @@ CnkDrawLT(const OBJ_LANDENTRY* const pLandEntry)
         gjSetShadow(&pLandEntry->xCenter, pLandEntry->r);
         gjTranslateShadow(p_obj->pos, p_obj->ang);
 
-        njCnkDrawModel_Broken(p_obj->model);
+        njCnkCacheDrawModel(p_obj->model);
 
         gjClearLandShadow();
     }
     else
-        njCnkDrawModel_Broken(p_obj->model);
+        njCnkCacheDrawModel(p_obj->model);
 }
 
 __declspec(naked)

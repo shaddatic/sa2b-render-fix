@@ -66,7 +66,7 @@ ObjectItemBoxDispSort_RF(task* tp)
     njSetTexture(texlist_itembox);
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-    njCnkDrawModel_Broken(model_itembox_bubble);
+    njCnkCacheDrawModel(model_itembox_bubble);
 
     const int texid = ItemBoxInfoList[(int)tp->fwp].texid;
 
@@ -84,7 +84,7 @@ ObjectItemBoxDispSort_RF(task* tp)
     njSetTexture(texlist_itembox);
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-    njCnkDrawModel_Broken(model_itembox_bubble);
+    njCnkCacheDrawModel(model_itembox_bubble);
 
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
@@ -146,11 +146,11 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     njSetTexture(texlist_itemboxair);
 
-    njCnkDrawModel_Broken(model_itemboxair_base);
-    njCnkDrawModel_Broken(model_itemboxair_top);
+    njCnkCacheDrawModel(model_itemboxair_base);
+    njCnkCacheDrawModel(model_itemboxair_top);
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-    njCnkDrawModel_Broken(model_itemboxair_bubble);
+    njCnkCacheDrawModel(model_itemboxair_bubble);
 
     const int texid = ItemBoxAirInfoList[twp->btimer].texid;
 
@@ -168,7 +168,7 @@ ObjectItemBoxAirDispSort_RF(task* tp)
     njSetTexture(texlist_itemboxair);
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-    njCnkDrawModel_Broken(model_itemboxair_bubble);
+    njCnkCacheDrawModel(model_itemboxair_bubble);
 
     RFRS_SetCullMode(RFRS_CULLMD_END);
 

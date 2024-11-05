@@ -57,7 +57,7 @@ BgDispSort(task* tp)
         njPushMatrixEx();
 
         njRotateY(NULL, twp->ang.x);
-        njCnkDrawModel_Broken(model_mist_w_jungle);
+        njCnkCacheDrawModel(model_mist_w_jungle);
 
         njPopMatrixEx();
     }

@@ -226,10 +226,15 @@ void    njCnkDrawObject( const NJS_CNK_OBJECT* object );
 *   Description:
 *     Draw a Chunk model with caching. Can't handle env maps correctly.
 *
+*   Notes:
+*     - Previously 'njCnkDrawModel_Broken'
+*     - Introduced for GameCube
+*     - Likely a replacement for the older 'njCnkDirectDraw', but operates differently
+*
 *   Parameters:
 *     - model       : chunk model
 */
-void    njCnkDrawModel_Broken( const NJS_CNK_MODEL* model );
+void    njCnkCacheDrawModel( const NJS_CNK_MODEL* model );
 
 /****** Set Blending Mode ***********************************************************/
 /*

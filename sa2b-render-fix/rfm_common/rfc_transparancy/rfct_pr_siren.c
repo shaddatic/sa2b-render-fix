@@ -33,11 +33,11 @@ ObjectPRSirenDisplayer(task* tp)
     njPushMatrixEx();
 
     njRotateY(NULL, twp->wtimer);
-    njCnkDrawModel_Broken(object_pr_siren->child->model);
+    njCnkCacheDrawModel(object_pr_siren->child->model);
 
     njPopMatrixEx();
 
-    njCnkDrawModel_Broken(object_pr_siren->model);
+    njCnkCacheDrawModel(object_pr_siren->model);
 
     njFogEnable();
     njPopMatrixEx();
@@ -64,11 +64,11 @@ ObjectRNSirenDisplayer(task* tp)
     njPushMatrixEx();
 
     njRotateY(NULL, twp->wtimer);
-    njCnkDrawModel_Broken(object_rn_siren->child->model);
+    njCnkCacheDrawModel(object_rn_siren->child->model);
 
     njPopMatrixEx();
 
-    njCnkDrawModel_Broken(object_rn_siren->model);
+    njCnkCacheDrawModel(object_rn_siren->model);
 
     njFogEnable();
     njPopMatrixEx();
