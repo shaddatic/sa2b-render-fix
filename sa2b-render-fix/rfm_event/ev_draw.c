@@ -411,7 +411,7 @@ EventDisplayer(task* tp)
     {
         const int old_rmode = _gj_render_mode_;
 
-        _gj_render_mode_    = GJD_DRAW_TRANS;
+        _gj_render_mode_    = GJD_DRAW_SOLID;
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
 
