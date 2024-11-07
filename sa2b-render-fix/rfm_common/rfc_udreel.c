@@ -12,6 +12,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_file.h>
+#include <rf_njcnk.h>
 
 #define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)
 #define texlist_udreel          DATA_ARY(NJS_TEXLIST, 0x00B129F8, [1])
@@ -36,7 +37,7 @@ ObjectUDReelCnkDisplayer(task* tp)
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    njCnkDrawModel(obj->model);
+    njCnkDirectDrawModel(obj->model);
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -53,7 +54,7 @@ ObjectUDReelCnkDisplayer(task* tp)
 
     njScale(NULL, 1.0f, rwp[4].work.f[1], 1.0f);
 
-    njCnkDrawModel(wire_mdl);
+    njCnkEasyDrawModel(wire_mdl);
 
     wire_mdl->r = oldr;
 
@@ -67,18 +68,10 @@ ObjectUDReelCnkDisplayer(task* tp)
     if (DisableObjectFog)
         njFogDisable();
 
-    SaveConstantMaterial();
-    OnControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
-
-    if (GetGameTime() % 46 >= 23 && (twp->mode & 0x1) == 0)
-        SetConstantMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+    if ( GetGameTime() % 46 >= 23 && !(twp->mode & 0x1) )
+        njCnkEasyDrawModel(obj->model);
     else
-        SetConstantMaterial(1.0f, 0.7f, 0.7f, 0.7f);
-
-    njCnkDrawModel(obj->model);
-
-    OffControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
-    LoadConstantMaterial();
+        njCnkDirectDrawModel(obj->model);
 
     if (DisableObjectFog)
         njFogEnable();
@@ -106,7 +99,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    njCnkDrawModel(obj->model);
+    njCnkDirectDrawModel(obj->model);
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
@@ -123,7 +116,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
 
     njScale(NULL, 1.0f, rwp[4].work.f[1], 1.0f);
 
-    njCnkDrawModel(wire_mdl);
+    njCnkEasyDrawModel(wire_mdl);
 
     wire_mdl->r = oldr;
 
@@ -137,17 +130,10 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
     if (DisableObjectFog)
         njFogDisable();
 
-    OnControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
-
-    if (GetGameTime() % 46 >= 23 && (twp->mode & 0x1) == 0)
-        SetConstantMaterial(1.0f, 1.0f, 1.0f, 1.0f);
+    if ( GetGameTime() % 46 >= 23 && !(twp->mode & 0x1) )
+        njCnkEasyDrawModel(obj->model);
     else
-        SetConstantMaterial(1.0f, 0.7f, 0.7f, 0.7f);
-
-    njCnkDrawModel(obj->model);
-    ResetConstantMaterial();
-
-    OffControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL);
+        njCnkDirectDrawModel(obj->model);
 
     if (DisableObjectFog)
         njFogEnable();
