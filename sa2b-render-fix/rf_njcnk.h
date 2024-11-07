@@ -21,6 +21,9 @@ EXTERN_START
 /************************/
 /*  Prototypes          */
 /************************/
+/****** Direct **********************************************************************/
+Sint32  njCnkDirectDrawModel(const NJS_CNK_MODEL* model);
+
 /****** Easy ************************************************************************/
 Sint32  njCnkEasyDrawModel(const NJS_CNK_MODEL* model);
 void    njCnkEasyDrawObject(const NJS_CNK_OBJECT* object);

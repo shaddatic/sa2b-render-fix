@@ -12,6 +12,21 @@
 /************************/
 /*  Source              */
 /************************/
+/****** Direct **********************************************************************/
+Sint32
+njCnkDirectDrawModel(const NJS_CNK_MODEL* model)
+{
+    Sint32 result;
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_DIRECT);
+
+    result = rjCnkDrawModel(model);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+
+    return result;
+}
+
 /****** Easy ************************************************************************/
 Sint32
 njCnkEasyDrawModel(const NJS_CNK_MODEL* model)
