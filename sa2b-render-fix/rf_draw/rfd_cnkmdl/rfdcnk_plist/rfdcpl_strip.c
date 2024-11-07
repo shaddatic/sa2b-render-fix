@@ -636,6 +636,18 @@ PushStrip_PosCol(const CNK_STRIP* const pStrip, const int nbStripCnk, const int 
 
 /****** Static **********************************************************************/
 static void
+CnkSetupStrip(CNK_CTX* pCtx)
+{
+    pCtx->flag |= CTXFLG_STRIP_NOUVS;
+}
+
+static void
+CnkSetupStripUV(CNK_CTX* pCtx)
+{
+    pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
+}
+
+static void
 CnkSetupNoTexStrip(CNK_CTX* const pCtx)
 {
     const f32 smf = ShadowMapDrawCount ? (f32)(ShadowMapDrawCount + 1) : 0.f;
@@ -699,6 +711,8 @@ CnkSetupEnvStrip(CNK_CTX* const pCtx)
 void
 rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf)
 {
+    CnkSetupStrip(pCtx);
+
     const int count = plist[2];
 
     const int nb_stcnk = count & ~NJD_UFO_MASK;
@@ -759,6 +773,8 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
 void
 rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, bool uvh)
 {
+    CnkSetupStripUV(pCtx);
+
     const int count = plist[2];
 
     const int nb_stcnk = count & ~NJD_UFO_MASK;

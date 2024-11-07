@@ -35,12 +35,13 @@ EXTERN_START
 
 #define CTXFLG_SHIFT_MAT        (10)
 
-#define CTXFLG_STRIP_NOTEX      (1<<16) /* current strip has no UV info             */
+#define CTXFLG_STRIP_NOTEX      (1<<16) /* current strip has no texture             */
+#define CTXFLG_STRIP_NOUVS      (1<<17) /* current strip has no UV info             */
 
 #define CTXFLG_MASK_DRAW        (CTXFLG_DRAW_TRANS)
 #define CTXFLG_MASK_CULL        (CTXFLG_CULL_NORMAL|CTXFLG_CULL_INVERSE)
 
-#define CTXFLG_MASK_STRIP       (CTXFLG_STRIP_NOTEX)
+#define CTXFLG_MASK_STRIP       (CTXFLG_STRIP_NOTEX|CTXFLG_STRIP_NOUVS)
 
 /************************/
 /*  Game Structures     */

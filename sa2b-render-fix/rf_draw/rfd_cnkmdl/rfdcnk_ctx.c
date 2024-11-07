@@ -100,12 +100,12 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
     if ( !(pCtx->flag & CTXFLG_CTX_DIFF) )
         return;
 
+    const Uint32 nj3dflag = _nj_control_3d_flag_;
+
     GXS_COLOR color;
 
     /** Get initial material color **/
     {
-        const Uint32 nj3dflag = _nj_control_3d_flag_;
-
         if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_MATERIAL )
         {
             ArgbToGx(&_nj_constant_material_, &color);
@@ -123,7 +123,7 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
             ArgbToGx(&argb, &color);
         }
-        else
+        else // use material color
         {
             const NJS_BGRA matcol = pCtx->diff;
 
@@ -134,17 +134,28 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
         }
     }
 
-    /** Adjust diffuse depending on draw function **/
+    /** Adjust diffuse depending on Ninja, draw function, and strip context **/
     {
         const s32 funcmd = RFRS_GetCnkFuncMode();
 
-        if (funcmd & (RFRS_CNKFUNCMD_EASYBIT|RFRS_CNKFUNCMD_SIMPLEBIT))
+        const u32 ctxflg = pCtx->flag;
+
+        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & RFRS_CNKFUNCMD_DIRECTBIT )) // if using texture and not direct
         {
-            if ( !(pCtx->flag & CTXFLG_STRIP_NOTEX) && ( (funcmd & RFRS_CNKFUNCMD_MULTIBIT) || !(pCtx->fst & NJD_FST_ENV) ) )
+            if ( funcmd & RFRS_CNKFUNCMD_EASYBIT ) // if EasyDraw/EasyMultiDraw
             {
                 color.r = 0xFF;
                 color.g = 0xFF;
                 color.b = 0xFF;
+            }
+            else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL ) // AND if Simple
+            {
+                if ( funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(ctxflg & CTXFLG_STRIP_NOUVS) )
+                {
+                    color.r = 0xFF;
+                    color.g = 0xFF;
+                    color.b = 0xFF;
+                }
             }
         }
     }
@@ -283,20 +294,21 @@ GetCnkStripFlags(const Sint16* plist)
 
     if (funcmd & RFRS_CNKFUNCMD_EASYBIT)
     {
-        fst |=  NJD_FST_DB;
-        fst &= ~NJD_FST_ENV;
+        fst |=  (NJD_FST_DB);
+        fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_ENV);
     }
     else if (funcmd & RFRS_CNKFUNCMD_DIRECTBIT)
     {
-        fst |= NJD_FST_DB;
+        fst |=  (NJD_FST_DB);
+        fst &= ~(NJD_FST_IL|NJD_FST_IA);
     }
 
     if (RFRS_GetCullMode() == RFRS_CULLMD_NONE)
     {
-        fst |= NJD_FST_DB;
+        fst |= (NJD_FST_DB);
     }
 
-    return fst;
+    return fst & NJD_FST_MASK;
 }
 
 void
