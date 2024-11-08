@@ -140,16 +140,20 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
         const u32 ctxflg = pCtx->flag;
 
-        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & RFRS_CNKFUNCMD_DIRECTBIT )) // if using texture and not direct
+        /** If using texture AND is not DirectDraw, ELSE keep diffuse **/
+        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & RFRS_CNKFUNCMD_DIRECTBIT) )
         {
-            if ( funcmd & RFRS_CNKFUNCMD_EASYBIT ) // if EasyDraw/EasyMultiDraw
+            /** If EasyDraw/EasyMultiDraw **/
+            if ( funcmd & RFRS_CNKFUNCMD_EASYBIT )
             {
                 color.r = 0xFF;
                 color.g = 0xFF;
                 color.b = 0xFF;
             }
-            else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL ) // AND if Simple
+            /** Constant Texture Material flag, SimpleDraw is implied here **/
+            else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
+                /** AND SimpleMulti OR not CnkS type **/
                 if ( funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
                     color.r = 0xFF;
