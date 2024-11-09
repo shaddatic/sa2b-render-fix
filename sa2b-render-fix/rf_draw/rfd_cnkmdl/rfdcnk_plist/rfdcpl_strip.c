@@ -87,7 +87,7 @@ GXBUF_POSNORMCOLUV;
 /*  Source              */
 /************************/
 /****** Start Triangle Strip ********************************************************/
-inline void
+static inline void
 CopyLastVertex(const int szStride)
 {
     const int vtxbuf  = _gx_vtx_buf_base_;
@@ -98,7 +98,7 @@ CopyLastVertex(const int szStride)
     _gx_vtx_buf_offset_ += szStride;
 }
 
-inline void
+static inline void
 CopyCopyVertex(const int stride)
 {
     /** If the copy pointer isn't null,  **/
@@ -216,20 +216,20 @@ StartTriList(int16_t nbVtx)
 }
 
 /****** Vertex Buffer ***************************************************************/
-inline void*
+static inline void*
 GetVertexBuffer(void)
 {
     return (void*)(_gx_vtx_buf_base_ + _gx_vtx_buf_offset_);
 }
 
 /****** Copy Vertex Attr ************************************************************/
-inline void
+static inline void
 CopyPos(NJS_POINT3* const pd, const NJS_POINT3* const ps)
 {
     *pd = *ps;
 }
 
-inline void
+static inline void
 CopyNorm(NJS_VECTOR* const nd, const NJS_VECTOR* const ns, const bool bInv)
 {
     if ( !bInv )
@@ -246,19 +246,19 @@ CopyNorm(NJS_VECTOR* const nd, const NJS_VECTOR* const ns, const bool bInv)
     }
 }
 
-inline void
+static inline void
 CopyCol(Uint32* const cd, const Uint32* const cs)
 {
     *cd = *cs;
 }
 
-inline void
+static inline void
 CopyUV(Float* const uvd, const Sint16* const uvs, const f32 fmul)
 {
     uvd[0] = (f32)(uvs[0]) * fmul;
 }
 
-inline void
+static inline void
 CalcFlatNormal(const NJS_POINT3* const p0, const NJS_POINT3* const p1, const NJS_POINT3* const p2, NJS_VECTOR* const nd)
 {
     NJS_VECTOR v1, v2;
@@ -276,20 +276,20 @@ CalcFlatNormal(const NJS_POINT3* const p0, const NJS_POINT3* const p1, const NJS
 }
 
 /****** Ctx Check *******************************************************************/
-inline bool
+static inline bool
 CtxDrawNrmFaces(const CNK_CTX* const pCtx)
 {
     return (pCtx->flag & CTXFLG_CULL_NORMAL);
 }
 
-inline bool
+static inline bool
 CtxDrawInvFaces(const CNK_CTX* const pCtx)
 {
     return (pCtx->flag & CTXFLG_CULL_INVERSE && pCtx->fst & NJD_FST_DB);
 }
 
 /****** Push Strip ******************************************************************/
-inline void
+static inline void
 PushStripUV_PosNorm(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -322,7 +322,7 @@ PushStripUV_PosNorm(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, cons
     }
 }
 
-inline void
+static inline void
 PushStripUV_PosNorm_FL(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -379,7 +379,7 @@ PushStripUV_PosNorm_FL(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, c
     }
 }
 
-inline void
+static inline void
 PushStripUV_PosNormUV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const f32 uvMul, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -415,7 +415,7 @@ PushStripUV_PosNormUV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, co
     }
 }
 
-inline void
+static inline void
 PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const f32 uvMul, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -475,7 +475,7 @@ PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* const pStrip, const int nbStripCnk,
     }
 }
 
-inline void
+static inline void
 PushStripUV_PosColUV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const f32 uvMul, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -511,7 +511,7 @@ PushStripUV_PosColUV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, con
     }
 }
 
-inline void
+static inline void
 PushStrip_PosNorm(const CNK_STRIP* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP* p_str = pStrip;
@@ -544,7 +544,7 @@ PushStrip_PosNorm(const CNK_STRIP* const pStrip, const int nbStripCnk, const int
     }
 }
 
-inline void
+static inline void
 PushStrip_PosNorm_FL(const CNK_STRIP* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP* p_str = pStrip;
@@ -601,7 +601,7 @@ PushStrip_PosNorm_FL(const CNK_STRIP* const pStrip, const int nbStripCnk, const 
     }
 }
 
-inline void
+static inline void
 PushStrip_PosCol(const CNK_STRIP* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP* p_str = pStrip;
