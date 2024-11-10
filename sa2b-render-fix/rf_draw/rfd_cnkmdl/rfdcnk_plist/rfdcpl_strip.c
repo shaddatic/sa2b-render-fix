@@ -290,6 +290,43 @@ CtxDrawInvFaces(const CNK_CTX* const pCtx)
 
 /****** Push Strip ******************************************************************/
 static inline void
+PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
+{
+    const CNK_STRIP_UV* p_str = pStrip;
+
+    for (int i = 0; i < nbStripCnk; ++i)
+    {
+        StartTriStrip( bInv ? -p_str->len : p_str->len );
+
+        GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
+
+        const int nb_vtx = ABS(p_str->len);
+
+        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        {
+            const int idx = p_str->d[vidx].i;
+
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[idx];
+
+            CopyPos(&p_buf->pos, &p_vtx->pos);
+
+            p_buf->col = p_vtx->color;
+
+            p_buf->u = -p_vtx->pos.y;
+            p_buf->v = -p_vtx->pos.y;
+
+            ++p_buf;
+        }
+
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+
+        CopyCopyVertex(sizeof(*p_buf));
+
+        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+    }
+}
+
+static inline void
 PushStripUV_PosNorm(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
 {
     const CNK_STRIP_UV* p_str = pStrip;
@@ -499,6 +536,43 @@ PushStripUV_PosColUV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, con
 
             CopyUV(&p_buf->u, &p_str->d[vidx].u, uvMul);
             CopyUV(&p_buf->v, &p_str->d[vidx].v, uvMul);
+
+            ++p_buf;
+        }
+
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+
+        CopyCopyVertex(sizeof(*p_buf));
+
+        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+    }
+}
+
+static inline void
+PushStrip_PosColUV_ENV(const CNK_STRIP* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf, const bool bInv)
+{
+    const CNK_STRIP* p_str = pStrip;
+
+    for (int i = 0; i < nbStripCnk; ++i)
+    {
+        StartTriStrip( bInv ? -p_str->len : p_str->len );
+
+        GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
+
+        const int nb_vtx = ABS(p_str->len);
+
+        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        {
+            const int idx = p_str->d[vidx].i;
+
+            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[idx];
+
+            CopyPos(&p_buf->pos, &p_vtx->pos);
+
+            p_buf->col = p_vtx->color;
+
+            p_buf->u = -p_vtx->pos.x;
+            p_buf->v = -p_vtx->pos.y;
 
             ++p_buf;
         }
@@ -722,22 +796,33 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
 
     if (pCtx->fst & NJD_FST_ENV)
     {
-        CnkSetupEnvStrip(pCtx);
-
-        VertexDeclInfo = VertexDecl_PosNorm;
-
-        ___NOTE("We should figure out what Dreamcast does in cases where something is env mapped but lacks any vertex normals");
-
-        if (pCtx->fst & NJD_FST_FL)
+        if (_nj_cnk_vtx_attrs_ & CNKVTX_NO_NORMALS)
         {
-            if (CtxDrawNrmFaces(pCtx)) PushStrip_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, false);
-            if (CtxDrawInvFaces(pCtx)) PushStrip_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            CnkSetupTexStrip(pCtx);
+
+            VertexDeclInfo = VertexDecl_PosColUV;
+
+            if (CtxDrawNrmFaces(pCtx)) PushStrip_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf, false);
+            if (CtxDrawInvFaces(pCtx)) PushStrip_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf, true);
         }
         else
         {
-            if (CtxDrawNrmFaces(pCtx)) PushStrip_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, false);
-            if (CtxDrawInvFaces(pCtx)) PushStrip_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            CnkSetupEnvStrip(pCtx);
+
+            VertexDeclInfo = VertexDecl_PosNorm;
+
+            if (pCtx->fst & NJD_FST_FL)
+            {
+                if (CtxDrawNrmFaces(pCtx)) PushStrip_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, false);
+                if (CtxDrawInvFaces(pCtx)) PushStrip_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            }
+            else
+            {
+                if (CtxDrawNrmFaces(pCtx)) PushStrip_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, false);
+                if (CtxDrawInvFaces(pCtx)) PushStrip_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            }
         }
+
     }
     else // No tex
     {
@@ -786,21 +871,31 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
 
     if (pCtx->fst & NJD_FST_ENV)
     {
-        CnkSetupEnvStrip(pCtx);
-
-        VertexDeclInfo = VertexDecl_PosNorm;
-
-        ___NOTE("We should figure out what Dreamcast does in cases where something is env mapped but lacks any vertex normals");
-
-        if (pCtx->fst & NJD_FST_FL)
+        if (_nj_cnk_vtx_attrs_ & CNKVTX_NO_NORMALS)
         {
-            if (CtxDrawNrmFaces(pCtx)) PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, false);
-            if (CtxDrawInvFaces(pCtx)) PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            CnkSetupTexStrip(pCtx);
+
+            VertexDeclInfo = VertexDecl_PosColUV;
+
+            if (CtxDrawNrmFaces(pCtx)) PushStripUV_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf, false);
+            if (CtxDrawInvFaces(pCtx)) PushStripUV_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf, true);
         }
         else
         {
-            if (CtxDrawNrmFaces(pCtx)) PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, false);
-            if (CtxDrawInvFaces(pCtx)) PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            CnkSetupEnvStrip(pCtx);
+
+            VertexDeclInfo = VertexDecl_PosNorm;
+
+            if (pCtx->fst & NJD_FST_FL)
+            {
+                if (CtxDrawNrmFaces(pCtx)) PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, false);
+                if (CtxDrawInvFaces(pCtx)) PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            }
+            else
+            {
+                if (CtxDrawNrmFaces(pCtx)) PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, false);
+                if (CtxDrawInvFaces(pCtx)) PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf, true);
+            }
         }
     }
     else
