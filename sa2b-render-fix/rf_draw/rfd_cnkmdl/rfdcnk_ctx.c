@@ -102,7 +102,7 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
     if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
         return;
 
-    CnkParseTinyData_Ext(pCtx->tiny.flag, pCtx->tiny.id);
+    CnkParseTinyData_Ext(pCtx->tiny.id, pCtx->tiny.flag);
 
     pCtx->flag &= ~CTXFLG_CTX_TINY;
 }
