@@ -39,8 +39,11 @@ void    rjCnkBeginDrawModel( void );
 *
 *   Paramters:
 *     - model       : chunk model to draw
+*
+*   Returns:
+*     '0' if drawn, or '-1' if clipped due to draw/vertex type incompatibility.
 */
-void    rjCnkDrawModelSub( const NJS_CNK_MODEL* model );
+Sint32  rjCnkDrawModelSub( const NJS_CNK_MODEL* model );
 
 /****** Cnk Shape *******************************************************************/
 /*

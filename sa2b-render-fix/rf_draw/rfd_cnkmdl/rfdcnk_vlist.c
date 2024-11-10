@@ -9,6 +9,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
+#include <rf_renderstate.h> /* render state                                         */
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
@@ -44,37 +45,6 @@ GetUnitRatio(void)
     njCalcVector(NULL, &v, &v);
 
     return 1.f / njSqrt( (v.x * v.x) + (v.y * v.y) + (v.z * v.z) );
-}
-
-static void
-rjCnkVertexSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
-{
-    const CNK_VLIST_SH* vlist = (void*)pVList;
-
-    const int nb_vtx = vlist->nbindeces;
-
-    const f32 uratio = GetUnitRatio();
-
-    for (int i = 0; i < nb_vtx; ++i)
-    {
-        CalcPoint(&vlist->d[i].pos , &pVtxBuf[i].pos);
-    }
-}
-
-static void
-rjCnkVertexVNSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
-{
-    const CNK_VLIST_VN_SH* vlist = (void*)pVList;
-
-    const int nb_vtx = vlist->nbindeces;
-
-    const f32 uratio = GetUnitRatio();
-
-    for (int i = 0; i < nb_vtx; ++i)
-    {
-        CalcPoint( &vlist->d[i].pos , &pVtxBuf[i].pos);
-        CalcNormal(&vlist->d[i].norm, &pVtxBuf[i].norm, uratio);
-    }
 }
 
 static void
@@ -197,6 +167,8 @@ rjCnkVertexVNNF(const Sint32* pVList, int type, CNK_VERTEX_BUFFER* pVtxBuf)
 int
 rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
 {
+    const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
+
     _nj_cnk_vtx_attrs_ = 0;
 
     const Sint32* vlist = pVList;
@@ -215,38 +187,44 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
 
         CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[pvhead->indexoffset];
 
-        switch (type) {
-        case NJD_CV_SH:
-            _nj_cnk_vtx_attrs_ |= CNKVTX_NO_NORMALS;
-            rjCnkVertexSH(vlist, p_vbuf);
-            break;
+        switch (type)
+        {
+            case NJD_CV:
+            {
+                _nj_cnk_vtx_attrs_ |= CNKVTX_NO_NORMALS;
 
-        case NJD_CV_VN_SH:
-            rjCnkVertexVNSH(vlist, p_vbuf);
-            break;
+                if (multi)
+                    return -1;
 
-        case NJD_CV:
-            _nj_cnk_vtx_attrs_ |= CNKVTX_NO_NORMALS;
-            rjCnkVertex(vlist, p_vbuf);
-            break;
+                rjCnkVertex(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_D8:
+            {
+                _nj_cnk_vtx_attrs_ |= (CNKVTX_NO_NORMALS | CNKVTX_HAS_VCOLORS);
 
-        case NJD_CV_D8:
-            _nj_cnk_vtx_attrs_ |= (CNKVTX_NO_NORMALS | CNKVTX_HAS_VCOLORS);
-            rjCnkVertexD8(vlist, p_vbuf);
-            break;
+                if (multi)
+                    return -1;
 
-        case NJD_CV_VN:
-            rjCnkVertexVN(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN_D8:
-            _nj_cnk_vtx_attrs_ |= CNKVTX_HAS_VCOLORS;
-            rjCnkVertexVND8(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN_NF:
-            rjCnkVertexVNNF(vlist, pvhead->chunkhead & 0x7F, p_vbuf);
-            break;
+                rjCnkVertexD8(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN:
+            {
+                rjCnkVertexVN(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_D8:
+            {
+                _nj_cnk_vtx_attrs_ |= CNKVTX_HAS_VCOLORS;
+                rjCnkVertexVND8(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_NF:
+            {
+                rjCnkVertexVNNF(vlist, pvhead->chunkhead & 0x7F, p_vbuf);
+                break;
+            }
         }
 
         /** Next data chunk **/

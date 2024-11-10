@@ -85,33 +85,40 @@ rjCnkBeginDrawModel(void)
     SetShaders(1);
 }
 
-void
+Sint32
 rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
 {
+    Sint32 res = 0;
+
     if (ShadowCnkDraw)
     {
-        if (model->vlist)
-            CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true);
+        if ( model->vlist )
+            if ( CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true) == -1 )
+                return -1;
 
-        if (model->plist)
+        if ( model->plist )
             CnkPListShadow_Ext(model->plist, _nj_vertex_buf_);
     }
     else if (_nj_control_3d_flag_ & 0x80000) // Shadow map is setup
     {
-        if (model->vlist)
-            rjCnkVListSM(model->vlist, _nj_vertex_buf_);
+        if ( model->vlist )
+            if ( rjCnkVListSM(model->vlist, _nj_vertex_buf_) == -1 )
+                return -1;
 
-        if (model->plist)
+        if ( model->plist )
             rjCnkPList(model->plist, _nj_vertex_buf_);
     }
     else
     {
-        if (model->vlist)
-            rjCnkVList(model->vlist, _nj_vertex_buf_);
+        if ( model->vlist )
+            if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
+                return -1;
 
-        if (model->plist)
+        if ( model->plist )
             rjCnkPList(model->plist, _nj_vertex_buf_);
     }
+
+    return 0;
 }
 
 Sint32
@@ -121,8 +128,7 @@ _rjCnkDrawModel(const NJS_CNK_MODEL* model)
         if (model->r > 0.f && njCnkModelClip(model))
             return -1;
 
-    rjCnkDrawModelSub(model);
-    return 0;
+    return rjCnkDrawModelSub(model);
 }
 
 Sint32
@@ -133,8 +139,7 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
             return -1;
 
     rjCnkBeginDrawModel();
-    rjCnkDrawModelSub(model);
-    return 0;
+    return rjCnkDrawModelSub(model);
 }
 
 void

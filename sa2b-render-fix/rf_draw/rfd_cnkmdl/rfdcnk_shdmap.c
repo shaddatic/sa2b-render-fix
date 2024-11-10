@@ -9,6 +9,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
+#include <rf_renderstate.h> /* render state                                         */
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
@@ -66,6 +67,8 @@ rjCnkVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 int
 rjCnkVListSM(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
 {
+    const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
+
     _nj_cnk_vtx_attrs_ = 0;
 
     const Sint32* vlist = pVList;
@@ -89,6 +92,10 @@ rjCnkVListSM(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
         switch (type) {
         case NJD_CV_D8:
             _nj_cnk_vtx_attrs_ |= (CNKVTX_NO_NORMALS | CNKVTX_HAS_VCOLORS);
+
+            if (multi)
+                return -1;
+
             rjCnkVertexD8(vlist, p_vbuf);
             break;
 
