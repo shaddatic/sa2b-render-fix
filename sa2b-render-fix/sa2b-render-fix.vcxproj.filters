@@ -249,9 +249,6 @@
     <ClCompile Include="rf_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_magic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rfm_common\rfc_transparancy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -331,6 +328,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_camera.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_magic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
