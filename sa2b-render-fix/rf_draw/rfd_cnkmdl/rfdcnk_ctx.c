@@ -159,8 +159,8 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             /** Constant Texture Material flag, SimpleDraw is implied here **/
             else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
-                /** AND SimpleMulti OR not CnkS type **/
-                if ( funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(ctxflg & CTXFLG_STRIP_NOUVS) )
+                /** AND Normal OR SimpleMulti OR not CnkS type **/
+                if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
                     color.r = 0xFF;
                     color.g = 0xFF;
