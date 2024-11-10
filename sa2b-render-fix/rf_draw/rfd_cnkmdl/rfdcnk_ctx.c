@@ -56,12 +56,12 @@ GX_SetChanMatColor(s32 chan, GXS_COLOR color)
 }
 
 static void
-ArgbToGx(const NJS_ARGB* restrict pArgb, GXS_COLOR* restrict pGxCol)
+ArgbToBgra(const NJS_ARGB* restrict pArgb, NJS_BGRA* restrict pBgra)
 {
-    pGxCol->a = (u8)( CLAMP(pArgb->a, 0.f, 1.f) * 255.f );
-    pGxCol->r = (u8)( CLAMP(pArgb->r, 0.f, 1.f) * 255.f );
-    pGxCol->g = (u8)( CLAMP(pArgb->g, 0.f, 1.f) * 255.f );
-    pGxCol->b = (u8)( CLAMP(pArgb->b, 0.f, 1.f) * 255.f );
+    pBgra->a = (u8)( CLAMP(pArgb->a, 0.f, 1.f) * 255.f );
+    pBgra->r = (u8)( CLAMP(pArgb->r, 0.f, 1.f) * 255.f );
+    pBgra->g = (u8)( CLAMP(pArgb->g, 0.f, 1.f) * 255.f );
+    pBgra->b = (u8)( CLAMP(pArgb->b, 0.f, 1.f) * 255.f );
 }
 
 static void
@@ -71,6 +71,15 @@ BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
     pArgb->r = ( (f32)pBgra->r * (1.f/255.f) );
     pArgb->g = ( (f32)pBgra->g * (1.f/255.f) );
     pArgb->b = ( (f32)pBgra->b * (1.f/255.f) );
+}
+
+static void
+BgraToGx(const NJS_BGRA* restrict pBgra, GXS_COLOR* restrict pGxCol)
+{
+    pGxCol->a = pBgra->a;
+    pGxCol->r = pBgra->r;
+    pGxCol->g = pBgra->g;
+    pGxCol->b = pBgra->b;
 }
 
 static void
@@ -106,13 +115,13 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
     const Uint32 nj3dflag = _nj_control_3d_flag_;
 
-    GXS_COLOR color;
+    NJS_BGRA color;
 
     /** Get initial material color **/
     {
         if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_MATERIAL )
         {
-            ArgbToGx(&_nj_constant_material_, &color);
+            ArgbToBgra(&_nj_constant_material_, &color);
         }
         else if ( nj3dflag & NJD_CONTROL_3D_OFFSET_MATERIAL )
         {
@@ -125,17 +134,10 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             argb.g += _nj_constant_material_.g;
             argb.b += _nj_constant_material_.b;
 
-            ArgbToGx(&argb, &color);
+            ArgbToBgra(&argb, &color);
         }
-        else // use material color
-        {
-            const NJS_BGRA matcol = pCtx->diff;
-
-            color.a = matcol.a;
-            color.r = matcol.r;
-            color.g = matcol.g;
-            color.b = matcol.b;
-        }
+        else
+            color = pCtx->diff;
     }
 
     /** Adjust diffuse depending on Ninja, draw function, and strip context **/
@@ -168,7 +170,13 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
         }
     }
 
-    GX_SetChanMatColor(0, color);
+    /** apply diffuse **/
+
+    GXS_COLOR gxcolor;
+
+    BgraToGx(&color, &gxcolor);
+
+    GX_SetChanMatColor(0, gxcolor);
 
     pCtx->flag &= ~CTXFLG_CTX_DIFF;
 }
