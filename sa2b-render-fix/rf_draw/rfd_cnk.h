@@ -36,7 +36,7 @@
 *   Description:
 *     Normalizes Cnk strip type values to start from 0 for use in a switch.
 *
-*   Paramters:
+*   Parameters:
 *     - type    : raw strip type
 */
 #define STSW(type)          ((type) - NJD_STRIPOFF)
@@ -46,7 +46,7 @@
 *   Description:
 *     Normalizes Cnk volume type values to start from 0 for use in a switch.
 *
-*   Paramters:
+*   Parameters:
 *     - type    : raw volume type
 */
 #define VOSW(type)          ((type) - NJD_VOLOFF)
@@ -57,7 +57,7 @@
 *     Move plist pointer from the base of the current strip chunk to the base of the
 *   next strip chunk in the list.
 *
-*   Paramters:
+*   Parameters:
 *     - pst     : current plist strip pointer
 *     - nbst    : number of strip verteces in the current strip
 *     - ufo     : user offset value
@@ -73,7 +73,7 @@
 *   Description:
 *     Get multiplier to convert strip UVs into normalized 0~1 UVs
 *
-*   Paramters:
+*   Parameters:
 *     - uvh     : if the strip uses HD UVs
 */
 #define GET_UV_MUL(uvh)     ((uvh) ? (1.f/1023.f) : (1.f/255.f))
@@ -81,7 +81,7 @@
 *   Description:
 *     Get vertex normal information stored in the Cnk strip info.
 *
-*   Paramters:
+*   Parameters:
 *     - vn      : s16 normal value
 */
 #define GET_PVN(vn)         ((f32)(vn) * (1.f/32767.f))
@@ -92,7 +92,7 @@
 *     Start vertex index variabnles for converting a strip triangle to a regular
 *   triangle by un-stripping the verteces.
 *
-*   Paramters:
+*   Parameters:
 *     - vidx    : starting vertex index into the stripped triangle
 *     - vinc    : increment value depending on the triangle winding
 *     - binv    : if this triangle has inverted inverted

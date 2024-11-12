@@ -35,7 +35,7 @@ typedef NJS_OBJECT          NJS_CNK_OBJECT; /* Mod Loader 'Object' compatibility
 *   Examples:
 *     - if ( !RFD_CHECKVER(pApiCore, 1,3,3,0) ) // check if RF version too low
 *
-*   Paramters:
+*   Parameters:
 *     - api         : core api pointer
 *     - rel         : minimum release part value
 *     - maj         : minimum major part value 

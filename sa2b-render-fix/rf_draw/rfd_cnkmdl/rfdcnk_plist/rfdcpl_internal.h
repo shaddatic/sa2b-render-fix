@@ -26,7 +26,7 @@ EXTERN_START
 *   Description:
 *     Parse and draw Chunk strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer
@@ -36,7 +36,7 @@ void    rjCnkStrip( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_B
 *   Description:
 *     Parse and draw Chunk UV strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer
@@ -47,7 +47,7 @@ void    rjCnkStripUV( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX
 *   Description:
 *     Parse and draw Chunk VN strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer
@@ -57,7 +57,7 @@ void    rjCnkStripVN( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX
 *   Description:
 *     Parse and draw Chunk UVVN strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer
@@ -68,7 +68,7 @@ void    rjCnkStripUVVN( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERT
 *   Description:
 *     Parse and draw Chunk D8 strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer
@@ -78,7 +78,7 @@ void    rjCnkStripD8( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX
 *   Description:
 *     Parse and draw Chunk UVD8 strip chunk.
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : current chunk draw context
 *     - plist       : strip chunk header
 *     - njvtxbuf    : current vertex buffer

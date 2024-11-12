@@ -37,7 +37,7 @@ void    rjCnkBeginDrawModel( void );
 *   Description:
 *     Sub-function for Chunk draw that doesn't check model clip or call 'BeginDraw'.
 *
-*   Paramters:
+*   Parameters:
 *     - model       : chunk model to draw
 *
 *   Returns:
@@ -50,7 +50,7 @@ Sint32  rjCnkDrawModelSub( const NJS_CNK_MODEL* model );
 *   Description:
 *     Draw shape motion with cnkobj tree and BE flag.
 *
-*   Paramters:
+*   Parameters:
 *     - cnkobj      : current object
 *     - bBE         : big endian shape flag
 */
@@ -59,7 +59,7 @@ void    rjCnkPushPopShape( const NJS_CNK_OBJECT* cnkobj, int bBE );
 *   Description:
 *     Draw shape motion link with cnkobj tree and BE flag.
 *
-*   Paramters:
+*   Parameters:
 *     - cnkobj      : current object
 *     - bBE         : big endian shape flag
 */

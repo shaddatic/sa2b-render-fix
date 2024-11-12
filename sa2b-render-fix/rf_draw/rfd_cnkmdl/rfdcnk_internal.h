@@ -139,7 +139,7 @@ CNK_CTX;
 *   Description:
 *     Apply a Chunk context to the render state
 *
-*   Paramters:
+*   Parameters:
 *     - pCtx        : chunk context
 */
 void    rjCnkContext( CNK_CTX* restrict pCtx );
@@ -189,7 +189,7 @@ void    rjCnkSetStrip( CNK_CTX* restrict pCtx, const Sint16* plist );
 *   Notes:
 *     - called by 'rjCnkSetStrip'
 *
-*   Paramters:
+*   Parameters:
 *     - plist       : strip plist header
 *
 *   Returns:
@@ -202,7 +202,7 @@ Sint16  GetCnkStripFlags( const Sint16* plist );
 *   Description:
 *     Parse a Chunk VList into a specified vertex buffer
 *
-*   Paramters:
+*   Parameters:
 *     - pVList      : base vlist pointer
 *     - njvtxbuf    : vertex buffer
 */
@@ -211,7 +211,7 @@ int     rjCnkVList( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
 *   Description:
 *     Parse and draw a Chunk PList using a specified vertex buffer
 *
-*   Paramters:
+*   Parameters:
 *     - pPList      : base plist pointer
 *     - njvtxbuf    : vertex buffer
 */
@@ -224,7 +224,7 @@ void    rjCnkPList( const Sint16* pPList, const CNK_VERTEX_BUFFER* njvtxbuf );
 *   Due to how shadow maps are handled, this function cannot handle weights or
 *   object trees.
 *
-*   Paramters:
+*   Parameters:
 *     - pVList      : base vlist pointer
 *     - njvtxbuf    : vertex buffer
 */
@@ -235,7 +235,7 @@ int     rjCnkVListSM( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
 *   Description:
 *     Parse tiny (tex) data.
 *
-*   Paramters:
+*   Parameters:
 *     - tinyData    : tiny data
 *     - texFlags    : texture flags
 */
@@ -263,7 +263,7 @@ void    CnkSetupLights_Ext( s32 fst_shr8 );
 *   Description:
 *     Parse a Chunk VList into a specified vertex buffer
 *
-*   Paramters:
+*   Parameters:
 *     - pVList       : base vlist pointer
 *     - njvtxbuf     : vertex buffer
 *     - is_not_cache : flag for the CnkCacheDraw, use 'true'
@@ -275,7 +275,7 @@ int     CnkVListShadow_Ext( const Sint32* pVList, void* njvtxbuf, int is_not_cac
 *   models. The difference is this function draws all strips in 1 call with no
 *   additional info other than vertex positioning.
 *
-*   Paramters:
+*   Parameters:
 *     - pPList      : base plist pointer
 *     - njvtxbuf    : vertex buffer
 */
