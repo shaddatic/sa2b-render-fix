@@ -45,6 +45,11 @@
 #   endif
 #endif/*SAMT_DONT_COREERR*/
 
+/****** C++ Debug Fix ***************************************************************/
+#ifndef SAMT_NO_DEBUGFIX
+#   undef _DEBUG            /* undefine MSVC specific debug flag                    */
+#endif
+
 /************************/
 /*  Includes            */
 /************************/

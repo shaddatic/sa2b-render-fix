@@ -1,7 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/funchook.h>
 #include <sa2b/config.h>
-#include <sa2b/dx9ctrl.h>
 
 /** Source **/
 #define SAMT_INCL_FUNCPTRS
@@ -14,6 +13,9 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_usermsg.h>
+
+/** DX9 Control **/
+#include <dx9ctrl/dx9ctrl.h>
 
 /** Self **/
 #include <rf_shader.h>

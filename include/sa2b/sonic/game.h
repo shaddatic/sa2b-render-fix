@@ -21,32 +21,34 @@
 /****** Global Mode *****************************************************************/
 enum /* ulGlobalMode */
 {
-    MD_START,
-    MD_LOGO,
-    MD_TITLE,
-    MD_UNKOWN_03,
-    MD_ACTION_INIT,     /* gameplay/action init                                     */
+    MD_START,           /* startup the game from boot                               */
+    MD_TITLE_INIT,      /* begin title sequence                                     */
+    MD_TITLE,           /* start advertise menu                                     */
+    MD_SELECTPLAYER,    /* unused sa1 mode, best guess                    (missing) */
+    MD_ACTION_INIT,     /* begin gameplay/action                                    */
     MD_ACTION,          /* gameplay/action                                          */
-    MD_UNKOWN_06,
+    MD_ACTION_NEXT,     /* moving stage outside SeqCtrl, eg. to Chao World or in 2P */
     MD_EVENT_INIT,      /* init event                                               */
     MD_EVENT,           /* event                                                    */
-    MD_UNKOWN_09,
-    MD_UNKOWN_10,       /* main menu 2p auto play                                   */
-    MD_UNKOWN_11,
-    MD_SEQUENCE_NEXT,   /* progress to next sequence section                        */
+    MD_TRIAL_INIT,      /* begin gameplay demo                                      */
+    MD_TRIAL,           /* title screen gameplay demo                               */
+    MD_SEQCTRL_INIT,    /* begin sequence control                         (missing) */
+    MD_SEQCTRL,         /* sequence control                                         */
     MD_ADVERTISE_INIT,  /* init advertise menus                                     */
     MD_ADVERTISE,       /* advertise menus                                          */
     MD_ENDING_INIT,     /* init ending                                              */
     MD_ENDING,          /* ending                                                   */
     MD_EMBLEMGET_INIT,  /* init emblem get screen                                   */
     MD_EMBLEMGET,       /* emblem get screen                                        */
-    MD_MCWARN_INIT,
-    MD_MCWARN,
-    MD_OTHERPRINT_INIT,
-    MD_OTHERPRINT,
-    MD_MCWARN2_INIT,
-    MD_MCWARN2,
-    MD_UNKNOWN_25,
+    MD_MCWARN_INIT,     /* begin memory card warning                                */
+    MD_MCWARN,          /* warn there's no memory card                              */
+    MD_LOGO_INIT,       /* begin startup logos                                      */
+    MD_LOGO,            /* startup logos                                            */
+    MD_TVSETTING_INIT,  /* begin TV setting                                (unused) */
+    MD_TVSETTING,       /* progressive scan select screen                  (unused) */
+    MD_TVSETTING_END,   /* end TV setting, same as 'TITLE_INIT'            (unused) */
+    MD_PAL60_INIT,      /* begin PAL60                                    (missing) */
+    MD_PAL60,           /* PAL60 select screen                            (missing) */
     NUM_MODE,
 };
 

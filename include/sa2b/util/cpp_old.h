@@ -2,7 +2,7 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/util/cpp_old.h'
 *
 *   Description:
-*       Defines old C++ standard elements.
+*     Defines old C++ standard elements inside the 'cppold' namespace.
 *
 *   Contributors:
 *     - kellnc
@@ -11,20 +11,22 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _UTIL_CPP_UTF8_H_
-#define _UTIL_CPP_UTF8_H_
+#ifndef H_UTIL_CPP_OLD
+#define H_UTIL_CPP_OLD
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 
 /************************/
 /*  Includes            */
 /************************/
-#include <xstring>
-#include <xmemory>
+/****** C++ Std *********************************************************************/
+#include <string>           /* standard string                                      */
+#include <memory>           /* standard memory                                      */
 
 /************************/
-/*  cppold              */
+/*  Classes             */
 /************************/
+/****** Old C++ Types ***************************************************************/
 namespace cppold::std
 {
     struct _Container_base0 {};
@@ -54,4 +56,4 @@ namespace cppold::std
 
 #endif/*__cplusplus*/
 
-#endif/*_UTIL_CPP_UTF8_H_*/
+#endif/*H_UTIL_CPP_OLD*/

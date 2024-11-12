@@ -1,7 +1,6 @@
 #include <sa2b/core.h>
 #include <sa2b/memory.h>
 #include <sa2b/funchook.h>
-#include <sa2b/dx9ctrl.h>
 
 /** GX **/
 #define SAMT_INCL_FUNCPTRS
@@ -14,6 +13,9 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_shader.h>
+
+/** DX9 Control **/
+#include <dx9ctrl/dx9ctrl.h>
 
 /** Self **/
 #include <rf_mod.h>
@@ -171,9 +173,9 @@ ModSaveRenderState(void)
     DX9_SaveSrcBlendState();
     DX9_SaveDstBlendState();
     DX9_SaveZWriteState();
-    DX9_SaveZReadState();
+    DX9_SaveZEnableState();
     DX9_SaveStencilTwoSidedState();
-    DX9_SaveAlphaBlendState();
+    DX9_SaveAlphaBlendEnableState();
 }
 
 static void
@@ -187,9 +189,9 @@ ModLoadRenderState(void)
     DX9_LoadSrcBlendState();
     DX9_LoadDstBlendState();
     DX9_LoadZWriteState();
-    DX9_LoadZReadState();
+    DX9_LoadZEnableState();
     DX9_LoadStencilTwoSidedState();
-    DX9_LoadAlphaBlendState();
+    DX9_LoadAlphaBlendEnableState();
 }
 
 typedef struct
@@ -268,11 +270,11 @@ DrawBufferFast(void)
     DX9_SetVtxDecl(ModVtxDeclaration);
 
     /** Enable stencil **/
-    DX9_SetStencil(true);
+    DX9_SetStencilEnable(true);
 
     /****** Prep Buffer Write ******/
     /** Alpha blend **/
-    DX9_SetAlphaBlend(false);
+    DX9_SetAlphaBlendEnable(false);
 
     /** Color write **/
     DX9_SetColorWrite(DX9_COL_NONE);
@@ -313,7 +315,7 @@ DrawBufferFast(void)
 
     /****** Prep Buffer Draw ******/
     /** Alpha blend **/
-    DX9_SetAlphaBlend(true);
+    DX9_SetAlphaBlendEnable(true);
     DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
     DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
@@ -325,7 +327,7 @@ DrawBufferFast(void)
     );
 
     /** Z buffer **/
-    DX9_SetZRead(false);
+    DX9_SetZEnable(false);
 
     /** Stencil ref **/
     DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
@@ -379,7 +381,7 @@ DrawBufferDebug(void)
 
     /****** Prep Buffer Draw ******/
     /** Alpha blend **/
-    DX9_SetAlphaBlend(true);
+    DX9_SetAlphaBlendEnable(true);
     DX9_SetSrcBlend(DX9_BLND_SRCALPHA);
     DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
@@ -410,13 +412,13 @@ RFMOD_DrawBuffer(void)
 void
 RFMOD_Suspend(void)
 {
-    DX9_SetStencil(false);
+    DX9_SetStencilEnable(false);
 }
 
 void
 RFMOD_Resume(void)
 {
-    DX9_SetStencil(true);
+    DX9_SetStencilEnable(true);
 }
 
 void
