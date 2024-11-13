@@ -33,6 +33,9 @@
 #include <rfm_event.h>
 #include <rfm_cart.h>
 
+/****** DX9 Control *****************************************************************/
+#include <dx9ctrl/dx9ctrl.h>
+
 /************************/
 /*  Constants           */
 /************************/
@@ -68,7 +71,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RF_UserMessageInit();
     RF_RenderStateInit();
     RF_DrawInit();
-    RF_FontInit();
+    RF_FontInit(); 
 
     /** DXVK init **/
     RF_DXVK_Init();

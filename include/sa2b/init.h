@@ -31,10 +31,6 @@ EXTERN_START
 /** Initializes core toolkit modules **/
 void    SAMT_Init(const char* path, const HelperFunctions* pHelperFunctions);
 
-/****** Extra Init **********************************************************/
-/** Init DX9 device control module **/
-void    DX9_Init( void );
-
 EXTERN_END
 
 #endif/*_SAMT_INIT_H_*/
