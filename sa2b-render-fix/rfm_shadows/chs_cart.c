@@ -16,6 +16,7 @@
 /** Render Fix **/
 #include <rf_file.h>
 #include <rf_draw.h>
+#include <rf_mdlutil.h>
 
 #define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)
 
@@ -28,7 +29,7 @@ typedef struct
     NJS_CNK_OBJECT* pObject;
     NJS_CNK_OBJECT* pFarObject;
     NJS_TEXLIST*    pTexlist;
-    int unk0;
+    int headlights;
     b32 is_player;
     int character;
     int player_num;
@@ -52,9 +53,9 @@ typedef struct
 }
 CARTWK;
 
-NJS_CNK_OBJECT* object_cart_miles_mod;
-NJS_CNK_OBJECT* object_cart_rouge_mod;
-NJS_CNK_OBJECT* object_cart_mod;
+#define PlayerCartSelected      DATA_ARY(s8, 0x0174B021, [2])
+
+static NJS_CNK_OBJECT* CartObjectList[8][2];
 
 static void
 cartDisplayerMod(task* tp)
@@ -88,29 +89,39 @@ cartDisplayerMod(task* tp)
     njRotateX(NULL, cwp->ang2.x + cwp->ang3.x);
     njRotateY(NULL, cwp->ang2.y + cwp->ang3.y);
 
-    switch (cwp->character) {
-    case 0:
-        njRotateY(NULL, 0x4000);
-        njCnkModDrawObject(object_cart_miles_mod);
-        break;
+    bool alt = false;
 
-    case 1:
-        njCnkModDrawObject(object_cart_rouge_mod);
-        break;
+    if (cwp->is_player)
+    {
+        const int chnum = PlayerCartSelected[cwp->player_num];
 
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-        njCnkModDrawObject(object_cart_mod);
-        break;
+        if (chnum < 0) //
+            alt = true;
+    }
 
-    case 8:
-        njScale(NULL, 5.0f, 1.0f, 5.0f);
-        DrawBasicShadow();
-        break;
+    const NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
+
+    switch (cwp->character)
+    {
+        case 0:
+        {
+            njRotateY(NULL, 0x4000);
+            njCnkModDrawObject(p_obj);
+            break;
+        }
+        case 1:
+        case 2: case 3: case 4:
+        case 5: case 6: case 7:
+        {
+            njCnkModDrawObject(p_obj);
+            break;
+        }
+        case 8:
+        {
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
+            DrawBasicShadow();
+            break;
+        }
     }
 
     njPopMatrixEx();
@@ -142,7 +153,29 @@ CHS_CartInit(void)
     FuncHook(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
 
     /** Models **/
-    object_cart_miles_mod = RF_ChunkLoadObjectFile("cart_miles_mod");
-    object_cart_rouge_mod = RF_ChunkLoadObjectFile("cart_rouge_mod");
-    object_cart_mod       = RF_ChunkLoadObjectFile("cart_mod");
+    CartObjectList[0][0] = RF_ChunkLoadObjectFile("cart/cart_tails_big_mod");
+    CartObjectList[0][1] = CartObjectList[0][0];
+
+    CartObjectList[1][0] = RF_ChunkLoadObjectFile("cart/cart_rouge_big_mod");
+    CartObjectList[1][1] = CartObjectList[1][0];
+
+    CartObjectList[2][0] = RF_ChunkLoadObjectFile("cart/cart_sonic_mod");
+    CartObjectList[2][1] = RF_ChunkLoadObjectFile("cart/cart_sonic_alt_mod");
+
+    CartObjectList[3][0] = RF_ChunkLoadObjectFile("cart/cart_knuckles_mod");
+    CartObjectList[3][1] = RF_ChunkLoadObjectFile("cart/cart_knuckles_alt_mod");
+
+    CartObjectList[4][0] = RF_ChunkLoadObjectFile("cart/cart_tails_mod");
+    CartObjectList[4][1] = RF_ChunkLoadObjectFile("cart/cart_chao_mod");
+
+    CartObjectList[5][0] = RF_ChunkLoadObjectFile("cart/cart_eggman_mod");
+    CartObjectList[5][1] = RF_ChunkLoadObjectFile("cart/cart_eggman_alt_mod");
+
+    CartObjectList[6][0] = RF_ChunkLoadObjectFile("cart/cart_shadow_mod");
+    CartObjectList[6][1] = RF_ChunkLoadObjectFile("cart/cart_shadow_alt_mod");
+
+    CartObjectList[7][0] = RF_ChunkLoadObjectFile("cart/cart_rouge_mod");
+    CartObjectList[7][1] = RF_ChunkLoadObjectFile("cart/cart_eggrobo_mod");
+
+    RF_CnkObjectReduceDuplicates((NJS_CNK_OBJECT**)CartObjectList, 8*2);
 }
