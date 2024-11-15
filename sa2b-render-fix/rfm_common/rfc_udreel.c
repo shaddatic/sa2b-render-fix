@@ -17,7 +17,7 @@
 #define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)
 #define texlist_udreel          DATA_ARY(NJS_TEXLIST, 0x00B129F8, [1])
 
-static NJS_CNK_OBJECT* object_o_udreel;
+static NJS_CNK_OBJECT* object_udreel;
 
 static void
 ObjectUDReelCnkDisplayer(task* tp)
@@ -28,7 +28,7 @@ ObjectUDReelCnkDisplayer(task* tp)
     njSetTexture(texlist_udreel);
 
     /** Top **/
-    NJS_CNK_OBJECT* obj = object_o_udreel;
+    NJS_CNK_OBJECT* obj = object_udreel;
 
     njPushMatrixEx();
 
@@ -44,7 +44,7 @@ ObjectUDReelCnkDisplayer(task* tp)
     njPushMatrixEx();
 
     /** Wire **/
-    obj = object_o_udreel->child;
+    obj = object_udreel->child;
 
     NJS_CNK_MODEL* wire_mdl = obj->model;
 
@@ -90,7 +90,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
     njSetTexture(texlist_udreel_golem);
 
     /** Top **/
-    NJS_CNK_OBJECT* obj = object_o_udreel;
+    NJS_CNK_OBJECT* obj = object_udreel;
 
     njPushMatrixEx();
 
@@ -106,7 +106,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
     njPushMatrixEx();
 
     /** Wire **/
-    obj = object_o_udreel->child;
+    obj = object_udreel->child;
 
     NJS_CNK_MODEL* wire_mdl = obj->model;
 
@@ -147,5 +147,5 @@ RFC_UDReelInit(void)
     WriteJump(0x006E6170, ObjectUDReelCnkDisplayer);
     WriteJump(0x004BC210, ObjectUDReelGolemCnkDisplayer); // Golem
 
-    object_o_udreel = RF_ChunkLoadObjectFile("o_udreel");
+    object_udreel = RF_ChunkLoadObjectFile("object/udreel");
 }
