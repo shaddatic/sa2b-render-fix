@@ -1075,7 +1075,8 @@ RF_CnkObjectReduceDuplicates(NJS_CNK_OBJECT** pInOutObjList, s32 nbObj)
 
         for (int j = 0; j < nbObj; ++j)
         {
-            if (i == j) j++;
+            if (i == j)
+                continue;
 
             NJS_CNK_OBJECT* p_cmp_obj = pInOutObjList[j];
 
@@ -1090,7 +1091,7 @@ RF_CnkObjectReduceDuplicates(NJS_CNK_OBJECT** pInOutObjList, s32 nbObj)
 
                 result = true;
 
-                OutputString("RF INFO: ReduceObjDupes: Object Free'd!");
+//              OutputString("RF INFO: ReduceObjDupes: Object Free'd!");
             }
         }
     }
