@@ -90,5 +90,5 @@ CHS_CCBlockInit(void)
     FuncHook(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
     FuncHook(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
 
-    object_o_cc_block_mod = RF_ChunkLoadObjectFile("o_cc_block_mod");
+    object_o_cc_block_mod = RF_ChunkLoadObjectFile("object/cc_block_mod");
 }

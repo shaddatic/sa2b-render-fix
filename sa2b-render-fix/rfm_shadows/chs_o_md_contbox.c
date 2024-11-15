@@ -47,5 +47,5 @@ CHS_MDContainerBoxInit(void)
 {
     FuncHook(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
 
-    object_o_md_contbox_mod = RF_ChunkLoadObjectFile("o_md_contbox_mod");
+    object_o_md_contbox_mod = RF_ChunkLoadObjectFile("object/md_contbox_mod");
 }

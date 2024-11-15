@@ -220,5 +220,5 @@ CHS_BoardInit(void)
     WriteJump(0x005EBFC0, ObjectBoardCEDisplayerMod);
     WriteJump(0x006F7AC0, ObjectBoardMHHook);
 
-    object_o_board_mod = RF_ChunkLoadObjectFile("o_board_mod");
+    object_o_board_mod = RF_ChunkLoadObjectFile("object/board_mod");
 }

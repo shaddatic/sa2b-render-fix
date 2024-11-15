@@ -574,5 +574,5 @@ CHS_EnemyInit(void)
     WriteCall(0x004FC750, EnemyKyokoInitHook);              // Kyoko
     WriteCall(0x004F9F46, __EnemyShoukoInitHook);           // Shouko (Jets)
 
-    object_e_shouko_mod = RF_ChunkLoadObjectFile("e_shouko_mod");
+    object_e_shouko_mod = RF_ChunkLoadObjectFile("enemy/shouko_mod");
 }

@@ -64,5 +64,5 @@ CHS_BunchinInit(void)
 
     KillCall(0x006DBC9C); // Kill SetStencilInfo
 
-    object_o_bunchin_mod = RF_ChunkLoadObjectFile("o_bunchin_mod");
+    object_o_bunchin_mod = RF_ChunkLoadObjectFile("object/bunchin_mod");
 }

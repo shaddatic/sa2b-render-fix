@@ -50,5 +50,5 @@ CHS_TankInit(void)
 {
     FuncHook(HookInfoObjectTank, ObjectTank, ObjectTankHook);
 
-    object_o_md_contbox_mod = RF_ChunkLoadObjectFile("o_md_tank_mod");
+    object_o_md_contbox_mod = RF_ChunkLoadObjectFile("object/md_tank_mod");
 }
