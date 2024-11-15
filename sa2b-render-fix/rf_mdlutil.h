@@ -89,6 +89,56 @@ void    RF_CnkObjectChangeTexID( NJS_CNK_OBJECT* pObject,            Sint16 texI
 void    RF_CnkMaterialDiffuse(      Sint16*        pPList, int idxMat, int a, int r, int g, int b );
 void    RF_CnkModelMaterialDiffuse( NJS_CNK_MODEL* pModel, int idxMat, int a, int r, int g, int b );
 
+/****** Model Compare ***************************************************************/
+/*
+*   Description:
+*     Check if two seperate models exactly match each other, byte for byte,
+*   excluding pointers. Plist and Vlist data is also scanned.
+*
+*   Parameters:
+*     - pMdl1       : chunk model 1
+*     - pMdl2       : chunk model 2
+*
+*   Returns:
+*     'true' if models match; or 'false' if they do not.
+*/
+bool    RF_CnkModelMatch( const NJS_CNK_MODEL* pMdl1, const NJS_CNK_MODEL* pMdl2 );
+/*
+*   Description:
+*     Check if two seperate object trees exactly match each other, byte for byte,
+*   excluding pointers. Model data is also scanned.
+*
+*   Parameters:
+*     - pObj1       : chunk object tree 1
+*     - pObj2       : chunk object tree 2
+*
+*   Returns:
+*     'true' if objects match; or 'false' if they do not.
+*/
+bool    RF_CnkObjectMatch( const NJS_CNK_OBJECT* pObj1, const NJS_CNK_OBJECT* pObj2 );
+
+/****** Reduce Duplicates ***********************************************************/
+/*
+*   Description:
+*     Reduces a list of seperate, heap allocated Chunk objects to only the unique
+*   object entries, freeing any duplicate object trees. Any free'd pointers are
+*   replaced with the remaining matching object pointer.
+*     This is mostly useful for reducing memory cost when many models that are
+*   otherwise the same are loaded, allowing most of those models to use the same
+*   pointer.
+*
+*   Notes:
+*     - Duplicate pointers in the list are ignored.
+*
+*   Parameters:
+*     - pInOutObjList : pointer to a list of heap allocated chunk object pointers
+*     - nbObj         : number of pointers in the list
+*
+*   Returns:
+*     'true' if objects were freed; or 'false' if no changes were made.
+*/
+bool    RF_CnkObjectReduceDuplicates( NJS_CNK_OBJECT** pInOutObjList, s32 nbObj );
+
 EXTERN_END
 
 /************************/

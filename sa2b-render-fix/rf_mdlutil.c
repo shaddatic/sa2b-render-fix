@@ -1,6 +1,7 @@
 #include <sa2b/core.h>
 #include <sa2b/user.h>
 #include <sa2b/memory.h>
+#include <sa2b/model.h>
 
 /** Ninja **/
 #include <sa2b/ninja/ninja.h>
@@ -977,3 +978,122 @@ RF_CnkModelMaterialDiffuse(NJS_CNK_MODEL* pModel, int idxMat, int a, int r, int 
 }
 
 #pragma endregion
+
+bool
+RF_CnkModelMatch(const NJS_CNK_MODEL* pMdl1, const NJS_CNK_MODEL* pMdl2)
+{
+    if (!pMdl1->vlist != !pMdl2->vlist ||
+        !pMdl1->plist != !pMdl2->plist ||
+
+        pMdl1->center.x != pMdl2->center.x ||
+        pMdl1->center.y != pMdl2->center.y ||
+        pMdl1->center.z != pMdl2->center.z ||
+
+        pMdl1->r != pMdl2->r)
+    {
+        return false;
+    }
+
+    if (pMdl1->vlist)
+    {
+        const size_t sz_vlist1 = MDL_ChunkGetVListSize(pMdl1->vlist);
+        const size_t sz_vlist2 = MDL_ChunkGetVListSize(pMdl2->vlist);
+
+        if (sz_vlist1 != sz_vlist2)
+            return false;
+
+        if ( !MemMatch(pMdl1->vlist, pMdl2->vlist, sz_vlist1) )
+            return false;
+    }
+
+    if (pMdl1->plist)
+    {
+        const size_t sz_plist1 = MDL_ChunkGetPListSize(pMdl1->plist);
+        const size_t sz_plist2 = MDL_ChunkGetPListSize(pMdl2->plist);
+
+        if (sz_plist1 != sz_plist2)
+            return false;
+
+        if ( !MemMatch(pMdl1->plist, pMdl2->plist, sz_plist1) )
+            return false;
+    }
+
+    return true;
+}
+
+bool
+RF_CnkObjectMatch(const NJS_CNK_OBJECT* pObj1, const NJS_CNK_OBJECT* pObj2)
+{
+    if (pObj1->evalflags != pObj2->evalflags ||
+
+        !pObj1->model != !pObj2->model ||
+
+        pObj1->pos[0] != pObj2->pos[0] ||
+        pObj1->pos[1] != pObj2->pos[1] ||
+        pObj1->pos[2] != pObj2->pos[2] ||
+
+        pObj1->ang[0] != pObj2->ang[0] ||
+        pObj1->ang[1] != pObj2->ang[1] ||
+        pObj1->ang[2] != pObj2->ang[2] ||
+
+        pObj1->scl[0] != pObj2->scl[0] ||
+        pObj1->scl[1] != pObj2->scl[1] ||
+        pObj1->scl[2] != pObj2->scl[2] ||
+
+        !pObj1->child != !pObj2->child ||
+
+        !pObj1->sibling != !pObj2->sibling ||
+
+        pObj1->re_quat != pObj2->re_quat)
+    {
+        return false;
+    }
+
+    if ( pObj1->model && !RF_CnkModelMatch(pObj1->model, pObj2->model) )
+        return false;
+
+    if ( pObj1->child && !RF_CnkObjectMatch(pObj1->child, pObj2->child) )
+        return false;
+
+    if ( pObj1->sibling && !RF_CnkObjectMatch(pObj1->sibling, pObj2->sibling) )
+        return false;
+
+    return true;
+}
+
+bool
+RF_CnkObjectReduceDuplicates(NJS_CNK_OBJECT** pInOutObjList, s32 nbObj)
+{
+    bool result = false;
+
+    for (int i = 0; i < nbObj; ++i)
+    {
+        NJS_CNK_OBJECT* p_obj = pInOutObjList[i];
+
+        if (!p_obj)
+            continue;
+
+        for (int j = 0; j < nbObj; ++j)
+        {
+            if (i == j) j++;
+
+            NJS_CNK_OBJECT* p_cmp_obj = pInOutObjList[j];
+
+            if (!p_cmp_obj || p_obj == p_cmp_obj)
+                continue;
+
+            if ( RF_CnkObjectMatch(p_obj, p_cmp_obj) )
+            {
+                pInOutObjList[j] = p_obj;
+
+                MDL_ChunkFreeObject(p_cmp_obj);
+
+                result = true;
+
+                OutputString("RF INFO: ReduceObjDupes: Object Free'd!");
+            }
+        }
+    }
+
+    return result;
+}
