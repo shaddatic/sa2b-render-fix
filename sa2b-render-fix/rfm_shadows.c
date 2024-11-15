@@ -144,7 +144,7 @@ RFM_ShadowsInit(void)
 
             /** Load basic shadow **/
             {
-                NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("basic_shadow");
+                NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("common/basic_mod");
 
                 model_basic_shadow = objp->model;
 
