@@ -1387,15 +1387,15 @@ void
 CHS_PlayerInit(void)
 {
     /** Sonic/Shadow/Amy/Metal **/
-    object_sonic_head_mod      = RF_ChunkLoadObjectFile("sonic_head_mod");
-    object_amy_head_mod        = RF_ChunkLoadObjectFile("amy_head_mod");
-    object_terios_head_mod     = RF_ChunkLoadObjectFile("terios_head_mod");
-    object_metalsonic_head_mod = RF_ChunkLoadObjectFile("metalsonic_head_mod");
+    object_sonic_head_mod      = RF_ChunkLoadObjectFile("figure/sonic_head_mod");
+    object_amy_head_mod        = RF_ChunkLoadObjectFile("figure/amy_head_mod");
+    object_terios_head_mod     = RF_ChunkLoadObjectFile("figure/terios_head_mod");
+    object_metalsonic_head_mod = RF_ChunkLoadObjectFile("figure/metalsonic_head_mod");
 
     WriteJump(0x0071E520, SonicDisplayerShadowHook);
 
     /** Miles **/
-    object_miles_head_mod = RF_ChunkLoadObjectFile("miles_head_mod");
+    object_miles_head_mod = RF_ChunkLoadObjectFile("figure/miles_head_mod");
 
     WriteRetn(0x00750C40);
     WriteJump(0x0074FF20, MilesDisplayerShadowHook);
@@ -1403,16 +1403,16 @@ CHS_PlayerInit(void)
     MilesTailModifiers = RF_ConfigGetInt(CNF_EXP_MILESTAILMOD);
 
     /** Eggman **/
-    object_eggman_head_mod = RF_ChunkLoadObjectFile("eggman_head_mod");
+    object_eggman_head_mod = RF_ChunkLoadObjectFile("figure/eggman_head_mod");
 
     WriteRetn(0x0073F1A0);
     WriteJump(0x0073E8B0, EggmanDisplayerShadowHook);
 
     /** Knuckles/Rouge/Tikal/Chaos **/
-    object_knuckles_head_mod = RF_ChunkLoadObjectFile("knuckles_head_mod");
-    object_rouge_head_mod    = RF_ChunkLoadObjectFile("rouge_head_mod");
-    object_tikal_head_mod    = RF_ChunkLoadObjectFile("tikal_head_mod");
-    object_chaos_head_mod    = RF_ChunkLoadObjectFile("chaos_head_mod");
+    object_knuckles_head_mod = RF_ChunkLoadObjectFile("figure/knuckles_head_mod");
+    object_rouge_head_mod    = RF_ChunkLoadObjectFile("figure/rouge_head_mod");
+    object_tikal_head_mod    = RF_ChunkLoadObjectFile("figure/tikal_head_mod");
+    object_chaos_head_mod    = RF_ChunkLoadObjectFile("figure/chaos_head_mod");
 
     WriteRetn(0x00730100);
     WriteJump(0x0072DCE0, KnucklesDisplayerShadowHook);
@@ -1420,14 +1420,14 @@ CHS_PlayerInit(void)
     WriteJump(0x0072E390, KnucklesDisplayerShadowHook);
 
     /** Mech Walkers **/
-    object_twalker_body_mod = RF_ChunkLoadObjectFile("twalker_body_mod");
-    object_twalker_foot_mod = RF_ChunkLoadObjectFile("twalker_foot_mod");
-    object_ewalker_body_mod = RF_ChunkLoadObjectFile("ewalker_body_mod");
-    object_ewalker_foot_mod = RF_ChunkLoadObjectFile("ewalker_foot_mod");
-    object_cwalker_body_mod = RF_ChunkLoadObjectFile("cwalker_body_mod");
-    object_cwalker_foot_mod = RF_ChunkLoadObjectFile("cwalker_foot_mod");
-    object_dwalker_body_mod = RF_ChunkLoadObjectFile("dwalker_body_mod");
-    object_dwalker_foot_mod = RF_ChunkLoadObjectFile("dwalker_foot_mod");
+    object_twalker_body_mod = RF_ChunkLoadObjectFile("figure/twalker_body_mod");
+    object_twalker_foot_mod = RF_ChunkLoadObjectFile("figure/twalker_foot_mod");
+    object_ewalker_body_mod = RF_ChunkLoadObjectFile("figure/ewalker_body_mod");
+    object_ewalker_foot_mod = RF_ChunkLoadObjectFile("figure/ewalker_foot_mod");
+    object_cwalker_body_mod = RF_ChunkLoadObjectFile("figure/cwalker_body_mod");
+    object_cwalker_foot_mod = RF_ChunkLoadObjectFile("figure/cwalker_foot_mod");
+    object_dwalker_body_mod = RF_ChunkLoadObjectFile("figure/dwalker_body_mod");
+    object_dwalker_foot_mod = RF_ChunkLoadObjectFile("figure/dwalker_foot_mod");
 
     WriteRetn(0x00748AF0);
     WriteRetn(0x00745310);
