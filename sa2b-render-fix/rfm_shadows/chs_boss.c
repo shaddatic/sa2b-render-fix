@@ -62,8 +62,8 @@ BossBogyDisplayerMod(task* tp)
     BossBogyGlassCheapShadow(unk->work.ul[3]);
 }
 
-static NJS_CNK_OBJECT* object_b_grobo_body_mod;
-static NJS_CNK_OBJECT* object_b_grobo_foot_mod;
+#define object_grobo_body_mod       DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1])
+#define object_grobo_foot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x01134E30, [1])
 
 #define BossBigFootBodyPos          DATA_REF(NJS_POINT3, 0x01A27E84)
 #define BossBigFootLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27F44)
@@ -80,21 +80,21 @@ BossBigFootDrawMod(task* tp)
 
     njTranslateEx(&BossBigFootBodyPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_grobo_body_mod);
+    njCnkModDrawObject(object_grobo_body_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossBigFootLeftFootPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_grobo_foot_mod);
+    njCnkModDrawObject(object_grobo_foot_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossBigFootRightFootPos);
     njRotateY(NULL, twp->ang.y + 0xC000);
-    njCnkModDrawObject(object_b_grobo_foot_mod);
+    njCnkModDrawObject(object_grobo_foot_mod);
 
     njPopMatrixEx();
 
@@ -167,21 +167,21 @@ BossHotShotDrawMod(task* tp)
 
     njTranslateEx(&BossHotShotBodyPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_grobo_body_mod);
+    njCnkModDrawObject(object_grobo_body_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossHotShotLeftFootPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_grobo_foot_mod);
+    njCnkModDrawObject(object_grobo_foot_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossHotShotRightFootPos);
     njRotateY(NULL, twp->ang.y + 0xC000);
-    njCnkModDrawObject(object_b_grobo_foot_mod);
+    njCnkModDrawObject(object_grobo_foot_mod);
 
     njPopMatrixEx();
 
@@ -300,7 +300,7 @@ BossFlyingDogDispMod(task* tp)
     BossFlyingDogDrawMod(tp);
 }
 
-static NJS_CNK_OBJECT* object_b_grobo_missile_mod;
+#define object_grobo_missile_mod        DATA_ARY(NJS_CNK_OBJECT, 0x01118F30, [1])
 
 static void
 GRoboMissileDispMod(task* tp)
@@ -321,7 +321,7 @@ GRoboMissileDispMod(task* tp)
 
     njRotateY(NULL, 0x4000);
 
-    njCnkModDrawObject(object_b_grobo_missile_mod);
+    njCnkModDrawObject(object_grobo_missile_mod);
 
     njPopMatrixEx();
 
@@ -410,9 +410,6 @@ CHS_BossInit(void)
     WriteJump(0x005CC110, BossHotShotDisplayerMod);
     WriteCall(0x005C7329, CreateNoStencilTexture); // Kill GetStencilInfo
 
-    object_b_grobo_body_mod = RF_ChunkLoadObjectFile("b_grobo_body_mod");
-    object_b_grobo_foot_mod = RF_ChunkLoadObjectFile("b_grobo_foot_mod");
-
     /** Flying Dog **/
     WriteJump(0x005D4410, BossFlyingDogDispMod);
     WriteCall(0x005D0F86, CreateNoStencilTexture); // Kill GetStencilInfo
@@ -421,8 +418,6 @@ CHS_BossInit(void)
 
     /** Gun Robot Missiles **/
     WriteCallToMovDwordPtr(0x005D6393, __GRoboMissileMovHook);
-
-    object_b_grobo_missile_mod = RF_ChunkLoadObjectFile("b_grobo_missile_mod");
 
     /** Biolizard Energy Balls **/
     WriteCallToMovDwordPtr(0x00523743, __BossLastEnergyMovHook);
