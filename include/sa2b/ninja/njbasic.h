@@ -49,7 +49,9 @@ typedef struct {
     Uint16          nbMat;      /* material count               */
     NJS_POINT3      center;     /* model center                 */
     Float           r;          /* radius                       */
+#if 0
     void*           res;        /* ???????????                  */
+#endif
 } NJS_MODEL;
 
 /*

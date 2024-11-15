@@ -31,16 +31,18 @@ EChaoModuleEntry;
 /************************/
 typedef struct
 {
-    const char* name;
-    void(__cdecl* prolog)(void);
-    void(__cdecl* epilog)(void);
+    const char*   al_subprgname;
+    void(__cdecl* al_subprgprolog)(void);
+    void(__cdecl* al_subprgepilog)(void);
+#if 0 /* SA2DC only, maybe */
+    void(__cdecl* al_subprgmanager)(task*);
+#endif
 }
 AL_SUBPRG_HEADER;
 
 /************************/
 /*  Data                */
 /************************/
-#define ModuleCtrl      DATA_REF(AL_SUBPRG_HEADER, 0x01A0F950)
 #define ChaoModules     DATA_ARY(AL_SUBPRG_HEADER, 0x01366580, [48])
 
 /************************/
