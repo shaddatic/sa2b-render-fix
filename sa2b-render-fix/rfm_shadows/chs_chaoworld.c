@@ -937,7 +937,7 @@ CHS_ChaoWorldInit(void)
     WriteCallToMovDwordPtr(0x0055CC2E, ALO_TVCreateMovHook);
 
     /** Object **/
-    NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("al_shadow");
+    NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("chao/al_mod");
 
     model_al_shadow = objp->model;
 
