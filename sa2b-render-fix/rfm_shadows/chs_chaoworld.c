@@ -48,12 +48,12 @@
 #define CHAO_FLG_DRAW       (0b0000'0010'0000'0000)
 #define CHAO_FLG_INRANGE    (0b0001'0000'0000'0000)
 
-NJS_CNK_MODEL* model_al_shadow;
+NJS_CNK_MODEL* model_al_mod;
 
 void
 AL_ShadowDraw(void)
 {
-    njCnkModDrawModel(model_al_shadow);
+    njCnkModDrawModel(model_al_mod);
 }
 
 static void
@@ -939,7 +939,7 @@ CHS_ChaoWorldInit(void)
     /** Object **/
     NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("chao/al_mod");
 
-    model_al_shadow = objp->model;
+    model_al_mod = objp->model;
 
     MemFree(objp); // Only the model is used, so we can free this
 }
