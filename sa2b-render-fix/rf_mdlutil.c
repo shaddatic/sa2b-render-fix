@@ -1073,11 +1073,8 @@ RF_CnkObjectReduceDuplicates(NJS_CNK_OBJECT** pInOutObjList, s32 nbObj)
         if (!p_obj)
             continue;
 
-        for (int j = 0; j < nbObj; ++j)
+        for (int j = i+1; j < nbObj; ++j)
         {
-            if (i == j)
-                continue;
-
             NJS_CNK_OBJECT* p_cmp_obj = pInOutObjList[j];
 
             if (!p_cmp_obj || p_obj == p_cmp_obj)
