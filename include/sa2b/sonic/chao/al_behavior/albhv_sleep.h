@@ -32,8 +32,8 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Behavior ptrs **/
-#   define ALBHV_Sleep_p            BhvFUNC_PTR(0x0054EF10)
-#   define ALBHV_SleepSelect_p      BhvFUNC_PTR(0x0054EE10)
+#   define ALBHV_Sleep_p            BHVFUNC_PTR(0x0054EF10)
+#   define ALBHV_SleepSelect_p      BHVFUNC_PTR(0x0054EE10)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

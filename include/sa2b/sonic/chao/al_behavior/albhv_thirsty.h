@@ -31,7 +31,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Behavior ptrs **/
-#   define ALBHV_JumpToPond_p       BhvFUNC_PTR(0x005A0F40)
+#   define ALBHV_JumpToPond_p       BHVFUNC_PTR(0x005A0F40)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

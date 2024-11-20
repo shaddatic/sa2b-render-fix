@@ -33,7 +33,7 @@ typedef struct task     task;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ALO_RadicaseCreate( NJS_POINT3* pPos );
+void    ALO_RadicaseCreate( const NJS_POINT3* pPos );
 
 /** Internal task functions **/
 void    ALO_RadicaseExecutor(   task* tp );
@@ -47,10 +47,10 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_RadicaseCreate_p         FUNC_PTR(void, __cdecl, (NJS_POINT3*), 0x0057CCA0)
-#   define ALO_RadicaseExecutor_p       FUNC_PTR(void, __cdecl, (task*)      , 0x0057C840)
-#   define ALO_RadicaseDisplayer_p      FUNC_PTR(void, __cdecl, (task*)      , 0x0057CA80)
-#   define ALO_RadicaseDestructor_p     FUNC_PTR(void, __cdecl, (task*)      , 0x0057CC80)
+#   define ALO_RadicaseCreate_p         FUNC_PTR(void, __cdecl, (const NJS_POINT3*), 0x0057CCA0)
+#   define ALO_RadicaseExecutor_p       FUNC_PTR(void, __cdecl, (task*)            , 0x0057C840)
+#   define ALO_RadicaseDisplayer_p      FUNC_PTR(void, __cdecl, (task*)            , 0x0057CA80)
+#   define ALO_RadicaseDestructor_p     FUNC_PTR(void, __cdecl, (task*)            , 0x0057CC80)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

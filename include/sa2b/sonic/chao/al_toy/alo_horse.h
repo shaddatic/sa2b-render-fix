@@ -28,7 +28,7 @@ typedef struct task         task;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ALO_HorseCreate(NJS_POINT3* pPos);
+void    ALO_HorseCreate( const NJS_POINT3* pPos );
 
 /** Internal task functions **/
 void    ALO_Horse(task* tp);

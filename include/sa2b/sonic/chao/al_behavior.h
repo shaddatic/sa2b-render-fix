@@ -17,7 +17,7 @@
 /************************/
 /*  Defines             */
 /************************/
-#define BhvFUNC_PTR(ADDR)   FUNC_PTR(int32_t, __cdecl, (task*), ADDR)
+#define BHVFUNC_PTR(ADDR)       FUNC_PTR(int32_t, __cdecl, (task*), ADDR)
 
 /************************/
 /*  Absract Types       */

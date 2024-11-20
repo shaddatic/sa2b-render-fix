@@ -34,9 +34,9 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Behavior ptrs **/
-#   define ALBHV_Turn_p             BhvFUNC_PTR(0x0056B740)
-#   define ALBHV_TurnRandom_p       BhvFUNC_PTR(0x0056B960)
-#   define ALBHV_GoToLockOn_p       BhvFUNC_PTR(0x0056BA80)
+#   define ALBHV_Turn_p             BHVFUNC_PTR(0x0056B740)
+#   define ALBHV_TurnRandom_p       BHVFUNC_PTR(0x0056B960)
+#   define ALBHV_GoToLockOn_p       BHVFUNC_PTR(0x0056BA80)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

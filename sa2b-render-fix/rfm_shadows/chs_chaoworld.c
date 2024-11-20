@@ -59,8 +59,8 @@ AL_ShadowDraw(void)
 static void
 ChaoDisplayerMod(task* tp)
 {
-    CHAOWK*         const cwp = GET_CHAOWK(tp);
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    chaowk*               const cwp = GET_CHAOWK(tp);
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen3(tp, 5.2f, 4.5f, 2.9f) || (cwp->ChaoFlag & CHAO_FLG_DRAW) == 0)
         return;
@@ -214,7 +214,7 @@ static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
 static void
 ALO_GrowTreeDisplayerMod(task* tp)
 {
-    TREE_WORK* const twp = GET_TREE_WORK(tp);
+    const TREE_WORK* const twp = GET_TREE_WORK(tp);
 
     if (twp->state == TREE_ST_LOCAL)
     {
@@ -307,7 +307,7 @@ ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
 static void
 ALO_RaceTreeDisplayerMod(task* tp)
 {
-    TREE_WORK* const twp = GET_TREE_WORK(tp);
+    const TREE_WORK* const twp = GET_TREE_WORK(tp);
 
     NJS_POINT3 trans;
 
@@ -362,9 +362,9 @@ ALO_RaceTreeHook(task* tp)
 static void
 AL_EggDisplayerMod(task* tp)
 {
-    CHAOWK*         const cwp   = GET_CHAOWK(tp);
-    EGG_WORK*       const eggwp = GET_EGG_WORK(tp);
-    ALW_ENTRY_WORK* const ewp   = GET_ALW_ENTRY_WORK(tp);
+    const chaowk*         const cwp   = GET_CHAOWK(tp);
+    const EGG_WORK*       const eggwp = GET_EGG_WORK(tp);
+    const ALW_ENTRY_WORK* const ewp   = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 3.5f, 3.0f))
         return;
@@ -421,7 +421,7 @@ CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, cons
 static void
 ALO_ChaosDriveDisplayerMod(task* tp)
 {
-    AL_CHAOSDRIVE_WORK* const cdwp = GET_AL_CHAOSDRIVE_WORK(tp);
+    const AL_CHAOSDRIVE_WORK* const cdwp = GET_AL_CHAOSDRIVE_WORK(tp);
 
     njPushMatrixEx();
 
@@ -465,8 +465,8 @@ ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM
 static void
 ALO_ObakeHeadDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
         return;
@@ -513,8 +513,8 @@ ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECT
 static void
 ALO_SeedDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 1.5f, 1.0f))
         return;
@@ -558,8 +558,8 @@ ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_S
 static void
 ALO_FruitDisplayerMod(task* tp)
 {
-    taskwk* const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk* const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
         return;
@@ -617,8 +617,8 @@ ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* 
 static void
 AL_MinimalDisplayerMod(task* tp)
 {
-    MINIMAL_WORK*   const miniwp = GET_MINIMAL_WORK(tp);
-    ALW_ENTRY_WORK* const ewp    = GET_ALW_ENTRY_WORK(tp);
+    const MINIMAL_WORK*   const miniwp = GET_MINIMAL_WORK(tp);
+    const ALW_ENTRY_WORK* const ewp    = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 3.0f, 2.0f))
         return;
@@ -664,8 +664,8 @@ AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR*
 static void
 ALO_RaceFruitDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
         return;
@@ -706,8 +706,8 @@ ALO_RaceFruitHook(task* tp)
 static void
 ALO_BallDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 2.0f, 0.0f))
         return;
@@ -747,7 +747,7 @@ ALO_BallHook(task* tp)
 static void
 ALO_BoxDisplayerMod(task* tp)
 {
-    taskwk* const twp = tp->twp;
+    const taskwk* const twp = tp->twp;
 
     if (!AL_IsOnScreen2(tp, 2.5f, 1.0f))
         return;
@@ -781,8 +781,8 @@ ALO_BoxCreateMovHook(void)
 static void
 ALO_HorseDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!ewp)
         return; // Goddamnit CWE! The Horse too??
@@ -817,8 +817,8 @@ ALO_HorseHook(task* tp)
 static void
 ALO_RadicaseDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!AL_IsOnScreen2(tp, 3.0f, 1.0f))
         return;
@@ -857,8 +857,8 @@ ALO_RadicaseCreateMovHook(void)
 static void
 ALO_TVDisplayerMod(task* tp)
 {
-    taskwk*         const twp = tp->twp;
-    ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
+    const taskwk*         const twp = tp->twp;
+    const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if (!ewp)
         return; // Goddamnit CWE! Why only the TV??

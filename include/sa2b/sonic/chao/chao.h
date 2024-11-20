@@ -553,7 +553,7 @@ typedef struct
 }
 AL_PERCEPTION;
 
-#define GET_CHAOWK(_tp)     ((CHAOWK*)(_tp)->twp)
+#define GET_CHAOWK(_tp)     ((chaowk*)(_tp)->twp)
 
 typedef struct chaowk
 {
@@ -590,7 +590,7 @@ typedef struct chaowk
     AL_PERCEPTION  Perception;
     void*          pWork;
 }
-CHAOWK;
+chaowk;
 
 typedef struct al_shape_element
 {

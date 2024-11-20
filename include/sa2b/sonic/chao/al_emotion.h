@@ -1,10 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/sonic/chao/al_emotion.h'
-*
-*   ~~ Under Construction ~~
 * 
 *   Description:
-*       Contains enums related to Chao emotions.
+*     Chao emotion parameters header.
 *
 *   Contributors:
 *     - SEGA - Sonic Team,
@@ -12,47 +10,146 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#ifndef _SA2B_CHAO_EMOTION_H_
-#define _SA2B_CHAO_EMOTION_H_
+#ifndef H_SA2B_CHAO_EMOTION
+#define H_SA2B_CHAO_EMOTION
+
+/************************/
+/*  Opaque Types        */
+/************************/
+/****** Task ************************************************************************/
+typedef struct task             task;
+
+/****** Chao ************************************************************************/
+typedef struct chao_param_gc    CHAO_PARAM_GC;
+
+EXTERN_START
 
 /************************/
 /*  Enums               */
 /************************/
+/****** Get Emotion Number **********************************************************/
+/*
+*   Description:
+*     Get individual emotion number from master enum for interfacing directly with
+*   Emotion data arrays.
+*
+*   Parameters:
+*     - num         : master enum value
+*
+*   Returns:
+*     Individual emotion number.
+*/
+#define GET_EM_MD(num)          ((num) - EM_MD_PLEASURE)
+#define GET_EM_ST(num)          ((num) - EM_ST_SLEEPY)
+#define GET_EM_PER(num)         ((num) - EM_PER_CURIOSITY)
+
+/****** Emotion Number **************************************************************/
 enum
 {
-    EM_MD_PLEASURE = 0x0,
-    EM_MD_ANGER = 0x1,
-    EM_MD_SORROW = 0x2,
-    EM_MD_FEAR = 0x3,
-    EM_MD_SURPRISE = 0x4,
-    EM_MD_PAIN = 0x5,
-    EM_MD_RELAX = 0x6,
-    EM_MD_TOTAL = 0x7,
-    EM_ST_SLEEPY = 0x8,
-    EM_ST_SLEEP_DEPTH = 0x9,
-    EM_ST_HUNGER = 0xA,
-    EM_ST_BREED = 0xB,
-    EM_ST_TEDIOUS = 0xC,
-    EM_ST_LONELY = 0xD,
-    EM_ST_TIRE = 0xE,
-    EM_ST_STRESS = 0xF,
-    EM_ST_NOURISHMENT = 0x10,
-    EM_ST_CONDITION = 0x11,
-    EM_ST_THIRSTY = 0x12,
-    EM_PER_CURIOSITY = 0x13,    // Normal / Curious
-    EM_PER_KINDNESS = 0x14,     // Kindness
-    EM_PER_AGRESSIVE = 0x15,    // Crybaby / Energetic
-    EM_PER_SLEEPY_HEAD = 0x16,  // Niave / Normal
-    EM_PER_SOLITUDE = 0x17,     // Solitude
-    EM_PER_VITALITY = 0x18,     // Vitality
-    EM_PER_GLUTTON = 0x19,      // Normal / Big Eater
-    EM_PER_REGAIN = 0x1A,       // Regain
-    EM_PER_SKILLFUL = 0x1B,     // Skillful
-    EM_PER_CHARM = 0x1C,        // Charm
-    EM_PER_CHATTY = 0x1D,       // Chatty
-    EM_PER_CALM = 0x1E,         // Normal / Carefree
-    EM_PER_FICKLE = 0x1F,       // Fickle
-    NB_EMOTION = 0x20,
+    /****** Emotion Mood ********************************************************/
+    /*
+    *   Range: (0~200)
+    */
+    EM_MD_PLEASURE,                 /* pleasure                                 */
+    EM_MD_ANGER,                    /* anger                                    */
+    EM_MD_SORROW,                   /* sorrow                                   */
+    EM_MD_FEAR,                     /* fear                                     */
+    EM_MD_SURPRISE,                 /* surpise                                  */
+    EM_MD_PAIN,                     /* pain                                     */
+    EM_MD_RELAX,                    /* relax                                    */
+    EM_MD_TOTAL,                    /* total                                    */
+
+    /****** Emotion State *******************************************************/
+    /*
+    *   Range: (0~10'000)
+    */
+    EM_ST_SLEEPY,                   /* sleepy                                   */
+    EM_ST_SLEEP_DEPTH,              /* sleep depth                              */
+    EM_ST_HUNGER,                   /* hunger                                   */
+    EM_ST_BREED,                    /* breed                                    */
+    EM_ST_TEDIOUS,                  /* tedius                                   */
+    EM_ST_LONELY,                   /* lonely                                   */
+    EM_ST_TIRE,                     /* tire                                     */
+    EM_ST_STRESS,                   /* stress                                   */
+    EM_ST_NOURISHMENT,              /* nourishment                              */
+    EM_ST_CONDITION,                /* condition                                */
+    EM_ST_THIRSTY,                  /* thirsty                                  */
+
+    /****** Emotion Personality *************************************************/
+    /*
+    *   Range: (-100~100)
+    */
+    EM_PER_CURIOSITY,               /* curiosity                                */
+    EM_PER_KINDNESS,                /* kindness                                 */
+    EM_PER_AGRESSIVE,               /* agressive/energetic                      */
+    EM_PER_SLEEPY_HEAD,             /* sleepy head                              */
+    EM_PER_SOLITUDE,                /* solitude                                 */
+    EM_PER_VITALITY,                /* vitality                                 */
+    EM_PER_GLUTTON,                 /* glutton                                  */
+    EM_PER_REGAIN,                  /* regain                                   */
+    EM_PER_SKILLFUL,                /* skillful                                 */
+    EM_PER_CHARM,                   /* charm                                    */
+    EM_PER_CHATTY,                  /* chatty                                   */
+    EM_PER_CALM,                    /* calm/carefree                            */
+    EM_PER_FICKLE,                  /* fickle                                   */
+
+    /****** Number Emotion ******************************************************/
+    NB_EMOTION,                     /* enum count                               */
 };
 
-#endif/*_SA2B_CHAO_EMOTION_H_*/
+/************************/
+/*  Prototypes          */
+/************************/
+/****** Emotion Add *****************************************************************/
+/*
+*   Description:
+*     Add to an emotion valuie of a Chao via a Task.
+*
+*   Parameters:
+*     - tp          : chao task pointer
+*     - EmotionNum  : emotion enum value
+*     - add         : value to add, result will be clamped to ranges defined in enum
+*/
+void    AL_EmotionAdd( task* tp, u32 EmotionNum, s32 add );
+
+/****** Emotion Set *****************************************************************/
+/*
+*   Description:
+*     Set an emotion value of a Chao via a Task.
+*
+*   Parameters:
+*     - tp          : chao task pointer
+*     - EmotionNum  : emotion enum value
+*     - value       : value to set, will be clamped to ranges defined in enum
+*/
+void    AL_EmotionSetValue( task* tp, u32 EmotionNum, s32 value );
+
+/****** Emotion Get *****************************************************************/
+/*
+*   Description:
+*     Get an emotion value from a Chao via a Task.
+*
+*   Parameters:
+*     - tp          : chao task pointer
+*     - EmotionNum  : emotion enum value
+*
+*   Returns:
+*     The given emotion value of the Chao; or, '-1' if 'EmotionNum' is invalid.
+*/
+s32     AL_EmotionGetValue( const task* tp, u32 EmotionNum );
+/*
+*   Description:
+*     Get an emotion value from a Chao via a Chao param.
+*
+*   Parameters:
+*     - pParam      : chao param pointer
+*     - EmotionNum  : emotion enum value
+*
+*   Returns:
+*     The given emotion value of the Chao; or, '-1' if 'EmotionNum' is invalid.
+*/
+s32     AL_EmotionGetValue2( const CHAO_PARAM_GC* pParam, u32 EmotionNum );
+
+EXTERN_END
+
+#endif/*H_SA2B_CHAO_EMOTION*/

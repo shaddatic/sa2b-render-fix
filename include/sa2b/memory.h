@@ -187,6 +187,20 @@ void    MemMove16( void* pd, const void* ps, size_t nb );
 void    MemMove32( void* pd, const void* ps, size_t nb );
 void    MemMove64( void* pd, const void* ps, size_t nb );
 
+/****** Memdupe *********************************************************************/
+/*
+*   Description:
+*     Duplicate a chunk of memory.
+*
+*   Notes:
+*     - Memory must be freed with 'MemFree'/'free'.
+*
+*   Parameters:
+*     - ps          : duplicate source
+*     - nb          : size of duplication, in bytes
+*/
+void*   MemDupe( const void* ps, size_t nb );
+
 /************************************************************************************/
 /*
 *   Memory Compare
@@ -324,7 +338,7 @@ void*   MemReCalloc( void* p, size_t szPre, size_t szNew );
 *     - type        : data type or structure of reallocation
 *     - nb          : number of 'type' to reallocate
 */
-#define mRealloc(pp, type, nb)      MemRealloc((pp), (sizeof(type) * (nb)))
+#define mRealloc(pp, type, nb)      MemRealloc((void**)(pp), (sizeof(type) * (nb)))
 /*
 *   Description:
 *     Re-allocate a region of memory to a different size, keeping the contents of
@@ -340,7 +354,7 @@ void*   MemReCalloc( void* p, size_t szPre, size_t szNew );
 *     - nbpre       : previous size of region, in number of 'type'
 *     - nbnew       : number of 'type' to reallocate
 */
-#define mRecalloc(pp, type, nbpre, nbnew)       MemRecalloc((pp), (sizeof(type)*(nbpre)), (sizeof(type)*(nbnew)))
+#define mRecalloc(pp, type, nbpre, nbnew)       MemRecalloc((void**)(pp), (sizeof(type)*(nbpre)), (sizeof(type)*(nbnew)))
 
 /************************************************************************************/
 /*
@@ -380,6 +394,23 @@ void*   MemReCalloc( void* p, size_t szPre, size_t szNew );
 *     - nb          : number of 'type' to copy
 */
 #define mMove(pd, ps, type, nb)     MemMove((pd), (ps), (sizeof(type) * (nb)))
+
+/****** Memdupe *********************************************************************/
+/*
+*   Description:
+*     Duplicate a chunk of memory with type parameter for size calculations and type
+*   safety.
+*
+*   Examples:
+*     - pd = mDupe(ps, s32, 8); // duplicate 8 integers
+*
+*   Parameters:
+*     - ps          : duplicate source
+*     - nb          : size of duplication, in bytes
+*     - type        : data type or structure of memory
+*     - nb          : number of 'type' to duplicate
+*/
+#define mDupe(ps, type, nb)         (type*)MemDupe((ps), (sizeof(type) * (nb)))
 
 /************************************************************************************/
 /*

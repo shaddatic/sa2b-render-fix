@@ -74,7 +74,7 @@ void    AL_InitLandMark(void);
 b32     AL_GetRandomAttrPos(eLANDMARK_ATTR attr, NJS_POINT3* pPos);
 
 /** Get landmark attribute kind at position **/
-int32_t  AL_GetCurrLandAttr(NJS_POINT3* pPos);
+int32_t  AL_GetCurrLandAttr(const NJS_POINT3* pPos);
 
 /************************/
 /*  Inline Functions    */

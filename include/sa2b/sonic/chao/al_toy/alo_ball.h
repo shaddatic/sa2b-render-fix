@@ -50,7 +50,7 @@ BALL_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ALO_BallCreate( NJS_POINT3* pPos, NJS_VECTOR* pVelo );
+void    ALO_BallCreate( const NJS_POINT3* pPos, const NJS_VECTOR* pVelo );
 
 /** Internal task functions **/
 void    ALO_Ball( task* tp );
@@ -66,11 +66,11 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define ALO_BallCreate_p         FUNC_PTR(void, __cdecl, (NJS_POINT3*, NJS_VECTOR*), 0x0055D6B0)
-#   define ALO_Ball_p               FUNC_PTR(void, __cdecl, (task*)                   , 0x0055D640)
-#   define ALO_BallExecutor_p       FUNC_PTR(void, __cdecl, (task*)                   , 0x0055D310)
-#   define ALO_BallDisplayer_p      FUNC_PTR(void, __cdecl, (task*)                   , 0x0055D3B0)
-#   define ALO_BallDestructor_p     FUNC_PTR(void, __cdecl, (task*)                   , 0x0057B9B0)
+#   define ALO_BallCreate_p         FUNC_PTR(void, __cdecl, (const NJS_POINT3*, const NJS_VECTOR*), 0x0055D6B0)
+#   define ALO_Ball_p               FUNC_PTR(void, __cdecl, (task*)                               , 0x0055D640)
+#   define ALO_BallExecutor_p       FUNC_PTR(void, __cdecl, (task*)                               , 0x0055D310)
+#   define ALO_BallDisplayer_p      FUNC_PTR(void, __cdecl, (task*)                               , 0x0055D3B0)
+#   define ALO_BallDestructor_p     FUNC_PTR(void, __cdecl, (task*)                               , 0x0057B9B0)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

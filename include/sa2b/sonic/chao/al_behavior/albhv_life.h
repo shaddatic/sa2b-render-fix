@@ -44,8 +44,8 @@ EXTERN_END
 #   define MayuDisplayer_p      FUNC_PTR(void, __cdecl, (task*), 0x568A70)
 
 /** Behavior ptrs **/
-#   define ALBHV_Mayu_p         BhvFUNC_PTR(0x00568D30)
-#   define ALBHV_Dead_p         BhvFUNC_PTR(0x00568F60)
+#   define ALBHV_Mayu_p         BHVFUNC_PTR(0x00568D30)
+#   define ALBHV_Dead_p         BHVFUNC_PTR(0x00568F60)
 
 /** User-Function ptrs **/
 #   define CreateMayu_p         ((void*)0x00568CD0)
