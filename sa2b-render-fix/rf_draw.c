@@ -111,4 +111,11 @@ RF_DrawInit(void)
     /** Fix shape motion not calling MotionCallback **/
     WriteJump(0x00784890, rjCnkPushPopShape);
     WriteJump(0x00784E70, rjCnkPushPopShapeLink);
+
+    /** Fix Ginja using the wrong multiplication value to set 0~256 UVs to 0~1.
+        In vanilla, it uses (1/255) **/
+
+    static f64 s_GjUvMul = (1.0/256.0);
+
+    WritePointer(0x0041BCC3, &s_GjUvMul);
 }

@@ -76,7 +76,7 @@
 *   Parameters:
 *     - uvh     : if the strip uses HD UVs
 */
-#define GET_UV_MUL(uvh)     ((uvh) ? (1.f/1023.f) : (1.f/255.f))
+#define GET_UV_MUL(uvh)     ((uvh) ? (1.f/1024.f) : (1.f/256.f))
 /*
 *   Description:
 *     Get vertex normal information stored in the Cnk strip info.
