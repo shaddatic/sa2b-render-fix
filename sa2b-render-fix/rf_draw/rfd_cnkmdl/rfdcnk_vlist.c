@@ -14,13 +14,23 @@
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
 
+/************************/
+/*  Constants           */
+/************************/
+/****** Ninja Vertex Max ************************************************************/
 #define NJD_VERTOFF_MAX         (NJD_CV_NF_D8+1)
 
+/************************/
+/*  Source              */
+/************************/
+/****** Static **********************************************************************/
 static void
 CalcPoint(const NJS_POINT3* ps, NJS_POINT3* pd)
 {
     njCalcPoint(NULL, ps, pd);
 }
+
+#if 0
 
 static void
 CalcNormal(const NJS_VECTOR* ns, NJS_VECTOR* nd, Float funitratio)
@@ -47,14 +57,20 @@ GetUnitRatio(void)
     return 1.f / njSqrt( (v.x * v.x) + (v.y * v.y) + (v.z * v.z) );
 }
 
+#endif
+
+static void
+CalcNormal(const NJS_VECTOR* ns, NJS_VECTOR* nd)
+{
+    njCalcVector(NULL, ns, nd);
+}
+
 static void
 rjCnkVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 {
     const CNK_VLIST_CV* vlist = (void*)pVList;
 
     const int nb_vtx = vlist->nbindeces;
-
-    const f32 uratio = GetUnitRatio();
 
     for (int i = 0; i < nb_vtx; ++i)
     {
@@ -84,12 +100,10 @@ rjCnkVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const int nb_vtx = vlist->nbindeces;
 
-    const f32 uratio = GetUnitRatio();
-
     for (int i = 0; i < nb_vtx; ++i)
     {
         CalcPoint( &vlist->d[i].pos , &pVtxBuf[i].pos);
-        CalcNormal(&vlist->d[i].norm, &pVtxBuf[i].norm, uratio);
+        CalcNormal(&vlist->d[i].norm, &pVtxBuf[i].norm);
     }
 }
 
@@ -100,12 +114,10 @@ rjCnkVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const int nb_vtx = vlist->nbindeces;
 
-    const f32 uratio = GetUnitRatio();
-
     for (int i = 0; i < nb_vtx; ++i)
     {
         CalcPoint( &vlist->d[i].pos , &pVtxBuf[i].pos);
-        CalcNormal(&vlist->d[i].norm, &pVtxBuf[i].norm, uratio);
+        CalcNormal(&vlist->d[i].norm, &pVtxBuf[i].norm);
 
         pVtxBuf[i].color = vlist->d[i].color;
     }
@@ -118,15 +130,13 @@ rjCnkVertexVNNF(const Sint32* pVList, int type, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const int nb_vtx = vlist->nbindeces;
 
-    const f32 uratio = GetUnitRatio();
-
     for (int i = 0; i < nb_vtx; ++i)
     {
         NJS_POINT3 pos;
         NJS_VECTOR norm;
 
         CalcPoint( &vlist->d[i].pos , &pos);
-        CalcNormal(&vlist->d[i].norm, &norm, uratio);
+        CalcNormal(&vlist->d[i].norm, &norm);
 
         CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ vlist->d[i].idx ];
 
@@ -164,6 +174,7 @@ rjCnkVertexVNNF(const Sint32* pVList, int type, CNK_VERTEX_BUFFER* pVtxBuf)
     }
 }
 
+/****** Extern **********************************************************************/
 int
 rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
 {
