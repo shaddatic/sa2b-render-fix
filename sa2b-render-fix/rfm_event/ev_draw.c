@@ -24,6 +24,12 @@
 #include <rfm_event/ev_draw/evd_internal.h> /* children                             */
 
 /************************/
+/*  Constants           */
+/************************/
+/****** Event Layer *****************************************************************/
+#define EV_ALL_LAYERS           (-1)
+
+/************************/
 /*  Game Functions      */
 /************************/
 /****** Event ***********************************************************************/
@@ -61,7 +67,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     {
         const EventEntityData* const p_entry = &p_scene->EntityList[i];
 
-        if (p_entry->layer != nbLayer)
+        if (nbLayer != EV_ALL_LAYERS && p_entry->layer != nbLayer)
             continue;
 
         const bool use_gj = !p_entry->object;
@@ -417,13 +423,8 @@ EventDisplayer(task* tp)
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
 
-        const int nb_layer = EventGetLayerCount();
-
-        for (int i = 0; i < nb_layer; ++i)
-        {
-            EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventScene      , i);
-        }
+        EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
+        EventSceneDraw(EventScene      , EV_ALL_LAYERS);
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
