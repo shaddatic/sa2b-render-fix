@@ -115,7 +115,7 @@ RF_DrawInit(void)
     /** Fix chCnk and Ginja using the wrong multiplication value to convert 0~256
         integer UVs to 0~1. In vanilla, it uses (1/255) **/
 
-    static f64 s_NewUvMul = (1.0/256.0);
+    static const f64 s_NewUvMul = (1.0/256.0);
 
     WritePointer(0x005A563C, &s_NewUvMul); // chCnk // NJD_CV_D8
     WritePointer(0x005A591C, &s_NewUvMul); // chCnk // NJD_CV_VN
