@@ -88,8 +88,6 @@ rjCnkBeginDrawModel(void)
 Sint32
 rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
 {
-    Sint32 res = 0;
-
     if (ShadowCnkDraw)
     {
         if ( model->vlist )
