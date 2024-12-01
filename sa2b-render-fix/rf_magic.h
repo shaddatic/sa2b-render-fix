@@ -59,6 +59,9 @@ void    RF_MagicSetShaderConstantVec4( RFE_MAGIC_SHADER type, int32_t reg, float
 /** Set shader constant using a float **/
 void    RF_MagicSetShaderConstantFloat(RFE_MAGIC_SHADER type, int32_t reg, f32 f, int32_t i);
 
+/** set texture shader constant **/
+void    RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, void* pTex, void* pSamplerState);;
+
 EXTERN_END
 
 #endif/*_RF_MAGIC_H_*/
