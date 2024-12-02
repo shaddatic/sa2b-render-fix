@@ -91,7 +91,12 @@ RX_SetTexture(const TEXTURE_INFO* restrict pTex, int index)
     }
     else
     {
-        SetPaletteShader( nullptr );
+        /** CWE replaces this but doesn't check for a 'nullptr', so
+            we must remove shader flag manually **/
+
+//      SetPaletteShader( nullptr );
+
+        ShaderMode &= ~SHADERMODE_PALLETE;
     }
 }
 
