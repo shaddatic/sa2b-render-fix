@@ -14,6 +14,7 @@
 
 /****** Game ************************************************************************/
 #include <sa2b/sonic/motion.h>  /* MOTION_CTRL                                      */
+#include <sa2b/sonic/texture.h> /* texload                                          */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -121,4 +122,8 @@ RF_DrawInit(void)
     WritePointer(0x005A591C, &s_NewUvMul); // chCnk // NJD_CV_VN
     WritePointer(0x005A5C1C, &s_NewUvMul); // chCnk // NJD_CV_VN_D8
     WritePointer(0x0041BCC3, &s_NewUvMul); // Ginja
+
+    EXTERN NJS_TEXLIST texlist_rf_texerr[];
+
+    texLoadTexturePrsFile("RF_TEXERR", texlist_rf_texerr);
 }
