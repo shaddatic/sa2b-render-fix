@@ -14,6 +14,7 @@
 #include <rf_core.h>        /* core                                                 */
 #include <rf_renderstate.h> /* render state                                         */
 #include <rf_util.h>        /* utility                                              */
+#include <rf_gx.h>          /* rf gx                                                */
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
@@ -23,6 +24,8 @@
 /************************/
 /****** Shifted FST *****************************************************************/
 #define CNK_FST_UA              (NJD_FST_UA>>NJD_FST_SHIFT) /* use alpha            */
+
+#define CnkSetTextureList       DATA_ARY(TEXTURE_INFO, 0x01934768, [8])
 
 /************************/
 /*  Structures          */
@@ -99,10 +102,141 @@ rjCnkContextBlend(CNK_CTX* restrict pCtx)
 static void
 rjCnkContextTiny(CNK_CTX* restrict pCtx)
 {
+    EXTERN NJS_TEXLIST texlist_rf_texerr[];
+
     if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
         return;
 
-    CnkParseTinyData_Ext(pCtx->tiny.id, pCtx->tiny.flag);
+    /** get context **/
+
+    const Sint16 headbits = pCtx->tiny.headbits;
+    const Sint16 texbits  = pCtx->tiny.texbits;
+
+    /** get texture **/
+
+    const u32 texid = texbits & NJD_TID_MASK;
+
+    const NJS_TEXLIST* p_tls = njGetCurrentTexList();
+
+    if (texid >= p_tls->nbTexture)
+    {
+    TEX_ERR:
+        int* texaddr = (int*) texlist_rf_texerr->textures[0].texaddr;
+
+        const int* texparambuf = (int*) texaddr[3];
+
+        const bool flg_tes5 = texparambuf[7] >> 31;
+
+        pTexSurface = (int*) &texparambuf[1];
+
+        TEXTURE_INFO* p_tinfo = &CnkSetTextureList[0];
+
+        p_tinfo->texp       = (void*) texparambuf[8];
+        p_tinfo->min_filter = 0;
+        p_tinfo->mag_filter = 0;
+        p_tinfo->address_u = 1;
+        p_tinfo->address_v = 1;
+        p_tinfo->palette = -1;
+
+        p_tinfo->tes5 = flg_tes5 != 0;
+
+        RX_SetTexture(p_tinfo, 0);
+        return;
+        /** purposefully don't unset CTX_TINY flag **/
+    }
+
+    const int* texaddr = (int*) p_tls->textures[texid].texaddr;
+
+    if (!texaddr)
+        goto TEX_ERR;
+
+    const int* texparambuf = (int*) texaddr[3];
+
+    if (!texparambuf)
+        goto TEX_ERR;
+
+    pTexSurface = (int*) &texparambuf[1];
+
+    /** texture info start **/
+
+    TEXTURE_INFO* p_tinfo = &CnkSetTextureList[0];
+
+    /** texture pointer and palette **/
+
+    if (texparambuf[7] & 0x8000)
+    {
+        p_tinfo->texp    = (void*) texparambuf[8];
+        p_tinfo->palette = texaddr[2];
+    }
+    else
+    {
+        p_tinfo->texp    = (void*) texparambuf[8];
+        p_tinfo->palette = -1;
+    }
+
+    /** texture filtering **/
+
+    switch ( (texbits >> NJD_FFM_SHIFT) & 0x3 )
+    {
+        case 0: // point
+        {
+            p_tinfo->min_filter = 0;
+            p_tinfo->mag_filter = 0;
+            break;
+        }
+        case 1: // bilinear (default)
+        {
+            p_tinfo->min_filter = 1;
+            p_tinfo->mag_filter = 1;
+            break;
+        }
+        case 2: // trilinear A
+        {
+            p_tinfo->min_filter = 1;
+            p_tinfo->mag_filter = 1;
+            break;
+        }
+        case 3: // trilinear B
+        {
+            p_tinfo->min_filter = 1;
+            p_tinfo->mag_filter = 1;
+            break;
+        }
+    }
+
+    /** texture wrapping **/
+
+    if (headbits & NJD_FCL_U) // CLamp
+    {
+        p_tinfo->address_u = 0;
+    }
+    else if (headbits & NJD_FFL_U) // FLip (mirror)
+    {
+        p_tinfo->address_u = 2;
+    }
+    else
+        p_tinfo->address_u = 1; // repeat
+
+    if (headbits & NJD_FCL_V) // CLamp
+    {
+        p_tinfo->address_v = 0;
+    }
+    else if (headbits & NJD_FFL_V) // FLip (mirror)
+    {
+        p_tinfo->address_v = 2;
+    }
+    else
+        p_tinfo->address_v = 1; // repeat
+
+    /** tes5 **/
+
+    p_tinfo->tes5 = (texparambuf[7] >> 31) != 0;
+
+    /** set texture **/
+
+    RX_SetTexture(p_tinfo, 0);
+
+    /** texture info end **/
 
     pCtx->flag &= ~CTXFLG_CTX_TINY;
 }

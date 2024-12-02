@@ -74,8 +74,8 @@ CNK_SPEC;
 
 typedef struct
 {
-    Uint16 flag;
-    Sint16 id;
+    Uint16 headbits;
+    Sint16 texbits;
 }
 CNK_TINY;
 
