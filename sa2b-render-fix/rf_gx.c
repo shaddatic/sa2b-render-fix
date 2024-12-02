@@ -96,7 +96,15 @@ RX_SetTexture(const TEXTURE_INFO* restrict pTex, int index)
 
 //      SetPaletteShader( nullptr );
 
-        ShaderMode &= ~SHADERMODE_PALLETE;
+        const int shdrmd = ShaderMode;
+
+        if (shdrmd != (shdrmd & ~SHADERMODE_PALLETE))
+        {
+            ShaderMode &= ~SHADERMODE_PALLETE;
+
+            SetShaders(1);
+            SetShaders(ShaderLast);
+        }
     }
 }
 
