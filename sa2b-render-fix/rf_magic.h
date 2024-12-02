@@ -34,6 +34,22 @@ typedef enum
 RFE_MAGIC_SHADER;
 
 /************************/
+/*  Structures          */
+/************************/
+/****** Magic Sampler Data **********************************************************/
+typedef struct
+{
+    s32     MinFilter;
+    s32     MagFilter;
+    s32     MipFilter;
+    s32     AddressU;
+    s32     AddressV;
+    s32     AddressW;
+    s32     BorderColor;
+}
+RF_MAGICSAMPLER;
+
+/************************/
 /*  Functions           */
 /************************/
 EXTERN_START
@@ -60,7 +76,7 @@ void    RF_MagicSetShaderConstantVec4( RFE_MAGIC_SHADER type, int32_t reg, float
 void    RF_MagicSetShaderConstantFloat(RFE_MAGIC_SHADER type, int32_t reg, f32 f, int32_t i);
 
 /** set texture shader constant **/
-void    RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, void* pTex, void* pSamplerState);;
+void    RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, void* pTex, RF_MAGICSAMPLER* pSamplerState);
 
 EXTERN_END
 
