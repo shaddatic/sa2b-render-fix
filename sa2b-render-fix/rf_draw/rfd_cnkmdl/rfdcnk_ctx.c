@@ -176,7 +176,7 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** texture filtering **/
 
-    switch ( (texbits >> NJD_FFM_SHIFT) & 0x3 )
+    switch ( (texbits & NJD_FFM_MASK) >> NJD_FFM_SHIFT )
     {
         case 0: // point
         {
