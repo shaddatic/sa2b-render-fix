@@ -267,9 +267,6 @@
     <ClCompile Include="rf_draw\rfd_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_renderstate\rfrs_transmode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmdl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -331,6 +328,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_magic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_gx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_renderstate\rfrs_transmode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -489,6 +492,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_event\ev_draw\evd_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_gx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_texture\rf_texerr.tls">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

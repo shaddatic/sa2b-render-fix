@@ -16,6 +16,7 @@
 #include <rf_modchk.h>
 #include <rf_draw.h>
 #include <rf_font.h>
+#include <rf_gx.h>
 
 /****** Render Fix Modules **********************************************************/
 #include <rfm_global.h>
@@ -72,6 +73,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RF_RenderStateInit();
     RF_DrawInit();
     RF_FontInit(); 
+    RF_GxInit();
 
     /** DXVK init **/
     RF_DXVK_Init();

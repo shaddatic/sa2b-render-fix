@@ -94,6 +94,7 @@
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_vlist.c" />
     <ClCompile Include="rf_draw\rfd_line.c" />
     <ClCompile Include="rf_font.c" />
+    <ClCompile Include="rf_gx.c" />
     <ClCompile Include="rf_light.c" />
     <ClCompile Include="rf_magic.cpp" />
     <ClCompile Include="rf_modchk.c" />
@@ -158,6 +159,7 @@
     <ClInclude Include="rf_draw\rfd_cnk.h" />
     <ClInclude Include="rf_draw\rfd_internal.h" />
     <ClInclude Include="rf_font.h" />
+    <ClInclude Include="rf_gx.h" />
     <ClInclude Include="rf_light.h" />
     <ClInclude Include="rf_magic.h" />
     <ClInclude Include="rf_modchk.h" />
