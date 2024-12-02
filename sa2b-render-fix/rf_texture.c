@@ -9,4 +9,6 @@
 
 #include <rf_texture/jo_tree.tls>
 
+#include <rf_texture/rf_texerr.tls>
+
 #pragma warning( pop )

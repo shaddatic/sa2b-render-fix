@@ -175,6 +175,7 @@
     <ClInclude Include="rf_mod.h" />
     <ClInclude Include="rf_renderstate\rfrs_internal.h" />
     <ClInclude Include="rf_shader.h" />
+    <ClInclude Include="rf_texture\rf_texerr.tls" />
     <ClInclude Include="rf_util.h" />
     <ClInclude Include="rf_usermsg.h" />
     <ClInclude Include="rfm_shadows\shd_internal.h" />

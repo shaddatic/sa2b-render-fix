@@ -1,0 +1,14 @@
+TEXTURE_START
+
+TEXTURENAME	texture_rf_texerr[]
+START
+	TEXN ( "rf_texerr" ),
+END
+
+TEXTURELIST	texlist_rf_texerr[]
+START
+TextureList	texture_rf_texerr,
+TextureNum	1,
+END
+
+TEXTURE_END
