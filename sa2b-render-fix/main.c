@@ -72,7 +72,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RF_UserMessageInit();
     RF_RenderStateInit();
     RF_DrawInit();
-    RF_FontInit(); 
+    RF_FontInit();
     RF_GxInit();
 
     /** DXVK init **/
