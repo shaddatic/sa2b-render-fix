@@ -109,16 +109,16 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** get context **/
 
-    const Sint16 headbits = pCtx->tiny.headbits;
-    const Sint16 texbits  = pCtx->tiny.texbits;
+    const Uint16 headbits = pCtx->tiny.headbits;
+    const Uint16 texbits  = pCtx->tiny.texbits;
 
     /** get texture **/
 
-    const u32 texid = texbits & NJD_TID_MASK;
+    const s32 texid = texbits & NJD_TID_MASK;
 
     const NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-    if (texid >= p_tls->nbTexture)
+    if (texid >= (s32)p_tls->nbTexture)
     {
     TEX_ERR:
         int* texaddr = (int*) texlist_rf_texerr->textures[0].texaddr;
