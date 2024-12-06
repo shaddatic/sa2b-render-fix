@@ -6,8 +6,12 @@
 #include <sa2b/writemem.h>      /* WriteData, WriteJump, WritePointer               */
 #include <sa2b/writeop.h>       /* WriteJump, WriteCall                             */
 
+#define SAMT_INCL_INTERNAL
+
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/ninja.h>   /* ninja                                            */
+
+#undef SAMT_INCL_INTERNAL
 
 /****** Utility *********************************************************************/
 #include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
@@ -19,6 +23,7 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_mod.h>             /* RFMOD_PushPolygon                                */
+#include <rf_gx.h>
 
 /****** Self ************************************************************************/
 #include <rf_draw.h>              /* self                                           */
@@ -95,6 +100,83 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     Poly2DN = 4;
 }
 
+/****** Set Tex (Draw) **************************************************************/
+#define TexInfoDraw         DATA_REF(TEXTURE_INFO, 0x019341A0)
+
+void
+SetTexForDraw(void)
+{
+    NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texsurface;
+
+    const Uint32 texmode = _nj_curr_ctx_->texmode;
+
+    /** clamp/flip **/
+
+    if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+    {
+        TexInfoDraw.address_u = 0;
+    }
+    else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+    {
+        TexInfoDraw.address_u = 2;
+    }
+    else
+        TexInfoDraw.address_u = 1;
+
+    if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
+    {
+        TexInfoDraw.address_v = 0;
+    }
+    else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
+    {
+        TexInfoDraw.address_v = 2;
+    }
+    else
+        TexInfoDraw.address_v = 1;
+
+    /** filter mode **/
+
+    switch ( (texmode & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
+    {
+        case 0: // point
+        {
+            TexInfoDraw.min_filter = 0;
+            TexInfoDraw.mag_filter = 0;
+            break;
+        }
+        case 1: // bilinear (default)
+        {
+            TexInfoDraw.min_filter = 1;
+            TexInfoDraw.mag_filter = 1;
+            break;
+        }
+        case 2: // trilinear A
+        {
+            TexInfoDraw.min_filter = 1;
+            TexInfoDraw.mag_filter = 1;
+            break;
+        }
+        case 3: // trilinear B
+        {
+            TexInfoDraw.min_filter = 1;
+            TexInfoDraw.mag_filter = 1;
+            break;
+        }
+    }
+
+    /** palette **/
+
+    const Uint32 sflag = p_texsurface->fSurfaceFlags;
+
+    TexInfoDraw.palette = (sflag & NJD_SURFACEFLAGS_PALETTIZED) ? _nj_curr_ctx_->bank : -1;
+
+    TexInfoDraw.mip_level = (sflag & NJD_SURFACEFLAGS_MIPMAPED) ? 1 : 0;
+
+    TexInfoDraw.surface = p_texsurface->pSurface;
+
+    RX_SetTexture(&TexInfoDraw, 0);
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
@@ -126,4 +208,8 @@ RF_DrawInit(void)
     EXTERN NJS_TEXLIST texlist_rf_texerr[];
 
     texLoadTexturePrsFile("RF_TEXERR", texlist_rf_texerr);
+
+    WriteJump(0x004291B0, SetTexForDraw);
+
+    njTextureFilterMode(NJD_TEXTUREFILTER_BILINEAR);
 }
