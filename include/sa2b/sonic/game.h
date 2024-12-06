@@ -157,6 +157,13 @@ enum
     STAGE_CHAOWORLD       = 90, /* Chao World                                       */
 };
 
+enum // uc2PVSMode
+{
+    MD_2PVS_1PLAYER,            /* single-player                                    */
+    MD_2PVS_BESTOF3,            /* best of 3 rounds                                 */
+    MD_2PVS_BESTOF1,            /* single battle                                    */
+};
+
 /************************/
 /*  Data                */
 /************************/
@@ -167,8 +174,12 @@ enum
 
 #define ssGameModeChange    DATA_REF(int16_t , 0x01A558A4)
 
+#define ssLastStageNumber   DATA_REF(int16_t , 0x01934B84)
+
 #define ssStageNumber       DATA_REF(int16_t , 0x01934B70)
 #define ucMissionNumber     DATA_REF(uint8_t , 0x0174AFE3)
+
+#define uc2PVSMode          DATA_REF(u8      , 0x0174AFDE)
 
 #define Language            DATA_REF(int8_t  , 0x0174AFD1)
 #define Speech              DATA_REF(int8_t  , 0x0174AFD2)

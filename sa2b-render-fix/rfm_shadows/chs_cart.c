@@ -62,7 +62,7 @@ cartDisplayerMod(task* tp)
 {
     CARTWK* const cwp = GET_CARTWK(tp);
 
-    CAMCONTWK* const camwk = cameraCurrentWork;
+    camcontwk* const camwk = cameraCurrentWork;
 
     NJS_POINT3 rel_pos = {
         .x = cwp->pos.x - camwk->pos.x,

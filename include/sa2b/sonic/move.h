@@ -80,6 +80,12 @@ EXTERN_START
 /** Initiate MOVE_WORK and put pointer in 'tp->mwp' **/
 MOVE_WORK* MOV_Init(task* tp);
 
+/** Update Task's MOVE_WORK parameters, such as applying gravity **/
+void    MOV_Control(task* tp);
+
+/** Turn to aim position by 'rot_spd' **/
+Angle   MOV_TurnToAim2(task* tp, Angle rot_spd);
+
 /** Calculate Angle to player from Task **/
 Angle   MOV_CalcPlayerAngle(task* tp, int player_num);
 
@@ -105,14 +111,16 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define MOV_Init_p                   FUNC_PTR(MOVE_WORK*, __cdecl, (task*), 0x007966D0)
-#   define MOV_CalcPlayerAngle_p        FUNC_PTR(Angle, __fastcall, (task*, int), 0x007969B0)
+#define MOV_Init_p                  FUNC_PTR(MOVE_WORK*, __cdecl, (task*), 0x007966D0)
+#define MOV_CalcPlayerAngle_p       FUNC_PTR(Angle, __fastcall, (task*, int), 0x007969B0)
 
 /** User-Function ptrs **/
-#   define MOV_GetShadowPosXYZ_p        ((void*)0x00797E10)
-#   define MOV_CheckFloor_p             ((void*)0x00796B20)
-#   define MOV_CheckWall_p              ((void*)0x00796CA0)
-#   define MOV_TurnToPlayer2_p          ((void*)0x00796CA0)
+#define MOV_Control_p               ((void*)0x00796780)
+#define MOV_TurnToAim2_p            ((void*)0x00796910)
+#define MOV_GetShadowPosXYZ_p       ((void*)0x00797E10)
+#define MOV_CheckFloor_p            ((void*)0x00796B20)
+#define MOV_CheckWall_p             ((void*)0x00796CA0)
+#define MOV_TurnToPlayer2_p         ((void*)0x00796CA0)
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

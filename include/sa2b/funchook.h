@@ -47,6 +47,18 @@ void    HookInfoUnhook( const hook_info* info );
 void    HookInfoRehook( const hook_info* info );
 /*
 *   Description:
+*     Check if a hook is currently active and is the first function hook in the call
+*   chain. If either of those cases aren't true, this function will return 'false'.
+*
+*   Parameters:
+*     - info    : hook info pointer
+*
+*   Returns:
+*     'true' if hook info matches code hook; or 'false' if not.
+*/
+bool    HookInfoCheck( const hook_info* info );
+/*
+*   Description:
 *     Restore the original code and clear the hook info
 *
 *   Parameters:

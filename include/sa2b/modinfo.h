@@ -2,7 +2,10 @@
 *   Sonic Adventure Mod Tools (SA2B) - '/modinfo.h'
 *
 *   Description:
-*     ######
+*     For getting mod information on other currently active mods.
+*
+*   Notes:
+*     - Requires Mod Loader version >= 9
 *
 *   Contributors:
 *     - SA2 Mod Loader/Manager Team
@@ -13,14 +16,16 @@
 #ifndef H_SAMT_MODINFO
 #define H_SAMT_MODINFO
 
-EXTERN_START
-
 /************************/
 /*  Opaque Types        */
 /************************/
-/****** ######### *******************************************************************/
-typedef struct dll_handle   dll_handle;
-typedef struct config       config;
+/****** DLL Handle ******************************************************************/
+typedef struct dll_handle       dll_handle;
+
+/****** Config **********************************************************************/
+typedef struct config           config;
+
+EXTERN_START
 
 /************************/
 /*  Structures          */

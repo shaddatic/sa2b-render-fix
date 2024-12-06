@@ -24,15 +24,12 @@
 #include <sa2b/sonic/task/forcewk.h>
 #include <sa2b/sonic/task/anywk.h>
 
+#include <sa2b/sonic/task/taskexec.h>
+
 /************************/
 /*  Abstract Types      */
 /************************/
 typedef struct _OBJ_CONDITION   OBJ_CONDITION;
-
-/************************/
-/*  Typedefs            */
-/************************/
-typedef void(__cdecl* task_exec)(struct task*);
 
 /************************/
 /*  Enums               */
@@ -113,7 +110,7 @@ task;
 EXTERN_START
 /****** Create Task *****************************************************************/
 /** Create new Task **/
-task*   CreateElementalTask(uint8_t im, tasklevel level, task_exec exec, const char* name);
+task*   CreateElementalTask(u8 im, tasklevel level, task_exec exec, const char* name);
 /** Create new task as a child of another Task **/
 task*   CreateChildTask(int16_t im, task_exec exec, task* tp);
 

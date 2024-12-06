@@ -19,13 +19,14 @@
 /*  Includes            */
 /************************/
 #include <sa2b/ninja/njcommon.h>
+#include <sa2b/ninja/njcamera.h>
 
 #include <sa2b/sonic/task/taskwk.h>
 
 /************************/
 /*  Header Types        */
 /************************/
-typedef struct _CameraSystemWork    CAMSYSWK;
+typedef struct _CameraSystemWork    CameraSystemWork;
 
 /************************/
 /*  Defines             */
@@ -44,7 +45,7 @@ typedef struct _camcontwk
     NJS_POINT3 diff;
     f32        spd;
 }
-CAMCONTWK;
+camcontwk;
 
 typedef struct 
 {
@@ -60,22 +61,12 @@ typedef struct
 }
 CAMCOLLI;
 
-typedef struct 
-{
-    NJS_POINT3 pos;
-    NJS_POINT3 dir;
-    Angle roll;
-    Angle fov;
-    float unknown;
-}
-CAMVIEW;
-
 typedef struct _CAMERALEVEL
 {
     int mode;
     int field_4;
     uint32_t counter;
-    void (__cdecl * pfnCamera)(CAMSYSWK*, struct _CAMERALEVEL*);
+    void (__cdecl * pfnCamera)(CameraSystemWork*, struct _CAMERALEVEL*);
     int field_10;
     char work[256];
 }
@@ -86,7 +77,7 @@ typedef struct _ADJUSTLEVEL
     int adjust;
     int field_4;
     uint32_t counter;
-    void (__cdecl * pfnAdjust)(CAMSYSWK*, struct _ADJUSTLEVEL*);
+    void (__cdecl * pfnAdjust)(CameraSystemWork*, struct _ADJUSTLEVEL*);
     int field_10;
     char work[256];
 }
@@ -109,24 +100,22 @@ typedef struct _CameraSystemWork
     int32_t shake_timer;
     f32     shake_mag;
 
-    CAMVIEW ViewInfo;
+    NJS_CAMERA camera;
 
-    int32_t unk_1;
-
-    CAMCONTWK ControlWork;
-    CAMCONTWK ControlWorkOld;
-    CAMCONTWK ControlWorkOlder;
+    camcontwk ControlWork;
+    camcontwk ControlWorkOld;
+    camcontwk ControlWorkOlder;
 
     int32_t level;
     CAMERALEVEL ModeLevel[16];
     ADJUSTLEVEL AdjustLevel[16];
 }
-CAMSYSWK;
+CameraSystemWork;
 
 typedef struct _OBJ_CAMERAMODE
 {
     const char* name;
-    void (__cdecl* fnCamera)(CAMSYSWK*, CAMERALEVEL*);
+    void (__cdecl* fnCamera)(CameraSystemWork*, CAMERALEVEL*);
     int unk;
 }
 OBJ_CAMERAMODE;
@@ -134,7 +123,7 @@ OBJ_CAMERAMODE;
 typedef struct _OBJ_CAMERAADJUST
 {
     const char* name;
-    void (__cdecl* fnAdjust)(CAMSYSWK*, ADJUSTLEVEL*);
+    void (__cdecl* fnAdjust)(CameraSystemWork*, ADJUSTLEVEL*);
 }
 OBJ_CAMERAADJUST;
 
@@ -152,9 +141,9 @@ CAMADJUSTWK_KNUCKLES;
 #define cameraCount                 DATA_REF(int32_t         , 0x01DD946C)
 #define cameraNumber                DATA_REF(int32_t         , 0x01DD92A0)
 
-#define cameraSystemWork            DATA_ARY(CAMSYSWK        , 0x01DCFF40, [4])
+#define cameraSystemWork            DATA_ARY(CameraSystemWork, 0x01DCFF40, [4])
 
-#define cameraControlWork           DATA_ARY(CAMCONTWK*      , 0x01DD92B0, [4])
+#define cameraControlWork           DATA_ARY(camcontwk*      , 0x01DD92B0, [4])
 
 #define CameraMode                  DATA_ARY(OBJ_CAMERAMODE  , 0x008ABD38, [28])
 #define CameraAdjust                DATA_ARY(OBJ_CAMERAADJUST, 0x008ABE88, [14])

@@ -18,11 +18,12 @@
 /************************/
 #include <sa2b/ninja/ninja.h>
 
+#include <sa2b/sonic/task/taskwk.h>
+
 /************************/
 /*  Abstract Types      */
 /************************/
 typedef struct task             task;
-typedef struct colliwk          COLLIWK;
 typedef struct tree_save_info   TREE_SAVE_INFO;
 
 /************************/
@@ -85,18 +86,9 @@ FRUIT_INFO;
 
 #define GET_TREE_WORK(_tp)      ((TREE_WORK*)_tp->twp)
 
-typedef struct // TaskWK
+typedef struct // taskwk
 {
-    int8_t mode;
-    int8_t smode;
-    int8_t id;
-    int8_t btimer;
-    int16_t flag;
-    int16_t wtimer;
-    Angle3 ang;
-    NJS_POINT3 pos;
-    NJS_POINT3 scl;
-    COLLIWK* cwp;
+    TASKWK;
 
     uint8_t type;
     uint8_t state;

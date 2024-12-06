@@ -46,6 +46,27 @@ typedef enum
 }
 eCHAO_STAGE_NUMBER;
 
+/****** Stage Master ****************************************************************/
+typedef enum 
+{
+    MD_STAGE_START,
+    MD_STAGE_LOAD_FILE,
+    MD_STAGE_LOAD_FILE_WAIT,
+    MD_STAGE_CONFIRM_CREATION,
+    MD_STAGE_CONFIRM_CREATION_WAIT,
+    MD_STAGE_CREATE_FILE,
+    MD_STAGE_CREATE_FILE_WAIT,
+    MD_STAGE_INIT,
+    MD_STAGE_MANAGE,
+    MD_STAGE_SLEEP,
+    MD_STAGE_WHITE_OUT,
+    MD_STAGE_SAVE_START,
+    MD_STAGE_SAVE_WAIT,
+    MD_STAGE_EXIT,
+    MD_STAGE_ZOMBIE,
+}
+eMD_STAGE_MASTER;
+
 /************************/
 /*  Data                */
 /************************/

@@ -29,7 +29,6 @@
 /*  Abstract Types      */
 /************************/
 typedef struct task         task;
-typedef struct colliwk      COLLIWK;
 
 /************************/
 /*  Structures          */

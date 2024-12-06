@@ -107,6 +107,12 @@ typedef void(__cdecl* task_exec)(task*);
 /************************/
 enum
 {
+    PLAYER_1,
+    PLAYER_2
+};
+
+enum
+{
     ADV2_PLNO_SONIC,
     ADV2_PLNO_SHADOW,
     ADV2_PLNO_TAILS,

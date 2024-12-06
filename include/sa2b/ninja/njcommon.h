@@ -55,7 +55,6 @@
 /*--------------------------------------*/
 typedef Sint32  Angle;
 typedef Sint16  Sangle;
-typedef Sint8   NJS_SYS_ATTR[64];
 typedef void  (*NJS_INT_FUNC)(void);
 
 typedef struct

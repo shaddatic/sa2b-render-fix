@@ -51,14 +51,6 @@
 #endif
 
 /************************/
-/*  Includes            */
-/************************/
-/****** Standard Library ************************************************************/
-#include <stddef.h>                     /* NULL, size_t, etc                        */
-#include <stdbool.h>                    /* bool (until C23)                         */
-#include <stdint.h>                     /* verbose stdint types                     */
-
-/************************/
 /*  Core Definitions    */
 /************************/
 /****** C/C++ Extern Macros *********************************************************/
@@ -71,6 +63,14 @@
 #   define EXTERN_START
 #   define EXTERN_END
 #endif/*__cplusplus*/
+
+/************************/
+/*  Includes            */
+/************************/
+/****** Standard Library ************************************************************/
+#include <stddef.h>             /* NULL, size_t, etc                                */
+#include <stdbool.h>            /* bool (until C23)                                 */
+#include <stdint.h>             /* verbose stdint types                             */
 
 EXTERN_START
 
@@ -208,13 +208,13 @@ const char* GetModPath(void);
 #   define MIN_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val2):(val1))
 #endif/*MIN_ABS*/
 
-/****** Address Mapping *************************************************************/
+/****** Data Address Mapping ********************************************************/
 /*
 *   Description:
 *     Define a data reference at an arbitrary address.
 *
-*   Example:
-*     #define SomeData    DATA_REF(int*, 0x12345678)
+*   Examples:
+*     - #define SomeData    DATA_REF(int*, 0x12345678)
 *
 *   Parameters:
 *     - type    : type of the data, can be a pointer type
@@ -225,8 +225,8 @@ const char* GetModPath(void);
 *   Description:
 *     Define a data array reference at an arbitrary address.
 *
-*   Example:
-*     #define SomeArray   DATA_ARY(double, 0x12345678, [23][2])
+*   Examples:
+*     - #define SomeArray   DATA_ARY(double, 0x12345678, [23][2])
 *
 *   Parameters:
 *     - type    : type of the data the array contains
@@ -234,32 +234,42 @@ const char* GetModPath(void);
 *     - nb      : number of elements in the array, can be multi-dimensional
 */
 #define DATA_ARY(type, addr, nb)            (*(type(*const)nb)(addr))
+
+/****** Function Address Mapping ****************************************************/
 /*
 *   Description:
 *     Define a function pointer at an arbitrary address.
 *
-*   Example:
-*     #define SomeFunc    FUNC_PTR(void*, __cdecl, (int), 0x12345678)
+*   Notes:
+*     - If the calling method isn't defined, it will use the default of your project
+*
+*   Examples:
+*     - #define SomeFunc    FUNC_PTR(void*, __cdecl, (int), 0x12345678)
+*     - #define SomeFunc    FUNC_PTR(void*,        , (int), 0x12345678)
 *
 *   Parameters:
-*     - type    : return type of the function
-*     - meth    : calling method of the function; __cdecl is default
-*     - args    : arguments to the function
-*     - addr    : constant address of the start of the function
+*     - type        : return type of the function
+*     - meth        : calling method of the function                      (optional)
+*     - args        : arguments to the function
+*     - addr        : constant address of the start of the function
 */
 #define FUNC_PTR(type, meth, args, addr)    ((type(meth*const)args)(addr))
 /*
 *   Description:
 *     Define a function pointer reference at an arbitrary address.
 *
-*   Example:
-*     #define SomeFuncPtr   FUNC_REF(void*, __cdecl, (int), 0x12345678)
+*   Notes:
+*     - If the calling method isn't defined, it will use the default of your project
+*
+*   Examples:
+*     - #define SomeFuncPtr   FUNC_REF(void*, __cdecl, (int), 0x12345678)
+*     - #define SomeFuncPtr   FUNC_REF(void*,        , (int), 0x12345678)
 *
 *   Parameters:
-*     - type    : return type of the function
-*     - meth    : calling method of the function; __cdecl is default
-*     - args    : arguments to the function
-*     - addr    : constant address of the pointer reference
+*     - type        : return type of the function
+*     - meth        : calling method of the function                      (optional)
+*     - args        : arguments to the function
+*     - addr        : constant address of the pointer reference
 */
 #define FUNC_REF(type, meth, args, addr)    (*(type(meth**const)args)(addr))
 

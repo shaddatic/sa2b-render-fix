@@ -1,8 +1,8 @@
 /*
 *   Sonic Adventure Mod Tools (SA2B) - '/sonic/misc.h'
 *
-*   Contains anything that hasn't yet found a place elsewhere
-*   Please don't add to this, it either goes somewhere or not in here
+*   Description:
+*     Miscellaneous game functions and utilities.
 *
 *   Contributors:
 *     - SEGA - Sonic Team,
@@ -10,21 +10,51 @@
 *
 *   Only for use with Sonic Adventure 2 for PC
 */
-#pragma once
+#ifndef H_SA2B_MISC
+#define H_SA2B_MISC
 
-enum
-{
-    PLAYER_1,
-    PLAYER_2
-}
+/************************/
+/*  External Includes   */
+/************************/
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
 
-#define LastLevel DATA_REF(int16_t, 0x1934B84)
+EXTERN_START
 
-#define SelectedMissionCharacter    DATA_REF(char, 0x01D1BF05)
-#define StageSelectLevelSelection   DATA_REF(char, 0x01D1BF08)
+/************************/
+/*  Prototypes          */
+/************************/
+/****** Angle ***********************************************************************/
+/*
+*   Description:
+*     Rotate a ninja angle a set distance toward a target angle. If the target is
+*   closer than the set distance, the target angle is directly returned.
+*
+*   Examples:
+*     - AdjustAngle(0x100, 0x200, 0x50) // returns '0x150'
+*
+*   Parameters:
+*     - ang0        : base ninja angle
+*     - ang1        : target ninja angle
+*     - dang        : distance to rotate
+*
+*   Returns:
+*     'ang0' rotated by 'dang' toward 'ang1'; or 'ang1'.
+*/    
+Angle   AdjustAngle( Angle ang0, Angle ang1, Angle dang );
+/*
+*   Description:
+*     Get the absolute difference between two ninja angles
+*
+*   Parameters:
+*     - ang0        : ninja angle 1
+*     - ang1        : ninja angle 2
+*
+*   Returns:
+*     The absolute difference between angle 1 and 2.
+*/
+Angle   DiffAngle( Angle ang0, Angle ang1 );
 
-#define gsGameCameraMode DATA_REF(int, 0x01DD0194) // Unofficial name
+EXTERN_END
 
-#define GameTime DATA_REF(int, 0x01DEC62C)
-
-#define TwoPlayerMode DATA_REF(bool, 0x0174AFDE)
+#endif/*H_SA2B_MISC*/

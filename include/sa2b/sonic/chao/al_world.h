@@ -40,20 +40,34 @@ enum
     ALW_CATEGORY_SOUND,
     ALW_CATEGORY_MASK,
     ALW_CATEGORY_SPECIAL,
+
     NB_CATEGORY,
 };
 
 enum
 {
-    ALW_KIND_NONE = 0x0,
-    ALW_KIND_CDR = 0x1,
-    ALW_KIND_TV = 0x2,
-    ALW_KIND_RADICASE = 0x3,
-    ALW_KIND_BALL = 0x4,
-    ALW_KIND_PIANO = 0x5,
-    ALW_KIND_ORGAN = 0x6,
-    ALW_KIND_HORSE = 0x7,
-    ALW_KIND_BOX = 0x8,
+    ALW_KIND_NONE,
+    ALW_KIND_CDR,
+    ALW_KIND_TV,
+    ALW_KIND_RADICASE,
+    ALW_KIND_BALL,
+    ALW_KIND_PIANO,
+    ALW_KIND_ORGAN,
+    ALW_KIND_HORSE,
+    ALW_KIND_BOX,
+};
+
+enum
+{
+    ALW_CMD_ERROR = -1,
+
+    ALW_CMD_NONE,
+    ALW_CMD_GO,
+    ALW_CMD_EAT,
+    ALW_CMD_CHANGE,
+    ALW_CMD_FINISH,
+    ALW_CMD_PLANTED,
+    ALW_CMD_BYE,
 };
 
 /************************/
@@ -61,9 +75,9 @@ enum
 /************************/
 typedef struct
 {
-    int16_t mood;
-    int16_t belly;
-    int16_t addexp[8];
+    s16 mood;
+    s16 belly;
+    s16 addexp[8];
 }
 GROW_PARAM;
 
@@ -71,21 +85,21 @@ GROW_PARAM;
 
 typedef struct al_entry_work
 {
-    uint16_t category;
-    uint16_t num;
-    uint16_t kind;
-    uint16_t flag;
-    void* pSaveInfo;
-    int32_t CommuID;
-    NJS_POINT3 pos;
-    Angle3 ang;
-    f32       radius;
-    f32       offset;
-    f32       CamDist;
-    int16_t command;
-    int16_t command_value;
-    int16_t state;
-    task* tp;
+    u16             category;
+    u16             num;
+    u16             kind;
+    u16             flag;
+    void*           pSaveInfo;
+    s32             CommuID;
+    NJS_POINT3      pos;
+    Angle3          ang;
+    f32             radius;
+    f32             offset;
+    f32             CamDist;
+    s16             command;
+    s16             command_value;
+    s16             state;
+    task*           tp;
     struct al_entry_work* pCommu;
     struct al_entry_work* pLockOn;
 }
