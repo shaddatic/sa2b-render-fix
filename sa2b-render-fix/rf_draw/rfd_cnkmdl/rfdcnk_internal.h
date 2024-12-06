@@ -115,7 +115,7 @@ CNK_CTX;
 #define VertexDecl_PosNormColUV         DATA_REF(VertexDeclarationInfo*, 0x0174F814)
 
 /****** Texture *********************************************************************/
-#define pTexSurface                     DATA_REF(int*, 0x01A55840)
+#define pTexSurface                     DATA_REF(NJS_TEXSURFACE*, 0x01A55840)
 
 /****** Old Strip Flag for Lighting *************************************************/
 #define _nj_cnk_strip_flags_            DATA_REF(Uint32, 0x01A5583C)

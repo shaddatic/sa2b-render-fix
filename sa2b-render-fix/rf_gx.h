@@ -18,12 +18,12 @@ EXTERN_START
 /****** Texture Info ****************************************************************/
 typedef struct
 {
-    void* texp;
+    void* surface;
     int   address_u;
     int   address_v;
     int   min_filter;
     int   mag_filter;
-    int   tes5;
+    int   mip_level;
     int   palette;
     int   unk;
 }

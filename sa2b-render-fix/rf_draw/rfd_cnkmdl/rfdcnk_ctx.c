@@ -121,41 +121,41 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
     if (texid >= (s32)p_tls->nbTexture)
     {
     TEX_ERR:
-        int* texaddr = (int*) texlist_rf_texerr->textures[0].texaddr;
+        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texlist_rf_texerr->textures[0].texaddr;
 
-        const int* texparambuf = (int*) texaddr[3];
+        NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
 
-        const bool flg_tes5 = texparambuf[7] >> 31;
+        const bool flg_tes5 = (bool)( p_texsys->texsurface.fSurfaceFlags & NJD_SURFACEFLAGS_MIPMAPED );
 
-        pTexSurface = (int*) &texparambuf[1];
+        pTexSurface = &p_texsys->texsurface;
 
         TEXTURE_INFO* p_tinfo = &CnkSetTextureList[0];
 
-        p_tinfo->texp       = (void*) texparambuf[8];
+        p_tinfo->surface    = p_texsys->texsurface.pSurface;
         p_tinfo->min_filter = 0;
         p_tinfo->mag_filter = 0;
         p_tinfo->address_u = 1;
         p_tinfo->address_v = 1;
         p_tinfo->palette = -1;
 
-        p_tinfo->tes5 = flg_tes5 != 0;
+        p_tinfo->mip_level = flg_tes5 != 0;
 
         RX_SetTexture(p_tinfo, 0);
         return;
         /** purposefully don't unset CTX_TINY flag **/
     }
 
-    const int* texaddr = (int*) p_tls->textures[texid].texaddr;
+    NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) p_tls->textures[texid].texaddr;
 
-    if (!texaddr)
+    if (!p_texman)
         goto TEX_ERR;
 
-    const int* texparambuf = (int*) texaddr[3];
+    NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
 
-    if (!texparambuf)
+    if (!p_texsys)
         goto TEX_ERR;
 
-    pTexSurface = (int*) &texparambuf[1];
+    pTexSurface = &p_texsys->texsurface;
 
     /** texture info start **/
 
@@ -163,14 +163,16 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** texture pointer and palette **/
 
-    if (texparambuf[7] & 0x8000)
+    const Uint32 sflag = p_texsys->texsurface.fSurfaceFlags;
+
+    if ( sflag & NJD_SURFACEFLAGS_PALETTIZED )
     {
-        p_tinfo->texp    = (void*) texparambuf[8];
-        p_tinfo->palette = texaddr[2];
+        p_tinfo->surface = p_texsys->texsurface.pSurface;
+        p_tinfo->palette = p_texman->bank;
     }
     else
     {
-        p_tinfo->texp    = (void*) texparambuf[8];
+        p_tinfo->surface = p_texsys->texsurface.pSurface;
         p_tinfo->palette = -1;
     }
 
@@ -230,7 +232,7 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** tes5 **/
 
-    p_tinfo->tes5 = (texparambuf[7] >> 31) != 0;
+    p_tinfo->mip_level = (bool)( sflag & NJD_SURFACEFLAGS_MIPMAPED );
 
     /** set texture **/
 
@@ -361,7 +363,7 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
             || bld_src == NJD_FBS_ONE   // OR src is ONE
             || bld_dst == NJD_FBD_ONE   // OR dst is ONE
             || notex                    // OR no texture
-            || (pTexSurface && *pTexSurface != 14) ) // OR no alpha test tex flag
+            || (pTexSurface && pTexSurface->Type != 14) ) // OR no alpha test tex flag
         {
             SetTransparentDraw();
         }

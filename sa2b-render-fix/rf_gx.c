@@ -74,12 +74,12 @@ RX_SetTexture(const TEXTURE_INFO* restrict pTex, int index)
 
     msample.BorderColor = 0;
 
-    RF_MagicSetShaderConstantTexture(MAGIC_SHADER_PIXEL, index, pTex->texp, &msample);
+    RF_MagicSetShaderConstantTexture(MAGIC_SHADER_PIXEL, index, pTex->surface, &msample);
 
     /** update struc thing **/
 
 //  struc_36SamplerData = sdata;
-    struc_36LastTexture = pTex->texp;
+    struc_36LastTexture = pTex->surface;
 
     /** palette **/
 
