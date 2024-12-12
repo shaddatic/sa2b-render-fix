@@ -712,13 +712,23 @@ PushStrip_PosCol(const CNK_STRIP* const pStrip, const int nbStripCnk, const int 
 static void
 CnkSetupStrip(CNK_CTX* pCtx)
 {
-    pCtx->flag |= CTXFLG_STRIP_NOUVS;
+    if ( !(pCtx->flag & CTXFLG_STRIP_NOUVS) )
+    {
+        pCtx->flag |= CTXFLG_STRIP_NOUVS;
+
+        pCtx->flag |= CTXFLG_CTX_DIFF; // reload diffuse
+    }
 }
 
 static void
 CnkSetupStripUV(CNK_CTX* pCtx)
 {
-    pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
+    if ( pCtx->flag & CTXFLG_STRIP_NOUVS )
+    {
+        pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
+
+        pCtx->flag |= CTXFLG_CTX_DIFF; // reload diffuse
+    }
 }
 
 static void
