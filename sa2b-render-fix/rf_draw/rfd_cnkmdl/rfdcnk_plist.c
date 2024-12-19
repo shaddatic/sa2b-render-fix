@@ -399,17 +399,6 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
     CNK_CTX ctx = { .flag = RFRS_GetCnkFuncMode() };
 
-    /** Set culling mode **/
-
-    if (ctx.flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT))
-    {
-        GX_SetCullMode(GXD_CULLMODE_NONE);
-    }
-    else
-    {
-        GX_SetCullMode(GXD_CULLMODE_CW);
-    }
-
     u32 flag = 0;
     ExecCnkPlist(pPList, &flag);
 

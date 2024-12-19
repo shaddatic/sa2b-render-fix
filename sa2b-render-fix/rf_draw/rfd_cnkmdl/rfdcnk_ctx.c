@@ -355,6 +355,34 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
 
     SetBlendMode(bld_src, bld_dst, fst_ua);
 
+    /** Set culling mode **/
+
+    if (pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT))
+    {
+        const bool nrm = pCtx->flag & CTXFLG_CULL_NORMAL;
+        const bool inv = pCtx->flag & CTXFLG_CULL_INVERSE;
+
+        if (nrm)
+        {
+            if (inv) // both
+            {
+                GX_SetCullMode(GXD_CULLMODE_NONE);
+            }
+            else // normal
+            {
+                GX_SetCullMode(GXD_CULLMODE_CW);
+            }
+        }
+        else // inverse
+        {
+            GX_SetCullMode(GXD_CULLMODE_CCW);
+        }
+    }
+    else // calc inverted normals
+    {
+        GX_SetCullMode(GXD_CULLMODE_CW);
+    }
+
     if (fst_ua)
     {
         const bool notex = (pCtx->flag & CTXFLG_STRIP_NOTEX);

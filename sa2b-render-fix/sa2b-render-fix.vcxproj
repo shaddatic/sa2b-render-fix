@@ -85,7 +85,9 @@
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_ctx.c" />
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_external.c" />
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.c" />
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_strip.c" />
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_stripuv.c" />
     <ClCompile Include="rf_draw\rfd_shape.c" />
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_shdmap.c" />
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_vlist.c" />
@@ -154,6 +156,7 @@
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
     <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_internal.h" />
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.h" />
     <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_internal.h" />
     <ClInclude Include="rf_draw\rfd_cnkmod\rfdmod_internal.h" />
     <ClInclude Include="rf_draw\rfd_cnk.h" />

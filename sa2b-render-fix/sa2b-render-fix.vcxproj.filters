@@ -336,6 +336,12 @@
     <ClCompile Include="rf_renderstate\rfrs_transmode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_stripuv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -498,6 +504,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_texture\rf_texerr.tls">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
