@@ -120,16 +120,12 @@ ALW_ENTRY_WORK;
 #define MinimalGrowParam        DATA_ARY(GROW_PARAM    , 0x008A6240, [26])
 
 #define Clock                   DATA_REF(int32_t       , 0x01DBED74)
-#define gBusy_0                 DATA_REF(int32_t       , 0x019F6440)
-#define gLoaded_0               DATA_REF(int32_t       , 0x019F6444)
 #define gCommuID                DATA_REF(uint16_t      , 0x01A5B5EC)
 
 /************************/
 /*  Functions           */
 /************************/
 EXTERN_START
-int32_t  AL_ConfirmLoadIsBusy( void );
-
 /** Initialize and reset ALW module params for new stage **/
 void     ALW_Create( void );
 
