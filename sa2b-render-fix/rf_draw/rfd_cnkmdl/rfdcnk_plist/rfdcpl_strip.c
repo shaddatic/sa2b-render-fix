@@ -279,13 +279,13 @@ CalcFlatNormal(const NJS_POINT3* const p0, const NJS_POINT3* const p1, const NJS
 static inline bool
 CtxDrawNrmFaces(const CNK_CTX* const pCtx)
 {
-    return (pCtx->flag & CTXFLG_CULL_NORMAL);
+    return (pCtx->flag & CTXFLG_CULL_NORMAL) || pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT);
 }
 
 static inline bool
 CtxDrawInvFaces(const CNK_CTX* const pCtx)
 {
-    return (pCtx->flag & CTXFLG_CULL_INVERSE && pCtx->fst & NJD_FST_DB);
+    return (pCtx->flag & CTXFLG_CULL_INVERSE && pCtx->fst & NJD_FST_DB && !(pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT)));
 }
 
 /****** Push Strip ******************************************************************/

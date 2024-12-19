@@ -278,15 +278,15 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
     /** Adjust diffuse depending on Ninja, draw function, and strip context **/
     {
-        const s32 funcmd = RFRS_GetCnkFuncMode();
+        const s32 funcmd = pCtx->flag & CTXFLG_MASK_FUNC;
 
         const u32 ctxflg = pCtx->flag;
 
         /** If using texture AND is not DirectDraw, ELSE keep diffuse **/
-        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & RFRS_CNKFUNCMD_DIRECTBIT) )
+        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & CTXFLG_FUNC_DIRECT) )
         {
             /** If EasyDraw/EasyMultiDraw **/
-            if ( funcmd & RFRS_CNKFUNCMD_EASYBIT )
+            if ( funcmd & CTXFLG_FUNC_EASY )
             {
                 color.r = 0xFF;
                 color.g = 0xFF;
@@ -296,7 +296,7 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
                 /** AND Normal OR SimpleMulti OR not CnkS type **/
-                if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(ctxflg & CTXFLG_STRIP_NOUVS) )
+                if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & CTXFLG_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
                     color.r = 0xFF;
                     color.g = 0xFF;

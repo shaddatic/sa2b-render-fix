@@ -23,9 +23,14 @@ EXTERN_START
 /*  Constants           */
 /************************/
 /****** Chunk Context ***************************************************************/
-#define CTXFLG_DRAW_TRANS       (1<<0)  /* draw trans strips, if off draw opaque    */
-#define CTXFLG_CULL_NORMAL      (1<<1)  /* draw normal triangles                    */
-#define CTXFLG_CULL_INVERSE     (1<<2)  /* draw inverse triangles                   */
+#define CTXFLG_FUNC_EASY        (1<<0)  /* easy draw variant                        */
+#define CTXFLG_FUNC_SIMPLE      (1<<1)  /* simple draw variant                      */
+#define CTXFLG_FUNC_MULTI       (1<<2)  /* multi draw variant                       */
+#define CTXFLG_FUNC_DIRECT      (1<<3)  /* direct draw                              */
+
+#define CTXFLG_DRAW_TRANS       (1<<4)  /* draw trans strips, if off draw opaque    */
+#define CTXFLG_CULL_NORMAL      (1<<5)  /* draw normal triangles                    */
+#define CTXFLG_CULL_INVERSE     (1<<6)  /* draw inverse triangles                   */
 
 #define CTXFLG_CTX_BLEND        (1<<8)  /* blend is applied                         */
 #define CTXFLG_CTX_TINY         (1<<9)  /* tiny is applied                          */
@@ -38,6 +43,7 @@ EXTERN_START
 #define CTXFLG_STRIP_NOTEX      (1<<16) /* current strip has no texture             */
 #define CTXFLG_STRIP_NOUVS      (1<<17) /* current strip has no UV info             */
 
+#define CTXFLG_MASK_FUNC        (CTXFLG_FUNC_EASY|CTXFLG_FUNC_SIMPLE|CTXFLG_FUNC_MULTI|CTXFLG_FUNC_DIRECT)
 #define CTXFLG_MASK_DRAW        (CTXFLG_DRAW_TRANS)
 #define CTXFLG_MASK_CULL        (CTXFLG_CULL_NORMAL|CTXFLG_CULL_INVERSE)
 

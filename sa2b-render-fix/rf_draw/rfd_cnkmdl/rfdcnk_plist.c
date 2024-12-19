@@ -397,10 +397,18 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf, const s
 void
 rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
-    CNK_CTX ctx = {0};
+    CNK_CTX ctx = { .flag = RFRS_GetCnkFuncMode() };
 
     /** Set culling mode **/
-    GX_SetCullMode(GXD_CULLMODE_CW);
+
+    if (ctx.flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT))
+    {
+        GX_SetCullMode(GXD_CULLMODE_NONE);
+    }
+    else
+    {
+        GX_SetCullMode(GXD_CULLMODE_CW);
+    }
 
     u32 flag = 0;
     ExecCnkPlist(pPList, &flag);
