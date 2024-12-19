@@ -47,7 +47,7 @@ EventGetEntryType(const EventEntityData* pEntry)
 
     if (pEntry->shape)
     {
-        if (attr & EV_ENTF_USESIMPLE)
+        if (attr & EV_ENTF_FORCESIMPLE)
         {
             return EV_ENTRY_TYPE_SHAPE;
         }
@@ -58,7 +58,7 @@ EventGetEntryType(const EventEntityData* pEntry)
     }
     else // is regular motion
     {
-        if (attr & EV_ENTF_USESIMPLE)
+        if (attr & EV_ENTF_FORCESIMPLE)
         {
             return EV_ENTRY_TYPE_MTN;
         }

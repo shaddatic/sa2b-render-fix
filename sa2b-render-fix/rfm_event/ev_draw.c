@@ -95,7 +95,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
                     break;
                 }
 
-                if ( (attr & (EV_ENTF_HASENV|EV_ENTF_USESIMPLE)) )
+                if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
                     njCnkSimpleDrawObject(p_entry->object);
                 }
@@ -114,7 +114,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 DRAW_MTN:
 
-                if ( (attr & (EV_ENTF_HASENV|EV_ENTF_USESIMPLE)) )
+                if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
                     njCnkSimpleDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
                 }
@@ -135,7 +135,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
                 if (EventNum == 24 && nbScene == 1 && i == 8)
                     goto DRAW_MTN;
 
-                if ( (attr & EV_ENTF_HASENV) )
+                if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
                     njCnkSimpleDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
                 }
@@ -178,7 +178,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
                     break;
                 }
 
-                if ( (attr & EV_ENTF_HASENV) )
+                if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
                     njCnkSimpleMultiDrawObject(p_entry->object);
                 }
@@ -195,7 +195,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 EventScrollTexture(nbScene, i);
 
-                if ( (attr & EV_ENTF_HASENV) )
+                if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
                     njCnkSimpleMultiDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
                 }
@@ -212,7 +212,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 EventScrollTexture(nbScene, i);
 
-                if ( (attr & EV_ENTF_HASENV) )
+                if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
                     njCnkSimpleMultiDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
                 }

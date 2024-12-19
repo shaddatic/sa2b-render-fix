@@ -8,7 +8,7 @@
 /****** Self ************************************************************************/
 #define EVENT_BASE_SCENE    (0)
 
-#define EV_ENTF_HASENV          (0x0001) // Has environment map, and must use Simple variant of func
+#define EV_ENTF_SIMPLEMAT       (0x0001) // Use SimpleDraw variant
 
 #define EV_ENTF_NOFOG           (0x0002) // Draw with no fog & EasyDraw
 
@@ -23,7 +23,7 @@
 #define EV_ENTF_REFLECT         (0x0080) // entry has reflection
 #define EV_ENTF_BLARE           (0x0100) // entry has blare
 
-#define EV_ENTF_USESIMPLE       (0x0200) // Force SimpleDraw, no MultiDraw
+#define EV_ENTF_FORCESIMPLE     (0x0200) // Force SimpleDraw, no MultiDraw
 
 #define EV_ENTF_MULTILIGHT      (EV_ENTF_LIGHT1|EV_ENTF_LIGHT2|EV_ENTF_LIGHT3|EV_ENTF_LIGHT4)
 
