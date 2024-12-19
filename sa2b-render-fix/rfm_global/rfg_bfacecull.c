@@ -398,12 +398,4 @@ RFG_BackfaceCullingInit(void)
 
         CnkModelFlipWinding(0x0095F74C); // Goal Door
     }
-
-    /** Compatibility settings **/
-
-    if (RF_ConfigGetInt(CNF_COMPAT_JUMPAURA))
-    {
-        WriteCall(0x00756984, JumpAuraFixFlagOn);
-        WriteJump(0x00756A56, JumpAuraFixFlagOff);
-    }
 }

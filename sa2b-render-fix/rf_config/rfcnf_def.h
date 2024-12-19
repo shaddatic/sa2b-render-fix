@@ -296,7 +296,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Compatibility section **/
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
-#define CNF_COMPAT_JUMPAURA         CNFO_INT(   CNFS_COMPAT         , "jmp_aura"            , CNFE_BOOL_DISABLED                    )   /* Force Jump Aura DB Flag */
 #define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
 #define CNF_COMPAT_OFFBFC           CNFO_INT(   CNFS_COMPAT         , "off_bfc"             , CNFE_BOOL_DISABLED                    )   /* Disable Back-Face Culling */
 

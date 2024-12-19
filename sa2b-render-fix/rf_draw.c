@@ -24,6 +24,7 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_mod.h>             /* RFMOD_PushPolygon                                */
 #include <rf_gx.h>
+#include <rf_renderstate.h>
 
 /****** Self ************************************************************************/
 #include <rf_draw.h>              /* self                                           */
@@ -177,6 +178,16 @@ SetTexForDraw(void)
     RX_SetTexture(&TexInfoDraw, 0);
 }
 
+static void
+EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
+
+    njCnkTransformObject(object, _rjCnkDrawModel);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
@@ -212,4 +223,8 @@ RF_DrawInit(void)
     WriteJump(0x004291B0, SetTexForDraw);
 
     njTextureFilterMode(NJD_TEXTUREFILTER_BILINEAR);
+
+    /** Set EasyDraw **/
+
+    WriteCall(0x00756A2E, EasyDrawObject); // Jump Aura (bfc issue)
 }

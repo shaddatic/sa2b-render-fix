@@ -216,9 +216,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">
 				<HelpText>Disables the Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods may enable this for you when needed.</HelpText>
 			</Property>
-			<Property name="jmp_aura" display="Force Jump Aura to Double Sided" type="eBOOL" defaultvalue="0">
-				<HelpText>Forces Sonic and Shadow's jump auras to be double sided.</HelpText>
-			</Property>
 			<Property name="old_atest" display="Use Old Alpha Test Parameters" type="eBOOL" defaultvalue="0">
 				<HelpText>Use pre-1.3.3 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.</HelpText>
 			</Property>
