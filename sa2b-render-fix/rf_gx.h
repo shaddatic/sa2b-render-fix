@@ -49,6 +49,16 @@ void    RF_GxInit( void );
 *     - index       : index slot
 */
 void    RX_SetTexture( const TEXTURE_INFO* restrict pTex, int index );
+/*
+*   Description:
+*     Set GX ambient color directly, without conversions.
+*
+*   Parameters:
+*     - r           : red ambient color
+*     - g           : green ambient color
+*     - b           : blue ambient color
+*/
+void    RX_SetChanAmbColor_Direct( float r, float g, float b );
 
 EXTERN_END
 

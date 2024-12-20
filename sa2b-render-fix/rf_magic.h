@@ -49,6 +49,13 @@ typedef struct
 }
 RF_MAGICSAMPLER;
 
+/****** Magic Color *****************************************************************/
+typedef struct
+{
+    f32     r, g, b, a;
+}
+RF_MAGICCOLOR;
+
 /************************/
 /*  Functions           */
 /************************/
@@ -77,6 +84,9 @@ void    RF_MagicSetShaderConstantFloat(RFE_MAGIC_SHADER type, int32_t reg, f32 f
 
 /** set texture shader constant **/
 void    RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, void* pTex, RF_MAGICSAMPLER* pSamplerState);
+
+/** set color shader constant **/
+void    RF_MagicSetShaderConstantColor(RFE_MAGIC_SHADER type, int32_t reg, RF_MAGICCOLOR* p);
 
 EXTERN_END
 

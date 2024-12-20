@@ -96,3 +96,10 @@ RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, void* pTex,
 {
     g_pRenderDevice->vft->ShaderSetConstant7(g_pRenderDevice, type, reg, (Magic::RenderCore::Texture*)pTex, (Magic::RenderCore::SamplerState_t*)pSamplerState);
 }
+
+EXTERN
+void
+RF_MagicSetShaderConstantColor(RFE_MAGIC_SHADER type, int32_t reg, RF_MAGICCOLOR* p)
+{
+    g_pRenderDevice->vft->ShaderSetConstant10(g_pRenderDevice, type, reg, (float*)p, 4);
+}
