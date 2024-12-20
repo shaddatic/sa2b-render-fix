@@ -105,5 +105,5 @@ EventLightSwitchMulti(Uint32 attr)
     rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_3, (attr & EV_ENTF_LIGHT3));
     rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_4, (attr & EV_ENTF_LIGHT4));
 
-    rjCnkSetMultiAmbient(MultiAmbi.r, MultiAmbi.g, MultiAmbi.b);
+    rjCnkSetAmbient(MultiAmbi.r, MultiAmbi.g, MultiAmbi.b);
 }

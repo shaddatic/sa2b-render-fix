@@ -14,6 +14,7 @@
 #include <rf_core.h>        /* core                                                 */
 #include <rf_renderstate.h> /* render state                                         */
 #include <rf_util.h>        /* utility                                              */
+#include <rf_gx.h>          /* gx                                                   */
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h>              /* parent & siblings   */
@@ -397,6 +398,8 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf, const s
 void
 rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
+    EXTERN NJS_ARGB rj_ambi_color;
+
     CNK_CTX ctx = { .flag = RFRS_GetCnkFuncMode() };
 
     u32 flag = 0;
@@ -429,6 +432,11 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
             break;
         }
     }
+
+    /** End chunk draw **/
+
+    if (ctx.flag & CTXFLG_FUNC_MULTI)
+        RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
 
     /** Unset culling mode **/
     GX_SetCullMode(GXD_CULLMODE_NONE);

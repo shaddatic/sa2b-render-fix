@@ -90,12 +90,6 @@ rjCnkSetAmbient(Float ar, Float ag, Float ab)
 }
 
 void
-rjCnkSetMultiAmbient(Float ar, Float ag, Float ab)
-{
-    gjSetAmbient(ar * 0.5f, ag * 0.5f, ab * 0.5f);
-}
-
-void
 rjCnkSetLightSwitch(Int light, Int flag)
 {
     if (light == RFD_CNK_MULTILIGHT_ALL) // all lights

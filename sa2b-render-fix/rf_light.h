@@ -41,9 +41,6 @@ void    rjCnkSetLightColor( Int light, Float r, Float g, Float b );
 /** Set light ambient color **/
 void    rjCnkSetAmbient( Float r, Float g, Float b );
 
-/** Set light ambient color as if 'njCnkSet___MultiAmbient' **/
-void    rjCnkSetMultiAmbient( Float r, Float g, Float b );
-
 /** Turn light on and off **/
 void    rjCnkSetLightSwitch( Int light, Int flag );
 

@@ -107,6 +107,8 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
     if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
         return;
 
+    pCtx->flag &= ~CTXFLG_CTX_TINY;
+
     /** get context **/
 
     const Uint16 headbits = pCtx->tiny.headbits;
@@ -237,10 +239,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
     /** set texture **/
 
     RX_SetTexture(p_tinfo, 0);
-
-    /** texture info end **/
-
-    pCtx->flag &= ~CTXFLG_CTX_TINY;
 }
 
 static void
@@ -248,6 +246,8 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 {
     if ( !(pCtx->flag & CTXFLG_CTX_DIFF) )
         return;
+
+    pCtx->flag &= ~CTXFLG_CTX_DIFF;
 
     const Uint32 nj3dflag = _nj_control_3d_flag_;
 
@@ -313,17 +313,27 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
     BgraToGx(&color, &gxcolor);
 
     GX_SetChanMatColor(0, gxcolor);
-
-    pCtx->flag &= ~CTXFLG_CTX_DIFF;
 }
 
 static void
 rjCnkContextAmbi(CNK_CTX* restrict pCtx)
 {
+    EXTERN NJS_ARGB rj_ambi_color;
+
     if ( !(pCtx->flag & CTXFLG_CTX_AMBI) )
         return;
 
     pCtx->flag &= ~CTXFLG_CTX_AMBI;
+
+    /**  Not using a MultiDraw variant    OR  Not "NormalDraw" **/
+    if (!(pCtx->flag & CTXFLG_FUNC_MULTI) || !(pCtx->flag & CTXFLG_MASK_FUNC))
+        return;
+
+    const f32 ambi_r = rj_ambi_color.r * (f32)(pCtx->ambi.r * (1.f/255.f));
+    const f32 ambi_g = rj_ambi_color.g * (f32)(pCtx->ambi.g * (1.f/255.f));
+    const f32 ambi_b = rj_ambi_color.b * (f32)(pCtx->ambi.b * (1.f/255.f));
+
+    RX_SetChanAmbColor_Direct(ambi_r, ambi_g, ambi_b);
 }
 
 static void
