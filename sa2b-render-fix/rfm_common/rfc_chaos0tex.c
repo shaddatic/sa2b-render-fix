@@ -31,7 +31,7 @@ SwapChaosTexID(KNUCKLESWK* kwp)
 
 __declspec(naked)
 static void
-__SwapChaosTexID()
+__SwapChaosTexID(void)
 {
     __asm
     {
@@ -73,7 +73,7 @@ SwapChaosTexID_Dely(KNUCKLESWK* kwp)
 
 __declspec(naked)
 static void
-__SwapChaosTexID_Dely()
+__SwapChaosTexID_Dely(void)
 {
     __asm
     {
@@ -95,7 +95,7 @@ __SwapChaosTexID_Dely()
 }
 
 void
-RFC_Chaos0TexInit()
+RFC_Chaos0TexInit(void)
 {
     WriteNOP( 0x00731F0C, 0x00731FAA);
     WriteCall(0x00731F0C, __SwapChaosTexID);
