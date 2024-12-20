@@ -61,13 +61,13 @@ njCnkNullDrawObject(const NJS_CNK_OBJECT* object)
 }
 
 void
-njCnkAnimateMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
+njCnkAnimateMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
 {
     njDrawMotion(object, motion, frame, njCnkNullDrawModel);
 }
 
 void
-njCnkAnimateMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, float frame)
+njCnkAnimateMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
 {
     njDrawMotionLink(object, motion_link, frame, njCnkNullDrawModel);
 }
