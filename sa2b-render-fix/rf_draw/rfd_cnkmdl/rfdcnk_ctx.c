@@ -251,30 +251,33 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
     const Uint32 nj3dflag = _nj_control_3d_flag_;
 
-    NJS_BGRA color;
+    NJS_ARGB diff;
 
     /** Get initial material color **/
     {
         if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_MATERIAL )
         {
-            ArgbToBgra(&_nj_constant_material_, &color);
+            diff = _nj_constant_material_;
         }
         else if ( nj3dflag & NJD_CONTROL_3D_OFFSET_MATERIAL )
         {
-            NJS_ARGB argb;
+            BgraToArgb(&pCtx->diff, &diff);
 
-            BgraToArgb(&pCtx->diff, &argb);
-
-            argb.a += _nj_constant_material_.a;
-            argb.r += _nj_constant_material_.r;
-            argb.g += _nj_constant_material_.g;
-            argb.b += _nj_constant_material_.b;
-
-            ArgbToBgra(&argb, &color);
+            diff.a += _nj_constant_material_.a;
+            diff.r += _nj_constant_material_.r;
+            diff.g += _nj_constant_material_.g;
+            diff.b += _nj_constant_material_.b;
         }
         else
-            color = pCtx->diff;
+            BgraToArgb(&pCtx->diff, &diff);
     }
+
+    /** diffuse color is clamped **/
+
+    diff.a = CLAMP(diff.a, 0.f, 1.f);
+    diff.r = CLAMP(diff.r, 0.f, 1.f);
+    diff.g = CLAMP(diff.g, 0.f, 1.f);
+    diff.b = CLAMP(diff.b, 0.f, 1.f);
 
     /** Adjust diffuse depending on Ninja, draw function, and strip context **/
     {
@@ -288,19 +291,19 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             /** If EasyDraw/EasyMultiDraw **/
             if ( funcmd & CTXFLG_FUNC_EASY )
             {
-                color.r = 0xFF;
-                color.g = 0xFF;
-                color.b = 0xFF;
+                diff.r = 1.f;
+                diff.g = 1.f;
+                diff.b = 1.f;
             }
             /** Constant Texture Material flag, SimpleDraw is implied here **/
             else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
-                /** AND Normal OR SimpleMulti OR not CnkS type **/
-                if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & CTXFLG_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
+                /** Not "NormalDraw"          OR is SimpleMulti             OR  not CnkS type **/
+                if ( funcmd == CTXFUNC_NORMAL || funcmd & CTXFLG_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
-                    color.r = 0xFF;
-                    color.g = 0xFF;
-                    color.b = 0xFF;
+                    diff.r = 1.f;
+                    diff.g = 1.f;
+                    diff.b = 1.f;
                 }
             }
         }
@@ -308,11 +311,7 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 
     /** apply diffuse **/
 
-    GXS_COLOR gxcolor;
-
-    BgraToGx(&color, &gxcolor);
-
-    GX_SetChanMatColor(0, gxcolor);
+    RX_SetChanMatColor_Direct(0, diff.r, diff.g, diff.b, diff.a);
 }
 
 static void

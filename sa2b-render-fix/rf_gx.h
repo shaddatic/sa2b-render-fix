@@ -51,6 +51,18 @@ void    RF_GxInit( void );
 void    RX_SetTexture( const TEXTURE_INFO* restrict pTex, int index );
 /*
 *   Description:
+*     Set GX material color directly, without conversions.
+*
+*   Parameters:
+*     - chan        : material channel number
+*     - a           : alpha ambient color
+*     - r           : red ambient color
+*     - g           : green ambient color
+*     - b           : blue ambient color
+*/
+void    RX_SetChanMatColor_Direct( int chan, float r, float g, float b, float a );
+/*
+*   Description:
 *     Set GX ambient color directly, without conversions.
 *
 *   Parameters:

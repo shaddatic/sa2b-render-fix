@@ -36,6 +36,8 @@
 
 #define struc_36SamplerData         STRUC_36_DATA(RF_MAGICSAMPLER, 0x620)
 #define struc_36LastTexture         STRUC_36_DATA(void*          , 0x63C)
+#define struc_36Material1           STRUC_36_DATA(RF_MAGICCOLOR  , 0x308)
+#define struc_36Material2           STRUC_36_DATA(RF_MAGICCOLOR  , 0x318)
 #define struc_36Ambient             STRUC_36_DATA(RF_MAGICCOLOR  , 0x2E8)
 
 /************************/
@@ -107,6 +109,29 @@ RX_SetTexture(const TEXTURE_INFO* restrict pTex, int index)
             SetShaders(ShaderLast);
         }
     }
+}
+
+void
+RX_SetChanMatColor_Direct(int nbChan, float r, float g, float b, float a)
+{
+    RF_MAGICCOLOR rgba;
+
+    if (nbChan == 1)
+    {
+        rgba.r = r;
+        rgba.g = g;
+        rgba.b = b;
+        rgba.a = 0.f;
+    }
+    else
+    {
+        rgba.r = r;
+        rgba.g = g;
+        rgba.b = b;
+        rgba.a = a;
+    }
+
+    RF_MagicSetShaderConstantColor(MAGIC_SHADER_VERTEX, 66 + (nbChan == 1), &rgba);
 }
 
 void
