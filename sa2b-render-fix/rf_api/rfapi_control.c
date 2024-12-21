@@ -21,5 +21,6 @@ const RFAPI_CONTROL rfapi_control =
     .SetModBufferSize            = RFCTRL_SetModBufferSize,
     .CheapShadowChaoWorldDisable = RFCTRL_CheapShadowChaoWorldDisable,
 
+    /** Ver 1 **/
     .EventApplyModelDiffuse      = RFCTRL_EventApplyModelDiffuse,
 };
