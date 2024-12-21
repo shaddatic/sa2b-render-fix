@@ -45,18 +45,35 @@ EventDrawReflectionLists(int idxScene)
 }
 
 static void
+StartOldEventDraw(void)
+{
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
+
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    OnConstantAttr(~NJD_FST_MASK, NJD_FST_DB);
+}
+
+static void
+EndOldEventDraw(void)
+{
+    LoadConstantAttr();
+    LoadControl3D();
+}
+
+static void
 EventDisplayerDelayHook(task* tp)
 {
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
-    SaveControl3D();
-    SaveConstantAttr();
+    StartOldEventDraw();
+
     const int old_rmode = _gj_render_mode_;
 
-    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
-    OnConstantAttr(0, NJD_FST_DB);
-    _gj_render_mode_ = GJD_DRAW_SOLID;
+    _gj_render_mode_ = GJD_DRAW_TRANS;
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
@@ -93,8 +110,7 @@ EventDisplayerDelayHook(task* tp)
 
     _gj_render_mode_ = old_rmode;
 
-    LoadConstantAttr();
-    LoadControl3D();
+    EndOldEventDraw();
 }
 
 static void
@@ -112,12 +128,10 @@ EventDisplayerHook(task* tp)
     if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
         return;
 
-    SaveControl3D();
-    SaveConstantAttr();
+    StartOldEventDraw();
+
     const int old_rmode = _gj_render_mode_;
 
-    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
-    OnConstantAttr(0, NJD_FST_DB);
     _gj_render_mode_ = GJD_DRAW_SOLID;
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
@@ -156,8 +170,8 @@ EventDisplayerHook(task* tp)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
     _gj_render_mode_ = old_rmode;
-    LoadConstantAttr();
-    LoadControl3D();
+
+    EndOldEventDraw();
 }
 
 /****** Init ************************************************************************/
