@@ -291,7 +291,7 @@ rjCnkContextAmbi(CNK_CTX* restrict pCtx)
             ambi.r = rj_ambi_color.r * (f32)(pCtx->ambi.r * (1.f/255.f));
             ambi.g = rj_ambi_color.g * (f32)(pCtx->ambi.g * (1.f/255.f));
             ambi.b = rj_ambi_color.b * (f32)(pCtx->ambi.b * (1.f/255.f));
-}
+        }
         else
         {
             ambi.r = rj_ambi_color.r;
@@ -448,17 +448,38 @@ GetCnkStripFlags(const Sint16* plist)
         fst = (fst & _nj_constant_attr_and_) | _nj_constant_attr_or_;
     }
 
-    const s32 funcmd = RFRS_GetCnkFuncMode();
-
-    if (funcmd & RFRS_CNKFUNCMD_EASYBIT)
+    switch ( RFRS_GetCnkFuncMode() )
     {
-        fst |=  (NJD_FST_DB);
-        fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_ENV);
-    }
-    else if (funcmd & RFRS_CNKFUNCMD_DIRECTBIT)
-    {
-        fst |=  (NJD_FST_DB);
-        fst &= ~(NJD_FST_IL|NJD_FST_IA);
+        case RFRS_CNKFUNCMD_NORMAL:
+        {
+          //fst &= ~(0);
+            break;
+        }
+        case RFRS_CNKFUNCMD_EASY:
+        {
+            fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB|NJD_FST_ENV);
+            break;
+        }
+        case RFRS_CNKFUNCMD_SIMPLE:
+        {
+          //fst &= ~(0);
+            break;
+        }
+        case RFRS_CNKFUNCMD_EASYMULTI:
+        {
+            fst &= ~(NJD_FST_IL|NJD_FST_DB|NJD_FST_ENV);
+            break;
+        }
+        case RFRS_CNKFUNCMD_SIMPLEMULTI:
+        {
+            fst &= ~(NJD_FST_IL|NJD_FST_DB);
+            break;
+        }
+        case RFRS_CNKFUNCMD_DIRECT:
+        {
+            fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB);
+            break;
+        }
     }
 
     if (RFRS_GetCullMode() == RFRS_CULLMD_NONE)
