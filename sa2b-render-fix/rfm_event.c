@@ -1,32 +1,28 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+/************************/
+/*  Includes            */
+/************************/
+/****** Core Toolkit ****************************************************************/
+#include <sa2b/core.h>          /* core                                             */
 
-/** Util **/
-#include <sa2b/util/endian.h>
+/****** Render Fix ******************************************************************/
+#include <rf_core.h>            /* core                                             */
+#include <rf_config.h>          /* config                                           */
 
-/** Ninja **/
-#include <sa2b/ninja/ninja.h>
+/****** Self ************************************************************************/
+#include <rfm_event.h>             /* self                                          */
+#include <rfm_event/ev_internal.h> /* children                                      */
 
-/** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/njctrl.h>
-#include <sa2b/sonic/display.h>
-
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_eventinfo.h>
-#include <rf_renderstate.h>
-
-/** Self **/
-#include <rfm_event.h>
-#include <rfm_event/ev_internal.h>
-
+/************************/
+/*  Data                */
+/************************/
+/****** Event Settings **************************************************************/
 static bool          EventEquipmentEnable;
 static RFE_EV_43MODE EventEnforce43;
 
+/************************/
+/*  Source              */
+/************************/
+/****** Extern **********************************************************************/
 bool
 EV_GetEquipmentMode(void)
 {
@@ -39,6 +35,7 @@ EV_Get43Mode(void)
     return EventEnforce43;
 }
 
+/****** Init ************************************************************************/
 void
 RFM_EventInit(void)
 {
