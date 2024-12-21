@@ -10,7 +10,7 @@
 #include <rf_ctrl.h>
 
 /** Constants **/
-#define CTRL_API_VER    (0)
+#define CTRL_API_VER    (1)
 
 /** Exports **/
 EXTERN
@@ -20,4 +20,6 @@ const RFAPI_CONTROL rfapi_control =
 
     .SetModBufferSize            = RFCTRL_SetModBufferSize,
     .CheapShadowChaoWorldDisable = RFCTRL_CheapShadowChaoWorldDisable,
+
+    .EventApplyModelDiffuse      = RFCTRL_EventApplyModelDiffuse,
 };

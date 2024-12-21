@@ -225,11 +225,13 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;                           /* structure version                */
 
+    /**** Modifier *************/
     /*
-    *   Set Render Fix's modifier triangle buffer to a different size. Most useful
-    *   for mods that draw a large number of modifiers and would otherwise max out
-    *   the default buffer. If this is called multiple times, the largest values
-    *   will be used.
+    *   Description:
+    *     Set Render Fix's modifier triangle buffer to a different size. Most
+    *   useful for mods that draw a large number of modifiers and would otherwise
+    *   max out the default buffer. If this is called multiple times, the largest
+    *   values will be used.
     * 
     *   Updates:
     *     - 1.3.2 : the 'nbTriList' parameter is obsolete and does nothing.
@@ -239,13 +241,26 @@ typedef struct
     *     - nbTri     : Total number of triangles the buffer can store (default 2048)
     *     - nbTriList : Total number of models the buffer can store (obsolete)
     */
-    void(__cdecl* SetModBufferSize)(int32_t nbTri, int32_t nbTriList);
-
+    void (__cdecl* SetModBufferSize)( int32_t nbTri, int32_t nbTriList );
     /*
-    *   Disable modifier shadows in Chao World. Useful if you intend to implement
+    *   Description:
+    *     Disable modifier shadows in Chao World. Useful if you intend to implement
     *   your own shadow system in Chao World.
     */
-    void(__cdecl* CheapShadowChaoWorldDisable)(void);
+    void (__cdecl* CheapShadowChaoWorldDisable)( void );
+
+    /****** Version >= 1 ************************************************************/
+
+    /**** Event ****************/
+    /*
+    *   Description:
+    *     Set flag to apply model material diffuse in Events when using Render
+    *   Fix's own Event Renderer.
+    *
+    *   Notes:
+    *     - Diffuse will only be applied on models using a SimpleDraw variant.
+    */
+    void (__cdecl* EventApplyModelDiffuse)( void );
 }
 RFAPI_CONTROL;
 
