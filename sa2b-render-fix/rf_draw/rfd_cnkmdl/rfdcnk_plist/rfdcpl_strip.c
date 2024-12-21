@@ -350,12 +350,7 @@ PushStrip_PosCol_INV(const CNK_STRIP* const pStrip, const int nbStripCnk, const 
 static void
 CnkSetupStrip(CNK_CTX* pCtx)
 {
-    if ( !(pCtx->flag & CTXFLG_STRIP_NOUVS) )
-    {
-        pCtx->flag |= CTXFLG_STRIP_NOUVS;
-
-        pCtx->flag |= CTXFLG_CTX_DIFF; // reload diffuse
-    }
+    pCtx->flag |= CTXFLG_STRIP_NOUVS;
 }
 
 /****** Extern **********************************************************************/

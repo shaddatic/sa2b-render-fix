@@ -199,9 +199,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 static void
 rjCnkContextDiff(CNK_CTX* restrict pCtx)
 {
-    if ( !(pCtx->flag & CTXFLG_CTX_DIFF) )
-        return;
-
     pCtx->flag &= ~CTXFLG_CTX_DIFF;
 
     const Uint32 nj3dflag = _nj_control_3d_flag_;
@@ -274,20 +271,36 @@ rjCnkContextAmbi(CNK_CTX* restrict pCtx)
 {
     EXTERN NJS_ARGB rj_ambi_color;
 
-    if ( !(pCtx->flag & CTXFLG_CTX_AMBI) )
-        return;
-
     pCtx->flag &= ~CTXFLG_CTX_AMBI;
 
-    /**  Not using a MultiDraw variant    OR  Not "NormalDraw" **/
-    if (!(pCtx->flag & CTXFLG_FUNC_MULTI) || !(pCtx->flag & CTXFLG_MASK_FUNC))
-        return;
+    NJS_ARGB ambi;
 
-    const f32 ambi_r = rj_ambi_color.r * (f32)(pCtx->ambi.r * (1.f/255.f));
-    const f32 ambi_g = rj_ambi_color.g * (f32)(pCtx->ambi.g * (1.f/255.f));
-    const f32 ambi_b = rj_ambi_color.b * (f32)(pCtx->ambi.b * (1.f/255.f));
+    if ( pCtx->fst & NJD_FST_IA )
+    {
+        ambi.r = 0.f;
+        ambi.g = 0.f;
+        ambi.b = 0.f;
+    }
+    else
+    {
+        const s32 funcmd = pCtx->flag & CTXFLG_MASK_FUNC;
 
-    RX_SetChanAmbColor_Direct(ambi_r, ambi_g, ambi_b);
+        /**  If Normal Draw           OR  using a MultiDraw variant **/
+        if ( funcmd == CTXFUNC_NORMAL || (funcmd & CTXFLG_FUNC_MULTI) )
+        {
+            ambi.r = rj_ambi_color.r * (f32)(pCtx->ambi.r * (1.f/255.f));
+            ambi.g = rj_ambi_color.g * (f32)(pCtx->ambi.g * (1.f/255.f));
+            ambi.b = rj_ambi_color.b * (f32)(pCtx->ambi.b * (1.f/255.f));
+}
+        else
+        {
+            ambi.r = rj_ambi_color.r;
+            ambi.g = rj_ambi_color.g;
+            ambi.b = rj_ambi_color.b;
+        }
+    }
+
+    RX_SetChanAmbColor_Direct(ambi.r, ambi.g, ambi.b);
 }
 
 static void

@@ -21,7 +21,10 @@
 #include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_internal.h> /* parent & siblings   */
 #include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_cmn.h>      /* common              */
 
-
+/************************/
+/*  Source              */
+/************************/
+/****** Push Strip ******************************************************************/
 static void
 PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
@@ -538,17 +541,14 @@ PushStripUV_PosColUV_INV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk,
     }
 }
 
+/****** Static **********************************************************************/
 static void
 CnkSetupStripUV(CNK_CTX* pCtx)
 {
-    if ( pCtx->flag & CTXFLG_STRIP_NOUVS )
-    {
-        pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
-
-        pCtx->flag |= CTXFLG_CTX_DIFF; // reload diffuse
-    }
+    pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
 }
 
+/****** Extern **********************************************************************/
 static void
 rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, bool uvh)
 {
