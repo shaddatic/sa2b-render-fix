@@ -435,8 +435,7 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
 
     /** End chunk draw **/
 
-    if (ctx.flag & CTXFLG_FUNC_MULTI)
-        RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
+    RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
 
     /** Unset culling mode **/
     GX_SetCullMode(GXD_CULLMODE_NONE);
