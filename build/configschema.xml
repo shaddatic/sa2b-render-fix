@@ -81,9 +81,6 @@ The original games used 'Half Width'.</HelpText>
 			<Property name="balloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
-			<Property name="goalring_trans" display="Goal Ring Transparency" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores Goal Ring Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
-			</Property>
 			<Property name="udreel" display="Pulley Fix" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the rendering of the Up Down Reel (player pully), including the Dreamcast flashing effect.</HelpText>
 			</Property>

@@ -336,10 +336,22 @@
     <ClCompile Include="rf_renderstate\rfrs_transmode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_stripuv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_ring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_spring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -507,6 +519,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_common\rfc_newdisp\rfcd_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

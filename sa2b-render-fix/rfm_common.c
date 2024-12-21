@@ -101,16 +101,6 @@ ObjectGlobalLightManagerHook(task* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-#define ObjectGoalringDisp          FUNC_PTR(void, __cdecl, (task*), 0x006C6CD0)
-#define ObjectGoalringDispSort      FUNC_PTR(void, __cdecl, (task*), 0x006C6F10)
-
-static void
-ObjectGoalringDispSortNew(task* tp)
-{
-    ObjectGoalringDisp(tp);
-    ObjectGoalringDispSort(tp);
-}
-
 #define LandDisplayer               FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
 #define LandDisplayerTrans          FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
 #define DrawMotLandEntry            FUNC_PTR(void, __cdecl, (void) , 0x0047C6E0)
@@ -188,6 +178,8 @@ RFM_CommonInit(void)
 {
     RFC_TransparancyInit();
 
+    RFC_NewDisplayerInit();
+
     /** Restore Big the Cat in Wild Canyon **/
     DATA_ARY(OBJ_ITEMENTRY, 0x00BD7440, [100])[82] = DATA_ARY(OBJ_ITEMENTRY, 0x0109E830, [100])[85];
 
@@ -236,22 +228,6 @@ RFM_CommonInit(void)
         static const double bloondbl = 85.0;
 
         ReplaceFloat(0x006251EE, &bloondbl);
-    }
-
-    if (RF_ConfigGetInt(CNF_COMMON_TR_GOAL))
-    {
-        CnkModelMaterialFlagOn(0x00B4EACC, 1, NJD_FST_UA);
-
-        CnkModelMaterialFlagOff(0x00B4EC6C, 0, NJD_FST_DB); // GOAL text
-        CnkModelMaterialFlagOff(0x00B4EE0C, 0, NJD_FST_DB); // BACK text
-
-        /** It won't draw correctly unless we set it to use disp_sort,
-            I've just combined the disp and disp_sort functions **/
-
-        SwitchDisplayer(0x006C651E, DISP_SORT); // Disp
-        WriteNOP(0x006C6525, 0x006C652C);       // tp->disp_sort = ObjectGoalringDispSort;
-
-        WritePointer(0x006C6521, ObjectGoalringDispSortNew);
     }
 
     if (RF_ConfigGetInt(CNF_COMMON_EJET))

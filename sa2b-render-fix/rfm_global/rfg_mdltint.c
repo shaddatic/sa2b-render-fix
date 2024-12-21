@@ -21,14 +21,14 @@ RFG_ModelTintInit(void)
     GjsObjectTintFix(0x0116598C); // Fire Skull (Sky Rail) (jaw & box)
     GjsObjectTintFix(0x0161AA38); // Fire Skull (Aquatic Mine & Pool Quest) (jaw & box)
 
-    GjsModelTintFix(0x00B1ED2C); // 3SPRING (base)
-    GjsModelTintFix(0x00B1E6AC); // 3SPRING 1
-    GjsModelTintFix(0x00B54504); // SPRINGA (base)
-    GjsModelTintFix(0x00B54214); // SPRINGA (spring)
-    GjsModelTintFix(0x00B53E34); // SPRINGA (face)
-    GjsModelTintFix(0x00B56160); // SPRINGB (base)
-    GjsModelTintFix(0x00B54A4C); // SPRINGB (spring)
-    GjsModelTintFix(0x00B5495C); // SPRINGB (face)
+//  GjsModelTintFix(0x00B1ED2C); // 3SPRING (base)
+//  GjsModelTintFix(0x00B1E6AC); // 3SPRING 1
+//  GjsModelTintFix(0x00B54504); // SPRINGA (base)
+//  GjsModelTintFix(0x00B54214); // SPRINGA (spring)
+//  GjsModelTintFix(0x00B53E34); // SPRINGA (face)
+//  GjsModelTintFix(0x00B56160); // SPRINGB (base)
+//  GjsModelTintFix(0x00B54A4C); // SPRINGB (spring)
+//  GjsModelTintFix(0x00B5495C); // SPRINGB (face)
     GjsModelTintFix(0x00B0D7CC); // Knudai  // Mystic Shrine
     GjsModelTintFix(0x00AEED4C); // Dammy   // Metal Harbor Static Missiles
     GjsModelTintFix(0x011772D8); // Propeller Spring (base)
@@ -41,9 +41,10 @@ RFG_ModelTintInit(void)
     GjsModelTintFix(0x01092464); // Tree SNB Trunk
 
     // to be removed when specular is restored
-    GjsModelTintFix(0x00B57134); // Ring LOD Far
-    GjsModelTintFix(0x00B575C4); // Ring LOD Med
-    GjsModelTintFix(0x00B57AD4); // Ring LOD Close
+
+//  GjsModelTintFix(0x00B57134); // Ring LOD Far
+//  GjsModelTintFix(0x00B575C4); // Ring LOD Med
+//  GjsModelTintFix(0x00B57AD4); // Ring LOD Close
 
     CnkModelTintFix(0x00B5674C); // SGRing // Cart rings
 }

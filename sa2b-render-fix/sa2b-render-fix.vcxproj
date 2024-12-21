@@ -21,6 +21,10 @@
   <ItemGroup>
     <ClCompile Include="rfm_amine.c" />
     <ClCompile Include="rfm_cgadget.c" />
+    <ClCompile Include="rfm_common\rfc_newdisp.c" />
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c" />
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_ring.c" />
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_spring.c" />
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_pr_siren.c" />
     <ClCompile Include="rfm_common\rfc_transparancy.c" />
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c" />
@@ -135,6 +139,7 @@
     <ClInclude Include="rfm_cart.h" />
     <ClInclude Include="rfm_ccore.h" />
     <ClInclude Include="rfm_cgadget.h" />
+    <ClInclude Include="rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rfm_eget.h" />
     <ClInclude Include="rfm_event\ev_draw\evd_internal.h" />
