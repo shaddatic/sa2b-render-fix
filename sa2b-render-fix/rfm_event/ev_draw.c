@@ -31,6 +31,12 @@
 #define gjDrawObject                FUNC_PTR(void, __cdecl   , (GJS_OBJECT*)    , 0x0042B530)
 
 /************************/
+/*  Data                */
+/************************/
+/****** Event Draw Mode *************************************************************/
+static bool ApplyModelDiffuse;
+
+/************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
@@ -52,6 +58,9 @@ static void
 EventSceneDraw(const int nbScene, const int nbLayer)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    if (ApplyModelDiffuse)
+        OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
 
     const EventSceneData* const p_scene = &SceneData[nbScene];
 
@@ -252,6 +261,9 @@ EventSceneDraw(const int nbScene, const int nbLayer)
         }
     }
 
+    if (ApplyModelDiffuse)
+        OnControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
+
     OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
@@ -427,6 +439,13 @@ EventDisplayer(task* tp)
 
     if ( EV_GetEquipmentMode() )
         EventEquipmentDraw();
+}
+
+/****** Control *********************************************************************/
+void
+RFCTRL_EventApplyModelDiffuse(void)
+{
+    ApplyModelDiffuse = true;
 }
 
 /****** Init ************************************************************************/
