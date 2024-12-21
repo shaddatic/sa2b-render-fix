@@ -311,11 +311,12 @@ void    SE_Change_Pan( s32 tone, const void* id, s32 pan );
 *
 *   Notes:
 *     - 'tone' can be '-1', and only 'id' will be used for search.
+*     - a pitch offset of '0x2000' is 1 octave up or down.
 *
 *   Parameters:
 *     - tone        : sound effect number                             [optional: -1]
 *     - id          : sound source id pointer
-*     - pitch       : pitch offset                                  [-0x4000~0x3FFF]
+*     - pitch       : pitch offset                                  [-0x4000~0x4000]
 */
 void    SE_Change_Pitch( s32 tone, const void* id, s32 pitch );
 
