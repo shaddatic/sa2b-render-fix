@@ -22,6 +22,10 @@
 /****** Self ************************************************************************/
 #include <rfm_event/ev_draw/evd_internal.h> /* parent & siblings                    */
 
+/************************/
+/*  Source              */
+/************************/
+/****** Extern **********************************************************************/
 EV_ENTRY_TYPE
 EventGetEntryType(const EventEntityData* pEntry)
 {
