@@ -28,45 +28,9 @@
 #define CnkSetTextureList       DATA_ARY(TEXTURE_INFO, 0x01934768, [8])
 
 /************************/
-/*  Structures          */
-/************************/
-/****** GX **************************************************************************/
-typedef union
-{
-    struct {
-        Uint8 r, g, b, a;
-    };
-    Uint32 color;
-}
-GXS_COLOR;
-
-/************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
-static void
-GX_SetChanMatColor(s32 chan, GXS_COLOR color)
-{
-    static const uintptr_t fptr = 0x0041F4E0;
-
-    __asm
-    {
-        push [color]
-        mov eax, [chan]
-        call fptr
-        add esp, 4
-    }
-}
-
-static void
-ArgbToBgra(const NJS_ARGB* restrict pArgb, NJS_BGRA* restrict pBgra)
-{
-    pBgra->a = (u8)( CLAMP(pArgb->a, 0.f, 1.f) * 255.f );
-    pBgra->r = (u8)( CLAMP(pArgb->r, 0.f, 1.f) * 255.f );
-    pBgra->g = (u8)( CLAMP(pArgb->g, 0.f, 1.f) * 255.f );
-    pBgra->b = (u8)( CLAMP(pArgb->b, 0.f, 1.f) * 255.f );
-}
-
 static void
 BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
 {
@@ -74,15 +38,6 @@ BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
     pArgb->r = ( (f32)pBgra->r * (1.f/255.f) );
     pArgb->g = ( (f32)pBgra->g * (1.f/255.f) );
     pArgb->b = ( (f32)pBgra->b * (1.f/255.f) );
-}
-
-static void
-BgraToGx(const NJS_BGRA* restrict pBgra, GXS_COLOR* restrict pGxCol)
-{
-    pGxCol->a = pBgra->a;
-    pGxCol->r = pBgra->r;
-    pGxCol->g = pBgra->g;
-    pGxCol->b = pBgra->b;
 }
 
 static void
