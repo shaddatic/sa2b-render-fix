@@ -334,7 +334,7 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
 
     /** Set culling mode **/
 
-    if (pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT))
+    if ( pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT) )
     {
         const bool nrm = pCtx->flag & CTXFLG_CULL_NORMAL;
         const bool inv = pCtx->flag & CTXFLG_CULL_INVERSE;
@@ -458,6 +458,7 @@ GetCnkStripFlags(const Sint16* plist)
         case RFRS_CNKFUNCMD_EASY:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB|NJD_FST_ENV);
+            fst |= (NJD_FST_DB);
             break;
         }
         case RFRS_CNKFUNCMD_SIMPLE:
@@ -468,6 +469,7 @@ GetCnkStripFlags(const Sint16* plist)
         case RFRS_CNKFUNCMD_EASYMULTI:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_DB|NJD_FST_ENV);
+            fst |= (NJD_FST_DB);
             break;
         }
         case RFRS_CNKFUNCMD_SIMPLEMULTI:
@@ -478,6 +480,7 @@ GetCnkStripFlags(const Sint16* plist)
         case RFRS_CNKFUNCMD_DIRECT:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB);
+            fst |= (NJD_FST_DB);
             break;
         }
     }
