@@ -49,6 +49,13 @@ EXTERN_START
 
 #define CTXFLG_MASK_STRIP       (CTXFLG_STRIP_NOTEX|CTXFLG_STRIP_NOUVS)
 
+#define CTXFUNC_NORMAL          (0)     /* render fix normal draw                   */
+#define CTXFUNC_EASY            (1)     /* easy draw                                */
+#define CTXFUNC_SIMPLE          (2)     /* simple draw                              */
+#define CTXFUNC_EASYMULTI       (5)     /* easy multi draw                          */
+#define CTXFUNC_SIMPLEMULTI     (6)     /* simple multi draw                        */
+#define CTXFUNC_DIRECT          (8)     /* direct draw                              */
+
 /************************/
 /*  Game Structures     */
 /************************/
