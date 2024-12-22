@@ -69,18 +69,6 @@ RFF_SpotLightFix(void)
     return RfgSpotLight;
 }
 
-bool
-RFF_EnvMapFlip(void)
-{
-    return true;
-}
-
-bool
-RFF_FixModelTint(void)
-{
-    return true;
-}
-
 void
 RFM_GlobalInit(void)
 {

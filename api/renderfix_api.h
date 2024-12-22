@@ -320,22 +320,109 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;                           /* structure version                */
 
-    /**** Global ****/
-    bool (__cdecl* BackColorDraw)(void);    /* the back-color is enabled            */
-    bool (__cdecl* SpotLightFix)(void);     /* spot lights have been fixed          */
-    bool (__cdecl* EnvMapFlip)(void);       /* (always true as of 1.3.3)            */
-    bool (__cdecl* BackFaceCulling)(void);  /* back-face culling is AUTO by default */
-    bool (__cdecl* FixModelTint)(void);     /* model tinting is fixed               */
+    /**** Global ***************/
+    /*
+    *   Description:
+    *     If the back-color is enabled. If this is false, the back-color will
+    *   always be black no matter what color it's actually set to.
+    */
+    bool (__cdecl* BackColorDraw)( void );
+    /*
+    *   Description:
+    *     If spot light drawing has been fixed. This is used in Eggman stages for
+    *   his walker's flashlight. If this is false, spot lights won't behave
+    *   correctly.
+    */
+    bool (__cdecl* SpotLightFix)( void );
+    /*
+    *   [[deprecated( "Always 'true' as of version 1.3.3" )]] 
+    * 
+    *   Description:
+    *     If environment maps have been flipped horizontally compared to vanilla.
+    *   This is done to match Dreamcast, which also has env maps flipped compared
+    *   to GC and PC.
+    */
+    bool (__cdecl* EnvMapFlip)( void );
+    /*
+    *   Description:
+    *     If culling state is set to 'AUTO' by default. Some users may choose to
+    *   turn it off, forcing the default state to 'NONE'. Even if that is the case,
+    *   the culling render state can still be changed manually if needed.
+    */
+    bool (__cdecl* BackFaceCulling)( void );
+    /*
+    *   [[deprecated( "Always 'true' as of version 1.3.3" )]] 
+    * 
+    *   Description:
+    *     If models have had their gray diffuse fixed. This is done by setting
+    *   their diffuse material to white manually at startup.
+    * 
+    *   Notes:
+    *     - As of version 1.3.3, models don't have their material data manually
+    *       fixed. Instead, the renderer itself now correctly applies the
+    *       'NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL' Ninja 3D flag.
+    */
+    bool (__cdecl* FixModelTint)( void );
 
-    /**** Shadows ****/
-    float(__cdecl* ShadowOpacityGlobal)(void);  /* opacity of shadows globally      */
-    float(__cdecl* ShadowOpacityChao)(void);    /* opacity of shadows in Chao World */
+    /**** Shadows **************/
+    /*
+    *   Description:
+    *     Get the shadow opacity used for the main game. This is used for both
+    *   modifier volumes and shadow maps.
+    * 
+    *   Returns:
+    *     The shadow opacity ranging from 0.f (invisible) to 1.f (fully opaque).
+    */
+    float(__cdecl* ShadowOpacityGlobal)( void );
+    /*
+    *   Description:
+    *     Get the shadow opacity used for Chao World. This is used for modifier
+    *   volumes. Shadow maps can use this opacity, but only when the experimental
+    *   feature for it is enabled.
+    * 
+    *   Returns:
+    *     The shadow opacity ranging from 0.f (invisible) to 1.f (fully opaque).
+    */
+    float(__cdecl* ShadowOpacityChao)( void );
 
-    /**** Cheap Shadows ****/
-    bool (__cdecl* CheapShadow)(void);                  /* modifier shadows are enabled                 */
-    bool (__cdecl* CheapShadowPerformance)(void);       /* the modifiers are in Performance mode        */
-    bool (__cdecl* CheapShadowUltraPerformance)(void);  /* (always false as of 1.3.2)                   */
-    bool (__cdecl* CheapShadowPlayer)(void);            /* the player is using modifier shadows         */
+    /**** Cheap Shadows ********/
+    /*
+    *   Description:
+    *     If Modifier Shadows, also known as 'Cheap Shadows', are enabled. If this
+    *   is false, drawing modifier volumes will simply fail.
+    */
+    bool (__cdecl* CheapShadow)( void );
+    /*
+    *   Description:
+    *     If Modifier Shadows are in performance mode. This reduces their 
+    *   transparency sorting accuracy by drawing them in fewer Task layers.
+    */
+    bool (__cdecl* CheapShadowPerformance)( void );
+    /*
+    *   [[deprecated( "Always 'false' as of version 1.3.2" )]]
+    * 
+    *   Description:
+    *     If Modifier Shadows are in ultra performance mode. This further reduces
+    *   their transparency sorting accuracy by drawing them with the fastest method
+    *   possible, without much consideration for quality.
+    */
+    bool (__cdecl* CheapShadowUltraPerformance)( void );
+    /*
+    *   Description:
+    *     If the player characters are using Modifier Volumes as shadows. If this
+    *   is false, they are still using the GC shadow maps.
+    */
+    bool (__cdecl* CheapShadowPlayer)( void );
+
+    /****** Version >= 1 ************************************************************/
+
+    /**** Event ****************/
+    /*
+    *   Description:
+    *     If the "Enhanced Event Renderer" is enabled, which emulates Dreamcast
+    *   draw functions, restores the original multi-light code, and more.
+    */
+    bool (__cdecl* NewEventRenderer)( void );
 }
 RFAPI_FEATURE;
 

@@ -70,9 +70,9 @@ RF_ModCheckInit(void)
 
     /** Check No Model Tinting by Speeps **/
     {
-        if (RFF_FixModelTint() && MI_GetInfoByDLL("NoTinting"))
+        if ( MI_GetInfoByDLL("NoTinting") )
         {
-            RF_ModConflictEither("No Model Tinting", "Fix Model Tint");
+            RF_ModConflictStrict("No Model Tinting", "Render Fix");
         }
     }
 

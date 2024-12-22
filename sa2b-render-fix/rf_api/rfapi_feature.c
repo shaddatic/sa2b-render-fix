@@ -10,7 +10,19 @@
 #include <rf_feature.h>
 
 /** Constants **/
-#define FEAT_API_VER    (0)
+#define FEAT_API_VER    (1)
+
+static bool
+RFF_Depricated_True(void)
+{
+    return true;
+}
+
+static bool
+RFF_Depricated_False(void)
+{
+    return false;
+}
 
 /** Exports **/
 EXTERN
@@ -20,15 +32,18 @@ const RFAPI_FEATURE rfapi_feature =
 
     .BackColorDraw   = RFF_BackColorDraw,
     .SpotLightFix    = RFF_SpotLightFix,
-    .EnvMapFlip      = RFF_EnvMapFlip,
+    .EnvMapFlip      = RFF_Depricated_True,
     .BackFaceCulling = RFF_BackFaceCulling,
-    .FixModelTint    = RFF_FixModelTint,
+    .FixModelTint    = RFF_Depricated_True,
 
     .ShadowOpacityGlobal = RFF_ShadowOpacityGlobal,
     .ShadowOpacityChao   = RFF_ShadowOpacityChao,
 
     .CheapShadow                 = RFF_CheapShadow,
     .CheapShadowPerformance      = RFF_CheapShadowPerformance,
-    .CheapShadowUltraPerformance = RFF_CheapShadowUltraPerformance,
+    .CheapShadowUltraPerformance = RFF_Depricated_False,
     .CheapShadowPlayer           = RFF_CheapShadowPlayer,
+
+    /** Ver 1 **/
+    .NewEventRenderer  = RFF_NewEventRenderer,
 };

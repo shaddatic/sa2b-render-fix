@@ -107,24 +107,18 @@ RFF_CheapShadowPerformance(void)
 }
 
 bool
-RFF_CheapShadowUltraPerformance(void)
-{
-    return false;
-}
-
-bool
 RFF_CheapShadowPlayer(void)
 {
     return CheapShadowPlayer;
 }
 
-float
+f32
 RFF_ShadowOpacityGlobal(void)
 {
     return ShadowOpacityGlobal;
 }
 
-float
+f32
 RFF_ShadowOpacityChao(void)
 {
     return ShadowOpacityChao;
