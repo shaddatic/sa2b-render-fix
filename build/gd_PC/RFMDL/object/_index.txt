@@ -1,0 +1,7 @@
+board_mod                   : Speed character grind/snow board modifier shadow model
+bunchin_mod                 : Crusher/anvil trap modifier shadow model
+cc_block_mod                : Cannons Core floating block object modifier shadow model
+md_contbox_mod              : Meteor Herd large, blue metal box modifier shadow model
+md_meteo_mod                : Meteor Herd meteor modifier shadow model
+md_tank_mod                 : Meteor Herd small raised tank modifier shadow model
+udreel                      : Player up/down pully reel

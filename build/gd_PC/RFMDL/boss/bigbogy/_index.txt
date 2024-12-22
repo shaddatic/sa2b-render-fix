@@ -1,0 +1,1 @@
+bigbogy_mod                 : King Boom Boo's Modifier shadow model when it enters the ground/wall

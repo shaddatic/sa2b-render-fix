@@ -1,0 +1,14 @@
+cart_chao_mod               : Chao kart (Tails' alt) modifier shadow model
+cart_eggman_alt_mod         : Eggman's alternate kart modifier shadow model
+cart_eggman_mod             : Eggman's kart modifier shadow model
+cart_eggrobo_mod            : EggRobo kart (Rouge's alt) modifier shadow model
+cart_knuckles_alt_mod       : Knuckles' alternate kart modifier shadow model
+cart_knuckles_mod           : Knuckles' kart modifier shadow model
+cart_rouge_big_mod          : Rouge's story mode kart modifier shadow model
+cart_rouge_mod              : Rouge's kart modifier shadow model
+cart_shadow_alt_mod         : Shadow's alternate kart modifier shadow model
+cart_shadow_mod             : Shadow's kart modifier shadow model
+cart_sonic_alt_mod          : Sonic's alternate kart modifier shadow model
+cart_sonic_mod              : Sonic's kart modifier shadow model
+cart_tails_big_mod          : Tails' story mode kart modifier shadow model
+cart_tails_mod              : Tails' kart modifier shadow model

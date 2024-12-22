@@ -1,0 +1,16 @@
+amy_head_mod                : Amy's head modifier shadow model
+chaos_head_mod              : Chaos' head modifier shadow model
+cwalker_body_mod            : Chao Walker's body modifier shadow model
+cwalker_foot_mod            : Chao Walker's foot modifier shadow model
+eggman_head_mod             : Eggman's head modifier shadow model
+ewalker_body_mod            : Egg Walker's body modifier shadow model
+ewalker_foot_mod            : Egg Walker's foot modifier shadow model
+knuckles_head_mod           : Knuckles' head modifier shadow model
+metalsonic_head_mod         : Metal Sonic's head modifier shadow model
+miles_head_mod              : Tails' head modifier shadow model
+rouge_head_mod              : Rouge's head modifier shadow model
+sonic_head_mod              : Sonic's head modifier shadow model
+terios_head_mod             : Shadow's head modifier shadow model
+tikal_head_mod              : Tikal's head modifier shadow model
+twalker_body_mod            : Tails Walker's body modifier shadow model
+twalker_foot_mod            : Tails Walker's foot modifier shadow model

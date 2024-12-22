@@ -1,0 +1,1 @@
+al_mod                      : Common, round modifier shadow model used in Chao World
