@@ -269,7 +269,17 @@ RF_DrawInit(void)
 
     WriteJump(0x004291B0, SetTexForDraw);
 
+    /** Set default context **/
+
     njTextureFilterMode(NJD_TEXTUREFILTER_BILINEAR);
+
+    njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
+
+    njTextureFlipMode(NJD_TEXTUREFLIP_NOFLIP);
+
+    njPolygonCullingMode(NJD_POLYGON_CULLINGSMALL);
+
+//  njPolygonCullingSize(0.05f);
 
     /** Fix draw function issues **/
 
