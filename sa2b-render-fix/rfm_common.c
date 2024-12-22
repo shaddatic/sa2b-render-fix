@@ -173,6 +173,19 @@ ___CnkDrawLT(void)
     }
 }
 
+#define DrawGameHUD         FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
+
+static hook_info DrawGameHUDHookInfo[1];
+static void
+DrawGameHUDHook(void)
+{
+    njTextureClampMode(NJD_TEXTURECLAMP_CLAMP_UV);
+
+    FuncHookCall( DrawGameHUDHookInfo, DrawGameHUD() );
+
+    njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
+}
+
 void
 RFM_CommonInit(void)
 {
@@ -277,6 +290,9 @@ RFM_CommonInit(void)
     WriteCall(0x0047C462, ___CnkDrawLT);
     WriteCall(0x0047C604, ___CnkDrawLT);
     WriteCall(0x0047C612, ___CnkDrawLT);
+
+    /** Game HUD texture overdraw fix **/
+    FuncHook(DrawGameHUDHookInfo, DrawGameHUD, DrawGameHUDHook);
 
     /** Fix keys in Death Chamber & Egg Quaters glowing eye effect caused by the
         programmer referencing the wrong model array **/
