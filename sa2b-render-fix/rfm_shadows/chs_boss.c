@@ -400,7 +400,7 @@ CHS_BossInit(void)
     WriteCall(0x00613FD0, DrawBasicShadow); // Sand Timer
     KillCall(0x00612F70);
 
-    object_b_bigbogy_mod = RF_ChunkLoadObjectFile("b_bigbogy_mod");
+    object_b_bigbogy_mod = RF_ChunkLoadObjectFile("boss/bigbogy/bigbogy_mod");
 
     /** Big Foot **/
     WriteJump(0x005D0B30, BossBigFootDisplayerMod);
@@ -414,7 +414,7 @@ CHS_BossInit(void)
     WriteJump(0x005D4410, BossFlyingDogDispMod);
     WriteCall(0x005D0F86, CreateNoStencilTexture); // Kill GetStencilInfo
 
-    object_b_fdog_mod = RF_ChunkLoadObjectFile("b_fdog_mod");
+    object_b_fdog_mod = RF_ChunkLoadObjectFile("boss/fdog/fdog_mod");
 
     /** Gun Robot Missiles **/
     WriteCallToMovDwordPtr(0x005D6393, __GRoboMissileMovHook);
