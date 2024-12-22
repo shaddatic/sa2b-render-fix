@@ -23,8 +23,9 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_mod.h>             /* RFMOD_PushPolygon                                */
-#include <rf_gx.h>
-#include <rf_renderstate.h>
+#include <rf_gx.h>              /* render fix gx                                    */
+#include <rf_renderstate.h>     /* render state                                     */
+#include <rf_njcnk.h>           /* ninja chunk draw                                 */
 
 /****** Self ************************************************************************/
 #include <rf_draw.h>              /* self                                           */
@@ -204,6 +205,33 @@ EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
 }
 
+static void
+MenuScreenEffectFix(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
+{
+    const int nj3dflag = _nj_control_3d_flag_;
+
+    _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL;
+
+    njCnkSimpleDrawMotion(object, motion, frame);
+
+    _nj_control_3d_flag_ = nj3dflag;
+}
+
+__declspec(naked)
+static void
+___MenuScreenEffectFix(void)
+{
+    __asm
+    {
+        push        [esp+8]  // frame
+        push        ecx      // motion
+        push        [esp+12] // object
+        call        MenuScreenEffectFix
+        add esp,    12
+        retn
+    }
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
@@ -243,7 +271,8 @@ RF_DrawInit(void)
 
     njTextureFilterMode(NJD_TEXTUREFILTER_BILINEAR);
 
-    /** Set EasyDraw **/
+    /** Fix draw function issues **/
 
     WriteCall(0x00756A2E, EasyDrawObject); // Jump Aura (bfc issue)
+    WriteCall(0x0066838C, ___MenuScreenEffectFix); // DC menu screen effect text too bright
 }
