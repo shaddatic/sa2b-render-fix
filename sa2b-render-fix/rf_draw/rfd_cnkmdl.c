@@ -27,6 +27,16 @@
 #define _gj_shadmtx_callback_       FUNC_REF(void, __cdecl, (s32), 0x01A55828)
 
 /************************/
+/*  Export Data         */
+/************************/
+/****** UV Offset *******************************************************************/
+Float _rj_cnk_uv_offset_u_;
+Float _rj_cnk_uv_offset_v_;
+
+/****** Texture Callback ************************************************************/
+Sint16 (__cdecl* _rj_cnk_texture_callback_)(Sint16 texid);
+
+/************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
@@ -187,4 +197,18 @@ rjCnkDrawShapeMotionLinkBE(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* 
 {
     rjCnkBeginDrawModel();
     njDrawShapeLinkBE(object, motion_link, shape_link, rate, _rjCnkDrawModel);
+}
+
+/****** Cnk Modify ******************************************************************/
+void
+rjCnkSetUvOffset(Float u, Float v)
+{
+    _rj_cnk_uv_offset_u_ = u;
+    _rj_cnk_uv_offset_v_ = v;
+}
+
+void
+rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 texid))
+{
+    _rj_cnk_texture_callback_ = callback;
 }

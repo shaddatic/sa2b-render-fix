@@ -20,6 +20,16 @@
 EXTERN_START
 
 /************************/
+/*  Module Data         */
+/************************/
+/****** UV Offset *******************************************************************/
+EXTERN Float _rj_cnk_uv_offset_u_; /* u offset                                      */
+EXTERN Float _rj_cnk_uv_offset_v_; /* v offset                                      */
+
+/****** Texture Callback ************************************************************/
+EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback          */
+
+/************************/
 /*  Constants           */
 /************************/
 /****** Chunk Context ***************************************************************/
@@ -109,8 +119,16 @@ CNK_CTX;
 /*  Game Constants      */
 /************************/
 /****** Vertex Attr Flags ***********************************************************/
-#define CNKVTX_NO_NORMALS       (1) /* no vertex normals                            */
-#define CNKVTX_HAS_VCOLORS      (2) /* has vertex colors                            */
+#define CNKVTX_FLG_NONORM           (1) /* no vertex normals                        */
+#define CNKVTX_FLG_VCOLOR           (2) /* has vertex colors                        */
+#define CNKVTX_FLG_NJFLAG           (4) /* has ninja weights flag                   */
+
+/****** Vertex Attr Constants *******************************************************/
+#define CNKVTX_POS                  (CNKVTX_FLG_NONORM)
+#define CNKVTX_POS_NRM              (0)
+#define CNKVTX_POS_COL              (CNKVTX_FLG_NONORM|CNKVTX_FLG_VCOLOR)
+#define CNKVTX_POS_NRM_COL          (CNKVTX_FLG_VCOLOR)
+#define CNKVTX_POS_NRM_NJF          (CNKVTX_FLG_NJFLAG)
 
 /************************/
 /*  Game References     */

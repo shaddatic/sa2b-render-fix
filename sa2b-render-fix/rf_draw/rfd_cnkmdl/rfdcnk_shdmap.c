@@ -69,8 +69,6 @@ rjCnkVListSM(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
 {
     const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
 
-    _nj_cnk_vtx_attrs_ = 0;
-
     const Sint32* vlist = pVList;
 
     int type;
@@ -89,24 +87,32 @@ rjCnkVListSM(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
 
         CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[pvhead->indexoffset];
 
-        switch (type) {
-        case NJD_CV_D8:
-            _nj_cnk_vtx_attrs_ |= (CNKVTX_NO_NORMALS | CNKVTX_HAS_VCOLORS);
+        switch (type)
+        {
+            case NJD_CV_D8:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_COL;
 
-            if (multi)
-                return -1;
+                if (multi)
+                    return -1;
 
-            rjCnkVertexD8(vlist, p_vbuf);
-            break;
+                rjCnkVertexD8(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
-        case NJD_CV_VN:
-            rjCnkVertexVN(vlist, p_vbuf);
-            break;
+                rjCnkVertexVN(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_D8:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_COL;
 
-        case NJD_CV_VN_D8:
-            _nj_cnk_vtx_attrs_ |= CNKVTX_HAS_VCOLORS;
-            rjCnkVertexVND8(vlist, p_vbuf);
-            break;
+                rjCnkVertexVND8(vlist, p_vbuf);
+                break;
+            }
         }
 
         /** Next data chunk **/

@@ -71,11 +71,14 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** get texture **/
 
-    const s32 texid = texbits & NJD_TID_MASK;
+    s16 texid = texbits & NJD_TID_MASK;
+
+    // call texture callback
+    if (_rj_cnk_texture_callback_) texid = _rj_cnk_texture_callback_(texid);
 
     const NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-    if (texid >= (s32)p_tls->nbTexture)
+    if (texid >= (s16)p_tls->nbTexture)
     {
     TEX_ERR:
         const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texlist_rf_texerr->textures[0].texaddr;
@@ -250,7 +253,7 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             /** Constant Texture Material flag, SimpleDraw is implied here **/
             else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
-                /** Not "NormalDraw"          OR is SimpleMulti             OR  not CnkS type **/
+                /** is NormalDraw             OR is SimpleMulti             OR  not CnkS type **/
                 if ( funcmd == CTXFUNC_NORMAL || funcmd & CTXFLG_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
                     diff.r = 1.f;
@@ -288,9 +291,9 @@ rjCnkContextAmbi(CNK_CTX* restrict pCtx)
         /**  If Normal Draw           OR  using a MultiDraw variant **/
         if ( funcmd == CTXFUNC_NORMAL || (funcmd & CTXFLG_FUNC_MULTI) )
         {
-            ambi.r = rj_ambi_color.r * (f32)(pCtx->ambi.r * (1.f/255.f));
-            ambi.g = rj_ambi_color.g * (f32)(pCtx->ambi.g * (1.f/255.f));
-            ambi.b = rj_ambi_color.b * (f32)(pCtx->ambi.b * (1.f/255.f));
+            ambi.r = rj_ambi_color.r * ( (f32)pCtx->ambi.r * (1.f/255.f) );
+            ambi.g = rj_ambi_color.g * ( (f32)pCtx->ambi.g * (1.f/255.f) );
+            ambi.b = rj_ambi_color.b * ( (f32)pCtx->ambi.b * (1.f/255.f) );
         }
         else
         {
