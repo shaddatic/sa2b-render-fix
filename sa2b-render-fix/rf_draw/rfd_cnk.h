@@ -66,7 +66,7 @@
 *     Pointer to next strip chunk
 */
 #define NEXT_STRIP(pst, nbst, ufo)  \
-    ((void*)((uintptr_t)(pst) + (sizeof((pst)->d[0]) * nbst) + sizeof((p_str)->len) + ((ufo) * 2)))
+    ((void*)((uintptr_t)(pst) + (sizeof((pst)->d[0]) * nbst) + sizeof((pst)->len) + ((ufo) * 2)))
 
 /****** PList Info ******************************************************************/
 /*
