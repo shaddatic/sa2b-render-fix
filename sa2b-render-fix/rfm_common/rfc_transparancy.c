@@ -76,7 +76,13 @@ DrawMotionWithSorting(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, fl
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
+    void* const callback = _nj_cnk_motion_callback_;
+
+    _nj_cnk_motion_callback_ = nullptr;
+
     njCnkDrawMotion(object, motion, frame);
+
+    _nj_cnk_motion_callback_ = callback;
 
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
