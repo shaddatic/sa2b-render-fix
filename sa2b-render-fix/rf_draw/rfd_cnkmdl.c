@@ -98,8 +98,16 @@ rjCnkBeginDrawModel(void)
 Sint32
 rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
 {
-    if (ShadowCnkDraw)
+    /** The VList functions have the unique ability to halt drawing by returning
+        '-1', used when it encounters a vertex format it can't parse. For example,
+        'MultiDraw' can't parse non-normal vertex formats and so halts. **/
+
+    if ( ShadowCnkDraw )
     {
+        /** Draw entire model in 1 pass without texture or lighting for shadow
+            stencil texture drawing. I haven't implimented this, so it's still
+            using the original code ('ext' means EXTernal to Render Fix) **/
+
         if ( model->vlist )
             if ( CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true) == -1 )
                 return -1;
@@ -107,8 +115,20 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
         if ( model->plist )
             CnkPListShadow_Ext(model->plist, _nj_vertex_buf_);
     }
-    else if (_nj_control_3d_flag_ & 0x80000) // Shadow map is setup
+    else if ( _nj_control_3d_flag_ & 0x80000 ) // shadow map is setup
     {
+        /** Draw model with shadow texture.
+            The shader uses the current matrix, as sent by 'gjStartVertex3D', to
+            position the texture correctly on the model. This is a problem, as
+            Chunk usually uses a unit matrix as all transforms are done on the CPU,
+            causing the shadows to become 'floaty'. We can't just move everything
+            to the GPU due to model weight calculations - although in the future it
+            may be possible - so the fix for now is to use a different vertex
+            pipeline that doesn't transform that supports a limited number of
+            vertex formats. It's basically only used on Landtables anyway, so this
+            is fine. :)
+            'SM' means shadow mapped. **/
+
         if ( model->vlist )
             if ( rjCnkVListSM(model->vlist, _nj_vertex_buf_) == -1 )
                 return -1;
@@ -118,6 +138,7 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
     }
     else
     {
+        /** Draw model normally. **/
         if ( model->vlist )
             if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
                 return -1;
@@ -126,12 +147,19 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
             rjCnkPList(model->plist, _nj_vertex_buf_);
     }
 
+    /** Drawing completed successfully **/
     return 0;
 }
 
 Sint32
 _rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
+    /** This is an internal variant of 'DrawModel' that doesn't call
+        'CnkBeginDrawModel'. It's used for object drawing and motions, where it's
+        pointless and a lot slower to constantly call 'BeginDrawModel' for every
+        model in the object tree **/
+
+    /** Model clip **/
     if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
         if (model->r > 0.f && njCnkModelClip(model))
             return -1;
@@ -142,6 +170,7 @@ _rjCnkDrawModel(const NJS_CNK_MODEL* model)
 Sint32
 rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
+    /** Model clip **/
     if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
         if (model->r > 0.f && njCnkModelClip(model))
             return -1;
@@ -188,6 +217,8 @@ rjCnkDrawShapeMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* mo
 void
 rjCnkDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
 {
+    /** Big endian shape motion draw **/
+
     rjCnkBeginDrawModel();
     njDrawShapeMotionBE(object, motion, shape, frame, frame, _rjCnkDrawModel);
 }
@@ -195,6 +226,8 @@ rjCnkDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, c
 void
 rjCnkDrawShapeMotionLinkBE(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate)
 {
+    /** Big endian shape link draw **/
+    
     rjCnkBeginDrawModel();
     njDrawShapeLinkBE(object, motion_link, shape_link, rate, _rjCnkDrawModel);
 }

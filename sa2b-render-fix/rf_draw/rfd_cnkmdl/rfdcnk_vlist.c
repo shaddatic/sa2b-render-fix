@@ -184,65 +184,78 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
 
     for ( ; ; )
     {
-        const int type = ((u8*)vlist)[0];
+        /** It is possible for models to contain more than 1 vertex list, but it's
+            incredibly unlikely and I don't think it's even used in SA2. **/
 
-        if (type == NJD_CE)
+        const CNK_VLIST_HEAD* p_vhead = (void*)vlist;
+
+        const int type = p_vhead->headbits;
+
+        if (type == NJD_ENDOFF)
         {
             /** NJD_ENDOFF **/
             break;
         }
 
-        const CNK_VLIST_HEAD* pvhead = (void*)vlist;
-
-        CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[pvhead->indexoffset];
+        /** Get the vertex buffer offset for this vertex list. Verteces are copied
+            from the 'vlist' sequentially into the vertex buffer starting from this
+            offset. The vertex buffer struct def is fixed. **/
+        CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[p_vhead->indexoffset];
 
         switch (type)
         {
-            case NJD_CV:
+            case NJD_CV: // chunk vertex
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS;
 
+                /** No normals, halt drawing if 'MultiDraw' **/
                 if (multi)
                     return -1;
 
                 rjCnkVertex(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_D8:
+            case NJD_CV_D8: // chunk vertex + color
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_COL;
 
+                /** No normals, halt drawing if 'MultiDraw' **/
                 if (multi)
                     return -1;
 
                 rjCnkVertexD8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN:
+            case NJD_CV_VN: // chunk vertex + normal
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
                 rjCnkVertexVN(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_D8:
+            case NJD_CV_VN_D8: // chunk vertex + normal + color
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_COL;
 
                 rjCnkVertexVND8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_NF:
+            case NJD_CV_VN_NF: // chunk vertex + normal + ninja flag (weighted)
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_NJF;
                 
-                rjCnkVertexVNNF(vlist, pvhead->chunkhead & 0x7F, p_vbuf);
+                rjCnkVertexVNNF(vlist, p_vhead->chunkhead & 0x7F, p_vbuf);
                 break;
+            }
+            default:
+            {
+                /** Unhandled vertex type, halt draw. **/
+                return -1;
             }
         }
 
         /** Next data chunk **/
-        vlist += pvhead->size + 1;
+        vlist += p_vhead->size + 1;
     }
 
     return 0;

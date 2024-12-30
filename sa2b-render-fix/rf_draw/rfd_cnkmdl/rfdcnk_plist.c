@@ -21,9 +21,9 @@
 #include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_internal.h> /* self                */
 
 /************************/
-/*  Source Constants    */
+/*  Constants           */
 /************************/
-/****** Cnk Offsets *****************************************************************/
+/****** Cnk Strip Attributes *********************************************************/
 #define CNKST_HAS_OPAQUE         (0x01) /* has opaque strips                         */
 #define CNKST_HAS_TRANS          (0x02) /* has transparent strips                    */
 #define CNKST_HAS_TRANSDB        (0x04) /* has transparent strips that are db        */
@@ -45,10 +45,10 @@ GetStripDrawState(CNK_CTX* const pCtx)
     if ( (bool)(ctxflg & CTXFLG_DRAW_TRANS) != fst_ua )
         return false;
 
-    /** if this strip isn't double sided, hide its inverse face **/
+    /** if this strip isn't double sided and normal faces aren't being drawn, hide its inverse face **/
     const bool fst_db = (fst & NJD_FST_DB);
 
-    if ( (ctxflg & CTXFLG_MASK_CULL) == CTXFLG_CULL_INVERSE && !fst_db )
+    if ( !(ctxflg & CTXFLG_CULL_NORMAL) && !fst_db )
         return false;
 
     return true;
@@ -137,6 +137,9 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
             /** NJD_STRIPOFF **/
             rjCnkSetStrip(pCtx, plist);
 
+            /** Based on context and strip flags, determine if this strip should be
+                drawn. For example, we're drawing only inverse faces but this strip
+                isn't double sided. If it shouldn't be drawn, just skip it. **/
             if ( GetStripDrawState(pCtx) )
             {
                 switch ( STSW( type ) )
@@ -302,17 +305,27 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
         }
 
         /** An error occured, stop **/
-        OutputFormat("Type error pre-pass %i", type);
         break;
     }
 }
 
 static void
-DrawOpaqueStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf)
+DrawOpaqueStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict njvtxbuf)
 {
+    /** Draw opaque strips.
+
+        Unlike transparent strips, we don't need to worry about the draw order of
+        normal and inverse faces. So, we just set both to draw and the 'SubPlist'
+        function will correctly handle the rest.
+
+        It's important to note that the 'CULL' context flags only *allow* the
+        drawing of faces, the flags don't enforce it. It's up to the strip
+        renderer itself if faces should be drawn or not. **/
+
 //  pCtx->flag &= ~CTXFLG_DRAW_TRANS;  // implied
 //  pCtx->flag &= ~CTXFLG_CULL_MASK;   // ^
 
+    /** Draw normal and inverse mesh faces depending on culling mode. **/
     switch ( RFRS_GetCullMode() )
     {
         case RFRS_CULLMD_NORMAL:
@@ -338,11 +351,22 @@ DrawOpaqueStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf)
 }
 
 static void
-DrawTransStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf, const s32 flag)
+DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict njvtxbuf, s32 flag)
 {
+    /** Draw transparent strips.
+
+        Unlike opaque strips, transparent strips are drawn back-face first for
+        basic transparancy sorting reasons. This is also done as two entire 'plist'
+        passes, rather than per strip, which works better as it stops potential
+        strip ordering issues. The pass order can be changed by setting the
+        'CnkPassMode' to 'inverse'. **/
+
     pCtx->flag |=  CTXFLG_DRAW_TRANS;
     pCtx->flag &= ~CTXFLG_MASK_CULL;
 
+    /** Draw normal and inverse mesh faces depending on culling mode, pass mode,
+        and the existence of double sided strips. If there are no double sided
+        strips the back-face never needs to be drawn, so we can entirely skip it. **/
     switch ( RFRS_GetCullMode() )
     {
         case RFRS_CULLMD_NORMAL:
@@ -396,15 +420,31 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* plist, const void* njvtxbuf, const s
 
 /****** Extern **********************************************************************/
 void
-rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
+rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
     EXTERN NJS_ARGB rj_ambi_color;
 
+    /** Setup the Chunk context. This is used to track the current draw context of
+        the model and it's strips. If the diffuse color is changed, it's applied to
+        this context first.
+        The 'flag' struct member starts with the function emulation mode, so we
+        initiate it to the current function mode value. **/
+
     CNK_CTX ctx = { .flag = RFRS_GetCnkFuncMode() };
 
+    /** First pass of the Chunk 'plist' data. This executes plist data, such as
+        cache and draw 'bits' data, and gets strip attributes (opaque, alpha,
+        double sided flags) and puts them into 'flag'. **/
     u32 flag = 0;
     ExecCnkPlist(pPList, &flag);
 
+    /** Depending on the current transparancy mode and the attributes of the
+        'plist', draw the opaque and/or transparent strips.
+
+        In future, perhaps all this can be optimized to just one pass, where each
+        strip is stored into another buffer and drawn in one go, rather than having
+        to loop through the plist multiple times. This isn't that slow though, so
+        it's fine for now. **/
     switch ( RFRS_GetCnkDrawMode() )
     {
         case RFRS_CNKDRAWMD_ALL:
@@ -435,8 +475,9 @@ rjCnkPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
 
     /** End chunk draw **/
 
+    // reset ambient color
     RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
 
-    /** Unset culling mode **/
+    // unset culling mode
     GX_SetCullMode(GXD_CULLMODE_NONE);
 }
