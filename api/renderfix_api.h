@@ -774,6 +774,53 @@ typedef struct
     *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
     */
     void (__cdecl* CnkDrawShapeMotionLinkBE)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+
+    /**** Chunk Modify **************************************/
+    /*
+    *   Description:
+    *     Set UV offset for Chunk draw. This will effect all UV-based textures
+    *   drawn.
+    *
+    *   Notes:
+    *     - This is a Render Fix extension, and is not part of base Ninja.
+    *     - This will *not* affect environment maps
+    *     - Reset these values to '0.f' when drawing is complete
+    *
+    *   Paramters:
+    *     - u, v        : u or v offset
+    */
+    void (__cdecl* CnkSetUvOffset)( Float u, Float v );
+    /*
+    *   Description:
+    *     Set Environment UV scroll for Chunk draw. This will effect all
+    *   environment mapped textures drawn.
+    *
+    *   Notes:
+    *     - Currently, functionality for the feature has not been implimented but
+    *       will be in a future update.
+    *     - This is a part of base Ninja, but it is called 'njCnkSetUvScroll'. The
+    *       functionality is otherwise exactly the same.
+    *     - Reset these values to '0.f' when drawing is complete
+
+    *
+    *   Paramters:
+    *     - u, v        : u or v scroll offset
+    */
+    void (__cdecl* CnkSetEnvScroll)( Float u, Float v );
+    /*
+    *   Description:
+    *     Set the texture ID callback function. This allows for texture IDs to be
+    *   swapped without having to manually edit model data.
+    *
+    *   Notes:
+    *     - This is a Render Fix extension, and is not part of base Ninja.
+    *     - The returned value will be used as the new texid
+    *     - Reset the callback to 'NULL' when drawing is complete
+    *
+    *   Paramters:
+    *     - callback    : texture callback function
+    */
+    void (__cdecl* CnkSetTextureCallback)( Sint16(__cdecl* callback)(Sint16 texid) );
 }
 RFAPI_DRAW;
 
