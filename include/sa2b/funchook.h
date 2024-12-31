@@ -78,11 +78,11 @@ void    HookInfoFree( hook_info* info );
 *     - If no hook info is given, operates the same as 'WriteJump'.
 * 
 *   Parameters:
-*     - info    : hook info to populate         (optional)
-*     - hook    : address of function to hook
+*     - info    : hook info to populate                                  [optional]
+*     - addr    : address of function to hook
 *     - func    : function to call from hook
 */
-void    FuncHookCreate( hook_info* info, void* hook, const void* func );
+void    FuncHookCreate( hook_info* info, void* addr, const void* func );
 
 /****** Call Hook *******************************************************************/
 /*
@@ -97,11 +97,11 @@ void    FuncHookCreate( hook_info* info, void* hook, const void* func );
 *     - If no hook info is given, operates the same as 'WriteCall'.
 *
 *   Parameters:
-*     - info    : hook info to populate         (optional)
-*     - hook    : address of call instruction to hook
+*     - info    : hook info to populate                                  [optional]
+*     - addr    : address of call instruction to hook
 *     - func    : function to call from hook
 */
-void    CallHookCreate( hook_info* info, void* hook, const void* func );
+void    CallHookCreate( hook_info* info, void* addr, const void* func );
 
 /****** Trampoline Hook *************************************************************/
 /*
@@ -124,8 +124,8 @@ void    TrampolineCreate( void* pDst, const void* pCall );
 /*  Macro               */
 /************************/
 /** Create hook **/
-#define FuncHook(info, hook, func)           FuncHookCreate(info, (void*)(hook), (const void*)(func))
-#define CallHook(info, hook, func)           CallHookCreate(info, (void*)(hook), (const void*)(func))
+#define FuncHook(info, addr, func)           FuncHookCreate(info, (void*)(addr), (const void*)(func))
+#define CallHook(info, addr, func)           CallHookCreate(info, (void*)(addr), (const void*)(func))
 
 /** Call original hooked function **/
 #define FuncHookCall(info, code)                HookInfoUnhook(info); \

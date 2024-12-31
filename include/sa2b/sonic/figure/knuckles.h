@@ -29,7 +29,8 @@ typedef struct knuckleswk
 {
     playerwk pw;
 
-    char field_308[78];
+    char field_308[76];
+    signed __int16 someAng2;
     signed __int16 someAng0;
     signed __int16 someAng1;
     __int16 chaos0_texid;

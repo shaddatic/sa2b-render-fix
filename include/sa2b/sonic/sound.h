@@ -37,7 +37,7 @@ enum
     EM,                         /* enemy                                   [bank 4] */
     NA,                         /* nothing                                          */
     STG_ENV,                    /* stage environment sounds                [bank 6] */
-    WT,                         /* unknown                                 [bank 7] */
+    WT,                         /* water sounds                            [bank 7] */
     SY,                         /* system sounds                           [bank 0] */
 };
 
