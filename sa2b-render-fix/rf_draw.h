@@ -20,9 +20,16 @@
 #include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/motion.h>    /* MOTION_CTRL                                      */
+#include <sa2b/sonic/motion.h>  /* MOTION_CTRL                                      */
 
 EXTERN_START
+
+/************************/
+/*  Macros              */
+/************************/
+/****** Convert UV Coords ***********************************************************/
+#define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                 */
+#define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
 
 /************************/
 /*  Functions           */
@@ -398,6 +405,51 @@ void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
 void    rjCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+
+/****** Chunk Modify ****************************************************************/
+/*
+*   Description:
+*     Set UV offset for Chunk draw. This will effect all UV-based textures drawn.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - This will *not* affect environment maps
+*     - Reset these values to '0.f' when drawing is complete
+*
+*   Paramters:
+*     - u, v        : u or v offset
+*/
+void    rjCnkSetUvOffset( Float u, Float v );
+/*
+*   Description:
+*     Set Environment UV scroll for Chunk draw. This will effect all environment
+*   mapped textures drawn.
+*
+*   Notes:
+*     - This is a part of base Ninja, but it is called 'njCnkSetUvScroll'. The
+*       functionality is otherwise exactly the same.
+*     - Reset these values to '0.f' when drawing is complete
+*     - Currently, functionality for the feature has not been implimented but will
+*       be in a future update.
+*
+*   Paramters:
+*     - u, v        : u or v scroll offset
+*/
+void    rjCnkSetEnvScroll( Float u, Float v );
+/*
+*   Description:
+*     Set the texture ID callback function. This allows for texture IDs to be
+*   swapped without having to manually edit model data.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - The returned value will be used as the new texid
+*     - Reset the callback to 'NULL' when drawing is complete
+*
+*   Paramters:
+*     - callback    : texture callback function
+*/
+void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
 
 EXTERN_END
 

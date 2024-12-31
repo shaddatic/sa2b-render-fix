@@ -242,6 +242,12 @@ rjCnkSetUvOffset(Float u, Float v)
 }
 
 void
+rjCnkSetEnvScroll(Float u, Float v)
+{
+    u; v;
+}
+
+void
 rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 texid))
 {
     _rj_cnk_texture_callback_ = callback;
