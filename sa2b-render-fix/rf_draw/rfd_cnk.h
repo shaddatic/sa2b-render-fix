@@ -17,6 +17,8 @@
 #include <sa2b/ninja/njcommon.h> /* ninja common                                    */
 #include <sa2b/ninja/njmatrix.h> /* ninja matrix                                    */
 
+EXTERN_START
+
 /************************/
 /*  Constants           */
 /************************/
@@ -296,5 +298,7 @@ CNK_STRIP;
 /****** Cnk Matrix ******************************************************************/
 #define _env_matrix_44_         DATA_REF(NJS_MATRIX44, 0x01AF14E0)
 #define _unit_matrix_44_        DATA_REF(NJS_MATRIX44, 0x01AF1A10)
+
+EXTERN_END
 
 #endif/*H_RF_DRAW_CNK*/
