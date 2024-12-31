@@ -42,7 +42,7 @@ void    rjCnkStrip( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_B
 *     - njvtxbuf    : current vertex buffer
 *     - uvh         : use HD UVs
 */
-void    rjCnkStripUV( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, bool uvh );
+void    rjCnkStripUV( CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, s32 uvh );
 /*
 *   Description:
 *     Parse and draw Chunk VN strip chunk.

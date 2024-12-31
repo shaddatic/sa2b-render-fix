@@ -139,6 +139,7 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
     else
     {
         /** Draw model normally. **/
+
         if ( model->vlist )
             if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
                 return -1;

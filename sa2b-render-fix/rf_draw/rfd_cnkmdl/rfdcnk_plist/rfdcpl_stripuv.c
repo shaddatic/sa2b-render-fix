@@ -582,9 +582,6 @@ PushStripUV_PosNormUV_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbSt
 static void
 PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
-    const f32 offset_u = _rj_cnk_uv_offset_u_;
-    const f32 offset_v = _rj_cnk_uv_offset_v_;
-
     const CNK_STRIP_UV* p_str = pStrip;
 
     for (int i = 0; i < nbStripCnk; ++i)
@@ -606,8 +603,8 @@ PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk,
             p_buf->col = p_vtx->color;
 
             // set uv coords
-            p_buf->u = -p_vtx->pos.x + offset_u;
-            p_buf->v = -p_vtx->pos.y + offset_v;
+            p_buf->u = -p_vtx->pos.x;
+            p_buf->v = -p_vtx->pos.y;
 
             /** End set buffer **/
 
@@ -625,9 +622,6 @@ PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk,
 static inline void
 PushStripUV_PosColUV_ENV_INV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
 {
-    const f32 offset_u = _rj_cnk_uv_offset_u_;
-    const f32 offset_v = _rj_cnk_uv_offset_v_;
-
     const CNK_STRIP_UV* p_str = pStrip;
 
     for (int i = 0; i < nbStripCnk; ++i)
@@ -651,8 +645,8 @@ PushStripUV_PosColUV_ENV_INV(const CNK_STRIP_UV* const pStrip, const int nbStrip
             p_buf->col = p_vtx->color;
 
             // set uv coords
-            p_buf->u = -p_vtx->pos.x + offset_u;
-            p_buf->v = -p_vtx->pos.y + offset_v;
+            p_buf->u = -p_vtx->pos.x;
+            p_buf->v = -p_vtx->pos.y;
 
             /** End set buffer **/
 
@@ -676,12 +670,13 @@ PushStripUV_PosColUV_ENV_INV(const CNK_STRIP_UV* const pStrip, const int nbStrip
 static void
 CnkSetupStripUV(CNK_CTX* pCtx)
 {
+    /** UV strip, so remove 'NOUVS' flag **/
     pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
 }
 
 /****** Extern **********************************************************************/
 static void
-rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, bool uvh)
+rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, s32 uvh)
 {
     CnkSetupStripUV(pCtx);
 
@@ -696,6 +691,8 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
 
     if (pCtx->fst & NJD_FST_ENV)
     {
+        /** Draw env mapped strip **/
+
         if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM)
         {
             CnkSetupTexStrip(pCtx);
@@ -732,8 +729,10 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
             }
         }
     }
-    else
+    else // not env mapped
     {
+        /** Draw textured strip **/
+
         CnkSetupTexStrip(pCtx);
 
         if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR)
@@ -748,6 +747,10 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
         }
         else
         {
+            /** We don't need to handle the case where the vertex attributes don't
+                include normals, the shader just ignores them anyway. Although,
+                this is a potential area of improvement in the future. **/
+
             VertexDeclInfo = VertexDecl_PosNormUV;
 
             if (pCtx->fst & NJD_FST_FL)
@@ -769,12 +772,18 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
         }
     }
 
-    GX_End(); // Draw buffered vertex list
+    /** End CnkStripUV and draw buffered vertex list **/
+
+    GX_End();
 }
 
 void
-rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, bool uvh)
+rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, s32 uvh)
 {
+    /** If this strip is double sided and we're not using Easy or Direct draw
+        modes, then additional logic is required for correctly inverting normals.
+        This logic is done in a seperate '_DB' function, so we can omit the extra
+        logic when it isn't needed. Otherwise, the functions are the same. **/
     if ( pCtx->fst & NJD_FST_DB && !(pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT) ))
     {
         rjCnkStripUV_DB(pCtx, plist, njvtxbuf, uvh);
@@ -783,7 +792,7 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
 
     CnkSetupStripUV(pCtx);
 
-    const int count = plist[2];
+    const Sint16 count = plist[2];
 
     const int nb_stcnk = count & ~NJD_UFO_MASK;
     const int ufo      = count >> NJD_UFO_SHIFT;
@@ -794,6 +803,8 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
 
     if (pCtx->fst & NJD_FST_ENV)
     {
+        /** Draw env mapped strip **/
+
         if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM)
         {
             CnkSetupTexStrip(pCtx);
@@ -805,9 +816,9 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
         else
         {
             CnkSetupEnvStrip(pCtx);
-
+            
             VertexDeclInfo = VertexDecl_PosNorm;
-
+            
             if (pCtx->fst & NJD_FST_FL)
             {
                 PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf);
@@ -818,8 +829,9 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
             }
         }
     }
-    else
+    else // not env mapped
     {
+        /** Draw textured strip **/
         CnkSetupTexStrip(pCtx);
 
         if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR)
@@ -830,6 +842,10 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
         }
         else
         {
+            /** We don't need to handle the case where the vertex attributes don't
+                include normals, the shader just ignores them anyway. Although,
+                this is a potential area of improvement in the future. **/
+
             VertexDeclInfo = VertexDecl_PosNormUV;
 
             if (pCtx->fst & NJD_FST_FL)
@@ -843,5 +859,7 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
         }
     }
 
-    GX_End(); // Draw buffered vertex list
+    /** End CnkStripUV and draw buffered vertex list **/
+
+    GX_End();
 }

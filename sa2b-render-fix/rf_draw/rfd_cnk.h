@@ -28,6 +28,10 @@
 #define NJD_VOLOFF_MAX          (NJD_CO_ST  +1)  /* volume offset                   */
 #define NJD_STRIPOFF_MAX        (NJD_CS_UVH2+1)  /* strip offset                    */
 
+/****** UV Modes ********************************************************************/
+#define IS_UVN                  (0)
+#define IS_UVH                  (1)
+
 /************************/
 /*  Macro               */
 /************************/
@@ -76,7 +80,7 @@
 *   Parameters:
 *     - uvh     : if the strip uses HD UVs
 */
-#define GET_UV_MUL(uvh)     ((uvh) ? (1.f/1024.f) : (1.f/256.f))
+#define GET_UV_MUL(is_uvh)  ((is_uvh) ? (1.f/1024.f) : (1.f/256.f))
 /*
 *   Description:
 *     Get vertex normal information stored in the Cnk strip info.

@@ -151,12 +151,12 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
                     }
                     case STSW( NJD_CS_UVN ):
                     {
-                        rjCnkStripUV(pCtx, plist, njvtxbuf, false);
+                        rjCnkStripUV(pCtx, plist, njvtxbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH ):
                     {
-                        rjCnkStripUV(pCtx, plist, njvtxbuf, true);
+                        rjCnkStripUV(pCtx, plist, njvtxbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_VN ):
@@ -166,12 +166,12 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
                     }
                     case STSW( NJD_CS_UVN_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, false);
+                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, true);
+                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_D8 ):
@@ -181,12 +181,12 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
                     }
                     case STSW( NJD_CS_UVN_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, false);
+                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, true);
+                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, IS_UVH);
                         break;
                     }
                 }

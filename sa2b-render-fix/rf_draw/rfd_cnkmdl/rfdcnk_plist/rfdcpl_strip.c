@@ -414,6 +414,7 @@ PushStrip_PosColUV_ENV_INV(const CNK_STRIP* restrict pStrip, const int nbStripCn
 static void
 CnkSetupStrip(CNK_CTX* pCtx)
 {
+    /** Regular strip with no UV info, so set 'NOUVS' flag **/
     pCtx->flag |= CTXFLG_STRIP_NOUVS;
 }
 
@@ -430,9 +431,9 @@ rjCnkStrip_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER*
 
     CNK_STRIP* const p_str = (void*)&plist[3];
 
-    if (pCtx->fst & NJD_FST_ENV)
+    if ( pCtx->fst & NJD_FST_ENV )
     {
-        if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM)
+        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM )
         {
             CnkSetupTexStrip(pCtx);
 
@@ -473,7 +474,7 @@ rjCnkStrip_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER*
     {
         CnkSetupNoTexStrip(pCtx);
 
-        if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR)
+        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR )
         {
             VertexDeclInfo = VertexDecl_PosCol;
 
@@ -485,6 +486,10 @@ rjCnkStrip_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER*
         }
         else
         {
+            /** We don't need to handle the case where the vertex attributes don't
+                include normals, the shader just ignores them anyway. Although,
+                this is a potential area of improvement in the future. **/
+
             VertexDeclInfo = VertexDecl_PosNorm;
 
             if (pCtx->fst & NJD_FST_FL)
@@ -506,12 +511,18 @@ rjCnkStrip_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER*
         }
     }
 
-    GX_End(); // Draw buffered vertex list
+    /** End CnkStrip and draw buffered vertex list **/
+
+    GX_End();
 }
 
 void
-rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf)
+rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
+    /** If this strip is double sided and we're not using Easy or Direct draw
+        modes, then additional logic is required for correctly inverting normals.
+        This logic is done in a seperate '_DB' function, so we can omit the extra
+        logic when it isn't needed. Otherwise, the functions are the same. **/
     if ( pCtx->fst & NJD_FST_DB && !(pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT) ))
     {
         rjCnkStrip_DB(pCtx, plist, njvtxbuf);
@@ -520,16 +531,18 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
 
     CnkSetupStrip(pCtx);
 
-    const int count = plist[2];
+    const Sint16 count = plist[2];
 
     const int nb_stcnk = count & ~NJD_UFO_MASK;
     const int ufo      = count >> NJD_UFO_SHIFT;
 
     CNK_STRIP* const p_str = (void*)&plist[3];
 
-    if (pCtx->fst & NJD_FST_ENV)
+    if ( pCtx->fst & NJD_FST_ENV )
     {
-        if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM)
+        /** Draw environment mapped strip **/
+
+        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM )
         {
             CnkSetupTexStrip(pCtx);
 
@@ -543,7 +556,7 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
 
             VertexDeclInfo = VertexDecl_PosNorm;
 
-            if (pCtx->fst & NJD_FST_FL)
+            if ( pCtx->fst & NJD_FST_FL )
             {
                 PushStrip_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf);
             }
@@ -554,11 +567,13 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
         }
 
     }
-    else // No tex
+    else // not env mapped
     {
+        /** Draw non-tex strip **/
+
         CnkSetupNoTexStrip(pCtx);
 
-        if (_nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR)
+        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR )
         {
             VertexDeclInfo = VertexDecl_PosCol;
 
@@ -566,6 +581,10 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
         }
         else
         {
+            /** We don't need to handle the case where the vertex attributes don't
+                include normals, the shader just ignores them anyway. Although,
+                this is a potential area of improvement in the future. **/
+
             VertexDeclInfo = VertexDecl_PosNorm;
 
             if (pCtx->fst & NJD_FST_FL)
@@ -579,7 +598,9 @@ rjCnkStrip(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* nj
         }
     }
 
-    GX_End(); // Draw buffered vertex list
+    /** End CnkStrip and draw buffered vertex list **/
+
+    GX_End();
 }
 
 /************************************************************************************/
