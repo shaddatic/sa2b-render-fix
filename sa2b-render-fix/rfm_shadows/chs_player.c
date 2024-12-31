@@ -88,9 +88,14 @@ SonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
     }
     else
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[7].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_sonic_head_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_sonic_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -148,9 +153,14 @@ TeriosDrawMod(taskwk* twp, playerwk* pwp, int motion)
     }
     else
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[72].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_terios_head_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_terios_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -450,9 +460,14 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
     if (objnum == 208)
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[214].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_miles_head_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_miles_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -620,9 +635,14 @@ EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     if (objnum == 230)
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[236].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_eggman_head_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_eggman_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -729,9 +749,14 @@ KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
     if (objnum == 142)
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[148].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_knuckles_head_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_knuckles_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -807,9 +832,14 @@ RougeDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     if (objnum == 171)
     {
+        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[178].pObject;
+
+        if (mod_head == nullptr)
+            mod_head = object_rouge_head_mod;
+        
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_rouge_head_mod);
+        njCnkModDrawObject(mod_head);
 
         njPopMatrixEx();
         njPushMatrixEx();
@@ -1114,12 +1144,22 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     if (objnum == 293)
     {
+        NJS_CNK_OBJECT* mod_body = CHAR_OBJECTS[297].pObject;
+
+        if (mod_body == nullptr)
+            mod_body = object_twalker_body_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_twalker_body_mod);
+        njCnkModDrawObject(mod_body);
 
         njPopMatrixEx();
         njPushMatrixEx();
+
+        NJS_CNK_OBJECT* mod_foot1 = CHAR_OBJECTS[300].pObject;
+
+        if (mod_foot1 == nullptr)
+            mod_foot1 = object_twalker_foot_mod;
 
         njTranslateEx(&pwp->rightfoot_pos);
 
@@ -1127,10 +1167,15 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
             njTranslate(NULL, 0.0f, 0.4f, 0.0f);
 
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_twalker_foot_mod);
+        njCnkModDrawObject(mod_foot1);
 
         njPopMatrixEx();
         njPushMatrixEx();
+
+        NJS_CNK_OBJECT* mod_foot2 = CHAR_OBJECTS[301].pObject;
+
+        if (mod_foot2 == nullptr)
+            mod_foot2 = object_twalker_foot_mod;
 
         njTranslateEx(&pwp->leftfoot_pos);
 
@@ -1138,7 +1183,7 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
             njTranslate(NULL, 0.0f, 0.4f, 0.0f);
 
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_twalker_foot_mod);
+        njCnkModDrawObject(mod_foot2);
     }
 
     njPopMatrixEx();
@@ -1158,23 +1203,33 @@ EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     if (objnum == 248)
     {
+        NJS_CNK_OBJECT* mod_body = CHAR_OBJECTS[252].pObject;
+
+        if (mod_body == nullptr)
+            mod_body = object_ewalker_body_mod;
+
         njTranslateEx(&pwp->user0_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_ewalker_body_mod);
+        njCnkModDrawObject(mod_body);
 
         njPopMatrixEx();
         njPushMatrixEx();
 
+        NJS_CNK_OBJECT* mod_foot = CHAR_OBJECTS[255].pObject;
+
+        if (mod_foot == nullptr)
+            mod_foot = object_ewalker_foot_mod;
+
         njTranslateEx(&pwp->rightfoot_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_ewalker_foot_mod);
+        njCnkModDrawObject(mod_foot);
 
         njPopMatrixEx();
         njPushMatrixEx();
 
         njTranslateEx(&pwp->leftfoot_pos);
         njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_ewalker_foot_mod);
+        njCnkModDrawObject(mod_foot);
     }
 
     njPopMatrixEx();
