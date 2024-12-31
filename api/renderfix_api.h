@@ -235,7 +235,7 @@ typedef struct
     * 
     *   Updates:
     *     - 1.3.2 : the 'nbTriList' parameter is obsolete and does nothing.
-          - 1.3.3 : both parameters switched to 'int32_t', over 'size_t'
+          - 1.4   : both parameters switched to 'int32_t', over 'size_t'
     * 
     *   Parameters:
     *     - nbTri     : Total number of triangles the buffer can store (default 2048)
@@ -335,7 +335,7 @@ typedef struct
     */
     bool (__cdecl* SpotLightFix)( void );
     /*
-    *   [[deprecated( "Always 'true' as of version 1.3.3" )]] 
+    *   [[deprecated( "Always 'true' as of version 1.4" )]] 
     * 
     *   Description:
     *     If environment maps have been flipped horizontally compared to vanilla.
@@ -351,7 +351,7 @@ typedef struct
     */
     bool (__cdecl* BackFaceCulling)( void );
     /*
-    *   [[deprecated( "Always 'true' as of version 1.3.3" )]] 
+    *   [[deprecated( "Always 'true' as of version 1.4" )]] 
     * 
     *   Description:
     *     If models have had their gray diffuse fixed. This is done by setting
