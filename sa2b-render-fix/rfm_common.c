@@ -272,11 +272,6 @@ RFM_CommonInit(void)
         GjsModelTintFix(0x00B58288);
     }
 
-    if (RF_ConfigGetInt(CNF_DEBUG_CHAOS0TEX))
-    {
-        RFC_Chaos0TexInit();
-    }
-
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 
     /** Add two pass drawing for Chunk land tables **/

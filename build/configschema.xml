@@ -42,6 +42,18 @@ The original games used 'Half Width'.</HelpText>
 				<HelpText>Force the game into using the gamepad, and therefore original Dreamcast and GameCube, text dialogs. This increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
 			</Property>
 		</Group>
+		<Group name="player" display="Player Settings">
+			<Property name="chaos0_texanim" display="Chaos 0 Texture Animation" type="eBOOL" defaultvalue="1">
+				<HelpText>If Chaos 0 should cycle through his water textures.
+
+This animation was not present in the Dreamcast version, but Render Fix *does* support using the it on the Dreamcast model. If this is enabled, however, he will use the GameCube textures instead of his original Dreamcast ones.</HelpText>
+			</Property>
+			<Property name="mod_shadow" display="Player Model Shadowing" type="eBOOL" defaultvalue="1">
+				<HelpText>Enable/Disable modifier shadows displaying on character models. On Dreamcast, this is a feature but here you can disable it if it's not for your taste.
+
+Disabling this may cause player characters to look out of place in some situations.</HelpText>
+			</Property>
+		</Group>
 		<Group name="shadows" display="Shadow Settings">
 			<Property name="mod_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
 				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
@@ -223,9 +235,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 		<Group name="debug" display="Debug Settings">
 			<Property name="objpak_write" display="Allow Writing To obj.pak" type="eBOOL" defaultvalue="1">
 				<HelpText>Allow writing to the obj.pak file. It's very unlikely this feature will need to be disabled, however the option is here if needed.</HelpText>
-			</Property>
-			<Property name="chaos0tex" display="Custom Chaos 0 Model Support" type="eBOOL" defaultvalue="1">
-				<HelpText>Overrides the texture animation system Chaos 0 uses to allow the use of custom models, if this is off the game will otherwise crash.</HelpText>
 			</Property>
 			<Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
 				<HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>

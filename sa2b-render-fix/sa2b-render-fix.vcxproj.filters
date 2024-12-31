@@ -192,9 +192,6 @@
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_itembox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_chaos0tex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rfm_shadows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -352,6 +349,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_spring.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_player\rfpl_mdlprs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_player\rfpl_chaos0.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -522,6 +528,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_common\rfc_newdisp\rfcd_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_player\rfpl_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

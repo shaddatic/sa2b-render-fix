@@ -208,8 +208,6 @@ RFC_TransparancyInit(void)
     //SwitchDisplayer(0x00740E17, DISP_SORT); // egg walker
     //SwitchDisplayer(0x00741445, DISP_SORT); // dark walker
 
-    //SwitchDisplayer(0x00728CC7, DISP_SORT); // chaos 0
-
     /** Player Draw **/
     WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker 
     WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1

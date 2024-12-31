@@ -169,6 +169,7 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Main **/
 #define CNFS_GLOBAL         "main"
 #define CNFS_FONT           "font"
+#define CNFS_PLAYER         "player"
 #define CNFS_SHADOW         "shadows"
 #define CNFS_COMMON         "common"
 
@@ -221,6 +222,10 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_COMPACT               )   /* Character Spacing */
 #define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_THIRD                 )   /* Space Character Width */
 #define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
+
+/** Player section **/
+#define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
+#define CNF_PLAYER_MODSHADOW        CNFO_INT(   CNFS_PLAYER         , "mod_shadow"          , CNFE_BOOL_ENABLED                     )   /* Disable player shadowing */
 
 /** Shadows section **/
 #define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "mod_shadow"          , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
@@ -300,7 +305,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Debug section **/
 #define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */
-#define CNF_DEBUG_CHAOS0TEX         CNFO_INT(   CNFS_DEBUG          , "chaos0tex"           , CNFE_BOOL_ENABLED                     )   /* Custom Chaos 0 Model Support */
 #define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 

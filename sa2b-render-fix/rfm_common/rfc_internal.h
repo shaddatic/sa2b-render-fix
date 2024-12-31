@@ -19,7 +19,6 @@ void    RFC_EnemyJet( void );
 void    RFC_MizugomiInit( void );
 void    RFC_TransparancyInit( void );
 void    RFC_UDReelInit( void );
-void    RFC_Chaos0TexInit( void );
 void    RFC_NewDisplayerInit( void );
 
 EXTERN_END

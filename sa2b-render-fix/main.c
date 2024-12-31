@@ -33,6 +33,7 @@
 #include <rfm_b_bigbogy.h>
 #include <rfm_event.h>
 #include <rfm_cart.h>
+#include <rfm_player.h>
 
 /****** DX9 Control *****************************************************************/
 #include <dx9ctrl/dx9ctrl.h>
@@ -96,6 +97,7 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
     RFM_BossBogyInit();
     RFM_CartInit();
     RFM_EventInit();
+    RFM_PlayerInit();
 
     /** Check mod conflicts **/
     RF_ModCheckInit();
