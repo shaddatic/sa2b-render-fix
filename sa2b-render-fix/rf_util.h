@@ -2,35 +2,50 @@
 *   SA2 Render Fix - '/rf_util.h'
 *
 *   Description:
-*       Common Render Fix utilities.
+*     Common Render Fix utilities.
 *
 *   Contributors:
-*   -   Shaddatic
+*     - Shaddatic
 */
-#ifndef _RF_UTIL_H_
-#define _RF_UTIL_H_
+#ifndef H_RF_UTIL
+#define H_RF_UTIL
 
 /************************/
-/*  Includes            */
+/*  External Includes   */
 /************************/
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+/****** Core Toolkit ****************************************************************/
+#include <sa2b/writemem.h>      /* write protected memory                           */
+#include <sa2b/writeop.h>       /* write operator                                   */
 
-#include <sa2b/ninja/njcommon.h>
-#include <sa2b/ninja/njmatrix.h>
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
+#include <sa2b/ninja/njmatrix.h> /* ninja matrix                                    */
 
 /************************/
-/*  Abstract Types      */
+/*  External Opaques    */
 /************************/
-typedef struct prstable     TEX_PRSTABLE;
+/****** Texture Table ***************************************************************/
+typedef struct prstable         TEX_PRSTABLE;
+
+EXTERN_START
 
 /************************/
 /*  Functions           */
 /************************/
-EXTERN_START
-/** Swap tex table entries **/
+/****** File Ownership **************************************************************/
+/*
+*   Description:
+*     Swap two PRS table entries with each other, to fix issues with texture load
+*   order.
+*
+*   Parameters:
+*     - pPrsTable   : prs table to edit
+*     - idx1        : entry index to swap 1
+*     - idx2        : entry index to swap 2
+*/
 void    RF_SwapTexFileTableIndex( TEX_PRSTABLE* pTexTable, int idx1, int idx2 );
 
+/****** Interpolation ***************************************************************/
 /*
 *   Description:
 *     Interpolate 2 points with each other with a weight ratio
@@ -42,6 +57,8 @@ void    RF_SwapTexFileTableIndex( TEX_PRSTABLE* pTexTable, int idx1, int idx2 );
 *     - ratioPt1 : weight ratio of point 1, point 2 will use a weight of ( 1.f - 'ratioPt1' )
 */
 void    RFU_LerpPoints( NJS_POINT3* pOutPt, const NJS_POINT3* pPt1, const NJS_POINT3* pPt2, f32 ratioPt1 );
+
+/****** Screen **********************************************************************/
 /*
 *   Description:
 *     Calculate a 3D point in screenspace to a 2D point in screenspace. A 3D
@@ -64,6 +81,8 @@ void    RFU_CalculateScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
 *     - pOutPos  : return pointer for screenspace 2D point
 */
 void    RFU_ProjectScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
+
+/****** Matrix **********************************************************************/
 /*
 *   Description:
 *     Calculate if a matrix has inverted scaling
@@ -109,4 +128,6 @@ EXTERN_END
 */
 #define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PRSTABLE*)(_textable), (_idx1), (_idx2))
 
-#endif/*_RF_UTIL_H_*/
+EXTERN_END
+
+#endif/*H_RF_UTIL*/
