@@ -22,9 +22,9 @@ EXTERN_START
 /************************/
 /*  Module Data         */
 /************************/
-/****** UV Offset *******************************************************************/
-EXTERN Float _rj_cnk_uv_offset_u_; /* u offset                                      */
-EXTERN Float _rj_cnk_uv_offset_v_; /* v offset                                      */
+/****** UV Scroll *******************************************************************/
+EXTERN Float _rj_cnk_uv_scroll_u_; /* u offset                                      */
+EXTERN Float _rj_cnk_uv_scroll_v_; /* v offset                                      */
 
 /****** Env Scroll ******************************************************************/
 EXTERN Float _rj_cnk_env_scroll_u_; /* u offset                                     */

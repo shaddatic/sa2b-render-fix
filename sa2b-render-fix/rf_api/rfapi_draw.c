@@ -59,7 +59,7 @@ const RFAPI_DRAW rfapi_draw =
     .CnkDrawShapeMotionBE     = rjCnkDrawShapeMotionBE,
     .CnkDrawShapeMotionLinkBE = rjCnkDrawShapeMotionLinkBE,
 
-    .CnkSetUvOffset        = rjCnkSetUvOffset,
-    .CnkSetEnvScroll       = rjCnkSetEnvScroll,
+    .CnkSetUvScroll        = rjCnkSetUvScroll,
+    .CnkSetEnvUvScroll     = rjCnkSetEnvUvScroll,
     .CnkSetTextureCallback = rjCnkSetTextureCallback,
 };

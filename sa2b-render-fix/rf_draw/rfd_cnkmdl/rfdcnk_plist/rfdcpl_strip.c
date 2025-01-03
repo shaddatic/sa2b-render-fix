@@ -380,8 +380,10 @@ PushStrip_PosNorm_FL_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, co
 static void
 PushStrip_PosColUV_ENV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const f32 scroll_u = _rj_cnk_env_scroll_u_;
-    const f32 scroll_v = _rj_cnk_env_scroll_v_;
+    const bool do_scroll = _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL;
+
+    const f32 scroll_u = do_scroll ? _rj_cnk_env_scroll_u_ : 0.f;
+    const f32 scroll_v = do_scroll ? _rj_cnk_env_scroll_v_ : 0.f;
 
     const CNK_STRIP* p_strip = pStrip;
 
@@ -430,8 +432,10 @@ PushStrip_PosColUV_ENV(const CNK_STRIP* restrict pStrip, const int nbStrip, cons
 static void
 PushStrip_PosColUV_ENV_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const f32 scroll_u = _rj_cnk_env_scroll_u_;
-    const f32 scroll_v = _rj_cnk_env_scroll_v_;
+    const bool do_scroll = _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL;
+
+    const f32 scroll_u = do_scroll ? _rj_cnk_env_scroll_u_ : 0.f;
+    const f32 scroll_v = do_scroll ? _rj_cnk_env_scroll_v_ : 0.f;
 
     const CNK_STRIP* p_strip = pStrip;
 

@@ -30,8 +30,8 @@
 /*  Export Data         */
 /************************/
 /****** UV Offset *******************************************************************/
-Float _rj_cnk_uv_offset_u_;
-Float _rj_cnk_uv_offset_v_;
+Float _rj_cnk_uv_scroll_u_;
+Float _rj_cnk_uv_scroll_v_;
 
 /****** Env Scroll ******************************************************************/
 Float _rj_cnk_env_scroll_u_;
@@ -239,14 +239,14 @@ rjCnkDrawShapeMotionLinkBE(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* 
 
 /****** Cnk Modify ******************************************************************/
 void
-rjCnkSetUvOffset(Float u, Float v)
+rjCnkSetUvScroll(Float u, Float v)
 {
-    _rj_cnk_uv_offset_u_ = u;
-    _rj_cnk_uv_offset_v_ = v;
+    _rj_cnk_uv_scroll_u_ = u;
+    _rj_cnk_uv_scroll_v_ = v;
 }
 
 void
-rjCnkSetEnvScroll(Float u, Float v)
+rjCnkSetEnvUvScroll(Float u, Float v)
 {
     _rj_cnk_env_scroll_u_ = u;
     _rj_cnk_env_scroll_v_ = v;

@@ -778,46 +778,43 @@ typedef struct
     /**** Chunk Modify **************************************/
     /*
     *   Description:
-    *     Set UV offset for Chunk draw. This will effect all UV-based textures
-    *   drawn.
+    *     Set the Chunk UV offset value for regular UVs, for texture scrolling.
     *
     *   Notes:
     *     - This is a Render Fix extension, and is not part of base Ninja.
-    *     - This will *not* affect environment maps
-    *     - Reset these values to '0.f' when drawing is complete
+    *     - This will *not* affect environment maps.
+    *     - Reset these values to '0.f' when drawing is complete.
     *
-    *   Paramters:
-    *     - u, v        : u or v offset
+    *   Parameters:
+    *     - u, v        : u and v scroll offset
     */
-    void (__cdecl* CnkSetUvOffset)( Float u, Float v );
+    void (__cdecl* CnkSetUvScroll)( Float u, Float v );
     /*
     *   Description:
-    *     Set Environment UV scroll for Chunk draw. This will effect all
-    *   environment mapped textures drawn.
+    *     Set the Chunk UV offset value for environment mapping, for texture
+    *   scrolling. Scrolling applies when 'NJD_CONTROL_3D_ENV_UV_SCROLL' is set.
     *
     *   Notes:
-    *     - Currently, functionality for the feature has not been implimented but
-    *       will be in a future update.
-    *     - This is a part of base Ninja, but it is called 'njCnkSetUvScroll'. The
-    *       functionality is otherwise exactly the same.
-    *     - Reset these values to '0.f' when drawing is complete
-
+    *     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality
+    *       is otherwise the same excluding the 'SimpleDraw' only limitation.
+    *     - Reset these values to '0.f' when drawing is complete.
+    *     - Currently only applies to normal-less environment maps, as they aren't
+    *       calculated in-shader.
     *
-    *   Paramters:
-    *     - u, v        : u or v scroll offset
+    *   Parameters:
+    *     - u, v        : u and v scroll offset
     */
-    void (__cdecl* CnkSetEnvScroll)( Float u, Float v );
+    void (__cdecl* CnkSetEnvUvScroll)( Float u, Float v );
     /*
     *   Description:
-    *     Set the texture ID callback function. This allows for texture IDs to be
-    *   swapped without having to manually edit model data.
+    *     Set the texture ID callback function, for texture animation.
     *
     *   Notes:
     *     - This is a Render Fix extension, and is not part of base Ninja.
-    *     - The returned value will be used as the new texid
-    *     - Reset the callback to 'NULL' when drawing is complete
+    *     - The returned value will be used as the new texid.
+    *     - Reset the callback to 'NULL' when drawing is complete.
     *
-    *   Paramters:
+    *   Parameters:
     *     - callback    : texture callback function
     */
     void (__cdecl* CnkSetTextureCallback)( Sint16(__cdecl* callback)(Sint16 texid) );
