@@ -31,7 +31,7 @@ GXBUF_POS;
 typedef struct
 {
     NJS_POINT3 pos;
-    NJS_VECTOR norm;
+    NJS_VECTOR nrm;
 }
 GXBUF_POSNORM;
 
@@ -45,7 +45,7 @@ GXBUF_POSCOL;
 typedef struct
 {
     NJS_POINT3 pos;
-    NJS_VECTOR norm;
+    NJS_VECTOR nrm;
     Uint32     col;
 }
 GXBUF_POSNORMCOL;
@@ -61,7 +61,7 @@ GXBUF_POSCOLUV;
 typedef struct
 {
     NJS_POINT3 pos;
-    NJS_VECTOR norm;
+    NJS_VECTOR nrm;
     f32        u, v;
 }
 GXBUF_POSNORMUV;
@@ -69,7 +69,7 @@ GXBUF_POSNORMUV;
 typedef struct
 {
     NJS_POINT3 pos;
-    NJS_VECTOR norm;
+    NJS_VECTOR nrm;
     Uint32     col;
     f32        u, v;
 }

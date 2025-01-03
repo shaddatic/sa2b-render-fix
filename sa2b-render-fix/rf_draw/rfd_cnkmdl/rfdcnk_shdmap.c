@@ -21,45 +21,70 @@
 static void
 rjCnkVertexD8(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVtxBuf)
 {
-    const CNK_VLIST_D8* vlist = (void*)pVList;
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
-    const int nb_vtx = vlist->nbindeces;
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_D8* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        pVtxBuf[i].pos  = vlist->d[i].pos;
+        p_buf->pos = p_vtx->pos;
+        p_buf->col = p_vtx->col;
 
-        pVtxBuf[i].color = vlist->d[i].color;
+        ++p_vtx;
+        ++p_buf;
     }
 }
 
 static void
 rjCnkVertexVN(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVtxBuf)
 {
-    const CNK_VLIST_VN* vlist = (void*)pVList;
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
-    const int nb_vtx = vlist->nbindeces;
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VN* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        pVtxBuf[i].pos  = vlist->d[i].pos;
-        pVtxBuf[i].norm = vlist->d[i].norm;
+        p_buf->pos = p_vtx->pos;
+        p_buf->nrm = p_vtx->nrm;
+
+        ++p_vtx;
+        ++p_buf;
     }
 }
 
 static void
 rjCnkVertexVND8(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVtxBuf)
 {
-    const CNK_VLIST_VN_D8* vlist = (void*)pVList;
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
-    const int nb_vtx = vlist->nbindeces;
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VN_D8* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        pVtxBuf[i].pos  = vlist->d[i].pos;
-        pVtxBuf[i].norm = vlist->d[i].norm;
+        p_buf->pos = p_vtx->pos;
+        p_buf->nrm = p_vtx->nrm;
+        p_buf->col = p_vtx->col;
 
-        pVtxBuf[i].color = vlist->d[i].color;
+        ++p_vtx;
+        ++p_buf;
     }
 }
 
@@ -80,15 +105,15 @@ rjCnkVListSM(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict njvtxbuf
         /** It is possible for models to contain more than 1 vertex list, but it's
             incredibly unlikely and I don't think it's even used in SA2. **/
 
-        const CNK_VLIST_HEAD* p_vhead = (void*)vlist;
-
-        const int type = p_vhead->headbits;
+        const int type = CNK_GET_OFFTYPE(vlist);
 
         if (type == NJD_ENDOFF)
         {
             /** NJD_ENDOFF **/
             break;
         }
+
+        const CNK_VERTEX_HEAD* p_vhead = (void*)vlist;
 
         /** Get the vertex buffer offset for this vertex list. Verteces are copied
             from the 'vlist' sequentially into the vertex buffer starting from this

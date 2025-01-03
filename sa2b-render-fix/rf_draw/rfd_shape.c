@@ -94,9 +94,9 @@ rjShapeIntLinearVlist(const NJS_MKEY_P *VertexKey, int VertexNbKeys, const NJS_M
 
     for ( ; ; )
     {
-        const CNK_VLIST_HEAD* cnk_head = (const void*)src_cnk_base;
+        const CNK_VERTEX_HEAD* cnk_head = (const void*)src_cnk_base;
 
-        const Sint32 cnk_type    = cnk_head->headbits;
+        const Sint32 cnk_type    = cnk_head->head;
         const Sint32 cnk_size    = cnk_head->size;
         const Sint32 cnk_indeces = cnk_head->nbindeces;
 
@@ -373,9 +373,9 @@ rjShapeLinkIntLinearVlist(const NJS_MKEY_P *Vertex1Key, int Vertex1NbKeys, const
 
     for ( ; ; )
     {
-        const CNK_VLIST_HEAD* cnk_head = (const void*)src_cnk_base;
+        const CNK_VERTEX_HEAD* cnk_head = (const void*)src_cnk_base;
 
-        const Sint32 cnk_type    = cnk_head->headbits;
+        const Sint32 cnk_type    = cnk_head->head;
         const Sint32 cnk_size    = cnk_head->size;
         const Sint32 cnk_indeces = cnk_head->nbindeces;
 

@@ -13,6 +13,9 @@
 /************************/
 /*  External Includes   */
 /************************/
+/****** Utility *********************************************************************/
+#include <sa2b/util/cnkmdl.h>
+
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_internal.h> /* grand parent                                   */
 #include <rf_draw/rfd_cnk.h>      /* parent util                                    */

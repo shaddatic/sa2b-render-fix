@@ -26,6 +26,10 @@ EXTERN_START
 EXTERN Float _rj_cnk_uv_offset_u_; /* u offset                                      */
 EXTERN Float _rj_cnk_uv_offset_v_; /* v offset                                      */
 
+/****** Env Scroll ******************************************************************/
+EXTERN Float _rj_cnk_env_scroll_u_; /* u offset                                     */
+EXTERN Float _rj_cnk_env_scroll_v_; /* v offset                                     */
+
 /****** Texture Callback ************************************************************/
 EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback          */
 
@@ -100,7 +104,7 @@ typedef struct
     Uint16 headbits;
     Uint16 texbits;
 }
-CNK_TINY;
+CNK_TINY_OLD;
 
 typedef struct
 {
@@ -246,7 +250,7 @@ int     rjCnkVList( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
 *     - pPList      : base plist pointer
 *     - njvtxbuf    : vertex buffer
 */
-void    rjCnkPList( const Sint16* pPList, const CNK_VERTEX_BUFFER* njvtxbuf );
+void    rjCnkPList( const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvtxbuf );
 
 /****** Cnk Shadow Map **************************************************************/
 /*
@@ -259,7 +263,7 @@ void    rjCnkPList( const Sint16* pPList, const CNK_VERTEX_BUFFER* njvtxbuf );
 *     - pVList      : base vlist pointer
 *     - njvtxbuf    : vertex buffer
 */
-int     rjCnkVListSM( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
+int     rjCnkVListSM( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict njvtxbuf );
 
 /****** External Functions (Ctx) ****************************************************/
 /*

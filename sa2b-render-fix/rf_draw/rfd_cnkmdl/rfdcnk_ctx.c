@@ -66,12 +66,12 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** get context **/
 
-    const Uint16 headbits = pCtx->tiny.headbits;
-    const Uint16 texbits  = pCtx->tiny.texbits;
+    //const Uint16 headbits = pCtx->tiny.headbits;
+    //const Uint16 texbits  = pCtx->tiny.texbits;
 
     /** get texture **/
 
-    s16 texid = texbits & NJD_TID_MASK;
+    s16 texid = pCtx->tiny.texid; //texbits & NJD_TID_MASK;
 
     // call texture callback
     if (_rj_cnk_texture_callback_) texid = _rj_cnk_texture_callback_(texid);
@@ -138,27 +138,27 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** texture filtering **/
 
-    switch ( (texbits & NJD_FFM_MASK) >> NJD_FFM_SHIFT )
+    switch ( pCtx->tiny.filter )
     {
-        case 0: // point
+        case CNK_FILTER_POINTSAMPLE:
         {
             p_tinfo->min_filter = 0;
             p_tinfo->mag_filter = 0;
             break;
         }
-        case 1: // bilinear (default)
+        case CNK_FILTER_BILINEAR:
         {
             p_tinfo->min_filter = 1;
             p_tinfo->mag_filter = 1;
             break;
         }
-        case 2: // trilinear A
+        case CNK_FILTER_TRILINEAR_A:
         {
             p_tinfo->min_filter = 1;
             p_tinfo->mag_filter = 1;
             break;
         }
-        case 3: // trilinear B
+        case CNK_FILTER_TRILINEAR_B:
         {
             p_tinfo->min_filter = 1;
             p_tinfo->mag_filter = 1;
@@ -168,27 +168,79 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     /** texture wrapping **/
 
-    if (headbits & NJD_FCL_U) // CLamp
+    switch (pCtx->tiny.flip)
     {
-        p_tinfo->address_u = 0;
+        case CNK_FLIP_NONE:
+        {
+            p_tinfo->address_u = 1; // repeat
+            p_tinfo->address_v = 1; // repeat
+            break;
+        }
+        case CNK_FLIP_V:
+        {
+            p_tinfo->address_u = 1; // repeat
+            p_tinfo->address_v = 2; // flip
+            break;
+        }
+        case CNK_FLIP_U:
+        {
+            p_tinfo->address_u = 2; // flip
+            p_tinfo->address_v = 1; // repeat
+            break;
+        }
+        case CNK_FLIP_UV:
+        {
+            p_tinfo->address_u = 2; // flip
+            p_tinfo->address_v = 2; // flip
+            break;
+        }
     }
-    else if (headbits & NJD_FFL_U) // FLip (mirror)
-    {
-        p_tinfo->address_u = 2;
-    }
-    else
-        p_tinfo->address_u = 1; // repeat
 
-    if (headbits & NJD_FCL_V) // CLamp
+    switch (pCtx->tiny.clamp)
     {
-        p_tinfo->address_v = 0;
+        case CNK_CLAMP_NONE:
+        {
+            break;
+        }
+        case CNK_CLAMP_V:
+        {
+            p_tinfo->address_v = 0;
+            break;
+        }
+        case CNK_CLAMP_U:
+        {
+            p_tinfo->address_u = 0;
+            break;
+        }
+        case CNK_CLAMP_UV:
+        {
+            p_tinfo->address_u = 0;
+            p_tinfo->address_v = 0;
+            break;
+        }
     }
-    else if (headbits & NJD_FFL_V) // FLip (mirror)
-    {
-        p_tinfo->address_v = 2;
-    }
-    else
-        p_tinfo->address_v = 1; // repeat
+
+    //if (headbits & NJD_FCL_U) // CLamp
+    //{
+    //    p_tinfo->address_u = 0;
+    //}
+    //else if (headbits & NJD_FFL_U) // FLip (mirror)
+    //{
+    //    p_tinfo->address_u = 2;
+    //}
+    //else
+    //    p_tinfo->address_u = 1; // repeat
+    //
+    //if (headbits & NJD_FCL_V) // CLamp
+    //{
+    //    p_tinfo->address_v = 0;
+    //}
+    //else if (headbits & NJD_FFL_V) // FLip (mirror)
+    //{
+    //    p_tinfo->address_v = 2;
+    //}
+    //else
+    //    p_tinfo->address_v = 1; // repeat
 
     /** tes5 **/
 
@@ -492,6 +544,8 @@ GetCnkStripFlags(const Sint16* plist)
     {
         fst |= (NJD_FST_DB);
     }
+
+    //fst |= NJD_FST_FL;
 
     return fst & NJD_FST_MASK;
 }

@@ -33,6 +33,10 @@
 Float _rj_cnk_uv_offset_u_;
 Float _rj_cnk_uv_offset_v_;
 
+/****** Env Scroll ******************************************************************/
+Float _rj_cnk_env_scroll_u_;
+Float _rj_cnk_env_scroll_v_;
+
 /****** Texture Callback ************************************************************/
 Sint16 (__cdecl* _rj_cnk_texture_callback_)(Sint16 texid);
 
@@ -244,7 +248,8 @@ rjCnkSetUvOffset(Float u, Float v)
 void
 rjCnkSetEnvScroll(Float u, Float v)
 {
-    u; v;
+    _rj_cnk_env_scroll_u_ = u;
+    _rj_cnk_env_scroll_v_ = v;
 }
 
 void

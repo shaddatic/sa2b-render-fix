@@ -31,21 +31,25 @@
 
 /****** Position+Normal *************************************************************/
 static void
-PushStripUV_PosNorm(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
+PushStripUV_PosNorm(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStrip( p_str->len );
+        CnkStartTriStrip( p_strip->len );
 
         GXBUF_POSNORM* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
@@ -53,37 +57,44 @@ PushStripUV_PosNorm(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, cons
             p_buf->pos = p_vtx->pos;
 
             // set normal
-            p_buf->norm = p_vtx->norm;
+            p_buf->nrm = p_vtx->nrm;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
     }
 }
 
 static void
-PushStripUV_PosNorm_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+PushStripUV_PosNorm_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStripInverse( p_str->len );
+        CnkStartTriStripInverse( p_strip->len );
 
         GXBUF_POSNORM* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
@@ -91,43 +102,50 @@ PushStripUV_PosNorm_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCn
             p_buf->pos = p_vtx->pos;
 
             // Set inverted normal
-            p_buf->norm.x = -p_vtx->norm.x;
-            p_buf->norm.y = -p_vtx->norm.y;
-            p_buf->norm.z = -p_vtx->norm.z;
+            p_buf->nrm.x = -p_vtx->nrm.x;
+            p_buf->nrm.y = -p_vtx->nrm.y;
+            p_buf->nrm.z = -p_vtx->nrm.z;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
     }
 }
 
 /****** Position+Normal+UV **********************************************************/
 static void
-PushStripUV_PosNormUV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosNormUV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* restrict p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int i = 0; i < nbStrip; ++i)
     {
-        CnkStartTriStrip( p_str->len );
+        CnkStartTriStrip( p_strip->len );
 
         GXBUF_POSNORMUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
@@ -135,42 +153,52 @@ PushStripUV_PosNormUV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk,
             p_buf->pos = p_vtx->pos;
 
             // set normal
-            p_buf->norm = p_vtx->norm;
+            p_buf->nrm = p_vtx->nrm;
 
             // set uv coords
-            p_buf->u = ((f32)p_str->d[vidx].u * uvMul) + offset_u;
-            p_buf->v = ((f32)p_str->d[vidx].v * uvMul) + offset_v;
+            p_buf->u = ((f32)p_st->u * uvMul) + offset_u;
+            p_buf->v = ((f32)p_st->v * uvMul) + offset_v;
+
+            /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 static void
-PushStripUV_PosNormUV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosNormUV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStripInverse( p_str->len );
+        CnkStartTriStripInverse( p_strip->len );
 
         GXBUF_POSNORMUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
@@ -178,47 +206,55 @@ PushStripUV_PosNormUV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip
             p_buf->pos = p_vtx->pos;
 
             // Set inverted normal
-            p_buf->norm.x = -p_vtx->norm.x;
-            p_buf->norm.y = -p_vtx->norm.y;
-            p_buf->norm.z = -p_vtx->norm.z;
+            p_buf->nrm.x = -p_vtx->nrm.x;
+            p_buf->nrm.y = -p_vtx->nrm.y;
+            p_buf->nrm.z = -p_vtx->nrm.z;
 
             // set uv coords
-            p_buf->u = ((f32)p_str->d[vidx].u * uvMul) + offset_u;
-            p_buf->v = ((f32)p_str->d[vidx].v * uvMul) + offset_v;
+            p_buf->u = ((f32)p_st->u * uvMul) + offset_u;
+            p_buf->v = ((f32)p_st->v * uvMul) + offset_v;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 /****** Position+Color+UV ***********************************************************/
 static void
-PushStripUV_PosColUV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosColUV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStrip( p_str->len );
+        CnkStartTriStrip( p_strip->len );
 
         GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
@@ -226,104 +262,122 @@ PushStripUV_PosColUV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, 
             p_buf->pos = p_vtx->pos;
 
             // set color
-            p_buf->col = p_vtx->color;
+            p_buf->col = p_vtx->col;
 
             // set uv coords
-            p_buf->u = ((f32)p_str->d[vidx].u * uvMul) + offset_u;
-            p_buf->v = ((f32)p_str->d[vidx].v * uvMul) + offset_v;
+            p_buf->u = ((f32)p_st->u * uvMul) + offset_u;
+            p_buf->v = ((f32)p_st->v * uvMul) + offset_v;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 static void
-PushStripUV_PosColUV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosColUV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStripInverse( p_str->len );
+        CnkStartTriStripInverse( p_strip->len );
 
         GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             /** Set draw buffer **/
 
-            // set pos
+            // set position
             p_buf->pos = p_vtx->pos;
 
             // set color
-            p_buf->col = p_vtx->color;
+            p_buf->col = p_vtx->col;
 
             // set uv coords
-            p_buf->u = ((f32)p_str->d[vidx].u * uvMul) + offset_u;
-            p_buf->v = ((f32)p_str->d[vidx].v * uvMul) + offset_v;
+            p_buf->u = ((f32)p_st->u * uvMul) + offset_u;
+            p_buf->v = ((f32)p_st->v * uvMul) + offset_v;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 /****** Flat Shading: Position+Normal ***********************************************/
 static void
-PushStripUV_PosNorm_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+PushStripUV_PosNorm_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriList( p_str->len );
+        CnkStartTriList( p_strip->len );
 
-        GXBUF_POSNORM* p_buf = GetVertexBuffer();
+        GXBUF_POSNORM* p_buf_base = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get inverted strip state
+        bool invst = !(p_strip->len < 0);
 
-        const int nb_tri = (nb_vtx - 2);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        bool inv_strip = (p_str->len < 0);
+        // get polygon count
+        const int nb_poly = (len - 2);
 
-        for (int tidx = 0; tidx < nb_tri; ++tidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < nb_poly; ++i)
         {
-            const NJS_POINT3* p_vtxpos[3];
-
-            /** vertex index and vertex increment for de-strip-ing the triangle **/
-            int vidx, vinc;
-
-            VIDX_START(vidx, vinc, inv_strip);
+            GXBUF_POSNORM* p_buf = p_buf_base;
 
             NJS_VECTOR norm = {0}; // normal accumulator
 
-            for (int k = 0; k < 3; ++k)
-            {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+            /** buffer increment value for destripping algorithm **/
+            int buf_inc;
 
-                p_vtxpos[k] = &p_vtx->pos;
+            DESTRIP_START(p_buf, buf_inc, invst);
+
+            const CNK_ST_UV* restrict p_st_2 = p_st;
+
+            for (int j = 0; j < 3; ++j)
+            {
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
 
                 /** Set draw buffer **/
 
@@ -331,15 +385,16 @@ PushStripUV_PosNorm_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk
                 p_buf->pos = p_vtx->pos;
 
                 // add normal
-                norm.x += p_vtx->norm.x;
-                norm.y += p_vtx->norm.y;
-                norm.z += p_vtx->norm.z;
+                norm.x += p_vtx->nrm.x;
+                norm.y += p_vtx->nrm.y;
+                norm.z += p_vtx->nrm.z;
 
                 /** End set buffer **/
 
-                vidx += vinc;
+                p_buf += buf_inc;
 
-                p_buf++;
+                // user offset only applies per polygon, so we skip the first two
+                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
             }
 
             /** Adjust accumulated normal (div 3) **/
@@ -348,49 +403,67 @@ PushStripUV_PosNorm_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk
             norm.z *= (1.f/3.f);
 
             /** Set flat normal for triangle **/
-            p_buf[-3].norm = norm;
-            p_buf[-2].norm = norm;
-            p_buf[-1].norm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
 
             /** Swap strip inverse mode for next tri **/
-            inv_strip = !inv_strip;
+            invst = !invst;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * (nb_tri * 3);
+        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // we're now two strip indexes short
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 static void
-PushStripUV_PosNorm_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+PushStripUV_PosNorm_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriListInverse( p_str->len );
+        CnkStartTriListInverse( p_strip->len );
 
-        GXBUF_POSNORM* p_buf = GetVertexBuffer();
+        GXBUF_POSNORM* p_buf_base = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get inverted strip state
+        bool invst = !(p_strip->len < 0);
 
-        const int nb_tri = (nb_vtx - 2);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        bool inv_strip = !(p_str->len < 0);
+        // get polygon count
+        const int nb_poly = (len - 2);
 
-        for (int tidx = 0; tidx < nb_tri; ++tidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < nb_poly; ++i)
         {
-            /** vertex index and vertex increment for de-strip-ing the triangle **/
-            int vidx, vinc;
-
-            VIDX_START(vidx, vinc, inv_strip);
+            GXBUF_POSNORM* p_buf = p_buf_base;
 
             NJS_VECTOR norm = {0}; // normal accumulator
 
-            for (int k = 0; k < 3; ++k)
+            /** buffer increment value for destripping algorithm **/
+            int buf_inc;
+
+            DESTRIP_START(p_buf, buf_inc, invst);
+
+            const CNK_ST_UV* restrict p_st_2 = p_st;
+
+            for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
 
                 /** Set draw buffer **/
 
@@ -398,15 +471,16 @@ PushStripUV_PosNorm_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStri
                 p_buf->pos = p_vtx->pos;
 
                 // sub normal
-                norm.x -= p_vtx->norm.x;
-                norm.y -= p_vtx->norm.y;
-                norm.z -= p_vtx->norm.z;
+                norm.x -= p_vtx->nrm.x;
+                norm.y -= p_vtx->nrm.y;
+                norm.z -= p_vtx->nrm.z;
 
                 /** End set buffer **/
 
-                vidx += vinc;
+                p_buf += buf_inc;
 
-                p_buf++;
+                // user offset only applies per polygon, so we skip the first two
+                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
             }
 
             /** Adjust accumulated normal (div 3) **/
@@ -415,53 +489,72 @@ PushStripUV_PosNorm_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStri
             norm.z *= (1.f/3.f);
 
             /** Set flat normal for triangle **/
-            p_buf[-3].norm = norm;
-            p_buf[-2].norm = norm;
-            p_buf[-1].norm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
 
             /** Swap strip inverse mode for next tri **/
-            inv_strip = !inv_strip;
+            invst = !invst;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * (nb_tri * 3);
+        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // we're now two strip indexes short
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 /****** Flat Shading: Position+Normal+UV *********************************************/
 static void
-PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriList( p_str->len );
+        CnkStartTriList( p_strip->len );
 
-        GXBUF_POSNORMUV* p_buf = GetVertexBuffer();
+        GXBUF_POSNORMUV* p_buf_base = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get inverted strip state
+        bool invst = !(p_strip->len < 0);
 
-        const int nb_tri = (nb_vtx - 2);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        bool inv_strip = (p_str->len < 0);
+        // get polygon count
+        const int nb_poly = (len - 2);
 
-        for (int tidx = 0; tidx < nb_tri; ++tidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < nb_poly; ++i)
         {
-            /** vertex index and vertex increment for de-strip-ing the triangle **/
-            int vidx, vinc;
-
-            VIDX_START(vidx, vinc, inv_strip);
+            GXBUF_POSNORMUV* p_buf = p_buf_base;
 
             NJS_VECTOR norm = {0}; // normal accumulator
 
-            for (int k = 0; k < 3; ++k)
+            /** buffer increment value for destripping algorithm **/
+            int buf_inc;
+
+            DESTRIP_START(p_buf, buf_inc, invst);
+
+            // get second strip array
+            const CNK_ST_UV* restrict p_st_2 = p_st;
+
+            for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
 
                 /** Set draw buffer **/
 
@@ -469,19 +562,20 @@ PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripC
                 p_buf->pos = p_vtx->pos;
 
                 // add normal
-                norm.x += p_vtx->norm.x;
-                norm.y += p_vtx->norm.y;
-                norm.z += p_vtx->norm.z;
+                norm.x += p_vtx->nrm.x;
+                norm.y += p_vtx->nrm.y;
+                norm.z += p_vtx->nrm.z;
 
                 // set uv coords
-                p_buf->u = ((f32)p_str->d[tidx+vidx].u * uvMul) + offset_u;
-                p_buf->v = ((f32)p_str->d[tidx+vidx].v * uvMul) + offset_v;
+                p_buf->u = ((f32)p_st_2->u * uvMul) + offset_u;
+                p_buf->v = ((f32)p_st_2->v * uvMul) + offset_v;
 
                 /** End set buffer **/
 
-                vidx += vinc;
+                p_buf += buf_inc;
 
-                p_buf++;
+                // user offset only applies per polygon, so we skip the first two
+                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
             }
 
             /** Adjust accumulated normal (div 3) **/
@@ -490,52 +584,71 @@ PushStripUV_PosNormUV_FL(const CNK_STRIP_UV* restrict pStrip, const int nbStripC
             norm.z *= (1.f/3.f);
 
             /** Set flat normal for triangle **/
-            p_buf[-3].norm = norm;
-            p_buf[-2].norm = norm;
-            p_buf[-1].norm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
 
             /** Swap strip inverse mode for next tri **/
-            inv_strip = !inv_strip;
+            invst = !invst;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * (nb_tri * 3);
+        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // we're now two strip indexes short
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 static void
-PushStripUV_PosNormUV_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
+PushStripUV_PosNormUV_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf, const f32 uvMul)
 {
     const f32 offset_u = _rj_cnk_uv_offset_u_;
     const f32 offset_v = _rj_cnk_uv_offset_v_;
 
-    const CNK_STRIP_UV* p_str = pStrip;
+    const CNK_STRIP_UV* p_strip = pStrip;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriListInverse( p_str->len );
+        CnkStartTriListInverse( p_strip->len );
 
-        GXBUF_POSNORMUV* p_buf = GetVertexBuffer();
+        GXBUF_POSNORMUV* p_buf_base = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get inverted strip state
+        bool invst = !(p_strip->len < 0);
 
-        const int nb_tri = (nb_vtx - 2);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        bool inv_strip = !(p_str->len < 0);
+        // get polygon count
+        const int nb_poly = (len - 2);
 
-        for (int tidx = 0; tidx < nb_tri; ++tidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < nb_poly; ++i)
         {
-            /** vertex index and vertex increment for de-strip-ing the triangle **/
-            int vidx, vinc;
-
-            VIDX_START(vidx, vinc, inv_strip);
+            GXBUF_POSNORMUV* p_buf = p_buf_base;
 
             NJS_VECTOR norm = {0}; // normal accumulator
 
-            for (int k = 0; k < 3; ++k)
+            /** buffer increment value for destripping algorithm **/
+            int buf_inc;
+
+            DESTRIP_START(p_buf, buf_inc, invst);
+
+            // get second strip array
+            const CNK_ST_UV* restrict p_st_2 = p_st;
+
+            for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[tidx+vidx].i ];
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
 
                 /** Set draw buffer **/
 
@@ -543,19 +656,20 @@ PushStripUV_PosNormUV_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbSt
                 p_buf->pos = p_vtx->pos;
 
                 // sub normal
-                norm.x -= p_vtx->norm.x;
-                norm.y -= p_vtx->norm.y;
-                norm.z -= p_vtx->norm.z;
+                norm.x -= p_vtx->nrm.x;
+                norm.y -= p_vtx->nrm.y;
+                norm.z -= p_vtx->nrm.z;
 
                 // set uv coords
-                p_buf->u = ((f32)p_str->d[tidx+vidx].u * uvMul) + offset_u;
-                p_buf->v = ((f32)p_str->d[tidx+vidx].v * uvMul) + offset_v;
+                p_buf->u = ((f32)p_st_2->u * uvMul) + offset_u;
+                p_buf->v = ((f32)p_st_2->v * uvMul) + offset_v;
 
                 /** End set buffer **/
 
-                vidx += vinc;
+                p_buf += buf_inc;
 
-                p_buf++;
+                // user offset only applies per polygon, so we skip the first two
+                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
             }
 
             /** Adjust accumulated normal (div 3) **/
@@ -563,101 +677,129 @@ PushStripUV_PosNormUV_FL_INV(const CNK_STRIP_UV* restrict pStrip, const int nbSt
             norm.y *= (1.f/3.f);
             norm.z *= (1.f/3.f);
 
-            /** Set inverted flat normal for triangle **/
-            p_buf[-3].norm = norm;
-            p_buf[-2].norm = norm;
-            p_buf[-1].norm = norm;
+            /** Set flat normal for triangle **/
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
+            (p_buf_base++)->nrm = norm;
 
             /** Swap strip inverse mode for next tri **/
-            inv_strip = !inv_strip;
+            invst = !invst;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * (nb_tri * 3);
+        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // we're now two strip indexes short
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+        p_st = CNK_NEXT_POLY(p_st, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 /****** No-Normal Envmap: Position+Color+UV *****************************************/
 static void
-PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
+PushStripUV_PosColUV_ENV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const f32 scroll_u = _rj_cnk_env_scroll_u_;
+    const f32 scroll_v = _rj_cnk_env_scroll_v_;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    const CNK_STRIP_UV* p_strip = pStrip;
+
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStrip( p_str->len );
+        CnkStartTriStrip( p_strip->len );
 
         GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
 
             // set color
-            p_buf->col = p_vtx->color;
+            p_buf->col = p_vtx->col;
 
             // set uv coords
-            p_buf->u = -p_vtx->pos.x;
-            p_buf->v = -p_vtx->pos.y;
+            p_buf->u = -p_vtx->pos.x + scroll_u;
+            p_buf->v = -p_vtx->pos.y + scroll_v;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
 static inline void
-PushStripUV_PosColUV_ENV_INV(const CNK_STRIP_UV* const pStrip, const int nbStripCnk, const int ufo, const CNK_VERTEX_BUFFER* const njvtxbuf)
+PushStripUV_PosColUV_ENV_INV(const CNK_STRIP_UV* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    const CNK_STRIP_UV* p_str = pStrip;
+    const f32 scroll_u = _rj_cnk_env_scroll_u_;
+    const f32 scroll_v = _rj_cnk_env_scroll_v_;
 
-    for (int i = 0; i < nbStripCnk; ++i)
+    const CNK_STRIP_UV* p_strip = pStrip;
+
+    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
     {
-        CnkStartTriStripInverse( p_str->len );
+        CnkStartTriStripInverse( p_strip->len );
 
         GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
 
-        const int nb_vtx = ABS(p_str->len);
+        // get strip length
+        const int len = ABS(p_strip->len);
 
-        for (int vidx = 0; vidx < nb_vtx; ++vidx)
+        // get strip array
+        const CNK_ST_UV* restrict p_st = p_strip->d;
+
+        for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_str->d[vidx].i ];
-
-            /** Set draw buffer **/
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
 
             // set color
-            p_buf->col = p_vtx->color;
+            p_buf->col = p_vtx->col;
 
             // set uv coords
-            p_buf->u = -p_vtx->pos.x;
-            p_buf->v = -p_vtx->pos.y;
+            p_buf->u = -p_vtx->pos.x + scroll_u;
+            p_buf->v = -p_vtx->pos.y + scroll_v;
 
             /** End set buffer **/
 
             ++p_buf;
+
+            // user offset only applies per polygon, so we skip the first two
+            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * nb_vtx;
+        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
 
         CopyCopyVertex(sizeof(*p_buf));
 
-        p_str = NEXT_STRIP(p_str, nb_vtx, ufo);
+        // next strip chunk starts at the end of the current one
+        p_strip = (void*) p_st;
     }
 }
 
@@ -676,18 +818,16 @@ CnkSetupStripUV(CNK_CTX* pCtx)
 
 /****** Extern **********************************************************************/
 static void
-rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, s32 uvh)
+rjCnkStripUV_DB(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf, s32 uvh)
 {
-    CnkSetupStripUV(pCtx);
-
-    const int count = plist[2];
-
-    const int nb_stcnk = count & ~NJD_UFO_MASK;
-    const int ufo      = count >> NJD_UFO_SHIFT;
-
     const f32 uv_mul = GET_UV_MUL(uvh);
 
-    CNK_STRIP_UV* const p_str = (void*)&plist[3];
+    const CNK_STRIP_HEAD* head = (CNK_STRIP_HEAD*)plist;
+
+    const int nb_strip = head->nbstrip;
+    const int ufo      = head->ufo;
+
+    const CNK_STRIP_UV* p_strip = (const CNK_STRIP_UV*)&head->d;
 
     if (pCtx->fst & NJD_FST_ENV)
     {
@@ -700,10 +840,10 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
             VertexDeclInfo = VertexDecl_PosColUV;
 
             if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                PushStripUV_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf);
+                PushStripUV_PosColUV_ENV(p_strip, nb_strip, ufo, njvtxbuf);
 
             if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                PushStripUV_PosColUV_ENV_INV(p_str, nb_stcnk, ufo, njvtxbuf);
+                PushStripUV_PosColUV_ENV_INV(p_strip, nb_strip, ufo, njvtxbuf);
         }
         else
         {
@@ -714,18 +854,18 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
             if (pCtx->fst & NJD_FST_FL)
             {
                 if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf);
+                    PushStripUV_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
 
                 if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStripUV_PosNorm_FL_INV(p_str, nb_stcnk, ufo, njvtxbuf);
+                    PushStripUV_PosNorm_FL_INV(p_strip, nb_strip, ufo, njvtxbuf);
             }
             else
             {
                 if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf);
+                    PushStripUV_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
 
                 if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStripUV_PosNorm_INV(p_str, nb_stcnk, ufo, njvtxbuf);
+                    PushStripUV_PosNorm_INV(p_strip, nb_strip, ufo, njvtxbuf);
             }
         }
     }
@@ -740,10 +880,10 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
             VertexDeclInfo = VertexDecl_PosColUV;
 
             if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                PushStripUV_PosColUV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                PushStripUV_PosColUV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
 
             if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                PushStripUV_PosColUV_INV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                PushStripUV_PosColUV_INV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
         }
         else
         {
@@ -756,18 +896,18 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
             if (pCtx->fst & NJD_FST_FL)
             {
                 if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStripUV_PosNormUV_FL(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                    PushStripUV_PosNormUV_FL(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
 
                 if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStripUV_PosNormUV_FL_INV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                    PushStripUV_PosNormUV_FL_INV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
             }
             else
             {
                 if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStripUV_PosNormUV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                    PushStripUV_PosNormUV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
 
                 if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStripUV_PosNormUV_INV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                    PushStripUV_PosNormUV_INV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
             }
         }
     }
@@ -778,8 +918,10 @@ rjCnkStripUV_DB(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFE
 }
 
 void
-rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* njvtxbuf, s32 uvh)
+rjCnkStripUV(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf, s32 uvh)
 {
+    CnkSetupStripUV(pCtx);
+
     /** If this strip is double sided and we're not using Easy or Direct draw
         modes, then additional logic is required for correctly inverting normals.
         This logic is done in a seperate '_DB' function, so we can omit the extra
@@ -790,16 +932,14 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
         return;
     }
 
-    CnkSetupStripUV(pCtx);
-
-    const Sint16 count = plist[2];
-
-    const int nb_stcnk = count & ~NJD_UFO_MASK;
-    const int ufo      = count >> NJD_UFO_SHIFT;
-
     const f32 uv_mul = GET_UV_MUL(uvh);
 
-    CNK_STRIP_UV* const p_str = (void*)&plist[3];
+    const CNK_STRIP_HEAD* head = (CNK_STRIP_HEAD*)plist;
+
+    const int nb_strip = head->nbstrip;
+    const int ufo      = head->ufo;
+
+    const CNK_STRIP_UV* p_strip = (const CNK_STRIP_UV*)&head->d;
 
     if (pCtx->fst & NJD_FST_ENV)
     {
@@ -811,7 +951,7 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
 
             VertexDeclInfo = VertexDecl_PosColUV;
 
-            PushStripUV_PosColUV_ENV(p_str, nb_stcnk, ufo, njvtxbuf);
+            PushStripUV_PosColUV_ENV(p_strip, nb_strip, ufo, njvtxbuf);
         }
         else
         {
@@ -821,11 +961,11 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
             
             if (pCtx->fst & NJD_FST_FL)
             {
-                PushStripUV_PosNorm_FL(p_str, nb_stcnk, ufo, njvtxbuf);
+                PushStripUV_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
             }
             else
             {
-                PushStripUV_PosNorm(p_str, nb_stcnk, ufo, njvtxbuf);
+                PushStripUV_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
             }
         }
     }
@@ -838,7 +978,7 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
         {
             VertexDeclInfo = VertexDecl_PosColUV;
 
-            PushStripUV_PosColUV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+            PushStripUV_PosColUV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
         }
         else
         {
@@ -850,11 +990,11 @@ rjCnkStripUV(CNK_CTX* const pCtx, const Sint16* plist, const CNK_VERTEX_BUFFER* 
 
             if (pCtx->fst & NJD_FST_FL)
             {
-                PushStripUV_PosNormUV_FL(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                PushStripUV_PosNormUV_FL(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
             }
             else
             {
-                PushStripUV_PosNormUV(p_str, nb_stcnk, ufo, njvtxbuf, uv_mul);
+                PushStripUV_PosNormUV(p_strip, nb_strip, ufo, njvtxbuf, uv_mul);
             }
         }
     }

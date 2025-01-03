@@ -63,15 +63,15 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
 
     for ( ; ; )
     {
-        const int type = ((u8*)plist)[0];
+        const int type = CNK_GET_OFFTYPE(plist);
 
-        if (type == NJD_ENDOFF)
+        if (type == NJD_CE)
         {
             /** NJD_ENDOFF **/
             break;
         }
 
-        if (type == NJD_NULLOFF)
+        if (type == NJD_CN)
         {
             /** NJD_NULLOFF **/
 
@@ -80,7 +80,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
             continue;
         }
 
-        if (type < NJD_BITSOFF_MAX)
+        if (type <= CNK_BITSOFF_MAX)
         {
             /** NJD_BITSOFF **/
             switch (type) {
@@ -112,7 +112,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
             continue;
         }
 
-        if (type < NJD_TINYOFF_MAX)
+        if (type <= CNK_TINYOFF_MAX)
         {
             /** NJD_TINYOFF **/
             rjCnkSetTexture(pCtx, plist);
@@ -122,7 +122,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
             continue;
         }
 
-        if (type < NJD_MATOFF_MAX)
+        if (type <= CNK_MATOFF_MAX)
         {
             /** NJD_MATOFF **/
             rjCnkSetMaterial(pCtx, plist);
@@ -132,7 +132,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
             continue;
         }
 
-        if (type < NJD_STRIPOFF_MAX)
+        if (type <= CNK_STRIPOFF_MAX)
         {
             /** NJD_STRIPOFF **/
             rjCnkSetStrip(pCtx, plist);
@@ -206,19 +206,18 @@ static void
 ExecCnkPlist(const Sint16* pPList, u32* pFlag)
 {
     const Sint16* plist = pPList;
-    int type;
 
     for ( ; ; )
     {
-        type = ((u8*)plist)[0];
+        const int type = CNK_GET_OFFTYPE(plist);
 
-        if (type == NJD_ENDOFF)
+        if (type == NJD_CE)
         {
             /** NJD_ENDOFF **/
             break;
         }
 
-        if (type == NJD_NULLOFF)
+        if (type == NJD_CN)
         {
             /** NJD_NULLOFF **/
 
@@ -227,7 +226,7 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
             continue;
         }
 
-        if (type < NJD_BITSOFF_MAX)
+        if (type <= CNK_BITSOFF_MAX)
         {
             /** NJD_BITSOFF **/
             switch (type) {
@@ -266,7 +265,7 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
             continue;
         }
 
-        if (type < NJD_TINYOFF_MAX)
+        if (type <= CNK_TINYOFF_MAX)
         {
             /** NJD_TINYOFF **/
 
@@ -275,7 +274,7 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
             continue;
         }
 
-        if (type < NJD_MATOFF_MAX)
+        if (type <= CNK_MATOFF_MAX)
         {
             /** NJD_MATOFF **/
 
@@ -284,7 +283,7 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
             continue;
         }
 
-        if (type < NJD_STRIPOFF_MAX)
+        if (type <= CNK_STRIPOFF_MAX)
         {
             /** NJD_STRIPOFF **/
             const Sint16 fst = GetCnkStripFlags(plist);
@@ -475,9 +474,12 @@ rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvt
 
     /** End chunk draw **/
 
-    // reset ambient color
-    RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
+    if (flag) // if any drawing occured
+    {
+        // reset ambient color
+        RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
 
-    // unset culling mode
-    GX_SetCullMode(GXD_CULLMODE_NONE);
+        // unset culling mode
+        GX_SetCullMode(GXD_CULLMODE_NONE);
+    }
 }
