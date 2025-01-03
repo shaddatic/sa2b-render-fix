@@ -50,6 +50,11 @@
 #   undef _DEBUG            /* undefine MSVC specific debug flag                    */
 #endif
 
+/****** Core Warning Disable ********************************************************/
+#ifndef SAMT_NO_WARNDISABLE
+#   pragma warning(disable:4200) /* allow variable length arrays in structs         */
+#endif
+
 /************************/
 /*  Core Definitions    */
 /************************/
