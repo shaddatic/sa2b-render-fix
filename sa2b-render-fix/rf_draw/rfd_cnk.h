@@ -14,7 +14,7 @@
 /*  External Includes   */
 /************************/
 /****** Utility *********************************************************************/
-#include <sa2b/util/cnkmdl.h>
+#include <sa2b/util/cnkmdl.h>   /* chunk model structure                            */
 
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/njcommon.h> /* ninja common                                    */
