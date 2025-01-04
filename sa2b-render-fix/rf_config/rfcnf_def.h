@@ -226,6 +226,7 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Player section **/
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
 #define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
+#define CNF_PLAYER_TWALKFOOTMOD     CNFO_INT(   CNFS_PLAYER         , "twalk_footmod"       , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
 #define CNF_PLAYER_MODSHADOW        CNFO_INT(   CNFS_PLAYER         , "mod_shadow"          , CNFE_BOOL_ENABLED                     )   /* Disable player shadowing */
 
 /** Shadows section **/
@@ -289,7 +290,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
-#define CNF_MISC_TWALKFOOTMOD       CNFO_INT(   CNFS_MISC           , "twalk_foot_mod"      , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
 #define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
 
