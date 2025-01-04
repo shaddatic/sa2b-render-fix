@@ -30,6 +30,18 @@ typedef struct prstable         TEX_PRSTABLE;
 EXTERN_START
 
 /************************/
+/*  Enums               */
+/************************/
+/****** File Ownership **************************************************************/
+typedef enum
+{
+    FOWN_GAME,                  /* game has file ownership                          */
+    FOWN_RF,                    /* render fix has file ownership                    */
+    FOWN_OTHER,                 /* another mod has file ownership                   */
+}
+eRFU_FILE_OWNER;
+
+/************************/
 /*  Functions           */
 /************************/
 /****** File Ownership **************************************************************/
@@ -92,7 +104,125 @@ void    RFU_ProjectScreen( const NJS_POINT3* pInPos, NJS_POINT2* pOutPos );
 */
 bool    RFU_CalcInvertedMatrix( const NJS_MATRIX* m );
 
-EXTERN_END
+/****** File Ownership **************************************************************/
+/*
+*   Description:
+*     Check ownership of a file contained in the 'gd_PC' folder.
+*
+*   Examples:
+*     - RFU_GetFileOwnership("./resource/gd_PC/set_bigbogy_s.bin");
+*
+*   Paramters:
+*     - pcPath      : 'gd_PC' path to file
+*
+*   Returns:
+*     File owner enum value.
+*/
+eRFU_FILE_OWNER RFU_GetFileOwnership( const char* pcPath );
+
+/************************************************************************************/
+/*
+*   Optional Mod Directory File Replacement
+* 
+*   Notes:
+*     - The 'optional' folders act as their own 'gd_PC' folder.
+*/
+
+/****** Replace File ****************************************************************/
+/*
+*   Description:
+*     Replace a generic file with an optional variant stored in an 'optional' mod
+*   folder with mod order and ownership tests.
+*
+*   Notes:
+*     - Texture files should use 'ReplaceTexture' or 'ReplacePvr'.
+*     - Player models/motions should use 'ReplaceMdl' or 'ReplaceMtn'.
+*
+*   Examples:
+*     - RFU_ReplaceFile("set0013_s.bin", "setfile_new");
+*
+*   Paramters:
+*     - pcPath       : 'gd_PC' path to file
+*     - pcOptiFolder : the 'optional' folder with the replacement file
+*
+*   Returns:
+*     'true' on success; or 'false' if the file wasn't replaced.
+*/
+bool    RFU_ReplaceFile( const char* pcPath, const char* pcOptiFolder );
+
+/****** Replace Texture *************************************************************/
+/*
+*   Description:
+*     Replace a PRS texture file with an optional PAK variant stored in an
+*   'optional' mod folder with mod order and ownership tests.
+*
+*   Examples:
+*     - RFU_ReplaceTexture("SONICTEX", "sonictex_trial");
+*
+*   Parameters:
+*     - pcTexName    : prs texture file name, excluding extension
+*     - pcOptiFolder : the 'optional' folder with the replacement 'pak' file
+*
+*   Returns:
+*     'true' on success; or 'false' if the file wasn't replaced.
+*/
+bool    RFU_ReplaceTexture( const char* pcTexName, const char* pcOptiFolder );
+/*
+*   Description:
+*     Replace a single PVR/GVR texture with an optional PAK variant stored in an
+*   'optional' mod folder with mod order and ownership tests.
+*
+*   Examples:
+*     - RFU_ReplacePvr("zanki_sonic", "zanki_new");
+*
+*   Parameters:
+*     - pcPvrName    : pvr/gvr texture file name, excluding extension
+*     - pcOptiFolder : the 'optional' folder with the replacement 'pak' file
+*
+*   Returns:
+*     'true' on success; or 'false' if the file wasn't replaced.
+*/
+bool    RFU_ReplacePvr( const char* pcPvrName, const char* pcOptiFolder );
+
+/****** Replace Player File *********************************************************/
+/*
+*   Description:
+*     Replace a player model file with an optional variant stored in an 'optional'
+*   mod folder with mod order and ownership tests.
+*
+*   Notes:
+*     - Also handles folder-based model replacement when checking ownership.
+*
+*   Examples:
+*     - RFU_ReplaceMdl("TERIOSMDL", "plmdl_dc");
+*
+*   Parameters:
+*     - pcMdlName    : player model file name, excluding extension
+*     - pcOptiFolder : the 'optional' folder with the replacement model file
+*
+*   Returns:
+*     'true' on success; or 'false' if the file wasn't replaced.
+*/
+bool    RFU_ReplaceMdl( const char* pcMdlName, const char* pcOptiFolder );
+/*
+*   Description:
+*     Replace a player motion file with an optional variant stored in an 'optional'
+*   mod folder with mod order and ownership tests.
+*
+*   Notes:
+*     - Also handles folder-based motion replacement when checking ownership.
+*
+*   Examples:
+*     - RFU_ReplaceMtn("MILESMTN", "plmtn_new");
+*
+*   Parameters:
+*     - pcMtnName    : player motion file name, excluding extension
+*     - pcOptiFolder : the 'optional' folder with the replacement model file
+*
+*   Returns:
+*     'true' on success; or 'false' if the file wasn't replaced.
+*/
+bool    RFU_ReplaceMtn( const char* pcMtnName, const char* pcOptiFolder );
 
 /************************/
 /*  Macro               */
