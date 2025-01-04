@@ -97,35 +97,63 @@ EXTERN_END
 /************************/
 /*  Macro               */
 /************************/
+/************************************************************************************/
 /*
-*   Display Order Fixes
+*   Change Task Displayer
 */
-#define DISP        0x14
-#define DISP_DELY   0x1C
-#define DISP_SORT   0x20
-#define DISP_LATE   0x24
-#define DISP_LAST   0x28
-#define DISP_SHAD   0x2C
 
-/** Switch a displayer to a different level,
-    use this on 'mov dword ptr' operations **/
-#define SwitchDisplayer(addr, disp)                     WriteData(addr + 2, disp, uint8_t)
+/****** Displayer Constants *********************************************************/
+#define DISP                    (0x14) /* displayer                                 */
+#define DISP_DELY               (0x1C) /* delayed displayer                         */
+#define DISP_SORT               (0x20) /* sorted displayer                          */
+#define DISP_LATE               (0x24) /* late displayer                            */
+#define DISP_LAST               (0x28) /* last displayer                            */
+#define DISP_SHAD               (0x2C) /* shadow displayer                          */
 
+/****** Change Displayer ************************************************************/
 /*
-*   Hook 'mov dword ptr'
+*   Description:
+*     Change a 'mov' instruction to use a different displayer offset, for changing
+*   Task displayer levels.
+*
+*   Parameters:
+*     - addr        : mov instruction address
+*     - disp        : displayer offset
 */
-/** Replace a 'mov dword ptr' with a call to a function **/
+#define SwitchDisplayer(addr, disp)     WriteData((addr)+2, (disp), u8)
+
+/************************************************************************************/
+/*
+*   Writeop
+*/
+
+/****** Modify Op *******************************************************************/
+/*
+*   Description:
+*     Write a call instruction over a 'mov dword ptr' instruction for hooking
+*   mid-function. This will likely be depricated at some point.
+*
+*   Parameters:
+*     - addr        : address of 'mov' instruction
+*     - func        : function to call
+*/
 #define WriteCallToMovDwordPtr(addr, func)              WriteNOP((addr), (addr) + 7); WriteCall((addr), (func))
-
 /*
-*   Replace float pointer
+*   Description:
+*     Change a float or double value pointer in an 'fld', 'fcom', 'fadd', 'fsub',
+*   and etc instructions.
+*
+*   Parameters:
+*     - addr        : address of float instruction
+*     - pflt        : new float or double pointer
 */
-/** Replace float used in many 'real' instruction **/
-#define ReplaceFloat(addr, pflt)                        WritePointer(addr + 2, pflt)
+#define ReplaceFloat(addr, pflt)                        WritePointer((addr)+2, (pflt))
 
+/************************************************************************************/
 /*
-*   Func Macros
+*   Function Wrappers (int -> type pointer)
 */
+
 #define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PRSTABLE*)(_textable), (_idx1), (_idx2))
 
 EXTERN_END
