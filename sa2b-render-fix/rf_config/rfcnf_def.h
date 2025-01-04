@@ -225,6 +225,7 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Player section **/
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
+#define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_PLAYER_MODSHADOW        CNFO_INT(   CNFS_PLAYER         , "mod_shadow"          , CNFE_BOOL_ENABLED                     )   /* Disable player shadowing */
 
 /** Shadows section **/
@@ -294,7 +295,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Experimental section **/
 #define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */
-#define CNF_EXP_MILESTAILMOD        CNFO_INT(   CNFS_EXP            , "miles_tail_mod"      , CNFE_BOOL_DISABLED                    )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 #define CNF_EXP_EVDRAW              CNFO_INT(   CNFS_EXP            , "event_draw"          , CNFE_BOOL_DISABLED                    )   /* New RF Event Renderer */
 
