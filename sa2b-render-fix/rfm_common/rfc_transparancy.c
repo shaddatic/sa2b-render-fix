@@ -67,41 +67,6 @@ TransformObjectWithSorting(const NJS_CNK_OBJECT* object, void* pFunc)
     RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 }
 
-static void
-DrawMotionWithSorting(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
-{
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
-
-    njCnkDrawMotion(object, motion, frame);
-
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
-
-    void* const callback = _nj_cnk_motion_callback_;
-
-    _nj_cnk_motion_callback_ = nullptr;
-
-    njCnkDrawMotion(object, motion, frame);
-
-    _nj_cnk_motion_callback_ = callback;
-
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-}
-
-__declspec(naked)
-static void
-___DrawMotionWithSorting(void)
-{
-    __asm
-    {
-        push        [esp + 8]   // frame
-        push        ecx         // motion
-        push        [esp + 12]  // object
-        call        DrawMotionWithSorting
-        add esp,    12
-        retn
-    }
-}
-
 /****** Init ************************************************************************/
 void
 RFC_TransparancyInit(void)
@@ -200,18 +165,6 @@ RFC_TransparancyInit(void)
     /** Chaos Drives **/
     WriteCall(0x0054531F, TransformObjectWithSorting); // chao
     WriteCall(0x0048F305, TransformObjectWithSorting); // game
-
-    /** Player Displayer **/
-    SwitchDisplayer(0x00741077, DISP_SORT); // tails walker
-    SwitchDisplayer(0x00741265, DISP_SORT); // chao walker
-
-    //SwitchDisplayer(0x00740E17, DISP_SORT); // egg walker
-    //SwitchDisplayer(0x00741445, DISP_SORT); // dark walker
-
-    /** Player Draw **/
-    WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker 
-    WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1
-    WriteCall(0x007448BB, ___DrawMotionWithSorting); // egg walker 2
 
     /** clear text **/
     WriteData(0x0044FE36, 0x1, uint8_t); // Fix green hill "CLEAR!" text

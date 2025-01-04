@@ -10,11 +10,7 @@
 
 /****** Game ************************************************************************/
 #include <sa2b/sonic/task.h>    /* task                                             */
-#include <sa2b/sonic/camera.h>  /* game camera                                      */
-#include <sa2b/sonic/light.h>   /* light                                            */
-#include <sa2b/sonic/njctrl.h>  /* ninja controls                                   */
-#include <sa2b/sonic/c_colli.h> /* core colli                                       */
-#include <sa2b/sonic/misc.h>    /* misc                                             */
+#include <sa2b/sonic/player.h>  /* player                                           */
 
 /****** Character *******************************************************************/
 #include <sa2b/sonic/figure/knuckles.h> /* knuckles work                            */
@@ -74,6 +70,41 @@ ___FixRougeInitCrash(void)
     }
 }
 
+static void
+DrawMotionWithSorting(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
+{
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+
+    njCnkDrawMotion(object, motion, frame);
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+    void* const callback = _nj_cnk_motion_callback_;
+
+    _nj_cnk_motion_callback_ = nullptr;
+
+    njCnkDrawMotion(object, motion, frame);
+
+    _nj_cnk_motion_callback_ = callback;
+
+    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+}
+
+__declspec(naked)
+static void
+___DrawMotionWithSorting(void)
+{
+    __asm
+    {
+        push        [esp + 8]   // frame
+        push        ecx         // motion
+        push        [esp + 12]  // object
+        call        DrawMotionWithSorting
+        add esp,    12
+        retn
+    }
+}
+
 /****** Init ************************************************************************/
 void
 RFM_PlayerInit(void)
@@ -88,6 +119,18 @@ RFM_PlayerInit(void)
     WriteCall(0x007286B6, ___FixRougeInitCrash);
     WriteNOP(0x007286BB, 0x007286F8);
     WriteNOP(0x007286FB, 0x007286FE);
+
+    /** Player Displayer **/
+    SwitchDisplayer(0x00741077, DISP_SORT); // tails walker
+    SwitchDisplayer(0x00741265, DISP_SORT); // chao walker
+
+    //SwitchDisplayer(0x00740E17, DISP_SORT); // egg walker
+    //SwitchDisplayer(0x00741445, DISP_SORT); // dark walker
+
+    /** Player Draw **/
+    WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker 
+    WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1
+    WriteCall(0x007448BB, ___DrawMotionWithSorting); // egg walker 2
 
     if ( RF_ConfigGetInt( CNF_PLAYER_MODSHADOW ) == CNFE_BOOL_DISABLED )
     {
