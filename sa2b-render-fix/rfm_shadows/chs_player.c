@@ -509,31 +509,39 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
             MILESWK* const mileswp = (MILESWK*)pwp;
 
-            njTranslateEx(&pwp->tails_pos);
+            njTranslateV(NULL, &pwp->tails_pos);
 
-            Angle angadj =  0x1200;
-            Angle angspn = -mileswp->TailsAngX;
-            float scl_x  =  3.2f;
-            float add_y  = -2.5f;
+            Angle ang_adj  =  0x1200;
+            Angle ang_spin = -mileswp->TailsAngX;
+            f32   scl_x    =  3.2f;
+            f32   add_y    = -2.5f;
 
-            switch (motion) {
+            const Angle ang_main = njArcTan2(pwp->tails_vec.z, pwp->tails_vec.x);
+
+            switch (motion)
+            {
             case 8: case 9:
-                angadj = 0x4000;
-                scl_x = fabsf(sinf((float)angspn * (1.0f / 16384.0f))) * 3.2f;
-                angspn = 0;
+                {
+                    ang_adj = 0x4000;
+                    scl_x = njAbs( njSin(ang_spin + NJM_DEG_ANG(90.f)) ) * 3.2f;
+                    ang_spin = 0;
                 break;
-
+                }
             case 90: 
+                {
                 add_y = 1.5f;
-
+                //  [[fallthrough]];
+                }
             case 91: case 93:
-                angadj = 0x4000;
+                {
+                    ang_adj = 0x4000;
                 break;
+            }
             }
 
             njPushMatrixEx();
 
-            njRotateY(NULL, ((0x8000 + angadj) - twp->ang.y) + angspn);
+            njRotateY(NULL, ((0x8000 + ang_adj) - ang_main) + ang_spin);
             njTranslate(NULL, scl_x, add_y, 0.0f);
             njScale(NULL, scl_x, 1.0f, 1.0f);
             DrawBasicShadow();
@@ -541,7 +549,7 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
             njPopMatrixEx();
             njPushMatrixEx();
 
-            njRotateY(NULL, ((0x8000 - angadj) - twp->ang.y) + angspn);
+            njRotateY(NULL, ((0x8000 - ang_adj) - ang_main) + ang_spin);
             njTranslate(NULL, scl_x, add_y, 0.0f);
             njScale(NULL, scl_x, 1.0f, 1.0f);
             DrawBasicShadow();
@@ -1455,7 +1463,7 @@ CHS_PlayerInit(void)
     WriteRetn(0x00750C40);
     WriteJump(0x0074FF20, MilesDisplayerShadowHook);
 
-    MilesTailModifiers = RF_ConfigGetInt(CNF_EXP_MILESTAILMOD);
+    MilesTailModifiers = RF_ConfigGetInt(CNF_PLAYER_MILESTAILMOD);
 
     /** Eggman **/
     object_eggman_head_mod = RF_ChunkLoadObjectFile("figure/eggman_head_mod");

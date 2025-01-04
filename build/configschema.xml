@@ -48,6 +48,11 @@ The original games used 'Half Width'.</HelpText>
 
 This animation was not present in the Dreamcast version, but Render Fix *does* support using the it on the Dreamcast model. If this is enabled, however, he will use the GameCube textures instead of his original Dreamcast ones.</HelpText>
 			</Property>
+			<Property name="miles_tailmod" display="Tails' Tail Shadows" type="eBOOL" defaultvalue="1">
+				<HelpText>Draw modifier shadows for Tails' Tails, that otherwise lack them.
+
+This is a Render Fix exclusive enhancement, and was not present on the original Dreamcast version.</HelpText>
+			</Property>
 			<Property name="mod_shadow" display="Player Model Shadowing" type="eBOOL" defaultvalue="1">
 				<HelpText>Enable/Disable modifier shadows displaying on character models. On Dreamcast, this is a feature but here you can disable it if it's not for your taste.
 
@@ -210,9 +215,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 		<Group name="experimental" display="Experimental Settings">
 			<Property name="shd_opacity_sw" display="Change Shadow Map Opacity in Chao World" type="eBOOL" defaultvalue="0">
 				<HelpText>An experimental feature that allows the vanilla shadow maps to change opacity while in Chao World, to match the Dreamcast modifier shadows.</HelpText>
-			</Property>
-			<Property name="miles_tail_mod" display="Draw Tails' Tail Modifier Shadows" type="eBOOL" defaultvalue="0">
-				<HelpText>An experimental feature that adds modifier shadows for Tails' Tails. This will likely be further worked on so the shadows better match the tails' animations.</HelpText>
 			</Property>
 			<Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
 				<HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
