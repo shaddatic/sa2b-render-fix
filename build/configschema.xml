@@ -53,6 +53,11 @@ This animation was not present in the Dreamcast version, but Render Fix *does* s
 
 This is a Render Fix exclusive enhancement, and was not present on the original Dreamcast version.</HelpText>
 			</Property>
+			<Property name="twalk_footmod" display="Fix Tornado's Foot Shadows" type="eBOOL" defaultvalue="1">
+			    <HelpText>Fix the Tornado Walker's foot shadows drawing underground when stood still. This simply raises the shadows slightly to avoid the issue.
+
+This is a Render Fix exclusive fix, and the bug was present on the original Dreamcast version.</HelpText>
+			</Property>
 			<Property name="mod_shadow" display="Player Model Shadowing" type="eBOOL" defaultvalue="1">
 				<HelpText>Enable/Disable modifier shadows displaying on character models. On Dreamcast, this is a feature but here you can disable it if it's not for your taste.
 
@@ -201,9 +206,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 		<Group name="misc" display="Miscellaneous">
 			<Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
 				<HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
-			</Property>
-			<Property name="twalk_foot_mod" display="Fix Tornado's Foot Modifiers" type="eBOOL" defaultvalue="1">
-				<HelpText>In vanilla Dreamcast, the Tornado's foot modifiers will draw under the ground when stood still. This option raises them up slightly to avoid the issue.</HelpText>
 			</Property>
 			<Property name="race_tree_mod" display="Draw Race Tree Modifiers" type="eBOOL" defaultvalue="1">
 				<HelpText>Adds modifier shadows for Chao Race Trees, which normally don't have any.</HelpText>
