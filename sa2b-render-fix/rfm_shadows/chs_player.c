@@ -520,23 +520,23 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
             switch (motion)
             {
-            case 8: case 9:
+                case 8: case 9:
                 {
                     ang_adj = 0x4000;
                     scl_x = njAbs( njSin(ang_spin + NJM_DEG_ANG(90.f)) ) * 3.2f;
                     ang_spin = 0;
-                break;
+                    break;
                 }
-            case 90: 
+                case 90:
                 {
-                add_y = 1.5f;
+                    add_y = 1.5f;
                 //  [[fallthrough]];
                 }
-            case 91: case 93:
+                case 91: case 93:
                 {
                     ang_adj = 0x4000;
-                break;
-            }
+                    break;
+                }
             }
 
             njPushMatrixEx();
