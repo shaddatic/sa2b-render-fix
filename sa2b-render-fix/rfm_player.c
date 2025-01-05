@@ -129,6 +129,9 @@ RFM_PlayerInit(void)
 
     /** Player Draw **/
     WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker 
+    WriteCall(0x007465B1, ___DrawMotionWithSorting); // chao walker 1
+    WriteCall(0x0074662A, ___DrawMotionWithSorting); // chao walker 2
+    WriteCall(0x0074662A, ___DrawMotionWithSorting); // chao walker 3
     WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1
     WriteCall(0x007448BB, ___DrawMotionWithSorting); // egg walker 2
 
