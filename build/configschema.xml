@@ -43,6 +43,15 @@ The original games used 'Half Width'.</HelpText>
 			</Property>
 		</Group>
 		<Group name="player" display="Player Settings">
+			<Property name="model" display="Character Model Type" type="ePL_MDL" defaultvalue="0">
+				<HelpText>If the player characters should use their original Dreamcast models, or their Battle models.
+
+Dreamcast models have been ported as-is with no changes, excluding Chaos 0 who had his inner and outer layers seperated.
+
+GameCube models have had a number of fixes applied, mostly incorrect material flags.
+
+Dark Chao Walker is currently unaffected by this setting.</HelpText>
+			</Property>
 			<Property name="chaos0_texanim" display="Chaos 0 Texture Animation" type="eBOOL" defaultvalue="1">
 				<HelpText>If Chaos 0 should cycle through his water textures.
 
@@ -277,6 +286,10 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<EnumMember name="2" display="Third Width"></EnumMember>
 			<EnumMember name="1" display="Quater Width"></EnumMember>
 			<EnumMember name="0" display="No Width"></EnumMember>
+		</Enum>
+		<Enum name="ePL_MDL">
+			<EnumMember name="1" display="Dreamcast"></EnumMember>
+			<EnumMember name="0" display="GameCube"></EnumMember>
 		</Enum>
 		<Enum name="eMOD_MODE">
 			<EnumMember name="2" display="Enabled"></EnumMember>

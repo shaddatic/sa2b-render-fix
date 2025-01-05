@@ -128,12 +128,41 @@ RFM_PlayerInit(void)
     //SwitchDisplayer(0x00741445, DISP_SORT); // dark walker
 
     /** Player Draw **/
-    WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker 
+    WriteCall(0x0074810F, ___DrawMotionWithSorting); // tails walker
     WriteCall(0x007465B1, ___DrawMotionWithSorting); // chao walker 1
     WriteCall(0x0074662A, ___DrawMotionWithSorting); // chao walker 2
     WriteCall(0x0074662A, ___DrawMotionWithSorting); // chao walker 3
     WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1
     WriteCall(0x007448BB, ___DrawMotionWithSorting); // egg walker 2
+
+    if ( RF_ConfigGetInt( CNF_PLAYER_MODEL ) == CNFE_PLAYER_MODEL_DREAMCAST )
+    {
+        RFU_ReplaceMdl("SONICMDL" , "plmdl_dc");
+        RFU_ReplaceMdl("TERIOSMDL", "plmdl_dc");
+        RFU_ReplaceMdl("MILESMDL" , "plmdl_dc");
+        RFU_ReplaceMdl("EGGMDL"   , "plmdl_dc");
+        RFU_ReplaceMdl("KNUCKMDL" , "plmdl_dc");
+
+        if ( RFU_ReplaceMdl("ROUGEMDL", "plmdl_dc") )
+        {
+            RFU_ReplaceMtn("ROUGEMTN", "plmdl_dc");
+        }
+
+        RFU_ReplaceMdl("TWALKMDL" , "plmdl_dc");
+        RFU_ReplaceMdl("EWALKMDL" , "plmdl_dc");
+        RFU_ReplaceMdl("AMYMDL"   , "plmdl_dc");
+        RFU_ReplaceMdl("SSONICMDL", "plmdl_dc");
+
+        if ( RFU_ReplaceMdl("SSHADOWMDL", "plmdl_dc") )
+        {
+            RFU_ReplaceTexture("SSHADOWTEX", "plmdl_dc");
+        }
+
+        RFU_ReplaceMdl("METALSONICMDL", "plmdl_dc");
+        RFU_ReplaceMdl("CWALKMDL"     , "plmdl_dc");
+        RFU_ReplaceMdl("TICALMDL"     , "plmdl_dc");
+        RFU_ReplaceMdl("CHAOS0MDL"    , "plmdl_dc");
+    }
 
     if ( RF_ConfigGetInt( CNF_PLAYER_MODSHADOW ) == CNFE_BOOL_DISABLED )
     {

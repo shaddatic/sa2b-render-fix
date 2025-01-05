@@ -374,3 +374,4 @@ build/mod.version
 # SA2 Render Fix Specific
 build/gd_PC/PRS/
 build/install/
+build/optional/plmdl_dc/PRS/

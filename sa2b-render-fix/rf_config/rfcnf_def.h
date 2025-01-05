@@ -83,6 +83,17 @@ typedef enum
 }
 CNFE_FONT_WIDTH;
 
+/****** Player Section ******************************************************/
+/** Player Model Mode **/
+typedef enum
+{
+    CNFE_PLAYER_MODEL_GAMECUBE,
+    CNFE_PLAYER_MODEL_DREAMCAST,
+
+    NB_CNFE_PLAYER_MODEL,
+}
+CNFE_PLAYER_MODEL;
+
 /****** Shadows Section *****************************************************/
 /** Cheap Shadow mode **/
 typedef enum
@@ -224,6 +235,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
 
 /** Player section **/
+#define CNF_PLAYER_MODEL            CNFO_INT(   CNFS_PLAYER         , "model"               , CNFE_PLAYER_MODEL_GAMECUBE            )   /* Player model mode */
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
 #define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_PLAYER_TWALKFOOTMOD     CNFO_INT(   CNFS_PLAYER         , "twalk_footmod"       , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
