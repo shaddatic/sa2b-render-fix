@@ -4,6 +4,7 @@
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>          /* core                                             */
 #include <sa2b/modloader.h>     /* mod loader                                       */
+#include <sa2b/file.h>          /* file exists                                      */
 
 /****** Ninja ***********************************************************************/
 #include <sa2b/ninja/ninja.h>   /* ninja                                            */
@@ -157,6 +158,15 @@ RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
 
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s", GetModPath(), pcOptiFolder, pcPath);
 
+    if ( !uFileExists(opti_buf) )
+    {
+        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s", pcOptiFolder, pcPath);
+
+        OutputFormat("RF WARN: (RFU_ReplaceFile) Optional file \"%s\" was not found", opti_buf);
+
+        return false;
+    }
+
     ML_ReplaceFile(file_buf, opti_buf);
 
     return true;
@@ -186,6 +196,15 @@ RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
     /** Make optional folder PAK path **/
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", GetModPath(), pcOptiFolder, pcTexName);
 
+    if ( !uFileExists(opti_buf) )
+    {
+        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcTexName);
+
+        OutputFormat("RF WARN: (RFU_ReplaceTexture) Texture PAK file \"%s\" was not found", opti_buf);
+
+        return false;
+    }
+
     ML_ReplaceFile(file_buf, opti_buf);
 
     return true;
@@ -212,19 +231,28 @@ RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
     /** Make optional folder PAK path **/
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", GetModPath(), pcOptiFolder, pcPvrName);
 
+    if ( !uFileExists(opti_buf) )
+    {
+        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcPvrName);
+
+        OutputFormat("RF WARN: (RFU_ReplacePvr) Texture PAK file \"%s\" was not found", opti_buf);
+
+        return false;
+    }
+
     ML_ReplaceFile(file_buf, opti_buf);
 
     return true;
 }
 
-bool
-RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
+static bool
+ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char* pcErrText)
 {
     char file_buf[128]; // base file path
 
     /** Check for folder based player model files **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s/%s.ini", pcMdlName, pcMdlName);
+        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s/%s.ini", pcPrsName, pcPrsName);
 
         const char* const repl_path = ML_GetReplaceablePath(file_buf);
 
@@ -235,7 +263,7 @@ RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
 
     /** Check for PRS based player model files **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcMdlName); // also used for replace path
+        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcPrsName); // also used for replace path
 
         const char* const repl_path = ML_GetReplaceablePath(file_buf);
 
@@ -246,7 +274,16 @@ RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
 
     char opti_buf[256]; // optional file path
 
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", GetModPath(), pcOptiFolder, pcMdlName);
+    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", GetModPath(), pcOptiFolder, pcPrsName);
+
+    if ( !uFileExists(opti_buf) )
+    {
+        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s.PRS", pcOptiFolder, pcPrsName);
+
+        OutputFormat(pcErrText, opti_buf);
+
+        return false;
+    }
 
     ML_ReplaceFile(file_buf, opti_buf);
 
@@ -254,7 +291,13 @@ RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
 }
 
 bool
+RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
+{
+    return ReplacePlayerPrsSub(pcMdlName, pcOptiFolder, "RF WARN: (RFU_ReplaceMdl) Player model file \"%s\" was not found");
+}
+
+bool
 RFU_ReplaceMtn(const char* pcMtnName, const char* pcOptiFolder)
 {
-    return RFU_ReplaceMdl(pcMtnName, pcOptiFolder);
+    return ReplacePlayerPrsSub(pcMtnName, pcOptiFolder, "RF WARN: (RFU_ReplaceMtn) Player motion file \"%s\" was not found");
 }
