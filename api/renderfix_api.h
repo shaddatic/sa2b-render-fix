@@ -423,6 +423,13 @@ typedef struct
     *   draw functions, restores the original multi-light code, and more.
     */
     bool (__cdecl* NewEventRenderer)( void );
+
+    /**** Player ********************************************/
+    /*
+    *   Description:
+    *     If Chaos 0 is set to use his GameCube texture animation cycle.
+    */
+    bool (__cdecl* Chaos0TexAnim)( void );
 }
 RFAPI_FEATURE;
 

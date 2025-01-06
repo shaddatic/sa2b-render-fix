@@ -46,4 +46,6 @@ const RFAPI_FEATURE rfapi_feature =
 
     /** Ver 1 **/
     .NewEventRenderer  = RFF_NewEventRenderer,
+
+    .Chaos0TexAnim = RFF_Chaos0TexAnim,
 };

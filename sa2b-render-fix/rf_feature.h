@@ -85,6 +85,13 @@ bool    RFF_CheapShadowPlayer( void );
 */
 bool    RFF_NewEventRenderer( void );
 
+/****** Player **********************************************************************/
+/*
+*   Description:
+*     If Chaos 0 is set to use his GameCube texture animation cycle.
+*/
+bool    RFF_Chaos0TexAnim( void );
+
 EXTERN_END
 
 #endif/*H_RF_FEATURE*/
