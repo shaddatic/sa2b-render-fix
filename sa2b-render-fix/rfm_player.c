@@ -21,6 +21,7 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_util.h>            /* change displayer                                 */
 #include <rf_renderstate.h>     /* render state                                     */
+#include <rf_feature.h>         /* render fix feature check                         */
 
 /****** Self ************************************************************************/
 #include <rfm_player.h>               /* self                                       */
@@ -161,7 +162,12 @@ RFM_PlayerInit(void)
         RFU_ReplaceMdl("METALSONICMDL", "plmdl_dc");
         RFU_ReplaceMdl("CWALKMDL"     , "plmdl_dc");
         RFU_ReplaceMdl("TICALMDL"     , "plmdl_dc");
-        RFU_ReplaceMdl("CHAOS0MDL"    , "plmdl_dc");
+
+        if ( RFU_ReplaceMdl("CHAOS0MDL", "plmdl_dc") )
+        {
+            if ( !RFF_Chaos0TexAnim() )
+                RFU_ReplaceTexture("CHAOS0TEX", "plmdl_dc");
+        }
     }
 
     if ( RF_ConfigGetInt( CNF_PLAYER_MODSHADOW ) == CNFE_BOOL_DISABLED )
