@@ -320,7 +320,7 @@ typedef struct
     /****** Version >= 0 ************************************************************/
     uint32_t version;                           /* structure version                */
 
-    /**** Global ***************/
+    /**** Global ********************************************/
     /*
     *   Description:
     *     If the back-color is enabled. If this is false, the back-color will
@@ -364,7 +364,7 @@ typedef struct
     */
     bool (__cdecl* FixModelTint)( void );
 
-    /**** Shadows **************/
+    /**** Shadows *******************************************/
     /*
     *   Description:
     *     Get the shadow opacity used for the main game. This is used for both
@@ -385,7 +385,7 @@ typedef struct
     */
     float(__cdecl* ShadowOpacityChao)( void );
 
-    /**** Cheap Shadows ********/
+    /**** Cheap Shadows *************************************/
     /*
     *   Description:
     *     If Modifier Shadows, also known as 'Cheap Shadows', are enabled. If this
@@ -416,7 +416,7 @@ typedef struct
 
     /****** Version >= 1 ************************************************************/
 
-    /**** Event ****************/
+    /**** Event *********************************************/
     /*
     *   Description:
     *     If the "Enhanced Event Renderer" is enabled, which emulates Dreamcast
@@ -503,7 +503,7 @@ typedef struct
     *       displayer function.
     */
 
-    /**** Modifier Draw ********/
+    /**** Modifier Draw *********/
     /*
     *   Description:
     *     Draw a Chunk modifier volume model.
