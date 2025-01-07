@@ -283,6 +283,9 @@ RF_DrawInit(void)
 
     /** Fix draw function issues **/
 
-    WriteCall(0x00756A2E, EasyDrawObject); // Jump Aura (bfc issue)
+    WriteCall(0x00756A2E, EasyDrawObject);         // Jump Aura (bfc issue)
+    WriteCall(0x00756D77, EasyDrawObject);         // Other Aura
+    WriteCall(0x007561FF, EasyDrawObject);         // Spindash Aura
+
     WriteCall(0x0066838C, ___MenuScreenEffectFix); // DC menu screen effect text too bright
 }
