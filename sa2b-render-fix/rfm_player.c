@@ -118,8 +118,8 @@ RFM_PlayerInit(void)
     /** Player Displayer **/
     SwitchDisplayer(0x00741077, DISP_SORT); // tails walker
     SwitchDisplayer(0x00741265, DISP_SORT); // chao walker
-
     SwitchDisplayer(0x00740E17, DISP_SORT); // egg walker
+
     //SwitchDisplayer(0x00741445, DISP_SORT); // dark walker
 
     /** Player Draw **/
