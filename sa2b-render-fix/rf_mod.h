@@ -113,24 +113,6 @@ void    RFMOD_SetDrawMode( RFE_MOD_MODE mode );
 */
 void    RFMOD_SetInvertMode( bool bInv );
 
-/****** Set Mod Parameters Int ******************************************************/
-/*
-*   Description:
-*     Set the end color values of the modifiers using an int.
-*
-*   Parameters:
-*    - r, g, b  : color in range 0~255
-*/
-void    RFMOD_SetColorI( uint8_t r, uint8_t g, uint8_t b );
-/*
-*   Description:
-*     Set the end alpha value of the modifiers using an int.
-* 
-*   Parameters:
-*    - a        : alpha in range 0~255
-*/
-void    RFMOD_SetAlphaI( uint8_t a );
-
 /****** Control Modifier ************************************************************/
 /*
 *   Description:

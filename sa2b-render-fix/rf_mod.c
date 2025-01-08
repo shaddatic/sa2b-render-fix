@@ -80,22 +80,6 @@ RFMOD_SetAlpha(float a)
     ModColor.a = a;
 }
 
-#define INV_255     (1.f/255.f);
-
-void
-RFMOD_SetColorI(uint8_t r, uint8_t g, uint8_t b)
-{
-    ModColor.r = (f32)r * INV_255;
-    ModColor.g = (f32)g * INV_255;
-    ModColor.b = (f32)b * INV_255;
-}
-
-void
-RFMOD_SetAlphaI(uint8_t a)
-{
-    ModColor.a = (f32)a * INV_255;
-}
-
 void
 RFMOD_SetDrawMode(RFE_MOD_MODE mode)
 {
