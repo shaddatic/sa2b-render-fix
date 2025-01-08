@@ -27,14 +27,14 @@
 /************************/
 /****** Extern **********************************************************************/
 EV_ENTRY_TYPE
-EventGetEntryType(const EventEntityData* pEntry)
+EventGetEntryType(const EVENT_ENTRY* pEntry)
 {
-    if (!pEntry->object && !pEntry->GjsObject)
+    if (!pEntry->pObject && !pEntry->pGjsObject)
         return EV_ENTRY_TYPE_NONE;
 
     const int attr = pEntry->attr;
 
-    if (!pEntry->motion)
+    if (!pEntry->pMotion)
     {
         if (attr & EV_ENTF_MODVOL) // Added for Render Fix
         {
@@ -49,7 +49,7 @@ EventGetEntryType(const EventEntityData* pEntry)
         return EV_ENTRY_TYPE_MODMTN;
     }
 
-    if (pEntry->shape)
+    if (pEntry->pShape)
     {
         if (attr & EV_ENTF_FORCESIMPLE)
         {

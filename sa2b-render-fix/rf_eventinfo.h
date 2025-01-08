@@ -13,71 +13,110 @@
 
 #include <sa2b/ninja/ninja.h>
 
+typedef struct
+{
+    int     startid;
+    Sint16* pTiny;
+}
+EVENT_TEXANIM_TINYDATA;
+
 typedef struct 
+{
+    NJS_CNK_OBJECT*         pObject;
+    int                     count;
+    EVENT_TEXANIM_TINYDATA* pTinyData;
+}
+EVENT_TEXANIM_CHUNKDATA;
+
+typedef struct 
+{
+    int startid;
+    int countid;
+}
+EVENT_TEXANIM_TEXIDS;
+
+typedef struct 
+{
+    EVENT_TEXANIM_CHUNKDATA* pChunkData;
+    EVENT_TEXANIM_TEXIDS*    pTexIds;
+    int                     nbTexId;
+}
+EVENT_TEXANIM;
+
+typedef struct 
+{
+    EVENT_TEXANIM_CHUNKDATA* pChunkData;
+    int                      startid;
+    int                      countid;
+}
+EVENT_TEXANIM_DC;
+
+typedef struct
 {
     NJS_CNK_OBJECT* pObject;
-    int entries;
-    char gap[4];
+    NJS_MOTION*     pMotion;
+    NJS_MOTION*     pShape;
+    GJS_OBJECT*     pGjsObject;
+    NJS_CNK_OBJECT* pShadowModel;
+    void*           pUvScroll;
+    NJS_POINT3      position;
+    int             attr;
+    int             layer;
 }
-EventTexAnimSub1;
-
-typedef struct 
-{
-    int startidx;
-    int maxidx;
-}
-EventTexAnimSub0;
-
-typedef struct 
-{
-    EventTexAnimSub1* somethingelse;
-    EventTexAnimSub0* something;
-    int count;
-}
-EventTexAnim;
+EVENT_ENTRY;
 
 typedef struct
 {
     NJS_CNK_OBJECT* object;
-    NJS_MOTION* motion;
-    NJS_MOTION* shape;
-    GJS_OBJECT* GjsObject;
-    NJS_CNK_OBJECT* ShadowModel;
-    int Unknown;
-    NJS_POINT3 Position;
-    int attr;
-    int layer;
+    NJS_MOTION*     motion;
+    NJS_MOTION*     shape;
+    void*           pUvScroll;
+    NJS_POINT3      position;
+    int             attr;
 }
-EventEntityData;
+EVENT_ENTRY_DC;
 
 typedef struct
 {
     NJS_MOTION* motion;
     NJS_MOTION* shape;
 }
-EventBigDataMotion;
+EVENT_BIG_MOTION;
 
 typedef struct
 {
     NJS_CNK_OBJECT* object;
-    EventBigDataMotion* motions;
+    EVENT_BIG_MOTION* motions;
     int nbMotion;
     int Unknown;
 }
-EventBigData;
+EVENT_BIG;
 
 typedef struct
 {
-    EventEntityData* EntityList;
-    int EntityCount;
-    int* CameraMotionIDList;
-    int CameraMotionIDCount;
-    int* ParticleMotionIDList;
-    int ParticleMotionIDCount;
-    EventBigData* Big;
-    int FrameCount;
+    EVENT_ENTRY* pEntries;
+    int         nbEntry;
+    int*         pCameraMotionIds;
+    int         nbCameraMotionId;
+    int*         pPtclMotionIds;
+    int         nbPtclMotionId;
+    EVENT_BIG*   pBig;
+    int         nbFrame;
 }
-EventSceneData;
+EVENT_SCENE;
+
+typedef struct
+{
+    EVENT_ENTRY_DC* pEntries;
+    int            nbEntry;
+    int*            pCameraMotionIds;
+    int            nbCameraMotionId;
+    int*            pPtclMotionIds;
+    int            nbPtclMotionId;
+    EVENT_BIG*      pBig;
+    int            nbFrame;
+}
+EVENT_SCENE_DC;
 
 typedef struct
 {
@@ -85,7 +124,7 @@ typedef struct
     int AlphaValues[32];
     NJS_VECTOR* ReflectionVtxs;
 }
-EV_REFLECT_DATA;
+EVENT_REFLECTION;
 
 typedef struct
 {
@@ -99,36 +138,64 @@ EVENT_EQUIPMENT;
 
 typedef struct
 {
-    EventSceneData* scenes;
+    EVENT_SCENE* pScenes;
     NJS_TEXLIST* texlist;
-    int nbScene;
-    Sint16* SpriteSizes;
-    EV_REFLECT_DATA* reflections;
+    int          nbScene;
+
+    Sint16*     pSpriteSizes;
+
+    EVENT_REFLECTION* pReflections;
+
     NJS_CNK_OBJECT* BlareObjects;
     NJS_CNK_OBJECT* MechParts;
     NJS_CNK_OBJECT* MilesTails;
+
     EVENT_EQUIPMENT* Equipment;
-    EventTexAnim* UVAnims;
+
+    EVENT_TEXANIM* UVAnims;
+
     int dropShadow;
 }
-EventFileHeader;
+EVENT_HEADER;
 
-#define EventData               DATA_REF(EventFileHeader, 0x0204FE20)
-#define SceneData               DATA_REF(EventSceneData*, 0x01DB0FD4)
-#define EventFrame              DATA_REF(f32            , 0x01DB0FC0)
-#define EventSceneFrame         DATA_REF(f32            , 0x01DB0FC4)
-#define EventScene              DATA_REF(int            , 0x01DB0FC8)
-#define DisableCutscene         DATA_REF(bool           , 0x0174B007)
-#define CutsceneMode            DATA_REF(int            , 0x01A283FC)
-#define EventUseFlare           DATA_REF(int            , 0x01A298EC)
-#define EventFlarePos           DATA_REF(NJS_POINT3     , 0x01A298E0)
-#define EventActive             DATA_REF(bool           , 0x0174AFF9)
-#define EventNum                DATA_REF(int            , 0x01A28AF4)
+typedef struct
+{
+    EVENT_SCENE_DC* pScenes;
+    NJS_TEXLIST* texlist;
+    int          nbScene;
 
-#define EventBigScene           DATA_REF(s32            , 0x01DB0FBC)
-#define EventBigFrame           DATA_REF(f32            , 0x01DB0F90)
+    Sint16*     pSpriteSizes;
 
-#define EventCamera             DATA_REF(NJS_CAMERA     , 0x01D19C20)
+    EVENT_REFLECTION* pReflections;
+
+    NJS_CNK_OBJECT* BlareObjects;
+    NJS_CNK_OBJECT* MechParts;
+    NJS_CNK_OBJECT* MilesTails;
+
+    EVENT_EQUIPMENT* Equipment;
+
+    EVENT_TEXANIM_DC* UVAnims;
+
+    int dropShadow;
+}
+EVENT_HEADER_DC;
+
+#define EventData               DATA_REF(EVENT_HEADER, 0x0204FE20)
+#define SceneData               DATA_REF(EVENT_SCENE*, 0x01DB0FD4)
+#define EventFrame              DATA_REF(f32         , 0x01DB0FC0)
+#define EventSceneFrame         DATA_REF(f32         , 0x01DB0FC4)
+#define EventScene              DATA_REF(int         , 0x01DB0FC8)
+#define DisableCutscene         DATA_REF(bool        , 0x0174B007)
+#define CutsceneMode            DATA_REF(int         , 0x01A283FC)
+#define EventUseFlare           DATA_REF(int         , 0x01A298EC)
+#define EventFlarePos           DATA_REF(NJS_POINT3  , 0x01A298E0)
+#define EventActive             DATA_REF(bool        , 0x0174AFF9)
+#define EventNum                DATA_REF(int         , 0x01A28AF4)
+
+#define EventBigScene           DATA_REF(s32         , 0x01DB0FBC)
+#define EventBigFrame           DATA_REF(f32         , 0x01DB0F90)
+
+#define EventCamera             DATA_REF(NJS_CAMERA  , 0x01D19C20)
 
 #define EventReflectionListPos      DATA_ARY(NJS_POINT3, 0x01A28AF8, [32])
 #define EventReflectionListNorm     DATA_ARY(NJS_VECTOR, 0x01A28C78, [32])

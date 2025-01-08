@@ -32,7 +32,7 @@ EV_IsByteswapped(const void* p)
 
 const int EventAnimateTexture_p = 0x006021A0;
 static void
-EventAnimateTexture(EventTexAnimSub1* a1, int a2, int a3)
+EventAnimateTexture(EVENT_TEXANIM_CHUNKDATA* a1, int a2, int a3)
 {
     __asm
     {
@@ -46,7 +46,7 @@ EventAnimateTexture(EventTexAnimSub1* a1, int a2, int a3)
 
 const int EndiswapEventTexAnim1_p = 0x005FE8A0;
 static void
-EndiswapEventTexAnim1(EventTexAnimSub1* a1)
+EndiswapEventTexAnim1(EVENT_TEXANIM_CHUNKDATA* a1)
 {
     __asm
     {
@@ -57,7 +57,7 @@ EndiswapEventTexAnim1(EventTexAnimSub1* a1)
 
 const int EndiswapEventTexAnim0_p = 0x005FE670;
 static void
-EndiswapEventTexAnim0(EventTexAnimSub0* a1)
+EndiswapEventTexAnim0(EVENT_TEXANIM_TEXIDS* a1)
 {
     __asm
     {
@@ -67,30 +67,30 @@ EndiswapEventTexAnim0(EventTexAnimSub0* a1)
 }
 
 static void
-EventByteSwapTexAnim(EventTexAnim* p)
+EventByteSwapTexAnim(EVENT_TEXANIM* p)
 {
-    EndianSwap(&p->count);
+    EndianSwap(&p->nbTexId);
 
-    EndianSwap(&p->somethingelse);
+    EndianSwap(&p->pChunkData);
 
-    if (p->somethingelse)
-        *(int32_t*)&p->somethingelse -= PTR_OFFSET; // idky I'm doing this
+    if (p->pChunkData)
+        *(int32_t*)&p->pChunkData -= PTR_OFFSET; // idky I'm doing this
 
-    EndianSwap(&p->something);
+    EndianSwap(&p->pTexIds);
 
-    if (p->something)
-        *(int32_t*)&p->something -= PTR_OFFSET;
+    if (p->pTexIds)
+        *(int32_t*)&p->pTexIds -= PTR_OFFSET;
 
-    for (EventTexAnimSub1* ptexanim = p->somethingelse; ptexanim->entries; ++ptexanim)
+    for (EVENT_TEXANIM_CHUNKDATA* ptexanim = p->pChunkData; ptexanim->count; ++ptexanim)
     {
-        if (p->somethingelse)
+        if (p->pChunkData)
             EndiswapEventTexAnim1(ptexanim);
     }
 
-    for (int i = 0; i < p->count; ++i)
+    for (int i = 0; i < p->nbTexId; ++i)
     {
-        if (p->something)
-            EndiswapEventTexAnim0(&p->something[i]);
+        if (p->pTexIds)
+            EndiswapEventTexAnim0(&p->pTexIds[i]);
     }
 }
 
@@ -108,7 +108,7 @@ ___EventByteSwapTexAnim(void)
 }
 
 static void
-EventByteSwapReflection(EV_REFLECT_DATA* pReflect)
+EventByteSwapReflection(EVENT_REFLECTION* pReflect)
 {
     EndianSwap(&pReflect->count);
 
@@ -162,34 +162,34 @@ ___EventByteSwapReflection(void)
 }
 
 static void
-EventByteSwapMainFile(EventFileHeader* pEvHead)
+EventByteSwapMainFile(EVENT_HEADER* pEvHead)
 {
-    if (pEvHead->nbScene <= 65535) // is little-endian
-        return;
+    if (pEvHead->nbScene & 0xFFFF0000) // is big-endian
+    {
+        EndianSwap(&pEvHead->pScenes);
+        EndianSwap(&pEvHead->texlist);
+        EndianSwap(&pEvHead->nbScene);
+        EndianSwap(&pEvHead->pSpriteSizes);
+        EndianSwap(&pEvHead->pReflections);
+        EndianSwap(&pEvHead->BlareObjects);
+        EndianSwap(&pEvHead->MechParts);
 
-    EndianSwap(&pEvHead->scenes);
-    EndianSwap(&pEvHead->texlist);
-    EndianSwap(&pEvHead->nbScene);
-    EndianSwap(&pEvHead->SpriteSizes);
-    EndianSwap(&pEvHead->reflections);
-    EndianSwap(&pEvHead->BlareObjects);
-    EndianSwap(&pEvHead->MechParts);
+        // Other stuff
 
-    // Other stuff
+        EndianSwap(&pEvHead->MilesTails);
 
-    EndianSwap(&pEvHead->MilesTails);
+        // Other stuff
 
-    // Other stuff
+        EndianSwap(&pEvHead->Equipment);
 
-    EndianSwap(&pEvHead->Equipment);
+        EndianSwap(&pEvHead->UVAnims);
+        EndianSwap(&pEvHead->dropShadow);
 
-    EndianSwap(&pEvHead->UVAnims);
-    EndianSwap(&pEvHead->dropShadow);
+        // Other stuff
 
-    // Other stuff
-
-    if (pEvHead->UVAnims)
-        EventByteSwapTexAnim(pEvHead->UVAnims);
+        if (pEvHead->UVAnims)
+            EventByteSwapTexAnim(pEvHead->UVAnims);
+    }
 }
 
 void

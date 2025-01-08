@@ -75,7 +75,7 @@ EV_ENTRY_TYPE;
 *   Returns:
 *     Entry type of given entry.
 */
-EV_ENTRY_TYPE   EventGetEntryType( const EventEntityData* pEntry );
+EV_ENTRY_TYPE   EventGetEntryType( const EVENT_ENTRY* pEntry );
 
 /****** Event Draw ******************************************************************/
 /*

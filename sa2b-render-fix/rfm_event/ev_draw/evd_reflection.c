@@ -33,7 +33,7 @@ static NJS_PLANE ReflectionPlanes[32];
 static void
 EventCalcReflectionPlanes(void)
 {
-    EV_REFLECT_DATA* p_reflection = EventData.reflections;
+    EVENT_REFLECTION* p_reflection = EventData.pReflections;
 
     if (!p_reflection->count)
         return;
@@ -97,13 +97,13 @@ MirrorPlane(const NJS_PLANE* pPlane)
 static void
 EventDrawReflectionModels(int nbScene)
 {
-    const EventSceneData* const p_scene = &SceneData[nbScene];
+    const EVENT_SCENE* const p_scene = &SceneData[nbScene];
 
-    const int nb_entry = p_scene->EntityCount;
+    const int nb_entry = p_scene->nbEntry;
 
     for (int i = 0; i < nb_entry; ++i)
     {
-        const EventEntityData* const p_entry = &p_scene->EntityList[i];
+        const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
 
         const int attr = p_entry->attr;
 
@@ -118,37 +118,37 @@ EventDrawReflectionModels(int nbScene)
             case EV_ENTRY_TYPE_DRAW:
             {
                 EventLightSwitchSingle();
-                njCnkEasyDrawObject(p_entry->object);
+                njCnkEasyDrawObject(p_entry->pObject);
                 break;
             }
             case EV_ENTRY_TYPE_MTN:
             {
                 EventLightSwitchSingle();
-                njCnkEasyDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                njCnkEasyDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_SHAPE:
             {
                 EventLightSwitchSingle();
-                njCnkEasyDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                njCnkEasyDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_MULTIDRAW:
             {
                 EventLightSwitchMulti(attr);
-                njCnkEasyMultiDrawObject(p_entry->object);
+                njCnkEasyMultiDrawObject(p_entry->pObject);
                 break;
             }
             case EV_ENTRY_TYPE_MULTIMTN:
             {
                 EventLightSwitchMulti(attr);
-                njCnkEasyMultiDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                njCnkEasyMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_MULTISHAPE:
             {
                 EventLightSwitchMulti(attr);
-                njCnkEasyMultiDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                njCnkEasyMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_EASYNOFOG:
@@ -162,7 +162,7 @@ EventDrawReflectionModels(int nbScene)
 static void
 EventDrawReflectionsSub(int nbScene)
 {
-    const EV_REFLECT_DATA* p_reflection = EventData.reflections;
+    const EVENT_REFLECTION* p_reflection = EventData.pReflections;
 
     const int nb_planes = p_reflection->count;
 

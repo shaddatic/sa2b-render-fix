@@ -63,22 +63,22 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     if (ApplyModelDiffuse)
         OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
 
-    const EventSceneData* const p_scene = &SceneData[nbScene];
+    const EVENT_SCENE* const p_scene = &SceneData[nbScene];
 
-    const int nb_entry = p_scene->EntityCount;
+    const int nb_entry = p_scene->nbEntry;
 
     for (int i = 0; i < nb_entry; ++i)
     {
-        const EventEntityData* const p_entry = &p_scene->EntityList[i];
+        const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
 
         if (nbLayer != EV_ALL_LAYERS && p_entry->layer != nbLayer)
             continue;
 
-        const bool use_gj = !p_entry->object;
+        const bool use_gj = !p_entry->pObject;
 
         const int attr = p_entry->attr;
 
-        SetEntryMotionCallback(p_entry->object);
+        SetEntryMotionCallback(p_entry->pObject);
 
         njPushMatrixEx();
 
@@ -95,17 +95,17 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if (use_gj)
                 {
-                    gjDrawObject(p_entry->GjsObject);
+                    gjDrawObject(p_entry->pGjsObject);
                     break;
                 }
 
                 if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
-                    njCnkSimpleDrawObject(p_entry->object);
+                    njCnkSimpleDrawObject(p_entry->pObject);
                 }
                 else
                 {
-                    njCnkEasyDrawObject(p_entry->object);
+                    njCnkEasyDrawObject(p_entry->pObject);
                 }
 
                 break;
@@ -120,11 +120,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
-                    njCnkSimpleDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                    njCnkSimpleDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                    njCnkEasyDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
 
                 break;
@@ -141,11 +141,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                    njCnkSimpleDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                    njCnkEasyDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
 
                 break;
@@ -160,12 +160,12 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if (use_gj)
                 {
-                    gjDrawObject(p_entry->GjsObject);
+                    gjDrawObject(p_entry->pGjsObject);
                     njFogEnable();
                     break;
                 }
 
-                njCnkEasyDrawObject(p_entry->object);
+                njCnkEasyDrawObject(p_entry->pObject);
 
                 njFogEnable();
                 break;
@@ -178,17 +178,17 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if (use_gj)
                 {
-                    gjDrawObject(p_entry->GjsObject);
+                    gjDrawObject(p_entry->pGjsObject);
                     break;
                 }
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawObject(p_entry->object);
+                    njCnkSimpleMultiDrawObject(p_entry->pObject);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawObject(p_entry->object);
+                    njCnkEasyMultiDrawObject(p_entry->pObject);
                 }
 
                 break;
@@ -201,11 +201,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                    njCnkSimpleMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawMotion(p_entry->object, p_entry->motion, EventSceneFrame);
+                    njCnkEasyMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
 
                 break;
@@ -218,11 +218,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                    njCnkSimpleMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawShapeMotionBE(p_entry->object, p_entry->motion, p_entry->shape, EventSceneFrame);
+                    njCnkEasyMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
 
                 break;
@@ -239,15 +239,15 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
     EventLightSwitchSingle();
 
-    if (!nbLayer && p_scene->Big)
+    if (nbLayer < 1 && p_scene->pBig)
     {
-        const EventBigData* const p_big = p_scene->Big;
+        const EVENT_BIG* const p_big = p_scene->pBig;
 
         if (p_big->nbMotion)
         {
             njPushMatrixEx();
 
-            const EventBigDataMotion* const p_mot = &p_big->motions[EventBigScene];
+            const EVENT_BIG_MOTION* const p_mot = &p_big->motions[EventBigScene];
 
             if (!p_mot->shape)
             {
@@ -273,13 +273,13 @@ EventSceneGetLayerCount(const int nbScene)
 {
     int nb_layer = 0;
 
-    const EventSceneData* const p_scene = &SceneData[nbScene];
+    const EVENT_SCENE* const p_scene = &SceneData[nbScene];
 
-    const int nb_entry = p_scene->EntityCount;
+    const int nb_entry = p_scene->nbEntry;
 
     for (int i = 0; i < nb_entry; ++i)
     {
-        const EventEntityData* const p_entry = &p_scene->EntityList[i];
+        const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
 
         const int layer = p_entry->layer + 1;
 
