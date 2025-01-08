@@ -91,6 +91,24 @@ bool    RFF_NewEventRenderer( void );
 *     If Chaos 0 is set to use his GameCube texture animation cycle.
 */
 bool    RFF_Chaos0TexAnim( void );
+/*
+*   Description:
+*     If a player character is using their Dreamcast model.
+*
+*   Notes:
+*     - Even if the setting is enabled, this may still return 'false' if another
+*       mod changes the player models. If another mod uses 'ReplaceFile' though,
+*       this may return 'true' even if the Dreamcast models won't display in-game.
+*
+*   Parameters:
+*     - pno         : player character number
+*/
+bool    RFF_DreamcastPlayerModel( int pno );
+/*
+*   Description:
+*     If player shadowing is disabled when using modifier shadows.
+*/
+bool    RFF_DisablePlayerShadowing( void );
 
 EXTERN_END
 

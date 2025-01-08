@@ -430,6 +430,25 @@ typedef struct
     *     If Chaos 0 is set to use his GameCube texture animation cycle.
     */
     bool (__cdecl* Chaos0TexAnim)( void );
+    /*
+    *   Description:
+    *     If a player character is using their Dreamcast model.
+    *
+    *   Notes:
+    *     - Even if the setting is enabled, this may still return 'false' if
+    *       another mod changes the player models. If another mod uses
+    *       'ReplaceFile' though, this may return 'true' even if the Dreamcast
+    *       models won't display in-game.
+    * 
+    *   Parameters:
+    *     - pno         : player character number
+    */
+    bool (__cdecl* DreamcastPlayerModel)( int pno );
+    /*
+    *   Description:
+    *     If player shadowing is disabled when using modifier shadows.
+    */
+    bool (__cdecl* DisablePlayerShadowing)( void );
 }
 RFAPI_FEATURE;
 

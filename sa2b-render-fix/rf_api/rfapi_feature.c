@@ -47,5 +47,7 @@ const RFAPI_FEATURE rfapi_feature =
     /** Ver 1 **/
     .NewEventRenderer  = RFF_NewEventRenderer,
 
-    .Chaos0TexAnim = RFF_Chaos0TexAnim,
+    .Chaos0TexAnim          = RFF_Chaos0TexAnim,
+    .DreamcastPlayerModel   = RFF_DreamcastPlayerModel,
+    .DisablePlayerShadowing = RFF_DisablePlayerShadowing,
 };
