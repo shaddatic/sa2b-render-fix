@@ -95,33 +95,41 @@ EVENT_BIG;
 typedef struct
 {
     EVENT_ENTRY* pEntries;
-    int         nbEntry;
-    int*         pCameraMotionIds;
-    int         nbCameraMotionId;
-    int*         pPtclMotionIds;
-    int         nbPtclMotionId;
-    EVENT_BIG*   pBig;
-    int         nbFrame;
+    int          nbEntry;
+
+    int* pCameraMotionIds;
+    int  nbCameraMotionId;
+
+    int* pPtclMotionIds;
+    int  nbPtclMotionId;
+
+    EVENT_BIG* pBig;
+
+    int nbFrame;
 }
 EVENT_SCENE;
 
 typedef struct
 {
     EVENT_ENTRY_DC* pEntries;
-    int            nbEntry;
-    int*            pCameraMotionIds;
-    int            nbCameraMotionId;
-    int*            pPtclMotionIds;
-    int            nbPtclMotionId;
-    EVENT_BIG*      pBig;
-    int            nbFrame;
+    int             nbEntry;
+
+    int* pCameraMotionIds;
+    int  nbCameraMotionId;
+
+    int* pPtclMotionIds;
+    int  nbPtclMotionId;
+
+    EVENT_BIG* pBig;
+
+    int nbFrame;
 }
 EVENT_SCENE_DC;
 
 typedef struct
 {
-    int count;
-    int AlphaValues[32];
+    int         count;
+    int         AlphaValues[32];
     NJS_VECTOR* ReflectionVtxs;
 }
 EVENT_REFLECTION;
@@ -138,45 +146,33 @@ EVENT_EQUIPMENT;
 
 typedef struct
 {
-    EVENT_SCENE* pScenes;
-    NJS_TEXLIST* texlist;
-    int          nbScene;
-
-    Sint16*     pSpriteSizes;
-
+    EVENT_SCENE*      pScenes;
+    NJS_TEXLIST*      pTexlist;
+    int               nbScene;
+    Sint16*           pSpriteSizes;
     EVENT_REFLECTION* pReflections;
-
-    NJS_CNK_OBJECT* BlareObjects;
-    NJS_CNK_OBJECT* MechParts;
-    NJS_CNK_OBJECT* MilesTails;
-
-    EVENT_EQUIPMENT* Equipment;
-
-    EVENT_TEXANIM* UVAnims;
-
-    int dropShadow;
+    NJS_CNK_OBJECT*   pBlareObjects;
+    NJS_CNK_OBJECT*   pWalkerObjects;
+    NJS_CNK_OBJECT*   pMilesObjects;
+    EVENT_EQUIPMENT*  pEquipment;
+    EVENT_TEXANIM*    pTexAnims;
+    int               dropShadow;
 }
 EVENT_HEADER;
 
 typedef struct
 {
-    EVENT_SCENE_DC* pScenes;
-    NJS_TEXLIST* texlist;
-    int          nbScene;
-
-    Sint16*     pSpriteSizes;
-
+    EVENT_SCENE_DC*   pScenes;
+    NJS_TEXLIST*      pTexlist;
+    int               nbScene;
+    Sint16*           pSpriteSizes;
     EVENT_REFLECTION* pReflections;
-
-    NJS_CNK_OBJECT* BlareObjects;
-    NJS_CNK_OBJECT* MechParts;
-    NJS_CNK_OBJECT* MilesTails;
-
-    EVENT_EQUIPMENT* Equipment;
-
-    EVENT_TEXANIM_DC* UVAnims;
-
-    int dropShadow;
+    NJS_CNK_OBJECT*   pBlareObjects;
+    NJS_CNK_OBJECT*   pWalkerObjects;
+    NJS_CNK_OBJECT*   pMilesObjects;
+    EVENT_EQUIPMENT*  pEquipment;
+    EVENT_TEXANIM_DC* pTexAnims;
+    int               dropShadow;
 }
 EVENT_HEADER_DC;
 

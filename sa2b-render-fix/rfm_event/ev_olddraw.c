@@ -81,7 +81,7 @@ EventDisplayerDelayHook(task* tp)
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
-    njSetTexture(EventData.texlist);
+    njSetTexture(EventData.pTexlist);
 
     njCnkSetMotionCallback(NULL);
 
@@ -140,12 +140,12 @@ EventDisplayerHook(task* tp)
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
-    njSetTexture(EventData.texlist);
+    njSetTexture(EventData.pTexlist);
     EventLightInit();
     EventDrawReflectionLists(0);
     EventDrawReflectionLists(EventScene);
 
-    njSetTexture(EventData.texlist);
+    njSetTexture(EventData.pTexlist);
 
     EventResetEquipmentFlags();
 

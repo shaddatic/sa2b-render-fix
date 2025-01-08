@@ -167,28 +167,28 @@ EventByteSwapMainFile(EVENT_HEADER* pEvHead)
     if (pEvHead->nbScene & 0xFFFF0000) // is big-endian
     {
         EndianSwap(&pEvHead->pScenes);
-        EndianSwap(&pEvHead->texlist);
+        EndianSwap(&pEvHead->pTexlist);
         EndianSwap(&pEvHead->nbScene);
         EndianSwap(&pEvHead->pSpriteSizes);
         EndianSwap(&pEvHead->pReflections);
-        EndianSwap(&pEvHead->BlareObjects);
-        EndianSwap(&pEvHead->MechParts);
+        EndianSwap(&pEvHead->pBlareObjects);
+        EndianSwap(&pEvHead->pWalkerObjects);
 
         // Other stuff
 
-        EndianSwap(&pEvHead->MilesTails);
+        EndianSwap(&pEvHead->pMilesObjects);
 
         // Other stuff
 
-        EndianSwap(&pEvHead->Equipment);
+        EndianSwap(&pEvHead->pEquipment);
 
-        EndianSwap(&pEvHead->UVAnims);
+        EndianSwap(&pEvHead->pTexAnims);
         EndianSwap(&pEvHead->dropShadow);
 
         // Other stuff
 
-        if (pEvHead->UVAnims)
-            EventByteSwapTexAnim(pEvHead->UVAnims);
+        if (pEvHead->pTexAnims)
+            EventByteSwapTexAnim(pEvHead->pTexAnims);
     }
 }
 

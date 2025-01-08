@@ -323,7 +323,7 @@ EventEquipmentDraw(void)
 
         if ( eqidx != -1 && (eqidx == -2 || PlayerEqipmentList[eqidx]) )
         {
-            EVENT_EQUIPMENT* const p_equip = &EventData.Equipment[i];
+            EVENT_EQUIPMENT* const p_equip = &EventData.pEquipment[i];
 
             NJS_CNK_OBJECT* const p_object1 = p_equip->pObject1;
             NJS_CNK_OBJECT* const p_object2 = p_equip->pObject2;
@@ -363,7 +363,7 @@ EventDisplayerDelayed(task* tp)
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
-    njSetTexture(EventData.texlist);
+    njSetTexture(EventData.pTexlist);
     EventLightSet();
 
     njCnkSetMotionCallback(NULL);
@@ -415,7 +415,7 @@ EventDisplayer(task* tp)
     njSetBackColor(0, 0, 0);
     EventCameraInit();
 
-    njSetTexture(EventData.texlist);
+    njSetTexture(EventData.pTexlist);
     EventLightSet();
 
     EventResetEquipmentFlags();
