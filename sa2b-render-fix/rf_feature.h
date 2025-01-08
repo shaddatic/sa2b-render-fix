@@ -101,7 +101,7 @@ bool    RFF_Chaos0TexAnim( void );
 *       this may return 'true' even if the Dreamcast models won't display in-game.
 *
 *   Parameters:
-*     - pno         : player character number
+*     - pno         : player character number                        [SONIC~CHAOS0]
 */
 bool    RFF_DreamcastPlayerModel( int pno );
 /*

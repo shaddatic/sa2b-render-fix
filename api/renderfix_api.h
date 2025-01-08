@@ -441,7 +441,7 @@ typedef struct
     *       models won't display in-game.
     * 
     *   Parameters:
-    *     - pno         : player character number
+    *     - pno         : player character number                    [SONIC~CHAOS0]
     */
     bool (__cdecl* DreamcastPlayerModel)( int pno );
     /*
