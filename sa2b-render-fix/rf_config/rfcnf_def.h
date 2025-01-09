@@ -246,8 +246,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_SHADOW_GLMD             CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
 #define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_MODIFIER             )   /* Character Shadows */
 #define CNF_SHADOW_RES              CNFO_INT(   CNFS_SHADOW         , "resolution"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
-#define CNF_SHADOW_GLOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_gl"          , CNFE_SHADOW_OPACITY_DREAMCAST         )   /* Global Opacity */
-#define CNF_SHADOW_CHOPACITY        CNFO_INT(   CNFS_SHADOW         , "opacity_ch"          , CNFE_SHADOW_OPACITY_DREAMCAST_CHAO    )   /* Chao World Opacity */
 
 /** Common section **/
 #define CNF_COMMON_TR_SORT          CNFO_INT(   CNFS_COMMON         , "trans_sorting"       , CNFE_BOOL_ENABLED                     )   /* Transparancy Sorting Fixes */
@@ -306,7 +304,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
 
 /** Experimental section **/
-#define CNF_EXP_SHD_OPACITY_SW      CNFO_INT(   CNFS_EXP            , "shd_opacity_sw"      , CNFE_BOOL_DISABLED                    )   /* Change Shadow Map Opacity in Chao World */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 #define CNF_EXP_EVDRAW              CNFO_INT(   CNFS_EXP            , "event_draw"          , CNFE_BOOL_DISABLED                    )   /* New RF Event Renderer */
 

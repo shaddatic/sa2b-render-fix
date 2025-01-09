@@ -24,20 +24,16 @@
 void RFG_ForceShadowMaps( void );
 
 /** Constants **/
-#define CHEAP_SHDW_MD_NORM  (0x50)
-#define CHEAP_SHDW_MD_CHAO  (0x73)
+#define CHEAPSHDWMD_NORMAL              ( 80)
+#define CHEAPSHDWMD_CHAO                (115)
 
-static const float    OpacityList[]    = { 0.75f, 0.6862745098039216f, 0.5490196078431373f };
+#define CHEAPSHDWMD_TO_FLOAT(mode)      (1.f-((Float)(mode)*(1.f/256.f)))
+
 static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
 /** Globals **/
-static float ShadowOpacityGlobal;
-static float ShadowOpacityChao;
-
 static int  CheapShadowMode;
 static bool CheapShadowPlayer;
-
-static bool ShadowWriteObjPak;
 
 static NJS_CNK_MODEL* model_basic_shadow;
 
@@ -66,25 +62,13 @@ CHS_ObjectMDContWood(void)
 static void
 SetShadowOpacityGlobal(void)
 {
-    RFMOD_SetAlpha(ShadowOpacityGlobal);
-
-    if (!ShadowWriteObjPak)
-        return;
-
-    RF_ObjPakRegisterShadowOpacity(ShadowOpacityGlobal);
-    RF_ObjPakWriteChangesToFile();
+    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
 }
 
 static void
 SetShadowOpacityChao(void)
 {
-    RFMOD_SetAlpha(ShadowOpacityChao);
-
-    if (!ShadowWriteObjPak)
-        return;
-
-    RF_ObjPakRegisterShadowOpacity(ShadowOpacityChao);
-    RF_ObjPakWriteChangesToFile();
+    rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
 }
 
 /** Extern functions **/
@@ -115,13 +99,13 @@ RFF_CheapShadowPlayer(void)
 f32
 RFF_ShadowOpacityGlobal(void)
 {
-    return ShadowOpacityGlobal;
+    return CHEAPSHDWMD_TO_FLOAT( CHEAPSHDWMD_NORMAL );
 }
 
 f32
 RFF_ShadowOpacityChao(void)
 {
-    return ShadowOpacityChao;
+    return CHEAPSHDWMD_TO_FLOAT( CHEAPSHDWMD_CHAO );
 }
 
 void
@@ -145,13 +129,8 @@ RFM_ShadowsInit(void)
         }
     }
 
-    ShadowOpacityGlobal = OpacityList[RF_ConfigGetInt(CNF_SHADOW_GLOPACITY)];
-    ShadowOpacityChao   = OpacityList[RF_ConfigGetInt(CNF_SHADOW_CHOPACITY)];
-
-    ShadowWriteObjPak = RF_ConfigGetInt(CNF_EXP_SHD_OPACITY_SW) == 1;
-
     /** Set default alpha **/
-    RFMOD_SetAlpha(ShadowOpacityGlobal);
+    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
 
     /** Shadow opacity function hooks **/
     Trampoline(0x0052AB7F, SetShadowOpacityChao);   // AL Constructor
