@@ -62,4 +62,6 @@ const RFAPI_DRAW rfapi_draw =
     .CnkSetUvScroll        = rjCnkSetUvScroll,
     .CnkSetEnvUvScroll     = rjCnkSetEnvUvScroll,
     .CnkSetTextureCallback = rjCnkSetTextureCallback,
+
+    .SetCheapShadowMode = rjSetCheapShadowMode,
 };

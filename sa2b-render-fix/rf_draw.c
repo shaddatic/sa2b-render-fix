@@ -108,6 +108,15 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     Poly2DN = 4;
 }
 
+void
+rjSetCheapShadowMode(Int mode)
+{
+    if (mode < 0 || mode > 256)
+        return;
+
+    RFMOD_SetAlpha( 1.f - ( (Float)mode * (1.f/256.f) ) );
+}
+
 /****** Set Tex (Draw) **************************************************************/
 #define TexInfoDraw         DATA_REF(TEXTURE_INFO, 0x019341A0)
 

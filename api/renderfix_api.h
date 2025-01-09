@@ -822,10 +822,10 @@ typedef struct
     *
     *   Notes:
     *     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality
-    *       is otherwise the same excluding the 'SimpleDraw' only limitation.
+    *     is otherwise the same excluding the 'SimpleDraw' only limitation.
     *     - Reset these values to '0.f' when drawing is complete.
     *     - Currently only applies to normal-less environment maps, as they aren't
-    *       calculated in-shader.
+    *     calculated in-shader.
     *
     *   Parameters:
     *     - u, v        : u and v scroll offset
@@ -844,6 +844,25 @@ typedef struct
     *     - callback    : texture callback function
     */
     void (__cdecl* CnkSetTextureCallback)( Sint16(__cdecl* callback)(Sint16 texid) );
+
+    /**** Cheap Shadows *************************************/
+    /*
+    *   Description:
+    *     Set the intensity of modifier shadows, also called cheap shadows. The
+    *   value is divided by '256' and multiplied with the pixel color. For example,
+    *   a value of '0' would result in a fully black pixel and a value of '256'
+    *   would result in no change - or in other words cheap shadows would be
+    *   disabled.
+    *
+    *   Notes:
+    *     - Only one intensity can be used across a single scene. In other words,
+    *     all shadows will use the same value across a single frame.
+    *     - The original Ninja version only supported values up to '255'.
+    *
+    *   Parameters:
+    *     - mode        : cheap shadow intensity                            [0~256]
+    */
+    void (__cdecl* SetCheapShadowMode)( Int mode );
 }
 RFAPI_DRAW;
 
