@@ -13,7 +13,10 @@
 #include <sa2b/sonic/njctrl.h>
 #include <sa2b/sonic/texture.h>
 #include <sa2b/sonic/set.h>
+
+#define SAMT_INCL_FUNCPTRS
 #include <sa2b/sonic/landtable.h>
+#undef SAMT_INCL_FUNCPTRS
 
 /** Std **/
 #include <stdio.h>
@@ -186,6 +189,39 @@ DrawGameHUDHook(void)
     njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
 }
 
+static bool
+LandTableIsGinja(const OBJ_LANDTABLE* pLand)
+{
+    const int count = pLand->ssVisibleCount;
+
+    for (int i = 0; i < count; ++i)
+    {
+        const OBJ_LANDENTRY* const p_entry = &pLand->pLandEntry[i];
+
+        const NJS_CNK_OBJECT* const p_obj = p_entry->pObject;
+
+        /** Chunk models are unlikely to not have 'plist' data, while Ginja models
+          never uses that pointer in SA2. If 'plist' exists, it's almost
+          certainly a Chunk model; meaning a Chunk LandTable **/
+
+        if (p_obj->model && p_obj->model->plist)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+static hook_info LandChangeLandTableHookInfo[1];
+static void
+LandChangeLandTableHook(OBJ_LANDTABLE* land)
+{
+    boolLandTableGinja = LandTableIsGinja(land);
+
+    FuncHookCall( LandChangeLandTableHookInfo, LandChangeLandTable(land) );
+}
+
 void
 RFM_CommonInit(void)
 {
@@ -285,6 +321,9 @@ RFM_CommonInit(void)
     WriteCall(0x0047C462, ___CnkDrawLT);
     WriteCall(0x0047C604, ___CnkDrawLT);
     WriteCall(0x0047C612, ___CnkDrawLT);
+
+    /** Automatically determine landtable format type **/
+    FuncHook(LandChangeLandTableHookInfo, LandChangeLandTable_p, LandChangeLandTableHook);
 
     /** Game HUD texture overdraw fix **/
     FuncHook(DrawGameHUDHookInfo, DrawGameHUD, DrawGameHUDHook);
