@@ -936,10 +936,6 @@ CHS_ChaoWorldInit(void)
     WriteCallToMovDwordPtr(0x0057CD2B, ALO_RadicaseCreateMovHook);
     WriteCallToMovDwordPtr(0x0055CC2E, ALO_TVCreateMovHook);
 
-    /** Object **/
-    NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("chao/al_mod");
-
-    model_al_mod = objp->model;
-
-    MemFree(objp); // Only the model is used, so we can free this
+    /** shadow model **/
+    model_al_mod = RF_ChunkLoadModelFile("chao/al_mod");
 }

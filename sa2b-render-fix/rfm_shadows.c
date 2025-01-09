@@ -136,14 +136,7 @@ RFM_ShadowsInit(void)
             /** Init modifier engine **/
             RFMOD_Init();
 
-            /** Load basic shadow **/
-            {
-                NJS_CNK_OBJECT* objp = RF_ChunkLoadObjectFile("common/basic_mod");
-
-                model_basic_shadow = objp->model;
-
-                MemFree(objp); // We only use the model, so free
-            }
+            model_basic_shadow = RF_ChunkLoadModelFile("common/basic_mod");
 
             if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
                 RFMOD_SetDrawMode(MODMD_DEBUG);

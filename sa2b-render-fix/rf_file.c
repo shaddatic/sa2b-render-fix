@@ -45,6 +45,23 @@ RF_ChunkLoadObjectFile(const char* fname)
     return object;
 }
 
+NJS_CNK_MODEL*
+RF_ChunkLoadModelFile(const char* fname)
+{
+    char buf[260];
+
+    snprintf(buf, 260, "./" MODEL_PATH "/%s.sa2mdl", fname);
+
+    const char* fpath = ML_GetReplaceablePath(buf);
+
+    NJS_CNK_MODEL* model = mtLoadChunkModelFile(fpath);
+
+    if (!model)
+        RF_FileError(buf);
+
+    return model;
+}
+
 GJS_OBJECT*
 RF_GinjaLoadObjectFile(const char* fname)
 {
