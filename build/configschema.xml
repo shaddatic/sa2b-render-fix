@@ -91,9 +91,6 @@ Disabling this may cause player characters to look out of place in some situatio
 			<Property name="trans_sorting" display="Transparancy Fixes and Restorations" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes and restores many common missing transparancy effects and transparancy sorting issues found throughout the game.</HelpText>
 			</Property>
-			<Property name="e_jet" display="Enemy Jet Effects" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the blue jet effect used on many enemies that was removed in the GameCube version.</HelpText>
-			</Property>
 			<Property name="e_emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
@@ -106,14 +103,8 @@ Disabling this may cause player characters to look out of place in some situatio
 			<Property name="balloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
 			</Property>
-			<Property name="udreel" display="Pulley Fix" type="eBOOL" defaultvalue="1">
-				<HelpText>Fixes the rendering of the Up Down Reel (player pully), including the Dreamcast flashing effect.</HelpText>
-			</Property>
 			<Property name="jo_tree" display="Tree Jungle Object" type="eBOOL" defaultvalue="1">
 				<HelpText>Fixes the tree model that lost its shadow and all of it's vertex colors in the HD version.</HelpText>
-			</Property>
-			<Property name="mizugomi" display="Water Particulates" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the floating water particles from the Dreamcast version.</HelpText>
 			</Property>
 			<Property name="dc_ring" display="DC Ring Shadows" type="eBOOL" defaultvalue="0">
 				<HelpText>Restores the Dreamcast version's black ring shadows.</HelpText>
