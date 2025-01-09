@@ -288,12 +288,6 @@ RFM_CommonInit(void)
         WritePointer(0x010737B4, object_jo_tree->model); // Green Forest
     }
 
-
-    if (RF_ConfigGetInt(CNF_COMMON_DCRING))
-    {
-        GjsModelTintFix(0x00B58288);
-    }
-
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 
     /** Add two pass drawing for Chunk land tables **/

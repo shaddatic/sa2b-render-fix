@@ -15,6 +15,7 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_mdlutil.h>         /* change strip flag                                */
+#include <rf_config.h>          /* config                                           */
 
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings              */
@@ -144,8 +145,9 @@ RFCD_RingInit(void)
 
     ___NOTE("Fix tinting: Temporary until specular is restored");
 
-    CnkModelMaterialDiffuse(object_ring0->model, -1, -1, 0xFF, 0xFF, 0xFF);
-    CnkModelMaterialDiffuse(object_ring1->model, -1, -1, 0xFF, 0xFF, 0xFF);
+    RF_CnkModelMaterialDiffuse(object_ring0->model, -1, -1, 0xFF, 0xFF, 0xFF);
+    RF_CnkModelMaterialDiffuse(object_ring1->model, -1, -1, 0xFF, 0xFF, 0xFF);
 
-    //CnkModelMaterialDiffuse(object_ringshadow->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+    if ( RF_ConfigGetInt(CNF_COMMON_DCRING) )
+        RF_CnkModelMaterialDiffuse(object_ringshadow->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
 }
