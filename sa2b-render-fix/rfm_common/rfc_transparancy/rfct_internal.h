@@ -16,9 +16,6 @@ EXTERN_START
 /*  Functions           */
 /************************/
 void    RFCT_ExplosionInit(void);
-void    RFCT_ItemBoxInit(void);
-void    RFCT_PrisonSirenInit(void);
-void    RFCT_FinalChaseGravityCylinderInit(void);
 
 EXTERN_END
 

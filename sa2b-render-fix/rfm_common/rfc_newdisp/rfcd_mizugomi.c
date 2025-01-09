@@ -58,7 +58,7 @@ MizugomiDisplayer_AM(task* tp)
     njSetTextureNum(0);
 
     njDrawSomethingStart(1);
-    njDrawSomeSprite(mwp->p, mwp->n, 0.0f, 0.075000003f, 0.075000003f, 0xFF809050);
+    njDrawSomeSprite(mwp->p, mwp->n, 0.0f, 0.075f, 0.075f, 0xFF809050);
 
     njPopMatrixEx();
 
@@ -155,7 +155,7 @@ __BGMizugomiDCBegin(void)
 }
 
 void
-RFC_MizugomiInit(void)
+RFCD_MizugomiInit(void)
 {
     WriteJump(0x004D6770, MizugomiDisplayer_AM);
 

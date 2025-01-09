@@ -19,6 +19,7 @@
 #include <rf_util.h>        /* ReplaceFloat, SwitchDisplayer                        */
 #include <rf_mdlutil.h>     /* MaterialFlagOn                                       */
 #include <rf_renderstate.h> /* RFRS_CullMode                                        */
+#include <rf_njcnk.h>       /* ninja chunk draw                                     */
 
 /************************/
 /*  Constants           */
@@ -51,15 +52,13 @@ GravityCylinderDisplayerSorted(task* tp)
 
     njSetTexture(texlist_gcyl);
 
-    ___NOTE("This should be improved."
-        "The glass should be a seperate model, & only that is drawn twice");
-    /** Main body (first/inverse pass) **/
+    /** Main body (first/opaque pass) **/
     {
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-        RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-        njCnkCacheDrawModel(object_gcyl->model);
-        RFRS_SetCullMode(RFRS_CULLMD_END);
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+        njCnkSimpleDrawModel(object_gcyl->model);
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
     }
@@ -78,13 +77,13 @@ GravityCylinderDisplayerSorted(task* tp)
         njPopMatrixEx();
     }
 
-    /** Main body (second/normal pass) **/
+    /** Main body (second/transparent pass) **/
     {
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-        RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-        njCnkCacheDrawModel(object_gcyl->model);
-        RFRS_SetCullMode(RFRS_CULLMD_END);
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+        njCnkSimpleDrawModel(object_gcyl->model);
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
     }
@@ -93,7 +92,7 @@ GravityCylinderDisplayerSorted(task* tp)
 }
 
 void
-RFCT_FinalChaseGravityCylinderInit(void)
+RFCD_FinalChaseGravityCylinderInit(void)
 {
     WriteRetn(0x004E9C50);
     WriteJump(0x004E9DB0, GravityCylinderDisplayerSorted);

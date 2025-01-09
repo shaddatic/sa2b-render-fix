@@ -142,7 +142,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
 }
 
 void
-RFC_UDReelInit(void)
+RFCD_UDReelInit(void)
 {
     WriteJump(0x006E6170, ObjectUDReelCnkDisplayer);
     WriteJump(0x004BC210, ObjectUDReelGolemCnkDisplayer); // Golem

@@ -77,7 +77,7 @@ EnemyJetDisplayer_(task* tp)
 }
 
 void
-RFC_EnemyJet()
+RFCD_EnemyJetInit(void)
 {
     WriteJump(EnemyJetDisplayer, EnemyJetDisplayer_);
 

@@ -182,7 +182,4 @@ RFC_TransparancyInit(void)
     CnkObjectMaterialFlagOn(0x01293FCC, NJD_FST_UA);
 
     RFCT_ExplosionInit();
-    RFCT_ItemBoxInit();
-    RFCT_PrisonSirenInit();
-    RFCT_FinalChaseGravityCylinderInit();
 }

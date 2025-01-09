@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="rfm_common\rfc_e_jet.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_jet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_model.c">
@@ -54,7 +54,7 @@
     <ClCompile Include="rfm_event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_mizugomi.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_mizugomi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_wjungle.c">
@@ -108,7 +108,7 @@
     <ClCompile Include="rfm_shadows\chs_chaosdrive.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_udreel.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_udreel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_shadows\chs_minimal.c">
@@ -189,7 +189,7 @@
     <ClCompile Include="rf_renderstate.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_transparancy\rfct_itembox.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_itembox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_shadows.c">
@@ -219,7 +219,7 @@
     <ClCompile Include="rfm_cgadget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_transparancy\rfct_pr_siren.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_pr_siren.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_modchk.c">
@@ -249,7 +249,7 @@
     <ClCompile Include="rfm_common\rfc_transparancy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common\rfc_transparancy\rfct_fc_gcyl.c">
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_fc_gcyl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_font.c">

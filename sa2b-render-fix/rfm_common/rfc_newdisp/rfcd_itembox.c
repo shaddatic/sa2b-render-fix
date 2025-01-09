@@ -13,6 +13,7 @@
 #include <rf_draw.h>
 #include <rf_renderstate.h>
 #include <rf_enemywk.h>
+#include <rf_njcnk.h>
 
 typedef struct 
 {
@@ -66,7 +67,10 @@ ObjectItemBoxDispSort_RF(task* tp)
     njSetTexture(texlist_itembox);
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-    njCnkCacheDrawModel(model_itembox_bubble);
+    {
+        njCnkSimpleDrawModel(model_itembox_bubble);
+    }
+    RFRS_SetCullMode(RFRS_CULLMD_END);
 
     const int texid = ItemBoxInfoList[(int)tp->fwp].texid;
 
@@ -84,8 +88,9 @@ ObjectItemBoxDispSort_RF(task* tp)
     njSetTexture(texlist_itembox);
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-    njCnkCacheDrawModel(model_itembox_bubble);
-
+    {
+        njCnkSimpleDrawModel(model_itembox_bubble);
+    }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
     if (DisableObjectFog)
@@ -93,8 +98,6 @@ ObjectItemBoxDispSort_RF(task* tp)
 
     njPopMatrixEx();
 }
-
-
 
 #define texlist_itemboxair          DATA_ARY(NJS_TEXLIST  , 0x00B48784, [1])
 #define model_itemboxair_bubble     DATA_ARY(NJS_CNK_MODEL, 0x00B48B44, [1])
@@ -111,7 +114,7 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     njPushMatrixEx();
 
-    njTranslateEx(&twp->pos);
+    njTranslateV(NULL, &twp->pos);
     njRotateY(NULL, twp->ang.y);
     njRotateZ(NULL, twp->ang.z);
     njScale(NULL, twp->scl.z, twp->scl.z, twp->scl.z);
@@ -146,11 +149,14 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     njSetTexture(texlist_itemboxair);
 
-    njCnkCacheDrawModel(model_itemboxair_base);
-    njCnkCacheDrawModel(model_itemboxair_top);
+    njCnkSimpleDrawModel(model_itemboxair_base);
+    njCnkSimpleDrawModel(model_itemboxair_top);
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-    njCnkCacheDrawModel(model_itemboxair_bubble);
+    {
+        njCnkSimpleDrawModel(model_itemboxair_bubble);
+    }
+    RFRS_SetCullMode(RFRS_CULLMD_END);
 
     const int texid = ItemBoxAirInfoList[twp->btimer].texid;
 
@@ -168,8 +174,9 @@ ObjectItemBoxAirDispSort_RF(task* tp)
     njSetTexture(texlist_itemboxair);
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-    njCnkCacheDrawModel(model_itemboxair_bubble);
-
+    {
+        njCnkSimpleDrawModel(model_itemboxair_bubble);
+    }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
     if (scaling)
@@ -186,7 +193,7 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 }
 
 void
-RFCT_ItemBoxInit(void)
+RFCD_ItemBoxInit(void)
 {
     WriteJump(0x006C83B0, ObjectItemBoxDispSort_RF);
     WriteJump(0x006C9500, ObjectItemBoxAirDispSort_RF);

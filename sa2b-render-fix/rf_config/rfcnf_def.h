@@ -224,14 +224,11 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Common section **/
 #define CNF_COMMON_TR_SORT          CNFO_INT(   CNFS_COMMON         , "trans_sorting"       , CNFE_BOOL_ENABLED                     )   /* Transparancy Sorting Fixes */
-#define CNF_COMMON_EJET             CNFO_INT(   CNFS_COMMON         , "e_jet"               , CNFE_BOOL_ENABLED                     )   /* Enemy Jet Effects */
 #define CNF_COMMON_EEMBLEM          CNFO_INT(   CNFS_COMMON         , "e_emblem"            , CNFE_BOOL_ENABLED                     )   /* GUN Emblems */
 #define CNF_COMMON_AISHEILD         CNFO_INT(   CNFS_COMMON         , "e_ai_shield"         , CNFE_BOOL_ENABLED                     )   /* DC GUN Hunter Shield */
 #define CNF_COMMON_ESTGTEX          CNFO_INT(   CNFS_COMMON         , "e_stg_tex"           , CNFE_BOOL_ENABLED                     )   /* Stage Specific Enemy Textures */
 #define CNF_COMMON_TR_BLOON         CNFO_INT(   CNFS_COMMON         , "balloon_trans"       , CNFE_BOOL_ENABLED                     )   /* Item Balloon Transparency */
-#define CNF_COMMON_UDREEL           CNFO_INT(   CNFS_COMMON         , "udreel"              , CNFE_BOOL_ENABLED                     )   /* Up Down Reel Fix */
 #define CNF_COMMON_JOTREE           CNFO_INT(   CNFS_COMMON         , "jo_tree"             , CNFE_BOOL_ENABLED                     )   /* Tree Jungle Object */
-#define CNF_COMMON_MIZUGOMI         CNFO_INT(   CNFS_COMMON         , "mizugomi"            , CNFE_BOOL_ENABLED                     )   /* Water Particulates */
 #define CNF_COMMON_DCRING           CNFO_INT(   CNFS_COMMON         , "dc_ring"             , CNFE_BOOL_DISABLED                    )   /* DC Ring Shadows */
 
 /** Main Menus section **/

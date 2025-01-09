@@ -21,4 +21,10 @@ RFC_NewDisplayerInit(void)
     RFCD_RingInit();
     RFCD_SpringInit();
     RFCD_GoalringInit();
+    RFCD_UDReelInit();
+    RFCD_EnemyJetInit();
+    RFCD_MizugomiInit();
+    RFCD_ItemBoxInit();
+    RFCD_PrisonSirenInit();
+    RFCD_FinalChaseGravityCylinderInit();
 }

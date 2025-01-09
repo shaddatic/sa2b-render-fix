@@ -279,16 +279,6 @@ RFM_CommonInit(void)
         ReplaceFloat(0x006251EE, &bloondbl);
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_EJET))
-    {
-        RFC_EnemyJet();
-    }
-
-    if (RF_ConfigGetInt(CNF_COMMON_UDREEL))
-    {
-        RFC_UDReelInit();
-    }
-
     if (RF_ConfigGetInt(CNF_COMMON_JOTREE))
     {
         GJS_OBJECT* object_jo_tree = RF_GinjaLoadObjectFile("jo_tree");
@@ -298,10 +288,6 @@ RFM_CommonInit(void)
         WritePointer(0x010737B4, object_jo_tree->model); // Green Forest
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_MIZUGOMI))
-    {
-        RFC_MizugomiInit();
-    }
 
     if (RF_ConfigGetInt(CNF_COMMON_DCRING))
     {
