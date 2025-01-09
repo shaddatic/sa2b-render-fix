@@ -1,43 +1,66 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/funchook.h>
-#include <sa2b/writeop.h>
+/************************/
+/*  Includes            */
+/************************/
+/****** Core Toolkit ****************************************************************/
+#include <sa2b/core.h>          /* core                                             */
+#include <sa2b/writeop.h>       /* writejump                                        */
+#include <sa2b/funchook.h>      /* function hook                                    */
 
-/** Ninja **/
-#include <sa2b/ninja/ninja.h>
+/****** Ninja ***********************************************************************/
+#include <sa2b/ninja/ninja.h>   /* ninja                                            */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_mod.h>
-#include <rf_draw.h>
-#include <rf_util.h>
-#include <rf_file.h>
-#include <rf_usermsg.h>
-#include <rf_objpak.h>
+/****** Game ************************************************************************/
+#include <sa2b/sonic/task.h>    /* task                                             */
 
-/** Self **/
-#include <rfm_shadows.h>
-#include <rfm_shadows/shd_internal.h>
+/****** Render Fix ******************************************************************/
+#include <rf_core.h>            /* core                                             */
+#include <rf_config.h>          /* config                                           */
+#include <rf_mod.h>             /* modifier core                                    */
+#include <rf_draw.h>            /* set cheap shadow intensity                       */
+#include <rf_file.h>            /* file load                                        */
+#include <rf_usermsg.h>         /* user message box                                 */
+#include <rf_objpak.h>          /* obj.pak writing                                  */
 
-/** External Functions **/
-void RFG_ForceShadowMaps( void );
+/****** Self ************************************************************************/
+#include <rfm_shadows.h>              /* self                                       */
+#include <rfm_shadows/shd_internal.h> /* children                                   */
 
-/** Constants **/
+/************************/
+/*  External Functions  */
+/************************/
+/****** Hacky Function to Force Shadow Map Drawing **********************************/
+EXTERN void     RFG_ForceShadowMaps( void );
+
+/************************/
+/*  Macros              */
+/************************/
+/****** Shadow Intensity To Float ***************************************************/
+#define CHEAPSHDWMD_TO_FLOAT(mode)      (1.f-((Float)(mode)*(1.f/256.f)))
+
+/************************/
+/*  Constants           */
+/************************/
+/****** Shadow Intensity ************************************************************/
 #define CHEAPSHDWMD_NORMAL              ( 80)
 #define CHEAPSHDWMD_CHAO                (115)
 
-#define CHEAPSHDWMD_TO_FLOAT(mode)      (1.f-((Float)(mode)*(1.f/256.f)))
-
+/************************/
+/*  Data                */
+/************************/
+/****** Shadow Map Resolution *******************************************************/
 static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
-/** Globals **/
+/****** Settings ********************************************************************/
 static int  CheapShadowMode;
 static bool CheapShadowPlayer;
 
+/****** Mod Shadow ******************************************************************/
 static NJS_CNK_MODEL* model_basic_shadow;
 
-/** Static functions **/
+/************************/
+/*  Source              */
+/************************/
+/****** Static **********************************************************************/
 static void
 CHS_ObjectBurstInit(void)
 {
@@ -59,35 +82,46 @@ CHS_ObjectMDContWood(void)
     KillCall( 0x005C455E); // Kill SetStencilInfo
 }
 
-static void
-SetShadowOpacityGlobal(void)
-{
-    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
-}
-
-static void
-SetShadowOpacityChao(void)
-{
-    rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
-}
-
-/** Extern functions **/
+/****** Draw Basic Mod **************************************************************/
 void
 DrawBasicShadow(void)
 {
     njCnkModDrawModel(model_basic_shadow);
 }
 
+/****** Set Shadow Intensity ********************************************************/
+#define AL_Constructor      FUNC_PTR(void, __cdecl, (task*), 0x0052AB60)
+#define AL_Destructor       FUNC_PTR(void, __cdecl, (task*), 0x0052AE70)
+
+static hook_info AL_ConstructorHookInfo[1];
+static void
+AL_ConstructorHook(task* tp)
+{
+    FuncHookCall( AL_ConstructorHookInfo, AL_Constructor(tp) );
+
+    rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
+}
+
+static hook_info AL_DestructorHookInfo[1];
+static void
+AL_DestructorHook(task* tp)
+{
+    FuncHookCall( AL_DestructorHookInfo, AL_Destructor(tp) );
+
+    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
+}
+
+/****** Feature Check ***************************************************************/
 bool
 RFF_CheapShadow(void)
 {
-    return CheapShadowMode != CNFE_SHADOW_CHSMD_DISABLED;
+    return CheapShadowMode != CNFE_GLOBAL_CHSMD_DISABLED;
 }
 
 bool
 RFF_CheapShadowPerformance(void)
 {
-    return CheapShadowMode == CNFE_SHADOW_CHSMD_PERFORMANCE;
+    return CheapShadowMode == CNFE_GLOBAL_CHSMD_PERFORMANCE;
 }
 
 bool
@@ -108,110 +142,100 @@ RFF_ShadowOpacityChao(void)
     return CHEAPSHDWMD_TO_FLOAT( CHEAPSHDWMD_CHAO );
 }
 
+/****** Init ************************************************************************/
 void
 RFM_ShadowsInit(void)
 {
-    /****** Cheap Shadows / Modifiers ******/
+    if ( RF_ConfigGetInt(CNF_MISC_NOSHADOWS) )
     {
-        const CNFE_SHADOW_CHSMD chs_mode = RF_ConfigGetInt(CNF_SHADOW_CHSMD);
-
-        if (chs_mode != CNFE_SHADOW_CHSMD_DISABLED)
-        {
-            /** Init modifier engine **/
-            RFMOD_Init();
-
-            model_basic_shadow = RF_ChunkLoadModelFile("common/basic_mod");
-
-            if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
-                RFMOD_SetDrawMode(MODMD_DEBUG);
-
-            CheapShadowMode = chs_mode;
-        }
-    }
-
-    /** Set default alpha **/
-    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
-
-    /** Shadow opacity function hooks **/
-    Trampoline(0x0052AB7F, SetShadowOpacityChao);   // AL Constructor
-    Trampoline(0x0052AEA9, SetShadowOpacityGlobal); // AL Destructor
-
-    /****** Global Shadow Mode ******/
-
-    switch (RF_ConfigGetInt(CNF_SHADOW_GLMD)) {
-    case CNFE_SHADOW_GLMD_MODIFIER:
-
-        if (!RFF_CheapShadow())
-            break;
-
-        CHS_BoardInit();
-        CHS_MessengerInit();
-        CHS_BunchinInit();
-        CHS_ModModInit();
-        CHS_UdreelInit();
-        CHS_SearchBoxInit();
-        CHS_GoalRingInit();
-        CHS_EnemyInit();
-        CHS_IronBall2Init();
-        CHS_EggQuatersRobotInit();
-        CHS_ChaosDriveInit();
-        CHS_MinimalInit();
-        CHS_PickUpInit();
-        CHS_TankInit();
-        CHS_MDContainerBoxInit();
-        CHS_MeteoBigInit();
-        CHS_CCBlockInit();
-        CHS_BossInit();
-        CHS_CartInit();
-        CHS_ChaoWorldInit();
-        CHS_TruckInit();
-        CHS_CarInit();
-        CHS_ObjectBurstInit();
-        CHS_ObjectMSMadBox();
-        CHS_ObjectMDContWood();
-        break;
-
-    case CNFE_SHADOW_GLMD_VANILLA:
-        /** Vanilla shadows **/
-        RFG_ForceShadowMaps();
-        break;
-
-    case CNFE_SHADOW_GLMD_DISABLED:
         WriteRetn(0x0046FBC0); // Disable all shadows
         return;
     }
 
-    switch (RF_ConfigGetInt(CNF_SHADOW_PLMD)) {
-    case CNFE_SHADOW_PLMD_MODIFIER:
+    const CNFE_GLOBAL_CHSMD chs_mode = RF_ConfigGetInt(CNF_GLOBAL_CHSMD);
 
-        if (!RFF_CheapShadow())
+    /****** Global Shadow Mode ******/
+
+    switch ( RF_ConfigGetInt(CNF_PLAYER_SHADOWMD) )
+    {
+        case CNFE_PLAYER_SHADOWMD_MODIFIER:
+        {
+            if ( chs_mode == CNFE_GLOBAL_CHSMD_DISABLED )
+                break;
+
+            CHS_PlayerInit();
+            CheapShadowPlayer = true;
             break;
-
-        CHS_PlayerInit();
-        CheapShadowPlayer = true;
-        break;
-
-    case CNFE_SHADOW_PLMD_EQUIPMENT:
-        EnhancedPlayerShadowsInit();
-        EnhancedPlayerShadowsEquipmentInit();
-        RFG_ForceShadowMaps();
-        break;
-
-    case CNFE_SHADOW_PLMD_ENHANCED:
-        EnhancedPlayerShadowsInit();
-        RFG_ForceShadowMaps();
-        break;
-
-    case CNFE_SHADOW_PLMD_VANILLA:
-        /** Vanilla **/
-        RFG_ForceShadowMaps();
-        break;
+        }
+        case CNFE_PLAYER_SHADOWMD_ENHANCED:
+        {
+            EnhancedPlayerShadowsInit();
+            RFG_ForceShadowMaps();
+            break;
+        }
+        case CNFE_PLAYER_SHADOWMD_VANILLA:
+        {
+            RFG_ForceShadowMaps();
+            break;
+        }
     }
 
-    const int resolution = RF_ConfigGetInt(CNF_SHADOW_RES);
+    const CNFE_SHADOW_RES sm_resolution = RF_ConfigGetInt(CNF_MISC_SHADOWRES);
 
-    if (resolution != 1)
-        WriteData(0x0041F810, ResolutionList[resolution], uint32_t);
+    if (sm_resolution != CNFE_SHADOW_RES_LOW)
+        WriteData(0x0041F810, ResolutionList[sm_resolution], u32);
 
     RF_ObjPakRegisterShadowOpacity( RFF_ShadowOpacityGlobal() );
+
+    /** Init cheap shadows **/
+
+    if ( chs_mode == CNFE_GLOBAL_CHSMD_DISABLED )
+    {
+        RFG_ForceShadowMaps();
+        return;
+    }
+
+    /** Init modifier engine **/
+    RFMOD_Init();
+
+    model_basic_shadow = RF_ChunkLoadModelFile("common/basic_mod");
+
+    if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
+        RFMOD_SetDrawMode(MODMD_DEBUG);
+
+    CHS_BoardInit();
+    CHS_MessengerInit();
+    CHS_BunchinInit();
+    CHS_ModModInit();
+    CHS_UdreelInit();
+    CHS_SearchBoxInit();
+    CHS_GoalRingInit();
+    CHS_EnemyInit();
+    CHS_IronBall2Init();
+    CHS_EggQuatersRobotInit();
+    CHS_ChaosDriveInit();
+    CHS_MinimalInit();
+    CHS_PickUpInit();
+    CHS_TankInit();
+    CHS_MDContainerBoxInit();
+    CHS_MeteoBigInit();
+    CHS_CCBlockInit();
+    CHS_BossInit();
+    CHS_CartInit();
+    CHS_ChaoWorldInit();
+    CHS_TruckInit();
+    CHS_CarInit();
+    CHS_ObjectBurstInit();
+    CHS_ObjectMSMadBox();
+    CHS_ObjectMDContWood();
+
+    // save setting
+    CheapShadowMode = chs_mode;
+
+    /** Set default intensity **/
+    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
+
+    /** Shadow opacity function hooks **/
+    FuncHook(AL_ConstructorHookInfo, AL_Constructor, AL_ConstructorHook);
+    FuncHook(AL_DestructorHookInfo , AL_Destructor , AL_DestructorHook);
 }

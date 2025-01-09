@@ -31,6 +31,15 @@ typedef enum
 CNFE_BOOL;
 
 /****** Global Section ******************************************************/
+/** Cheap Shadow mode **/
+typedef enum
+{
+    CNFE_GLOBAL_CHSMD_DISABLED,
+    CNFE_GLOBAL_CHSMD_PERFORMANCE,
+    CNFE_GLOBAL_CHSMD_ENABLED,
+}
+CNFE_GLOBAL_CHSMD;
+
 /** Model tint fix mode **/
 typedef enum
 {
@@ -84,6 +93,15 @@ typedef enum
 CNFE_FONT_WIDTH;
 
 /****** Player Section ******************************************************/
+/** Player Shadow Mode **/
+typedef enum
+{
+    CNFE_PLAYER_SHADOWMD_VANILLA,
+    CNFE_PLAYER_SHADOWMD_ENHANCED,
+    CNFE_PLAYER_SHADOWMD_MODIFIER,
+}
+CNFE_PLAYER_SHADOWMD;
+
 /** Player Model Mode **/
 typedef enum
 {
@@ -95,34 +113,6 @@ typedef enum
 CNFE_PLAYER_MODEL;
 
 /****** Shadows Section *****************************************************/
-/** Cheap Shadow mode **/
-typedef enum
-{
-    CNFE_SHADOW_CHSMD_DISABLED,
-    CNFE_SHADOW_CHSMD_PERFORMANCE,
-    CNFE_SHADOW_CHSMD_ENABLED,
-}
-CNFE_SHADOW_CHSMD;
-
-/** Global mode **/
-typedef enum
-{
-    CNFE_SHADOW_GLMD_DISABLED,
-    CNFE_SHADOW_GLMD_VANILLA,
-    CNFE_SHADOW_GLMD_MODIFIER,
-}
-CNFE_SHADOW_GLMD;
-
-/** Player mode **/
-typedef enum
-{
-    CNFE_SHADOW_PLMD_VANILLA,
-    CNFE_SHADOW_PLMD_ENHANCED,
-    CNFE_SHADOW_PLMD_EQUIPMENT,
-    CNFE_SHADOW_PLMD_MODIFIER,
-}
-CNFE_SHADOW_PLMD;
-
 /** Shadow map resolution **/
 typedef enum
 {
@@ -134,15 +124,6 @@ typedef enum
     CNFE_SHADOW_RES_IMPERCEIVABLE
 }
 CNFE_SHADOW_RES;
-
-/** Shadow opacity **/
-typedef enum
-{
-    CNFE_SHADOW_OPACITY_VANILLA,
-    CNFE_SHADOW_OPACITY_DREAMCAST,
-    CNFE_SHADOW_OPACITY_DREAMCAST_CHAO,
-}
-CNFE_SHADOW_OPACITY;
 
 /****** Cart Section ********************************************************/
 /** Cart Sprite Fix **/
@@ -181,7 +162,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNFS_GLOBAL         "main"
 #define CNFS_FONT           "font"
 #define CNFS_PLAYER         "player"
-#define CNFS_SHADOW         "shadows"
 #define CNFS_COMMON         "common"
 
 /** Menus **/
@@ -220,6 +200,7 @@ CNFE_MISC_PAUSEFONTCOL;
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
+#define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */
 #define CNF_GLOBAL_BACKCOLOR        CNFO_INT(   CNFS_GLOBAL         , "backcolor"           , CNFE_BOOL_ENABLED                     )   /* Draw Back-Color */
 #define CNF_GLOBAL_PTCLSCALE        CNFO_INT(   CNFS_GLOBAL         , "ptcl_scl"            , CNFE_BOOL_ENABLED                     )   /* Fix Particle Scale */
 #define CNF_GLOBAL_SPRITE           CNFO_INT(   CNFS_GLOBAL         , "sprite"              , CNFE_BOOL_ENABLED                     )   /* Fix 3D Sprites */
@@ -239,13 +220,8 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
 #define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_PLAYER_TWALKFOOTMOD     CNFO_INT(   CNFS_PLAYER         , "twalk_footmod"       , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
-#define CNF_PLAYER_MODSHADOW        CNFO_INT(   CNFS_PLAYER         , "mod_shadow"          , CNFE_BOOL_ENABLED                     )   /* Disable player shadowing */
-
-/** Shadows section **/
-#define CNF_SHADOW_CHSMD            CNFO_INT(   CNFS_SHADOW         , "mod_shadow"          , CNFE_SHADOW_CHSMD_ENABLED             )   /* ???? */
-#define CNF_SHADOW_GLMD             CNFO_INT(   CNFS_SHADOW         , "mode_gl"             , CNFE_SHADOW_GLMD_MODIFIER             )   /* Global Shadow Mode */
-#define CNF_SHADOW_PLMD             CNFO_INT(   CNFS_SHADOW         , "mode_pl"             , CNFE_SHADOW_PLMD_MODIFIER             )   /* Character Shadows */
-#define CNF_SHADOW_RES              CNFO_INT(   CNFS_SHADOW         , "resolution"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
+#define CNF_PLAYER_SHADOWMD         CNFO_INT(   CNFS_PLAYER         , "shadow_md"           , CNFE_PLAYER_SHADOWMD_MODIFIER         )   /* Player Shadow Mode */
+#define CNF_PLAYER_MDLSHADOW        CNFO_INT(   CNFS_PLAYER         , "mdl_shadow"          , CNFE_BOOL_ENABLED                     )   /* Disable player shadowing */
 
 /** Common section **/
 #define CNF_COMMON_TR_SORT          CNFO_INT(   CNFS_COMMON         , "trans_sorting"       , CNFE_BOOL_ENABLED                     )   /* Transparancy Sorting Fixes */
@@ -302,6 +278,8 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
 #define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
+#define CNF_MISC_SHADOWRES          CNFO_INT(   CNFS_MISC           , "shadow_res"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
+#define CNF_MISC_NOSHADOWS          CNFO_INT(   CNFS_MISC           , "no_shadows"          , CNFE_BOOL_DISABLED                    )   /* Disable Shadows */
 
 /** Experimental section **/
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */

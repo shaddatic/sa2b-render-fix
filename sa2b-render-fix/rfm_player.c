@@ -193,7 +193,7 @@ RFM_PlayerInit(void)
         }
     }
 
-    if ( RF_ConfigGetInt( CNF_PLAYER_MODSHADOW ) == CNFE_BOOL_DISABLED )
+    if ( RF_ConfigGetInt( CNF_PLAYER_MDLSHADOW ) == CNFE_BOOL_DISABLED )
     {
         DisablePlayerShadowing = true;
 

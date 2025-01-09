@@ -5,6 +5,11 @@
 			<Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
 				<HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
 			</Property>
+			<Property name="mod_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
+				<HelpText>Modifier shadows, also known as Dreamcast shadows, use volume models for shadowing instead of textures. This also restores many shadows that were lost after the Dreamcast version.
+
+'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
+			</Property>
 			<Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
 				<HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
 			</Property>
@@ -67,24 +72,19 @@ This is a Render Fix exclusive enhancement, and was not present on the original 
 
 This is a Render Fix exclusive fix, and the bug was present on the original Dreamcast version.</HelpText>
 			</Property>
-			<Property name="mod_shadow" display="Character Model Shadowing" type="eBOOL" defaultvalue="1">
+			<Property name="shadow_md" display="Player Shadow Mode" type="ePL_SHAD_MODE" defaultvalue="2">
+				<HelpText>Which shadow type is cast by the player character.
+
+'Modifier' is the Dreamcast shadow system, and the recommended setting.
+
+'Enhanced' is the vanilla shadow system, but uses the main model and draws player equipment.
+
+Active development and support for the vanilla shadow system has ended, and it may be removed in the future.</HelpText>
+			</Property>
+			<Property name="mdl_shadow" display="Character Model Shadowing" type="eBOOL" defaultvalue="1">
 				<HelpText>Enable/Disable modifier shadows displaying on character models. On Dreamcast, this is a feature but here you can disable it if it's not for your taste.
 
 Disabling this may cause player characters to look out of place in some situations.</HelpText>
-			</Property>
-		</Group>
-		<Group name="shadows" display="Shadow Settings">
-			<Property name="mod_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
-				<HelpText>Modifier shadows use model volumes for shading, the same system used in the Dreamcast version. This setting only enables drawing. 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
-			</Property>
-			<Property name="mode_gl" display="Global Shadow Mode" type="eSHAD_MODE" defaultvalue="2">
-				<HelpText>Which shadow type should be used globally (excluding player characters). 'Modifier' is the Dreamcast shadow system.</HelpText>
-			</Property>
-			<Property name="mode_pl" display="Player Shadow Mode" type="eSHAD_PL_MODE" defaultvalue="3">
-				<HelpText>Which shadow type is cast by the player character. 'Modifier' is the Dreamcast shadow system.</HelpText>
-			</Property>
-			<Property name="resolution" display="Shadow Map Resolution" type="eSHAD_RES" defaultvalue="1">
-				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
 			</Property>
 		</Group>
 		<Group name="common" display="Common Settings">
@@ -216,6 +216,12 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="pause_font_col" display="Pause Font Colors" type="ePAUSE_FONT_COL" defaultvalue="1">
 				<HelpText>Which colors should be used for the pause menu text.</HelpText>
 			</Property>
+			<Property name="shadow_res" display="Shadow Map Resolution" type="eSHAD_RES" defaultvalue="1">
+				<HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
+			</Property>
+			<Property name="no_shadows" display="Disable Shadows" type="eBOOL" defaultvalue="0">
+				<HelpText>Disable all game shadows, modifier or shadow map.</HelpText>
+			</Property>
 		</Group>
 		<Group name="experimental" display="Experimental Settings">
 			<Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
@@ -287,15 +293,9 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<EnumMember name="1" display="Performance"></EnumMember>
 			<EnumMember name="0" display="Off/Disabled"></EnumMember>
 		</Enum>
-		<Enum name="eSHAD_MODE">
+		<Enum name="ePL_SHAD_MODE">
 			<EnumMember name="2" display="Modifier (Dreamcast)"></EnumMember>
-			<EnumMember name="1" display="Vanilla"></EnumMember>
-			<EnumMember name="0" display="Off/Disabled"></EnumMember>
-		</Enum>
-		<Enum name="eSHAD_PL_MODE">
-			<EnumMember name="3" display="Modifier (Dreamcast)"></EnumMember>
-			<EnumMember name="2" display="Enhanced w/ Equipment"></EnumMember>
-			<EnumMember name="1" display="Enhanced"></EnumMember>
+			<EnumMember name="1" display="Vanilla (Enhanced)"></EnumMember>
 			<EnumMember name="0" display="Vanilla"></EnumMember>
 		</Enum>
 		<Enum name="eSHAD_RES">
@@ -305,11 +305,6 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<EnumMember name="2" display="1024 x 1024 - (Medium)"></EnumMember>
 			<EnumMember name="1" display="512 x 512 --- (Low/Vanilla)"></EnumMember>
 			<EnumMember name="0" display="256 x 256 --- (Very Low)"></EnumMember>
-		</Enum>
-		<Enum name="eSHAD_OPACITY">
-			<EnumMember name="2" display="54.9% - (Dreamcast: Chao)"></EnumMember>
-			<EnumMember name="1" display="68.6% - (Dreamcast)"></EnumMember>
-			<EnumMember name="0" display="75.0% - (Vanilla)"></EnumMember>
 		</Enum>
 		<Enum name="eCART_SPRITE">
 			<EnumMember name="2" display="Enabled"></EnumMember>

@@ -51,7 +51,6 @@ void    CHS_CartInit();
 void    CHS_ChaoWorldInit();
 
 void    EnhancedPlayerShadowsInit();
-void    EnhancedPlayerShadowsEquipmentInit();
 
 EXTERN_END
 

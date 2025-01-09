@@ -507,7 +507,7 @@ RFG_TaskDisplayInit(void)
     KillCall(0x0047050E);
     KillCall(0x004708A3);
 
-    if (RF_ConfigGetInt(CNF_SHADOW_CHSMD) <= CNFE_SHADOW_CHSMD_PERFORMANCE)
+    if ( RFF_CheapShadowPerformance() )
     {
         /** Disable all the early draws to reduce draw calls **/
         ModShadowDrawList[MOD_DRAW_DISP_BASE_EARLY] = false;
@@ -517,7 +517,7 @@ RFG_TaskDisplayInit(void)
                                                                 effected stuff, so disable it entirely */
     }
 
-    if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
+    if ( RF_ConfigGetInt(CNF_DEBUG_MODIFIER) )
     {
         /** Disable all but one draw to stop the modifiers drawing too dark **/
         ModShadowDrawList[MOD_DRAW_DISP_BASE_EARLY] = false;

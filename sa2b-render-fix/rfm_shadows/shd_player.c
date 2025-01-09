@@ -588,11 +588,7 @@ EnhancedPlayerShadowsInit(void)
     WriteCall(0x00750196, __njCnkDrawMotionHook);
     WritePointer(0x007501B2, &mtx_MilesTails);  // Point shader tails matrix to actual tails matrix
     WritePointer(0x00750230, &mtx_MilesTails);  // ^
-}
 
-void
-EnhancedPlayerShadowsEquipmentInit(void)
-{
     config* pupgradeconf = GetDisableUpgradeModelsConfig();
 
     if (pupgradeconf)
