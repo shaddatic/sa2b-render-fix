@@ -200,7 +200,7 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 			</Property>
-			<Property name="draw_mod" display="Draw Shadow Modifiers" type="eBOOL" defaultvalue="1">
+			<Property name="draw_mod" display="Draw Shadow Modifiers Volumes" type="eBOOL" defaultvalue="1">
 				<HelpText>Draw shadow modifiers from the Dreamcast version.
 
 NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
@@ -210,8 +210,8 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 			<Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
 				<HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
 			</Property>
-			<Property name="race_tree_mod" display="Draw Race Tree Modifiers" type="eBOOL" defaultvalue="1">
-				<HelpText>Adds modifier shadows for Chao Race Trees, which normally don't have any.</HelpText>
+			<Property name="race_tree_mod" display="Chao Race Tree Shadows" type="eBOOL" defaultvalue="1">
+				<HelpText>Adds modifier shadows for Chao Race Trees which normally don't have any, even on Dreamcast.</HelpText>
 			</Property>
 			<Property name="pause_font_col" display="Pause Font Colors" type="ePAUSE_FONT_COL" defaultvalue="1">
 				<HelpText>Which colors should be used for the pause menu text.</HelpText>
@@ -236,7 +236,7 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 				<HelpText>Disables the Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods may enable this for you when needed.</HelpText>
 			</Property>
 			<Property name="old_atest" display="Use Old Alpha Test Parameters" type="eBOOL" defaultvalue="0">
-				<HelpText>Use pre-1.3.3 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.</HelpText>
+				<HelpText>Use pre-1.4 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.</HelpText>
 			</Property>
 			<Property name="off_bfc" display="Disable Back-Face Culling" type="eBOOL" defaultvalue="0">
 				<HelpText>Disable default-on back-face culling, due to some older mods still having issues with back-face culling on their custom models.</HelpText>
