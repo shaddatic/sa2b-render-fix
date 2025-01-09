@@ -141,11 +141,6 @@ RFM_GlobalInit(void)
 
     RFG_ModelTintInit();
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_SCRNTINT))
-    {
-        RF_ObjPakRegisterTintFix(true);
-    } 
-
     if (RF_ConfigGetInt(CNF_GLOBAL_SPOTLITE))
     {
         RfgSpotLight = true;

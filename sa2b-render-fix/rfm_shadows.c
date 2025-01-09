@@ -4,6 +4,7 @@
 /****** Core Toolkit ****************************************************************/
 #include <sa2b/core.h>          /* core                                             */
 #include <sa2b/writeop.h>       /* writejump                                        */
+#include <sa2b/writemem.h>      /* writedata                                        */
 #include <sa2b/funchook.h>      /* function hook                                    */
 
 /****** Ninja ***********************************************************************/
@@ -184,8 +185,6 @@ RFM_ShadowsInit(void)
 
     if (sm_resolution != CNFE_SHADOW_RES_LOW)
         WriteData(0x0041F810, ResolutionList[sm_resolution], u32);
-
-    RF_ObjPakRegisterShadowOpacity( RFF_ShadowOpacityGlobal() );
 
     /** Init cheap shadows **/
 

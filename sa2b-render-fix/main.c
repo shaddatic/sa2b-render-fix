@@ -104,7 +104,6 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
 
     /** End **/
     RFAPI_End();
-    RF_ObjPakWriteChangesToFile();
     RF_ConfigEnd();
 }
 
