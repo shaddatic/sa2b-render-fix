@@ -71,7 +71,7 @@ GetCharacterPlayer(int character)
 static void
 DrawSonicShadow(NJS_MOTION* motion, float frame)
 {
-    SONICWK* spwp = (SONICWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_SONIC)];
+    SONICWK* spwp = (SONICWK*)playerpwp[ GetCharacterPlayer( PLNO_SONIC ) ];
     SonicWorkPointer = spwp;
 
     njCnkSetMotionCallback(SonicMotionCallBack_p);
@@ -125,7 +125,7 @@ DrawSonicShadow(NJS_MOTION* motion, float frame)
 static void
 DrawShadowShadow(NJS_MOTION* motion, float frame)
 {
-    SONICWK* spwp = (SONICWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_SHADOW)];
+    SONICWK* spwp = (SONICWK*)playerpwp[ GetCharacterPlayer(PLNO_SHADOW) ];
     SonicWorkPointer = spwp;
 
     njCnkSetMotionCallback(ShadowMotionCallBack_p);
@@ -161,7 +161,7 @@ DrawShadowShadow(NJS_MOTION* motion, float frame)
 static void
 DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 {
-    KNUCKLESWK* kwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_KNUCKLES)];
+    KNUCKLESWK* kwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer( PLNO_KNUCKLES )];
     KnucklesWorkPointer = kwp;
 
     njCnkSetMotionCallback(KnucklesMotionCallBack_p);
@@ -236,7 +236,7 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 static void
 DrawRougeShadow(NJS_MOTION* motion, float frame)
 {
-    KNUCKLESWK* rwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_ROUGE)];
+    KNUCKLESWK* rwp = (KNUCKLESWK*)playerpwp[ GetCharacterPlayer( PLNO_ROUGE ) ];
     KnucklesWorkPointer = rwp;
 
     njCnkSetMotionCallback(RougeMotionCallBack_p);
@@ -302,7 +302,7 @@ DrawRougeShadow(NJS_MOTION* motion, float frame)
 static void
 DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
 {
-    WALKERWK* ewwp = (WALKERWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_EGGWALKER)];
+    WALKERWK* ewwp = (WALKERWK*)playerpwp[ GetCharacterPlayer( PLNO_EGG_WALKER ) ];
     EggWalkerWorkPointer = ewwp;
 
     njCnkSetMotionCallback(EggWalkerMotionCallBack_p);
@@ -385,7 +385,7 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
 static void
 DrawTornadoShadow(NJS_MOTION* motion, float frame)
 {
-    WALKERWK* ewwp = (WALKERWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_TORNADO)];
+    WALKERWK* ewwp = (WALKERWK*)playerpwp[ GetCharacterPlayer( PLNO_TAILS_WALKER ) ];
     EggWalkerWorkPointer = ewwp;
 
     njCnkSetMotionCallback(TornadoWalkerMotionCallBack_p);
@@ -478,7 +478,7 @@ DrawEggmanShadow(NJS_MOTION* motion, float frame)
 static void
 DrawMilesShadow(NJS_MOTION* motion, float frame)
 {
-    MilesWorkPointer = (MILESWK*)playerpwp[GetCharacterPlayer(ADV2_PLNO_TAILS)];
+    MilesWorkPointer = (MILESWK*)playerpwp[GetCharacterPlayer( PLNO_MILES )];
 
     njCnkSetMotionCallback(MilesMotionCallBack_p);
     njCnkDrawMotion(CHAR_OBJECTS[208].pObject, motion, frame);

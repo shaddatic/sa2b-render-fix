@@ -326,19 +326,19 @@ SonicDisplayerShadowHook(task* tp)
     SonicWorkPointer = swp;
 
     switch (swp->pw.ch_num_multi) {
-    case ADV2_PLNO_SONIC:
+    case PLNO_SONIC:
         njCnkSetMotionCallback(SonicMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_SHADOW:
+    case PLNO_SHADOW:
         njCnkSetMotionCallback(ShadowMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_AMY:
+    case PLNO_AMY:
         njCnkSetMotionCallback(AmyMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_METAL_SONIC:
+    case PLNO_METAL_SONIC:
         njCnkSetMotionCallback(MetalSonicMotionCallBack_p);
         break;
     }
@@ -414,7 +414,7 @@ SonicDisplayerShadowHook(task* tp)
         }
         else
         {
-            if ((twp->flag & BALL_FLAG) && swp->pw.ch_num_multi != ADV2_PLNO_METAL_SONIC && (swp->flag & 0x11))
+            if ((twp->flag & BALL_FLAG) && swp->pw.ch_num_multi != PLNO_METAL_SONIC && (swp->flag & 0x11))
             {
                 mtnnum = 30;
                 p_object = CHAR_OBJECTS[swp->pw.mj.plactptr[mtnnum].objnum].pObject;
@@ -431,19 +431,19 @@ SonicDisplayerShadowHook(task* tp)
     njPopMatrixEx();
 
     switch (swp->pw.ch_num_multi) {
-    case ADV2_PLNO_SONIC:
+    case PLNO_SONIC:
         SonicDrawMod(twp, &swp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_SHADOW:
+    case PLNO_SHADOW:
         TeriosDrawMod(twp, &swp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_AMY:
+    case PLNO_AMY:
         AmyDrawMod(twp, &swp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_METAL_SONIC:
+    case PLNO_METAL_SONIC:
         MetalSonicDrawMod(twp, &swp->pw, mtnnum);
         break;
     }
@@ -1011,19 +1011,19 @@ KnucklesDisplayerShadowHook(task* tp)
     KnucklesWorkPointer = knwp;
 
     switch (knwp->pw.ch_num_multi) {
-    case ADV2_PLNO_KNUCKLES:
+    case PLNO_KNUCKLES:
         njCnkSetMotionCallback(KnucklesMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_ROUGE:
+    case PLNO_ROUGE:
         njCnkSetMotionCallback(RougeMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_TIKAL:
+    case PLNO_TICAL:
         njCnkSetMotionCallback((void*)0x0072F690);
         break;
 
-    case ADV2_PLNO_CHAOS:
+    case PLNO_CHAOS0:
         njCnkSetMotionCallback((void*)0x007315E0);
         break;
     }
@@ -1123,19 +1123,19 @@ KnucklesDisplayerShadowHook(task* tp)
     njCnkSetMotionCallback(NULL);
 
     switch (knwp->pw.ch_num_multi) {
-    case ADV2_PLNO_KNUCKLES:
+    case PLNO_KNUCKLES:
         KnucklesDisplayMod(twp, &knwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_ROUGE:
+    case PLNO_ROUGE:
         RougeDisplayMod(twp, &knwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_TIKAL:
+    case PLNO_TICAL:
         TikalDisplayMod(twp, &knwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_CHAOS:
+    case PLNO_CHAOS0:
         ChaosDisplayMod(twp, &knwp->pw, mtnnum);
         break;
     }
@@ -1330,19 +1330,19 @@ EggWalkerDisplayerShadowHook(task* tp)
     EggWalkerWorkPointer = wwp;
 
     switch (wwp->pw.ch_num_multi) {
-    case ADV2_PLNO_TORNADO:
+    case PLNO_TAILS_WALKER:
         njCnkSetMotionCallback(TornadoWalkerMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_EGGWALKER:
+    case PLNO_EGG_WALKER:
         njCnkSetMotionCallback(EggWalkerMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_CHAO_WALKER:
+    case PLNO_CHAO_WALKER:
         njCnkSetMotionCallback(ChaoWalkerMotionCallBack_p);
         break;
 
-    case ADV2_PLNO_DARK_CHAO_WALKER:
+    case PLNO_DARK_WALKER:
         njCnkSetMotionCallback(DarkChaoWalkerMotionCallBack_p);
         break;
     }
@@ -1422,19 +1422,19 @@ EggWalkerDisplayerShadowHook(task* tp)
     njCnkSetMotionCallback(NULL);
 
     switch (wwp->pw.ch_num_multi) {
-    case ADV2_PLNO_TORNADO:
+    case PLNO_TAILS_WALKER:
         TornadoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_EGGWALKER:
+    case PLNO_EGG_WALKER:
         EggWalkerDisplayMod(twp, &wwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_CHAO_WALKER:
+    case PLNO_CHAO_WALKER:
         ChaoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
         break;
 
-    case ADV2_PLNO_DARK_CHAO_WALKER:
+    case PLNO_DARK_WALKER:
         DarkChaoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
         break;
     }

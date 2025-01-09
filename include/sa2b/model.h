@@ -110,6 +110,33 @@ size_t  MDL_CountObject( const ANY_OBJECT* pObject );
 size_t  MDL_ChunkGetVListSize( const Sint32* pVList );
 size_t  MDL_ChunkGetPListSize( const Sint16* pPList );
 
+/************************/
+/*  New Functions       */
+/************************/
+/*
+*   Description:
+*     Load a 'sa2mdl' file and return only the first model.
+*
+*   Parameters:
+*     - fpath       : path to file
+*
+*   Returns:
+*     Loaded Chunk model; or 'nullptr' on failure.
+*/
+NJS_CNK_MODEL*  mtLoadChunkModelFile( const utf8* fpath );
+/*
+*   Description:
+*     Get a particular object node in an object tree.
+*
+*   Parameters:
+*     - pObject     : object tree head
+*     - ixNode      : node index
+*
+*   Returns:
+*     An object at the given node index; or the closest possible node index.
+*/
+ANY_OBJECT* mtGetObjectNode( const ANY_OBJECT* pObject, s32 ixNode );
+
 EXTERN_END
 
 #endif /* _SAMT_MODEL_H_ */
