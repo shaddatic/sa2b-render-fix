@@ -17,7 +17,7 @@
 
 /** Constants **/
 #define TINT_VALUE          (1.f)
-#define SHADOW_INTENSITY    (1.f - (80.f * (1.f / 256.f))) // rjSetCheapShadowMode(80);
+#define SHADOW_INTENSITY    (80.f * (1.f / 256.f)) // rjSetCheapShadowMode(80);
 
 /** Source **/
 void
