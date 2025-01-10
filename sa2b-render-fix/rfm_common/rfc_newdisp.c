@@ -27,4 +27,5 @@ RFC_NewDisplayerInit(void)
     RFCD_ItemBoxInit();
     RFCD_PrisonSirenInit();
     RFCD_FinalChaseGravityCylinderInit();
+    RFCD_JungleObjectInit();
 }

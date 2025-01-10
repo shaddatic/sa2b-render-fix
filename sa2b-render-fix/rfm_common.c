@@ -73,18 +73,6 @@ EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
     return err;
 }
 
-EXTERN NJS_TEXLIST texlist_jo_tree[];
-
-static GJS_OBJECT*
-RF_GinjaLoadObjectFile(const utf8* fname)
-{
-    utf8 buf[260];
-
-    snprintf(buf, 260, "%s/model/%s.sa2bmdl", GetModPath(), fname);
-
-    return MDL_GinjaLoadObjectFile(buf);
-}
-
 #define ObjectGlobalLightManagerTaskPointer     DATA_REF(task*, 0x01A5A660)
 
 static void
@@ -277,15 +265,6 @@ RFM_CommonInit(void)
         static const double bloondbl = 85.0;
 
         ReplaceFloat(0x006251EE, &bloondbl);
-    }
-
-    if (RF_ConfigGetInt(CNF_COMMON_JOTREE))
-    {
-        GJS_OBJECT* object_jo_tree = RF_GinjaLoadObjectFile("jo_tree");
-
-        WritePointer(0x01072D5C, texlist_jo_tree); // Green Forest
-
-        WritePointer(0x010737B4, object_jo_tree->model); // Green Forest
     }
 
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);

@@ -23,6 +23,7 @@
     <ClCompile Include="rfm_cgadget.c" />
     <ClCompile Include="rfm_common\rfc_newdisp.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c" />
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_jg_jo.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_ring.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_spring.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_pr_siren.c" />

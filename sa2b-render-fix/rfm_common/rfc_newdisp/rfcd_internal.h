@@ -61,6 +61,11 @@ void    RFCD_SpringInit( void );
 *     Goalring/Lost Chao displayer init.
 */
 void    RFCD_GoalringInit( void );
+/*
+*   Description:
+*     Green Forest 'Jungle Object' displayer init.
+*/
+void    RFCD_JungleObjectInit(void);
 
 EXTERN_END
 

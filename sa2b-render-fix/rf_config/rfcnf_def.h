@@ -228,7 +228,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_COMMON_AISHEILD         CNFO_INT(   CNFS_COMMON         , "e_ai_shield"         , CNFE_BOOL_ENABLED                     )   /* DC GUN Hunter Shield */
 #define CNF_COMMON_ESTGTEX          CNFO_INT(   CNFS_COMMON         , "e_stg_tex"           , CNFE_BOOL_ENABLED                     )   /* Stage Specific Enemy Textures */
 #define CNF_COMMON_TR_BLOON         CNFO_INT(   CNFS_COMMON         , "balloon_trans"       , CNFE_BOOL_ENABLED                     )   /* Item Balloon Transparency */
-#define CNF_COMMON_JOTREE           CNFO_INT(   CNFS_COMMON         , "jo_tree"             , CNFE_BOOL_ENABLED                     )   /* Tree Jungle Object */
 #define CNF_COMMON_DCRING           CNFO_INT(   CNFS_COMMON         , "dc_ring"             , CNFE_BOOL_DISABLED                    )   /* DC Ring Shadows */
 
 /** Main Menus section **/
