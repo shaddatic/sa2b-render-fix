@@ -90,7 +90,7 @@ typedef enum
 
     NB_CNFE_FONT_SPACE,
 }
-CNFE_FONT_WIDTH;
+CNFE_FONT_SPACE;
 
 /****** Player Section ******************************************************/
 /** Player Shadow Mode **/
@@ -143,7 +143,7 @@ typedef enum
     CNFE_EVENT_43MD_VANILLA,
     CNFE_EVENT_43MD_ALWAYS,
 }
-CNFE_CART_CARTSPRITE;
+CNFE_EVENT_43MD;
 
 /****** Misc Section ********************************************************/
 /** Cart Sprite Fix **/
