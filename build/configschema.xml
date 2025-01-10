@@ -95,7 +95,7 @@ Disabling this may cause player characters to look out of place in some situatio
 				<HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
 			</Property>
 			<Property name="e_ai_shield" display="DC GUN Hunter Shield" type="eBOOL" defaultvalue="1">
-				<HelpText>Restores the Dreamcast's version of the Hunter's Shield, which looks noticeable less broken.</HelpText>
+        <HelpText>Restores the Dreamcast's version of the Hunter's Shield, which looks noticeably less broken.</HelpText>
 			</Property>
 			<Property name="e_stg_tex" display="Stage Specific Enemy Textures" type="eBOOL" defaultvalue="1">
 				<HelpText>Restores enemy textures that were specific to some stages in the Dreamcast version.</HelpText>
