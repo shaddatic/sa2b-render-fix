@@ -180,13 +180,23 @@ DrawGameHUDHook(void)
 static bool
 LandTableIsGinja(const OBJ_LANDTABLE* pLand)
 {
-    const int count = pLand->ssVisibleCount;
+    int count = pLand->ssVisibleCount;
+
+    if (count < 0)
+        count = pLand->ssCount;
 
     for (int i = 0; i < count; ++i)
     {
         const OBJ_LANDENTRY* const p_entry = &pLand->pLandEntry[i];
 
         const NJS_CNK_OBJECT* const p_obj = p_entry->pObject;
+
+        /** If entry isn't set to draw, skip **/
+
+        if ( !(p_entry->slAttribute & LANDATTR_DRAW) )
+        {
+            continue;
+        }
 
         /** Chunk models are unlikely to not have 'plist' data, while Ginja models
           never uses that pointer in SA2. If 'plist' exists, it's almost
