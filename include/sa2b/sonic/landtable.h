@@ -29,24 +29,25 @@ typedef struct zxsdwstr    zxsdwstr;
 /************************/
 /*  Land Entry Flags    */
 /************************/
-#define LANDATTR_SOLID          (0x00000001)
-#define LANDATTR_WATER          (0x00000002)
+#define LANDATTR_GROUND         (0x00000001) /* collision: ground                   */
+#define LANDATTR_WATER          (0x00000002) /* collision: water, swimable          */
 #define LANDATTR_DIGGABLE       (0x00000020)
 #define LANDATTR_NOCLIMB        (0x00000080)
 #define LANDATTR_STAIRS         (0x00000100)
 #define LANDATTR_HURT           (0x00000400)
 #define LANDATTR_FOOTSTEPS      (0x00000800)
 #define LANDATTR_NOLANDING      (0x00001000)
-#define LANDATTR_NOALPHA        (0x00002000)
+#define LANDATTR_WATER_SLOW     (0x00002000) /* collision: water, slow movement     */
 #define LANDATTR_NOSHADOW       (0x00008000) /* no shadow maps                      */
 #define LANDATTR_ACCELERATE     (0x00100000)
 #define LANDATTR_NOFOG          (0x00400000) /* disable fog for land entry          */
+#define LANDATTR_MAXCLIP        (0x00800000) /* ignore LT far clip and use nj clip  */
 #define LANDATTR_COMPILED       (0x02000000) /* compiled with DirectCompile         */
 #define LANDATTR_NOCOMPILE      (0x04000000) /* don't compile model                 */
 #define LANDATTR_DYNAMIC        (0x08000000)
 #define LANDATTR_UNK1           (0x20000000) // Usually medium-sized collisions
 #define LANDATTR_UNK2           (0x40000000) // Usually small-sized collisions
-#define LANDATTR_VISIBLE        (0x80000000) /* land entry is visible geometry      */
+#define LANDATTR_DRAW           (0x80000000) /* land entry is to be drawn           */
 
 /************************/
 /*  Structures          */
