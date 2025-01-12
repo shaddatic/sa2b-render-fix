@@ -204,7 +204,11 @@ NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
 The black shadows were a deliberate choice made to make the rings easier to see, but the code was lost when porting to Battle.</HelpText>
       </Property>
       <Property name="shadow_res" display="Shadow Map Resolution" type="eSHAD_RES" defaultvalue="1">
-        <HelpText>Changes the resolution of the shadow texture used, higher values lead to less pixelated shadows at the cost of memory and performance - lower values the opposite.</HelpText>
+        <HelpText>Changes the resolution of the texture used by shadow maps.
+
+Higher values lead to less pixelated shadow maps at the cost of memory and performance, lower values the opposite.
+
+Shadow maps are no longer actively supported, and may be removed in the future.</HelpText>
       </Property>
       <Property name="no_shadows" display="Disable Shadows" type="eBOOL" defaultvalue="0">
         <HelpText>Disable all game shadows, modifier or shadow map.</HelpText>
