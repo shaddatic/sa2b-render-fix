@@ -139,7 +139,10 @@ void    njUnitMatrix( NJS_MATRIX* m );
 /****** Multiply Matrices ***********************************************************/
 /*
 *   Description:
-*     Pre-multiply two matrices together
+*     Pre-multiply a matrix with another matrix.
+* 
+*   Notes:
+*     - ( md = md * ms )
 *
 *   Parameters:
 *     - md      : destination matrix (optional)
@@ -148,8 +151,11 @@ void    njUnitMatrix( NJS_MATRIX* m );
 void    njMultiMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
 /*
 *   Description:
-*     Post-multiply two matrices together
-*
+*     Post-multiply a matrix with another matrix.
+* 
+*   Notes:
+*     - ( md = ms * md )
+* 
 *   Parameters:
 *     - md      : destination matrix (optional)
 *     - ms      : matrix to multiply with
