@@ -71,9 +71,6 @@ rjCnkBeginEnv(const NJS_MATRIX* pMtx)
 void
 rjCnkBeginDrawModel(void)
 {
-    _nj_cnk_last_strip_flags_ =  0;
-    _nj_cnk_strip_flags_      = -1;
-
     if ( (_nj_control_3d_flag_ & 0x80000) )
     {
         gjStartVertex3D(_nj_curr_matrix_, 0);
