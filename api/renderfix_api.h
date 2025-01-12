@@ -822,7 +822,7 @@ typedef struct
     *
     *   Notes:
     *     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality
-    *     is otherwise the same excluding the 'SimpleDraw' only limitation.
+    *     is otherwise the same.
     *     - Reset these values to '0.f' when drawing is complete.
     *     - Currently only applies to normal-less environment maps, as they aren't
     *     calculated in-shader.
