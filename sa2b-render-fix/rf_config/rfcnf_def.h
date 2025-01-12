@@ -290,7 +290,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 
 /** Hidden section **/
-#define CNF_HIDDEN_VERSION          CNFO_INT(   CNFS_HIDDEN         , "cnf_ver"             , 0                                     )   /* Config file version */
 #define CNF_HIDDEN_DXVK_CHK         CNFO_INT(   CNFS_HIDDEN         , "dxvk_chk"            , false                                 )   /* If the user has been asked about DXVK */
 
 #endif/*_RF_CONFIG_DEF_H_*/
