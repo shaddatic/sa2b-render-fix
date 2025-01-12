@@ -95,27 +95,14 @@ VertexDeclarationInfo;
 /****** Chunk Context ***************************************************************/
 typedef struct
 {
-    s8 b, g, r, e;
-}
-CNK_SPEC;
+    Uint32   flag;      /* context flags                                            */
 
-typedef struct
-{
-    Uint16 headbits;
-    Uint16 texbits;
-}
-CNK_TINY_OLD;
-
-typedef struct
-{
-    Uint32   flag;
-
-    Sint16   fst;   // at the top for packing reasons
-    Sint16   blend;
-    CNK_TINY tiny;
-    NJS_BGRA diff;
-    NJS_BGRA ambi;
-    CNK_SPEC spec;
+    Sint16   fst;       /* strip flags, at the top for packing reasons              */
+    Sint16   blend;     /* alpha blend mode                                         */
+    CNK_TINY tiny;      /* texture material                                         */
+    NJS_BGRA diff;      /* diffuse material                                         */
+    NJS_BGRA ambi;      /* ambient material, 'a' is ignored                         */
+    NJS_BGRA spec;      /* specular material, 'a' is exponent                       */
 }
 CNK_CTX;
 

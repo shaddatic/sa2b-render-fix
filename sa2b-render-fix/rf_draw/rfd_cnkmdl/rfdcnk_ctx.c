@@ -452,7 +452,7 @@ rjCnkSetMaterial(CNK_CTX* restrict pCtx, const Sint16* plist)
     }
     if (flag & 4)
     {
-        pCtx->spec = *(CNK_SPEC*)(&plist[mat_index]);
+        pCtx->spec = *(NJS_BGRA*)(&plist[mat_index]);
     }
 
     pCtx->flag |= ( flag << CTXFLG_SHIFT_MAT );
