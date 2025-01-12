@@ -120,18 +120,17 @@ CNK_RingModelDisp(const task* tp)
 }
 
 static void
-CNK_RingModelDispDely(const task* tp)
+CNK_DrawRingShadow(void)
 {
-    if (DrawThingBitMask)
-        return;
+    njSetTexture(texlist_ringshadow);
 
-    if (DisableObjectFog)
-        njFogDisable();
+    njPushMatrixEx();
+    {
+        njScale(NULL, 0.2f, 1.f, 0.2f);
 
-
-
-    if (DisableObjectFog)
-        njFogEnable();
+        njCnkDirectDrawModel(object_ringshadow->model);
+    }
+    njPopMatrixEx();
 }
 
 /****** Init ************************************************************************/
@@ -139,9 +138,10 @@ void
 RFCD_RingInit(void)
 {
     WriteJump(0x006C2AF0, CNK_RingModelDisp);
-    WriteJump(0x006C2C70, CNK_RingModelDispDely);
+    WriteRetn(0x006C2C70);            // disp_dely
+    WriteNOP(0x006C2EA0, 0x006C2EA7); // tp->disp_dely = func;
 
-    WriteRetn(0x006C2C70);
+    WriteJump(0x006BD500, CNK_DrawRingShadow);
 
     ___NOTE("Fix tinting: Temporary until specular is restored");
 
