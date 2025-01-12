@@ -64,11 +64,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     pCtx->flag &= ~CTXFLG_CTX_TINY;
 
-    /** get context **/
-
-    //const Uint16 headbits = pCtx->tiny.headbits;
-    //const Uint16 texbits  = pCtx->tiny.texbits;
-
     /** get texture **/
 
     s16 texid = pCtx->tiny.texid; //texbits & NJD_TID_MASK;
@@ -219,28 +214,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
             break;
         }
     }
-
-    //if (headbits & NJD_FCL_U) // CLamp
-    //{
-    //    p_tinfo->address_u = 0;
-    //}
-    //else if (headbits & NJD_FFL_U) // FLip (mirror)
-    //{
-    //    p_tinfo->address_u = 2;
-    //}
-    //else
-    //    p_tinfo->address_u = 1; // repeat
-    //
-    //if (headbits & NJD_FCL_V) // CLamp
-    //{
-    //    p_tinfo->address_v = 0;
-    //}
-    //else if (headbits & NJD_FFL_V) // FLip (mirror)
-    //{
-    //    p_tinfo->address_v = 2;
-    //}
-    //else
-    //    p_tinfo->address_v = 1; // repeat
 
     /** tes5 **/
 
