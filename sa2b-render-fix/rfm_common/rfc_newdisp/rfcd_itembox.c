@@ -14,6 +14,8 @@
 #include <rf_renderstate.h>
 #include <rf_enemywk.h>
 #include <rf_njcnk.h>
+#include <rf_util.h>
+#include <rf_mdlutil.h>
 
 typedef struct 
 {
