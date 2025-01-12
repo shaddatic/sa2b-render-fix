@@ -103,7 +103,7 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
       model draw **/
     
     if ( ShaderLast != 1 )
-        SetShaders(1); 
+        SetShaders(1);
 
     /** The VList functions have the unique ability to halt drawing by returning
       '-1', used when it encounters a vertex format it can't parse. For example,
