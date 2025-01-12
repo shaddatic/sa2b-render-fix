@@ -18,6 +18,10 @@
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings              */
 
+___NOTE("EasyDraw is used here, but they actually used DirectDraw. However, using"
+        "Direct caused the models to become way too dark due to lacking specular."
+        "When specular is restored, these all should be switched to DirectDraw");
+
 /************************/
 /*  Game Data           */
 /************************/
@@ -28,9 +32,9 @@
 #define object_springb          DATA_ARY(NJS_CNK_OBJECT, 0x00B5484C, [1])
 
 /****** 3 Spring ********************************************************************/
-#define texlist_3spring             DATA_ARY(NJS_TEXLIST   , 0x00B1DF18, [1])
+#define texlist_3spring         DATA_ARY(NJS_TEXLIST   , 0x00B1DF18, [1])
 
-#define object_3spring              DATA_ARY(NJS_CNK_OBJECT, 0x00B1ECC4, [1])
+#define object_3spring          DATA_ARY(NJS_CNK_OBJECT, 0x00B1ECC4, [1])
 
 /************************/
 /*  Source              */
@@ -183,6 +187,5 @@ RFCD_SpringInit(void)
 {
     WriteJump(0x006C4AA0, CNK_ObjectSpringADisp);
     WriteJump(0x006C50E0, CNK_ObjectSpringBDisp);
-
     WriteJump(0x006D94D0, CNK_Object3SpringDisp);
 }
