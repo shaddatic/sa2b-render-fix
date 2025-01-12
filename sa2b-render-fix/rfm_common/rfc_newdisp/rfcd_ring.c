@@ -148,6 +148,6 @@ RFCD_RingInit(void)
     RF_CnkModelMaterialDiffuse(object_ring0->model, -1, -1, 0xFF, 0xFF, 0xFF);
     RF_CnkModelMaterialDiffuse(object_ring1->model, -1, -1, 0xFF, 0xFF, 0xFF);
 
-    if ( RF_ConfigGetInt(CNF_COMMON_DCRING) )
+    if ( RF_ConfigGetInt(CNF_MISC_DCRING) )
         RF_CnkModelMaterialDiffuse(object_ringshadow->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
 }
