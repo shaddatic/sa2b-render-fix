@@ -410,14 +410,9 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
 static void
 rjCnkContextLight(const CNK_CTX* restrict pCtx)
 {
-    const int fst_8 = (pCtx->fst >> 8);
+    ___NOTE("To be replaced in a later update");
 
-    const int light_flag = _nj_cnk_strip_flags_ | (_nj_cnk_last_strip_flags_ ^ fst_8);
-
-    _nj_cnk_last_strip_flags_ = fst_8;
-
-    if (light_flag & 1)
-        CnkSetupLights_Ext(fst_8);
+    CnkSetupLights_Ext( (pCtx->fst >> 8) );
 }
 
 /****** Extern **********************************************************************/
