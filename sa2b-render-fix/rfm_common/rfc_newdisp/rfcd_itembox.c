@@ -23,10 +23,63 @@ typedef struct
 ITEMBOX_INFO;
 
 #define texlist_itembox         DATA_ARY(NJS_TEXLIST  , 0x00B493F8, [1])
-#define model_itembox_bubble    DATA_ARY(NJS_CNK_MODEL, 0x00B497C4, [1])
+
+#define object_itembox          DATA_ARY(NJS_CNK_OBJECT, 0x00B4A19C, [1])
 
 #define ItemBoxInfoList         DATA_ARY(ITEMBOX_INFO, 0x00B4D120, [11])
 #define DisableObjectFog        DATA_REF(b32         , 0x01AEFE64)
+
+static void
+ObjectItemBoxDisp_RF(task* tp)
+{
+    NJS_CNK_OBJECT* obj_base = object_itembox;
+    NJS_CNK_OBJECT* obj_top  = obj_base->child;
+//  NJS_CNK_OBJECT* obj_dome = obj_top->sibling;
+
+    const taskwk* twp = tp->twp;
+
+    njSetTexture(texlist_itembox);
+
+    njPushMatrixEx();
+
+    njTranslateEx(&twp->pos);
+    njRotateY(NULL, twp->ang.y);
+    njRotateZ(NULL, twp->ang.z);
+    njScale(NULL, twp->scl.z, twp->scl.z, twp->scl.z);
+
+    if (DisableObjectFog)
+        njFogDisable();
+
+    njCnkDirectDrawModel(obj_base->model);
+    njCnkDirectDrawModel(obj_top->model);
+
+    if (DisableObjectFog)
+        njFogEnable();
+
+    njPopMatrixEx();
+}
+
+static void
+ObjectItemBoxGotDisp_RF(task* tp)
+{
+    NJS_CNK_OBJECT* obj_base = object_itembox;
+//  NJS_CNK_OBJECT* obj_top  = obj_base->child;
+//  NJS_CNK_OBJECT* obj_dome = obj_top->sibling;
+
+    const taskwk* twp = tp->twp;
+
+    njSetTexture(texlist_itembox);
+
+    njPushMatrixEx();
+
+    njTranslateEx(&twp->pos);
+    njRotateY(NULL, twp->ang.y);
+    njRotateZ(NULL, twp->ang.z);
+
+    njCnkDirectDrawModel(obj_base->model);
+
+    njPopMatrixEx();
+}
 
 static const void* const DrawItemBoxItemTexture_p = (void*)0x006DF030;
 static int32_t
@@ -52,6 +105,10 @@ DrawItemBoxItemTexture(int texid, NJS_POINT3* pos, Angle angy, float scl)
 static void
 ObjectItemBoxDispSort_RF(task* tp)
 {
+    NJS_CNK_OBJECT* obj_base = object_itembox;
+    NJS_CNK_OBJECT* obj_top  = obj_base->child;
+    NJS_CNK_OBJECT* obj_dome = obj_top->sibling;
+
     taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
@@ -68,7 +125,7 @@ ObjectItemBoxDispSort_RF(task* tp)
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
     {
-        njCnkSimpleDrawModel(model_itembox_bubble);
+        njCnkDirectDrawModel(obj_dome->model);
     }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
@@ -89,7 +146,7 @@ ObjectItemBoxDispSort_RF(task* tp)
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
     {
-        njCnkSimpleDrawModel(model_itembox_bubble);
+        njCnkDirectDrawModel(obj_dome->model);
     }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
@@ -100,16 +157,19 @@ ObjectItemBoxDispSort_RF(task* tp)
 }
 
 #define texlist_itemboxair          DATA_ARY(NJS_TEXLIST  , 0x00B48784, [1])
-#define model_itemboxair_bubble     DATA_ARY(NJS_CNK_MODEL, 0x00B48B44, [1])
 
-#define model_itemboxair_base       DATA_ARY(NJS_CNK_MODEL, 0x00B492EC, [1])
-#define model_itemboxair_top        DATA_ARY(NJS_CNK_MODEL, 0x00B48F64, [1])
+#define object_itemboxair           DATA_ARY(NJS_CNK_OBJECT, 0x00B49304, [1])
 
 #define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
 
 static void
 ObjectItemBoxAirDispSort_RF(task* tp)
 {
+    NJS_CNK_OBJECT* obj_base = object_itemboxair;
+    NJS_CNK_OBJECT* obj_top  = obj_base->child;
+    NJS_CNK_OBJECT* obj_item = obj_top->sibling;
+    NJS_CNK_OBJECT* obj_dome = obj_item->sibling;
+
     taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
@@ -143,18 +203,17 @@ ObjectItemBoxAirDispSort_RF(task* tp)
         OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL | NJD_CONTROL_3D_OFFSET_MATERIAL);
         OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR | NJD_CONTROL_3D_CONSTANT_MATERIAL);
 
-        _nj_constant_attr_and_ = 0xFF;
-        _nj_constant_attr_or_  = 0x800;
+        njSetConstantAttr(NJD_FST_MASK, NJD_FST_UA);
     }
 
     njSetTexture(texlist_itemboxair);
 
-    njCnkSimpleDrawModel(model_itemboxair_base);
-    njCnkSimpleDrawModel(model_itemboxair_top);
+    njCnkDirectDrawModel(obj_base->model);
+    njCnkDirectDrawModel(obj_top->model);
 
     RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
     {
-        njCnkSimpleDrawModel(model_itemboxair_bubble);
+        njCnkDirectDrawModel(obj_dome->model);
     }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
@@ -175,7 +234,7 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
     {
-        njCnkSimpleDrawModel(model_itemboxair_bubble);
+        njCnkDirectDrawModel(obj_dome->model);
     }
     RFRS_SetCullMode(RFRS_CULLMD_END);
 
@@ -195,7 +254,44 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 void
 RFCD_ItemBoxInit(void)
 {
+    /** Item Box, Ground **/
+
+    WriteJump(0x006C8280, ObjectItemBoxDisp_RF);
     WriteJump(0x006C83B0, ObjectItemBoxDispSort_RF);
+    WriteJump(0x006C8810, ObjectItemBoxGotDisp_RF);
+
+    /** Item Box, Air **/
+
     WriteJump(0x006C9500, ObjectItemBoxAirDispSort_RF);
     WriteRetn(0x006C93C0); // ItemBoxAirDisplayer
+    WriteNOP(0x006C917C, 0x006C9183); // tp->disp = func
+
+    /** Object Fix **/
+
+    /** These functions use DirectDraw, but they remove all diffuse color from the
+      models before compiling. I'm emulating this here. **/
+
+    // itembox
+    {
+        NJS_CNK_OBJECT* obj_base = object_itembox;
+        NJS_CNK_OBJECT* obj_top  = obj_base->child;
+        NJS_CNK_OBJECT* obj_dome = obj_top->sibling;
+
+        RF_CnkModelMaterialDiffuse(obj_base->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+        RF_CnkModelMaterialDiffuse(obj_top->model , -1, 0xFF, 0xFF, 0xFF, 0xFF);
+        RF_CnkModelMaterialDiffuse(obj_dome->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+    }
+
+    // itembox air
+    {
+        NJS_CNK_OBJECT* obj_base = object_itemboxair;
+        NJS_CNK_OBJECT* obj_top  = obj_base->child;
+        NJS_CNK_OBJECT* obj_item = obj_top->sibling;
+        NJS_CNK_OBJECT* obj_dome = obj_item->sibling;
+
+        RF_CnkModelMaterialDiffuse(obj_base->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+        RF_CnkModelMaterialDiffuse(obj_top->model , -1, 0xFF, 0xFF, 0xFF, 0xFF);
+        RF_CnkModelMaterialDiffuse(obj_dome->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+    }
+    
 }
