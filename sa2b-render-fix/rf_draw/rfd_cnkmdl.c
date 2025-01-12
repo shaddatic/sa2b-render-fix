@@ -71,7 +71,7 @@ rjCnkBeginEnv(const NJS_MATRIX* pMtx)
 void
 rjCnkBeginDrawModel(void)
 {
-    if ( (_nj_control_3d_flag_ & 0x80000) )
+    if ( _nj_control_3d_flag_ & 0x80000 )
     {
         gjStartVertex3D(_nj_curr_matrix_, 0);
         rjCnkBeginEnv(_nj_curr_matrix_);
@@ -92,22 +92,28 @@ rjCnkBeginDrawModel(void)
             _nj_control_3d_flag_ |= 0x100000u;
         }
     }
-
-    SetShaders(1);
 }
 
 Sint32
 rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
 {
+    /** The shader might be set during a motion callback and, in a later update,
+      during an object callback; for example drawing a sprite. Because of this, we
+      need to double check the current shader and reset it if it's not ready for
+      model draw **/
+    
+    if ( ShaderLast != 1 )
+        SetShaders(1); 
+
     /** The VList functions have the unique ability to halt drawing by returning
-        '-1', used when it encounters a vertex format it can't parse. For example,
-        'MultiDraw' can't parse non-normal vertex formats and so halts. **/
+      '-1', used when it encounters a vertex format it can't parse. For example,
+      'MultiDraw' can't parse non-normal vertex formats and so halts. **/
 
     if ( ShadowCnkDraw )
     {
         /** Draw entire model in 1 pass without texture or lighting for shadow
-            stencil texture drawing. I haven't implimented this, so it's still
-            using the original code ('ext' means EXTernal to Render Fix) **/
+          stencil texture drawing. I haven't implimented this, so it's still
+          using the original code ('ext' means EXTernal to Render Fix) **/
 
         if ( model->vlist )
             if ( CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true) == -1 )
@@ -119,15 +125,16 @@ rjCnkDrawModelSub(const NJS_CNK_MODEL* const model)
     else if ( _nj_control_3d_flag_ & 0x80000 ) // shadow map is setup
     {
         /** Draw model with shadow texture.
-            The shader uses the current matrix, as sent by 'gjStartVertex3D', to
-            position the texture correctly on the model. This is a problem, as
-            Chunk usually uses a unit matrix as all transforms are done on the CPU,
-            causing the shadows to become 'floaty'. We can't just move everything
-            to the GPU due to model weight calculations - although in the future it
-            may be possible - so the fix for now is to use a different vertex
-            pipeline that doesn't transform that supports a limited number of
-            vertex formats. It's basically only used on Landtables anyway, so this
-            is fine. :)
+          The shader uses the current matrix, as sent by 'gjStartVertex3D', to
+          position the texture correctly on the model. This is a problem, as
+          Chunk usually uses a unit matrix as all transforms are done on the CPU,
+          causing the shadows to become 'floaty'. We can't just move everything
+          to the GPU due to model weight calculations - although in the future it
+          may be possible - so the fix for now is to use a different vertex
+          pipeline that doesn't transform that supports a limited number of
+          vertex formats. It's basically only used on Landtables anyway, so this
+          is fine. :)
+
             'SM' means shadow mapped. **/
 
         if ( model->vlist )
