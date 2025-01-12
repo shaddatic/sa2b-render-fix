@@ -21,6 +21,19 @@
 #include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings              */
 
 /************************/
+/*  Structures          */
+/************************/
+/****** Lost Chao Work **************************************************************/
+#define GET_LOSTCHAOWK(tp)      (LOSTCHAOWK*)((tp)->mwp)
+
+typedef struct
+{
+    NJS_MATRIX m;
+    Sint32 flag;
+}
+LOSTCHAOWK;
+
+/************************/
 /*  Game Functions      */
 /************************/
 /****** Texture Shadow **************************************************************/
@@ -43,7 +56,7 @@
 
 /****** Lost Chao *******************************************************************/
 #define texlist_lostchao            DATA_ARY(NJS_TEXLIST, 0x00B4DAD8, [1])
-#define texlist_lostchao_found      DATA_ARY(NJS_TEXLIST, 0x00B5266C, [1])
+#define texlist_lostchao_found      DATA_ARY(NJS_TEXLIST, 0x00B4DB10, [1])
 
 #define object_lostchao             DATA_ARY(NJS_CNK_OBJECT, 0x00B507D4, [1])
 #define object_lostchao_found       DATA_ARY(NJS_CNK_OBJECT, 0x00B5266C, [1])
@@ -54,7 +67,7 @@
 #define LostChaoShadowScale         DATA_REF(NJS_VECTOR, 0x00B53320)
 #define GoalRingShadowScale         DATA_REF(NJS_VECTOR, 0x00B526A4)
 
-#define LostChaoWorkP               DATA_REF(NJS_MATRIX*, 0x01AEFD94)
+#define LostChaoWorkP               DATA_REF(LOSTCHAOWK*, 0x01AEFD94)
 
 /************************/
 /*  Source              */
@@ -64,6 +77,10 @@ static inline void
 ObjectGoalringDisp_LostChao(const task* tp)
 {
     const taskwk* twp = tp->twp;
+    LOSTCHAOWK*  lcwp = GET_LOSTCHAOWK(tp);
+
+    NJS_MATRIX m;
+    njGetMatrix(&m);
 
     /** draw ground shadow **/
 
@@ -92,9 +109,7 @@ ObjectGoalringDisp_LostChao(const task* tp)
     if (DisableObjectFog)
         njFogDisable();
 
-    NJS_MATRIX* p_mtx = (void*)tp->mwp;
-
-    LostChaoWorkP = p_mtx;
+    LostChaoWorkP = lcwp;
 
     njCnkSetMotionCallback((void*)0x006C6C00);
 
@@ -113,21 +128,17 @@ ObjectGoalringDisp_LostChao(const task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    /** genuinely no clue **/
+    /** multiply and store inverse screen matrix for this frame **/
 
-    njPushMatrixEx();
+    njInvertMatrix(&m);
 
-    njInvertMatrix(NULL);
+    njMultiMatrix(&m, &lcwp->m);
 
-    njMultiMatrix(NULL, p_mtx);
-
-    njGetMatrix(p_mtx);
-
-    njPopMatrixEx();
+    njSetMatrix(&lcwp->m, &m);
 
     /** finish up **/
 
-    tp->mwp->ang_spd.z = 1;
+    lcwp->flag = 1;
 
     LostChaoWorkP = nullptr;
 
