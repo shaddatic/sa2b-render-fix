@@ -100,9 +100,6 @@ Disabling this may cause player characters to look out of place in some situatio
       <Property name="e_stg_tex" display="Stage Specific Enemy Textures" type="eBOOL" defaultvalue="1">
         <HelpText>Restores enemy textures that were specific to some stages in the Dreamcast version.</HelpText>
       </Property>
-      <Property name="balloon_trans" display="Item Balloon Transparency" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores Item Balloon Transparency effects from Dreamcast. NOTE: Requires Back-Face Culling.</HelpText>
-      </Property>
     </Group>
     <Group name="m_menus" display="Main Menus Settings">
       <Property name="fade_fix" display="Element Fading Fix" type="eBOOL" defaultvalue="1">

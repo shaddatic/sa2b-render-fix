@@ -253,6 +253,76 @@ ObjectItemBoxAirDispSort_RF(task* tp)
     njPopMatrixEx();
 }
 
+#define texlist_itemboxballoon      DATA_ARY(NJS_TEXLIST  , 0x00B19008, [1])
+#define model_itemboxballoon        DATA_ARY(NJS_CNK_MODEL, 0x00B1988C, [1])
+
+static void
+ObjectItemBoxBalloonDisplayer_RF(task* tp)
+{
+    ___NOTE("When back-face culling is removed, this hack should be removed too");
+
+    RFRS_SetCullMode(RFRS_CULLMD_AUTO); // fix for people who still have back-face culling off.
+
+    const taskwk* twp = tp->twp;
+
+    njSetTexture(texlist_itemboxballoon);
+
+    if (twp->mode == 4 || DisableObjectFog)
+    {
+        njFogDisable();
+    }
+
+    f32 alpha_mat = 1.f - ( (twp->scl.z - 1.f) * 0.5f );
+
+    alpha_mat = CLAMP(alpha_mat, 0.f, 1.f);
+
+    SaveControl3D();
+    SaveConstantAttr();
+
+    OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL|NJD_CONTROL_3D_OFFSET_MATERIAL);
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR|NJD_CONTROL_3D_CONSTANT_MATERIAL);
+
+    njSetConstantAttr(NJD_FST_MASK, NJD_FST_UA);
+
+    SetConstantMaterial(alpha_mat * 0.7f, 1.f, 1.f, 1.f);
+
+    njPushMatrixEx();
+    {
+        const s16 wtimer = twp->wtimer;
+
+        const f32 posy = ( njSin( (wtimer + 800) << 8) * 4.f ) + twp->pos.y;
+
+        njTranslate(NULL, twp->pos.x, posy, twp->pos.z);
+
+        njRotateY(NULL, twp->ang.y);
+
+        const Angle angx = NJM_DEG_ANG( njSin(640 * wtimer) * 3.5f );
+
+        njRotateX(NULL, angx);
+
+        const f32 sclx = ( njCos(2304 * wtimer) * 0.01f ) + twp->scl.z;
+        const f32 scly = ( njSin(wtimer << 11)  * 0.01f ) + twp->scl.z;
+        const f32 sclz = ( njCos(2128 * wtimer) * 0.01f ) + twp->scl.z;
+
+        njScale(NULL, sclx, scly, sclz);
+
+        njCnkSimpleDrawModel(model_itemboxballoon);
+    }
+    njPopMatrixEx();
+
+    ResetConstantMaterial();
+
+    LoadConstantAttr();
+    LoadControl3D();
+
+    if (twp->mode == 4 || DisableObjectFog)
+    {
+        njFogEnable();
+    }
+
+    RFRS_SetCullMode(RFRS_CULLMD_END);
+}
+
 void
 RFCD_ItemBoxInit(void)
 {
@@ -267,6 +337,24 @@ RFCD_ItemBoxInit(void)
     WriteJump(0x006C9500, ObjectItemBoxAirDispSort_RF);
     WriteRetn(0x006C93C0); // ItemBoxAirDisplayer
     WriteNOP(0x006C917C, 0x006C9183); // tp->disp = func
+
+    /** Item Box, Balloon **/
+
+    WriteJump(0x006DB630, ObjectItemBoxBalloonDisplayer_RF);
+    WriteRetn(0x06DB3B0); // tp->disp
+    WriteNOP(0x006DB07A, 0x006DB07D); // tp->disp = func
+    WriteNOP(0x006DB098, 0x006DB09B); // tp->disp = func
+
+    /** Item Box, Balloon (cart) **/
+
+    ___NOTE("We'll replace this too eventually, but for now just edit the vanilla disp");
+
+    WriteData(0x00624E45, DISP_SORT, u8); 
+    WriteNOP( 0x00625199, 0x0062519B);
+
+    static const double bloondbl = 85.0;
+
+    ReplaceFloat(0x006251EE, &bloondbl);
 
     /** Object Fix **/
 

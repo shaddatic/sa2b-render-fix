@@ -264,19 +264,6 @@ RFM_CommonInit(void)
         WriteCall(0x004FE3E6, EnemyLoadTextureStage);
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_TR_BLOON))
-    {
-        WriteNOP( 0x006DB64D, 0x006DB656); // Balloon
-        WriteRetn(0x06DB3B0);
-
-        WriteData(0x00624E45, DISP_SORT, uint8_t); // Baloon (Cart)
-        WriteNOP( 0x00625199, 0x0062519B);
-
-        static const double bloondbl = 85.0;
-
-        ReplaceFloat(0x006251EE, &bloondbl);
-    }
-
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 
     /** Add two pass drawing for Chunk land tables **/
