@@ -13,6 +13,7 @@
 #include <sa2b/sonic/njctrl.h>
 #include <sa2b/sonic/texture.h>
 #include <sa2b/sonic/set.h>
+#include <sa2b/sonic/datadll.h>
 
 #define SAMT_INCL_FUNCPTRS
 #include <sa2b/sonic/landtable.h>
@@ -291,4 +292,56 @@ RFM_CommonInit(void)
     /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
     static const double chaokey_chk_fix = 300.0;
     ReplaceFloat(0x006E9B4A, &chaokey_chk_fix);
+
+    /** Fixing IA flags **/
+
+    CnkObjectMaterialFlagOff(0x0096DE1C, NJD_FST_IA); // Emblem Get model
+
+    // 2p menu characters
+    {
+        typedef struct
+        {
+            NJS_CNK_OBJECT *object;
+            NJS_MOTION *motion;
+            NJS_MOTION *motion1;
+            NJS_MOTION *motion2;
+            char gap1[8];
+            NJS_CNK_OBJECT *object_alt;
+            NJS_MOTION *motion_alt;
+            NJS_MOTION *motion1_alt;
+            NJS_MOTION *motion2_alt;
+            char gap3[20];
+        }
+        BATTLE_CHARA;
+
+        BATTLE_CHARA* data = GetDataDllAddr(BATTLE_CHARA, "_charaObject");
+
+        for (int i = 0; i < 15; ++i)
+        {
+            if (data[i].object)     RF_CnkObjectMaterialFlagOff(data[i].object    , NJD_FST_IA);
+            if (data[i].object_alt) RF_CnkObjectMaterialFlagOff(data[i].object_alt, NJD_FST_IA);
+        }
+    }
+
+    // race carts
+    {
+        typedef struct
+        {
+            char data0[4];
+            NJS_CNK_OBJECT* object;
+            NJS_CNK_OBJECT* object2;
+            NJS_TEXLIST* pTexlist;
+            char data1[8];
+            short shrt0;
+        }
+        SPECIAL_INFO;
+
+        SPECIAL_INFO* data = GetDataDllAddr(SPECIAL_INFO, "specialInfo");
+
+        for (int i = 0; i < 8; ++i)
+        {
+            if (data[i].object)  RF_CnkObjectMaterialFlagOff(data[i].object , NJD_FST_IA);
+            if (data[i].object2) RF_CnkObjectMaterialFlagOff(data[i].object2, NJD_FST_IA);
+        }
+    }
 }
