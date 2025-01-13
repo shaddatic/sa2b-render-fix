@@ -382,7 +382,8 @@ RF_CnkMaterialFlagOn(Sint16* pPList, int idxMat, uint32_t flag)
 void
 RF_CnkModelMaterialFlagOn(NJS_CNK_MODEL* pModel, int idxMat, uint32_t flag)
 {
-    RF_CnkMaterialFlagOn(pModel->plist, idxMat, flag);
+    if (pModel->plist)
+        RF_CnkMaterialFlagOn(pModel->plist, idxMat, flag);
 }
 
 void
@@ -505,7 +506,8 @@ RF_CnkMaterialFlagOff(Sint16* pPList, int idxMat, uint32_t flag)
 void
 RF_CnkModelMaterialFlagOff(NJS_CNK_MODEL* pModel, int idxMat, uint32_t flag)
 {
-    RF_CnkMaterialFlagOff(pModel->plist, idxMat, flag);
+    if (pModel->plist)
+        RF_CnkMaterialFlagOff(pModel->plist, idxMat, flag);
 }
 
 void
