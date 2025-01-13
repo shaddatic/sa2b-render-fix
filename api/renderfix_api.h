@@ -855,6 +855,8 @@ typedef struct
     *   disabled.
     *
     *   Notes:
+    *     - The game uses a value of '80' for the main game, and a value of '115'
+    *     for Chao World.
     *     - Only one intensity can be used across a single scene. In other words,
     *     all shadows will use the same value across a single frame.
     *     - The original Ninja version only supported values up to '255'.
