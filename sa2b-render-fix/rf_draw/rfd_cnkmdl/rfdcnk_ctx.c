@@ -73,7 +73,7 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
     const NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-    if (texid >= (s16)p_tls->nbTexture)
+    if ( !p_tls || texid >= (s16)p_tls->nbTexture )
     {
     TEX_ERR:
         const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texlist_rf_texerr->textures[0].texaddr;
@@ -97,7 +97,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 
         RX_SetTexture(p_tinfo, 0);
         return;
-        /** purposefully don't unset CTX_TINY flag **/
     }
 
     NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) p_tls->textures[texid].texaddr;
