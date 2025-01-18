@@ -421,7 +421,7 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
 void
 rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
 {
-    EXTERN NJS_ARGB rj_ambi_color;
+    EXTERN NJS_ARGB _rj_ambi_color_;
 
     /** Setup the Chunk context. This is used to track the current draw context of
         the model and it's strips. If the diffuse color is changed, it's applied to
@@ -477,7 +477,7 @@ rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvt
     if (flag) // if any drawing occured
     {
         // reset ambient color
-        RX_SetChanAmbColor_Direct(rj_ambi_color.r, rj_ambi_color.g, rj_ambi_color.b);
+        RX_SetChanAmbColor_Direct(_rj_ambi_color_.r, _rj_ambi_color_.g, _rj_ambi_color_.b);
 
         // unset culling mode
         GX_SetCullMode(GXD_CULLMODE_NONE);

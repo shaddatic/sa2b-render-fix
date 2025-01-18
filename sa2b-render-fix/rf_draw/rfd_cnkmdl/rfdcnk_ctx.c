@@ -296,7 +296,7 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
 static void
 rjCnkContextAmbi(CNK_CTX* restrict pCtx)
 {
-    EXTERN NJS_ARGB rj_ambi_color;
+    EXTERN NJS_ARGB _rj_ambi_color_;
 
     pCtx->flag &= ~CTXFLG_CTX_AMBI;
 
@@ -315,15 +315,15 @@ rjCnkContextAmbi(CNK_CTX* restrict pCtx)
         /**  If Normal Draw           OR  using a MultiDraw variant **/
         if ( funcmd == CTXFUNC_NORMAL || (funcmd & CTXFLG_FUNC_MULTI) )
         {
-            ambi.r = rj_ambi_color.r * ( (f32)pCtx->ambi.r * (1.f/255.f) );
-            ambi.g = rj_ambi_color.g * ( (f32)pCtx->ambi.g * (1.f/255.f) );
-            ambi.b = rj_ambi_color.b * ( (f32)pCtx->ambi.b * (1.f/255.f) );
+            ambi.r = _rj_ambi_color_.r * ( (f32)pCtx->ambi.r * (1.f/255.f) );
+            ambi.g = _rj_ambi_color_.g * ( (f32)pCtx->ambi.g * (1.f/255.f) );
+            ambi.b = _rj_ambi_color_.b * ( (f32)pCtx->ambi.b * (1.f/255.f) );
         }
         else
         {
-            ambi.r = rj_ambi_color.r;
-            ambi.g = rj_ambi_color.g;
-            ambi.b = rj_ambi_color.b;
+            ambi.r = _rj_ambi_color_.r;
+            ambi.g = _rj_ambi_color_.g;
+            ambi.b = _rj_ambi_color_.b;
         }
     }
 

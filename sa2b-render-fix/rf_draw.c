@@ -41,12 +41,6 @@
 #define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
 
 /************************/
-/*  Export Data         */
-/************************/
-/****** Global Ambient Color ********************************************************/
-NJS_ARGB rj_ambi_color;
-
-/************************/
 /*  Source              */
 /************************/
 int 
@@ -194,16 +188,6 @@ SetTexForDraw(void)
     RX_SetTexture(&TexInfoDraw, 0);
 }
 
-void
-rjSetAmbient(Float ar, Float ag, Float ab)
-{
-    rj_ambi_color.r = ar;
-    rj_ambi_color.g = ag;
-    rj_ambi_color.b = ab;
-
-    RX_SetChanAmbColor_Direct(ar, ag, ab);
-}
-
 static void
 EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
 {
@@ -258,9 +242,6 @@ RF_DrawInit(void)
     /** Fix shape motion not calling MotionCallback **/
     WriteJump(0x00784890, rjCnkPushPopShape);
     WriteJump(0x00784E70, rjCnkPushPopShapeLink);
-
-    /** Replace gjSetAmbient function **/
-    WriteJump(0x0042A8B0, rjSetAmbient);
 
     /** Fix chCnk and Ginja using the wrong multiplication value to convert 0~256
         integer UVs to 0~1. In vanilla, it uses (1/255) **/

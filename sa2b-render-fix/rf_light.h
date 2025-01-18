@@ -32,6 +32,9 @@ EXTERN_START
 /************************/
 /*  Functions           */
 /************************/
+/** Init Light module **/
+void    RF_LightInit( void );
+
 /** Set Ginja light to global **/
 void    rjCnkSetLightVectorEx( Int light, Float vx, Float vy, Float vz );
 
