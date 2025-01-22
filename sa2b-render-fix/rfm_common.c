@@ -305,7 +305,8 @@ RFM_CommonInit(void)
             NJS_MOTION *motion;
             NJS_MOTION *motion1;
             NJS_MOTION *motion2;
-            char gap1[8];
+            NJS_CNK_OBJECT* extra;
+            char gap1[4];
             NJS_CNK_OBJECT *object_alt;
             NJS_MOTION *motion_alt;
             NJS_MOTION *motion1_alt;
@@ -320,6 +321,7 @@ RFM_CommonInit(void)
         {
             if (data[i].object)     RF_CnkObjectMaterialFlagOff(data[i].object    , NJD_FST_IA);
             if (data[i].object_alt) RF_CnkObjectMaterialFlagOff(data[i].object_alt, NJD_FST_IA);
+            if (data[i].extra)      RF_CnkObjectMaterialFlagOff(data[i].extra     , NJD_FST_IA);
         }
     }
 
