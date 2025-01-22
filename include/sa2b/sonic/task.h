@@ -78,14 +78,14 @@ typedef struct task
     struct anywk*    awp;       /* Any Work                         */
 
     char*            name;      /* Task Name                        */
-    char*            name2;     /* Task Name       (Copy of 'name') */
+    u32                id;      /* Task ID    (unused & unfinished) */
 
     union {
-        int8_t    b[4];
-        int16_t   w[2];
-        int32_t   l;
-        f32       f;
-        void*     ptr;
+        s8      b[4];
+        s16     w[2];
+        s32     l;
+        f32     f;
+        void*   ptr;
     } thp;                      /* Needs more research              */
 }
 task;
