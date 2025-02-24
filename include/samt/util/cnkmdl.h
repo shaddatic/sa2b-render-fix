@@ -293,6 +293,21 @@ CNK_VERTEX_VN;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
+    Uint32     usf;             /* user flag                                        */
+}
+CNK_VERTEX_UF;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    Uint16     i;               /* vertex buffer index                              */
+    Uint16     w;               /* weight value                             [0~255] */
+}
+CNK_VERTEX_NF;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
     Uint32     col;             /* vertex color                              [BGRA] */
 }
@@ -314,6 +329,15 @@ typedef struct
     Uint16     w;               /* weight value                             [0~255] */
 }
 CNK_VERTEX_VN_NF;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    Uint16     i;               /* vertex buffer index                              */
+    Uint16     w;               /* weight value                             [0~255] */
+    Uint32     col;             /* vertex color                              [BGRA] */
+}
+CNK_VERTEX_NF_D8;
 
 /************************************************************************************/
 /*
