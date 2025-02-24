@@ -217,6 +217,7 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Player section **/
 #define CNF_PLAYER_MODEL            CNFO_INT(   CNFS_PLAYER         , "model"               , CNFE_PLAYER_MODEL_GAMECUBE            )   /* Player model mode */
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
+#define CNF_PLAYER_SHADLITEDASH     CNFO_INT(   CNFS_PLAYER         , "shadow_lightdash"    , CNFE_BOOL_ENABLED                     )   /* Shadow's Lightdash Effect */
 #define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
 #define CNF_PLAYER_TWALKFOOTMOD     CNFO_INT(   CNFS_PLAYER         , "twalk_footmod"       , CNFE_BOOL_ENABLED                     )   /* Fix Tornado's Foot Modifiers */
 #define CNF_PLAYER_SHADOWMD         CNFO_INT(   CNFS_PLAYER         , "shadow_md"           , CNFE_PLAYER_SHADOWMD_MODIFIER         )   /* Player Shadow Mode */

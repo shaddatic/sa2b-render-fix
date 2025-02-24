@@ -62,6 +62,9 @@ Dark Chao Walker is currently unaffected by this setting.</HelpText>
 
 This animation was not present in the Dreamcast version, but Render Fix *does* support using the it on the Dreamcast model. If this is enabled, however, he will use the GameCube textures instead of his original Dreamcast ones.</HelpText>
       </Property>
+      <Property name="shadow_lightdash" display="Shadow's Lightdash Effect" type="eBOOL" defaultvalue="1">
+        <HelpText>Unlike Sonic, Shadow lacks a lightdash after-image effect in all release versions. This restores the unused effect by adding logic to handle Shadow, which the devs forgot.</HelpText>
+      </Property>
       <Property name="miles_tailmod" display="Tails' Tail Shadows" type="eBOOL" defaultvalue="1">
         <HelpText>Draw modifier shadows for Tails' Tails, that otherwise lack them.
 

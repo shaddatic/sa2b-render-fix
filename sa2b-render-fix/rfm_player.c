@@ -11,6 +11,11 @@
 /****** Game ************************************************************************/
 #include <samt/sonic/task.h>    /* task                                             */
 #include <samt/sonic/player.h>  /* player                                           */
+#include <samt/sonic/game.h>    /* game info                                        */
+#include <samt/sonic/score.h>   /* timer info                                       */
+
+/****** Player **********************************************************************/
+#include <samt/sonic/figure/sonic.h> /* sonic                                       */
 
 /****** Character *******************************************************************/
 #include <samt/sonic/figure/knuckles.h> /* knuckles work                            */
@@ -102,6 +107,70 @@ ___DrawMotionWithSorting(void)
         push        ecx         // motion
         push        [esp + 12]  // object
         call        DrawMotionWithSorting
+        add esp,    12
+        retn
+    }
+}
+
+#define CreatePlayerDrawMotionWithAlphaReducing         FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*, NJS_MOTION*, NJS_TEXLIST*, Float, Sint8), 0x00476C20)
+
+static void
+CreatePlayerDrawLightDashWithAlphaReducing(const taskwk* twp, const playerwk* pwp, const SONICWK* swp)
+{
+    if ( GetGameTime() & 1 )
+    {
+        NJS_CNK_OBJECT* object;
+
+        switch ( pwp->ch_num )
+        {
+            case PLNO_SONIC:
+            {
+                object = CHAR_OBJECTS[30].pObject;
+                break;
+            }
+            case PLNO_SHADOW:
+            {
+                object = CHAR_OBJECTS[103].pObject;
+                break;
+            }
+            default:
+            {
+                return;
+            }
+        }
+
+        if ( !object )
+        {
+            return;
+        }
+
+        njPushMatrix( &_nj_unit_matrix_ );
+
+        njTranslateV( NULL, &twp->pos );
+
+        njRotateZ( NULL,           twp->ang.z );
+        njRotateX( NULL,           twp->ang.x );
+        njRotateY( NULL,  0x8000 - twp->ang.y );
+
+        if ( uc2PVSMode == MD_2PVS_1PLAYER )
+        {
+            CreatePlayerDrawMotionWithAlphaReducing(object, NULL, swp->TextureList, 0.f, pwp->pl_num);
+        }
+
+        njPopMatrixEx();
+    }
+}
+
+__declspec(naked)
+static void
+___CreatePlayerDrawLightDashWithAlphaReducing(void)
+{
+    __asm
+    {
+        push        [esp+8]     // swp
+        push        [esp+8]     // pwp
+        push        esi         // twp
+        call        CreatePlayerDrawLightDashWithAlphaReducing
         add esp,    12
         retn
     }
@@ -207,5 +276,10 @@ RFM_PlayerInit(void)
         WriteData(0x00730A64+6, 0x0, u32); // Rouge
         WriteData(0x0072FC01+6, 0x0, u32); // Tical
         WriteData(0x00731B21+6, 0x0, u32); // Chaos
+    }
+
+    if ( RF_ConfigGetInt( CNF_PLAYER_SHADLITEDASH ) )
+    {
+        WriteJump(0x0071E460, ___CreatePlayerDrawLightDashWithAlphaReducing);
     }
 }
