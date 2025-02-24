@@ -5,6 +5,7 @@
 #include <samt/core.h>          /* core                                             */
 #include <samt/modloader.h>     /* mod loader                                       */
 #include <samt/file.h>          /* file exists                                      */
+#include <samt/string.h>        /* path string                                      */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -30,26 +31,7 @@
 static bool
 PathStartsWith(const char* pcPath, const char* pcTest)
 {
-    const char* pc_path = pcPath;
-    const char* pc_test = pcTest;
-
-    for (; *pc_path != '\0'; ++pc_path, ++pc_test)
-    {
-        char c_test = *pc_test;
-
-        if (c_test == '\0')
-            return true;
-
-        char c_path = *pc_path;
-
-        if (c_path == '\\') c_path = '/';
-        if (c_test == '\\') c_test = '/';
-
-        if (c_path != c_test)
-            return false;
-    }
-
-    return false;
+    return mtPathSearch(pcPath, pcTest, STR_NOMAX) == 0;
 }
 
 static bool
