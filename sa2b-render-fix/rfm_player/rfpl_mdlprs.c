@@ -375,17 +375,19 @@ NEW_LoadPlayerMDL(PL_OBJECT* pObjList)
         do
         {
             EndianSwap32(&obj_list->index);
-            EndianSwap32(&obj_list->pObject);
 
-            FIX_POINTER(obj_list->pObject, baseptr);
+            if ( obj_list->index >= 0 && obj_list->index <= 532 && !CHAR_OBJECTS[obj_list->index].pObject )
+            {
+                EndianSwap32(&obj_list->pObject);
 
-            CHAR_OBJECTS[obj_list->index].pObject = obj_list->pObject;
+                FIX_POINTER(obj_list->pObject, baseptr);
 
-            FixChunkPointersAndByteswap(obj_list->pObject, baseptr, p_history);
+                CHAR_OBJECTS[obj_list->index].pObject = obj_list->pObject;
 
-            ++obj_list;
+                FixChunkPointersAndByteswap(obj_list->pObject, baseptr, p_history);
+            }
         }
-        while (obj_list->index != -1);
+        while ( (++obj_list)->index != -1 );
 
         FreeFixHistory(p_history);
     }
@@ -393,15 +395,16 @@ NEW_LoadPlayerMDL(PL_OBJECT* pObjList)
     {
         do
         {
-            FIX_POINTER(obj_list->pObject, baseptr);
+            if ( obj_list->index >= 0 && obj_list->index <= 532 && !CHAR_OBJECTS[obj_list->index].pObject )
+            {
+                FIX_POINTER(obj_list->pObject, baseptr);
 
-            CHAR_OBJECTS[obj_list->index].pObject = obj_list->pObject;
+                CHAR_OBJECTS[obj_list->index].pObject = obj_list->pObject;
 
-            FixChunkPointers(obj_list->pObject, baseptr);
-
-            ++obj_list;
+                FixChunkPointers(obj_list->pObject, baseptr);
+            }
         }
-        while (obj_list->index != -1);
+        while ( (++obj_list)->index != -1 );
     }
 
     return pObjList;
