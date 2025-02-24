@@ -85,6 +85,9 @@ rjCnkModStrip(const Sint16* plist, const CNK_VERTEX_BUFFER* const njvtxbuf)
         /** get and set buffer **/
         MOD_TRI* restrict p_buf_base = RFMOD_GetBuffer(nb_poly);
 
+        if (!p_buf_base)
+            return;
+
         // get strip array
         const CNK_ST* restrict p_st = p_strip->d;
 
@@ -148,6 +151,9 @@ rjCnkModStripUV(const Sint16* plist, const CNK_VERTEX_BUFFER* const njvtxbuf)
 
         /** get and set buffer **/
         MOD_TRI* restrict p_buf_base = RFMOD_GetBuffer(nb_poly);
+
+        if (!p_buf_base)
+            return;
 
         // get strip array
         const CNK_ST_UV* restrict p_st = p_strip->d;
