@@ -118,8 +118,10 @@ CNK_CTX;
 #define CNKVTX_POS                  (CNKVTX_FLG_NONORM)
 #define CNKVTX_POS_NRM              (0)
 #define CNKVTX_POS_COL              (CNKVTX_FLG_NONORM|CNKVTX_FLG_VCOLOR)
+#define CNKVTX_POS_NJF              (CNKVTX_FLG_NONORM|CNKVTX_FLG_NJFLAG)
 #define CNKVTX_POS_NRM_COL          (CNKVTX_FLG_VCOLOR)
 #define CNKVTX_POS_NRM_NJF          (CNKVTX_FLG_NJFLAG)
+#define CNKVTX_POS_NJF_COL          (CNKVTX_FLG_VCOLOR|CNKVTX_FLG_NJFLAG)
 
 /************************/
 /*  Game References     */

@@ -94,6 +94,28 @@ rjCnkVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 static void
+rjCnkVertexUF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_UF* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
 rjCnkVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
@@ -115,6 +137,77 @@ rjCnkVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
         ++p_vtx;
         ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexVNUF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VN_UF* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        njCalcPoint( NULL, &p_vtx->pos, &p_buf->pos);
+        njCalcVector(NULL, &p_vtx->nrm, &p_buf->nrm);
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    const int wstat = p_vhead->wstat;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_NF* p_vtx = (void*) p_vhead->d;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        NJS_POINT3 pos;
+
+        njCalcPoint( NULL, &p_vtx->pos , &pos);
+
+        CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ p_vtx->i ];
+
+        const f32 mul = CNK_GET_WEIGHT(p_vtx->w);
+
+        pos.x *= mul;
+        pos.y *= mul;
+        pos.z *= mul;
+
+        switch (wstat)
+        {
+            case CNK_WEIGHT_START:
+            {
+                p_vbuf->pos = pos;
+                break;
+            }
+            case CNK_WEIGHT_MIDDLE:
+            case CNK_WEIGHT_END:
+            {
+                p_vbuf->pos.x += pos.x;
+                p_vbuf->pos.y += pos.y;
+                p_vbuf->pos.z += pos.z;
+                break;
+            }
+        }
+
+        ++p_vtx;
     }
 }
 
@@ -155,7 +248,7 @@ rjCnkVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
         {
             case CNK_WEIGHT_START:
             {
-                p_vbuf->pos  = pos;
+                p_vbuf->pos = pos;
                 p_vbuf->nrm = nrm;
                 break;
             }
@@ -169,6 +262,57 @@ rjCnkVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
                 p_vbuf->nrm.x += nrm.x;
                 p_vbuf->nrm.y += nrm.y;
                 p_vbuf->nrm.z += nrm.z;
+                break;
+            }
+        }
+
+        ++p_vtx;
+    }
+}
+
+static void
+rjCnkVertexNFD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    const int wstat = p_vhead->wstat;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_NF_D8* p_vtx = (void*) p_vhead->d;
+
+    ___NOTE("Still undecided on how this will function.");
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        NJS_POINT3 pos;
+
+        njCalcPoint( NULL, &p_vtx->pos , &pos);
+
+        CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ p_vtx->i ];
+
+        const f32 mul = CNK_GET_WEIGHT(p_vtx->w);
+
+        pos.x *= mul;
+        pos.y *= mul;
+        pos.z *= mul;
+
+        switch (wstat)
+        {
+            case CNK_WEIGHT_START:
+            {
+                p_vbuf->pos = pos;
+                p_vbuf->col = p_vtx->col;
+                break;
+            }
+            case CNK_WEIGHT_MIDDLE:
+            case CNK_WEIGHT_END:
+            {
+                p_vbuf->pos.x += pos.x;
+                p_vbuf->pos.y += pos.y;
+                p_vbuf->pos.z += pos.z;
                 break;
             }
         }
@@ -207,7 +351,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
 
         switch (type)
         {
-            case NJD_CV: // chunk vertex
+            case NJD_CV:
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS;
 
@@ -218,7 +362,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertex(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_D8: // chunk vertex + color
+            case NJD_CV_D8:
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_COL;
 
@@ -229,25 +373,65 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertexD8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN: // chunk vertex + normal
+            case NJD_CV_UF:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS;
+
+                /** No normals, halt drawing if 'MultiDraw' **/
+                if (multi)
+                    return -1;
+
+                rjCnkVertexUF(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_NF:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NJF;
+
+                /** No normals, halt drawing if 'MultiDraw' **/
+                if (multi)
+                    return -1;
+
+                rjCnkVertexNF(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN:
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
                 rjCnkVertexVN(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_D8: // chunk vertex + normal + color
+            case NJD_CV_VN_D8:
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_COL;
 
                 rjCnkVertexVND8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_NF: // chunk vertex + normal + ninja flag (weighted)
+            case NJD_CV_VN_UF:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
+
+                rjCnkVertexVNUF(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_NF:
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_NJF;
                 
                 rjCnkVertexVNNF(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_NF_D8:
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NJF_COL;
+
+                /** No normals, halt drawing if 'MultiDraw' **/
+                if (multi)
+                    return -1;
+
+                rjCnkVertexNFD8(vlist, p_vbuf);
                 break;
             }
             default:
