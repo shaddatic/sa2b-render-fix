@@ -42,8 +42,15 @@ typedef struct
     NJS_VECTOR vec;
     NJS_POINT3 pos;
     RX_COLOR   color;
-    RX_COLOR   attenA;
-    NJS_VECTOR attenK;
+
+    f32        angle_const;
+    f32        angle_linear;
+    f32        angle_quad;
+    f32        angle;
+
+    f32        atten_const;
+    f32        atten_linear;
+    f32        atten_quad;
 }
 RX_LIGHT_ATTR;
 
@@ -89,6 +96,27 @@ rjSetAmbient(Float ar, Float ag, Float ab)
     RX_SetChanAmbColor_Direct(ar, ag, ab);
 }
 
+static void
+SetLightVector(Int light, Float vx, Float vy, Float vz)
+{
+    RX_LIGHT_ATTR* const litep = _gj_light_list_[light].pAttr;
+
+    litep->angle_const  = 0.f;
+    litep->angle_linear = 0.f;
+    litep->angle_quad   = 0.f;
+    litep->angle        = 90.f;
+
+    litep->atten_const  =  4.f;
+    litep->atten_linear =  0.f;
+    litep->atten_quad   = -3.f;
+
+    litep->vec.x = vx * -100000.0f;
+    litep->vec.y = vy * -100000.0f;
+    litep->vec.z = vz * -100000.0f;
+
+    litep->pos = (NJS_VECTOR){ 0 };
+}
+
 void
 rjCnkSetLightVectorEx(Int light, Float vx, Float vy, Float vz)
 {
@@ -96,44 +124,12 @@ rjCnkSetLightVectorEx(Int light, Float vx, Float vy, Float vz)
     {
         for (int i = 0; i < MAX_LIGHT; ++i)
         {
-            GXS_LIGHT_ATTR* const litep = _gj_lights_[i].pAttr;
-
-            litep->attenA.a =  0.0f;
-            litep->attenA.r =  0.0f;
-            litep->attenA.g =  0.0f;
-            litep->attenA.b =  90.0f;
-
-            litep->attenK.x =  4.0f;
-            litep->attenK.y =  0.0f;
-            litep->attenK.z = -3.0f;
-
-            litep->vec.x = vx * -100000.0f;
-            litep->vec.y = vy * -100000.0f;
-            litep->vec.z = vz * -100000.0f;
-
-            litep->pos = (NJS_VECTOR){ 0 };
+            SetLightVector(i, vx, vy, vz);
         }
     }
     else if (light <= MAX_LIGHT)
     {
-        light--;
-
-        GXS_LIGHT_ATTR* const litep = _gj_lights_[light].pAttr;
-
-        litep->attenA.a =  0.0f;
-        litep->attenA.r =  0.0f;
-        litep->attenA.g =  0.0f;
-        litep->attenA.b =  90.0f;
-
-        litep->attenK.x =  4.0f;
-        litep->attenK.y =  0.0f;
-        litep->attenK.z = -3.0f;
-
-        litep->vec.x = vx * -100000.0f;
-        litep->vec.y = vy * -100000.0f;
-        litep->vec.z = vz * -100000.0f;
-
-        litep->pos = (NJS_VECTOR){ 0 };
+        SetLightVector(light - 1, vx, vy, vz);
     }
 }
 
@@ -149,9 +145,7 @@ rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
     }
     else if (light <= MAX_LIGHT)
     {
-        light--;
-
-        rjSetLightColor(light, lr, lg, lb);
+        rjSetLightColor(light - 1, lr, lg, lb);
     }
 }
 
