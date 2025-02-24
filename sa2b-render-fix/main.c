@@ -2,8 +2,8 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>
-#include <sa2b/init.h>
+#include <samt/core.h>
+#include <samt/init.h>
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>
@@ -53,7 +53,8 @@ void __cdecl
 Init(const char* path, const HelperFunctions* pHelperFunctions)
 {
     /** SAModToolkit init **/
-    SAMT_Init(path, pHelperFunctions);
+    mtSystemInit(path, pHelperFunctions);
+
     DX9_Init();
 
     /** Mod Loader Check **/

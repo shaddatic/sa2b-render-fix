@@ -1,13 +1,13 @@
-#include <sa2b/core.h>
+#include <samt/core.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/set.h>
+#include <samt/sonic/set.h>
 
 /** Object **/
-#include <sa2b/sonic/object/o_light.h>
+#include <samt/sonic/object/o_light.h>
 
 /** Render Fix **/
 #include <rf_core.h>

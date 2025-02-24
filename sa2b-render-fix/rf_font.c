@@ -2,19 +2,19 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/writeop.h>   /* WriteRetn                                            */
-#include <sa2b/memory.h>    /* MemFree, mAlloc, mCalloc                             */
-#include <sa2b/file.h>      /* uFileLoad                                            */
+#include <samt/core.h>      /* core                                                 */
+#include <samt/writeop.h>   /* WriteRetn                                            */
+#include <samt/memory.h>    /* MemFree, mAlloc, mCalloc                             */
+#include <samt/file.h>      /* uFileLoad                                            */
 
 /****** Mod Loader ******************************************************************/
-#include <sa2b/modloader.h>     /* ML_GetReplaceablePath                            */
+#include <samt/modloader.h>     /* ML_GetReplaceablePath                            */
 
 /****** System **********************************************************************/
-#include <sa2b/shinobi/sg_maloc.h>  /* syFree                                       */
+#include <samt/shinobi/sg_maloc.h>  /* syFree                                       */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Standard ********************************************************************/
 #include <stdio.h>              /* snprintf                                         */
@@ -157,7 +157,7 @@ CalculateFontLeft(FONT_CHAR* pFont, RFE_FONT_TYPE type)
 {
     const size_t left_size = (type == FONT_TYPE_KANJI) ? KANJI_SYM_COUNT : ASCIIS_SYM_COUNT;
 
-    uint8_t* const leftp = mCalloc(uint8_t, left_size);
+    uint8_t* const leftp = mtCalloc(uint8_t, left_size);
 
     leftp[0] = SpacePadding; // Spacing
 
@@ -188,7 +188,7 @@ CalculateFontLeft(FONT_CHAR* pFont, RFE_FONT_TYPE type)
 static FONT_CHAR*
 ___Font1ToFont32(FONT_1_CHAR* pBuff, const int nbChar, size_t szBuf)
 {
-    FONT_CHAR* const charp = MemCalloc(szBuf, 1);
+    FONT_CHAR* const charp = mtMemCalloc(szBuf, 1);
 
     for (int i = 0; i < nbChar; ++i)
     {
@@ -224,7 +224,7 @@ ___Font1ToFont32(FONT_1_CHAR* pBuff, const int nbChar, size_t szBuf)
     }
 
     /** Free original SADX buffer **/
-    MemFree(pBuff);
+    mtMemFree(pBuff);
 
     return charp;
 }
@@ -269,7 +269,7 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
         if (fsize < KANJI_32_SIZE)
         {
             OutputString("Render Fix: Kanji RGBA font file is too small, aborting load!");
-            MemFree(file);
+            mtMemFree(file);
             return nullptr;
         }
 
@@ -283,7 +283,7 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
         if (fsize < ASCII_32_SIZE)
         {
             OutputString("Render Fix: ASCII RGBA font file is too small, aborting load!");
-            MemFree(file);
+            mtMemFree(file);
             return nullptr;
         }
 
@@ -297,7 +297,7 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
         if (fsize < KANJI_01_SIZE)
         {
             OutputString("Render Fix: Kanji SADX font file is too small, aborting load!");
-            MemFree(file);
+            mtMemFree(file);
             return nullptr;
         }
 
@@ -319,7 +319,7 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
         else
         {
             OutputString("Render Fix: ASCII SADX font file is too small, aborting load!");
-            MemFree(file);
+            mtMemFree(file);
             return nullptr;
         }
 
@@ -328,11 +328,11 @@ RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
 
     default: // Incorrect type
         OutputString("Render Fix: Incorrect font type, aborting load!");
-        MemFree(file);
+        mtMemFree(file);
         return nullptr;
     }
 
-    RFS_FONT* const fontp = mAlloc(RFS_FONT, 1);
+    RFS_FONT* const fontp = mtAlloc(RFS_FONT, 1);
 
     fontp->pBuff     = charp;
     fontp->pLeft     = CalculateFontLeft(charp, font_rf_type);
@@ -351,7 +351,7 @@ RF_FontSetLeft(RFS_FONT* pFont, uint8_t* pLeft)
     /** If the width list is automatic,
         it must be allocated by us. Free. **/
     if (pFont->bAutoLeft)
-        MemFree(pFont->pLeft);
+        mtMemFree(pFont->pLeft);
 
     pFont->pLeft     = pLeft;
     pFont->bAutoLeft = false;
@@ -452,7 +452,7 @@ LoadLocalFont(const utf8* fname, RFE_FONT_FTYPE ftype)
 {
     char buf[260];
 
-    snprintf(buf, sizeof(buf), "./%s/font/%s", GetModPath(), fname);
+    snprintf(buf, sizeof(buf), "./%s/font/%s", mtGetModPath(), fname);
 
     return RF_FontLoadFile(buf, ftype);
 }

@@ -1,6 +1,6 @@
-#include <sa2b/core.h>
+#include <samt/core.h>
 
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** API (this is stupid) **/
 #include <../api/renderfix_api.h>

@@ -1,4 +1,4 @@
-#include <sa2b/core.h>
+#include <samt/core.h>
 
 /** Render Fix **/
 #include <rf_core.h>

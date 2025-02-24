@@ -1,15 +1,15 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/file.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/model.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/file.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/model.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
+#include <samt/sonic/task.h>
 
 /** Std **/
 #include <stdio.h>
@@ -147,7 +147,7 @@ EventResolveModPointers(DC_EVENT_HEADER* pEventHead)
                     ResolveEventPointer(p_entry->pMotion, offset);
                     ResolveEventPointer(p_entry->pMotion->mdata, offset);
 
-                    const size_t nb_object = MDL_CountObject(p_entry->pObject);
+                    const size_t nb_object = mtCnkNodeCount(p_entry->pObject);
 
                     ResolveMotionPointers(p_entry->pMotion, offset, nb_object);
                 }
@@ -161,7 +161,7 @@ EventLoadModifierFile(const int evNum)
 {
     char str[260];
 
-    snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", GetModPath(), evNum);
+    snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", mtGetModPath(), evNum);
 
     DC_EVENT_HEADER* fevent = uFileLoad(str, NULL);
 
@@ -223,7 +223,7 @@ EventDisplayerMod(task* tp)
     if (EventFileLoadNum != EventNum)
     {
         if (EventCurModHeader)
-            MemFree(EventCurModHeader);
+            mtMemFree(EventCurModHeader);
 
         EventCurModHeader = EventLoadModifierFile(EventNum);
         EventFileLoadNum = EventNum;
@@ -243,7 +243,7 @@ static void
 EventDestructor(task* tp)
 {
     if (EventCurModHeader)
-        MemFree(EventCurModHeader);
+        mtMemFree(EventCurModHeader);
 
     EventCurModHeader = NULL;
     EventFileLoadNum = -1;

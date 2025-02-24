@@ -14,12 +14,12 @@
 /*  External Includes   */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/writemem.h>      /* write protected memory                           */
-#include <sa2b/writeop.h>       /* write operator                                   */
+#include <samt/writemem.h>      /* write protected memory                           */
+#include <samt/writeop.h>       /* write operator                                   */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
-#include <sa2b/ninja/njmatrix.h> /* ninja matrix                                    */
+#include <samt/ninja/njcommon.h> /* ninja common                                    */
+#include <samt/ninja/njmatrix.h> /* ninja matrix                                    */
 
 /************************/
 /*  External Opaques    */

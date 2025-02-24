@@ -1,22 +1,22 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writeop.h>
-#include <sa2b/model.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/writeop.h>
+#include <samt/model.h>
+#include <samt/funchook.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/score.h>
-#include <sa2b/sonic/njctrl.h>
-#include <sa2b/sonic/texture.h>
-#include <sa2b/sonic/set.h>
-#include <sa2b/sonic/datadll.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/score.h>
+#include <samt/sonic/njctrl.h>
+#include <samt/sonic/texture.h>
+#include <samt/sonic/set.h>
+#include <samt/sonic/datadll.h>
 
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/landtable.h>
+#include <samt/sonic/landtable.h>
 #undef SAMT_INCL_FUNCPTRS
 
 /** Std **/
@@ -181,7 +181,7 @@ DrawGameHUDHook(void)
 static bool
 LandTableIsGinja(const OBJ_LANDTABLE* pLand)
 {
-    int count = pLand->ssVisibleCount;
+    int count = pLand->ssCnkCount;
 
     if (count < 0)
         count = pLand->ssCount;
@@ -252,7 +252,7 @@ RFM_CommonInit(void)
         ReplaceObjectModel(0x014C7744, model_e_a_emi_emblem);
 
         //WriteData(0x109D4B4, *model_ce_truck_hood, NJS_CNK_MODEL);
-        MemCopy((void*)0x109B2CC, model_ce_truck_hood, sizeof(NJS_CNK_MODEL));
+        mtMemCopy((void*)0x109B2CC, model_ce_truck_hood, sizeof(NJS_CNK_MODEL));
     }
 
     if (RF_ConfigGetInt(CNF_COMMON_AISHEILD))

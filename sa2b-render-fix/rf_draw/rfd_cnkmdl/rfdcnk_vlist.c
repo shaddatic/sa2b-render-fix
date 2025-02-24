@@ -2,10 +2,10 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
+#include <samt/core.h>      /* core                                                 */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

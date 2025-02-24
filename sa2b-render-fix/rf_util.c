@@ -2,15 +2,15 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/modloader.h>     /* mod loader                                       */
-#include <sa2b/file.h>          /* file exists                                      */
+#include <samt/core.h>          /* core                                             */
+#include <samt/modloader.h>     /* mod loader                                       */
+#include <samt/file.h>          /* file exists                                      */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/texture.h> /* texture                                          */
+#include <samt/sonic/texture.h> /* texture                                          */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -61,7 +61,7 @@ PathIsGame(const char* pcPath)
 static bool
 PathIsRF(const char* pcPath)
 {
-    return PathStartsWith(pcPath, GetModPath());
+    return PathStartsWith(pcPath, mtGetModPath());
 }
 
 /****** Texture File Table **********************************************************/
@@ -156,7 +156,7 @@ RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
 
     char opti_buf[256]; // optional file path
 
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s", GetModPath(), pcOptiFolder, pcPath);
+    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s", mtGetModPath(), pcOptiFolder, pcPath);
 
     if ( !uFileExists(opti_buf) )
     {
@@ -194,7 +194,7 @@ RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
     snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/PRS/%s.pak", pcTexName);
 
     /** Make optional folder PAK path **/
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", GetModPath(), pcOptiFolder, pcTexName);
+    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
 
     if ( !uFileExists(opti_buf) )
     {
@@ -229,7 +229,7 @@ RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
     char opti_buf[256]; // optional file path
 
     /** Make optional folder PAK path **/
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", GetModPath(), pcOptiFolder, pcPvrName);
+    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
 
     if ( !uFileExists(opti_buf) )
     {
@@ -274,7 +274,7 @@ ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char*
 
     char opti_buf[256]; // optional file path
 
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", GetModPath(), pcOptiFolder, pcPrsName);
+    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
 
     if ( !uFileExists(opti_buf) )
     {

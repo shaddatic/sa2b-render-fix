@@ -1,29 +1,29 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/funchook.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/funchook.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/player.h>
-#include <sa2b/sonic/c_colli.h>
-#include <sa2b/sonic/njctrl.h>
-#include <sa2b/sonic/debug.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/player.h>
+#include <samt/sonic/c_colli.h>
+#include <samt/sonic/njctrl.h>
+#include <samt/sonic/debug.h>
 
 /** Figure **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/figure/sonic.h>
-#include <sa2b/sonic/figure/shadow.h>
-#include <sa2b/sonic/figure/miles.h>
-#include <sa2b/sonic/figure/eggman.h>
-#include <sa2b/sonic/figure/knuckles.h>
-#include <sa2b/sonic/figure/rouge.h>
-#include <sa2b/sonic/figure/ewalker.h>
-#include <sa2b/sonic/figure/twalker.h>
+#include <samt/sonic/figure/sonic.h>
+#include <samt/sonic/figure/shadow.h>
+#include <samt/sonic/figure/miles.h>
+#include <samt/sonic/figure/eggman.h>
+#include <samt/sonic/figure/knuckles.h>
+#include <samt/sonic/figure/rouge.h>
+#include <samt/sonic/figure/ewalker.h>
+#include <samt/sonic/figure/twalker.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/

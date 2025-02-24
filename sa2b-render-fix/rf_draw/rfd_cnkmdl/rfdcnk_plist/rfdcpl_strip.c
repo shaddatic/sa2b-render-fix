@@ -2,14 +2,14 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/memory.h>    /* MemCopy                                              */
+#include <samt/core.h>      /* core                                                 */
+#include <samt/memory.h>    /* MemCopy                                              */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** GX **************************************************************************/
-#include <sa2b/gx/gx.h>     /* GX                                                   */
+#include <samt/gx/gx.h>     /* GX                                                   */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

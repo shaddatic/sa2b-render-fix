@@ -2,16 +2,16 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writeop.h>       /* Writejump                                        */
-#include <sa2b/writemem.h>      /* writedata                                        */
-#include <sa2b/funchook.h>      /* funchook                                         */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writeop.h>       /* Writejump                                        */
+#include <samt/writemem.h>      /* writedata                                        */
+#include <samt/funchook.h>      /* funchook                                         */
 
 /****** GX **************************************************************************/
-#include <sa2b/gx/gx.h>         /* gx                                               */
+#include <samt/gx/gx.h>         /* gx                                               */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */

@@ -1,6 +1,6 @@
-#include <sa2b/core.h>
-#include <sa2b/file.h>
-#include <sa2b/memory.h>
+#include <samt/core.h>
+#include <samt/file.h>
+#include <samt/memory.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -34,7 +34,7 @@ RF_ObjPakInit(void)
         if (fsize != 0x57BD)
         {
             OutputString("Render Fix: obj.pak is not original, aborting changes!");
-            MemFree(fbuf);
+            mtMemFree(fbuf);
             return;
         }
 
@@ -67,7 +67,7 @@ RF_ObjPakInit(void)
 
         if (!changed)
         {
-            MemFree(fbuf);
+            mtMemFree(fbuf);
             return;
         }
 
@@ -80,12 +80,12 @@ RF_ObjPakInit(void)
             /** If some error occured **/
             if (!nbw)
             {
-                MemFree(fbuf);
+                mtMemFree(fbuf);
                 return;
             }
         }
 
-        MemFree(fbuf);
+        mtMemFree(fbuf);
 
         *(struc_36Instance + 0x644) = 1; // Reload shaders
     }

@@ -1,12 +1,12 @@
-#include <sa2b/core.h>
-#include <sa2b/writeop.h>
-#include <sa2b/config.h>
+#include <samt/core.h>
+#include <samt/writeop.h>
+#include <samt/config.h>
 
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/camera.h>
-#include <sa2b/sonic/score.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/camera.h>
+#include <samt/sonic/score.h>
 
 /** Render Fix **/
 #include <rf_core.h>

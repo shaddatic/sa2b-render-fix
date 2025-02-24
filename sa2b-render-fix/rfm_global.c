@@ -1,18 +1,18 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/funchook.h>
 
 /** GX **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/gx/gx.h>
+#include <samt/gx/gx.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/display.h>
+#include <samt/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>

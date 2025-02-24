@@ -1,13 +1,13 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Game **/
-#include <sa2b/sonic/light.h>
+#include <samt/sonic/light.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -54,12 +54,12 @@ RFM_BossBogyInit(void)
 
     if (RF_ConfigGetInt(CNF_BBOGY_LIGHTS))
     {
-        MemCopy((void*)0x01036738, lights_bigbogy, sizeof(lights_bigbogy));
+        mtMemCopy((void*)0x01036738, lights_bigbogy, sizeof(lights_bigbogy));
     }
 
     if (RF_ConfigGetInt(CNF_BBOGY_PULSE))
     {
         WriteJump(0x006190A0, GetMatAlphaPointer);
-        MemCopy((void*)0x010024D4, GlowPulseParams, sizeof(GlowPulseParams));
+        mtMemCopy((void*)0x010024D4, GlowPulseParams, sizeof(GlowPulseParams));
     }
 }

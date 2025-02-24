@@ -1,7 +1,7 @@
-#include <sa2b/core.h>
+#include <samt/core.h>
 
 /** Magic **/
-#include <sa2b/magic/magic.h>
+#include <samt/magic/magic.h>
 
 /** Render Fix **/
 #include <rf_core.h>

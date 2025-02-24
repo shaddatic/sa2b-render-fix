@@ -1,16 +1,16 @@
-#include <sa2b/core.h>
-#include <sa2b/config.h>
-#include <sa2b/writeop.h>
-#include <sa2b/writemem.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/config.h>
+#include <samt/writeop.h>
+#include <samt/writemem.h>
+#include <samt/funchook.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/display.h>
-#include <sa2b/sonic/njctrl.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/display.h>
+#include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>

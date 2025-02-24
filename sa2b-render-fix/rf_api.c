@@ -1,13 +1,13 @@
-#include <sa2b/core.h>
-#include <sa2b/modinfo.h>
-#include <sa2b/modloader.h>
+#include <samt/core.h>
+#include <samt/modinfo.h>
+#include <samt/modloader.h>
 
 /** Utility **/
-#include <sa2b/util/ml_type.h>
-#include <sa2b/util/dllexport.h>
+#include <samt/util/ml_type.h>
+#include <samt/util/dllexport.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** API **/
 #include <../api/renderfix_api.h>

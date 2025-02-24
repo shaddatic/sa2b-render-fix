@@ -1,5 +1,5 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
 
 /** Render Fix **/
 #include <rf_core.h>

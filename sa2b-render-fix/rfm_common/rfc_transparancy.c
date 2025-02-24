@@ -2,17 +2,17 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/writemem.h>  /* WriteData, WritePointer                              */
-#include <sa2b/writeop.h>   /* WriteNOP                                             */
-#include <sa2b/funchook.h>  /* FuncHook                                             */
+#include <samt/core.h>      /* core                                                 */
+#include <samt/writemem.h>  /* WriteData, WritePointer                              */
+#include <samt/writeop.h>   /* WriteNOP                                             */
+#include <samt/funchook.h>  /* FuncHook                                             */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/task.h>    /* task                                             */
-#include <sa2b/sonic/datadll.h> /* data_dll                                         */
+#include <samt/sonic/task.h>    /* task                                             */
+#include <samt/sonic/datadll.h> /* data_dll                                         */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

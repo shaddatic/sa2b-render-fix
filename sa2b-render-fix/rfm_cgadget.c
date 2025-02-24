@@ -1,11 +1,11 @@
-#include <sa2b/core.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/funchook.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Game **/
-#include <sa2b/sonic/task.h>
+#include <samt/sonic/task.h>
 
 /** Render Fix **/
 #include <rf_core.h>

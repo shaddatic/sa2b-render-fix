@@ -1,9 +1,9 @@
-#include <sa2b/core.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/writeop.h>
 
-#include <sa2b/shinobi/sg_maloc.h>
+#include <samt/shinobi/sg_maloc.h>
 
-#include <sa2b/sonic/task.h>
+#include <samt/sonic/task.h>
 
 #include <rf_util.h>
 

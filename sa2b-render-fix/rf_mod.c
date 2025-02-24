@@ -1,14 +1,14 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/funchook.h>
 
 /** GX **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/gx/gx.h>
+#include <samt/gx/gx.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Source **/
-#include <sa2b/sonic/shaders.h>
+#include <samt/sonic/shaders.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -420,7 +420,7 @@ RFMOD_OffShadow(void)
 static void
 RFMOD_CreateBuffer(void)
 {
-    ModBuffer    = mAlloc(MOD_TRI, ModBufferInitTriNum);
+    ModBuffer    = mtAlloc(MOD_TRI, ModBufferInitTriNum);
     ModBufferMax = ModBufferInitTriNum;
     ModBufferNum = 0;
 }

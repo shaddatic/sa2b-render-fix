@@ -2,13 +2,13 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
+#include <samt/core.h>      /* core                                                 */
 
 /****** Utility *********************************************************************/
-#include <sa2b/util/endian.h> /* swapendian                                         */
+#include <samt/util/endian.h> /* swapendian                                         */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

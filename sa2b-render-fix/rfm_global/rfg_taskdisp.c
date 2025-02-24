@@ -1,19 +1,19 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/camera.h>
-#include <sa2b/sonic/debug.h>
-#include <sa2b/sonic/score.h>
-#include <sa2b/sonic/game.h>
-#include <sa2b/sonic/player.h>
-#include <sa2b/sonic/light.h>
-#include <sa2b/sonic/njctrl.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/camera.h>
+#include <samt/sonic/debug.h>
+#include <samt/sonic/score.h>
+#include <samt/sonic/game.h>
+#include <samt/sonic/player.h>
+#include <samt/sonic/light.h>
+#include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>

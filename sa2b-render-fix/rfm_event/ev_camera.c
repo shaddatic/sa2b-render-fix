@@ -2,15 +2,15 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writeop.h>       /* writejump                                        */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writeop.h>       /* writejump                                        */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/task.h>    /* task                                             */
-#include <sa2b/sonic/camera.h>  /* camera                                           */
+#include <samt/sonic/task.h>    /* task                                             */
+#include <samt/sonic/camera.h>  /* camera                                           */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */

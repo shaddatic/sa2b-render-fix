@@ -14,7 +14,7 @@
 /*  External Includes   */
 /************************/
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 EXTERN_START
 

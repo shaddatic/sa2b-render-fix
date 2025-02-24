@@ -13,7 +13,7 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/njcommon.h>
+#include <samt/ninja/njcommon.h>
 
 EXTERN_START
 

@@ -2,18 +2,18 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writeop.h>       /* writejump                                        */
-#include <sa2b/memory.h>        /* memory                                           */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writeop.h>       /* writejump                                        */
+#include <samt/memory.h>        /* memory                                           */
 
 /****** Utility *********************************************************************/
-#include <sa2b/util/endian.h>   /* endian                                           */
+#include <samt/util/endian.h>   /* endian                                           */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/player.h>  /* misc                                             */
+#include <samt/sonic/player.h>  /* misc                                             */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -55,9 +55,9 @@ FIX_HISTORY;
 static FIX_HISTORY*
 CreateFixHistory(void)
 {
-    FIX_HISTORY* p_history = mAlloc(FIX_HISTORY, 1);
+    FIX_HISTORY* p_history = mtAlloc(FIX_HISTORY, 1);
 
-    p_history->pp  = mCalloc(void*, 128);
+    p_history->pp  = mtCalloc(void*, 128);
     p_history->num = 128;
 
     return p_history;
@@ -66,8 +66,8 @@ CreateFixHistory(void)
 static void
 FreeFixHistory(FIX_HISTORY* pHistory)
 {
-    mFree(pHistory->pp);
-    mFree(pHistory);
+    mtFree(pHistory->pp);
+    mtFree(pHistory);
 }
 
 static bool
@@ -91,7 +91,7 @@ CheckAndAddToFixHistory(const void* p, FIX_HISTORY* pHistory)
     /** If we got here without returning, the list has been maxed out. Realloc more
       room and clear new space. **/
 
-    mRecalloc(&pHistory->pp, void*, num, num * 2);
+    mtRecalloc(&pHistory->pp, void*, num, num * 2);
 
     pHistory->num = num * 2;
 

@@ -2,23 +2,23 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writemem.h>      /* WriteData, WriteJump, WritePointer               */
-#include <sa2b/writeop.h>       /* WriteJump, WriteCall                             */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writemem.h>      /* WriteData, WriteJump, WritePointer               */
+#include <samt/writeop.h>       /* WriteJump, WriteCall                             */
 
 #define SAMT_INCL_INTERNAL
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 #undef SAMT_INCL_INTERNAL
 
 /****** Utility *********************************************************************/
-#include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
+#include <samt/util/anyobj.h>   /* ANY_OBJECT                                       */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/motion.h>  /* MOTION_CTRL                                      */
-#include <sa2b/sonic/texture.h> /* texload                                          */
+#include <samt/sonic/motion.h>  /* MOTION_CTRL                                      */
+#include <samt/sonic/texture.h> /* texload                                          */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */

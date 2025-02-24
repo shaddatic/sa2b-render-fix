@@ -1,9 +1,10 @@
-#include <sa2b/core.h>
-#include <sa2b/model.h>
+#include <samt/core.h>
+#include <samt/model.h>
+#include <samt/samdl.h>
 
 /** Game **/
-#include <sa2b/sonic/landtable.h>
-#include <sa2b/sonic/datadll.h>
+#include <samt/sonic/landtable.h>
+#include <samt/sonic/datadll.h>
 
 /** Std **/
 #include <stdio.h>
@@ -26,9 +27,9 @@ RFM_CannonsCoreInit(void)
 
         char buf[260];
 
-        snprintf(buf, sizeof(buf), "%s/model/stg37_land0032.sa2bmdl", GetModPath());
+        snprintf(buf, sizeof(buf), "%s/model/stg37_land0032.sa2bmdl", mtGetModPath());
 
-        GJS_OBJECT* object = MDL_GinjaLoadObjectFile(buf);
+        GJS_OBJECT* object = mtSAModelLoad(buf, SAMDL_GINJA)->pGinja;
 
         ReplaceLandObject(land, 32, object);
     }

@@ -101,7 +101,7 @@ CopyLastVertex(const int szStride)
     const int vtxbuf  = _gx_vtx_buf_base_;
     const int lastvtx = _gx_vtx_buf_offset_ - szStride;
 
-    MemCopy((char*)vtxbuf + _gx_vtx_buf_offset_, (char*)vtxbuf + lastvtx, szStride);
+    mtMemCopy((char*)vtxbuf + _gx_vtx_buf_offset_, (char*)vtxbuf + lastvtx, szStride);
 
     _gx_vtx_buf_offset_ += szStride;
 }
@@ -121,7 +121,7 @@ CopyCopyVertex(const int stride)
     {
         const uintptr_t ptr = (_gx_vtx_buf_base_ + _gx_vtx_buf_offset_cpy_);
 
-        MemCopy((void*)ptr , (void*)(ptr + stride), stride);
+        mtMemCopy((void*)ptr , (void*)(ptr + stride), stride);
     }
 }
 

@@ -1,10 +1,10 @@
-#include <sa2b/core.h>
-#include <sa2b/funchook.h>
-#include <sa2b/config.h>
+#include <samt/core.h>
+#include <samt/funchook.h>
+#include <samt/config.h>
 
 /** Source **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/shaders.h>
+#include <samt/sonic/shaders.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Std **/
@@ -65,7 +65,7 @@ RF_LoadVtxShader(const utf8* fname)
 {
     utf8 buf[260];
 
-    snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
+    snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", mtGetModPath(), fname);
 
     return RF_DirectLoadVtxShader(buf);
 }
@@ -75,7 +75,7 @@ RF_LoadPxlShader(const utf8* fname)
 {
     utf8 buf[260];
 
-    snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", GetModPath(), fname);
+    snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", mtGetModPath(), fname);
 
     return RF_DirectLoadPxlShader(buf);
 }

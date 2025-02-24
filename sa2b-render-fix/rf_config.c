@@ -1,5 +1,5 @@
-#include <sa2b/core.h>
-#include <sa2b/config.h>
+#include <samt/core.h>
+#include <samt/config.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -10,21 +10,21 @@
 
 static bool ConfigSet;
 
-static config* ConfigPointer;
+static mt_config* ConfigPointer;
 
 void
 RF_ConfigInit(void)
 {
-    ConfigPointer = ConfigOpen2(GetModPath(), "config.ini");
+    ConfigPointer = mtConfigOpen2(mtGetModPath(), "config.ini");
 }
 
 void
 RF_ConfigEnd(void)
 {
     if (ConfigSet)
-        ConfigSave(ConfigPointer);
+        mtConfigSave(ConfigPointer);
 
-    ConfigClose(ConfigPointer);
+    mtConfigClose(ConfigPointer);
 
     ConfigPointer = NULL;
 }
@@ -93,7 +93,7 @@ RF_ConfigDirectGetInt(const utf8* section, const utf8* key, int def)
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
 
-    return ConfigGetInt(ConfigPointer, section, key, def);
+    return mtConfigGetInt(ConfigPointer, section, key, def);
 }
 
 bool
@@ -102,7 +102,7 @@ RF_ConfigDirectGetBool(const utf8* section, const utf8* key, bool def)
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
 
-    return ConfigGetBool(ConfigPointer, section, key, def);
+    return mtConfigGetBool(ConfigPointer, section, key, def);
 }
 
 f64
@@ -111,7 +111,7 @@ RF_ConfigDirectGetFloat(const utf8* section, const utf8* key, f64 def)
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
 
-    return ConfigGetFloat(ConfigPointer, section, key, def);
+    return mtConfigGetFloat(ConfigPointer, section, key, def);
 }
 
 const utf8*
@@ -120,7 +120,7 @@ RF_ConfigDirectGetString(const utf8* section, const utf8* key, const utf8* def)
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
 
-    return ConfigGetString(ConfigPointer, section, key, def);
+    return mtConfigGetString(ConfigPointer, section, key, def);
 }
 
 #pragma endregion
@@ -134,7 +134,7 @@ RF_ConfigDirectSetInt(const utf8* section, const utf8* key, int set)
     if (!ConfigPointer)
         RF_DebugFuncError("Config set after free");
 
-    ConfigSetInt(ConfigPointer, section, key, set);
+    mtConfigSetInt(ConfigPointer, section, key, set);
 }
 
 void
@@ -145,7 +145,7 @@ RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
     if (!ConfigPointer)
         RF_DebugFuncError("Config set after free");
 
-    ConfigSetBool(ConfigPointer, section, key, set);
+    mtConfigSetBool(ConfigPointer, section, key, set);
 }
 
 void
@@ -156,7 +156,7 @@ RF_ConfigDirectSetFloat(const utf8* section, const utf8* key, f64 set)
     if (!ConfigPointer)
         RF_DebugFuncError("Config set after free");
 
-    ConfigSetFloat(ConfigPointer, section, key, set);
+    mtConfigSetFloat(ConfigPointer, section, key, set);
 }
 
 void
@@ -167,7 +167,7 @@ RF_ConfigDirectSetString(const utf8* section, const utf8* key, const utf8* set)
     if (!ConfigPointer)
         RF_DebugFuncError("Config set after free");
 
-    ConfigSetString(ConfigPointer, section, key, set);
+    mtConfigSetString(ConfigPointer, section, key, set);
 }
 
 #pragma endregion

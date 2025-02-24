@@ -1,39 +1,39 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writemem.h>
-#include <sa2b/funchook.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/writemem.h>
+#include <samt/funchook.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
+#include <samt/sonic/task.h>
 
 /** Chao **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/chao/chao.h>
-#include <sa2b/sonic/chao/al_egg.h>
-#include <sa2b/sonic/chao/al_world.h>
-#include <sa2b/sonic/chao/alo_growtree.h>
-#include <sa2b/sonic/chao/alo_chaosdrive.h>
-#include <sa2b/sonic/chao/alo_obake_head.h>
-#include <sa2b/sonic/chao/alo_seed.h>
-#include <sa2b/sonic/chao/alo_fruit.h>
-#include <sa2b/sonic/chao/al_minimal.h>
+#include <samt/sonic/chao/chao.h>
+#include <samt/sonic/chao/al_egg.h>
+#include <samt/sonic/chao/al_world.h>
+#include <samt/sonic/chao/alo_growtree.h>
+#include <samt/sonic/chao/alo_chaosdrive.h>
+#include <samt/sonic/chao/alo_obake_head.h>
+#include <samt/sonic/chao/alo_seed.h>
+#include <samt/sonic/chao/alo_fruit.h>
+#include <samt/sonic/chao/al_minimal.h>
 #undef  SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/chao/al_chao_info.h>
-#include <sa2b/sonic/chao/al_stage.h>
-#include <sa2b/sonic/chao/al_global.h>
-#include <sa2b/sonic/chao/al_misc.h>
+#include <samt/sonic/chao/al_chao_info.h>
+#include <samt/sonic/chao/al_stage.h>
+#include <samt/sonic/chao/al_global.h>
+#include <samt/sonic/chao/al_misc.h>
 
 /** AL Toys **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/chao/al_toy/alo_ball.h>
-#include <sa2b/sonic/chao/al_toy/alo_box.h>
-#include <sa2b/sonic/chao/al_toy/alo_horse.h>
-#include <sa2b/sonic/chao/al_toy/alo_radicase.h>
-#include <sa2b/sonic/chao/al_toy/alo_tv.h>
+#include <samt/sonic/chao/al_toy/alo_ball.h>
+#include <samt/sonic/chao/al_toy/alo_box.h>
+#include <samt/sonic/chao/al_toy/alo_horse.h>
+#include <samt/sonic/chao/al_toy/alo_radicase.h>
+#include <samt/sonic/chao/al_toy/alo_tv.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/

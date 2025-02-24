@@ -1,8 +1,8 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Render Fix **/
 #include <rf_core.h>

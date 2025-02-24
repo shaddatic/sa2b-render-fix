@@ -1,19 +1,20 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/funchook.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/camera.h>
-#include <sa2b/sonic/njctrl.h>
-#include <sa2b/sonic/debug.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/camera.h>
+#include <samt/sonic/njctrl.h>
+#include <samt/sonic/debug.h>
 
 /** Render Fix **/
+#include <rf_core.h>
 #include <rf_file.h>
 #include <rf_draw.h>
 #include <rf_mdlutil.h>
@@ -152,30 +153,67 @@ CHS_CartInit(void)
 
     FuncHook(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
 
+    LOAD_SAMDL_LIST mdl_list[8][2] =
+    {
+        {
+            { .puPath = "cart/cart_tails_big_mod" },
+            { .puPath = nullptr },
+        },
+        {
+            { .puPath = "cart/cart_rouge_big_mod" },
+            { .puPath = nullptr },
+        },
+        {
+            { .puPath = "cart/cart_sonic_mod" },
+            { .puPath = "cart/cart_sonic_alt_mod" },
+        },
+        {
+            { .puPath = "cart/cart_knuckles_mod" },
+            { .puPath = "cart/cart_knuckles_alt_mod" },
+        },
+        {
+            { .puPath = "cart/cart_tails_mod" },
+            { .puPath = "cart/cart_chao_mod" },
+        },
+        {
+            { .puPath = "cart/cart_eggman_mod" },
+            { .puPath = "cart/cart_eggman_alt_mod" },
+        },
+        {
+            { .puPath = "cart/cart_shadow_mod" },
+            { .puPath = "cart/cart_shadow_alt_mod" },
+        },
+        {
+            { .puPath = "cart/cart_rouge_mod" },
+            { .puPath = "cart/cart_eggrobo_mod" },
+        },
+
+    };
+
+    RF_LoadChunkObjectList( (LOAD_SAMDL_LIST*) mdl_list, 8 * 2);
+
     /** Models **/
-    CartObjectList[0][0] = RF_ChunkLoadObjectFile("cart/cart_tails_big_mod");
-    CartObjectList[0][1] = CartObjectList[0][0];
+    CartObjectList[0][0] = mdl_list[0][0].pSamdl->pChunk;
+//  CartObjectList[0][1] = mdl_list[0][1].pSamdl->pChunk;
 
-    CartObjectList[1][0] = RF_ChunkLoadObjectFile("cart/cart_rouge_big_mod");
-    CartObjectList[1][1] = CartObjectList[1][0];
+    CartObjectList[1][0] = mdl_list[1][0].pSamdl->pChunk;
+//  CartObjectList[1][1] = mdl_list[1][1].pSamdl->pChunk;
 
-    CartObjectList[2][0] = RF_ChunkLoadObjectFile("cart/cart_sonic_mod");
-    CartObjectList[2][1] = RF_ChunkLoadObjectFile("cart/cart_sonic_alt_mod");
+    CartObjectList[2][0] = mdl_list[2][0].pSamdl->pChunk;
+    CartObjectList[2][1] = mdl_list[2][1].pSamdl->pChunk;
 
-    CartObjectList[3][0] = RF_ChunkLoadObjectFile("cart/cart_knuckles_mod");
-    CartObjectList[3][1] = RF_ChunkLoadObjectFile("cart/cart_knuckles_alt_mod");
+    CartObjectList[3][0] = mdl_list[3][0].pSamdl->pChunk;
+    CartObjectList[3][1] = mdl_list[3][1].pSamdl->pChunk;
 
-    CartObjectList[4][0] = RF_ChunkLoadObjectFile("cart/cart_tails_mod");
-    CartObjectList[4][1] = RF_ChunkLoadObjectFile("cart/cart_chao_mod");
+    CartObjectList[4][0] = mdl_list[4][0].pSamdl->pChunk;
+    CartObjectList[4][1] = mdl_list[4][1].pSamdl->pChunk;
 
-    CartObjectList[5][0] = RF_ChunkLoadObjectFile("cart/cart_eggman_mod");
-    CartObjectList[5][1] = RF_ChunkLoadObjectFile("cart/cart_eggman_alt_mod");
+    CartObjectList[5][0] = mdl_list[5][0].pSamdl->pChunk;
+    CartObjectList[5][1] = mdl_list[5][1].pSamdl->pChunk;
 
-    CartObjectList[6][0] = RF_ChunkLoadObjectFile("cart/cart_shadow_mod");
-    CartObjectList[6][1] = RF_ChunkLoadObjectFile("cart/cart_shadow_alt_mod");
+    CartObjectList[6][0] = mdl_list[6][0].pSamdl->pChunk;
+    CartObjectList[6][1] = mdl_list[6][1].pSamdl->pChunk;
 
-    CartObjectList[7][0] = RF_ChunkLoadObjectFile("cart/cart_rouge_mod");
-    CartObjectList[7][1] = RF_ChunkLoadObjectFile("cart/cart_eggrobo_mod");
-
-    RF_CnkObjectReduceDuplicates((NJS_CNK_OBJECT**)CartObjectList, 8*2);
+    CartObjectList[7][0] = mdl_list[7][0].pSamdl->pChunk;
+    CartObjectList[7][1] = mdl_list[7][1].pSamdl->pChunk;
 }

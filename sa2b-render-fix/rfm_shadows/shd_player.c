@@ -1,24 +1,24 @@
-#include <sa2b/core.h>
-#include <sa2b/config.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/modinfo.h>
+#include <samt/core.h>
+#include <samt/config.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/modinfo.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Player **/
-#include <sa2b/sonic/player.h>
+#include <samt/sonic/player.h>
 
 /** Figure **/
 #define SAMT_INCL_FUNCPTRS
-#include <sa2b/sonic/figure/sonic.h>
-#include <sa2b/sonic/figure/shadow.h>
-#include <sa2b/sonic/figure/miles.h>
-#include <sa2b/sonic/figure/knuckles.h>
-#include <sa2b/sonic/figure/rouge.h>
-#include <sa2b/sonic/figure/ewalker.h>
-#include <sa2b/sonic/figure/twalker.h>
+#include <samt/sonic/figure/sonic.h>
+#include <samt/sonic/figure/shadow.h>
+#include <samt/sonic/figure/miles.h>
+#include <samt/sonic/figure/knuckles.h>
+#include <samt/sonic/figure/rouge.h>
+#include <samt/sonic/figure/ewalker.h>
+#include <samt/sonic/figure/twalker.h>
 #undef  SAMT_INCL_FUNCPTRS
 
 /** Render Fix **/
@@ -557,7 +557,7 @@ __njCnkDrawMotionHook(void)
     }
 }
 
-static config*
+static mt_config*
 GetDisableUpgradeModelsConfig(void)
 {
     const mod_info* p_modinfo = MI_GetInfoByDLL("SA2DisableUpgradeModels");
@@ -589,37 +589,37 @@ EnhancedPlayerShadowsInit(void)
     WritePointer(0x007501B2, &mtx_MilesTails);  // Point shader tails matrix to actual tails matrix
     WritePointer(0x00750230, &mtx_MilesTails);  // ^
 
-    config* pupgradeconf = GetDisableUpgradeModelsConfig();
+    mt_config* pupgradeconf = GetDisableUpgradeModelsConfig();
 
     if (pupgradeconf)
     {
-        DrawSonicFlameRing =  !ConfigGetBool(pupgradeconf, "Sonic", "DisableFlameRing", true);
-        DrawSonicRubberUnit = !ConfigGetBool(pupgradeconf, "Sonic", "DisableBounceBracelet", true);
-        DrawSonicMagicWrist = !ConfigGetBool(pupgradeconf, "Sonic", "DisableMagicGloves", true);
-        DrawSonicShoes =      !ConfigGetBool(pupgradeconf, "Sonic", "DisableLightShoes", true);
+        DrawSonicFlameRing =  !mtConfigGetBool(pupgradeconf, "Sonic", "DisableFlameRing", true);
+        DrawSonicRubberUnit = !mtConfigGetBool(pupgradeconf, "Sonic", "DisableBounceBracelet", true);
+        DrawSonicMagicWrist = !mtConfigGetBool(pupgradeconf, "Sonic", "DisableMagicGloves", true);
+        DrawSonicShoes =      !mtConfigGetBool(pupgradeconf, "Sonic", "DisableLightShoes", true);
 
-        DrawShadowFlameRing = !ConfigGetBool(pupgradeconf, "Shadow", "DisableFlameRing", true);
-        DrawShadowShoes =     !ConfigGetBool(pupgradeconf, "Shadow", "DisableAirShoes", true);
+        DrawShadowFlameRing = !mtConfigGetBool(pupgradeconf, "Shadow", "DisableFlameRing", true);
+        DrawShadowShoes =     !mtConfigGetBool(pupgradeconf, "Shadow", "DisableAirShoes", true);
 
-        DrawKnuxClaw =     !ConfigGetBool(pupgradeconf, "Knuckles", "DisableShovelClaw", true);
-        DrawKnuxAir =      !ConfigGetBool(pupgradeconf, "Knuckles", "DisableAirNecklace", true);
-        DrawKnuxGloves =   !ConfigGetBool(pupgradeconf, "Knuckles", "DisableHammerGloves", true);
-        DrawKnuxSunglass = !ConfigGetBool(pupgradeconf, "Knuckles", "DisableSunglasses", true);
+        DrawKnuxClaw =     !mtConfigGetBool(pupgradeconf, "Knuckles", "DisableShovelClaw", true);
+        DrawKnuxAir =      !mtConfigGetBool(pupgradeconf, "Knuckles", "DisableAirNecklace", true);
+        DrawKnuxGloves =   !mtConfigGetBool(pupgradeconf, "Knuckles", "DisableHammerGloves", true);
+        DrawKnuxSunglass = !mtConfigGetBool(pupgradeconf, "Knuckles", "DisableSunglasses", true);
 
-        DrawRougeNails = !ConfigGetBool(pupgradeconf, "Rouge", "DisablePickNails", true);
-        DrawRougeBoots = !ConfigGetBool(pupgradeconf, "Rouge", "DisableIronBoots", true);
-        DrawRougeScope = !ConfigGetBool(pupgradeconf, "Rouge", "DisableTreasureScope", true);
+        DrawRougeNails = !mtConfigGetBool(pupgradeconf, "Rouge", "DisablePickNails", true);
+        DrawRougeBoots = !mtConfigGetBool(pupgradeconf, "Rouge", "DisableIronBoots", true);
+        DrawRougeScope = !mtConfigGetBool(pupgradeconf, "Rouge", "DisableTreasureScope", true);
 
-        DrawMilesLazerBlaster = !ConfigGetBool(pupgradeconf, "Tails", "DisableLaserBlaster", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
-        DrawMilesHyperCannon =  !ConfigGetBool(pupgradeconf, "Tails", "DisableBazooka", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
-        DrawMilesBooster =      !ConfigGetBool(pupgradeconf, "Tails", "DisableBooster", true);
+        DrawMilesLazerBlaster = !mtConfigGetBool(pupgradeconf, "Tails", "DisableLaserBlaster", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
+        DrawMilesHyperCannon =  !mtConfigGetBool(pupgradeconf, "Tails", "DisableBazooka", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
+        DrawMilesBooster =      !mtConfigGetBool(pupgradeconf, "Tails", "DisableBooster", true);
 
-        DrawEggmanPowerGun =    !ConfigGetBool(pupgradeconf, "Eggman", "DisableLaserBlaster", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
-        DrawEggmanBazooka =     !ConfigGetBool(pupgradeconf, "Eggman", "DisableLargeCannon", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
-        DrawEggmanJetEngine =   !ConfigGetBool(pupgradeconf, "Eggman", "DisableJetEngine", true);
-        DrawEggmanExtraShield = !ConfigGetBool(pupgradeconf, "Eggman", "DisableProtectiveArmor", true);
+        DrawEggmanPowerGun =    !mtConfigGetBool(pupgradeconf, "Eggman", "DisableLaserBlaster", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
+        DrawEggmanBazooka =     !mtConfigGetBool(pupgradeconf, "Eggman", "DisableLargeCannon", true) ? EQUIP_MD_FULL : EQUIP_MD_OG_ONLY;
+        DrawEggmanJetEngine =   !mtConfigGetBool(pupgradeconf, "Eggman", "DisableJetEngine", true);
+        DrawEggmanExtraShield = !mtConfigGetBool(pupgradeconf, "Eggman", "DisableProtectiveArmor", true);
 
-        ConfigClose(pupgradeconf);
+        mtConfigClose(pupgradeconf);
     }
     else
     {

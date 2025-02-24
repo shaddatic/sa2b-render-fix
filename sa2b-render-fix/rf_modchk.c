@@ -1,6 +1,6 @@
-#include <sa2b/core.h>
-#include <sa2b/modinfo.h>
-#include <sa2b/string.h>
+#include <samt/core.h>
+#include <samt/modinfo.h>
+#include <samt/string.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -22,7 +22,7 @@ CheckModByNameAndAuthor(const char* name, const char* author)
 {
     const mod_info* mhp = MI_GetInfoByName(name);
 
-    return (mhp && StringMatch( mhp->cAuthor, author, STR_NOMAX ));
+    return (mhp && mtStrMatch( mhp->cAuthor, author, STR_NOMAX ));
 }
 
 void
@@ -32,7 +32,7 @@ RF_ModCheckInit(void)
     {
         const mod_info* mhp = MI_GetInfoByPosition(0);
 
-        if (!StringMatch( mhp->cID, "sa2-render-fix", STR_NOMAX ))
+        if (!mtStrMatch( mhp->cID, "sa2-render-fix", STR_NOMAX ))
         {
             RF_Alert("Mod Position",
                 "SA2 Render Fix is incorrectly placed in your mod list.\n\n"

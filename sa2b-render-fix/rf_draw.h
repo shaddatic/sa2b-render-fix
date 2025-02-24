@@ -14,13 +14,13 @@
 /*  External Headers    */
 /************************/
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Utility *********************************************************************/
-#include <sa2b/util/anyobj.h>   /* ANY_OBJECT                                       */
+#include <samt/util/anyobj.h>   /* ANY_OBJECT                                       */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/motion.h>  /* MOTION_CTRL                                      */
+#include <samt/sonic/motion.h>  /* MOTION_CTRL                                      */
 
 EXTERN_START
 

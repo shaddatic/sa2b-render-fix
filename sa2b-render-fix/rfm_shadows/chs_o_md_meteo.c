@@ -1,14 +1,14 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/funchook.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/funchook.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/task.h>
-#include <sa2b/sonic/debug.h>
+#include <samt/sonic/task.h>
+#include <samt/sonic/debug.h>
 
 /** Render Fix **/
 #include <rf_file.h>

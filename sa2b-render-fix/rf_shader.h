@@ -13,7 +13,7 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /************************/
 /*  Local Types         */

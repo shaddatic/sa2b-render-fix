@@ -1,16 +1,16 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/funchook.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
+#include <samt/funchook.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Core Matrix **/
-#include <sa2b/c_mtx/c_mtx.h>
+#include <samt/c_mtx/c_mtx.h>
 
 /** Source **/
-#include <sa2b/sonic/display.h>
+#include <samt/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>

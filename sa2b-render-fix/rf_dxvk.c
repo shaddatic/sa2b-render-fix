@@ -1,5 +1,5 @@
-#include <sa2b/core.h>
-#include <sa2b/file.h>
+#include <samt/core.h>
+#include <samt/file.h>
 
 /** Std **/
 #include <stdio.h>
@@ -34,7 +34,7 @@ DXVK_CheckAndInstall(void)
     {
         char buf[260];
 
-        snprintf(buf, sizeof(buf), "%s/install/dxvk.dll", GetModPath());
+        snprintf(buf, sizeof(buf), "%s/install/dxvk.dll", mtGetModPath());
 
         if (!uFileExists(buf))
         {

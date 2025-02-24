@@ -1,15 +1,15 @@
-#include <sa2b/core.h>
-#include <sa2b/memory.h>
-#include <sa2b/file.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
-#include <sa2b/model.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/file.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
+#include <samt/model.h>
 
 /** Util **/
-#include <sa2b/util/endian.h>
+#include <samt/util/endian.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Std **/
 #include <stdio.h>

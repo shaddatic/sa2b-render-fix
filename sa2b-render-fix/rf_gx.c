@@ -2,11 +2,11 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/writeop.h>   /* writejump                                            */
+#include <samt/core.h>      /* core                                                 */
+#include <samt/writeop.h>   /* writejump                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/shaders.h> /* setshader                                        */
+#include <samt/sonic/shaders.h> /* setshader                                        */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

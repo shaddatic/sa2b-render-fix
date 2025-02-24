@@ -14,11 +14,11 @@
 /*  External Includes   */
 /************************/
 /****** Utility *********************************************************************/
-#include <sa2b/util/cnkmdl.h>   /* chunk model structure                            */
+#include <samt/util/cnkmdl.h>   /* chunk model structure                            */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/njcommon.h> /* ninja common                                    */
-#include <sa2b/ninja/njmatrix.h> /* ninja matrix                                    */
+#include <samt/ninja/njcommon.h> /* ninja common                                    */
+#include <samt/ninja/njmatrix.h> /* ninja matrix                                    */
 
 EXTERN_START
 

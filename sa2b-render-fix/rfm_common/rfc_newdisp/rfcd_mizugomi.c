@@ -1,10 +1,10 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
 
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
-#include <sa2b/sonic/task.h>
+#include <samt/sonic/task.h>
 
 #define njDrawSomethingStart    FUNC_PTR(void, __cdecl, (int), 0x00491160)
 

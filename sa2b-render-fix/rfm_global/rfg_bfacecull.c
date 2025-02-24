@@ -1,17 +1,17 @@
-#include <sa2b/core.h>
-#include <sa2b/writemem.h>
-#include <sa2b/writeop.h>
+#include <samt/core.h>
+#include <samt/writemem.h>
+#include <samt/writeop.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** GX **/
-#include <sa2b/gx/gx.h>
+#include <samt/gx/gx.h>
 
 /** Source **/
-#include <sa2b/sonic/landtable.h>
-#include <sa2b/sonic/datadll.h>
-#include <sa2b/sonic/njctrl.h>
+#include <samt/sonic/landtable.h>
+#include <samt/sonic/datadll.h>
+#include <samt/sonic/njctrl.h>
 
 /** Std **/
 #include <string.h>

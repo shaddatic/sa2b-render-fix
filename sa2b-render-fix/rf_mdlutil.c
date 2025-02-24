@@ -1,14 +1,13 @@
-#include <sa2b/core.h>
-#include <sa2b/user.h>
-#include <sa2b/memory.h>
-#include <sa2b/model.h>
+#include <samt/core.h>
+#include <samt/memory.h>
+#include <samt/model.h>
 
 /** Ninja **/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /** Source **/
-#include <sa2b/sonic/texture.h>
-#include <sa2b/sonic/landtable.h>
+#include <samt/sonic/texture.h>
+#include <samt/sonic/landtable.h>
 
 /** Std **/
 #include <stdio.h>
@@ -998,25 +997,25 @@ RF_CnkModelMatch(const NJS_CNK_MODEL* pMdl1, const NJS_CNK_MODEL* pMdl2)
 
     if (pMdl1->vlist)
     {
-        const size_t sz_vlist1 = MDL_ChunkGetVListSize(pMdl1->vlist);
-        const size_t sz_vlist2 = MDL_ChunkGetVListSize(pMdl2->vlist);
+        const size_t sz_vlist1 = mtCnkVListSize(pMdl1->vlist);
+        const size_t sz_vlist2 = mtCnkVListSize(pMdl2->vlist);
 
         if (sz_vlist1 != sz_vlist2)
             return false;
 
-        if ( !MemMatch(pMdl1->vlist, pMdl2->vlist, sz_vlist1) )
+        if ( !mtMemMatch(pMdl1->vlist, pMdl2->vlist, sz_vlist1) )
             return false;
     }
 
     if (pMdl1->plist)
     {
-        const size_t sz_plist1 = MDL_ChunkGetPListSize(pMdl1->plist);
-        const size_t sz_plist2 = MDL_ChunkGetPListSize(pMdl2->plist);
+        const size_t sz_plist1 = mtCnkPListSize(pMdl1->plist);
+        const size_t sz_plist2 = mtCnkPListSize(pMdl2->plist);
 
         if (sz_plist1 != sz_plist2)
             return false;
 
-        if ( !MemMatch(pMdl1->plist, pMdl2->plist, sz_plist1) )
+        if ( !mtMemMatch(pMdl1->plist, pMdl2->plist, sz_plist1) )
             return false;
     }
 
@@ -1061,39 +1060,4 @@ RF_CnkObjectMatch(const NJS_CNK_OBJECT* pObj1, const NJS_CNK_OBJECT* pObj2)
         return false;
 
     return true;
-}
-
-bool
-RF_CnkObjectReduceDuplicates(NJS_CNK_OBJECT** pInOutObjList, s32 nbObj)
-{
-    bool result = false;
-
-    for (int i = 0; i < nbObj; ++i)
-    {
-        NJS_CNK_OBJECT* p_obj = pInOutObjList[i];
-
-        if (!p_obj)
-            continue;
-
-        for (int j = i+1; j < nbObj; ++j)
-        {
-            NJS_CNK_OBJECT* p_cmp_obj = pInOutObjList[j];
-
-            if (!p_cmp_obj || p_obj == p_cmp_obj)
-                continue;
-
-            if ( RF_CnkObjectMatch(p_obj, p_cmp_obj) )
-            {
-                pInOutObjList[j] = p_obj;
-
-                MDL_ChunkFreeObject(p_cmp_obj);
-
-                result = true;
-
-//              OutputString("RF INFO: ReduceObjDupes: Object Free'd!");
-            }
-        }
-    }
-
-    return result;
 }

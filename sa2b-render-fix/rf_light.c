@@ -2,17 +2,17 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writeop.h>       /* WriteJump                                        */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writeop.h>       /* WriteJump                                        */
 
 /****** GX **************************************************************************/
-#include <sa2b/gx/gxlight.h>
+#include <samt/gx/gxlight.h>
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/light.h>   /* light                                            */
+#include <samt/sonic/light.h>   /* light                                            */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */

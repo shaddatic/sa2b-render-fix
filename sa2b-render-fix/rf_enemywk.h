@@ -14,10 +14,10 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
-#include <sa2b/sonic/task/motionwk.h>
-#include <sa2b/sonic/shadow.h>
+#include <samt/sonic/task/motionwk.h>
+#include <samt/sonic/shadow.h>
 
 /************************/
 /*  Structures           */

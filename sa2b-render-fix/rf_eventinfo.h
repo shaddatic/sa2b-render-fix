@@ -11,7 +11,7 @@
 #ifndef _RF_EVENTINFO_H_
 #define _RF_EVENTINFO_H_
 
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 typedef struct
 {

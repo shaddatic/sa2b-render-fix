@@ -15,7 +15,7 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
 
 /************************/
 /*  Abstract Types      */
@@ -116,28 +116,6 @@ bool    RF_CnkModelMatch( const NJS_CNK_MODEL* pMdl1, const NJS_CNK_MODEL* pMdl2
 *     'true' if objects match; or 'false' if they do not.
 */
 bool    RF_CnkObjectMatch( const NJS_CNK_OBJECT* pObj1, const NJS_CNK_OBJECT* pObj2 );
-
-/****** Reduce Duplicates ***********************************************************/
-/*
-*   Description:
-*     Reduces a list of seperate, heap allocated Chunk objects to only the unique
-*   object entries, freeing any duplicate object trees. Any free'd pointers are
-*   replaced with the remaining matching object pointer.
-*     This is mostly useful for reducing memory cost when many models that are
-*   otherwise the same are loaded, allowing most of those models to use the same
-*   pointer.
-*
-*   Notes:
-*     - Duplicate pointers in the list are ignored.
-*
-*   Parameters:
-*     - pInOutObjList : pointer to a list of heap allocated chunk object pointers
-*     - nbObj         : number of pointers in the list
-*
-*   Returns:
-*     'true' if objects were freed; or 'false' if no changes were made.
-*/
-bool    RF_CnkObjectReduceDuplicates( NJS_CNK_OBJECT** pInOutObjList, s32 nbObj );
 
 EXTERN_END
 

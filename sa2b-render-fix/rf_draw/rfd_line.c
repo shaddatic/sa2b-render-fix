@@ -2,14 +2,14 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>      /* core                                                 */
-#include <sa2b/writeop.h>   /* WriteJump                                            */
+#include <samt/core.h>      /* core                                                 */
+#include <samt/writeop.h>   /* WriteJump                                            */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h> /* ninja                                              */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/display.h> /* GetDisplayRatio                                  */
+#include <samt/sonic/display.h> /* GetDisplayRatio                                  */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */

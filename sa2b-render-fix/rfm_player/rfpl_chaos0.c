@@ -2,18 +2,18 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <sa2b/core.h>          /* core                                             */
-#include <sa2b/writeop.h>       /* writejump                                        */
-#include <sa2b/funchook.h>      /* function hook                                    */
+#include <samt/core.h>          /* core                                             */
+#include <samt/writeop.h>       /* writejump                                        */
+#include <samt/funchook.h>      /* function hook                                    */
 
 /****** Ninja ***********************************************************************/
-#include <sa2b/ninja/ninja.h>   /* ninja                                            */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** Game ************************************************************************/
-#include <sa2b/sonic/task.h>    /* task                                             */
+#include <samt/sonic/task.h>    /* task                                             */
 
 /****** Character *******************************************************************/
-#include <sa2b/sonic/figure/knuckles.h> /* knuckles work                            */
+#include <samt/sonic/figure/knuckles.h> /* knuckles work                            */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */

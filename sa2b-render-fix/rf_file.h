@@ -15,7 +15,19 @@
 /************************/
 /*  Includes            */
 /************************/
-#include <sa2b/ninja/ninja.h>
+#include <samt/ninja/ninja.h>
+
+#include <samt/samdl.h>
+
+/************************/
+/*  Structures          */
+/************************/
+typedef struct
+{
+    const utf8* puPath;
+    mt_samdl*   pSamdl;
+}
+LOAD_SAMDL_LIST;
 
 /************************/
 /*  Functions           */
@@ -29,6 +41,9 @@ NJS_CNK_MODEL*  RF_ChunkLoadModelFile(const char* fname);
 
 /** Load Ginja object file (.sa2bmdl) **/
 GJS_OBJECT*     RF_GinjaLoadObjectFile(const char* fname);
+
+/** Load a list of Chunk object files, and free any duplicates **/
+void    RF_LoadChunkObjectList(LOAD_SAMDL_LIST* pInOutList, size_t nbList);
 
 EXTERN_END
 

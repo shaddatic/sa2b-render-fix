@@ -1,5 +1,5 @@
-#include <sa2b/core.h>
-#include <sa2b/user.h>
+#include <samt/core.h>
+#include <samt/msgbox.h>
 
 /** Std **/
 #include <stdio.h>
@@ -23,7 +23,7 @@ RF_Alert(const utf8* head, const utf8* body)
 
     snprintf(buf, sizeof(buf), "Render Fix Alert : %s", head);
 
-    UserWarningMessageBox(buf, body);
+    mtMsgWarning(buf, body);
 }
 
 void
@@ -33,7 +33,7 @@ RF_FatalError(const utf8* head, const utf8* body)
 
     snprintf(buf, sizeof(buf), "Render Fix Error : %s", head);
 
-    UserErrorMessageBox(buf, body);
+    mtMsgError(buf, body);
 }
 
 bool
@@ -43,7 +43,7 @@ RF_Query(const utf8* head, const utf8* body)
 
     snprintf(buf, sizeof(buf), "Render Fix Query : %s", head);
 
-    return UserMessageBox(buf, body, INPT_YES_NO, ICON_QUESTION) == USER_YES;
+    return mtMsgQuery(buf, body) == MSGBOX_RETN_YES;
 }
 
 void

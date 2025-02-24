@@ -1,5 +1,5 @@
-#include <sa2b/core.h>
-#include <sa2b/user.h>
+#include <samt/core.h>
+#include <samt/msgbox.h>
 
 /** Std **/
 #include <stdio.h>
@@ -14,5 +14,5 @@ ___DebugFuncError(const utf8* func, const utf8* body)
 
     snprintf(str, sizeof(str), "Render Fix Debug: %s", func);
 
-    UserWarningMessageBox(str, body);
+    mtMsgWarning(str, body);
 }
