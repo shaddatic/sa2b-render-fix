@@ -112,9 +112,14 @@ rjSetCheapShadowMode(Int mode)
 }
 
 /****** Set Tex (Draw) **************************************************************/
-#define TexInfoDraw         DATA_REF(TEXTURE_INFO, 0x019341A0)
+#define SocTexOverrideFlags     DATA_REF(s32, 0x01A557A4)
 
-void
+#define SocTexOverrideAddrU     DATA_REF(s32, 0x01A557A8)
+#define SocTexOverrideAddrV     DATA_REF(s32, 0x01A557AC)
+
+#define TexInfoDraw             DATA_REF(TEXTURE_INFO, 0x019341A0)
+
+static void
 SetTexForDraw(void)
 {
     NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texsurface;
@@ -172,6 +177,19 @@ SetTexForDraw(void)
             TexInfoDraw.min_filter = 1;
             TexInfoDraw.mag_filter = 1;
             break;
+        }
+    }
+
+    if ( RFRS_GetSocTexHackMode() == RFRS_SOCTEXHACKMD_ENABLED )
+    {
+        if ( SocTexOverrideFlags & (1<<0) )
+        {
+            TexInfoDraw.address_u = SocTexOverrideAddrU;
+        }
+
+        if ( SocTexOverrideFlags & (1<<1) )
+        {
+            TexInfoDraw.address_v = SocTexOverrideAddrV;
         }
     }
 

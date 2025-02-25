@@ -118,6 +118,15 @@ typedef enum
 }
 RFRS_CNKPASSMD;
 
+typedef enum
+{
+    RFRS_SOCTEXHACKMD_END = -1, /* end and reset to default                         */
+
+    RFRS_SOCTEXHACKMD_DISABLED, /* 2D tex params use the ninja context              */
+    RFRS_SOCTEXHACKMD_ENABLED,  /* context is overridden by soc tex param hack      */
+}
+RFRS_SOCTEXHACKMD;
+
 #endif/*H_RF_EXTERN_API*/
 
 /************************/
@@ -204,6 +213,20 @@ void    RFRS_SetCnkFuncMode( RFRS_CNKFUNCMD mode );
 *     - mode        : chunk transparency pass mode (default: 'NORMAL')
 */
 void    RFRS_SetCnkPassMode( RFRS_CNKPASSMD mode );
+/*
+*   Description:
+*     Set the state of SoC's texture param hack, which forces certain texture
+*   parameters depending on the draw function. If you wish to use custom texture
+*   settings via the Ninja context, this should be 'DISABLED' before doing so.
+*
+*   Notes:
+*     - This is a temporary render state until the underlying UV issues for these
+*       draw functions are fixed.
+*
+*   Parameters:
+*     - mode        : soc texture param hack mode (default: 'ENABLED')
+*/
+void    RFRS_SetSocTexHackMode( RFRS_SOCTEXHACKMD mode );
 
 /****** Get Render State ************************************************************/
 /*
@@ -246,6 +269,11 @@ RFRS_CNKFUNCMD RFRS_GetCnkFuncMode( void );
 *     Get the current Chunk transparancy pass mode.
 */
 RFRS_CNKPASSMD RFRS_GetCnkPassMode( void );
+/*
+*   Description:
+*     Get the current SoC texture hack mode.
+*/
+RFRS_SOCTEXHACKMD RFRS_GetSocTexHackMode( void );
 
 /****** Set Default *****************************************************************/
 /*
