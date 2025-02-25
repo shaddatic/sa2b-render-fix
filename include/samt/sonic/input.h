@@ -37,7 +37,7 @@
 typedef struct
 {
     int32_t  angle;
-    f32       stroke;
+    f32      stroke;
 }
 SONIC_INPUT;
 

@@ -24,7 +24,6 @@ EXTERN_START
 /*
 *   Chunk Type Limits
 */
-
 /****** Max Offset ******************************************************************/
 #define CNK_NULLOFF_MAX    (NJD_CN        ) /* max null type                        */
 #define CNK_BITSOFF_MAX    (NJD_CB_DP     ) /* max bits type                        */
@@ -38,7 +37,6 @@ EXTERN_START
 /*
 *   PList Offset Sizes
 */
-
 /****** Null Offset *****************************************************************/
 #define CNK_NULLOFF_SIZE        (1) /* step count of offset                         */
 
@@ -65,7 +63,6 @@ EXTERN_START
 /*
 *   VList Offset Sizes
 */
-
 /****** Vertex Offset Size **********************************************************/
 #define CNK_VERTOFF_SIZE_HEAD   (2) /* size of header                               */
 
@@ -73,7 +70,6 @@ EXTERN_START
 /*
 *   Blend Chunk Constants
 */
-
 /****** Blend Mode ******************************************************************/
 #define CNK_BLEND_ZERO          (0) /* blend zero                                   */
 #define CNK_BLEND_ONE           (1) /* blend one                                    */
@@ -88,7 +84,6 @@ EXTERN_START
 /*
 *   Tiny Chunk Constants
 */
-
 /****** UV Flip Mode ****************************************************************/
 #define CNK_FLIP_NONE           (0) /* no uv flip                                   */
 #define CNK_FLIP_V              (1) /* flip v                                       */
@@ -111,7 +106,6 @@ EXTERN_START
 /*
 *   Vertex Chunk Constants
 */
-
 /****** Weight Multiply *************************************************************/
 #define CNK_WEIGHT_MUL          (1.f/255.f) /* weight multiply value                */
 
@@ -120,11 +114,13 @@ EXTERN_START
 #define CNK_WEIGHT_MIDDLE       (1) /* weighted vertex continue                     */
 #define CNK_WEIGHT_END          (2) /* weighted vertex stop                         */
 
+/****** 32bit Normal Multiply *******************************************************/
+#define CNK_VNX_MUL             (1.f/512.f) /* vnx multiply value                   */
+
 /************************************************************************************/
 /*
 *   Strip Chunk Constants
 */
-
 /****** UV Multiply *****************************************************************/
 #define CNK_UVN_MUL             (1.f/256.f)  /* uv multiply value                   */
 #define CNK_UVH_MUL             (1.f/1024.f) /* hd uv multiply value                */
@@ -139,8 +135,7 @@ EXTERN_START
 /*
 *   Null Structures
 */
-
-/****** Header + Data ***************************************************************/
+/****** Header + Structure **********************************************************/
 typedef struct
 {
     Uint8  head;                /* chunk type                                       */
@@ -153,7 +148,6 @@ CNK_NULL;
 /*
 *   Bits Structures
 */
-
 /****** Header **********************************************************************/
 typedef struct
 {
@@ -163,7 +157,7 @@ typedef struct
 }
 CNK_BITS_HEAD;
 
-/****** Data ************************************************************************/
+/****** Structures ******************************************************************/
 typedef struct
 {
     Uint8       : 2;
@@ -196,8 +190,7 @@ CNK_BITS_POLYLIST;
 /*
 *   Material Structures
 */
-
-/****** Header + Data ***************************************************************/
+/****** Header + Structure **********************************************************/
 typedef struct
 {
     Uint8  head;                /* chunk type        [diff & 1, ambi & 2, spec & 4] */
@@ -215,8 +208,7 @@ CNK_MATERIAL;
 /*
 *   Tiny Structures
 */
-
-/****** Header + Data ***************************************************************/
+/****** Header + Structure **********************************************************/
 typedef struct
 {
     Uint8  head;                /* chunk type                                       */
@@ -235,7 +227,6 @@ CNK_TINY;
 /*
 *   VList Structures
 */
-
 /****** Header **********************************************************************/
 typedef struct
 {
@@ -253,7 +244,17 @@ typedef struct
 }
 CNK_VERTEX_HEAD;
 
-/****** Data ************************************************************************/
+/****** Sub-Structures **************************************************************/
+typedef struct
+{
+    Uint32   :  2;              /* padding                                          */
+    Uint32 x : 10;              /* x normal                                 [0~512] */
+    Uint32 y : 10;              /* y normal                                 [0~512] */
+    Uint32 z : 10;              /* z normal                                 [0~512] */
+}
+CNK_VNX;
+
+/****** Structures ******************************************************************/
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
@@ -333,6 +334,29 @@ CNK_VERTEX_VN_NF;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
+    CNK_VNX    nrm;             /* 32bit normal                                     */
+}
+CNK_VERTEX_VNX;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    CNK_VNX    nrm;             /* 32bit normal                                     */
+    Uint32     col;             /* vertex color                              [BGRA] */
+}
+CNK_VERTEX_VNX_D8;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    CNK_VNX    nrm;             /* 32bit normal                                     */
+    Uint32     usf;             /* user flag                                        */
+}
+CNK_VERTEX_VNX_UF;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
     Uint16     i;               /* vertex buffer index                              */
     Uint16     w;               /* weight value                             [0~255] */
     Uint32     col;             /* vertex color                              [BGRA] */
@@ -348,7 +372,6 @@ CNK_VERTEX_NF_D8;
 *       SKIP the first two indexes when parsing strips, as a whole polygon hasn't
 *       been created until the 3rd index.
 */
-
 /****** User Flag Offsets ***********************************************************/
 typedef struct
 {
@@ -360,7 +383,6 @@ CNK_UFO;
 /*
 *   Volume Structures
 */
-
 /****** Header **********************************************************************/
 typedef struct
 {
@@ -426,7 +448,6 @@ CNK_VOLUME_ST;
 /*
 *   Strip Structures
 */
-
 /****** Header **********************************************************************/
 typedef struct
 {
@@ -548,7 +569,6 @@ CNK_STRIP_UV_D8;
 /*
 *   Chunk Offset Type
 */
-
 /****** Get Offset Type *************************************************************/
 /*
 *   Description:
@@ -566,7 +586,6 @@ CNK_STRIP_UV_D8;
 /*
 *   Get Vertex Data
 */
-
 /****** Vertex Weight ***************************************************************/
 /*
 *   Description:
@@ -580,11 +599,23 @@ CNK_STRIP_UV_D8;
 */
 #define CNK_GET_WEIGHT(w)           ((Float)(w)*CNK_WEIGHT_MUL)
 
+/****** 32bit Vertex Normal *********************************************************/
+/*
+*   Description:
+*     Convert integer vertex normal value to 0.f~1.f.
+*
+*   Parameters:
+*     - vnx         : normal value
+*
+*   Returns:
+*     32bit Normal value converted to 0.f~1.f.
+*/
+#define CNK_GET_VNX(vnx)            ((Float)(vnx)*CNK_VNX_MUL)
+
 /************************************************************************************/
 /*
 *   Get Strip Data
 */
-
 /****** UV Coordinates **************************************************************/
 /*
 *   Description:
@@ -626,7 +657,6 @@ CNK_STRIP_UV_D8;
 /*
 *   User Flag Offset
 */
-
 /****** Get User Flag Offset ********************************************************/
 /*
 *   Description:
@@ -645,7 +675,6 @@ CNK_STRIP_UV_D8;
 /*
 *   Get Next Pointer
 */
-
 /****** Strip ***********************************************************************/
 /*
 *   Description:
