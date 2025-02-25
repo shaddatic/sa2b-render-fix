@@ -10,7 +10,7 @@
 #include <rf_renderstate.h>
 
 /** Constants **/
-#define STATE_API_VER    (2)
+#define STATE_API_VER    (3)
 
 /** Exports **/
 EXTERN
@@ -39,4 +39,8 @@ const RFAPI_RENDERSTATE rfapi_rstate =
     .GetCnkDrawMode   = RFRS_GetCnkDrawMode,
     .GetCnkFuncMode   = RFRS_GetCnkFuncMode,
     .GetCnkPassMode   = RFRS_GetCnkPassMode,
+
+    /** Ver 3 **/
+    .SetSocTexHackMode = RFRS_SetSocTexHackMode,
+    .GetSocTexHackMode = RFRS_GetSocTexHackMode,
 };
