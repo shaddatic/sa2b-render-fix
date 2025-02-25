@@ -874,6 +874,23 @@ typedef struct
     *     - mode        : cheap shadow intensity                            [0~256]
     */
     void (__cdecl* SetCheapShadowMode)( Int mode );
+
+    /****** Version >= 4 ************************************************************/
+    /*
+    *   Description:
+    *     Set the color of modifier shadows, also called cheap shadows. The color
+    *   is additive, and multiplied by the intensity.
+    *
+    *   Notes:
+    *     - The default color is black, or ( 0.f, 0.f, 0.f ).
+    *     - Only one color can be used across a single scene. In other words, all
+    *       shadows will use the same color across a single frame.
+    *     - This is a Render Fix extension, and was not available in Ninja.
+    *
+    *   Parameters:
+    *     - r, g, b     : cheap shadow color                                  [0~1]
+    */
+    void (__cdecl* SetCheapShadowColor)( Float r, Float g, Float b );
 }
 RFAPI_DRAW;
 

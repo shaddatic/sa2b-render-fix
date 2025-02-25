@@ -460,13 +460,28 @@ void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
 *
 *   Notes:
 *     - Only one intensity can be used across a single scene. In other words, all
-*     shadows will use the same value across a single frame.
+*       shadows will use the same value across a single frame.
 *     - The original Ninja version only supported values up to '255'
 *
 *   Parameters:
 *     - mode        : cheap shadow intensity                                [0~256]
 */
 void    rjSetCheapShadowMode( Int mode );
+/*
+*   Description:
+*     Set the color of modifier shadows, also called cheap shadows.  The color is
+*   additive, and multiplied by the intensity.
+*
+*   Notes:
+*     - The default color is black, or ( 0.f, 0.f, 0.f').
+*     - Only one color can be used across a single scene. In other words, all
+*       shadows will use the same color across a single frame.
+*     - This is a Render Fix extension, and was not available in Ninja.
+*
+*   Parameters:
+*     - r, g, b     : cheap shadow color                                      [0~1]
+*/
+void    rjSetCheapShadowColor( Float r, Float g, Float b );
 
 EXTERN_END
 

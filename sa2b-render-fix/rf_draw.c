@@ -111,6 +111,12 @@ rjSetCheapShadowMode(Int mode)
     RFMOD_SetAlpha( 1.f - ( (Float)mode * (1.f/256.f) ) );
 }
 
+void
+rjSetCheapShadowColor(Float r, Float g, Float b)
+{
+    RFMOD_SetColor( r, g, b );
+}
+
 /****** Set Tex (Draw) **************************************************************/
 #define SocTexOverrideFlags     DATA_REF(s32, 0x01A557A4)
 

@@ -10,7 +10,7 @@
 #include <rf_draw.h>
 
 /** Constants **/
-#define DRAW_API_VER    (3)
+#define DRAW_API_VER    (4)
 
 /** Exports **/
 EXTERN
@@ -64,4 +64,7 @@ const RFAPI_DRAW rfapi_draw =
     .CnkSetTextureCallback = rjCnkSetTextureCallback,
 
     .SetCheapShadowMode = rjSetCheapShadowMode,
+
+    /** Ver 4 **/
+    .SetCheapShadowColor = rjSetCheapShadowColor,
 };
