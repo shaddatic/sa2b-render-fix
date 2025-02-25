@@ -35,6 +35,16 @@ EXTERN_START
 /****** Strip Switch ****************************************************************/
 /*
 *   Description:
+*     Normalizes Cnk vertex type values to start from 0 for use in a switch.
+*
+*   Parameters:
+*     - type    : vertex offset type
+*/
+#define CVSW(type)          ((type) - NJD_VERTOFF)
+
+/****** Strip Switch ****************************************************************/
+/*
+*   Description:
 *     Normalizes Cnk strip type values to start from 0 for use in a switch.
 *
 *   Parameters:

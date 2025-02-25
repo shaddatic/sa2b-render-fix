@@ -15,15 +15,54 @@
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
 
 /************************/
-/*  Constants           */
-/************************/
-/****** Ninja Vertex Max ************************************************************/
-#define NJD_VERTOFF_MAX         (NJD_CV_NF_D8+1)
-
-/************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
+static void
+rjCnkVertexSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_SH* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexVNSH(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VN_SH* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        njCalcPoint( NULL, &p_vtx->pos, &p_buf->pos);
+        njCalcVector(NULL, &p_vtx->nrm, &p_buf->nrm);
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
 static void
 rjCnkVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 {
@@ -134,6 +173,98 @@ rjCnkVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
         njCalcVector(NULL, &p_vtx->nrm, &p_buf->nrm);
 
         p_buf->col = p_vtx->col;
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexVNX(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VNX* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        const NJS_VECTOR nrm =
+        {
+            .x = CNK_GET_VNX(p_vtx->nrm.x),
+            .y = CNK_GET_VNX(p_vtx->nrm.y),
+            .z = CNK_GET_VNX(p_vtx->nrm.z),
+        };
+
+        njCalcPoint( NULL, &p_vtx->pos, &p_buf->pos);
+        njCalcVector(NULL, &nrm       , &p_buf->nrm);
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexVNXD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VNX_D8* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        const NJS_VECTOR nrm =
+        {
+            .x = CNK_GET_VNX(p_vtx->nrm.x),
+            .y = CNK_GET_VNX(p_vtx->nrm.y),
+            .z = CNK_GET_VNX(p_vtx->nrm.z),
+        };
+
+        njCalcPoint( NULL, &p_vtx->pos, &p_buf->pos);
+        njCalcVector(NULL, &nrm       , &p_buf->nrm);
+
+        p_buf->col = p_vtx->col;
+
+        ++p_vtx;
+        ++p_buf;
+    }
+}
+
+static void
+rjCnkVertexVNXUF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+{
+    const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
+
+    const int nb_vtx = p_vhead->nbindeces;
+
+    /** Populate vertex buffer **/
+
+    const CNK_VERTEX_VNX_UF* p_vtx = (void*) p_vhead->d;
+
+    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+
+    for (int i = 0; i < nb_vtx; ++i)
+    {
+        const NJS_VECTOR nrm =
+        {
+            .x = CNK_GET_VNX(p_vtx->nrm.x),
+            .y = CNK_GET_VNX(p_vtx->nrm.y),
+            .z = CNK_GET_VNX(p_vtx->nrm.z),
+        };
+
+        njCalcPoint( NULL, &p_vtx->pos, &p_buf->pos);
+        njCalcVector(NULL, &nrm       , &p_buf->nrm);
 
         ++p_vtx;
         ++p_buf;
@@ -283,13 +414,11 @@ rjCnkVertexNFD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const CNK_VERTEX_NF_D8* p_vtx = (void*) p_vhead->d;
 
-    ___NOTE("Still undecided on how this will function.");
-
     for (int i = 0; i < nb_vtx; ++i)
     {
         NJS_POINT3 pos;
 
-        njCalcPoint( NULL, &p_vtx->pos , &pos);
+        njCalcPoint( NULL, &p_vtx->pos, &pos );
 
         CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ p_vtx->i ];
 
@@ -304,7 +433,7 @@ rjCnkVertexNFD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
             case CNK_WEIGHT_START:
             {
                 p_vbuf->pos = pos;
-                p_vbuf->col = p_vtx->col;
+                p_vbuf->col = p_vtx->col; // read color only for start verteces
                 break;
             }
             case CNK_WEIGHT_MIDDLE:
@@ -349,9 +478,31 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
             offset. The vertex buffer struct def is fixed. **/
         CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[ p_vhead->indexoffset ];
 
-        switch (type)
+        switch ( CVSW(type) )
         {
-            case NJD_CV:
+            case CVSW( NJD_CV_SH ):
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS;
+
+                /** No normals, halt drawing if 'MultiDraw' **/
+                if (multi)
+                    return -1;
+
+                rjCnkVertexSH(vlist, p_vbuf);
+                break;
+            }
+            case CVSW( NJD_CV_VN_SH ):
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS;
+
+                /** No normals, halt drawing if 'MultiDraw' **/
+                if (multi)
+                    return -1;
+
+                rjCnkVertexVNSH(vlist, p_vbuf);
+                break;
+            }
+            case CVSW( NJD_CV ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS;
 
@@ -362,7 +513,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertex(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_D8:
+            case CVSW( NJD_CV_D8 ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_COL;
 
@@ -373,7 +524,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertexD8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_UF:
+            case CVSW( NJD_CV_UF ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS;
 
@@ -384,7 +535,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertexUF(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_NF:
+            case CVSW( NJD_CV_NF ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NJF;
 
@@ -395,35 +546,56 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
                 rjCnkVertexNF(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN:
+            case CVSW( NJD_CV_VN ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
                 rjCnkVertexVN(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_D8:
+            case CVSW( NJD_CV_VN_D8 ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_COL;
 
                 rjCnkVertexVND8(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_UF:
+            case CVSW( NJD_CV_VN_UF ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
                 rjCnkVertexVNUF(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_VN_NF:
+            case CVSW( NJD_CV_VN_NF ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_NJF;
                 
                 rjCnkVertexVNNF(vlist, p_vbuf);
                 break;
             }
-            case NJD_CV_NF_D8:
+            case CVSW( NJD_CV_VNX ):
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
+
+                rjCnkVertexVNX(vlist, p_vbuf);
+                break;
+            }
+            case CVSW( NJD_CV_VNX_D8 ):
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM_COL;
+
+                rjCnkVertexVNXD8(vlist, p_vbuf);
+                break;
+            }
+            case CVSW( NJD_CV_VNX_UF ):
+            {
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
+
+                rjCnkVertexVNXUF(vlist, p_vbuf);
+                break;
+            }
+            case CVSW( NJD_CV_NF_D8 ):
             {
                 _nj_cnk_vtx_attrs_ = CNKVTX_POS_NJF_COL;
 
