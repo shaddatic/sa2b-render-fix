@@ -493,7 +493,7 @@ rjCnkVList(const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf)
             }
             case CVSW( NJD_CV_VN_SH ):
             {
-                _nj_cnk_vtx_attrs_ = CNKVTX_POS;
+                _nj_cnk_vtx_attrs_ = CNKVTX_POS_NRM;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if (multi)
