@@ -247,10 +247,10 @@ CNK_VERTEX_HEAD;
 /****** Sub-Structures **************************************************************/
 typedef struct
 {
-    Uint32   :  2;              /* padding                                          */
-    Uint32 x : 10;              /* x normal                                 [0~512] */
-    Uint32 y : 10;              /* y normal                                 [0~512] */
-    Uint32 z : 10;              /* z normal                                 [0~512] */
+    Sint32   :  2;              /* padding                                          */
+    Sint32 x : 10;              /* x normal                                 [0~512] */
+    Sint32 y : 10;              /* y normal                                 [0~512] */
+    Sint32 z : 10;              /* z normal                                 [0~512] */
 }
 CNK_VNX;
 
