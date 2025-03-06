@@ -19,7 +19,7 @@
 static void
 DXVK_CheckAndInstall(void)
 {
-    if (RF_ConfigGetInt(CNF_HIDDEN_DXVK_CHK) || uFileExists(DXVK_DLL_PATH))
+    if (RF_ConfigGetInt(CNF_HIDDEN_DXVK_CHK) || mtFileExists(DXVK_DLL_PATH))
         return;
 
     const bool yes = RF_Query("DXVK not installed", 
@@ -36,14 +36,14 @@ DXVK_CheckAndInstall(void)
 
         snprintf(buf, sizeof(buf), "%s/install/dxvk.dll", mtGetModPath());
 
-        if (!uFileExists(buf))
+        if (!mtFileExists(buf))
         {
             RF_Alert("DXVK Not Found",
                 "'dxvk.dll' couldn't be located in the 'install' folder. Aborting...");
             return;
         }
 
-        uFileCopy(buf, DXVK_DLL_PATH);
+        mtFileCopy(buf, DXVK_DLL_PATH);
 
         RF_Alert("Restart Required",
 
@@ -64,10 +64,10 @@ static void
 DXVK_CheckAndCreateConfig(void)
 {
     /** if (!DXVK_INSTALLED || DXVK_CONF_EXISTS) **/
-    if (!uFileExists(DXVK_DLL_PATH) || uFileExists(DXVK_CONF_PATH))
+    if (!mtFileExists(DXVK_DLL_PATH) || mtFileExists(DXVK_CONF_PATH))
         return;
 
-    uFileWriteEx(DXVK_CONF_PATH, StrSizeOf("d3d9.samplerAnisotropy = 16\n"));
+    mtFileWriteEx(DXVK_CONF_PATH, StrSizeOf("d3d9.samplerAnisotropy = 16\n"));
 }
 
 void

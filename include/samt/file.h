@@ -2,99 +2,102 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/file.h'
 *
 *   Description:
-*       Contains functions related to opening and interacting with files & folders
-*   using unicode (u) strings.
+*     ####
 */
-#ifndef _SAMT_FILE_H_
-#define _SAMT_FILE_H_
-
-EXTERN_START
+#ifndef H_SAMT_FILE
+#define H_SAMT_FILE
 
 /************************/
-/*  Abstract Types      */
+/*  Opaque Types        */
 /************************/
 /****** MSVC stdio ******************************************************************/
-typedef struct _iobuf       FILE;
+typedef struct _iobuf       FILE; /* msvc std file type                             */
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Max Path Length *************************************************************/
-#ifndef PATH_MAX
-#   define PATH_MAX    (260)
-#endif
+EXTERN_START
 
 /************************/
 /*  Enums               */
 /************************/
 /****** File Open Mode **************************************************************/
-typedef enum
+typedef enum mt_fmode
 {
-    FMODE_RB,   /* read only, start of file                             (byte mode) */
-    FMODE_WB,   /* write only, new file                                 (byte mode) */
-    FMODE_AB,   /* write only, end of file                              (byte mode) */
+    FMODE_RB,                   /* read only, start of file             (byte mode) */
+    FMODE_WB,                   /* write only, new file                 (byte mode) */
+    FMODE_AB,                   /* write only, append file              (byte mode) */
 
-    FMODE_RT,   /* read only, start of file                             (text mode) */
-    FMODE_WT,   /* write only, new file                                 (text mode) */
-    FMODE_AT,   /* write only, end of file                              (text mode) */
+    FMODE_RT,                   /* read only, start of file             (text mode) */
+    FMODE_WT,                   /* write only, new file                 (text mode) */
+    FMODE_AT,                   /* write only, append file              (text mode) */
+
+    FMODE_RB_RW,                /* read/write, start of file            (byte mode) */
+    FMODE_WB_RW,                /* read/write, new file                 (byte mode) */
+    FMODE_AB_RW,                /* read/write, append file              (byte mode) */
+
+    FMODE_RT_RW,                /* read/write, start of file            (text mode) */
+    FMODE_WT_RW,                /* read/write, new file                 (text mode) */
+    FMODE_AT_RW,                /* read/write, append file              (text mode) */
 }
-ufmode;
+mt_fmode;
 
 /************************/
-/*  File Functions      */
+/*  Prototypes          */
 /************************/
+/************************************************************************************/
+/*
+*   File Stream Control
+*/
 /****** File Open *******************************************************************/
 /*
 *   Description:
-*     Open a file using a ASCII/UTF-8 file path
+*     Open a file stream for reading and/or writing.
 *
 *   Parameters:
-*     - fpath   : path to file encoded in ASCII or UTF-8
-*     - mode    : read/write permissions on the opened file
+*     - puPath      : path to file
+*     - fmode       : read/write permissions on the opened file
 *
 *   Returns:
-*     Pointer to a FILE object, or nullptr if there was an error
+*     New FILE pointer; or 'nullptr' on failure.
 */
-FILE*   uFileOpen( const utf8* fpath, ufmode mode );
+FILE*   mtFileOpen( const utf8* puPath, mt_fmode fmode );
 /*
 *   Description:
-*     Write 'nb' bytes into an open FILE buffer from 'pBuf'
+*     Close an open file stream.
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
+*     - f           : open file stream
 *
 *   Returns:
-*     If the file was succesfully closed
+*     'true' if the file was succesfully closed; or 'false' on failure.
 */
-bool    uFileClose( FILE* f );
+bool    mtFileClose( FILE* f );
 
 /****** File Read/Write *************************************************************/
 /*
 *   Description:
-*     Read 'nb' bytes from an open FILE buffer into 'pBuf'
+*     Read from an open file stream, and advance the seek offset.
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
-*     - pBuf    : pointer to a buffer to read contents into
-*     - nb      : number of bytes to read from 'f' into 'pBuf'
+*     - f       : open file stream
+*     - pDst    : read destination
+*     - sz      : size of read, in bytes
 *
 *   Returns:
-*     Number of bytes written to the buffer, 0 indicates an error
+*     Number of bytes written to the buffer; or '0' on failure.
 */
-size_t  uFileRead( FILE* f, void* pBuf, size_t nb );
+size_t  mtFileRead( FILE* f, void* pDst, size_t sz );
 /*
 *   Description:
-*     Write 'nb' bytes into an open FILE buffer from 'pBuf'
+*     Write to an open file stream, and advance the seek offset.
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
-*     - pBuf    : pointer to a buffer to write contents from
-*     - nb      : number of bytes to write into 'f' from 'pBuf'
+*     - f       : open file stream
+*     - pSrc    : write source
+*     - sz      : size of write, in bytes
 *
 *   Returns:
-*     Number of bytes written to the file, 0 indicates an error
+*     Number of bytes written to the buffer; or '0' on failure.
 */
-size_t  uFileWrite( FILE* f, const void* pBuf, size_t nb );
+size_t  mtFileWrite( FILE* f, const void* pSrc, size_t sz );
 
 /****** File Seek *******************************************************************/
 /*
@@ -102,72 +105,76 @@ size_t  uFileWrite( FILE* f, const void* pBuf, size_t nb );
 *     Set the seek offset to a specific position
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
-*     - offset  : position to set the seek offset to
+*     - f       : open file stream
+*     - offset  : new seek offset, in bytes
 *
 *   Returns:
-*     If successful
+*     'true' on success; or 'false' on failure.
 */
-bool    uFileSeekSet( FILE* f, int32_t offset );
+bool    mtFileSeekSet( FILE* f, s32 offset );
 /*
 *   Description:
 *     Move the seek offset relative to its current position
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
-*     - offset  : offset to move by
+*     - f       : open file stream
+*     - offset  : seek offset to advance, in bytes
 *
 *   Returns:
-*     If successful
+*     'true' on success; or 'false' on failure.
 */
-bool    uFileSeekAdvance( FILE* f, int32_t offset );
+bool    mtFileSeekAdvance( FILE* f, s32 offset );
 /*
 *   Description:
 *     Get the current seek offset
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
+*     - f       : open file stream
 *
 *   Returns:
-*     The current seek offset
+*     The current seek offset of the file stream.
 */
-int32_t uFileSeekGet( FILE* f );
+s32     mtFileSeekGet( FILE* f );
 /*
 *   Description:
 *     Set seek offset to the start of the file
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
+*     - f       : open file stream
 *
 *   Returns:
-*     If successful.
+*     'true' on success; or 'false' on failure.
 */
-bool    uFileSeekStart( FILE* f );
+bool    mtFileSeekStart( FILE* f );
 /*
 *   Description:
 *     Set seek offset to the end of the file
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
+*     - f       : open file stream
 *
 *   Returns:
-*     If successful
+*     'true' on success; or 'false' on failure.
 */
-bool    uFileSeekEnd( FILE* f );
+bool    mtFileSeekEnd( FILE* f );
 
 /****** File Size *******************************************************************/
 /*
 *   Description:
-*     Get the total size of an open file buffer
+*     Get the total size of an open file stream
 *
 *   Parameters:
-*     - f       : pointer to an open FILE object
+*     - f       : open file stream
 *
 *   Returns:
-*     The total size of the open file buffer
+*     The total size of the open file stream, in bytes.
 */
-size_t  uFileSize( FILE* f );
+size_t  mtFileSize( FILE* f );
 
+/************************************************************************************/
+/*
+*   Load Whole File
+*/
 /****** File Load *******************************************************************/
 /*
 *   Description:
@@ -181,8 +188,12 @@ size_t  uFileSize( FILE* f );
 *     Memory buffer containing the entire file allocated with `malloc`, or nullptr
 *   if there was an error.
 */
-void*   uFileLoad( const utf8* fpath, size_t* pOptRetSize );
+void*   mtFileLoad( const utf8* puPath, size_t* pOptOutSize );
 
+/************************************************************************************/
+/*
+*   Read/Write/Append Ex
+*/
 /****** File Ex'press ***************************************************************/
 /*
 *   Description:
@@ -196,7 +207,7 @@ void*   uFileLoad( const utf8* fpath, size_t* pOptRetSize );
 *   Returns:
 *     Number of bytes written to the buffer, 0 indicates an error
 */
-size_t  uFileReadEx( const utf8* fpath, void* pBuf, size_t nb );
+size_t  mtFileReadEx( const utf8* puPath, void* pDst, size_t sz );
 /*
 *   Description:
 *     Create & write 'nb' bytes into a file at 'fpath' from 'pBuf'
@@ -209,7 +220,7 @@ size_t  uFileReadEx( const utf8* fpath, void* pBuf, size_t nb );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  uFileWriteEx( const utf8* fpath, const void* pBuf, size_t nb );
+size_t  mtFileWriteEx( const utf8* puPath, const void* pSrc, size_t sz );
 /*
 *   Description:
 *     Write 'nb' bytes to the end of a file at 'fpath' from 'pBuf'
@@ -222,8 +233,12 @@ size_t  uFileWriteEx( const utf8* fpath, const void* pBuf, size_t nb );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  uFileAppendEx( const utf8* fpath, const void* pBuf, size_t nb );
+size_t  mtFileAppendEx( const utf8* puPath, const void* pSrc, size_t sz );
 
+/************************************************************************************/
+/*
+*   Filesystem (Files)
+*/
 /****** Filesystem Control **********************************************************/
 /*
 *   Description:
@@ -236,7 +251,7 @@ size_t  uFileAppendEx( const utf8* fpath, const void* pBuf, size_t nb );
 *   Returns:
 *     If success
 */
-bool    uFileMove( const utf8* fpathCur, const utf8* fpathNew );
+bool    mtFileMove( const utf8* puPath, const utf8* puNewPath );
 /*
 *   Description:
 *     Copy a file, if it exists, from 'fpathCur' to 'fpathNew'
@@ -248,7 +263,7 @@ bool    uFileMove( const utf8* fpathCur, const utf8* fpathNew );
 *   Returns:
 *     If success
 */
-bool    uFileCopy( const utf8* fpathCur, const utf8* fpathNew );
+bool    mtFileCopy( const utf8* puPath, const utf8* puNewPath );
 /*
 *   Description:
 *     Rename a file, if it exists, at 'fpathCur' to 'fnameNew'
@@ -263,7 +278,7 @@ bool    uFileCopy( const utf8* fpathCur, const utf8* fpathNew );
 *   Returns:
 *     If success
 */
-bool    uFileRename( const utf8* fpathCur, const utf8* fnameNew );
+bool    mtFileRename( const utf8* puPath, const utf8* puNewPath );
 
 /****** Filesystem Query ************************************************************/
 /*
@@ -276,11 +291,12 @@ bool    uFileRename( const utf8* fpathCur, const utf8* fnameNew );
 *   Returns:
 *     If the given path is valid
 */
-bool    uFileExists( const utf8* fpath );
+bool    mtFileExists( const utf8* puPath );
 
-/************************/
-/*  Directory Funcs     */
-/************************/
+/************************************************************************************/
+/*
+*   Filesystem (Directories)
+*/
 /****** Filesystem Control **********************************************************/
 /*
 *   Description:
@@ -292,7 +308,7 @@ bool    uFileExists( const utf8* fpath );
 *   Returns:
 *     If success
 */
-bool    uDirectoryCreate( const utf8* fpath );
+bool    mtDirCreate( const utf8* puPath );
 /*
 *   Description:
 *     Copy a directory and its contents at a given path
@@ -301,7 +317,7 @@ bool    uDirectoryCreate( const utf8* fpath );
 *     - fpathCur : path of the directory to copy
 *     - fpathNew : path of the new copy
 */
-bool    uDirectoryMove( const utf8* fpathCur, const utf8* fpathNew );
+bool    mtDirMove( const utf8* puPath, const utf8* puNewPath );
 /*
 *   Description:
 *     Copy a directory and its contents at a given path
@@ -310,7 +326,7 @@ bool    uDirectoryMove( const utf8* fpathCur, const utf8* fpathNew );
 *     - fpathCur : path of the directory to copy
 *     - fpathNew : path of the new copy
 */
-void    uDirectoryCopy( const utf8* fpathCur, const utf8* fpathNew );
+void    mtDirCopy( const utf8* puPath, const utf8* puNewPath );
 /*
 *   Description:
 *     Rename a directory, if it exists, at 'fpathCur' to 'fnameNew'
@@ -325,7 +341,7 @@ void    uDirectoryCopy( const utf8* fpathCur, const utf8* fpathNew );
 *   Returns:
 *     If success
 */
-bool    uDirectoryRename( const utf8* fpathCur, const utf8* fnameNew );
+bool    mtDirRename( const utf8* puPath, const utf8* puNewPath );
 
 /****** Filesystem Query ************************************************************/
 /*
@@ -338,8 +354,8 @@ bool    uDirectoryRename( const utf8* fpathCur, const utf8* fnameNew );
 *   Returns:
 *     If the given directory is valid
 */
-bool    uDirectoryExists( const utf8* fpath );
+bool    mtDirExists( const utf8* puPath );
 
 EXTERN_END
 
-#endif/*_SAMT_FILE_H_*/
+#endif/*H_SAMT_FILE*/

@@ -11,122 +11,407 @@
 EXTERN_START
 
 /************************/
-/*  Abstract Types      */
+/*  Opaque Types        */
 /************************/
+/****** MSVC stdio ******************************************************************/
+typedef struct _iobuf               FILE; /* msvc std file type                     */
+
 /****** Config **********************************************************************/
-typedef struct mt_config        mt_config;
+typedef struct mt_config            mt_config;       /* config header               */
+typedef struct mt_config_sect       mt_config_sect;  /* config section              */
+typedef struct mt_config_entry      mt_config_entry; /* config entry                */
 
 /************************/
 /*  Prototypes          */
 /************************/
 /************************************************************************************/
 /*
-*   Open, Close, Save
+*   Create/Open/Save/Close
 */
-/****** Open ************************************************************************/
+/****** Create **********************************************************************/
 /*
-*   Open a .ini configuration file at 'fpath'. 'ConfigOpen2' is used to concatonate
-*   the folder & name of the file, eg. "'fpath'/'fname'".
+*   Description:
+*     Create a new, blank config with optional default file path.
 *
-*   Examples:
-*     - ConfigOpen( "./path/to/config.ini" );
-*     - ConfigOpen2( mtGetModPath(), "config.ini" );
+*   Notes:
+*     - If no default path is given, using 'mtConfigSave' on this config will
+*       always fail.
 *
 *   Parameters:
-*     - fpath   : File path to configuration file
-*     - fname   : Name of configuration file
+*     - puOptPath   : optional default file path                [optional: nullptr]
 *
 *   Returns:
-*       A new config object pointer with the contents of the file.
+*     New, empty config structure.
 */
-mt_config* mtConfigOpen(  const utf8* fpath                    );
-mt_config* mtConfigOpen2( const utf8* fpath, const utf8* fname );
+mt_config* mtConfigCreate( const utf8* puOptPath );
 
-/****** Close ***********************************************************************/
+/****** Open ************************************************************************/
 /*
-*   Close & free an existing config object. Any changes will not be automatically
-*   saved to disk.
+*   Description:
+*     Open an existing config file (.ini) and populate a new config structure with
+*   its contents.
 *
 *   Parameters:
-*     - pConfig : Pointer to a 'config' object
+*     - puPath      : path to ini file
+*
+*   Returns:
+*     Config structure populated with contents of opened ini file. Or an empty
+*   config structure if no file was found.
 */
-void    mtConfigClose( mt_config* pConfig );
+mt_config* mtConfigOpen( const utf8* puPath );
+/*
+*   Description:
+*     Open an existing config file (.ini) and populate a new config structure with
+*   its contents, with 2 path parameters.
+*
+*   Examples:
+*     - mtConfigOpen2( mtGetModPath(), "config.ini" );
+*
+*   Parameters:
+*     - puPath      : path to ini directory
+*     - puName      : name of ini file
+*
+*   Returns:
+*     Config structure populated with contents of opened ini file.
+*/
+mt_config* mtConfigOpen2( const utf8* puPath, const utf8* puName );
 
 /****** Save ************************************************************************/
 /*
-*   Save an existing config object to disk. By default, it will overwrite the file
-*   it was created from, however 'ConfigSaveAs' can be used to save to an arbirary
-*   path.
+*   Description:
+*     Save config structure to its default file path. Usually the file it was
+*   opened from when using 'mtConfigOpen'.
+*
+*   Notes:
+*     - Config structures that have no default path will cause this function to
+*       fail. In these cases, use 'mtConfigSaveAs' instead.
+*     - If no modifications to the config structure have been made since opening,
+*       this internally will do nothing.
 *
 *   Parameters:
-*     - pConfig : Pointer to a 'config' object
-*     - fpath   : New path to save to
+*     - pConfig     : config structure
+*
+*   Returns:
+*     'true' if the file was successfully saved, or there were no changes to save;
+*   or 'false' on failure.
 */
-void    mtConfigSave(   const mt_config* pConfig                    );
-void    mtConfigSaveAs( const mt_config* pConfig, const utf8* fpath );
+bool    mtConfigSave( const mt_config* pConfig );
+/*
+*   Description:
+*     Save config structure to an arbitrary file path.
+*
+*   Notes:
+*     - If no modifications to the config structure have been made since opening,
+*       this internally will do nothing.
+*
+*   Parameters:
+*     - pConfig     : config structure
+*     - puPath      : file path to save to
+*
+*   Returns:
+*     'true' if the file was successfully saved, or there were no changes to save;
+*   or 'false' on failure.
+*/
+bool    mtConfigSaveAs( const mt_config* pConfig, const utf8* puPath );
+
+/****** Close ***********************************************************************/
+/*
+*   Description:
+*     Close a config structure and save it to file (if needed), releasing all data
+*   contained within it. If the structure was not modified, or has no default path,
+*   this is functionally the same as 'mtConfigFree'.
+*
+*   Notes:
+*     - Be aware that any string pointers retrieved from the config structure will
+*       become invalid upon calling this. Ensure to make copies of strings you wish
+*       to continue using.
+*
+*   Parameters:
+*     - pConfig     : config structure
+*/
+void    mtConfigClose( mt_config* pConfig );
 
 /************************************************************************************/
 /*
-*   Get & Set
+*   Basic Controls
 */
 /****** Get *************************************************************************/
 /*
-*   Get the value/content of a config entry by type. It's important you use the
-*   correct function as entries are stored as plain strings with limited type
-*   checking, using the wrong type will lead to undefined behavior.
+*   Description:
+*     Get raw string value from a config entry. If the entry does not exist, the
+*   passed in default string pointer will be returned.
+*
+*   Notes:
+*     - The string returned is the raw string contained in the file. This means
+*       escape sequences like "\r" and "\\" are NOT converted into the '\r' and '\'
+*       characters. You will have to do this manually.
 *
 *   Parameters:
-*     - pConfig : Pointer to a 'config' object
-*     - section : String matching the entry section the key is in. A nullptr will search the global section
-*     - key     : String matching the entry key
-*     - def     : Default value that will be returned if no entry exists
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - def          : default return value
 *
 *   Returns:
-        The value/content of the entry, or the 'def' parameter if no entry exists
+*     String contained in the config entry; or 'def' value if the entry does not
+*   exist.
 */
-int32_t     mtConfigGetInt(    const mt_config* pConfig, const utf8* section, const utf8* key, int32_t     def );
-uint32_t    mtConfigGetHex(    const mt_config* pConfig, const utf8* section, const utf8* key, uint32_t    def );
-uint32_t    mtConfigGetOct(    const mt_config* pConfig, const utf8* section, const utf8* key, uint32_t    def );
-bool        mtConfigGetBool(   const mt_config* pConfig, const utf8* section, const utf8* key, bool        def );
-f64         mtConfigGetFloat(  const mt_config* pConfig, const utf8* section, const utf8* key, f64         def );
-const utf8* mtConfigGetString( const mt_config* pConfig, const utf8* section, const utf8* key, const utf8* def );
+const utf8* mtConfigGetString( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, const utf8* def );
+/*
+*   Description:
+*     Get integer value from a config entry. Each function controls how the stored
+*   raw string is interpreted into an integer.
+*
+*   Notes:
+*     - Int -> "99" == ' 99' // string == ret value
+*     - Hex -> "FF" == '255' // string == ret value
+*     - Oct -> "77" == ' 63' // string == ret value
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - def          : default return value
+*
+*   Returns:
+*     Integer value contained in the config entry; or 'def' value if the entry
+*   does not exist.
+*/
+s32     mtConfigGetInt( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
+s32     mtConfigGetHex( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
+s32     mtConfigGetOct( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
+/*
+*   Description:
+*     Get float value from a config entry.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - def          : default return value
+*
+*   Returns:
+*     Float value contained in the config entry; or 'def' value if the entry does
+*   not exist.
+*/
+f64     mtConfigGetFloat( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, f64 def );
+/*
+*   Description:
+*     Get boolean value from a config entry.
+*
+*   Notes:
+*     - "True"  == 'true'  // string == ret value
+*     - "False" == 'false' // string == ret value
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - def          : default return value
+*
+*   Returns:
+*     Boolean value contained in the config entry; or 'def' value if the entry does
+*   not exist, or does not match either "True" or "False".
+*/
+bool    mtConfigGetBool( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, bool def );
 
 /****** Set *************************************************************************/
 /*
-*   Set the value/content of a config entry by type; if no entry exists under the
-*   given 'section' and 'key', one will be created.
+*   Description:
+*     Set an entry's raw string value. If the entry doesn't exist, it is created.
+*
+*   Notes:
+*     - Any escape sequences will be converted to raw character pairs. Eg:
+*       - '\r' -> { '\\', 'r' }
+*       - '\n' -> { '\\', 'n' }
 *
 *   Parameters:
-*     - pConfig : Pointer to a 'config' object
-*     - section : String matching the section the key is in. A nullptr will search the global section
-*     - key     : String matching the key
-*     - set     : Value the key will be set to
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - set          : string to set
 */
-void    mtConfigSetInt(    mt_config* pConfig, const utf8* section, const utf8* key, int32_t     set );
-void    mtConfigSetHex(    mt_config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
-void    mtConfigSetOct(    mt_config* pConfig, const utf8* section, const utf8* key, uint32_t    set );
-void    mtConfigSetBool(   mt_config* pConfig, const utf8* section, const utf8* key, bool        set );
-void    mtConfigSetFloat(  mt_config* pConfig, const utf8* section, const utf8* key, f64         set );
-void    mtConfigSetString( mt_config* pConfig, const utf8* section, const utf8* key, const utf8* set );
+void    mtConfigSetString( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, const utf8* set );
+/*
+*   Description:
+*     Set an entry's integer value. Each function controls the format of the
+*   integer when converted to a string. If the entry doesn't exist, it is created.
+*
+*   Notes:
+*     - Int -> ' 99' == "99" // set value == string
+*     - Hex -> '255' == "FF" // set value == string
+*     - Oct -> ' 63' == "77" // set value == string
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - set          : value to set
+*/
+void    mtConfigSetInt( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
+void    mtConfigSetHex( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
+void    mtConfigSetOct( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
+/*
+*   Description:
+*     Set an entry's float value. If the entry doesn't exist, it is created.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - set          : value to set
+*/
+void    mtConfigSetFloat( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, f64 set );
+/*
+*   Description:
+*     Set an entry's boolean value. If the entry doesn't exist, it is created.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*    - set          : value to set
+*/
+void    mtConfigSetBool( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, bool set );
+
+/****** Remove **********************************************************************/
+/*
+*   Description:
+*     Remove a section from a config structure, including all entries contained
+*   within it. If the section doesn't exist, no action is taken.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*/
+void    mtConfigRemSect( mt_config* pConfig, const utf8* puSect );
+/*
+*   Description:
+*     Remove an entry from a config structure. If the entry doesn't exist, no
+*   action is taken.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*/
+void    mtConfigRemEntry( mt_config* pConfig, const utf8* puSect, const utf8* puEntry );
 
 /************************************************************************************/
 /*
-*   Config Query
+*   Advanced Controls
 */
-/****** Has *************************************************************************/
+/****** Out *************************************************************************/
 /*
-*   Check if config object contains a specified section &/or key.
+*   Description:
+*     Print contents of a config structure to a file stream.
+*
+*   Notes:
+*     - Internally used in the 'mtConfigSave' functions.
 *
 *   Parameters:
-*     - pConfig : Pointer to a 'config' object
-*     - section : String matching the queried section, or section the queried key is in
-*     - key     : String matching the queried key
+*    - pConfig      : config structure
+*    - f            : file stream
+*/
+void    mtConfigOut( const mt_config* pConfig, FILE* f );
+/*
+*   Description:
+*     Print contents of a config section structure to a file stream.
+*
+*   Parameters:
+*    - pSect        : config section structure
+*    - f            : file stream
+*/
+void    mtConfigSectOut( const mt_config_sect* pSect, FILE* f );
+/*
+*   Description:
+*     Print contents of a config entry to a file stream.
+*
+*   Parameters:
+*    - pEntry       : config entry
+*    - f            : file stream
+*/
+void    mtConfigEntryOut( const mt_config_entry* pEntry, FILE* f );
+
+/****** Header **********************************************************************/
+/*
+*   Description:
+*     Get a config section structure from a config header.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
 *
 *   Returns:
-*       If the given section/key exists
+*     Config section structure; or 'nullptr' if the section doesn't exist.
 */
-bool    mtConfigHasSection( const mt_config* pConfig, const utf8* section                  );
-bool    mtConfigHasKey(     const mt_config* pConfig, const utf8* section, const utf8* key );
+mt_config_sect*  mtConfigGetSect( const mt_config* pConfig, const utf8* puSect );
+/*
+*   Description:
+*     Get a config entry from a config header.
+*
+*   Parameters:
+*    - pConfig      : config structure
+*    - puSect       : config section name
+*    - puEntry      : config entry name
+*
+*   Returns:
+*     Config entry; or 'nullptr' if the entry doesn't exist.
+*/
+mt_config_entry* mtConfigGetEntry( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry );
+/*
+*   Description:
+*     Free an entire config structure.
+* 
+*   Notes:
+*     - Be aware that any string pointers retrieved from the config structure will
+*       become invalid upon calling this. Ensure to make copies of strings you wish
+*       to continue using.
+*/
+void    mtConfigFree( mt_config* pConfig );
+
+/****** Section *********************************************************************/
+/*
+*   Description:
+*     Get a config entry from a config section structure.
+*
+*   Parameters:
+*     - pSect       : config section structure
+*     - puEntry      : config entry name
+*
+*   Returns:
+*     Config entry; or 'nullptr' if the entry doesn't exist.
+*/
+mt_config_entry* mtConfigSectGetEntry( const mt_config_sect* pSect, const utf8* puEntry );
+/*
+*   Description:
+*     Free a config section structure, and all entries it contains.
+*
+*   Parameters:
+*     - pSect       : config section structure
+*/
+void    mtConfigSectFree( mt_config_sect* pSect );
+
+/****** Entry ***********************************************************************/
+/*
+*   Description:
+*     Get raw string from a config entry.
+*
+*   Parameters:
+*     - pEntry      : config entry
+*
+*   Returns:
+*     String the entry contains.
+*/
+const utf8* mtConfigEntryGetString( const mt_config_entry* pEntry );
+/*
+*   Description:
+*     Free a config entry.
+*
+*   Parameters:
+*     - pEntry      : config entry
+*/
+void    mtConfigEntryFree( mt_config_entry* pEntry );
 
 EXTERN_END
 

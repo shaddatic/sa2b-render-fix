@@ -251,7 +251,7 @@ RFS_FONT*
 RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
 {
     size_t fsize;
-    void* const file = uFileLoad(fpath, &fsize);
+    void* const file = mtFileLoad(fpath, &fsize);
 
     if (!file)
     {

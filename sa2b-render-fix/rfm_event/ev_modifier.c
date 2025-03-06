@@ -163,7 +163,7 @@ EventLoadModifierFile(const int evNum)
 
     snprintf(str, sizeof(str), "%s/evmod/e%04dmodifier.bin", mtGetModPath(), evNum);
 
-    DC_EVENT_HEADER* fevent = uFileLoad(str, NULL);
+    DC_EVENT_HEADER* fevent = mtFileLoad(str, NULL);
 
     if (!fevent)
     {

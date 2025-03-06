@@ -140,7 +140,7 @@ RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
 
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s", mtGetModPath(), pcOptiFolder, pcPath);
 
-    if ( !uFileExists(opti_buf) )
+    if ( !mtFileExists(opti_buf) )
     {
         snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s", pcOptiFolder, pcPath);
 
@@ -178,7 +178,7 @@ RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
     /** Make optional folder PAK path **/
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
 
-    if ( !uFileExists(opti_buf) )
+    if ( !mtFileExists(opti_buf) )
     {
         snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcTexName);
 
@@ -213,7 +213,7 @@ RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
     /** Make optional folder PAK path **/
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
 
-    if ( !uFileExists(opti_buf) )
+    if ( !mtFileExists(opti_buf) )
     {
         snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcPvrName);
 
@@ -258,7 +258,7 @@ ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char*
 
     snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
 
-    if ( !uFileExists(opti_buf) )
+    if ( !mtFileExists(opti_buf) )
     {
         snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s.PRS", pcOptiFolder, pcPrsName);
 

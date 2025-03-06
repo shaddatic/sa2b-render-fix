@@ -26,7 +26,7 @@ RF_ObjPakInit(void)
     if ( RF_ConfigGetInt(CNF_DEBUG_OBJPAK_W) == 1 )
     {
         size_t fsize;
-        byte* const fbuf = uFileLoad("./resource/Shader/win32/obj.pak", &fsize);
+        byte* const fbuf = mtFileLoad("./resource/Shader/win32/obj.pak", &fsize);
 
         if (!fbuf)
             return;
@@ -75,7 +75,7 @@ RF_ObjPakInit(void)
 
         /** Write changes to file **/
         {
-            const size_t nbw = uFileWriteEx("./resource/Shader/win32/obj.pak", fbuf, fsize);
+            const size_t nbw = mtFileWriteEx("./resource/Shader/win32/obj.pak", fbuf, fsize);
 
             /** If some error occured **/
             if (!nbw)

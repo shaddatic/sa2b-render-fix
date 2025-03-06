@@ -28,8 +28,18 @@ EXTERN_START
 /*  Constants           */
 /************************/
 /****** Size/Count Definitions ******************************************************/
-#define STR_NOMAX          (0xFFFFFFFF) /* no maximum, auto-determine sz/nb         */
-#define STR_NOINDEX        (0xFFFFFFFF) /* no string index                          */
+#define STR_NOMAX           (0xFFFFFFFF) /* no maximum, auto-determine sz/nb        */
+#define STR_NOINDEX         (0xFFFFFFFF) /* no string index                         */
+#define STR_AUTOLEN         (0x00000000) /* auto-calculate length for append        */
+
+/****** String Escape Flags *********************************************************/
+#define STR_ESC_NOFLAG          (0)     /* no additional flags                      */
+
+#define STR_ESC_ESCAPE          (1<<0)  /* \ -> \\  OR  \\ -> \                     */
+#define STR_ESC_DBLQUOTE        (1<<1)  /* " -> \"  OR  \" -> "                     */
+#define STR_ESC_SGLQUOTE        (1<<2)  /* ' -> \'  OR  \' -> '                     */
+
+#define STR_ESC_ALL             (STR_ESC_ESCAPE|STR_ESC_DBLQUOTE|STR_ESC_SGLQUOTE)
 
 /************************/
 /*  Prototypes          */
@@ -113,7 +123,7 @@ size_t  mtStrLength( const utf8* puStr, size_t lenMax );
 *       point. This may cause a code point to be counted but incomplete.
 *
 *   Parameters:
-*     - puStr       : string to calculate length of
+*     - puStr       : string to get the length of
 *     - lenMax      : maximum length of the string, in code units
 *
 *   Returns:
@@ -144,6 +154,7 @@ utf8*   mtStrDupe( const utf8* puStr, size_t lenMax );
 *     Copy a string.
 *
 *   Notes:
+*     - A terminator is inserted into the last unit if 'lenMax' is reached.
 *     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
 *       point. This may cause a code point to be incomplete.
 *
@@ -151,8 +162,11 @@ utf8*   mtStrDupe( const utf8* puStr, size_t lenMax );
 *     - puDst       : string buffer to copy to
 *     - puSrc       : string to copy
 *     - lenMax      : maximum length of both strings
+*
+*   Returns:
+*     The length of the copied string in code units.
 */
-void   mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
+size_t  mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
 
 /****** String Append ***************************************************************/
 /*
@@ -166,14 +180,106 @@ void   mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
 *       point. This may cause a code point to be incomplete.
 *
 *   Examples:
-*     - mtStrAppend( pu_buf, "append me", ARYLEN(pu_buf) );
+*     - mtStrAppend( pu_buf, STR_AUTOLEN, "append me", ARYLEN(pu_buf) ); // single append
+*     - {
+*         size_t len; // multi-append using return value (faster)
+*
+*         len = mtStrAppend( pu_buf, STR_AUTOLEN, "app1", sz_buf );
+*         len = mtStrAppend( pu_buf, len        , "app2", sz_buf );
+*         len = mtStrAppend( pu_buf, len        , "app3", sz_buf );
+*         ...
+*       }
 *
 *   Parameters:
 *     - puDst       : string buffer to append to
+*     - lenDst      : current length of 'puDst'             [optional: STR_AUTOLEN]
 *     - puApp       : string to append
-*     - lenMax      : maximum size of 'puDst', in code units
+*     - lenMax      : maximum length of 'puDst', in code units
+*
+*   Returns:
+*     New length of 'puDst' after append.
 */
-void    mtStrAppend( utf8* puDst, const utf8* puApp, size_t lenMax );
+size_t  mtStrAppend( utf8* puDst, size_t lenDst, const utf8* puApp, size_t lenMax );
+
+/****** String Escape ***************************************************************/
+/*
+*   Description:
+*     Get the length of a string after inserting escape characters.
+*
+*   Parameters:
+*     - puStr       : string to get the length
+*     - lenMax      : maximum length of 'puStr', in code units
+*     - flag        : additional escape sequence flags
+*
+*   Returns:
+*     Length of string after inserting escape characters.
+*/
+size_t  mtStrEscapeLength( const utf8* puStr, const size_t lenMax, s32 flag );
+/*
+*   Description:
+*     Get the length of a string after resolving escape characters.
+*
+*   Parameters:
+*     - puStr       : string to get the length
+*     - lenMax      : maximum length of 'puStr', in code units
+*     - flag        : additional escape sequence flags
+*
+*   Returns:
+*     Length of string after resolving escape characters.
+*/
+size_t  mtStrUnescapeLength( const utf8* puStr, const size_t lenMax, s32 flag );
+/*
+*   Description:
+*     Insert literal escape sequences into a string.
+*
+*   Notes:
+*     - '\a' -> { '\\', 'a' }
+*     - '\b' -> { '\\', 'b' }
+*     - '\t' -> { '\\', 't' }
+*     - '\n' -> { '\\', 'n' }
+*     - '\v' -> { '\\', 'v' }
+*     - '\f' -> { '\\', 'f' }
+*     - '\r' -> { '\\', 'r' }
+*     - '\"' -> { '\\', '\"' } // optional
+*     - '\'' -> { '\\', '\'' } // optional
+*     - '\\' -> { '\\', '\\' } // optional
+*
+*   Parameters:
+*     - puDst       : destination buffer
+*     - puSrc       : source string
+*     - lenMax      : maximum length of 'puDst', in code units
+*     - flag        : additional escape sequence flags
+*
+*   Returns:
+*     Length of 'puDst' after inserting escape sequences.
+*/
+size_t  mtStrEscape( utf8* puDst, const utf8* puSrc, const size_t lenMax, s32 flag );
+/*
+*   Description:
+*     Resolve literal escape sequences from a string.
+*
+*   Notes:
+*     - { '\\', 'a' }  -> '\a' 
+*     - { '\\', 'b' }  -> '\b' 
+*     - { '\\', 't' }  -> '\t' 
+*     - { '\\', 'n' }  -> '\n' 
+*     - { '\\', 'v' }  -> '\v' 
+*     - { '\\', 'f' }  -> '\f' 
+*     - { '\\', 'r' }  -> '\r' 
+*     - { '\\', '\"' } -> '\"'  // optional
+*     - { '\\', '\'' } -> '\''  // optional
+*     - { '\\', '\\' } -> '\\'  // optional
+*
+*   Parameters:
+*     - puDst       : destination buffer
+*     - puSrc       : source string
+*     - lenMax      : maximum length of 'puDst', in code units
+*     - flag        : additional escape sequence flags
+*
+*   Returns:
+*     Length of 'puDst' after resolving escape sequences.
+*/
+size_t  mtStrUnescape( utf8* puDst, const utf8* puSrc, const size_t lenMax, s32 flag );
 
 /************************************************************************************/
 /*
@@ -283,6 +389,7 @@ wchar_t* mtStrDupeW( const wchar_t* pwStr, size_t lenMax );
 *     Copy a string.
 *
 *   Notes:
+*     - A terminator is inserted into the last unit if 'lenMax' is reached.
 *     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
 *       point. This may cause a code point to be incomplete.
 *
@@ -290,8 +397,11 @@ wchar_t* mtStrDupeW( const wchar_t* pwStr, size_t lenMax );
 *     - pwDst       : string buffer to copy to
 *     - pwSrc       : string to copy
 *     - lenMax      : maximum length of both strings
+*
+*   Returns:
+*     The length of the copied string in code units.
 */
-void    mtStrCopyW( wchar_t* pwDst, const wchar_t* pwSrc, size_t lenMax );
+size_t  mtStrCopyW( wchar_t* pwDst, const wchar_t* pwSrc, size_t lenMax );
 
 /****** String Append ***************************************************************/
 /*
@@ -453,10 +563,13 @@ void    mtPathResolveLogicalString( utf8* puPath, size_t lenMax );
 *
 *   Parameters:
 *     - puDst       : parent path string destination
-*     - puSrc       : current path string                                [optional]
+*     - puOptSrc    : current path string                       [optional: nullptr]
 *     - lenMax      : maximum size of both string paths, in code units
+*
+*   Returns:
+*     New length of 'puDst'.
 */
-void    mtPathParent( utf8* puDst, const utf8* puSrc, size_t lenMax );
+size_t  mtPathParent( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
 
 EXTERN_END
 
