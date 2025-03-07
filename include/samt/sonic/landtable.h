@@ -111,7 +111,11 @@ OBJ_LANDCOLL;
 
 #define boolLandTableGinja      DATA_REF(b32           , 0x01A5A2D8)
 #define mleriRangeRad           DATA_REF(f32           , 0x0171CAA4)
+
 #define pObjLandTable           DATA_REF(OBJ_LANDTABLE*, 0x019459DC)
+
+#define  pObjLandEntry          DATA_REF(OBJ_LANDENTRY**, 0x01A5A2E4)
+#define nbObjLandEntry          DATA_REF(s16            , 0x01945A00)
 
 #define boolLandDisplay         DATA_REF(b32           , 0x0171CAA8)
 #define boolLandCollision       DATA_REF(b32           , 0x0171CAAC)

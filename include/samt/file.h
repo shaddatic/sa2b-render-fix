@@ -2,7 +2,7 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/file.h'
 *
 *   Description:
-*     ####
+*     UTF-8 based file and filesystem controls, utilities, and functions.
 */
 #ifndef H_SAMT_FILE
 #define H_SAMT_FILE
