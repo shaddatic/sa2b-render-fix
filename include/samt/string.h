@@ -410,17 +410,31 @@ size_t  mtStrCopyW( wchar_t* pwDst, const wchar_t* pwSrc, size_t lenMax );
 *
 *   Notes:
 *     - 'lenMax' specifically refers to 'pwDst' and the total length of the string
-*       buffer. 'pwApp' *must* be null terminated.
+*       buffer. 'puApp' *must* be null terminated.
+*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
+*       point. This may cause a code point to be incomplete.
 *
 *   Examples:
-*     - mtStrAppendW( pw_buf, L"append me", ARYLEN(pw_buf) );
+*     - mtStrAppendW( pw_buf, STR_AUTOLEN, L"append me", ARYLEN(pw_buf) ); // single append
+*     - {
+*         size_t len; // multi-append using return value (faster)
+*
+*         len = mtStrAppendW( pw_buf, STR_AUTOLEN, L"app1", sz_buf );
+*         len = mtStrAppendW( pw_buf, len        , L"app2", sz_buf );
+*         len = mtStrAppendW( pw_buf, len        , L"app3", sz_buf );
+*         ...
+*       }
 *
 *   Parameters:
 *     - pwDst       : string buffer to append to
+*     - lenDst      : current length of 'pwDst'             [optional: STR_AUTOLEN]
 *     - pwApp       : string to append
-*     - lenMax      : maximum size of 'pwDst', in code units
+*     - lenMax      : maximum length of 'pwDst', in code units
+*
+*   Returns:
+*     New length of 'pwDst' after append.
 */
-void    mtStrAppendW( wchar_t* pwDst, const wchar_t* pwApp, size_t lenMax );
+size_t  mtStrAppendW( wchar_t* pwDst, size_t lenDst, const wchar_t* pwApp, size_t lenMax );
 
 /************************************************************************************/
 /*

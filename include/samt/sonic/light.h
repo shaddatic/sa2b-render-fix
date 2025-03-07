@@ -66,7 +66,7 @@ LIGHT_GC;
 /************************/
 EXTERN_START
 /** Set current light for drawing via index **/
-void    SetLighting( int light );
+void    SetLightIndex( int light );
 
 /** Load light file into 'Lights' or 'LightsGC' **/
 int32_t LoadLightFile( const char* fname );

@@ -23,26 +23,45 @@ typedef struct zxsdwstr    zxsdwstr;
 /************************/
 /*  Land Entry Flags    */
 /************************/
-#define LANDATTR_GROUND         (0x00000001) /* collision: ground                   */
-#define LANDATTR_WATER          (0x00000002) /* collision: water, swimable          */
-#define LANDATTR_DIGGABLE       (0x00000020)
-#define LANDATTR_NOCLIMB        (0x00000080)
-#define LANDATTR_STAIRS         (0x00000100)
-#define LANDATTR_HURT           (0x00000400)
-#define LANDATTR_FOOTSTEPS      (0x00000800)
-#define LANDATTR_NOLANDING      (0x00001000)
-#define LANDATTR_WATER_SLOW     (0x00002000) /* collision: water, slow movement     */
-#define LANDATTR_NOSHADOW       (0x00008000) /* no shadow maps                      */
-#define LANDATTR_ACCELERATE     (0x00100000)
-#define LANDATTR_NOFOG          (0x00400000) /* disable fog for land entry          */
-#define LANDATTR_MAXCLIP        (0x00800000) /* ignore LT far clip and use nj clip  */
-#define LANDATTR_SIMPLEDRAW     (0x01000000) /* draw landentry with SimpleDraw      */
-#define LANDATTR_DIRECTDRAW     (0x02000000) /* draw landentry with DirectDraw (internally set during compile) */
-#define LANDATTR_NOCOMPILE      (0x04000000) /* don't compile model                 */
-#define LANDATTR_DYNAMIC        (0x08000000)
-#define LANDATTR_UNK1           (0x20000000) // Usually medium-sized collisions
-#define LANDATTR_UNK2           (0x40000000) // Usually small-sized collisions
-#define LANDATTR_DRAW           (0x80000000) /* land entry is to be drawn           */
+/****** Land Collision Flags ********************************************************/
+#define LANDCOLL_GROUND         (1<< 0) /* solid                                    */
+#define LANDCOLL_WATER          (1<< 1) /* water, swimable                          */
+#define LANDCOLL_LOWFRICT       (1<< 2) /* low friction, icy                        */
+#define LANDCOLL_HIGHFRICT      (1<< 3) /* high friction, sticky                    */
+#define LANDCOLL_MEDFRICT       (1<< 4) /* medium friction, slow                    */
+#define LANDCOLL_DIGGABLE       (1<< 5) /* can be dug by hunters                    */
+#define LANDCOLL_UNK_06         (1<< 6)
+#define LANDCOLL_NOCLIMB        (1<< 7) /* can't be climbed on by hunters           */
+#define LANDCOLL_STAIRS         (1<< 8) /* player stands straight, always           */
+#define LANDCOLL_UNK_09         (1<< 9)
+#define LANDCOLL_HURT           (1<<10) /* hurts player on contact                  */
+#define LANDCOLL_FOOTSTEPS      (1<<11) /* produce footprints                       */
+#define LANDCOLL_NOSTANDING     (1<<12) /* no landing                               */
+#define LANDCOLL_WATERSLOW      (1<<13) /* water, slow movement                     */
+#define LANDCOLL_UNK_14         (1<<14)
+#define LANDCOLL_UNK_16         (1<<16)
+#define LANDCOLL_UNK_17         (1<<17)
+#define LANDCOLL_UNK_18         (1<<18)
+#define LANDCOLL_UNK_19         (1<<19)
+#define LANDCOLL_HIGHSPEED      (1<<20) /* top speed increased, faster accel        */
+#define LANDCOLL_HIGHACCEL      (1<<21) /* faster accel, same top speed             */
+#define LANDCOLL_HIGHGRAV       (1<<22) /* increased gravity                        */
+#define LANDCOLL_UNK_24         (1<<24) /* ??? easy to pass through                 */
+#define LANDCOLL_MOBILE         (1<<27) /* collision entry moves                    */
+#define LANDCOLL_UNITROT        (1<<28) /* don't rotate collisions                  */
+#define LANDCOLL_SMALLRAD       (1<<29) /* small coll radius                        */
+#define LANDCOLL_TINYRAD        (1<<30) /* tiny coll radius                         */
+
+#define LANDATTR_MINIRAD    (LANDATTR_SMALLRAD|LANDATTR_TINYRAD) /* mini coll rad   */
+
+/****** Land Draw Flags *************************************************************/
+#define LANDDRAW_NOSHADOW       (1<<15) /* no shadow maps                           */
+#define LANDDRAW_NOFOG          (1<<22) /* disable fog for land entry               */
+#define LANDDRAW_MAXCLIP        (1<<23) /* ignore LT far clip and use nj clip       */
+#define LANDDRAW_SIMPLEDRAW     (1<<24) /* use SimpleDraw, else EasyDraw            */
+#define LANDDRAW_DIRECTDRAW     (1<<25) /* use DirectDraw                (internal) */
+#define LANDDRAW_NOCOMPILE      (1<<26) /* don't compile model, use other draw      */
+#define LANDDRAW_DRAW           (1<<31) /* land entry is to be drawn                */
 
 /************************/
 /*  Structures          */

@@ -3,7 +3,6 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>      /* core                                                 */
-#include <samt/writemem.h>  /* WriteData, WritePointer                              */
 #include <samt/writeop.h>   /* WriteNOP                                             */
 #include <samt/funchook.h>  /* FuncHook                                             */
 
@@ -12,7 +11,6 @@
 
 /****** Game ************************************************************************/
 #include <samt/sonic/task.h>        /* task                                         */
-#include <samt/sonic/datadll.h>     /* data_dll                                     */
 #include <samt/sonic/njctrl.h>      /* oncontrol3d                                  */
 #include <samt/sonic/light.h>       /* setlight                                     */
 
@@ -28,11 +26,19 @@
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_transparancy/rfct_internal.h> /* self                      */
 
-bool    GetCurrCameraCullState( void );
-
+/************************/
+/*  Game Functions      */
+/************************/
+/****** Shadow Map ******************************************************************/
 #define gjSetShadow         FUNC_PTR(void, __cdecl, (const void*, const f32)  , 0x00495EB0)
 #define gjTranslateShadow   FUNC_PTR(void, __cdecl, (const void*, const void*), 0x00496160)
 #define gjClearLandShadow   FUNC_PTR(void, __cdecl, (void)                    , 0x00496310)
+
+/************************/
+/*  Headless Funcs      */
+/************************/
+/****** Camera Cull *****************************************************************/
+bool    GetCurrCameraCullState( void );
 
 /************************/
 /*  Source              */
@@ -45,15 +51,14 @@ DrawLandtable_RF(void)
 
     njSetTexture( pObjLandTable->pTexList );
 
-    SetLighting(2);
+    SetLightIndex(2);
 
     //if ( pObjLandTable->ssAttribute & 2 ) // some flag? does nothing in battle
     {
-        const s32 nb_landentry = nbObjLandEntry;
-
+        const s32             nb_landentrylist = nbObjLandEntry;
         const OBJ_LANDENTRY** pp_landentrylist = pObjLandEntry;
 
-        for ( s32 i = 0; i < nb_landentry; ++i, ++pp_landentrylist )
+        for ( s32 i = 0; i < nb_landentrylist; ++i, ++pp_landentrylist )
         {
             const OBJ_LANDENTRY* p_landentry = *pp_landentrylist;
 
@@ -69,12 +74,12 @@ DrawLandtable_RF(void)
             njRotateY(NULL, p_obj->ang[1]);
             njRotateX(NULL, p_obj->ang[0]);
 
-            if ( landattr & LANDATTR_NOFOG )
+            if ( landattr & LANDDRAW_NOFOG )
             {
                 njFogDisable();
             }
 
-            if ( !(landattr & LANDATTR_NOSHADOW) )
+            if ( !(landattr & LANDDRAW_NOSHADOW) )
             {
                 gjSetShadow( &p_landentry->xCenter, p_landentry->r );
                 gjTranslateShadow( p_obj->pos, p_obj->ang );
@@ -86,29 +91,29 @@ DrawLandtable_RF(void)
             }
             else // chunk
             {
-                if ( landattr & LANDATTR_NOCOMPILE )
+                if ( landattr & LANDDRAW_NOCOMPILE )
                 {
-                    if ( landattr & LANDATTR_SIMPLEDRAW )
+                    if ( landattr & LANDDRAW_SIMPLEDRAW )
                     {
-                        njCnkSimpleDrawModel( p_obj->model );
+                        njCnkSimpleDrawModel(p_obj->model);
                     }
                     else
                     {
-                        njCnkEasyDrawModel( p_obj->model );
+                        njCnkEasyDrawModel(p_obj->model);
                     }
                 }
                 else
                 {
-                    njCnkDirectDrawModel( p_obj->model );
+                    njCnkDirectDrawModel(p_obj->model);
                 }
             }
 
-            if ( !(landattr & LANDATTR_NOSHADOW) )
+            if ( !(landattr & LANDDRAW_NOSHADOW) )
             {
                 gjClearLandShadow();
             }
 
-            if ( landattr & LANDATTR_NOFOG )
+            if ( landattr & LANDDRAW_NOFOG )
             {
                 njFogEnable();
             }
@@ -189,7 +194,7 @@ LandTableIsGinja(const OBJ_LANDTABLE* pLand)
 
         /** If entry isn't set to draw, skip **/
 
-        if ( !(p_entry->slAttribute & LANDATTR_DRAW) )
+        if ( !(p_entry->slAttribute & LANDDRAW_DRAW) )
         {
             continue;
         }

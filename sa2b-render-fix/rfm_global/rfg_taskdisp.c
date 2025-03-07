@@ -290,7 +290,7 @@ TaskDisplayShadAllTasks(void)
         TaskDisplayShadows();
         RestoreScreenInfo();
 
-        SetLighting(DefaultPlayerLight); // Reset lighting
+        SetLightIndex(DefaultPlayerLight); // Reset lighting
     }
     else
     {
