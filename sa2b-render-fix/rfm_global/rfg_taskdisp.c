@@ -331,23 +331,27 @@ SetBaseScreenKeepRect(void)
     gjSetPerspective((scrn.w/scrn.h), 1.f, 100000.f);
 }
 
-static void
-TaskDisplayAll(void)
+bool
+GetCurrCameraCullState(void)
 {
-    bool no_draw;
-
     if (byte_0174AFFD == 1)
     {
-        no_draw = cameraNumber == 0;
+        return cameraNumber == 0;
     }
     else if (byte_0174AFFD == 2)
     {
-        no_draw = cameraNumber == 1;
+        return cameraNumber == 1;
     }
     else
     {
-        no_draw = byte_0174AFFD == 3;
+        return byte_0174AFFD == 3;
     }
+}
+
+static void
+TaskDisplayAll(void)
+{
+    const bool no_draw = GetCurrCameraCullState();
 
     /** Some tasks don't reset the constant material. This is normally handled in
         the task 'disp_shad' exec function, but since that doesn't run anymore we
