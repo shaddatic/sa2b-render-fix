@@ -32,7 +32,7 @@ const RFAPI_CORE rfapi_core =
 {
     .version = CORE_API_VER,
 
-    .modver = { 1,4,0,1 },
+    .modver = { 1,4,0,2 },
 
     .pApiControl     = &rfapi_control,
     .pApiConfig      = &rfapi_config,
