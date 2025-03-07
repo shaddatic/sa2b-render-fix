@@ -17,6 +17,7 @@ EXTERN_START
 /** Initialize **/
 void    RFC_TransparancyInit( void );
 void    RFC_NewDisplayerInit( void );
+void    RFC_LandtableInit( void );
 
 EXTERN_END
 

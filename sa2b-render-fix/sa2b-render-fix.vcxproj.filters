@@ -363,6 +363,9 @@
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_jg_jo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_common\rfc_landtable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

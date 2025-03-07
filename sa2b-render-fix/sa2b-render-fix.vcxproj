@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="rfm_amine.c" />
     <ClCompile Include="rfm_cgadget.c" />
+    <ClCompile Include="rfm_common\rfc_landtable.c" />
     <ClCompile Include="rfm_common\rfc_newdisp.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_jg_jo.c" />

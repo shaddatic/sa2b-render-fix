@@ -93,78 +93,6 @@ ObjectGlobalLightManagerHook(task* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-#define LandDisplayer               FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
-#define LandDisplayerTrans          FUNC_PTR(void, __cdecl, (task*), 0x0047C270)
-#define DrawMotLandEntry            FUNC_PTR(void, __cdecl, (void) , 0x0047C6E0)
-
-static hook_info LandDisplayerHookInfo[1];
-static void
-LandDisplayerHook(task* const tp)
-{
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
-
-    FuncHookCall( LandDisplayerHookInfo, LandDisplayer(tp) );
-
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-}
-
-static hook_info LandDisplayerTransHookInfo[1];
-static void
-LandDisplayerTransHook(task* const tp)
-{
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
-
-    FuncHookCall( LandDisplayerTransHookInfo, LandDisplayerTrans(tp) );
-
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-}
-
-static hook_info DrawMotLandEntryHookInfo[1];
-static void
-DrawMotLandEntryHook(void)
-{
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_ALL);
-
-    FuncHookCall( DrawMotLandEntryHookInfo, DrawMotLandEntry() );
-
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-}
-
-#define gjSetShadow         FUNC_PTR(void, __cdecl, (const void*, const f32)  , 0x00495EB0)
-#define gjTranslateShadow   FUNC_PTR(void, __cdecl, (const void*, const void*), 0x00496160)
-#define gjClearLandShadow   FUNC_PTR(void, __cdecl, (void)                    , 0x00496310)
-
-static void
-CnkDrawLT(const OBJ_LANDENTRY* const pLandEntry)
-{
-    const NJS_CNK_OBJECT* const p_obj = pLandEntry->pObject;
-
-    if ( !(pLandEntry->slAttribute & LANDATTR_NOSHADOW) )
-    {
-        gjSetShadow(&pLandEntry->xCenter, pLandEntry->r);
-        gjTranslateShadow(p_obj->pos, p_obj->ang);
-
-        njCnkCacheDrawModel(p_obj->model);
-
-        gjClearLandShadow();
-    }
-    else
-        njCnkCacheDrawModel(p_obj->model);
-}
-
-__declspec(naked)
-static void
-___CnkDrawLT(void)
-{
-    __asm
-    {
-        push edi
-        call CnkDrawLT
-        pop edi
-        retn
-    }
-}
-
 #define DrawGameHUD         FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
 
 static hook_info DrawGameHUDHookInfo[1];
@@ -178,55 +106,14 @@ DrawGameHUDHook(void)
     njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
 }
 
-static bool
-LandTableIsGinja(const OBJ_LANDTABLE* pLand)
-{
-    int count = pLand->ssCnkCount;
-
-    if (count < 0)
-        count = pLand->ssCount;
-
-    for (int i = 0; i < count; ++i)
-    {
-        const OBJ_LANDENTRY* const p_entry = &pLand->pLandEntry[i];
-
-        const NJS_CNK_OBJECT* const p_obj = p_entry->pObject;
-
-        /** If entry isn't set to draw, skip **/
-
-        if ( !(p_entry->slAttribute & LANDATTR_DRAW) )
-        {
-            continue;
-        }
-
-        /** Chunk models are unlikely to not have 'plist' data, while Ginja models
-          never uses that pointer in SA2. If 'plist' exists, it's almost
-          certainly a Chunk model; meaning a Chunk LandTable **/
-
-        if (p_obj->model && p_obj->model->plist)
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-static hook_info LandChangeLandTableHookInfo[1];
-static void
-LandChangeLandTableHook(OBJ_LANDTABLE* land)
-{
-    boolLandTableGinja = LandTableIsGinja(land);
-
-    FuncHookCall( LandChangeLandTableHookInfo, LandChangeLandTable(land) );
-}
-
 void
 RFM_CommonInit(void)
 {
     RFC_TransparancyInit();
 
     RFC_NewDisplayerInit();
+
+    RFC_LandtableInit();
 
     /** Restore Big the Cat in Wild Canyon **/
     DATA_ARY(OBJ_ITEMENTRY, 0x00BD7440, [100])[82] = DATA_ARY(OBJ_ITEMENTRY, 0x0109E830, [100])[85];
@@ -266,21 +153,6 @@ RFM_CommonInit(void)
     }
 
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
-
-    /** Add two pass drawing for Chunk land tables **/
-    FuncHook(LandDisplayerHookInfo     , LandDisplayer     , LandDisplayerHook);
-    FuncHook(LandDisplayerTransHookInfo, LandDisplayerTrans, LandDisplayerTransHook);
-    FuncHook(DrawMotLandEntryHookInfo  , DrawMotLandEntry  , DrawMotLandEntryHook);
-    WriteNOP(0x0047C2B5, 0x0047C2BE); // Force Chunk to draw twice
-
-    /** Add Chunk shadow map support for LTs **/
-    WriteCall(0x0047C454, ___CnkDrawLT);
-    WriteCall(0x0047C462, ___CnkDrawLT);
-    WriteCall(0x0047C604, ___CnkDrawLT);
-    WriteCall(0x0047C612, ___CnkDrawLT);
-
-    /** Automatically determine landtable format type **/
-    FuncHook(LandChangeLandTableHookInfo, LandChangeLandTable_p, LandChangeLandTableHook);
 
     /** Game HUD texture overdraw fix **/
     FuncHook(DrawGameHUDHookInfo, DrawGameHUD, DrawGameHUDHook);
