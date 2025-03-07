@@ -217,5 +217,12 @@ RFM_CommonInit(void)
             if (data[i].object)  RF_CnkObjectMaterialFlagOff(data[i].object , NJD_FST_IA);
             if (data[i].object2) RF_CnkObjectMaterialFlagOff(data[i].object2, NJD_FST_IA);
         }
+
+        NJS_CNK_OBJECT** p_obj = GetDataDllAddr(NJS_CNK_OBJECT*, "exModels");
+
+        for (int i = 0; i < 6; ++i)
+        {
+            RF_CnkObjectMaterialFlagOff(p_obj[i], NJD_FST_IA);
+        }
     }
 }
