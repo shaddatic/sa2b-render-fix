@@ -2,25 +2,19 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/init.h'
 *
 *   Description:
-*       Functions, utilities, & examples for initializing the
-*   toolkit & the user mod.
+*     For initializing SAMT and setting up your exported mod functions.
 */
-#ifndef _SAMT_INIT_H_
-#define _SAMT_INIT_H_
+#ifndef H_SAMT_INIT
+#define H_SAMT_INIT
 
 /************************/
 /*  Includes            */
 /************************/
-/** Core **/
-#include <samt/modloader.h>
-
-/** Utility **/
-#include <samt/util/dllexport.h>
-#include <samt/util/ml_type.h>
+/****** Utility *********************************************************************/
+#include <samt/util/dllexport.h>    /* export_dll                                   */
+#include <samt/util/ml_type.h>      /* ml_helpfuncs                                 */
 
 EXTERN_START
-
-typedef struct ml_helpfuncs     ml_helpfuncs;
 
 /************************/
 /*  Prototypes          */
@@ -28,20 +22,21 @@ typedef struct ml_helpfuncs     ml_helpfuncs;
 /****** System Init *****************************************************************/
 /*
 *   Description:
-*     Initialize the Mod Toolkit's core modules.
+*     Initialize SAMT and its core modules.
 *
 *   Notes:
-*     - Always call this first thing in 'Init'.
+*     - Should be called first in your mod's exported 'Init' function, using the
+*       parameters as arguments for this function.
 *
 *   Parameters:
-*     - pcPath      : mod path to this mod                               (optional)
-*     - pHelpFuncs  : 
+*     - pcPath      : path to this mod
+*     - pHelpFuncs  : mod loader helperfunctions
 */
 void    mtSystemInit( const char* pcPath, const ml_helpfuncs* pHelpFuncs );
 
 EXTERN_END
 
-#endif/*_SAMT_INIT_H_*/
+#endif/*H_SAMT_INIT*/
 
 /************************/
 /*  Func Examples       */
@@ -51,9 +46,9 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    Init(const char* path, const HelperFunctions* pHelperFunctions)
+    Init(const char* pcPath, const ml_helpfuncs* pHelpFuncs)
     {
-        SAMT_Init(path, pHelperFunctions);
+        mtSystemInit( pcPath, pHelpFuncs );
     }
 *
 *   Execute every rendered frame:
@@ -124,8 +119,8 @@ EXTERN_END
         
     }
 *
-*   Valid Mod Info ($ == SA2 or SADX):
+*   Valid Mod Info (# == SA2 or SADX):
 *
     EXPORT_DLL
-    ModInfo $ModInfo = { ML_VERSION };
+    ml_modinfo #ModInfo = { ML_VERSION };
 */

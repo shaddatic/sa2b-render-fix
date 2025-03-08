@@ -2,7 +2,7 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/modloader.h'
 *
 *   Description:
-*       Functions and definitions for the Mod Loader and its HelperFunctions.
+*     Functions and definitions for the Mod Loader and its HelperFunctions.
 */
 #ifndef H_SAMT_MODLOADER
 #define H_SAMT_MODLOADER
@@ -16,10 +16,10 @@
 EXTERN_START
 
 /************************/
-/*  Constants           */
+/*  Opaque Types        */
 /************************/
-/****** Mod Loader Version **********************************************************/
-#define ML_VERSION          (15) /* supported Mod loader version                    */
+/****** Helper Functions ************************************************************/
+typedef struct HelperFunctions      HelperFunctions; /* mod loader helper funcs     */
 
 /************************/
 /*  Functions           */
@@ -29,7 +29,7 @@ EXTERN_START
 *   Get Mod Loader HelperFunctions pointer.
 *
 *   Returns:
-*       Current HelperFunctions pointer, as passed into SAMT_Init().
+*     Mod Loader HelperFunctions pointer, as passed into 'mtSystemInit'.
 */
 const HelperFunctions* ML_GetHelperFunctions( void );
 
@@ -38,16 +38,16 @@ const HelperFunctions* ML_GetHelperFunctions( void );
 *   Get currently installed Mod Loader version.
 *
 *   Returns:
-*       Installed version of the mod loader.
+*     Installed version of the mod loader.
 */
-int32_t     ML_GetVersion( void );
+s32     ML_GetCurrVersion( void );
 
 /****** Version >= 4 ****************************************************************/
 /*
 *   Get current game save folder paths.
 *
 *   Returns:
-*       String folder path to the game saves
+*     String folder path to the game saves
 */
 const char* ML_GetMainSavePath( void );
 const char* ML_GetChaoSavePath( void );
@@ -57,20 +57,20 @@ const char* ML_GetChaoSavePath( void );
 *   Get a redirected/replaced file path.
 *
 *   Examples:
-*       ML_GetReplaceablePath("./resource/gd_PC/sonictex.prs");
+*     - ML_GetReplaceablePath("./resource/gd_PC/sonictex.prs");
 *
 *   Parameters:
 *     - fpath   : full, original path to file
 *
 *   Returns:
-*       Current path to the file. If the file isn't replaced, 'fpath' is returned
+*     Current path to the file. If the file isn't replaced, 'fpath' is returned
 */
 const char* ML_GetReplaceablePath( const char* fpath );
 /*
 *   Manually replace a file.
 *
 *   Examples:
-*       ML_ReplaceFile("./resource/gd_PC/teriosmdl.prs", "./resource/gd_PC/new/shadowmdl.prs");
+*     - ML_ReplaceFile("./resource/gd_PC/teriosmdl.prs", "./resource/gd_PC/new/shadowmdl.prs");
 *
 *   Parameters:
 *     - fpath     : full default path to file
@@ -100,8 +100,8 @@ void        ML_SetDebugFontColor( uint32_t  color );
 *   of the current frame.
 *
 *   Examples:
-*       ML_DisplayDebugString(NJM_LOCATION(1, 1), "string");
-*       ML_DisplayDebugInt(NJM_LOCATION(12, 15), 1234, 4);
+*     - ML_DisplayDebugString(NJM_LOCATION(1, 1), "string");
+*     - ML_DisplayDebugInt(NJM_LOCATION(12, 15), 1234, 4);
 *
 *   Parameters:
 *     - njmLocation : position of the string as a NJM_LOCATION macro
@@ -129,14 +129,14 @@ void        ML_DisplayDebugStringF( int njmLocation, char* pBuf, size_t szBuf, c
 *   function.
 *
 *   Examples:
-*       ML_RegiserVoice("./voice_jap.adx", "./voice_eng.adx");
+*     - ML_RegiserVoice("./voice_jap.adx", "./voice_eng.adx");
 *
 *   Parameters:
 *     - fileJP  : path to japanese voice adx file
 *     - fileEN  : path to english voice adx file
 *
 *   Returns:
-*       The ID of the voice line
+*     The ID of the voice line
 */
 uint16_t    ML_RegisterVoice( const char* fileJP, const char* fileEN );
 
@@ -146,7 +146,7 @@ uint16_t    ML_RegisterVoice( const char* fileJP, const char* fileEN );
 *   while the texture file is unloaded.
 *
 *   Examples:
-*       ML_ReplaceTexture("SONICTEX", "sonic_soapshoes", "./new_tex.png", 1120, 0, 0);
+*     - ML_ReplaceTexture("SONICTEX", "sonic_soapshoes", "./new_tex.png", 1120, 0, 0);
 *
 *   Parameters:
 *     - prs_name  : name of the texture file (not including file type, eg. ".pak")
@@ -163,7 +163,7 @@ void        ML_ReplaceTexture( const char* prs_name, const char* tex_name, const
 *   Reset a replaced file path to its original path.
 *
 *   Examples:
-*       ML_ResetReplaceablePath("./resource/gd_PC/stg10_fog.bin");
+*     - ML_ResetReplaceablePath("./resource/gd_PC/stg10_fog.bin");
 *
 *   Parameters:
 *     - fpath   : full, original path to file that has been replaced

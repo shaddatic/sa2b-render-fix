@@ -4,6 +4,7 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>
 #include <samt/init.h>
+#include <samt/modloader.h>
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>
@@ -50,15 +51,15 @@
 /************************/
 EXPORT_DLL
 void __cdecl
-Init(const char* path, const HelperFunctions* pHelperFunctions)
+Init(const char* pcPath, const ml_helpfuncs* pHelpFuncs)
 {
     /** SAModToolkit init **/
-    mtSystemInit(path, pHelperFunctions);
+    mtSystemInit(pcPath, pHelpFuncs);
 
     DX9_Init();
 
     /** Mod Loader Check **/
-    if (ML_GetVersion() < MLVER_MIN)
+    if ( ML_GetCurrVersion() < MLVER_MIN )
     {
         RF_FatalError("Mod Loader Version",
             "Render Fix can't operate safely on the currently installed version of the SA2 Mod Loader.\n"
@@ -111,4 +112,4 @@ Init(const char* path, const HelperFunctions* pHelperFunctions)
 }
 
 EXPORT_DLL
-ModInfo SA2ModInfo = { ML_VERSION };
+ml_modinfo SA2ModInfo = { ML_VERSION };

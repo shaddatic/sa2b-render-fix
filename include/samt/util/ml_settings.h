@@ -13,7 +13,7 @@ EXTERN_START
 /*  Enums               */
 /************************/
 /****** Mod Loader User Settings ****************************************************/
-typedef enum
+typedef enum ml_screenmode
 {
     ML_SCREEN_MD_WINDOWED,
     ML_SCREEN_MD_FULLSCREEN,
@@ -26,7 +26,7 @@ ml_screenmode;
 /*  Structures          */
 /************************/
 /****** Mod Loader User Settings ****************************************************/
-typedef struct
+typedef struct ml_settings
 {
     /****** Mod Loader Version >= 9 *********************************************/
     struct
@@ -91,6 +91,9 @@ typedef struct
     /****** Mod Loader Version >= 14 ********************************************/
     bool            noBorderImage; /* done use border image PNG                 */
     bool            screenStretch; /* allow stretching of the game              */
+
+    /****** Mod Loader Version >= 15 ********************************************/
+    byte   stdwstr_ExtLibPath[24]; /* std::wstring, external library path       */
 }
 ml_settings;
 

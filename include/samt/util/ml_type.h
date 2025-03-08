@@ -4,17 +4,24 @@
 *   Description:
 *       Mod loader abstract type definitions.
 */
-#ifndef _UTIL_MLTYPE_H_
-#define _UTIL_MLTYPE_H_
+#ifndef H_SAMT_UTIL_MLTYPE
+#define H_SAMT_UTIL_MLTYPE
+
+EXTERN_START
+
+/************************/
+/*  Constants           */
+/************************/
+/****** Mod Loader Version **********************************************************/
+#define ML_VERSION              (15) /* supported Mod loader version                */
 
 /************************/
 /*  Structures          */
 /************************/
-#ifndef SAMT_INCL_MLTYPE_NOABSTRACT
+/****** Mod Loader Structures *******************************************************/
+typedef s32                     ml_modinfo[10]; /* modinfo                          */
+typedef struct ml_helpfuncs     ml_helpfuncs;   /* helperfunctions                  */
 
-typedef int32_t     ModInfo[10];
-typedef void        HelperFunctions;
+EXTERN_END
 
-#endif/*SAMT_INCL_MLTYPE_NOABSTRACT*/
-
-#endif/*_UTIL_MLTYPE_H_*/
+#endif/*H_SAMT_UTIL_MLTYPE*/
