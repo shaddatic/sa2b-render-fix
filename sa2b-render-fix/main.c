@@ -51,10 +51,10 @@
 /************************/
 EXPORT_DLL
 void __cdecl
-Init(const char* pcPath, const ml_helpfuncs* pHelpFuncs)
+Init(const utf8* puPath, const ml_helpfuncs* pHelpFuncs)
 {
     /** SAModToolkit init **/
-    mtSystemInit(pcPath, pHelpFuncs);
+    mtSystemInit(puPath, pHelpFuncs);
 
     DX9_Init();
 

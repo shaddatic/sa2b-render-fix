@@ -29,10 +29,10 @@ EXTERN_START
 *       parameters as arguments for this function.
 *
 *   Parameters:
-*     - pcPath      : path to this mod
+*     - puPath      : path to this mod
 *     - pHelpFuncs  : mod loader helperfunctions
 */
-void    mtSystemInit( const char* pcPath, const ml_helpfuncs* pHelpFuncs );
+void    mtSystemInit( const utf8* puPath, const ml_helpfuncs* pHelpFuncs );
 
 EXTERN_END
 
@@ -46,9 +46,9 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    Init(const char* pcPath, const ml_helpfuncs* pHelpFuncs)
+    Init(const utf8* puPath, const ml_helpfuncs* pHelpFuncs)
     {
-        mtSystemInit( pcPath, pHelpFuncs );
+        mtSystemInit( puPath, pHelpFuncs );
     }
 *
 *   Execute every rendered frame:

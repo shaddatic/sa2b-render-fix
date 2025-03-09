@@ -128,7 +128,7 @@ typedef uint8_t             byte;       /* basic byte type                      
 *   Returns:
 *     The file path to this mod, starting at the game's EXE.
 */
-const char* mtGetModPath( void );
+const utf8* mtGetModPath( void );
 
 /************************/
 /*  Core Macros         */

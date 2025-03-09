@@ -164,7 +164,7 @@ utf8*   mtStrDupe( const utf8* puStr, size_t lenMax );
 *     - lenMax      : maximum length of both strings
 *
 *   Returns:
-*     The length of the copied string in code units.
+*     The length of the copied string in code units, up to 'lenMax'.
 */
 size_t  mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
 
@@ -200,6 +200,42 @@ size_t  mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
 *     New length of 'puDst' after append.
 */
 size_t  mtStrAppend( utf8* puDst, size_t lenDst, const utf8* puApp, size_t lenMax );
+
+/****** String Case *****************************************************************/
+/*
+*   Description:
+*     Cast a string to upper case, with an optional source string.
+*
+*   Notes:
+*     - If 'puOptSrc' isn't given, the destination string will also act as the
+*       source string.
+*
+*   Parameters:
+*     - puDst       : destination string buffer
+*     - puOptSrc    : source string                             [optional: nullptr]
+*     - lenMax      : maximum length of 'puDst' and 'puOptSrc'
+*
+*   Returns:
+*     The length of the destination string in code units, up to 'lenMax'.
+*/
+size_t  mtStrToUpper( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
+/*
+*   Description:
+*     Cast a string to lower case, with an optional source string.
+*
+*   Notes:
+*     - If 'puOptSrc' isn't given, the destination string will also act as the
+*       source string.
+*
+*   Parameters:
+*     - puDst       : destination string buffer
+*     - puOptSrc    : source string                             [optional: nullptr]
+*     - lenMax      : maximum length of 'puDst' and 'puOptSrc'
+*
+*   Returns:
+*     The length of the destination string in code units, up to 'lenMax'.
+*/
+size_t  mtStrToLower( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
 
 /****** String Escape ***************************************************************/
 /*

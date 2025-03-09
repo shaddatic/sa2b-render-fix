@@ -36,7 +36,7 @@ typedef struct zxsdwstr    zxsdwstr;
 #define LANDCOLL_UNK_09         (1<< 9)
 #define LANDCOLL_HURT           (1<<10) /* hurts player on contact                  */
 #define LANDCOLL_FOOTSTEPS      (1<<11) /* produce footprints                       */
-#define LANDCOLL_NOSTANDING     (1<<12) /* no landing                               */
+#define LANDCOLL_NOSTAND        (1<<12) /* player cannot stand on surface           */
 #define LANDCOLL_WATERSLOW      (1<<13) /* water, slow movement                     */
 #define LANDCOLL_UNK_14         (1<<14)
 #define LANDCOLL_UNK_16         (1<<16)
