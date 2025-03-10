@@ -14,18 +14,28 @@
 /*
 *   Description:
 *     Get CPU tick count as a 'u32'. Will overflow every 49 days.
-*
-*   Returns:
-*     CPU tick count as a 'u32'.
 */
 u32     mtOSGetTickCount( void );
 /*
 *   Description:
 *     Get CPU tick count as a 'u64'.
-*
-*   Returns:
-*     CPU tick count as a 'u64'.
 */
 u64     mtOSGetTickCount64( void );
+
+/****** Windows CMD *****************************************************************/
+/*
+*   Description:
+*     Send a command string to command prompt.
+*
+*   Notes:
+*     - Generally unsafe to do complex tasks with, keep it simple.
+*
+*   Parameters:
+*     - pcCmd       : command string
+*
+*   Returns:
+*     'true' if the command executed successfully; or 'false' on failure.
+*/
+bool    mtOSTerminal( const char* pcCmd );
 
 #endif/*H_SAMT_OS*/
