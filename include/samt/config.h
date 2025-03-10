@@ -178,7 +178,7 @@ const utf8* mtConfigGetString( const mt_config* pConfig, const utf8* puSect, con
 *   does not exist.
 */
 s32     mtConfigGetInt( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
-s32     mtConfigGetHex( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
+u32     mtConfigGetHex( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, u32 def );
 s32     mtConfigGetOct( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
 /*
 *   Description:
