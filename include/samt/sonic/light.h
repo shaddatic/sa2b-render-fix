@@ -95,7 +95,7 @@ EXTERN_END
 #   define LoadLightFile_p      FUNC_PTR(int32_t, __fastcall, (const char*), 0x006C3AE0)
 
 /** User-Function ptrs **/
-#   define SetLighting_p        ((void*)0x00487060)
+#   define SetLightIndex_p      ((void*)0x00487060)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 
