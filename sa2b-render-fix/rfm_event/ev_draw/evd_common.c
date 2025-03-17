@@ -36,12 +36,24 @@ EventGetEntryType(const EVENT_ENTRY* pEntry)
 
     if (!pEntry->pMotion)
     {
-        if (attr & EV_ENTF_MODVOL) // Added for Render Fix
+        if (attr & EV_ENTF_NOFOG)
+        {
+            return EV_ENTRY_TYPE_EASYNOFOG;
+        }
+
+        if (attr & EV_ENTF_MODVOL)
         {
             return EV_ENTRY_TYPE_MODDRAW;
         }
 
-        return (attr & EV_ENTF_NOFOG) ? EV_ENTRY_TYPE_EASYNOFOG : EV_ENTRY_TYPE_DRAW;
+        if (attr & EV_ENTF_FORCESIMPLE)
+        {
+            return EV_ENTRY_TYPE_DRAW;
+        }
+        else
+        {
+            return (attr & EV_ENTF_MULTILIGHT) ? EV_ENTRY_TYPE_MULTIDRAW : EV_ENTRY_TYPE_DRAW;
+        }
     }
 
     if (attr & EV_ENTF_MODVOL)
