@@ -378,7 +378,7 @@ EventDisplayerDelayed(task* tp)
 
         const int nb_layer = EventGetLayerCount();
 
-        for (int i = 0; i < nb_layer; ++i)
+        for (int i = 1; i < nb_layer; ++i)
         {
             EventSceneDraw(EVENT_BASE_SCENE, i);
             EventSceneDraw(EventScene      , i);
@@ -426,12 +426,23 @@ EventDisplayer(task* tp)
     {
         const int old_rmode = _gj_render_mode_;
 
-        _gj_render_mode_    = GJD_DRAW_SOLID;
+        /** Draw all opaque polygons **/
+
+        _gj_render_mode_ = GJD_DRAW_SOLID;
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
 
         EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
         EventSceneDraw(EventScene      , EV_ALL_LAYERS);
+
+        /** Draw first transparent layer **/
+
+        _gj_render_mode_ = GJD_DRAW_TRANS;
+
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+        EventSceneDraw(EVENT_BASE_SCENE, 0);
+        EventSceneDraw(EventScene      , 0);
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
