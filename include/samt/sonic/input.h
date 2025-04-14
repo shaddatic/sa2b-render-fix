@@ -17,6 +17,7 @@
 /************************/
 #define BTN_L               PDD_DGT_TL
 #define BTN_R               PDD_DGT_TR
+#define BTN_X               PDD_DGT_TX
 #define BTN_Y               PDD_DGT_TY
 #define BTN_RIGHT           PDD_DGT_KR
 #define BTN_LEFT            PDD_DGT_KL

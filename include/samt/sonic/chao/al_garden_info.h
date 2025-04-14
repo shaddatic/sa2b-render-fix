@@ -144,7 +144,7 @@ CHAO_GARDEN_INFO;
 
 typedef struct
 {
-    int32_t category;
+    int32_t         category;
     ITEM_SAVE_INFO* pSaveInfo;
 }
 AL_HOLDING_ITEM_INFO;
@@ -211,7 +211,7 @@ EXTERN_END
 #   define AL_GetAnotherGardenInfo_p        FUNC_PTR(CHAO_GARDEN_INFO*, __cdecl   , (void)             , 0x0052E460)
 #   define AL_PackageAllSaveInfo_p          FUNC_PTR(void             , __cdecl   , (void)             , 0x0052F090)
 #   define AL_PackageItemSaveInfo_p         FUNC_PTR(void             , __cdecl   , (int32_t)          , 0x0052E710)
-#   define AL_CheckSaveDataCrc2_p           FUNC_PTR(b32         , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
+#   define AL_CheckSaveDataCrc2_p           FUNC_PTR(b32              , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
 #   define AL_SetObjectOnTheGarden_p        FUNC_PTR(void             , __cdecl   , (void)             , 0x0052EB70)
 #   define AL_CreateHoldingItem_p           FUNC_PTR(void             , __cdecl   , (void)             , 0x0052F2A0)
 

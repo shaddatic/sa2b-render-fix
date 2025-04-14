@@ -31,9 +31,10 @@ EXTERN_START
 #define NJD_MTYPE_SANG_1        BIT_5   /* use NJS_MKEY_SA                          */
 #define NJD_MTYPE_TARGET_3      BIT_6   /* use NJS_MKEY_F                           */
 #define NJD_MTYPE_ROLL_6        BIT_7   /* use NJS_MKEY_SA1                         */
-#define NJD_MTYPE_ANGLE_7       BIT_8   /* use NJS_MKEY_SA1                         */
+#define NJD_MTYPE_ANGLE_7       BIT_8   /* use NJS_MKEY_A1                          */
 #define NJD_MTYPE_RGB_8         BIT_9   /* use NJS_MKEY_F                           */
 #define NJD_MTYPE_INTENSITY_9   BIT_10  /* use NJS_MKEY_F2                          */
+#define	NJD_MTYPE_SPOT_10       BIT_11  /* use NJS_MKEY_SPOT                        */
 #define NJD_MTYPE_POINT_9       BIT_12  /* use NJS_MKEY_F2                          */
 #define NJD_MTYPE_QUAT_1        BIT_13  /* use NJS_MKEY_QUAT                        */
 #define NJD_MTYPE_SHAPEID       BIT_14  /* use NJS_MKEY_SHAPEID     (compact shape) */

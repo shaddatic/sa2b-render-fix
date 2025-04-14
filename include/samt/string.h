@@ -30,7 +30,7 @@ EXTERN_START
 /****** Size/Count Definitions ******************************************************/
 #define STR_NOMAX           (0xFFFFFFFF) /* no maximum, auto-determine sz/nb        */
 #define STR_NOINDEX         (0xFFFFFFFF) /* no string index                         */
-#define STR_AUTOLEN         (0x00000000) /* auto-calculate length for append        */
+#define STR_AUTOLEN         (0xFFFFFFFF) /* auto-calculate length for append        */
 
 /****** String Escape Flags *********************************************************/
 #define STR_ESC_NOFLAG          (0)     /* no additional flags                      */
@@ -176,23 +176,27 @@ size_t  mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
 *   Notes:
 *     - 'lenMax' specifically refers to 'puDst' and the total length of the string
 *       buffer. 'puApp' *must* be null terminated.
+*     - If 'lenDst' is '0', this indicates the string buffer is dirty and the
+*       function will operate as an 'StrCopy'.
 *     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
 *       point. This may cause a code point to be incomplete.
 *
 *   Examples:
 *     - mtStrAppend( pu_buf, STR_AUTOLEN, "append me", ARYLEN(pu_buf) ); // single append
 *     - {
-*         size_t len; // multi-append using return value (faster)
+*         size_t len = 0; // zero indicates buffer is 'dirty'
 *
-*         len = mtStrAppend( pu_buf, STR_AUTOLEN, "app1", sz_buf );
-*         len = mtStrAppend( pu_buf, len        , "app2", sz_buf );
-*         len = mtStrAppend( pu_buf, len        , "app3", sz_buf );
+*         utf8 pu_buf[32];
+*
+*         len = mtStrAppend( pu_buf, len, "app1", 32 ); // multi-append using return value (faster)
+*         len = mtStrAppend( pu_buf, len, "app2", 32 );
+*         len = mtStrAppend( pu_buf, len, "app3", 32 );
 *         ...
-*       }
+*       } 
 *
 *   Parameters:
 *     - puDst       : string buffer to append to
-*     - lenDst      : current length of 'puDst'             [optional: STR_AUTOLEN]
+*     - lenDst      : current length of 'puDst'         [optional: STR_AUTOLEN | 0]
 *     - puApp       : string to append
 *     - lenMax      : maximum length of 'puDst', in code units
 *
@@ -447,23 +451,27 @@ size_t  mtStrCopyW( wchar_t* pwDst, const wchar_t* pwSrc, size_t lenMax );
 *   Notes:
 *     - 'lenMax' specifically refers to 'pwDst' and the total length of the string
 *       buffer. 'puApp' *must* be null terminated.
+*     - If 'lenDst' is '0', this indicates the string buffer is dirty and the
+*       function will operate as an 'StrCopy'.
 *     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
 *       point. This may cause a code point to be incomplete.
 *
 *   Examples:
 *     - mtStrAppendW( pw_buf, STR_AUTOLEN, L"append me", ARYLEN(pw_buf) ); // single append
 *     - {
-*         size_t len; // multi-append using return value (faster)
+*         size_t len = 0; // zero indicates buffer is 'dirty'
 *
-*         len = mtStrAppendW( pw_buf, STR_AUTOLEN, L"app1", sz_buf );
-*         len = mtStrAppendW( pw_buf, len        , L"app2", sz_buf );
-*         len = mtStrAppendW( pw_buf, len        , L"app3", sz_buf );
+*         wchar_t pw_buf[32]
+*
+*         len = mtStrAppendW( pw_buf, len, L"app1", 32 ); // multi-append using return value (faster)
+*         len = mtStrAppendW( pw_buf, len, L"app2", 32 );
+*         len = mtStrAppendW( pw_buf, len, L"app3", 32 );
 *         ...
 *       }
 *
 *   Parameters:
 *     - pwDst       : string buffer to append to
-*     - lenDst      : current length of 'pwDst'             [optional: STR_AUTOLEN]
+*     - lenDst      : current length of 'pwDst'         [optional: STR_AUTOLEN | 0]
 *     - pwApp       : string to append
 *     - lenMax      : maximum length of 'pwDst', in code units
 *

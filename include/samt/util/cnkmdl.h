@@ -397,7 +397,7 @@ typedef struct
     Uint8  head;                /* chunk type                                       */
 
     Uint8  flag;                /* strip flags                                      */
-    Uint16 size;                /* chunk size        (in s16 steps, from this byte) */
+    Uint16 size;                /* chunk size        (in s16 steps, from next byte) */
     Uint16 nbpoly  : 14;        /* poly/strip count                                 */
     Uint16 ufo     : 2;         /* user flag offset                                 */
 
@@ -462,7 +462,7 @@ typedef struct
     Uint8  head;                /* chunk type                                       */
 
     Uint8  flag;                /* strip flags                                      */
-    Uint16 size;                /* chunk size        (in s16 steps, from this byte) */
+    Uint16 size;                /* chunk size        (in s16 steps, from next byte) */
     Uint16 nbstrip  : 14;       /* strip count                                      */
     Uint16 ufo      : 2;        /* user flag offset                                 */
 

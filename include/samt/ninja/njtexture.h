@@ -189,14 +189,14 @@ EXTERN_START
 /****** Texture Surface *************************************************************/
 typedef struct
 {
-    Uint32 Type;                /* surface type                                     */
-    Uint32 BitDepth;            /* bit depth                                        */
-    Uint32 PixelFormat;         /* pixel format                                     */
-    Uint32 nWidth;              /* width                                (in pixels) */
-    Uint32 nHeight;             /* height                               (in pixels) */
-    Uint32 TextureSize;         /* total size                            (in bytes) */
-    Uint32 fSurfaceFlags;       /* surface flags                                    */
-    Uint32* pSurface;           /* pointer to surface data                          */
+    Uint32      Type;            /* surface type                                     */
+    Uint32      BitDepth;        /* bit depth                                        */
+    Uint32      PixelFormat;     /* pixel format                                     */
+    Uint32      nWidth;          /* width                                (in pixels) */
+    Uint32      nHeight;         /* height                               (in pixels) */
+    Uint32      TextureSize;     /* total size                            (in bytes) */
+    Uint32      fSurfaceFlags;   /* surface flags                                    */
+    Uint32*     pSurface;        /* pointer to surface data                          */
 }
 NJS_TEXSURFACE;
 
@@ -235,25 +235,33 @@ NJS_TEXPALETTE;
 /****** Texture Error Status ********************************************************/
 typedef struct
 {
-    Uint32	n;                  /* texture number (in texlist) where error occured  */
-    Uint32	globalIndex;        /* global index of texture where error occured      */
-    Sint32	texerr;             /* texture error code                               */
-    Sint32	gdstat;             /* gd status code                                   */
-    Sint32	gderr;              /* gd error code                                    */
-    Sint32	reserved0;          /* reserved                                         */
-    Sint32	reserved1;          /* reserved                                         */
-    Sint32	reserved2;          /* reserved                                         */
+    Uint32      n;              /* texture number (in texlist) where error occured  */
+    Uint32      globalIndex;    /* global index of texture where error occured      */
+    Sint32      texerr;         /* texture error code                               */
+    Sint32      gdstat;         /* gd status code                                   */
+    Sint32      gderr;          /* gd error code                                    */
+    Sint32      reserved0;      /* reserved                                         */
+    Sint32      reserved1;      /* reserved                                         */
+    Sint32      reserved2;      /* reserved                                         */
 }
 NJS_TEXERRSTAT;
 
-/****** PVR Texture Header *******************************************************&&*/
+/****** PVR Texture Header **********************************************************/
 typedef struct
 {
-    Uint32 nTextureType;        /* pvr texture type                                 */
-    Uint16 nWidth;              /* texture width                        (in pixels) */
-    Uint16 nHeight;             /* texture height                       (in pixels) */
+    Uint32      nTextureType;   /* pvr texture type                                 */
+    Uint16      nWidth;         /* texture width                        (in pixels) */
+    Uint16      nHeight;        /* texture height                       (in pixels) */
 }
 NJS_PVRHEADERDATA;
+
+/****** Memory Texture Info *********************************************************/
+typedef struct
+{
+    void*           texaddr;    /* texture pointer                                  */
+    NJS_TEXSURFACE  texsurface;	/* texture surface struct                           */
+}
+NJS_TEXINFO;
 
 /************************/
 /*  Structures          */
@@ -366,10 +374,29 @@ Sint32  njSetTextureNumG( Uint32 globalIndex );
 */
 NJS_TEXLIST* njGetCurrentTexList( void );
 
+/****** Load Texture ****************************************************************/
+/*
+*   Description:
+*     Load all textures inside a texlist, using texname information.
+*
+*   Notes:
+*     - Can load GVR, DDS, and PAK files.
+*
+*   Parameters:
+*     - texlist     : texlist to load textures for
+*
+*   Returns:
+*     '1' on success; or '-1' if any error (check '_nj_texerr_').
+*/
+Sint32 njLoadTexture( NJS_TEXLIST* texlist );
+
 /****** Release Texture *************************************************************/
 /*
 *   Description:
 *     Release all textures inside a texlist.
+*
+*   Parameters:
+*     - texlist     : texlist to free textures from
 *
 *   Returns:
 *     '1' on success; or '-1' if any error (check '_nj_texerr_').

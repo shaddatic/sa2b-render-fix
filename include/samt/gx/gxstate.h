@@ -18,6 +18,16 @@ EXTERN_START
 #define GXD_CULLMODE_CCW        (2) /* cull counter-clockwise triangles             */
 #define GXD_CULLMODE_ALL        (3) /* cull all triangles                           */
 
+/** Blend Modes **/
+#define GXD_BLENDMODE_ZERO      (0)
+#define GXD_BLENDMODE_ONE       (1)
+#define GXD_BLENDMODE_OC        (2)
+#define GXD_BLENDMODE_IOC       (3)
+#define GXD_BLENDMODE_SA        (4)
+#define GXD_BLENDMODE_ISA       (5)
+#define GXD_BLENDMODE_DA        (6)
+#define GXD_BLENDMODE_IDA       (7)
+
 /************************/
 /*  Functions           */
 /************************/

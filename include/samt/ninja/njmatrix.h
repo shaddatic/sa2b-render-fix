@@ -170,13 +170,25 @@ void    njPostMultiMatrix( NJS_MATRIX* md, const NJS_MATRIX* ms );
 void    njTranslate( NJS_MATRIX* m, Float x, Float y, Float z );
 /*
 *   Description:
-*     Transform a matrix by a point or vector in 3D space using NJS_VECTOR
+*     Transform a matrix by a point or vector in 3D space using a vector
 *
 *   Parameters:
 *     - m       : matrix (optional)
 *     - v       : point/vector
 */
 void    njTranslateV( NJS_MATRIX* m, const NJS_VECTOR* v );
+/*
+*   Description:
+*     Transform a matrix by a point or vector in 3D space using a float array.
+*
+*   Notes:
+*     - This is an SAMT extension.
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - pos     : float array
+*/
+void    njTranslateA( NJS_MATRIX* m, const Float pos[3] );
 
 /****** Rotate Matrix ***************************************************************/
 /*
@@ -234,6 +246,18 @@ void    njScale( NJS_MATRIX* m, Float sx, Float sy, Float sz );
 *     - v       : vector scale
 */
 void    njScaleV( NJS_MATRIX* m, const NJS_VECTOR* v );
+/*
+*   Description:
+*     Scale a matrix in 3D space using a float array
+*
+*   Notes:
+*     - This is an SAMT extension.
+*
+*   Parameters:
+*     - m       : matrix (optional)
+*     - scl     : float array
+*/
+void    njScaleA( NJS_MATRIX* m, const Float scl[3] );
 
 /****** Invert Matrix ***************************************************************/
 /*
@@ -421,6 +445,9 @@ Float   njOuterProduct( const NJS_VECTOR* v1, const NJS_VECTOR* v2, NJS_VECTOR* 
 *   the length value. Faster if only relative length is important, or you don't plan
 *   to use the length value.
 *
+*   Notes:
+*     - This is an SAMT extension.
+*
 *   Parameters:
 *     - v1      : vector 1
 *     - v2      : vector 2
@@ -508,11 +535,24 @@ void    njUnitMatrixEx( void );
 /*
 *   Description:
 *     Transform the current matrix by a point or vector in 3D space
+*   using a vector
 *
 *   Parameters:
 *     - v       : point/vector
 */
 void    njTranslateEx( const NJS_VECTOR* v );
+/*
+*   Description:
+*     Transform the current matrix by a point or vector in 3D space using a float
+*   array
+* 
+*   Notes:
+*     - This is an SAMT extension.
+*
+*   Parameters:
+*     - pos     : float array
+*/
+void    njTranslateEx2( const Float pos[3] );
 /*
 *   Description:
 *     Rotate the current matrix by a euler Angle in XYZ or ZXY order
@@ -530,6 +570,17 @@ void    njRotateEx( const Angle* ang, Sint32 lv );
 *     - v       : vector
 */
 void    njScaleEx( const NJS_VECTOR* v );
+/*
+*   Description:
+*     Scale the current matrix in 3D space using a float array
+* 
+*   Notes:
+*     - This is an SAMT extension.
+*
+*   Parameters:
+*     - scl     : 3 float array
+*/
+void    njScaleEx2( const Float scl[3] );
 /*
 *   Description:
 *     Rotate the current matrix using a quaternion
