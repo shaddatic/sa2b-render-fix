@@ -261,7 +261,7 @@ DrawBufferFast(void)
     DX9_SetAlphaBlendEnable(false);
 
     /** Color write **/
-    DX9_SetColorWrite(DX9_COL_NONE);
+    DX9_SetColorWrite(DX9_WCOL_NONE);
 
     /** Z buffer **/
     DX9_SetZWrite(false);
@@ -305,9 +305,9 @@ DrawBufferFast(void)
 
     /** Color write **/
     DX9_SetColorWrite(
-        DX9_COL_RED |
-        DX9_COL_GREEN |
-        DX9_COL_BLUE
+        DX9_WCOL_RED |
+        DX9_WCOL_GREEN |
+        DX9_WCOL_BLUE
     );
 
     /** Z buffer **/

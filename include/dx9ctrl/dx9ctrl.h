@@ -3,25 +3,20 @@
 *
 *   Description:
 *     Functions to directly control the DirectX9 renderer.
-*
-*   Contributors:
-*     - Shaddatic
-*
-*   Only for use with Sonic Adventure 2 for PC
 */
 #ifndef H_DX9CTRL
 #define H_DX9CTRL
 
-/************************/
-/*  Library             */
-/************************/
-/****** Lib *************************************************************************/
+/********************************/
+/*  Library                     */
+/********************************/
+/****** Lib *************************************************************************************/
 #pragma comment(lib, "dx9ctrl.lib")
 
-/************************/
-/*  External Includes   */
-/************************/
-/****** Std *************************************************************************/
+/********************************/
+/*  External Includes           */
+/********************************/
+/****** Std *************************************************************************************/
 #include <stdint.h>
 
 /** EXTERN_START **/
@@ -29,29 +24,62 @@
 extern "C" {
 #endif
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Color Write Flags ***********************************************************/
-#define DX9_COL_NONE        (0b0000'0000) /* no color write                         */
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Shaders *********************************************************************************/
+typedef struct dx9_vtx_shader       dx9_vtx_shader; /* IDirect3DVertexShader9                   */
+typedef struct dx9_pxl_shader       dx9_pxl_shader; /* IDirect3DPixelShader9                    */
+typedef struct dx9_vtx_decl         dx9_vtx_decl;   /* IDirect3DVertexDeclaration9              */
+typedef struct dx9_vtx_buff         dx9_vtx_buff;   /* IDirect3DVertexBuffer9                   */
 
-#define DX9_COL_RED         (0b0000'0001) /* write red bit                          */
-#define DX9_COL_GREEN       (0b0000'0010) /* write green bit                        */
-#define DX9_COL_BLUE        (0b0000'0100) /* write blue bit                         */
-#define DX9_COL_ALPHA       (0b0000'1000) /* write alpha bit                        */
+typedef int32_t                     dx9_int;        /* standard int                             */
+typedef uint32_t                    dx9_uint;       /* standard uint                            */
+typedef uint32_t                    dx9_flag;       /* flag parameter                           */
+typedef uint32_t                    dx9_size;       /* size parameter                           */
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** Shaders *********************************************************************/
-typedef struct dx9_vtx_shader   dx9_vtx_shader; /* IDirect3DVertexShader9           */
-typedef struct dx9_pxl_shader   dx9_pxl_shader; /* IDirect3DPixelShader9            */
-typedef struct dx9_vtx_decl     dx9_vtx_decl;   /* IDirect3DVertexDeclaration9      */
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Color Write Flags ***********************************************************************/
+#define DX9_WCOL_NONE               (0b0000'0000) /* no color write                             */
+#define DX9_WCOL_ALL                (0b0000'1111) /* write all                                  */
 
-/************************/
-/*  Enums               */
-/************************/
-/****** Common **********************************************************************/
+#define DX9_WCOL_RED                (0b0000'0001) /* write red bit                              */
+#define DX9_WCOL_GREEN              (0b0000'0010) /* write green bit                            */
+#define DX9_WCOL_BLUE               (0b0000'0100) /* write blue bit                             */
+#define DX9_WCOL_ALPHA              (0b0000'1000) /* write alpha bit                            */
+
+typedef dx9_flag                    dx9_writecolor;
+
+/****** Usage Flags *****************************************************************************/
+#define DX9_USAGE_RENDERTARGET      (1<<0)
+#define DX9_USAGE_DEPTHSTENCIL      (1<<1)
+#define DX9_USAGE_DYNAMIC           (1<<9)
+
+#define DX9_USAGE_WRITEONLY         (1<<3)
+#define DX9_USAGE_SWPROCESSING      (1<<4)
+#define DX9_USAGE_DONTCLIP          (1<<5)
+#define DX9_USAGE_POINTS            (1<<6)
+#define DX9_USAGE_RTPATCHES         (1<<7)
+#define DX9_USAGE_NPATCHES          (1<<8)
+
+typedef dx9_flag                    dx9_usage;
+
+/****** Lock Flags ******************************************************************************/
+#define DX9_LOCK_READONLY           (1<< 4) /* buffer is not to be written to                   */
+#define DX9_LOCK_NOOVERWRITE        (1<<12) /* won't overwrite data drawn last call             */
+#define DX9_LOCK_NOSYSLOCK          (1<<11) /* don't lock the system state during lock          */
+#define DX9_LOCK_DISCARD            (1<<13) /* will discard contents of memory                  */
+#define DX9_LOCK_DONOTWAIT          (1<<14) /* don't wait for draw to finish, return wait command if not ready */
+#define DX9_LOCK_NODIRTYUPDATE      (1<<15) /* don't update dirty region of buffer              */
+
+typedef dx9_flag                    dx9_lock;
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Common **********************************************************************************/
 typedef enum
 {
     DX9_CMP_NVR = 1,        /* never                                                */
@@ -65,7 +93,7 @@ typedef enum
 }
 dx9_compare_op;
 
-/****** Stencil operations **********************************************************/
+/****** Stencil operations **********************************************************************/
 typedef enum
 {
     DX9_STCL_KEEP = 1,      /* keep                                                 */
@@ -79,7 +107,7 @@ typedef enum
 }
 dx9_stencil_op;
 
-/****** Blending operations *********************************************************/
+/****** Blending operations *********************************************************************/
 typedef enum
 {
     DX9_BLND_ZERO = 1,          /* zero                                             */
@@ -102,7 +130,7 @@ typedef enum
 }
 dx9_blend_op;
 
-/****** Triangle Culling ************************************************************/
+/****** Triangle Culling ************************************************************************/
 typedef enum
 {
     DX9_CULL_NONE = 1,      /* cull no triangles                                    */
@@ -111,8 +139,8 @@ typedef enum
 }
 dx9_cull_mode;
 
-/****** Vertex Element Type *********************************************************/
-enum
+/****** Vertex Element Type *********************************************************************/
+typedef enum
 {
     DX9_VTXTYPE_FLOAT1,
     DX9_VTXTYPE_FLOAT2,
@@ -132,10 +160,11 @@ enum
     DX9_VTXTYPE_FLOAT16_2,
     DX9_VTXTYPE_FLOAT16_4,
     DX9_VTXTYPE_UNUSED,
-};
+}
+dx9_vtx_type;
 
-/****** Vertex Element Method *******************************************************/
-enum
+/****** Vertex Element Method *******************************************************************/
+typedef enum
 {
     DX9_VTXMETH_DEFAULT,
     DX9_VTXMETH_PARTIALU,
@@ -144,10 +173,11 @@ enum
     DX9_VTXMETH_UV,
     DX9_VTXMETH_LOOKUP,
     DX9_VTXMETH_LOOKUPPRESAMPLED,
-};
+}
+dx9_vtx_method;
 
-/****** Vertex Element Usage ********************************************************/
-enum
+/****** Vertex Element Usage ********************************************************************/
+typedef enum
 {
     DX9_VTXUSE_POSITION,
     DX9_VTXUSE_BLENDWEIGHT,
@@ -163,9 +193,10 @@ enum
     DX9_VTXUSE_FOG,
     DX9_VTXUSE_DEPTH,
     DX9_VTXUSE_SAMPLE,
-};
+}
+dx9_vtx_usage;
 
-/****** Vertex Primitive Type *******************************************************/
+/****** Vertex Primitive Type *******************************************************************/
 typedef enum
 {
     DX9_PRITYPE_POINTLIST = 1,
@@ -175,12 +206,21 @@ typedef enum
     DX9_PRITYPE_TRIANGLESTRIP,
     DX9_PRITYPE_TRIANGLEFAN,
 }
-dx9_pri_type;
+dx9_primitive_type;
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Vertex Element Structure ****************************************************/
+/****** Pool Flags ******************************************************************************/
+typedef enum
+{
+    DX9_POOL_DEFAULT,
+    DX9_POOL_MANAGED,
+    DX9_POOL_SYSTEMMEM,
+}
+dx9_pool;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Vertex Element Structure ****************************************************************/
 /*
 *   Description:
 *     End vertex element structure array.
@@ -189,31 +229,30 @@ dx9_pri_type;
 
 typedef struct
 {
-    uint16_t    idxStream;
-    uint16_t    idxOffset;
-    uint8_t     type;
-    uint8_t     method;
-    uint8_t     usage;
-    uint8_t     idxUsage;
+    uint16_t    ixStream;           /* stream index                                             */
+    uint16_t    ixOffset;           /* offset                                                   */
+    uint8_t     type;               /* vertex parameter type                                    */
+    uint8_t     method;             /* method                                                   */
+    uint8_t     usage;              /* usage                                                    */
+    uint8_t     ixUsage;            /* usage index                                              */
 }
 dx9_vtx_elem;
 
 /************************/
 /*  Prototypes          */
 /************************/
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Base Functions
 */
-
-/****** Init ************************************************************************/
+/****** Init ************************************************************************************/
 /*
 *   Description:
 *     Init DX9 Control library.
 */
 void    DX9_Init( void );
 
-/****** D3D9 Device *****************************************************************/
+/****** D3D9 Device *****************************************************************************/
 /*
 *   Description:
 *     Get the DirectX9 device.
@@ -223,12 +262,11 @@ void    DX9_Init( void );
 */
 void*   DX9_GetDevice( void );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Render State
 */
-
-/****** Z Buffer ********************************************************************/
+/****** Z Buffer ********************************************************************************/
 /*
 *   Description:
 *     Enable/disable Z buffering.
@@ -237,7 +275,7 @@ void*   DX9_GetDevice( void );
 *     - state       : z buffer state
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetZEnable( bool state );
 /*
@@ -248,7 +286,7 @@ bool    DX9_SetZEnable( bool state );
 *     - state       : z write state
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetZWrite( bool state );
 /*
@@ -259,11 +297,11 @@ bool    DX9_SetZWrite( bool state );
 *     - op          : z compare operation
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetZFunc( dx9_compare_op op );
 
-/****** Stencil Buffer **************************************************************/
+/****** Stencil Buffer **************************************************************************/
 /*
 *   Description:
 *     Enable/disable the stencil buffer.
@@ -272,7 +310,7 @@ bool    DX9_SetZFunc( dx9_compare_op op );
 *     - state       : stencil buffer state
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilEnable( bool state );
 /*
@@ -287,7 +325,7 @@ bool    DX9_SetStencilEnable( bool state );
 *     - state       : two sided stencil state
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilTwoSided( bool state );
 /*
@@ -298,7 +336,7 @@ bool    DX9_SetStencilTwoSided( bool state );
 *     - op          : stencil compare operation
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilFunc( dx9_compare_op op );
 /*
@@ -306,10 +344,10 @@ bool    DX9_SetStencilFunc( dx9_compare_op op );
 *     Set stencil compare reference.
 *
 *   Parameters:
-*     - value       : stencil reference value (0~255)
+*     - value       : stencil reference value                                           [0~255]
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilRef( uint32_t value );
 /*
@@ -321,7 +359,7 @@ bool    DX9_SetStencilRef( uint32_t value );
 *     - op          : stencil operation
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilFail(  dx9_stencil_op op );
 bool    DX9_SetStencilZFail( dx9_stencil_op op );
@@ -335,39 +373,42 @@ bool    DX9_SetStencilPass(  dx9_stencil_op op );
 *     - op          : stencil operation
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilFailCCW(  dx9_stencil_op op );
 bool    DX9_SetStencilZFailCCW( dx9_stencil_op op );
 bool    DX9_SetStencilPassCCW(  dx9_stencil_op op );
 /*
 *   Description:
-*     Set stencil read and write value mask. Eg. '(REF & MASK) CMP (VAL & MASK)' and
-*   'VAL = (VAL & ~MASK) | (NEWVAL & MASK)'
+*     Set stencil read and write value mask.
+* 
+*   Notes:
+*     - Read:  (REF & MASK) CMP (VAL & MASK)
+*     - Write: VAL = (VAL & ~MASK) | (NEWVAL & MASK)
 *
 *   Parameters:
-*     - op          : stencil operation (0~255)
+*     - op          : stencil operation                                                 [0~255]
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetStencilReadMask(  uint32_t mask );
 bool    DX9_SetStencilWriteMask( uint32_t mask );
 
-/****** Color Write *****************************************************************/
+/****** Color Write *****************************************************************************/
 /*
 *   Description:
 *     Set color write bits.
 * 
 *   Parameters:
-*     - flags       : color write bits (DX9_COL_###)
+*     - flags       : color write bits                                           [DX9_WCOL_###]
 *
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
-bool    DX9_SetColorWrite( uint32_t flags );
+bool    DX9_SetColorWrite( dx9_writecolor flags );
 
-/****** Color Blending **************************************************************/
+/****** Color Blending **************************************************************************/
 /*
 *   Description:
 *     Enable/disable alpha blending.
@@ -376,7 +417,7 @@ bool    DX9_SetColorWrite( uint32_t flags );
 *     - state       : alpha blending state
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetAlphaBlendEnable( bool state );
 /*
@@ -387,12 +428,12 @@ bool    DX9_SetAlphaBlendEnable( bool state );
 *     - op          : color blending operation
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetSrcBlend( dx9_blend_op op );
 bool    DX9_SetDstBlend( dx9_blend_op op );
 
-/****** Alpha Test ******************************************************************/
+/****** Alpha Test ******************************************************************************/
 /*
 *   Description:
 *     Set alpha test compare function
@@ -401,11 +442,11 @@ bool    DX9_SetDstBlend( dx9_blend_op op );
 *     - op          : alpha test compare operation
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetAlphaFunc( dx9_compare_op op );
 
-/****** Triangle Culling ************************************************************/
+/****** Triangle Culling ************************************************************************/
 /*
 *   Description:
 *     Set triangle culling mode
@@ -414,11 +455,11 @@ bool    DX9_SetAlphaFunc( dx9_compare_op op );
 *     - mode        : triangle culling mode
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetCulling( dx9_cull_mode mode );
 
-/****** Point Primitive *************************************************************/
+/****** Point Primitive *************************************************************************/
 /*
 *   Description:
 *     Set point primitive size in pixels.
@@ -427,7 +468,7 @@ bool    DX9_SetCulling( dx9_cull_mode mode );
 *     - size       : point primitive size
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetPointSize(   float size  );
 /*
@@ -438,16 +479,15 @@ bool    DX9_SetPointSize(   float size  );
 *     - state       : point scaling state
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetPointScaleEnable(  bool  state );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Vertex Shader
 */
-
-/****** Get Vertex Shader ***********************************************************/
+/****** Get Vertex Shader ***********************************************************************/
 /*
 *   Description:
 *     Load a pre-compiled vertex shader file, usually '.fxc'.
@@ -456,10 +496,10 @@ bool    DX9_SetPointScaleEnable(  bool  state );
 *     - DX9_LoadVtxShader("vs.fxc");
 * 
 *   Parameters:
-*     - puPath      : path to shader file (ASCII/UTF-8)
+*     - puPath      : path to shader file                                         [ASCII/UTF-8]
 * 
 *   Returns:
-*     pointer to a vertex shader, or 'nullptr' on failure.
+*     pointer to a vertex shader; or 'nullptr' on failure.
 */
 dx9_vtx_shader* DX9_LoadVtxShader( const char* puPath );
 /*
@@ -471,16 +511,16 @@ dx9_vtx_shader* DX9_LoadVtxShader( const char* puPath );
 *     - DX9_CompileVtxShader("vs.hlsl", "main", "vs_3_0");
 * 
 *   Parameters:
-*     - puPath      : path to source file (ASCII/UTF-8)
+*     - puPath      : path to source file                                         [ASCII/UTF-8]
 *     - pcFunc      : name of the entry point function
 *     - pcProfile   : shader profile name, eg. "vs_3_0"
 * 
 *   Returns:
-*     pointer to a vertex shader, or 'nullptr' on failure.
+*     pointer to a vertex shader; or 'nullptr' on failure.
 */
 dx9_vtx_shader* DX9_CompileVtxShader( const char* puPath, const char* pcFunc, const char* pcProfile );
 
-/****** Set Vertex Shader ***********************************************************/
+/****** Set Vertex Shader ***********************************************************************/
 /*
 *   Description:
 *     Set the vertex shader.
@@ -489,11 +529,11 @@ dx9_vtx_shader* DX9_CompileVtxShader( const char* puPath, const char* pcFunc, co
 *     - pVtxShader  : vertex shader pointer
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetVtxShader( dx9_vtx_shader* pVtxShader );
 
-/****** Set Vertex Shader Constant **************************************************/
+/****** Set Vertex Shader Constant **************************************************************/
 /*
 *   Description:
 *     Set vertex shader constants as float (F) or integer (I).
@@ -501,20 +541,19 @@ bool    DX9_SetVtxShader( dx9_vtx_shader* pVtxShader );
 *   Parameters:
 *     - p           : data pointer
 *     - reg         : start shader register index
-*     - nb          : data count, eg. 'sizeof(*p) * nb'
+*     - nb          : data count (eg. 'sizeof(*p) * nb')
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
-bool    DX9_SetVtxShaderConstantF( const void* p, uint32_t reg, size_t nb );
-bool    DX9_SetVtxShaderConstantI( const void* p, uint32_t reg, size_t nb );
+bool    DX9_SetVtxShaderConstantF( const void* p, uint32_t reg, dx9_size nb );
+bool    DX9_SetVtxShaderConstantI( const void* p, uint32_t reg, dx9_size nb );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Pixel Shader
 */
-
-/****** Get Pixel Shader ************************************************************/
+/****** Get Pixel Shader ************************************************************************/
 /*
 *   Description:
 *     Load a pre-compiled pixel shader file, usually '.fxc'.
@@ -523,10 +562,10 @@ bool    DX9_SetVtxShaderConstantI( const void* p, uint32_t reg, size_t nb );
 *     - DX9_LoadPxlShader("ps.fxc");
 * 
 *   Parameters:
-*     - puPath      : path to shader file (ASCII/UTF-8)
+*     - puPath      : path to shader file                                          [ASCII/UTF-8]
 * 
 *   Returns:
-*     pointer to a pixel shader, or 'nullptr' on failure.
+*     Created pixel shader; or 'nullptr' on failure.
 */
 dx9_pxl_shader* DX9_LoadPxlShader( const char* puPath );
 /*
@@ -538,16 +577,16 @@ dx9_pxl_shader* DX9_LoadPxlShader( const char* puPath );
 *     - DX9_CompilePxlShader("ps.hlsl", "main", "ps_3_0");
 * 
 *   Parameters:
-*     - puPath      : path to source file (ASCII/UTF-8)
+*     - puPath      : path to source file                                          [ASCII/UTF-8]
 *     - pcFunc      : name of the entry point function
 *     - pcProfile   : shader profile name, eg. "ps_3_0"
 * 
 *   Returns:
-*     pointer to a pixel shader, or 'nullptr' on failure.
+*     Created pixel shader; or 'nullptr' on failure.
 */
 dx9_pxl_shader* DX9_CompilePxlShader( const char* puPath, const char* pcFunc, const char* pcProfile );
 
-/****** Set Pixel Shader ************************************************************/
+/****** Set Pixel Shader ************************************************************************/
 /*
 *   Description:
 *     Set the pixel shader.
@@ -556,11 +595,11 @@ dx9_pxl_shader* DX9_CompilePxlShader( const char* puPath, const char* pcFunc, co
 *     - pPxlShader  : pixel shader pointer
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetPxlShader( dx9_pxl_shader* pPxlShader );
 
-/****** Set Pixel Shader Constant ***************************************************/
+/****** Set Pixel Shader Constant ***************************************************************/
 /*
 *   Description:
 *     Set pixel shader constants as float (F) or integer (I).
@@ -571,17 +610,16 @@ bool    DX9_SetPxlShader( dx9_pxl_shader* pPxlShader );
 *     - nb          : data count, eg. 'sizeof(*p) * nb'
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
-bool    DX9_SetPxlShaderConstantF( const void* p, uint32_t reg, size_t nb );
-bool    DX9_SetPxlShaderConstantI( const void* p, uint32_t reg, size_t nb );
+bool    DX9_SetPxlShaderConstantF( const void* p, uint32_t reg, dx9_size nb );
+bool    DX9_SetPxlShaderConstantI( const void* p, uint32_t reg, dx9_size nb );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Vertex Declaration
 */
-
-/****** Create Vertex Declaration ***************************************************/
+/****** Create Vertex Declaration ***************************************************************/
 /*
 *   Description:
 *     Create a vertex declaration from a vertex element list. Ensure the array is
@@ -595,7 +633,7 @@ bool    DX9_SetPxlShaderConstantI( const void* p, uint32_t reg, size_t nb );
 */
 dx9_vtx_decl* DX9_CreateVtxDecl( const dx9_vtx_elem* pVtxElements );
 
-/****** Set Vertex Declaration ******************************************************/
+/****** Set Vertex Declaration ******************************************************************/
 /*
 *   Description:
 *     Set the current vertex declaration.
@@ -604,29 +642,94 @@ dx9_vtx_decl* DX9_CreateVtxDecl( const dx9_vtx_elem* pVtxElements );
 *     - pVtxDecl    : vertex declaration pointer
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetVtxDecl( dx9_vtx_decl* pVtxDecl );
 
-/************************************************************************************/
+/************************************************************************************************/
+/*
+*   Vertex Buffer
+*/
+/****** Create Vertex Buffer ********************************************************************/
+/*
+*   Description:
+*     Create a vertex buffer to use with 'SetStreamSource' and 'DrawPrimitive'.
+* 
+*   Notes:
+*     - It is best to set the 'USAGE_WRITEONLY' flag, as doing so will allow for
+*       better optimizations on DirectX's side.
+* 
+*   Parameters:
+*     - szBuf       : size of the vertex buffer in bytes
+*     - usage       : buffer usage flags                              [optional: 0]
+*     - pool        : memory pool settings
+* 
+*   Returns:
+*     Created vertex buffer; or 'nullptr' on failure.
+*/
+dx9_vtx_buff* DX9_CreateVertexBuffer( dx9_size szBuf, dx9_usage usage, dx9_pool pool );
+
+/****** Get/Lock/Unlock *************************************************************************/
+/*
+*   Description:
+*     Lock a vertex buffer and retrieve its buffer pointer for writing/reading.
+* 
+*   Parameters:
+*     - pBuf        : vertex buffer
+*     - ixOffset    : offset to lock, in bytes                        [optional: 0]
+*     - szLock      : size to lock, in bytes                          [optional: 0]
+*     - flag        : lock flags
+* 
+*   Returns:
+*     Vertex buffer memory; or 'nullptr' on failure.
+*/
+void*   DX9_VertexBufferLock( dx9_vtx_buff* pBuf, dx9_size ixOffset, dx9_size szLock, dx9_lock flag );
+/*
+*   Description:
+*     Unlock a vertex buffer after writing/reading to its buffer.
+* 
+*   Parameters:
+*     - pBuf        : vertex buffer
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_VertexBufferUnlock( dx9_vtx_buff* pBuf );
+
+/****** Set Vertex Stream ***********************************************************************/
+/*
+*   Description:
+*     Set a vertex buffer source for 'DrawPrimitive'.
+* 
+*   Parameters:
+*     - ixStream    : stream index number
+*     - pStream     : vertex buffer
+*     - nbOffset    : triangle offset
+*     - nbStride    : triangle stride size
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_SetStreamSource( dx9_size ixStream, dx9_vtx_buff* pStream, dx9_size nbOffset, dx9_size nbStride );
+
+/************************************************************************************************/
 /*
 *   Draw Primitive List
 */
-
-/****** Draw Primitive **************************************************************/
+/****** Draw Primitive **************************************************************************/
 /*
 *   Description:
 *     Draw primitive list from declared vertex buffer.
 * 
 *   Parameters:
 *     - type        : primitive type
-*     - idxStart    : vertex index to draw from
+*     - ixStart     : vertex index to draw from
 *     - nbPrim      : number of primitives to draw
 * 
 *   Returns:
 *     'true' on success, or 'false' on failure.
 */
-bool    DX9_DrawPrimitive( dx9_pri_type type, size_t idxStart, size_t nbPrim );
+bool    DX9_DrawPrimitive( dx9_primitive_type type, dx9_size ixStart, dx9_size nbPrim );
 /*
 *   Description:
 *     Draw primitive list from a user-defined vertex buffer. This is slower than
@@ -641,14 +744,13 @@ bool    DX9_DrawPrimitive( dx9_pri_type type, size_t idxStart, size_t nbPrim );
 *   Returns:
 *     'true' on success, or 'false' on failure.
 */
-bool    DX9_DrawPrimitiveUP( dx9_pri_type type, size_t nbPrim, const void* pVtxBuf, size_t szStride );
+bool    DX9_DrawPrimitiveUP( dx9_primitive_type type, dx9_size nbPrim, const void* pVtxBuf, dx9_size szStride );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Render State Save/Load
 */
-
-/****** Vertex Shader ***************************************************************/
+/****** Vertex Shader ***************************************************************************/
 /*
 *   Description:
 *     Save/load current vertex shader for restoring a previous state.
@@ -659,7 +761,7 @@ bool    DX9_DrawPrimitiveUP( dx9_pri_type type, size_t nbPrim, const void* pVtxB
 bool    DX9_SaveVtxShaderState( void );
 bool    DX9_LoadVtxShaderState( void );
 
-/****** Pixel Shader ****************************************************************/
+/****** Pixel Shader ****************************************************************************/
 /*
 *   Description:
 *     Save/load current pixel shader for restoring a previous state.
@@ -670,7 +772,7 @@ bool    DX9_LoadVtxShaderState( void );
 bool    DX9_SavePxlShaderState( void );
 bool    DX9_LoadPxlShaderState( void );
 
-/****** Vertex Declaration **********************************************************/
+/****** Vertex Declaration **********************************************************************/
 /*
 *   Description:
 *     Save/load current vertex declaration for restoring a previous state.
@@ -681,7 +783,7 @@ bool    DX9_LoadPxlShaderState( void );
 bool    DX9_SaveVtxDeclState( void );
 bool    DX9_LoadVtxDeclState( void );
 
-/****** Z Buffer ********************************************************************/
+/****** Z Buffer ********************************************************************************/
 /*
 *   Description:
 *     Save/load current Z buffering state for restoring a previous state.
@@ -701,7 +803,7 @@ bool    DX9_LoadZEnableState( void );
 bool    DX9_SaveZWriteState( void );
 bool    DX9_LoadZWriteState( void );
 
-/****** Stencil Buffer **************************************************************/
+/****** Stencil Buffer **************************************************************************/
 /*
 *   Description:
 *     Save/load current stencil buffer state for restoring a previous state.
@@ -811,7 +913,7 @@ bool    DX9_LoadStencilReadMaskState( void );
 bool    DX9_SaveStencilWriteMaskState( void );
 bool    DX9_LoadStencilWriteMaskState( void );
 
-/****** Culling *********************************************************************/
+/****** Culling *********************************************************************************/
 /*
 *   Description:
 *     Save/load current culling state for restoring a previous state.
@@ -822,7 +924,7 @@ bool    DX9_LoadStencilWriteMaskState( void );
 bool    DX9_SaveCullingState( void );
 bool    DX9_LoadCullingState( void );
 
-/****** Color ***********************************************************************/
+/****** Color ***********************************************************************************/
 /*
 *   Description:
 *     Save/load current color write state for restoring a previous state.
@@ -833,7 +935,7 @@ bool    DX9_LoadCullingState( void );
 bool    DX9_SaveColorWriteState( void );
 bool    DX9_LoadColorWriteState( void );
 
-/****** Alpha Test ******************************************************************/
+/****** Alpha Test ******************************************************************************/
 /*
 *   Description:
 *     Save/load current alpha test compare function for restoring a previous state.
@@ -844,7 +946,7 @@ bool    DX9_LoadColorWriteState( void );
 bool    DX9_SaveAlphaFuncState( void );
 bool    DX9_LoadAlphaFuncState( void );
 
-/****** Blending ********************************************************************/
+/****** Blending ********************************************************************************/
 /*
 *   Description:
 *     Save/load current alpha blend state for restoring a previous state.
