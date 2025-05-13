@@ -8,9 +8,9 @@
 #include <rf_core.h>
 
 void
-___DebugFuncError(const utf8* func, const utf8* body)
+___DebugFuncError(const c8* func, const c8* body)
 {
-    utf8 str[128];
+    c8 str[128];
 
     snprintf(str, sizeof(str), "Render Fix Debug: %s", func);
 

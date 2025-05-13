@@ -16,6 +16,7 @@ EXTERN_START
 #include <samt/ninja/njmath.h>
 
 #include <samt/ninja/njchunk.h>
+#include <samt/ninja/njdirect.h>
 
 #include <samt/ninja/njmatrix.h>
 #include <samt/ninja/njcamera.h>

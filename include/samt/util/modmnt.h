@@ -53,7 +53,7 @@ mod_handle;
 *     A new mod handle, or nullptr of the DLL was not found in 'uPath' or it was not
 *   a valid mod DLL
 */
-mod_handle* MOD_Mount( const utf8* uPath, const utf8* uDLL );
+mod_handle* MOD_Mount( const c8* uPath, const c8* uDLL );
 /*
 *   Description:
 *     Unmount and free a mod DLL and handle info.

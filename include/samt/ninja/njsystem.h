@@ -440,7 +440,7 @@ void    njClip2D( const NJS_POINT2 v[2] );
 /*
 *   Description:
 *     Set the near and far clipping limits. Lower values represent further
-*   distances, with '-65535.f' representing the back of the screen and '1.f' the
+*   distances, with '-65535.f' representing the back of the screen and '-1.f' the
 *   front of the screen.
 *
 *   Notes:

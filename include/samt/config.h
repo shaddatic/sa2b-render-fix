@@ -43,7 +43,7 @@ typedef struct mt_config_entry      mt_config_entry; /* config entry            
 *   Returns:
 *     New, empty config structure.
 */
-mt_config* mtConfigCreate( const utf8* puOptPath );
+mt_config* mtConfigCreate( const c8* puOptPath );
 
 /****** Open ************************************************************************/
 /*
@@ -58,7 +58,7 @@ mt_config* mtConfigCreate( const utf8* puOptPath );
 *     Config structure populated with contents of opened ini file. Or an empty
 *   config structure if no file was found.
 */
-mt_config* mtConfigOpen( const utf8* puPath );
+mt_config* mtConfigOpen( const c8* puPath );
 /*
 *   Description:
 *     Open an existing config file (.ini) and populate a new config structure with
@@ -74,7 +74,7 @@ mt_config* mtConfigOpen( const utf8* puPath );
 *   Returns:
 *     Config structure populated with contents of opened ini file.
 */
-mt_config* mtConfigOpen2( const utf8* puPath, const utf8* puName );
+mt_config* mtConfigOpen2( const c8* puPath, const c8* puName );
 
 /****** Save ************************************************************************/
 /*
@@ -112,7 +112,7 @@ bool    mtConfigSave( const mt_config* pConfig );
 *     'true' if the file was successfully saved, or there were no changes to save;
 *   or 'false' on failure.
 */
-bool    mtConfigSaveAs( const mt_config* pConfig, const utf8* puPath );
+bool    mtConfigSaveAs( const mt_config* pConfig, const c8* puPath );
 
 /****** Close ***********************************************************************/
 /*
@@ -156,7 +156,7 @@ void    mtConfigClose( mt_config* pConfig );
 *     String contained in the config entry; or 'def' value if the entry does not
 *   exist.
 */
-const utf8* mtConfigGetString( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, const utf8* def );
+const c8* mtConfigGetString( const mt_config* pConfig, const c8* puSect, const c8* puEntry, const c8* def );
 /*
 *   Description:
 *     Get integer value from a config entry. Each function controls how the stored
@@ -177,9 +177,9 @@ const utf8* mtConfigGetString( const mt_config* pConfig, const utf8* puSect, con
 *     Integer value contained in the config entry; or 'def' value if the entry
 *   does not exist.
 */
-s32     mtConfigGetInt( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
-u32     mtConfigGetHex( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, u32 def );
-s32     mtConfigGetOct( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 def );
+s32     mtConfigGetInt( const mt_config* pConfig, const c8* puSect, const c8* puEntry, s32 def );
+u32     mtConfigGetHex( const mt_config* pConfig, const c8* puSect, const c8* puEntry, u32 def );
+s32     mtConfigGetOct( const mt_config* pConfig, const c8* puSect, const c8* puEntry, s32 def );
 /*
 *   Description:
 *     Get float value from a config entry.
@@ -194,7 +194,7 @@ s32     mtConfigGetOct( const mt_config* pConfig, const utf8* puSect, const utf8
 *     Float value contained in the config entry; or 'def' value if the entry does
 *   not exist.
 */
-f64     mtConfigGetFloat( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, f64 def );
+f64     mtConfigGetFloat( const mt_config* pConfig, const c8* puSect, const c8* puEntry, f64 def );
 /*
 *   Description:
 *     Get boolean value from a config entry.
@@ -213,7 +213,7 @@ f64     mtConfigGetFloat( const mt_config* pConfig, const utf8* puSect, const ut
 *     Boolean value contained in the config entry; or 'def' value if the entry does
 *   not exist, or does not match either "True" or "False".
 */
-bool    mtConfigGetBool( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry, bool def );
+bool    mtConfigGetBool( const mt_config* pConfig, const c8* puSect, const c8* puEntry, bool def );
 
 /****** Set *************************************************************************/
 /*
@@ -231,7 +231,7 @@ bool    mtConfigGetBool( const mt_config* pConfig, const utf8* puSect, const utf
 *    - puEntry      : config entry name
 *    - set          : string to set
 */
-void    mtConfigSetString( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, const utf8* set );
+void    mtConfigSetString( mt_config* pConfig, const c8* puSect, const c8* puEntry, const c8* set );
 /*
 *   Description:
 *     Set an entry's integer value. Each function controls the format of the
@@ -248,9 +248,9 @@ void    mtConfigSetString( mt_config* pConfig, const utf8* puSect, const utf8* p
 *    - puEntry      : config entry name
 *    - set          : value to set
 */
-void    mtConfigSetInt( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
-void    mtConfigSetHex( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
-void    mtConfigSetOct( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, s32 set );
+void    mtConfigSetInt( mt_config* pConfig, const c8* puSect, const c8* puEntry, s32 set );
+void    mtConfigSetHex( mt_config* pConfig, const c8* puSect, const c8* puEntry, s32 set );
+void    mtConfigSetOct( mt_config* pConfig, const c8* puSect, const c8* puEntry, s32 set );
 /*
 *   Description:
 *     Set an entry's float value. If the entry doesn't exist, it is created.
@@ -261,7 +261,7 @@ void    mtConfigSetOct( mt_config* pConfig, const utf8* puSect, const utf8* puEn
 *    - puEntry      : config entry name
 *    - set          : value to set
 */
-void    mtConfigSetFloat( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, f64 set );
+void    mtConfigSetFloat( mt_config* pConfig, const c8* puSect, const c8* puEntry, f64 set );
 /*
 *   Description:
 *     Set an entry's boolean value. If the entry doesn't exist, it is created.
@@ -272,7 +272,7 @@ void    mtConfigSetFloat( mt_config* pConfig, const utf8* puSect, const utf8* pu
 *    - puEntry      : config entry name
 *    - set          : value to set
 */
-void    mtConfigSetBool( mt_config* pConfig, const utf8* puSect, const utf8* puEntry, bool set );
+void    mtConfigSetBool( mt_config* pConfig, const c8* puSect, const c8* puEntry, bool set );
 
 /****** Remove **********************************************************************/
 /*
@@ -284,7 +284,7 @@ void    mtConfigSetBool( mt_config* pConfig, const utf8* puSect, const utf8* puE
 *    - pConfig      : config structure
 *    - puSect       : config section name
 */
-void    mtConfigRemSect( mt_config* pConfig, const utf8* puSect );
+void    mtConfigRemSect( mt_config* pConfig, const c8* puSect );
 /*
 *   Description:
 *     Remove an entry from a config structure. If the entry doesn't exist, no
@@ -295,7 +295,7 @@ void    mtConfigRemSect( mt_config* pConfig, const utf8* puSect );
 *    - puSect       : config section name
 *    - puEntry      : config entry name
 */
-void    mtConfigRemEntry( mt_config* pConfig, const utf8* puSect, const utf8* puEntry );
+void    mtConfigRemEntry( mt_config* pConfig, const c8* puSect, const c8* puEntry );
 
 /************************************************************************************/
 /*
@@ -345,7 +345,7 @@ void    mtConfigEntryOut( const mt_config_entry* pEntry, FILE* f );
 *   Returns:
 *     Config section structure; or 'nullptr' if the section doesn't exist.
 */
-mt_config_sect*  mtConfigGetSect( const mt_config* pConfig, const utf8* puSect );
+mt_config_sect*  mtConfigGetSect( const mt_config* pConfig, const c8* puSect );
 /*
 *   Description:
 *     Get a config entry from a config header.
@@ -358,7 +358,7 @@ mt_config_sect*  mtConfigGetSect( const mt_config* pConfig, const utf8* puSect )
 *   Returns:
 *     Config entry; or 'nullptr' if the entry doesn't exist.
 */
-mt_config_entry* mtConfigGetEntry( const mt_config* pConfig, const utf8* puSect, const utf8* puEntry );
+mt_config_entry* mtConfigGetEntry( const mt_config* pConfig, const c8* puSect, const c8* puEntry );
 /*
 *   Description:
 *     Free an entire config structure.
@@ -382,7 +382,7 @@ void    mtConfigFree( mt_config* pConfig );
 *   Returns:
 *     Config entry; or 'nullptr' if the entry doesn't exist.
 */
-mt_config_entry* mtConfigSectGetEntry( const mt_config_sect* pSect, const utf8* puEntry );
+mt_config_entry* mtConfigSectGetEntry( const mt_config_sect* pSect, const c8* puEntry );
 /*
 *   Description:
 *     Free a config section structure, and all entries it contains.
@@ -403,7 +403,7 @@ void    mtConfigSectFree( mt_config_sect* pSect );
 *   Returns:
 *     String the entry contains.
 */
-const utf8* mtConfigEntryGetString( const mt_config_entry* pEntry );
+const c8* mtConfigEntryGetString( const mt_config_entry* pEntry );
 /*
 *   Description:
 *     Free a config entry.

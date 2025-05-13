@@ -2,16 +2,15 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/string.h'
 *
 *   Description:
-*     String and path utility functions for ASCII/UTF-8 and UTF-16 (wchar_t).
+*     String - and by extension, path - utility functions for UTF-8, 16, and 32.
 *
 *   Notes:
-*     - All UTF-8 params are ASCII code-page safe, but do not support any extended
-*       ASCII code pages.
-*
+*     - All UTF-8 params are ASCII code-page safe, referred to as ASCII-7 or 'a7' in SAMT - but
+*       do not explicitly support any extended ASCII code pages.
 *     - String parameter/variable names often use prefixes, here's a rundown:
-*       - 'pc' refers to ASCII string pointers
-*       - 'pu' refers to UTF-8 string pointers (or ASCII as mentioned)
-*       - 'pw' refers to UTF-16 string pointers
+*       - 'pc' refers to regular ASCII (a7)
+*       - 'pu' refers to unicode string pointers (c8, c16, c32)
+        - 'ln' refers to length in code units
 *
 *   Disambiguations:
 *     - Size            : size of something in bytes                 (s32[5] == 20)
@@ -24,31 +23,32 @@
 
 EXTERN_START
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Size/Count Definitions ******************************************************/
-#define STR_NOMAX           (0xFFFFFFFF) /* no maximum, auto-determine sz/nb        */
-#define STR_NOINDEX         (0xFFFFFFFF) /* no string index                         */
-#define STR_AUTOLEN         (0xFFFFFFFF) /* auto-calculate length for append        */
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Arguments *******************************************************************************/
+#define STR_NOMAX               (0xFFFFFFFF) /* no maximum, rely on null terminator             */
+#define STR_AUTOLEN             (0xFFFFFFFF) /* auto-calculate length for append                */
 
-/****** String Escape Flags *********************************************************/
-#define STR_ESC_NOFLAG          (0)     /* no additional flags                      */
+/****** Return Values ***************************************************************************/
+#define STR_NOINDEX             (0xFFFFFFFF) /* no string index                                 */
 
-#define STR_ESC_ESCAPE          (1<<0)  /* \ -> \\  OR  \\ -> \                     */
-#define STR_ESC_DBLQUOTE        (1<<1)  /* " -> \"  OR  \" -> "                     */
-#define STR_ESC_SGLQUOTE        (1<<2)  /* ' -> \'  OR  \' -> '                     */
+/****** Escape Flags ****************************************************************************/
+#define STR_ESC_ESCAPE          (1<<0)  /* \ -> \\  OR  \\ -> \                                 */
+#define STR_ESC_DBLQUOTE        (1<<1)  /* " -> \"  OR  \" -> "                                 */
+#define STR_ESC_SGLQUOTE        (1<<2)  /* ' -> \'  OR  \' -> '                                 */
 
+#define STR_ESC_NOFLAG          (0)
 #define STR_ESC_ALL             (STR_ESC_ESCAPE|STR_ESC_DBLQUOTE|STR_ESC_SGLQUOTE)
 
-/************************/
-/*  Prototypes          */
-/************************/
-/************************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/************************************************************************************************/
 /*
-*   UTF-8/ASCII Funcs
+*   ASCII / UTF-8 / UTF-16
 */
-/****** String Query ****************************************************************/
+/****** String Query ****************************************************************************/
 /*
 *   Description:
 *     Compare if two strings exactly match.
@@ -56,27 +56,29 @@ EXTERN_START
 *   Parameters:
 *     - puStr1      : string 1
 *     - puStr2      : string 2
-*     - lenMax      : maximum length of both strings, in code units
+*     - lnMax       : maximum length of both strings                           [opt: STR_NOMAX]
 *
 *   Returns:
-*     'true' if both strings exactly match, or match until 'lenMax' is reached; or
-*   'false' if not.
+*     'true' if both strings exactly match, or match until 'lnMax' is reached; or 'false' if
+*   not.
 */
-bool    mtStrMatch( const utf8* puStr1, const utf8* puStr2, size_t lenMax );
+bool    mtStrMatch(   const c8*  puStr1, const c8*  puStr2, size_t lnMax );
+bool    mtStrMatch16( const c16* puStr1, const c16* puStr2, size_t lnMax );
 /*
 *   Description:
 *     Search for an instance of a string inside another.
 *
 *   Parameters:
 *     - puStr       : string to search through
-*     - puKey       : string to search for
-*     - lenMax      : maximum length of 'puStr', in code units
+*     - puKey       : null-terminated string to search for
+*     - lnMax       : maximum length of 'puStr'                                [opt: STR_NOMAX]
 *
 *   Returns:
-*     An index to the first instance of the key inside the search string; or
+*     An index to the first instance of the key string inside the search string; or
 *   'STR_NOINDEX' if no instance was found.
 */
-size_t  mtStrSearch( const utf8* puStr, const utf8* puKey, size_t lenMax );
+size_t  mtStrSearch(   const c8*  puStr, const c8*  puKey, size_t lnMax );
+size_t  mtStrSearch16( const c16* puStr, const c16* puKey, size_t lnMax );
 /*
 *   Description:
 *     Get the size of a string in bytes, including the terminator.
@@ -88,12 +90,13 @@ size_t  mtStrSearch( const utf8* puStr, const utf8* puKey, size_t lenMax );
 * 
 *   Parameters:
 *     - puStr       : string to get the size of
-*     - lenMax      : maximum length of the string, in code units
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     The size of the string in bytes; or size up to 'lenMax' if it's reached.
+*     The size of the string in bytes; or size up to 'lnMax' if it's reached.
 */
-size_t  mtStrSize( const utf8* puStr, size_t lenMax );
+size_t  mtStrSize(   const c8*  puStr, size_t lnMax );
+size_t  mtStrSize16( const c16* puStr, size_t lnMax );
 /*
 *   Description:
 *     Get the length of a string in code units, including the terminator.
@@ -105,169 +108,213 @@ size_t  mtStrSize( const utf8* puStr, size_t lenMax );
 * 
 *   Parameters:
 *     - puStr       : string to get the size of
-*     - lenMax      : maximum length of the string, in code units
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     The length of the string in code units; or 'lenMax' if it's reached.
+*     The length of the string in code units; or 'lnMax' if it's reached.
 */
-size_t  mtStrLength( const utf8* puStr, size_t lenMax );
+size_t  mtStrLength(   const c8*  puStr, size_t lnMax );
+size_t  mtStrLength16( const c16* puStr, size_t lnMax );
 /*
 *   Description:
-*     Get the length of a string in usable code points, including the terminator.
+*     Get the number of whole code points in a string, including the terminator.
 *   
 *   Notes:
 *     - Example strings and their return values:
 *       - "str"   -> '4'
 *       - "漢字"   -> '3'
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be counted but incomplete.
+*     - Code points cut off by 'lnMax' being reached will not be counted.
 *
 *   Parameters:
-*     - puStr       : string to get the length of
-*     - lenMax      : maximum length of the string, in code units
+*     - puStr       : string to get the number of code points of
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     The number of individual code points in the string; or the number of code
-*   points before 'lenMax'.
+*     The number of code points in the string; or number up to 'lnMax' if it's
+*   reached.
 */
-size_t  mtStrCodeLength( const utf8* puStr, size_t lenMax );
+size_t  mtStrCodeCount(   const c8*  puStr, size_t lnMax );
+size_t  mtStrCodeCount16( const c16* puStr, size_t lnMax );
 
-/****** String Copy *****************************************************************/
+/****** String Copy *****************************************************************************/
 /*
 *   Description:
-*     Duplicate a string.
+*     Copy a string into a seperate string buffer.
 *
 *   Notes:
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
-*
-*   Parameters:
-*     - puStr       : string to duplicate
-*     - lenMax      : maximum length of the string
-*
-*   Returns:
-*     A duplicate of the given string, allocated by 'mtMemAlloc'.
-*/
-utf8*   mtStrDupe( const utf8* puStr, size_t lenMax );
-/*
-*   Description:
-*     Copy a string.
-*
-*   Notes:
-*     - A terminator is inserted into the last unit if 'lenMax' is reached.
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
+*     - A terminator is inserted into the last unit if 'lnMax' is reached.
+*     - No checks are made for if 'lnMax' lies in the middle of a multi-byte code point. This
+*       may cause a code point to be incomplete.
 *
 *   Parameters:
 *     - puDst       : string buffer to copy to
 *     - puSrc       : string to copy
-*     - lenMax      : maximum length of both strings
+*     - lnMax       : maximum length of both string buffers                    [opt: STR_NOMAX]
 *
 *   Returns:
-*     The length of the copied string in code units, up to 'lenMax'.
+*     The length of the copied string in 'puDst', up to 'lnMax'.
 */
-size_t  mtStrCopy( utf8* puDst, const utf8* puSrc, size_t lenMax );
-
-/****** String Append ***************************************************************/
+size_t  mtStrCopy(   c8*  puDst, const c8*  puSrc, size_t lnMax );
+size_t  mtStrCopy16( c16* puDst, const c16* puSrc, size_t lnMax );
 /*
 *   Description:
-*     Append a set string onto the end of a buffer string.
+*     Duplicate a string into a new heap buffer.
 *
 *   Notes:
-*     - 'lenMax' specifically refers to 'puDst' and the total length of the string
-*       buffer. 'puApp' *must* be null terminated.
-*     - If 'lenDst' is '0', this indicates the string buffer is dirty and the
-*       function will operate as an 'StrCopy'.
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
+*     - No checks are made for if 'lnMax' lies in the middle of a multi-byte code point. This
+*       may cause a code point to be incomplete.
+*
+*   Parameters:
+*     - puStr       : string to duplicate
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
+*
+*   Returns:
+*     A duplicate of the given string, allocated by 'mtMemAlloc'.
+*/
+c8*     mtStrDupe(   const c8*  puStr, size_t lnMax );
+c16*    mtStrDupe16( const c16* puStr, size_t lnMax );
+
+/****** String Append ***************************************************************************/
+/*
+*   Description:
+*     Append a string onto the end of another.
+*
+*   Notes:
+*     - If 'lnDst' is '0', this indicates the string buffer is dirty and the function will
+*       operate as a regular copy.
+*     - No checks are made for if 'lnDstMax' lies in the middle of a multi-unit code point.
+*       This may cause a code point to be incomplete.
 *
 *   Examples:
-*     - mtStrAppend( pu_buf, STR_AUTOLEN, "append me", ARYLEN(pu_buf) ); // single append
+*     - mtStrAppend( pu_buf, STR_AUTOLEN, "append", STR_NOMAX ); // single append
 *     - {
 *         size_t len = 0; // zero indicates buffer is 'dirty'
 *
 *         utf8 pu_buf[32];
 *
-*         len = mtStrAppend( pu_buf, len, "app1", 32 ); // multi-append using return value (faster)
+*         len = mtStrAppend( pu_buf, len, "app1", 32 ); // multi-append with length (faster)
 *         len = mtStrAppend( pu_buf, len, "app2", 32 );
 *         len = mtStrAppend( pu_buf, len, "app3", 32 );
-*         ...
 *       } 
 *
 *   Parameters:
 *     - puDst       : string buffer to append to
-*     - lenDst      : current length of 'puDst'         [optional: STR_AUTOLEN | 0]
-*     - puApp       : string to append
-*     - lenMax      : maximum length of 'puDst', in code units
+*     - lnDst       : current length of 'puDst'                           [opt: STR_AUTOLEN, 0]
+*     - puApp       : null-terminated string to append
+*     - lnDstMax    : maximum length of 'puDst'                                [opt: STR_NOMAX]
 *
 *   Returns:
-*     New length of 'puDst' after append.
+*     New length of 'puDst' string after append.
 */
-size_t  mtStrAppend( utf8* puDst, size_t lenDst, const utf8* puApp, size_t lenMax );
+size_t  mtStrAppend(   c8*  puDst, size_t lnDst, const c8*  puApp, size_t lnDstMax );
+size_t  mtStrAppend16( c16* puDst, size_t lnDst, const c16* puApp, size_t lnDstMax );
 
-/****** String Case *****************************************************************/
+/****** String Format ***************************************************************************/
+/*
+*   Description:
+*     Get the size of a string after formatting in bytes, including the terminator.
+*
+*   Parameters:
+*     - puFmt       : format string (printf)
+*     - ...         : format params
+*
+*   Returns:
+*     Size of formatted string; or '0' on error.
+*/
+size_t  mtStrFormatSize(   const c8*  puFmt, ... );
+size_t  mtStrFormatSize16( const c16* puFmt, ... );
+/*
+*   Description:
+*     Get the length of a string after formatting in code units, including the terminator.
+*
+*   Parameters:
+*     - puFmt       : format string (printf)
+*     - ...         : format params
+*
+*   Returns:
+*     Length of formatted string; or '0' on error.
+*/
+size_t  mtStrFormatLength(   const c8*  puFmt, ... );
+size_t  mtStrFormatLength16( const c16* puFmt, ... );
+/*
+*   Description:
+*     Get the length of a string after formatting in code units, including the terminator.
+*
+*   Parameters:
+*     - puDst       : destination buffer for formatted string
+*     - lnDstMax    : maximum length of the destination buffer
+*     - puFmt       : format string (printf)
+*     - ...         : format params
+*
+*   Returns:
+*     Length of new formatted string in the destination buffer; or '0' on error.
+*/
+size_t  mtStrFormat(   c8*  RESTRICT puDst, size_t lnDstMax, const c8*  RESTRICT puFmt, ... );
+size_t  mtStrFormat16( c16* RESTRICT puDst, size_t lnDstMax, const c16* RESTRICT puFmt, ... );
+
+/****** String Case *****************************************************************************/
 /*
 *   Description:
 *     Cast a string to upper case, with an optional source string.
 *
 *   Notes:
-*     - If 'puOptSrc' isn't given, the destination string will also act as the
-*       source string.
+*     - If 'puOptSrc' is NULL, the destination string will also act as the source string.
+*     - Only affects ASCII characters
 *
 *   Parameters:
 *     - puDst       : destination string buffer
-*     - puOptSrc    : source string                             [optional: nullptr]
-*     - lenMax      : maximum length of 'puDst' and 'puOptSrc'
+*     - puOptSrc    : source string                                              [opt: nullptr]
+*     - lnMax       : maximum length of 'puDst' and 'puOptSrc'                 [opt: STR_NOMAX]
 *
 *   Returns:
-*     The length of the destination string in code units, up to 'lenMax'.
+*     The length of the destination string, up to 'lnMax'.
 */
-size_t  mtStrToUpper( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
+size_t  mtStrToUpper( c8* RESTRICT puDst, const c8* RESTRICT puOptSrc, size_t lnMax );
 /*
 *   Description:
 *     Cast a string to lower case, with an optional source string.
 *
 *   Notes:
-*     - If 'puOptSrc' isn't given, the destination string will also act as the
-*       source string.
+*     - If 'puOptSrc' isn't given, the destination string will also act as the source string.
+*     - Only affects ASCII characters
 *
 *   Parameters:
 *     - puDst       : destination string buffer
-*     - puOptSrc    : source string                             [optional: nullptr]
-*     - lenMax      : maximum length of 'puDst' and 'puOptSrc'
+*     - puOptSrc    : source string                                              [opt: nullptr]
+*     - lenMax      : maximum length of 'puDst' and 'puOptSrc'                 [opt: STR_NOMAX]
 *
 *   Returns:
-*     The length of the destination string in code units, up to 'lenMax'.
+*     The length of the destination string, up to 'lnMax'.
 */
-size_t  mtStrToLower( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
+size_t  mtStrToLower( c8* RESTRICT puDst, const c8* RESTRICT puOptSrc, size_t lenMax );
 
-/****** String Escape ***************************************************************/
+/****** String Escape ***************************************************************************/
 /*
 *   Description:
 *     Get the length of a string after inserting escape characters.
 *
 *   Parameters:
-*     - puStr       : string to get the length
-*     - lenMax      : maximum length of 'puStr', in code units
-*     - flag        : additional escape sequence flags
+*     - puStr       : string to get the escaped length of
+*     - lnMax       : maximum length of 'puStr'                                [opt: STR_NOMAX]
+*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
 *
 *   Returns:
-*     Length of string after inserting escape characters.
+*     Calculated length of string after inserting escape characters.
 */
-size_t  mtStrEscapeLength( const utf8* puStr, const size_t lenMax, s32 flag );
+size_t  mtStrEscapeLength( const c8* puStr, const size_t lnMax, s32 flag );
 /*
 *   Description:
 *     Get the length of a string after resolving escape characters.
 *
 *   Parameters:
 *     - puStr       : string to get the length
-*     - lenMax      : maximum length of 'puStr', in code units
-*     - flag        : additional escape sequence flags
+*     - lnMax       : maximum length of 'puStr'                                [opt: STR_NOMAX]
+*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
 *
 *   Returns:
-*     Length of string after resolving escape characters.
+*     Calculated length of string after resolving escape characters.
 */
-size_t  mtStrUnescapeLength( const utf8* puStr, const size_t lenMax, s32 flag );
+size_t  mtStrUnescapeLength( const c8* puStr, const size_t lnMax, s32 flag );
 /*
 *   Description:
 *     Insert literal escape sequences into a string.
@@ -287,13 +334,13 @@ size_t  mtStrUnescapeLength( const utf8* puStr, const size_t lenMax, s32 flag );
 *   Parameters:
 *     - puDst       : destination buffer
 *     - puSrc       : source string
-*     - lenMax      : maximum length of 'puDst', in code units
-*     - flag        : additional escape sequence flags
+*     - lnMax       : maximum length of 'puDst'                                [opt: STR_NOMAX]
+*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
 *
 *   Returns:
 *     Length of 'puDst' after inserting escape sequences.
 */
-size_t  mtStrEscape( utf8* puDst, const utf8* puSrc, const size_t lenMax, s32 flag );
+size_t  mtStrEscape( c8* puDst, const c8* puSrc, const size_t lnMax, s32 flag );
 /*
 *   Description:
 *     Resolve literal escape sequences from a string.
@@ -313,234 +360,114 @@ size_t  mtStrEscape( utf8* puDst, const utf8* puSrc, const size_t lenMax, s32 fl
 *   Parameters:
 *     - puDst       : destination buffer
 *     - puSrc       : source string
-*     - lenMax      : maximum length of 'puDst', in code units
-*     - flag        : additional escape sequence flags
+*     - lnMax       : maximum length of 'puDst'                                [opt: STR_NOMAX]
+*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
 *
 *   Returns:
 *     Length of 'puDst' after resolving escape sequences.
 */
-size_t  mtStrUnescape( utf8* puDst, const utf8* puSrc, const size_t lenMax, s32 flag );
+size_t  mtStrUnescape( c8* puDst, const c8* puSrc, const size_t lnMax, s32 flag );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
-*   UTF-16 Funcs
+*   Conversion (To/As)
 */
-/****** String Query ****************************************************************/
+/****** Query As ********************************************************************************/
 /*
 *   Description:
-*     Compare if two strings exactly match.
+*     Get the size of a string in bytes, including the terminator, after conversion into
+*   another string format.
 *
 *   Parameters:
-*     - pwStr1      : string 1
-*     - pwStr2      : string 2
-*     - lenMax      : maximum length of both strings, in code units
+*     - puStr       : string to get size of
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     'true' if both strings exactly match, or match until 'lenMax' is reached; or
-*   'false' if not.
+*     Size of the string in bytes if it were in another format.
 */
-bool    mtStrMatchW( const wchar_t* pwStr1, const wchar_t* pwStr2, size_t lenMax );
+size_t  mtStrSizeAs16( const c8* puStr, size_t lnMax );
+size_t  mtStrSizeAs32( const c8* puStr, size_t lnMax );
+//
+size_t  mtStrSize16As8(  const c16* puStr, size_t lnMax );
+size_t  mtStrSize16As32( const c16* puStr, size_t lnMax );
+//
+size_t  mtStrSize32As8(  const c32* puStr, size_t lnMax );
+size_t  mtStrSize32As16( const c32* puStr, size_t lnMax );
+
 /*
 *   Description:
-*     Search for an instance of a string inside another.
+*     Get the length of a string, including the terminator, after conversion into another
+*   string format.
 *
 *   Parameters:
-*     - pwStr       : string to search through
-*     - pwKey       : string to search for
-*     - lenMax      : maximum length of 'pwStr', in code units
+*     - puStr       : string to get length of
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     An index to the first instance of the key inside the search string; or
-*   'STR_NOINDEX' if no instance was found.
+*     Length of the string if it were in another format.
 */
-size_t  mtStrSearchW( const wchar_t* pwStr, const wchar_t* pwKey, size_t lenMax );
+size_t  mtStrLengthAs16( const c8* puStr, size_t lnMax );
+size_t  mtStrLengthAs32( const c8* puStr, size_t lnMax );
+//
+size_t  mtStrLength16As8(  const c16* puStr, size_t lnMax );
+size_t  mtStrLength16As32( const c16* puStr, size_t lnMax );
+//
+size_t  mtStrLength32As8(  const c32* puStr, size_t lnMax );
+size_t  mtStrLength32As16( const c32* puStr, size_t lnMax );
+
+/****** Copy To *********************************************************************************/
 /*
 *   Description:
-*     Get the size of a string in bytes, including the terminator.
+*     Copy a string into a seperate string buffer, while also converting the string format.
 *
 *   Notes:
-*     - Example strings and their return values:
-*       - L"str"   -> '8'
-*       - L"漢字"   -> '6'
-* 
+*     - A terminator is inserted into the last unit if 'lnMax' is reached.
+*     - No checks are made for if either 'lnMax' lies in the middle of a multi-unit code point.
+*       This may cause a code point to be incomplete.
+*     - Src and Dst can be the same buffer, but only when converting *from* UTF-32.
+*
 *   Parameters:
-*     - pwStr       : string to get the size of
-*     - lenMax      : maximum length of the string, in code units
+*     - puDst       : string buffer to copy to
+*     - lnDstMax    : maximum length of the destination buffer                 [opt: STR_NOMAX]
+*     - puSrc       : string to copy
+*     - lnSrcMax    : maximum length of the source buffer                      [opt: STR_NOMAX]
 *
 *   Returns:
-*     The size of the string in bytes; or size up to 'lenMax' if it's reached.
+*     The length of the copied string in 'puDst', up to 'lnDstMax'.
 */
-size_t  mtStrSizeW( const wchar_t* pwStr, size_t lenMax );
+size_t  mtStrCopyTo16( c16* puDst, size_t lnDstMax, const c8* puSrc, size_t lnSrcMax );
+size_t  mtStrCopyTo32( c32* puDst, size_t lnDstMax, const c8* puSrc, size_t lnSrcMax );
+//
+size_t  mtStrCopy16To8(  c8*  puDst, size_t lnDstMax, const c16* puSrc, size_t lnSrcMax );
+size_t  mtStrCopy16To32( c32* puDst, size_t lnDstMax, const c16* puSrc, size_t lnSrcMax );
+//
+size_t  mtStrCopy32To8(  c8*  puDst, size_t lnDstMax, const c32* puSrc, size_t lnSrcMax );
+size_t  mtStrCopy32To16( c16* puDst, size_t lnDstMax, const c32* puSrc, size_t lnSrcMax );
 /*
 *   Description:
-*     Get the length of a string in code units, including the terminator.
-*
-*   Notes:
-*     - Example strings and their return values:
-*       - "str"   -> '4'
-*       - "漢字"   -> '3'
-* 
-*   Parameters:
-*     - puStr       : string to get the size of
-*     - lenMax      : maximum length of the string, in code units
-*
-*   Returns:
-*     The length of the string in code units; or 'lenMax' if it's reached.
-*/
-size_t  mtStrLengthW( const wchar_t* pwStr, size_t lenMax );
-/*
-*   Description:
-*     Get the length of a string in usable code points, including the terminator.
-*
-*   Notes:
-*     - Example strings and their return values:
-*       - L"str"   -> '4'
-*       - L"漢字"   -> '3'
+*     Duplicate a string into a new heap buffer, while also converting the string format.
 *
 *   Parameters:
-*     - pwStr       : string to get the length of
-*     - lenMax      : maximum size, in bytes, of 'str'
+*     - puStr       : string to duplicate
+*     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
 *
 *   Returns:
-*     The number of individual code points in the string; or the number of code
-*   points before 'lenMax'.
+*     A duplicate of the given string, allocated by 'mtMemAlloc', in the new format.
 */
-size_t  mtStrCodeLengthW( const wchar_t* pwStr, size_t lenMax );
+c16*    mtStrDupeTo16( const c8* puStr, size_t lnMax );
+c32*    mtStrDupeTo32( const c8* puStr, size_t lnMax );
+//
+c8*     mtStrDupe16To8(  const c16* puStr, size_t lnMax );
+c32*    mtStrDupe16To32( const c16* puStr, size_t lnMax );
+//
+c8*     mtStrDupe32To8(  const c32* puStr, size_t lnMax );
+c16*    mtStrDupe32To16( const c32* puStr, size_t lnMax );
 
-/****** String Copy *****************************************************************/
+/************************************************************************************************/
 /*
-*   Description:
-*     Duplicate a string.
-*
-*   Notes:
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
-*
-*   Parameters:
-*     - pwStr       : string to duplicate
-*     - lenMax      : maximum length of the string
-*
-*   Returns:
-*     A duplicate of the given string, allocated by 'mtMemAlloc'.
+*   File Paths
 */
-wchar_t* mtStrDupeW( const wchar_t* pwStr, size_t lenMax );
-/*
-*   Description:
-*     Copy a string.
-*
-*   Notes:
-*     - A terminator is inserted into the last unit if 'lenMax' is reached.
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
-*
-*   Parameters:
-*     - pwDst       : string buffer to copy to
-*     - pwSrc       : string to copy
-*     - lenMax      : maximum length of both strings
-*
-*   Returns:
-*     The length of the copied string in code units.
-*/
-size_t  mtStrCopyW( wchar_t* pwDst, const wchar_t* pwSrc, size_t lenMax );
-
-/****** String Append ***************************************************************/
-/*
-*   Description:
-*     Append a set string onto the end of a buffer string.
-*
-*   Notes:
-*     - 'lenMax' specifically refers to 'pwDst' and the total length of the string
-*       buffer. 'puApp' *must* be null terminated.
-*     - If 'lenDst' is '0', this indicates the string buffer is dirty and the
-*       function will operate as an 'StrCopy'.
-*     - No checks are made for if 'lenMax' lies in the middle of a multi-byte code
-*       point. This may cause a code point to be incomplete.
-*
-*   Examples:
-*     - mtStrAppendW( pw_buf, STR_AUTOLEN, L"append me", ARYLEN(pw_buf) ); // single append
-*     - {
-*         size_t len = 0; // zero indicates buffer is 'dirty'
-*
-*         wchar_t pw_buf[32]
-*
-*         len = mtStrAppendW( pw_buf, len, L"app1", 32 ); // multi-append using return value (faster)
-*         len = mtStrAppendW( pw_buf, len, L"app2", 32 );
-*         len = mtStrAppendW( pw_buf, len, L"app3", 32 );
-*         ...
-*       }
-*
-*   Parameters:
-*     - pwDst       : string buffer to append to
-*     - lenDst      : current length of 'pwDst'         [optional: STR_AUTOLEN | 0]
-*     - pwApp       : string to append
-*     - lenMax      : maximum length of 'pwDst', in code units
-*
-*   Returns:
-*     New length of 'pwDst' after append.
-*/
-size_t  mtStrAppendW( wchar_t* pwDst, size_t lenDst, const wchar_t* pwApp, size_t lenMax );
-
-/************************************************************************************/
-/*
-*   Code-Page Conversion
-*/
-/****** To UTF-8 ********************************************************************/
-/*
-*   Description:
-*     Duplicate a UTF-16 string to the UTF-8 codepage.
-*
-*   Parameters:
-*     - pwStr       : UTF-16 string to duplicate
-*
-*   Returns:
-*     A duplicate of the given string in UTF-8, allocated by 'mtMemAlloc'.
-*/
-utf8*   mtStrDupeToU( const wchar_t* pwStr );
-/*
-*   Description:
-*     Copy a UTF-16 string to the UTF-8 codepage.
-*
-*   Parameters:
-*     - puDst       : UTF-8 string buffer to copy to
-*     - pwSrc       : UTF-16 string to copy
-*     - maxSize     : maximum length of both strings, in code units
-*
-*   Returns:
-*     The length of the copied string, in code units.
-*/
-size_t  mtStrCopyToU( utf8* puDst, const wchar_t* pwSrc, size_t lenMax );
-
-/****** To UTF-16 *******************************************************************/
-/*
-*   Description:
-*     Duplicate a UTF-8 string to the UTF-16 codepage.
-*
-*   Parameters:
-*     - puStr       : UTF-8 string to duplicate
-*
-*   Returns:
-*     A duplicate of the given string in UTF-16, allocated by 'mtMemAlloc'.
-*/
-wchar_t* mtStrDupeToW( const utf8* puStr );
-/*
-*   Description:
-*     Copy a UTF-16 string to the UTF-8 codepage.
-*
-*   Parameters:
-*     - pwDst       : UTF-16 string buffer to copy to
-*     - puSrc       : UTF-8 string to copy
-*     - maxSize     : maximum length of both strings, in code units
-*
-*   Returns:
-*     The length of the copied string, in code units.
-*/
-size_t   mtStrCopyToW( wchar_t* pwDst, const utf8* puSrc, size_t lenMax );
-
-/************************************************************************************/
-/*
-*   File Path Strings
-*/
-/****** String Query ****************************************************************/
+/****** String Query ****************************************************************************/
 /*
 *   Description:
 *     Compare if two strings exactly match, taking into account OS path string
@@ -555,7 +482,7 @@ size_t   mtStrCopyToW( wchar_t* pwDst, const utf8* puSrc, size_t lenMax );
 *     'true' if both paths exactly match, or match until 'lenMax' is reached; or
 *   'false' if not.
 */
-bool    mtPathMatch( const utf8* puPath1, const utf8* puPath2, size_t lenMax );
+bool    mtPathMatch( const c8* puPath1, const c8* puPath2, size_t lenMax );
 /*
 *   Description:
 *     Search for an instance of a string inside another, taking into account OS
@@ -570,9 +497,9 @@ bool    mtPathMatch( const utf8* puPath1, const utf8* puPath2, size_t lenMax );
 *     An index to the first instance of 'puKey' inside 'puStr'; or 'STR_NOINDEX' if
 *   no instance is found.
 */
-size_t  mtPathSearch( const utf8* puPath, const utf8* puKey, size_t lenMax );
+size_t  mtPathSearch( const c8* puPath, const c8* puKey, size_t lenMax );
 
-/****** Path Logcal Resolve *********************************************************/
+/****** Path Logcal Resolve *********************************************************************/
 /*
 *   Description:
 *     Resolve a code unit to a logically consistant value for easy comparisons
@@ -591,7 +518,7 @@ size_t  mtPathSearch( const utf8* puPath, const utf8* puKey, size_t lenMax );
 *   Returns:
 *     Code unit that logically matches input code unit.
 */
-utf8    mtPathResolveLogicalCode( utf8 c );
+c8      mtPathResolveLogicalCode( c8 c );
 /*
 *   Description:
 *     Resolve a path string to a logically consistant string for easy comparison.
@@ -608,9 +535,9 @@ utf8    mtPathResolveLogicalCode( utf8 c );
 *     - puPath      : path string to resolve
 *     - lenMax      : maximum size of 'puPath', in code units
 */
-void    mtPathResolveLogicalString( utf8* puPath, size_t lenMax );
+void    mtPathResolveLogicalString( c8* puPath, size_t lenMax );
 
-/****** Path To Parent **************************************************************/
+/****** Path To Parent **************************************************************************/
 /*
 *   Description:
 *     Set a path to its parent directory by inserting a terminator at the last path
@@ -627,7 +554,7 @@ void    mtPathResolveLogicalString( utf8* puPath, size_t lenMax );
 *   Returns:
 *     New length of 'puDst'.
 */
-size_t  mtPathParent( utf8* puDst, const utf8* puOptSrc, size_t lenMax );
+size_t  mtPathParent( c8* puDst, const c8* puOptSrc, size_t lenMax );
 
 EXTERN_END
 

@@ -51,7 +51,7 @@
 /************************/
 EXPORT_DLL
 void __cdecl
-Init(const utf8* puPath, const ml_helpfuncs* pHelpFuncs)
+Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs)
 {
     /** SAModToolkit init **/
     mtSystemInit(puPath, pHelpFuncs);

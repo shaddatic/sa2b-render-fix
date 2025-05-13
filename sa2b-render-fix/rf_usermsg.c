@@ -14,12 +14,12 @@
 static bool UserMsgAlertSuppress;
 
 void
-RF_Alert(const utf8* head, const utf8* body)
+RF_Alert(const c8* head, const c8* body)
 {
     if (UserMsgAlertSuppress)
         return;
 
-    utf8 buf[64];
+    c8 buf[64];
 
     snprintf(buf, sizeof(buf), "Render Fix Alert : %s", head);
 
@@ -27,9 +27,9 @@ RF_Alert(const utf8* head, const utf8* body)
 }
 
 void
-RF_FatalError(const utf8* head, const utf8* body)
+RF_FatalError(const c8* head, const c8* body)
 {
-    utf8 buf[64];
+    c8 buf[64];
 
     snprintf(buf, sizeof(buf), "Render Fix Error : %s", head);
 
@@ -37,9 +37,9 @@ RF_FatalError(const utf8* head, const utf8* body)
 }
 
 bool
-RF_Query(const utf8* head, const utf8* body)
+RF_Query(const c8* head, const c8* body)
 {
-    utf8 buf[64];
+    c8 buf[64];
 
     snprintf(buf, sizeof(buf), "Render Fix Query : %s", head);
 

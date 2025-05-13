@@ -8,11 +8,6 @@
 #ifndef H_SAMT_MEMORY
 #define H_SAMT_MEMORY
 
-#ifdef __cplusplus
-#   pragma push_macro("restrict")
-#   define restrict     __restrict
-#endif/*__cplusplus*/
-
 EXTERN_START
 
 /************************/
@@ -156,10 +151,10 @@ void    mtMemSet64( void* pd, u64 val, size_t nb );
 *     - ps          : copy source
 *     - nb          : size of copy in 1, 2, 4, or 8 byte chunks
 */
-void    mtMemCopy(   void* restrict pd, const void* restrict ps, size_t nb );
-void    mtMemCopy16( void* restrict pd, const void* restrict ps, size_t nb );
-void    mtMemCopy32( void* restrict pd, const void* restrict ps, size_t nb );
-void    mtMemCopy64( void* restrict pd, const void* restrict ps, size_t nb );
+void    mtMemCopy(   void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
+void    mtMemCopy16( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
+void    mtMemCopy32( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
+void    mtMemCopy64( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
 
 /****** Memmove *********************************************************************/
 /*
@@ -395,9 +390,5 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 #define mtRecallocEx(pp, nbpre, nbnew)      mtMemRecalloc((pp), (sizeof(**(pp))*(nbpre)), (sizeof(type)*(nbnew)))
 
 EXTERN_END
-
-#ifdef __cplusplus
-#   pragma pop_macro("restrict")
-#endif/*__cplusplus*/
 
 #endif/*H_SAMT_MEMORY*/

@@ -89,7 +89,7 @@ int     MI_GetTotalNumber( void );
 *   Returns:
 *     A 'mod_info' pointer, or nullptr if no mod is found
 */
-const mod_info* MI_GetInfoByID(   const char* cID   );
+const mod_info* MI_GetInfoByID( const char* cID );
 /*
 *   Description:
 *     Get mod info via DLL name
@@ -100,7 +100,7 @@ const mod_info* MI_GetInfoByID(   const char* cID   );
 *   Returns:
 *     A 'mod_info' pointer, or nullptr if no mod is found
 */
-const mod_info* MI_GetInfoByDLL(  const utf8* uDLL  );
+const mod_info* MI_GetInfoByDLL( const c8* uDLL );
 /*
 *   Description:
 *     Get mod info via mod name

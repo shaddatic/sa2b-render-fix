@@ -78,7 +78,7 @@ void    RF_FontInit(void);
 *   Returns:
 *       Pointer to the created font object, or nullptr if there was an error
 */
-RFS_FONT*   RF_FontLoadFile( const utf8* fpath, RFE_FONT_FTYPE ftype );
+RFS_FONT*   RF_FontLoadFile( const c8* fpath, RFE_FONT_FTYPE ftype );
 /*
 *   Half the current space character width.
 *

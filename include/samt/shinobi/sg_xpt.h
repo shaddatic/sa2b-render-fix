@@ -7,21 +7,7 @@
 #ifndef H_SG_XPT
 #define H_SG_XPT
 
-#undef TRUE                     /* windows headers may define these                 */
-#undef FALSE                    /* ^^^                                              */
-
 EXTERN_START
-
-/************************/
-/*  Constants           */
-/************************/
-/****** Boolean *********************************************************************/
-#define TRUE                    (1) /* boolean 'true'                               */
-#define FALSE                   (0) /* boolean 'false'                              */
-
-/****** Switch **********************************************************************/
-#define ON                      (1) /* switch 'on'                                  */
-#define OFF                     (0) /* switch 'off'                                 */
 
 /************************/
 /*  Typedefs            */

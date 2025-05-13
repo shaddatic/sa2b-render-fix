@@ -27,96 +27,150 @@
 #       error "Mod is being built for a non-x86 platform, please change your platform target to x86"
 #   endif
 
-#   if !defined(_MSVC_TRADITIONAL) || (_MSVC_TRADITIONAL == 1)
-#       error "SAMT is designed for a standard conforming preprocessor, please enable it in your project's settings"
-#   endif
+#   if !defined(__clang__)
 
-#   if defined(_MSVC_LANG) && (_MSVC_LANG < 202002L)
-#       error "SAMT is designed for the latest C++ version (C++20), please change the project's C++ standard target"
-#   endif
+#       if defined(_MSVC_TRADITIONAL) && (_MSVC_TRADITIONAL != 0)
+#           error "SAMT is designed for the standard conforming MSVC preprocessor, please enable either in your project's settings"
+#       endif
+#       if defined(_MSVC_LANG) && (_MSVC_LANG < 202002L)
+#           error "SAMT is designed for C++20 or later, please change the project's C++ standard target"
+#       endif
+#       if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 201710L)
+#           error "SAMT for MSVC is designed for C17 or later, please change the project's C standard target"
+#       endif
 
-#   if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 201710L)
-#       error "SAMT is designed for the latest C version (C17), please change the project's C standard target"
-#   endif
+#   else/*__clang__*/
+
+#       if defined(__cplusplus) && (__cplusplus < 202002L)
+#           error "SAMT is designed for C++20 or later, please change the project's C++ standard target"
+#       endif
+#       if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 202311L)
+#           error "SAMT for Clang is designed for C23 or later, please change the project's C standard target"
+#       endif
+
+#   endif/*__clang__*/
 #endif/*SAMT_DONT_COREERR*/
 
-/****** C++ Debug Fix ***************************************************************/
+/****** C++ Debug Fix ***************************************************************************/
 #ifndef SAMT_NO_DEBUGFIX
-#   undef _DEBUG            /* undefine MSVC specific debug flag                    */
+#   undef _DEBUG                    /* undefine MSVC specific debug flag                        */
 #endif
 
-/****** Core Warning Disable ********************************************************/
+/****** Core Warning Disable ********************************************************************/
 #ifndef SAMT_NO_WARNDISABLE
-#   pragma warning(disable:4200) /* allow variable length arrays in structs         */
+#   pragma warning(disable:4200)    /* allow variable length arrays in structs                  */
 #endif
 
-/************************/
-/*  Core Definitions    */
-/************************/
-/****** Game Definitions ************************************************************/
-#define SAMT_GAME_SA2B          (0) /* sonic adventure 2 for PC, 2012               */
-#define SAMT_GAME_SADX          (1) /* sonic adventure DX for PC, 2004              */
+/********************************/
+/*  Core Definitions            */
+/********************************/
+/************************************************************************************************/
+/*
+*   Game Definitions
+*/
+/****** Game Number *****************************************************************************/
+#define SAMT_GAME_SA2B          (0) /* sonic adventure 2 for PC, 2012                           */
+#define SAMT_GAME_SADX          (1) /* sonic adventure DX for PC, 2004                          */
 
-/****** Current Game ****************************************************************/
+/****** Current Game ****************************************************************************/
 #define SAMT_CURR_GAME          SAMT_GAME_SA2B
 
-/****** C/C++ Extern Macros *********************************************************/
-#ifdef  __cplusplus
-#   define EXTERN               extern "C"
-#   define EXTERN_START         EXTERN {
-#   define EXTERN_END           }
+/************************************************************************************************/
+/*
+*   Standard Keywords
+*/
+/****** Boolean *********************************************************************************/
+#define TRUE                    (1) /* true                                                     */
+#define FALSE                   (0) /* false                                                    */
+
+/****** Switch **********************************************************************************/
+#define ON                      (1) /* on                                                       */
+#define OFF                     (0) /* off                                                      */
+
+#ifndef __cplusplus
+/****** C ***************************************************************************************/
+#define EXTERN                  extern      /* extern                                           */
+#define STATIC                  static      /* static                                           */
+#define RESTRICT                restrict    /* restrict                                         */
+#define CONST                   const       /* const                                            */
+#define CONSTEXPR               const       /* constexpr                                        */
+#define TYPEOF                __typeof__    /* typeof                                           */
+
+#define EXTERN_START                        /* extern block start                               */
+#define EXTERN_END                          /* extern block end                                 */
+
 #else
-#   define EXTERN               extern
-#   define EXTERN_START
-#   define EXTERN_END
+/****** C++ *************************************************************************************/
+#define EXTERN                  extern "C"  /* extern                                           */
+#define STATIC                  static      /* static                                           */
+#define RESTRICT                __restrict  /* restrict                                         */
+#define CONST                   const       /* const                                            */
+#define CONSTEXPR               constexpr   /* constexpr                                        */
+#define TYPEOF                  decltype    /* typeof                                           */
+
+#define EXTERN_START            EXTERN {    /* extern block start                               */
+#define EXTERN_END              }           /* extern block end                                 */
+
 #endif/*__cplusplus*/
 
-/************************/
-/*  External Includes   */
-/************************/
-/****** Standard Library ************************************************************/
-#include <stddef.h>             /* NULL, size_t, etc                                */
-#include <stdbool.h>            /* bool (until C23)                                 */
-#include <stdint.h>             /* verbose stdint types                             */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Standard Library ************************************************************************/
+#include <stddef.h>                 /* NULL, size_t, etc                                        */
+#include <stdbool.h>                /* bool                                         (until C23) */
+#include <stdint.h>                 /* verbose stdint types                                     */
+#include <assert.h>                 /* asserts for C                                (until C23) */
 
 EXTERN_START
 
 /************************/
 /*  Types               */
 /************************/
-/************************************************************************************/
+/************************************************************************************************/
 /*
-*   
+*   Short-Hand Types
 */
-/****** Short-Hand Types ************************************************************/
-/** Integer types **/
-typedef unsigned __int8     u8;         /* unsigned 1 byte integer                  */
-typedef signed   __int8     s8;         /* signed 1 byte integer                    */
-typedef unsigned __int16    u16;        /* unsigned 2 byte integer                  */
-typedef signed   __int16    s16;        /* signed 2 byte integer                    */
-typedef unsigned __int32    u32;        /* unsigned 4 byte integer                  */
-typedef signed   __int32    s32;        /* signed 4 byte integer                    */
-typedef unsigned __int64    u64;        /* unsigned 8 byte integer                  */
-typedef signed   __int64    s64;        /* signed 8 byte integer                    */
+/****** Integer types ***************************************************************************/
+typedef uint8_t             u8;     /* unsigned 1 byte integer                                  */
+typedef int8_t              s8;     /* signed 1 byte integer                                    */
+typedef uint16_t            u16;    /* unsigned 2 byte integer                                  */
+typedef int16_t             s16;    /* signed 2 byte integer                                    */
+typedef uint32_t            u32;    /* unsigned 4 byte integer                                  */
+typedef int32_t             s32;    /* signed 4 byte integer                                    */
+typedef uint64_t            u64;    /* unsigned 8 byte integer                                  */
+typedef int64_t             s64;    /* signed 8 byte integer                                    */
 
-/** Real number types **/
-typedef float               f32;        /* 4 byte real number                       */
-typedef double              f64;        /* 8 byte real number                       */
+/****** Real number types ***********************************************************************/
+typedef float               f32;    /* 4 byte real number                                       */
+typedef double              f64;    /* 8 byte real number                                       */
 
-/** Boolean **/
-typedef int32_t             b32;        /* 4 byte boolean                           */
+/****** Boolean *********************************************************************************/
+typedef int32_t             b32;    /* 4 byte boolean                                           */
 
-/****** Other Types *****************************************************************/
-/** Character types **/
-typedef char                utf8;       /* UTF-8 code unit                          */
+/************************************************************************************************/
+/*
+*   Character Types
+*/
+/****** ASCII ***********************************************************************************/
+typedef char                a7;     /* ASCII-7                                                  */
 
-/** Byte **/
-typedef uint8_t             byte;       /* basic byte type                          */
+/****** Unicode *********************************************************************************/
+typedef char                c8;     /* UTF-8 code unit or ASCII                                 */
+typedef wchar_t             c16;    /* UTF-16 code unit                                         */
+typedef uint32_t            c32;    /* UTF-32 code point                                        */
+
+/************************************************************************************************/
+/*
+*   Generic Types
+*/
+/****** Byte ************************************************************************************/
+typedef uint8_t             byte;   /* basic byte type                                          */
 
 /************************/
 /*  Core Functions      */
 /************************/
-/****** Mod Path ********************************************************************/
+/****** Mod Path ********************************************************************************/
 /*
 *   Description:
 *     Get the path to this mod, as passed into 'mtSystemInit'.
@@ -128,12 +182,12 @@ typedef uint8_t             byte;       /* basic byte type                      
 *   Returns:
 *     The file path to this mod, starting at the game's EXE.
 */
-const utf8* mtGetModPath( void );
+const c8* mtGetModPath( void );
 
 /************************/
 /*  Core Macros         */
 /************************/
-/****** Core ************************************************************************/
+/****** Core ************************************************************************************/
 /*
 *   Description:
 *     Gets the number of elements in a defined array variable.
@@ -141,9 +195,7 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - ary     : array variable
 */
-#ifndef ARYLEN
-#   define ARYLEN(ary)         (sizeof(ary)/sizeof(0[ary]))
-#endif/*ARYLEN*/
+#define ARYLEN(ary)         (sizeof(ary)/sizeof(0[ary]))
 /*
 *   Description:
 *     Gets the number of bits in a defined type or variable.
@@ -151,11 +203,9 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - type    : type/variable
 */
-#ifndef BITSIN
-#   define BITSIN(type)        (sizeof(type)*8)
-#endif/*BITSIN*/
+#define BITSIN(type)        (sizeof(type)*8)
 
-/****** Function *********************************************************************/
+/****** Function *********************************************************************************/
 /*
 *   Description:
 *     Clamps a value within the set range.
@@ -165,9 +215,7 @@ const utf8* mtGetModPath( void );
 *     - min     : minimum value
 *     - max     : maximum value
 */
-#ifndef CLAMP
-#   define CLAMP(val, min, max)             (((val)<(min))?(min):((max)<(val))?(max):(val))
-#endif/*CLAMP*/
+#define CLAMP(val, min, max)             (((val)<(min))?(min):((max)<(val))?(max):(val))
 /*
 *   Description:
 *     Gets the maximum of two values.
@@ -175,9 +223,7 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - val#    : values to find the maximum of
 */
-#ifndef MAX
-#   define MAX(val1, val2)                  ((val1)>(val2)?(val1):(val2))
-#endif/*MAX*/
+#define MAX(val1, val2)                  ((val1)>(val2)?(val1):(val2))
 /*
 *   Description:
 *     Gets the minimum of two values.
@@ -185,9 +231,7 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - val#    : values to find the minimum of
 */
-#ifndef MIN
-#   define MIN(val1, val2)                  ((val1)>(val2)?(val2):(val1))
-#endif/*MIN*/
+#define MIN(val1, val2)                  ((val1)>(val2)?(val2):(val1))
 /*
 *   Description:
 *     Gets the absolute value of the input value. In other words, the non-negative
@@ -196,9 +240,7 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - val     : value to find the absolute value of
 */
-#ifndef ABS
-#   define ABS(val)                         ((val)>=0?(val):-(val))
-#endif/*ABS*/
+#define ABS(val)                         ((val)>=0?(val):-(val))
 /*
 *   Description:
 *     Get the highest absolute value of two values
@@ -206,9 +248,7 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - val#    : values to find the absolute maximum of
 */
-#ifndef MAX_ABS
-#   define MAX_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val1):(val2))
-#endif/*MAX_ABS*/
+#define MAX_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val1):(val2))
 /*
 *   Description:
 *     Get the lowest absolute value of two values
@@ -216,11 +256,9 @@ const utf8* mtGetModPath( void );
 *   Parameters:
 *     - val#    : values to find the absolute minimum of
 */
-#ifndef MIN_ABS
-#   define MIN_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val2):(val1))
-#endif/*MIN_ABS*/
+#define MIN_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val2):(val1))
 
-/****** Data Address Mapping ********************************************************/
+/****** Data Address Mapping ********************************************************************/
 /*
 *   Description:
 *     Define a data reference at an arbitrary address.
@@ -247,7 +285,7 @@ const utf8* mtGetModPath( void );
 */
 #define DATA_ARY(type, addr, nb)            (*(type(*const)nb)(addr))
 
-/****** Function Address Mapping ****************************************************/
+/****** Function Address Mapping ****************************************************************/
 /*
 *   Description:
 *     Define a function pointer at an arbitrary address.

@@ -196,6 +196,9 @@ void    AL_CreateHoldingItem(void);
 void    AL_PackageAllSaveInfo(void);
 void    AL_PackageItemSaveInfo(int32_t category);
 
+/** Clear and reset garden info to defaults **/
+void    AL_CreateGardenInfo( void );
+
 /** Internal functions **/
 b32     AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
 
@@ -214,6 +217,7 @@ EXTERN_END
 #   define AL_CheckSaveDataCrc2_p           FUNC_PTR(b32              , __fastcall, (CHAO_GARDEN_INFO*), 0x0052F030)
 #   define AL_SetObjectOnTheGarden_p        FUNC_PTR(void             , __cdecl   , (void)             , 0x0052EB70)
 #   define AL_CreateHoldingItem_p           FUNC_PTR(void             , __cdecl   , (void)             , 0x0052F2A0)
+#   define AL_CreateGardenInfo_p            FUNC_PTR(void             , __cdecl   , (void)             , 0x0052F110)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

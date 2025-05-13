@@ -7,46 +7,46 @@
 #ifndef H_SAMT_FILE
 #define H_SAMT_FILE
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** MSVC stdio ******************************************************************/
-typedef struct _iobuf       FILE; /* msvc std file type                             */
-
 EXTERN_START
 
-/************************/
-/*  Enums               */
-/************************/
-/****** File Open Mode **************************************************************/
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** MSVC stdio ******************************************************************************/
+typedef struct _iobuf               FILE; /* msvc std file type                                 */
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** File Open Mode **************************************************************************/
 typedef enum mt_fmode
 {
-    FMODE_RB,                   /* read only, start of file             (byte mode) */
-    FMODE_WB,                   /* write only, new file                 (byte mode) */
-    FMODE_AB,                   /* write only, append file              (byte mode) */
-
-    FMODE_RT,                   /* read only, start of file             (text mode) */
-    FMODE_WT,                   /* write only, new file                 (text mode) */
-    FMODE_AT,                   /* write only, append file              (text mode) */
-
-    FMODE_RB_RW,                /* read/write, start of file            (byte mode) */
-    FMODE_WB_RW,                /* read/write, new file                 (byte mode) */
-    FMODE_AB_RW,                /* read/write, append file              (byte mode) */
-
-    FMODE_RT_RW,                /* read/write, start of file            (text mode) */
-    FMODE_WT_RW,                /* read/write, new file                 (text mode) */
-    FMODE_AT_RW,                /* read/write, append file              (text mode) */
+    FMODE_RB,                       /* read only, start of file                     (byte mode) */
+    FMODE_WB,                       /* write only, new file                         (byte mode) */
+    FMODE_AB,                       /* write only, append file                      (byte mode) */
+                                                                                    
+    FMODE_RT,                       /* read only, start of file                     (text mode) */
+    FMODE_WT,                       /* write only, new file                         (text mode) */
+    FMODE_AT,                       /* write only, append file                      (text mode) */
+                                                                                    
+    FMODE_RB_RW,                    /* read/write, start of file                    (byte mode) */
+    FMODE_WB_RW,                    /* read/write, new file                         (byte mode) */
+    FMODE_AB_RW,                    /* read/write, append file                      (byte mode) */
+                                                                                    
+    FMODE_RT_RW,                    /* read/write, start of file                    (text mode) */
+    FMODE_WT_RW,                    /* read/write, new file                         (text mode) */
+    FMODE_AT_RW,                    /* read/write, append file                      (text mode) */
 }
 mt_fmode;
 
-/************************/
-/*  Prototypes          */
-/************************/
-/************************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/************************************************************************************************/
 /*
 *   File Stream Control
 */
-/****** File Open *******************************************************************/
+/****** File Open *******************************************************************************/
 /*
 *   Description:
 *     Open a file stream for reading and/or writing.
@@ -58,7 +58,7 @@ mt_fmode;
 *   Returns:
 *     New FILE pointer; or 'nullptr' on failure.
 */
-FILE*   mtFileOpen( const utf8* puPath, mt_fmode fmode );
+FILE*   mtFileOpen( const c8* puPath, mt_fmode fmode );
 /*
 *   Description:
 *     Close an open file stream.
@@ -71,7 +71,7 @@ FILE*   mtFileOpen( const utf8* puPath, mt_fmode fmode );
 */
 bool    mtFileClose( FILE* f );
 
-/****** File Read/Write *************************************************************/
+/****** File Read/Write *************************************************************************/
 /*
 *   Description:
 *     Read from an open file stream, and advance the seek offset.
@@ -98,8 +98,23 @@ size_t  mtFileRead( FILE* f, void* pDst, size_t sz );
 *     Number of bytes written to the buffer; or '0' on failure.
 */
 size_t  mtFileWrite( FILE* f, const void* pSrc, size_t sz );
+/*
+*   Description:
+*     Write the same section of a source buffer to an open file stream multiple
+*   times, and advance the seek offset.
+*
+*   Parameters:
+*     - f       : open file stream
+*     - pSrc    : write source
+*     - sz      : size of write, in bytes
+*     - nb      : number of times to repeat
+*
+*   Returns:
+*     Number of bytes written to the buffer; or '0' on failure.
+*/
+size_t  mtFileWriteMulti( FILE* f, const void* pSrc, size_t sz, size_t nb );
 
-/****** File Seek *******************************************************************/
+/****** File Seek *******************************************************************************/
 /*
 *   Description:
 *     Set the seek offset to a specific position
@@ -158,7 +173,7 @@ bool    mtFileSeekStart( FILE* f );
 */
 bool    mtFileSeekEnd( FILE* f );
 
-/****** File Size *******************************************************************/
+/****** File Size *******************************************************************************/
 /*
 *   Description:
 *     Get the total size of an open file stream
@@ -171,30 +186,30 @@ bool    mtFileSeekEnd( FILE* f );
 */
 size_t  mtFileSize( FILE* f );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Load Whole File
 */
-/****** File Load *******************************************************************/
+/****** File Load *******************************************************************************/
 /*
 *   Description:
 *     Load an entire file into a buffer with an optional returned size parameter
 *
 *   Parameters:
-*     - fpath       : path to file encoded in ASCII or UTF-8
-*     - pOptRetSize : pointer to a size_t used to return the size of the new buffer (optional)
+*     - puPath      : file path
+*     - pOptOutSize : pointer to a size_t used to return the size of the new buffer (optional)
 *
 *   Returns:
 *     Memory buffer containing the entire file allocated with `malloc`, or nullptr
 *   if there was an error.
 */
-void*   mtFileLoad( const utf8* puPath, size_t* pOptOutSize );
+void*   mtFileLoad( const c8* puPath, size_t* pOptOutSize );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Read/Write/Append Ex
 */
-/****** File Ex'press ***************************************************************/
+/****** File Ex'press ***************************************************************************/
 /*
 *   Description:
 *     Read the 'nb' bytes of a file at 'fpath' into 'pBuf'
@@ -207,7 +222,7 @@ void*   mtFileLoad( const utf8* puPath, size_t* pOptOutSize );
 *   Returns:
 *     Number of bytes written to the buffer, 0 indicates an error
 */
-size_t  mtFileReadEx( const utf8* puPath, void* pDst, size_t sz );
+size_t  mtFileReadEx( const c8* puPath, void* pDst, size_t sz );
 /*
 *   Description:
 *     Create & write 'nb' bytes into a file at 'fpath' from 'pBuf'
@@ -220,7 +235,7 @@ size_t  mtFileReadEx( const utf8* puPath, void* pDst, size_t sz );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  mtFileWriteEx( const utf8* puPath, const void* pSrc, size_t sz );
+size_t  mtFileWriteEx( const c8* puPath, const void* pSrc, size_t sz );
 /*
 *   Description:
 *     Write 'nb' bytes to the end of a file at 'fpath' from 'pBuf'
@@ -233,128 +248,159 @@ size_t  mtFileWriteEx( const utf8* puPath, const void* pSrc, size_t sz );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  mtFileAppendEx( const utf8* puPath, const void* pSrc, size_t sz );
+size_t  mtFileAppendEx( const c8* puPath, const void* pSrc, size_t sz );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Filesystem (Files)
 */
-/****** Filesystem Control **********************************************************/
+/****** Filesystem Control **********************************************************************/
 /*
 *   Description:
-*     Move a file, if it exists, from 'fpathCur' to 'fpathNew'
+*     Move a file.
 *
 *   Parameters:
-*     - fpathCur : current path to the file
-*     - fpathNew : new path to the file
+*     - puPath      : file path
+*     - puNewPath   : new file path
 *
 *   Returns:
-*     If success
+*     'true' on success; or 'false' if the file doesn't exist or the new path is already taken.
 */
-bool    mtFileMove( const utf8* puPath, const utf8* puNewPath );
+bool    mtFileMove( const c8* puPath, const c8* puNewPath );
 /*
 *   Description:
-*     Copy a file, if it exists, from 'fpathCur' to 'fpathNew'
+*     Copy a file.
 *
 *   Parameters:
-*     - fpathCur : current path to the file
-*     - fpathNew : path to place the copy at
+*     - puPath      : file path
+*     - puNewPath   : new file path
 *
 *   Returns:
-*     If success
+*     'true' on success; or 'false' on failure.
 */
-bool    mtFileCopy( const utf8* puPath, const utf8* puNewPath );
+bool    mtFileCopy( const c8* puPath, const c8* puNewPath );
 /*
 *   Description:
-*     Rename a file, if it exists, at 'fpathCur' to 'fnameNew'
+*     Rename a file.
 *
 *   Examples:
-*     uFileRename("./path/to/file.txt", "new.txt");
+*     - mtFileRename("./path/to/file.txt", "new.txt"); // "file.txt" -> "new.txt"
 *
 *   Parameters:
-*     - fpathCur : current path to the file
-*     - fnameNew : new name of the file, including the extension
+*     - puPath      : file path
+*     - puNewName   : new name and extension for file
 *
 *   Returns:
-*     If success
+*     'true' on success; or 'false' if the file doesn't exist or the new name is already taken.
 */
-bool    mtFileRename( const utf8* puPath, const utf8* puNewPath );
-
-/****** Filesystem Query ************************************************************/
+bool    mtFileRename( const c8* puPath, const c8* puNewName );
 /*
 *   Description:
-*     Test if a given path points to a valid file
+*     Delete a file.
 *
 *   Parameters:
-*     - fpath   : path to the file
+*     - puPath      : file path
 *
 *   Returns:
-*     If the given path is valid
+*     'true' on success; or 'false' on failure.
 */
-bool    mtFileExists( const utf8* puPath );
+bool    mtFileDelete( const c8* puPath );
 
-/************************************************************************************/
+/****** Filesystem Query ************************************************************************/
+/*
+*   Description:
+*     Check if a path exists.
+*
+*   Parameters:
+*     - puPath      : file path
+*
+*   Returns:
+*     If the given path is a valid file.
+*/
+bool    mtFileExists( const c8* puPath );
+
+/************************************************************************************************/
 /*
 *   Filesystem (Directories)
 */
-/****** Filesystem Control **********************************************************/
+/****** Filesystem Control **********************************************************************/
 /*
 *   Description:
-*     Create a directory at a given path. Will not create parent directories
+*     Create a new directory.
+*
+*   Notes:
+*     - Will not create any parent directories!
 *
 *   Parameters:
-*     - fpath   : path to the new directory
+*     - puPath      : new directory path
 *
 *   Returns:
-*     If success
+*     'true' on success; or 'false' on failure.
 */
-bool    mtDirCreate( const utf8* puPath );
+bool    mtDirCreate( const c8* puPath );
 /*
 *   Description:
-*     Copy a directory and its contents at a given path
+*     Move a directory and its contents.
 *
 *   Parameters:
-*     - fpathCur : path of the directory to copy
-*     - fpathNew : path of the new copy
+*     - puPath      : directory path
+*     - puNewPath   : new directory path
+*
+*   Returns:
+*     'true' on success; or 'false' on failure.
 */
-bool    mtDirMove( const utf8* puPath, const utf8* puNewPath );
+bool    mtDirMove( const c8* puPath, const c8* puNewPath );
 /*
 *   Description:
-*     Copy a directory and its contents at a given path
+*     Copy a directory and its contents.
 *
 *   Parameters:
-*     - fpathCur : path of the directory to copy
-*     - fpathNew : path of the new copy
+*     - puPath      : directory path
+*     - puNewPath   : new directory path
+*
+*   Returns:
+*     'true' on success; or 'false' on failure.
 */
-void    mtDirCopy( const utf8* puPath, const utf8* puNewPath );
+void    mtDirCopy( const c8* puPath, const c8* puNewPath );
 /*
 *   Description:
-*     Rename a directory, if it exists, at 'fpathCur' to 'fnameNew'
+*     Rename a directory.
 *
 *   Examples:
-*     uDirectoryRename("./path/to/directory", "newdir");
+*     - mtDirRename("./path/to/directory", "newdir"); // "directory" -> "newdir"
 *
 *   Parameters:
-*     - fpathCur : current path to the file
-*     - fnameNew : new name of the file, including the extension
+*     - puPath      : directory path
+*     - puNewName   : new directory name
 *
 *   Returns:
-*     If success
+*     'true' on success; or 'false' on failure.
 */
-bool    mtDirRename( const utf8* puPath, const utf8* puNewPath );
-
-/****** Filesystem Query ************************************************************/
+bool    mtDirRename( const c8* puPath, const c8* puNewName );
 /*
 *   Description:
-*     Test if a given path points to a valid directory
+*     Delete a directory and all its contents.
 *
 *   Parameters:
-*     - fpath   : path to the directory
+*     - puPath      : directory path
 *
 *   Returns:
-*     If the given directory is valid
+*     'true' on success; or 'false' on failure.
 */
-bool    mtDirExists( const utf8* puPath );
+bool    mtDirDelete( const c8* puPath );
+
+/****** Filesystem Query ************************************************************************/
+/*
+*   Description:
+*     Check if a path exists.
+*
+*   Parameters:
+*     - puPath      : directory path
+*
+*   Returns:
+*     If the given directory is a valid directory.
+*/
+bool    mtDirExists( const c8* puPath );
 
 EXTERN_END
 

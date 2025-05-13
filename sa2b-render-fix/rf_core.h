@@ -26,7 +26,7 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ___DebugFuncError(const utf8* func, const utf8* body);
+void    ___DebugFuncError(const c8* func, const c8* body);
 
 #ifndef NDEBUG
 #   define RF_DebugFuncError(body) ___DebugFuncError(__func__, body)

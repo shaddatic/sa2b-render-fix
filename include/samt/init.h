@@ -32,7 +32,7 @@ EXTERN_START
 *     - puPath      : path to this mod
 *     - pHelpFuncs  : mod loader helperfunctions
 */
-void    mtSystemInit( const utf8* puPath, const ml_helpfuncs* pHelpFuncs );
+void    mtSystemInit( const c8* puPath, const ml_helpfuncs* pHelpFuncs );
 
 EXTERN_END
 
@@ -46,7 +46,7 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    Init(const utf8* puPath, const ml_helpfuncs* pHelpFuncs)
+    Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs)
     {
         mtSystemInit( puPath, pHelpFuncs );
     }

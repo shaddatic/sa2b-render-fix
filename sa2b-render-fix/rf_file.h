@@ -24,8 +24,8 @@
 /************************/
 typedef struct
 {
-    const utf8* puPath;
-    mt_samdl*   pSamdl;
+    const c8* puPath;
+    mt_samdl* pSamdl;
 }
 LOAD_SAMDL_LIST;
 

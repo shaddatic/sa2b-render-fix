@@ -24,14 +24,14 @@ EXTERN_START
 void    RF_UserMessageInit( void );
 
 /** Post alert **/
-void    RF_Alert(const utf8* head, const utf8* body);
+void    RF_Alert(const c8* head, const c8* body);
 
 /** Post fatal error alert **/
-void    RF_FatalError(const utf8* head, const utf8* body);
+void    RF_FatalError(const c8* head, const c8* body);
 
 /** Query the user with a yes/no message box.
     A return of 'true' means the user selected 'yes' **/
-bool    RF_Query(const utf8* head, const utf8* body);
+bool    RF_Query(const c8* head, const c8* body);
 
 EXTERN_END
 

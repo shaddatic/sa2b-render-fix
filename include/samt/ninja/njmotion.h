@@ -272,6 +272,16 @@ typedef struct
 }
 NJS_ACTION_LINK;
 
+/****** Get Motion Data *************************************************************/
+typedef struct
+{
+    Float*      pos;
+    Float*      vect;
+    Angle*      roll;
+    Angle*      ang;
+}
+NJS_CMOTION_DATA;
+
 /************************/
 /*  Internal Types      */
 /************************/
@@ -372,7 +382,6 @@ NJS_CUR_SHAPE_INFO;
 /*
 *   Shape Init
 */
-
 /****** Set Shape Buffer ************************************************************/
 /*
 *   Description:
@@ -391,7 +400,6 @@ void    njInitShape( void* buf, Sint32 size );
 /*
 *   Draw Functions
 */
-
 /****** Set Motion Callback *********************************************************/
 /*
 *   Description:
@@ -498,9 +506,37 @@ void    njCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTI
 
 /************************************************************************************/
 /*
+*   Camera Motion
+*/
+/****** Exec Motion *****************************************************************/
+/*
+*   Description:
+*     Execute a camera motion, and set the result to the screen.
+*
+*   Parameters:
+*     - camera      : base camera to apply motion to
+*     - motion      : motion structure
+*     - frame       : motion frame
+*/
+void    njCameraMotion( const NJS_CAMERA* camera, const NJS_MOTION* motion, Float frame );
+
+/****** Get Motion ******************************************************************/
+/*
+*   Description:
+*     Get camera motion parameters.
+*
+*   Parameters:
+*     - camera      : base camera to apply motion to
+*     - motion      : motion structure
+*     - data        : motion output
+*     - frame       : motion frame
+*/
+void    njGetCameraMotion( const NJS_CAMERA* camera, const NJS_MOTION* motion, NJS_CMOTION_DATA* data, Float frame );
+
+/************************************************************************************/
+/*
 *   Low-Level Functions
 */
-
 /****** Motion Core *****************************************************************/
 /*
 *   Description:
@@ -696,9 +732,8 @@ void    njSetNextShapeLinkNode( void );
 
 /************************************************************************************/
 /*
-*   Draw Functions with Specified Function
+*   Draw with Specified Function
 */
-
 /****** Draw Motion *****************************************************************/
 /*
 *   Description:

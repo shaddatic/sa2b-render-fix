@@ -248,7 +248,7 @@ Font1ToFont32_S(FONT_1_CHAR* pBuff)
 }
 
 RFS_FONT*
-RF_FontLoadFile(const utf8* fpath, RFE_FONT_FTYPE ftype)
+RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 {
     size_t fsize;
     void* const file = mtFileLoad(fpath, &fsize);
@@ -442,13 +442,13 @@ RF_FontChaoGet(RFE_FONT_TYPE type)
 }
 
 static RFS_FONT*
-LoadReplaceableFont(const utf8* fpath, RFE_FONT_FTYPE ftype)
+LoadReplaceableFont(const c8* fpath, RFE_FONT_FTYPE ftype)
 {
     return RF_FontLoadFile(ML_GetReplaceablePath(fpath), ftype);
 }
 
 static RFS_FONT*
-LoadLocalFont(const utf8* fname, RFE_FONT_FTYPE ftype)
+LoadLocalFont(const c8* fname, RFE_FONT_FTYPE ftype)
 {
     char buf[260];
 

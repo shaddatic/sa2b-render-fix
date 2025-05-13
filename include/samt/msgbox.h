@@ -69,7 +69,7 @@ mt_msgbox_retn;
 *     - input       : user input options
 *     - icon        : image icon for the message box
 */
-mt_msgbox_retn mtMsgBox( const utf8* puTitle, const utf8* puBody, mt_msgbox_input input, mt_msgbox_icon icon );
+mt_msgbox_retn mtMsgBox( const c8* puTitle, const c8* puBody, mt_msgbox_input input, mt_msgbox_icon icon );
 
 /****** Common Uses *****************************************************************/
 /*
@@ -84,7 +84,7 @@ mt_msgbox_retn mtMsgBox( const utf8* puTitle, const utf8* puBody, mt_msgbox_inpu
 *     - puTitle     : title text
 *     - puBody      : message text
 */
-mt_msgbox_retn mtMsgWarning( const utf8* puTitle, const utf8* puBody );
+mt_msgbox_retn mtMsgWarning( const c8* puTitle, const c8* puBody );
 /*
 *   Description:
 *     Create an error message box with a custom title and text.
@@ -97,7 +97,7 @@ mt_msgbox_retn mtMsgWarning( const utf8* puTitle, const utf8* puBody );
 *     - puTitle     : title text
 *     - puBody      : message text
 */
-mt_msgbox_retn mtMsgError( const utf8* puTitle, const utf8* puBody );
+mt_msgbox_retn mtMsgError( const c8* puTitle, const c8* puBody );
 /*
 *   Description:
 *     Create a query message box with a custom title and text.
@@ -110,7 +110,7 @@ mt_msgbox_retn mtMsgError( const utf8* puTitle, const utf8* puBody );
 *     - puTitle     : title text
 *     - puBody      : message text
 */
-mt_msgbox_retn mtMsgQuery( const utf8* puTitle, const utf8* puBody );
+mt_msgbox_retn mtMsgQuery( const c8* puTitle, const c8* puBody );
 
 EXTERN_END
 

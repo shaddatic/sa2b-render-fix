@@ -34,8 +34,8 @@ void    RF_ReplaceVtxShader( int index, dx9_vtx_shader* pVtxShader );
 void    RF_ReplacePxlShader( int index, dx9_pxl_shader* pPxlShader );
 
 /** Directly load compiled D3D Shader file **/
-dx9_vtx_shader* RF_DirectLoadVtxShader( const utf8* fpath );
-dx9_pxl_shader* RF_DirectLoadPxlShader( const utf8* fpath );
+dx9_vtx_shader* RF_DirectLoadVtxShader( const c8* fpath );
+dx9_pxl_shader* RF_DirectLoadPxlShader( const c8* fpath );
 
 EXTERN_END
 

@@ -39,7 +39,7 @@ RF_ShaderError(const char* fpath)
 }
 
 dx9_vtx_shader*
-RF_DirectLoadVtxShader(const utf8* fpath)
+RF_DirectLoadVtxShader(const c8* fpath)
 {
     dx9_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
 
@@ -50,7 +50,7 @@ RF_DirectLoadVtxShader(const utf8* fpath)
 }
 
 dx9_pxl_shader*
-RF_DirectLoadPxlShader(const utf8* fpath)
+RF_DirectLoadPxlShader(const c8* fpath)
 {
     dx9_pxl_shader* vshader = DX9_LoadPxlShader(fpath);
 
@@ -61,9 +61,9 @@ RF_DirectLoadPxlShader(const utf8* fpath)
 }
 
 dx9_vtx_shader*
-RF_LoadVtxShader(const utf8* fname)
+RF_LoadVtxShader(const c8* fname)
 {
-    utf8 buf[260];
+    c8 buf[260];
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", mtGetModPath(), fname);
 
@@ -71,9 +71,9 @@ RF_LoadVtxShader(const utf8* fname)
 }
 
 dx9_pxl_shader*
-RF_LoadPxlShader(const utf8* fname)
+RF_LoadPxlShader(const c8* fname)
 {
-    utf8 buf[260];
+    c8 buf[260];
 
     snprintf(buf, 260, "%s/" SHADER_PATH "/%s.fxc", mtGetModPath(), fname);
 

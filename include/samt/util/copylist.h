@@ -187,7 +187,7 @@ size_t  mtCopyListSize( const mt_copylist* pclh );
 *     'true' if the source pointer was found and redirected to the copy; or 'false'
 *   if it was not found.
 */
-bool    mtCopyListResolve( const mt_copylist* pclh, void** ppSrc );
+bool    mtCopyListResolve( const mt_copylist* pclh, const void** ppSrc );
 
 EXTERN_START
 

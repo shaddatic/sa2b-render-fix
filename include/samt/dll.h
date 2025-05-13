@@ -43,7 +43,7 @@ dll_export;
 *   Returns:
 *     The DLL handle, or nullptr if a DLL of that name is not mounted
 */
-dll_handle* DLL_GetHandle( const utf8* uName );
+dll_handle* DLL_GetHandle( const c8* uName );
 
 /****** Mount/Unmount DLL ***********************************************************/
 /*
@@ -62,7 +62,7 @@ dll_handle* DLL_GetHandle( const utf8* uName );
 *   Returns:
 *     The DLL handle, or nullptr if the file is not found
 */
-dll_handle* DLL_Mount( const utf8* uPath );
+dll_handle* DLL_Mount( const c8* uPath );
 /*
 *   Description:
 *     Mount a DLL like above, but instead using two strings which are then
@@ -78,7 +78,7 @@ dll_handle* DLL_Mount( const utf8* uPath );
 *   Returns:
 *     The DLL handle, or nullptr if the file is not found
 */
-dll_handle* DLL_Mount2( const utf8* uPathL, const utf8* uPathR );
+dll_handle* DLL_Mount2( const c8* uPathL, const c8* uPathR );
 /*
 *   Description:
 *     Unmount a DLL file. This will also release any data/functions from the

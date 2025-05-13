@@ -65,7 +65,7 @@ typedef struct rfs_font         RFS_FONT;       /* Render Fix font object       
 /*  Types               */
 /************************/
 typedef double                  f64;        /* 8 byte wide float value              */
-typedef char                    utf8;       /* supports UTF-8 strings               */
+typedef char                    c8;         /* supports UTF-8 strings               */
 
 /************************/
 /*  Constants           */
@@ -305,10 +305,10 @@ typedef struct
     *   Returns:
     *       The value of the config entry
     */
-    int32_t    (__cdecl* ConfigGetInt)(    const char* section, const char* key, int32_t     deflt );
-    bool       (__cdecl* ConfigGetBool)(   const char* section, const char* key, bool        deflt );
-    f64        (__cdecl* ConfigGetFloat)(  const char* section, const char* key, f64         deflt );
-    const utf8*(__cdecl* ConfigGetString)( const char* section, const char* key, const utf8* deflt );
+    int32_t  (__cdecl* ConfigGetInt)(    const char* section, const char* key, int32_t   deflt );
+    bool     (__cdecl* ConfigGetBool)(   const char* section, const char* key, bool      deflt );
+    f64      (__cdecl* ConfigGetFloat)(  const char* section, const char* key, f64       deflt );
+    const c8*(__cdecl* ConfigGetString)( const char* section, const char* key, const c8* deflt );
 }
 RFAPI_CONFIG;
 
@@ -1094,8 +1094,8 @@ typedef struct
     *   Returns:
     *       A pointer to a DX9 shader object (IDirect3D(Vertex/Pixel)Shader9).
     */
-    dx9_vtx_shader* (__cdecl* LoadVtxShader)( const utf8* fpath );
-    dx9_pxl_shader* (__cdecl* LoadPxlShader)( const utf8* fpath );
+    dx9_vtx_shader* (__cdecl* LoadVtxShader)( const c8* fpath );
+    dx9_pxl_shader* (__cdecl* LoadPxlShader)( const c8* fpath );
 
     /**** Replace shader ****/
     /*
@@ -1138,7 +1138,7 @@ typedef struct
     *   Returns:
     *       Pointer to the created font object, or nullptr if there was an error
     */
-    RFS_FONT*(__cdecl* LoadFontFile)( const utf8* fpath, RFE_FONT_FTYPE ftype );
+    RFS_FONT*(__cdecl* LoadFontFile)( const c8* fpath, RFE_FONT_FTYPE ftype );
     /*
     *   Half the current space character width.
     *

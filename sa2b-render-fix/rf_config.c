@@ -49,7 +49,7 @@ RF_ConfigGetFloat(const RFS_CNF_FLOAT* pCnf)
     return RF_ConfigDirectGetFloat(pCnf->sect, pCnf->key, pCnf->def);
 }
 
-const utf8*
+const c8*
 RF_ConfigGetString(const RFS_CNF_STRING* pCnf)
 {
     return RF_ConfigDirectGetString(pCnf->sect, pCnf->key, pCnf->def);
@@ -78,7 +78,7 @@ RF_ConfigSetFloat(const RFS_CNF_FLOAT* pCnf, f64 set)
 }
 
 void
-RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const utf8* set)
+RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const c8* set)
 {
     RF_ConfigDirectSetString(pCnf->sect, pCnf->key, set);
 }
@@ -88,7 +88,7 @@ RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const utf8* set)
 #pragma region config_get_direct
 
 int32_t
-RF_ConfigDirectGetInt(const utf8* section, const utf8* key, int def)
+RF_ConfigDirectGetInt(const c8* section, const c8* key, int def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -97,7 +97,7 @@ RF_ConfigDirectGetInt(const utf8* section, const utf8* key, int def)
 }
 
 bool
-RF_ConfigDirectGetBool(const utf8* section, const utf8* key, bool def)
+RF_ConfigDirectGetBool(const c8* section, const c8* key, bool def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -106,7 +106,7 @@ RF_ConfigDirectGetBool(const utf8* section, const utf8* key, bool def)
 }
 
 f64
-RF_ConfigDirectGetFloat(const utf8* section, const utf8* key, f64 def)
+RF_ConfigDirectGetFloat(const c8* section, const c8* key, f64 def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -114,8 +114,8 @@ RF_ConfigDirectGetFloat(const utf8* section, const utf8* key, f64 def)
     return mtConfigGetFloat(ConfigPointer, section, key, def);
 }
 
-const utf8*
-RF_ConfigDirectGetString(const utf8* section, const utf8* key, const utf8* def)
+const c8*
+RF_ConfigDirectGetString(const c8* section, const c8* key, const c8* def)
 {
     if (!ConfigPointer)
         RF_DebugFuncError("Config read after free");
@@ -127,7 +127,7 @@ RF_ConfigDirectGetString(const utf8* section, const utf8* key, const utf8* def)
 #pragma region config_get_direct
 
 void
-RF_ConfigDirectSetInt(const utf8* section, const utf8* key, int set)
+RF_ConfigDirectSetInt(const c8* section, const c8* key, int set)
 {
     ConfigSet = true;
 
@@ -138,7 +138,7 @@ RF_ConfigDirectSetInt(const utf8* section, const utf8* key, int set)
 }
 
 void
-RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
+RF_ConfigDirectSetBool(const c8* section, const c8* key, bool set)
 {
     ConfigSet = true;
 
@@ -149,7 +149,7 @@ RF_ConfigDirectSetBool(const utf8* section, const utf8* key, bool set)
 }
 
 void
-RF_ConfigDirectSetFloat(const utf8* section, const utf8* key, f64 set)
+RF_ConfigDirectSetFloat(const c8* section, const c8* key, f64 set)
 {
     ConfigSet = true;
 
@@ -160,7 +160,7 @@ RF_ConfigDirectSetFloat(const utf8* section, const utf8* key, f64 set)
 }
 
 void
-RF_ConfigDirectSetString(const utf8* section, const utf8* key, const utf8* set)
+RF_ConfigDirectSetString(const c8* section, const c8* key, const c8* set)
 {
     ConfigSet = true;
 

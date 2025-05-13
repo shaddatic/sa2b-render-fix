@@ -203,7 +203,7 @@ mt_saanim;
 *   'RETURNERR' flag is set, an samdl structure with an error code in the 'type'
 *   member.
 */
-mt_samdl* mtSAModelLoad( const utf8* pcPath, const s32 flag );
+mt_samdl* mtSAModelLoad( const c8* pcPath, const s32 flag );
 /*
 *   Description:
 *     Free a samodel structure, and its labels if any were loaded.
@@ -229,7 +229,7 @@ void    mtSAModelFree( mt_samdl* pSamdl );
 *   'RETURNERR' flag is set, an salvl structure with an error code in the 'type'
 *   member.
 */
-mt_salvl* mtSALevelLoad( const utf8* pcPath, const s32 flag );
+mt_salvl* mtSALevelLoad( const c8* pcPath, const s32 flag );
 /*
 *   Description:
 *     Free a salevel structure, and its labels if any were loaded.
@@ -255,7 +255,7 @@ void    mtSALevelFree( mt_salvl* pSalvl);
 *   'RETURNERR' flag is set, an saanim structure with an error code in the 'type'
 *   member.
 */
-mt_saanim* mtSAAnimLoad( const utf8* pcPath, const s32 flag );
+mt_saanim* mtSAAnimLoad( const c8* pcPath, const s32 flag );
 /*
 *   Description:
 *     Free a saanim structure, and its labels if any were loaded.
