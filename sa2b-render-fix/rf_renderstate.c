@@ -16,7 +16,6 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_config.h>          /* config core                                      */
-#include <rf_eventinfo.h>       /* event info                                       */
 #include <rf_mod.h>             /* modifier                                         */
 
 /****** Self ************************************************************************/
