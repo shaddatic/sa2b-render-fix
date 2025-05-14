@@ -103,3 +103,10 @@ RF_MagicSetShaderConstantColor(RFE_MAGIC_SHADER type, int32_t reg, RF_MAGICCOLOR
 {
     g_pRenderDevice->vft->ShaderSetConstant10(g_pRenderDevice, type, reg, (float*)p, 4);
 }
+
+EXTERN
+RF_MAGIC_STATECACHE*
+RF_MagicGetStateCache(void)
+{
+    return (RF_MAGIC_STATECACHE*)&g_pRenderDevice->m_RenderResCache;
+}

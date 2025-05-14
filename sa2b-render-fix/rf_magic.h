@@ -88,6 +88,20 @@ void    RF_MagicSetShaderConstantTexture(RFE_MAGIC_SHADER type, int32_t reg, voi
 /** set color shader constant **/
 void    RF_MagicSetShaderConstantColor(RFE_MAGIC_SHADER type, int32_t reg, RF_MAGICCOLOR* p);
 
+typedef struct
+{
+    void* vdecl;
+    void* vbufs[4];
+    void* ixbuf;
+    void* vstexs[4];
+    void* pstexs[16];
+    void* vshader;
+    void* pshader;
+}
+RF_MAGIC_STATECACHE;
+
+RF_MAGIC_STATECACHE*  RF_MagicGetStateCache( void );
+
 EXTERN_END
 
 #endif/*_RF_MAGIC_H_*/
