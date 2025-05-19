@@ -119,13 +119,13 @@ void    TrampolineCreate( void* pDst, const void* pCall );
 /*  Macro               */
 /************************/
 /** Create hook **/
-#define FuncHook(info, addr, func)           FuncHookCreate(info, (void*)(addr), (const void*)(func))
-#define CallHook(info, addr, func)           CallHookCreate(info, (void*)(addr), (const void*)(func))
+#define FuncHook(info, addr, func)              FuncHookCreate(info, (void*)(addr), (const void*)(func))
+#define CallHook(info, addr, func)              CallHookCreate(info, (void*)(addr), (const void*)(func))
 
 /** Call original hooked function **/
 #define FuncHookCall(info, code)                HookInfoUnhook(info); \
                                                 code; \
-                                                HookInfoRehook(info)
+                                                HookInfoRehook(info);
 
 /** Create trampoline **/
 #define Trampoline(_pdst, _pcall)               TrampolineCreate((void*)(_pdst), (void*)(_pcall))

@@ -128,6 +128,14 @@ EXTERN_START
 /****** PVN Multiply ****************************************************************/
 #define CNK_PVN_MUL             (1.f/32767.f) /* plist vertex normal multiply value */
 
+/************************************************************************************/
+/*
+*   Chunk Return Value
+*/
+/****** Return (Model/VList) ********************************************************/
+#define CNK_RETN_OK             ( 0) /* all ok                                      */
+#define CNK_RETN_CLIP           (-1) /* clipped                                     */
+
 /************************/
 /*  Structures          */
 /************************/

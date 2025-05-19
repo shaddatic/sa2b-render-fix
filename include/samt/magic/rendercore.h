@@ -693,10 +693,10 @@ namespace Magic::RenderCore
         DX9_DeviceCreator_Base* m_pDeviceCreator;
         LPDIRECT3DDEVICE9 m_pD3DDevice;
         std::map<Magic::RenderCore::Texture*, LPDIRECT3DSURFACE9> m_pLockedSurfaceMap;
-        ShaderGroup* m_pShaderGroup;
 
         char gap_[24];
 
+        ShaderGroup* m_pShaderGroup;
         RenderDevice_DX9::RenderResCache_t m_RenderResCache;
         bool m_IsUseResCache;
         bool m_IsLockTail;
