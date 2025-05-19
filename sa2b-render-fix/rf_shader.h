@@ -26,8 +26,8 @@ typedef struct dx9_pxl_shader   dx9_pxl_shader;
 /************************/
 EXTERN_START
 /** Load compiled D3D Shader file (.fxc) **/
-dx9_vtx_shader* RF_LoadVtxShader( const char* fname );
-dx9_pxl_shader* RF_LoadPxlShader( const char* fname );
+dx9_vtx_shader* RF_LoadVtxShader( const c8* fname );
+dx9_pxl_shader* RF_LoadPxlShader( const c8* fname );
 
 /** Replace game shader by index **/
 void    RF_ReplaceVtxShader( int index, dx9_vtx_shader* pVtxShader );
