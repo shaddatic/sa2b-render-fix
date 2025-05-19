@@ -108,5 +108,5 @@ EXTERN
 RF_MAGIC_STATECACHE*
 RF_MagicGetStateCache(void)
 {
-    return (RF_MAGIC_STATECACHE*)&g_pRenderDevice->m_RenderResCache;
+    return (RF_MAGIC_STATECACHE*)&g_pRenderDevice->m_pShaderGroup;
 }

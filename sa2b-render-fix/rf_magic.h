@@ -90,13 +90,19 @@ void    RF_MagicSetShaderConstantColor(RFE_MAGIC_SHADER type, int32_t reg, RF_MA
 
 typedef struct
 {
+    void* vshader;
+    void* pshader;
+}
+RF_MAGIC_SHADERCACHE;
+
+typedef struct
+{
+    RF_MAGIC_SHADERCACHE* shader;
     void* vdecl;
     void* vbufs[4];
     void* ixbuf;
     void* vstexs[4];
     void* pstexs[16];
-    void* vshader;
-    void* pshader;
 }
 RF_MAGIC_STATECACHE;
 
