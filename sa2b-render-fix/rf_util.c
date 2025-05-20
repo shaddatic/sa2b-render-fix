@@ -6,6 +6,9 @@
 #include <samt/modloader.h>     /* mod loader                                       */
 #include <samt/file.h>          /* file exists                                      */
 #include <samt/string.h>        /* path string                                      */
+#include <samt/memory.h>        /* memcopy                                          */
+#include <samt/model.h>         /* v/plistsize                                      */
+#include <samt/samdl.h>         /* mt_samdl                                         */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -282,4 +285,123 @@ bool
 RFU_ReplaceMtn(const char* pcMtnName, const char* pcOptiFolder)
 {
     return ReplacePlayerPrsSub(pcMtnName, pcOptiFolder, "RF WARN: (RFU_ReplaceMtn) Player motion file \"%s\" was not found");
+}
+
+/****** Replace Model ***************************************************************/
+static bool
+ReplaceChunkModelSub(NJS_CNK_MODEL* pDstModel, const NJS_CNK_MODEL* pSrcModel)
+{
+    // check vlist and plist sizes
+
+    const size_t sz_dst_vlist = mtCnkVListSize(pDstModel->vlist);
+    const size_t sz_src_vlist = mtCnkVListSize(pSrcModel->vlist);
+
+    if ( sz_dst_vlist < sz_src_vlist )
+    {
+        return false;
+    }
+
+    const size_t sz_dst_plist = mtCnkPListSize(pDstModel->plist);
+    const size_t sz_src_plist = mtCnkPListSize(pSrcModel->plist);
+
+    if ( sz_dst_plist < sz_src_plist )
+    {
+        return false;
+    }
+
+    // checks passed, copy model
+
+    pDstModel->center = pSrcModel->center;
+    pDstModel->r      = pSrcModel->r;
+
+    mtMemCopy(pDstModel->vlist, pSrcModel->vlist, sz_src_vlist);
+    mtMemCopy(pDstModel->plist, pSrcModel->plist, sz_src_plist);
+
+    return true;
+}
+
+static bool
+ReplaceChunkObjectSub(NJS_CNK_OBJECT* pDstObject, const NJS_CNK_OBJECT* pSrcObject)
+{
+    if ( pDstObject->child )
+    {
+        if ( ReplaceChunkObjectSub(pDstObject->child, pSrcObject->child) == false )
+        {
+            return false;
+        }
+    }
+
+    if ( pDstObject->sibling )
+    {
+        if ( ReplaceChunkObjectSub(pDstObject->sibling, pSrcObject->sibling) == false )
+        {
+            return false;
+        }
+    }
+
+    if ( pDstObject->model )
+    {
+        if ( ReplaceChunkModelSub(pDstObject->model, pSrcObject->model) == false )
+        {
+            return false;
+        }
+    }
+
+    pDstObject->evalflags = pSrcObject->evalflags;
+
+    pDstObject->pos[0] = pSrcObject->pos[0];
+    pDstObject->pos[1] = pSrcObject->pos[1];
+    pDstObject->pos[2] = pSrcObject->pos[2];
+
+    pDstObject->ang[0] = pSrcObject->ang[0];
+    pDstObject->ang[1] = pSrcObject->ang[1];
+    pDstObject->ang[2] = pSrcObject->ang[2];
+
+    pDstObject->scl[0] = pSrcObject->scl[0];
+    pDstObject->scl[1] = pSrcObject->scl[1];
+    pDstObject->scl[2] = pSrcObject->scl[2];
+
+    return true;
+}
+
+bool
+RFU_ReplaceChunkModel(NJS_CNK_MODEL* pDstModel, const c8* puSrcFile)
+{
+    c8 upath[256];
+
+    mtStrFormat(upath, ARYLEN(upath), "%s/model/%s.sa2mdl", mtGetModPath(), puSrcFile);
+
+    mt_samdl* const p_samdl = mtSAModelLoad(upath, SAMDL_CHUNK|SAMDL_MODEL);
+
+    if ( !p_samdl )
+    {
+        return false;
+    }
+
+    const bool result = ReplaceChunkModelSub(pDstModel, p_samdl->pChunk->model);
+
+    mtSAModelFree(p_samdl);
+
+    return result;
+}
+
+bool
+RFU_ReplaceChunkObject(NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile)
+{
+    c8 upath[256];
+
+    mtStrFormat(upath, ARYLEN(upath), "%s/model/%s.sa2mdl", mtGetModPath(), puSrcFile);
+
+    mt_samdl* const p_samdl = mtSAModelLoad(upath, SAMDL_CHUNK);
+
+    if ( !p_samdl )
+    {
+        return false;
+    }
+
+    const bool result = ReplaceChunkObjectSub(pDstObject, p_samdl->pChunk);
+
+    mtSAModelFree(p_samdl);
+
+    return result;
 }

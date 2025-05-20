@@ -20,6 +20,7 @@
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/njcommon.h> /* ninja common                                    */
 #include <samt/ninja/njmatrix.h> /* ninja matrix                                    */
+#include <samt/ninja/njchunk.h>  /* ninja chunk                                     */
 
 /************************/
 /*  External Opaques    */
@@ -224,6 +225,34 @@ bool    RFU_ReplaceMdl( const char* pcMdlName, const char* pcOptiFolder );
 */
 bool    RFU_ReplaceMtn( const char* pcMtnName, const char* pcOptiFolder );
 
+/****** Replace Model ***************************************************************/
+/*
+*   Description:
+*     Replace a game's Chunk model with the data in a source .sa2mdl file contained
+*   in RF's root 'model' folder.
+*
+*   Parameters:
+*     - pDstModel   : destination model structure
+*     - puSrcFile   : source file name (eg. "goalring" -> "/model/goalring.sa2mdl")
+*
+*   Returns:
+*     'true' on success; or 'false' if the destination structure is too small.
+*/
+bool    RFU_ReplaceChunkModel( NJS_CNK_MODEL* pDstModel, const c8* puSrcFile );
+/*
+*   Description:
+*     Replace a game's Chunk object with the data in a source .sa2mdl file contained
+*   in RF's root 'model' folder.
+*
+*   Parameters:
+*     - pDstObject  : destination object structure
+*     - puSrcFile   : source file name (eg. "goalring" -> "/model/goalring.sa2mdl")
+*
+*   Returns:
+*     'true' on success; or 'false' if the destination structure is too small.
+*/
+bool    RFU_ReplaceChunkObject( NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile );
+
 /************************/
 /*  Macro               */
 /************************/
@@ -231,7 +260,6 @@ bool    RFU_ReplaceMtn( const char* pcMtnName, const char* pcOptiFolder );
 /*
 *   Change Task Displayer
 */
-
 /****** Displayer Constants *********************************************************/
 #define DISP                    (0x14) /* displayer                                 */
 #define DISP_DELY               (0x1C) /* delayed displayer                         */
@@ -256,7 +284,6 @@ bool    RFU_ReplaceMtn( const char* pcMtnName, const char* pcOptiFolder );
 /*
 *   Writeop
 */
-
 /****** Modify Op *******************************************************************/
 /*
 *   Description:
@@ -283,7 +310,6 @@ bool    RFU_ReplaceMtn( const char* pcMtnName, const char* pcOptiFolder );
 /*
 *   Function Wrappers (int -> type pointer)
 */
-
 #define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PRSTABLE*)(_textable), (_idx1), (_idx2))
 
 EXTERN_END
