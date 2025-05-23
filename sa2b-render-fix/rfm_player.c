@@ -267,15 +267,17 @@ RFM_PlayerInit(void)
         DisablePlayerShadowing = true;
 
         // disable player shadowing
-        WriteData(0x00720131+6, 0x0, u32); // Sonic/shadow/amy/mtlsonic
-        WriteData(0x00744567+6, 0x0, u32); // Egg Walker
-        WriteData(0x00747138+6, 0x0, u32); // Dark Chao Walker
-        WriteData(0x00747E38+6, 0x0, u32); // Tails Walker
-        WriteData(0x007462F8+6, 0x0, u32); // Chao Walker
-        WriteData(0x0072F011+6, 0x0, u32); // Knuckles
-        WriteData(0x00730A64+6, 0x0, u32); // Rouge
-        WriteData(0x0072FC01+6, 0x0, u32); // Tical
-        WriteData(0x00731B21+6, 0x0, u32); // Chaos
+        WriteData(0x00720131+6, 0x00, u32); // Sonic/shadow/amy/mtlsonic
+        WriteData(0x00744567+6, 0x00, u32); // Egg Walker
+        WriteData(0x00747138+6, 0x00, u32); // Dark Chao Walker
+        WriteData(0x00747E38+6, 0x00, u32); // Tails Walker
+        WriteData(0x007462F8+6, 0x00, u32); // Chao Walker
+        WriteData(0x0072F011+6, 0x00, u32); // Knuckles
+        WriteData(0x00730A64+6, 0x00, u32); // Rouge
+        WriteData(0x0072FC01+6, 0x00, u32); // Tical
+        WriteData(0x00731B21+6, 0x00, u32); // Chaos
+        WriteData(0x00750819+6, 0x00, u32); // Miles
+        WriteData(0x0073EF67+6, 0x00, u32); // Eggman
     }
 
     if ( RF_ConfigGetInt( CNF_PLAYER_SHADLITEDASH ) )
