@@ -15,7 +15,7 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_renderstate.h>     /* render state                                     */
-#include <rf_mdlutil.h>         /* change strip flag                                */
+#include <rf_util.h>            /* replace model                                    */
 
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings              */
@@ -268,5 +268,5 @@ RFCD_GoalringInit(void)
 
     WriteNOP(0x006C651E, 0x006C6525); // stop setting 'tp->disp'
 
-    CnkModelMaterialFlagOn(0x00B4EACC, 1, NJD_FST_UA); // add UA flag to ring
+    RFU_ReplaceChunkObject(object_goalring, "goalring");
 }
