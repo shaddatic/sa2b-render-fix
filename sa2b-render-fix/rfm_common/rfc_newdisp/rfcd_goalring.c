@@ -212,7 +212,11 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     njSetTexture(texlist_goalring);
 
-    njCnkDirectDrawModel(object_goalring->model);
+    RFRS_SetTransMode(RFRS_TRANSMD_AUTO_ATEST);
+
+    njCnkSimpleDrawModel(object_goalring->model);
+
+    RFRS_SetTransMode(RFRS_TRANSMD_END);
 
     /** normal text faces **/
 
