@@ -10,6 +10,7 @@
 #include <samt/sonic/debug.h>
 #include <samt/sonic/c_colli.h>
 #include <samt/sonic/score.h>
+#include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -58,12 +59,14 @@ DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
         .r      = (r * 2) + car_model->r
     };
 
-    if (IsCarFlipped(pAng))
-        RFRS_SetModifierMode(RFRS_MODMD_INVERSE);
+    if ( IsCarFlipped(pAng) )
+    {
+        OnControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
+    }
 
     njCnkModDrawModel(&model);
 
-    RFRS_SetModifierMode(RFRS_MODMD_END);
+    OffControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
 typedef struct 

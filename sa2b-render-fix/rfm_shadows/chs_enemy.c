@@ -507,10 +507,8 @@ EnemyShoukoDisplayerMod(task* tp)
         return;
 
     /** The shouko's modifier model is inverted by default, was on Dreamcast too.
-        So, just invert the modifier render state **/
-    RFRS_SetModifierMode(RFRS_MODMD_INVERSE);
-
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+        So, set the mirror model 3D flag. **/
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 
     njPushMatrixEx();
 
@@ -520,9 +518,7 @@ EnemyShoukoDisplayerMod(task* tp)
 
     njPopMatrixEx();
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    RFRS_SetModifierMode(RFRS_MODMD_END);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
 static void
