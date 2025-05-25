@@ -40,7 +40,6 @@ static RFRS_CMPMD        AlphaFuncDefault      = RFRS_CMPMD_NEQ;
 static uint32_t          AlphaRefDefault       = 0;
 static RFRS_CNKDRAWMD    CnkDrawModeDefault    = RFRS_CNKDRAWMD_ALL;
 static RFRS_CNKFUNCMD    CnkFuncModeDefault    = RFRS_CNKFUNCMD_SIMPLE;
-static RFRS_CNKPASSMD    CnkPassModeDefault    = RFRS_CNKPASSMD_NORMAL;
 static RFRS_SOCTEXHACKMD SocTexHackModeDefault = RFRS_SOCTEXHACKMD_ENABLED;
 
 /****** Override States *************************************************************/
@@ -48,10 +47,8 @@ static RFRS_CULLMD       CullModeOverride       = RFRS_CULLMD_AUTO;
 static RFRS_TRANSMD      TransModeOverride      = RFRS_TRANSMD_AUTO;
 static RFRS_CMPMD        AlphaFuncOverride      = RFRS_CMPMD_NEQ;
 static uint32_t          AlphaRefOverride       = 0;
-static RFRS_MODMD        CnkModModeOverride     = RFRS_MODMD_NORMAL;
 static RFRS_CNKDRAWMD    CnkDrawModeOverride    = RFRS_CNKDRAWMD_ALL;
 static RFRS_CNKFUNCMD    CnkFuncModeOverride    = RFRS_CNKFUNCMD_SIMPLE;
-static RFRS_CNKPASSMD    CnkPassModeOverride    = RFRS_CNKPASSMD_NORMAL;
 static RFRS_SOCTEXHACKMD SocTexHackModeOverride = RFRS_SOCTEXHACKMD_ENABLED;
 
 /************************/
@@ -368,13 +365,6 @@ RFRS_SetDefaultCnkFuncMode(RFRS_CNKFUNCMD mode)
 {
     CnkFuncModeDefault = mode;
     CnkFuncModeOverride = mode;
-}
-
-void
-RFRS_SetDefaultCnkPassMode(RFRS_CNKPASSMD mode)
-{
-    CnkPassModeDefault = mode;
-    CnkPassModeOverride = mode;
 }
 
 /****** Init ************************************************************************/

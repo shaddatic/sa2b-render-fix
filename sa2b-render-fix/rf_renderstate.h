@@ -318,14 +318,6 @@ void    RFRS_SetDefaultCnkDrawMode( RFRS_CNKDRAWMD mode );
 *     - mode        : chunk function emulation mode
 */
 void    RFRS_SetDefaultCnkFuncMode( RFRS_CNKFUNCMD mode );
-/*
-*   Description:
-*     Set default Chunk transparency pass mode.
-*
-*   Parameters:
-*     - mode        : chunk transparency pass mode
-*/
-void    RFRS_SetDefaultCnkPassMode( RFRS_CNKPASSMD mode );
 
 EXTERN_END
 
