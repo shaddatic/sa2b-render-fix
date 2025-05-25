@@ -58,6 +58,8 @@ CARTWK;
 
 static NJS_CNK_OBJECT* CartObjectList[8][2];
 
+#define SQR(x)          ((x)*(x))
+
 static void
 cartDisplayerMod(task* tp)
 {
@@ -73,14 +75,35 @@ cartDisplayerMod(task* tp)
 
     const float fchk = (rel_pos.x * rel_pos.x) + (rel_pos.y * rel_pos.y) + (rel_pos.z * rel_pos.z);
 
-    if (fchk > 25000000.0f)
+    if (fchk > SQR(5000.f))
+    {
         return;
+    }
 
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
+    bool alt;
+
+    const NJS_POINT3* p_pos;
+
+    if ( cwp->is_player )
+    {
+        const int chnum = PlayerCartSelected[cwp->player_num];
+
+        alt = (chnum < 0);
+
+        p_pos = &cwp->pos;
+    }
+    else
+    {
+        alt = false;
+
+        p_pos = &tp->twp->pos;
+    }
+
     njPushMatrixEx();
 
-    njTranslate(NULL, cwp->pos.x, cwp->pos.y + 0.01f - 2.0f, cwp->pos.z);
+    njTranslate(NULL, p_pos->x, p_pos->y + 0.01f - 2.0f, p_pos->z);
 
     njRotateZ(NULL, cwp->ang.z);
     njRotateX(NULL, cwp->ang.x);
@@ -89,16 +112,6 @@ cartDisplayerMod(task* tp)
     njRotateZ(NULL, cwp->ang2.z + cwp->ang3.z);
     njRotateX(NULL, cwp->ang2.x + cwp->ang3.x);
     njRotateY(NULL, cwp->ang2.y + cwp->ang3.y);
-
-    bool alt = false;
-
-    if (cwp->is_player)
-    {
-        const int chnum = PlayerCartSelected[cwp->player_num];
-
-        if (chnum < 0) //
-            alt = true;
-    }
 
     const NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
 
@@ -187,7 +200,6 @@ CHS_CartInit(void)
             { .puPath = "cart/cart_rouge_mod" },
             { .puPath = "cart/cart_eggrobo_mod" },
         },
-
     };
 
     RF_LoadChunkObjectList( (LOAD_SAMDL_LIST*) mdl_list, 8 * 2);
