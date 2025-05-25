@@ -261,7 +261,7 @@ RFRS_SetSocTexHackMode(RFRS_SOCTEXHACKMD mode)
             SocTexHackModeOverride = mode;
             break;
         }
-        case RFRS_CNKPASSMD_END:
+        case RFRS_SOCTEXHACKMD_END:
         {
             SocTexHackModeOverride = SocTexHackModeDefault;
             break;
