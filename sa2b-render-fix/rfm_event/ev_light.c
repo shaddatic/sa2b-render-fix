@@ -20,7 +20,7 @@
 #include <rf_light.h>           /* render fix light                                 */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_draw/evd_internal.h> /* parent & siblings                    */
+#include <rfm_event/ev_internal.h> /* parent & siblings                             */
 
 typedef struct
 {
@@ -46,7 +46,7 @@ AMBI_COLOR;
 
 #define EventLights             DATA_ARY(EVENT_LIGHT, 0x01DB0EE0, [4])
 
-static AMBI_COLOR SingleAmbi;
+static Float    SingleAmbi;
 static AMBI_COLOR MultiAmbi;
 
 /************************/
@@ -58,52 +58,53 @@ EventLightSet(void)
 {
     /** Color & Vector **/
 
-    for (int i = 0, light = RFD_CNK_MULTILIGHT_1; i < ARYLEN(EventLights); ++i, ++light)
+    for (int ix_lt = 0; ix_lt < ARYLEN(EventLights); ++ix_lt)
     {
-        const EVENT_LIGHT* const p_light = &EventLights[i];
+        const EVENT_LIGHT* p_lt = &EventLights[ix_lt];
 
-        NJS_VECTOR vec = p_light->vec;
+        NJS_VECTOR vec = p_lt->vec;
 
         njUnitVector(&vec);
 
-        rjCnkSetLightColor(light, p_light->r, p_light->g, p_light->b);
-        rjCnkSetLightVectorEx(light, vec.x, vec.y, vec.z);
-    }
+        rjCnkSetLightColor(ix_lt, p_lt->r, p_lt->g, p_lt->b);
+        rjCnkSetLightVector(ix_lt, vec.x, vec.y, vec.z);
 
-    rjCnkSetLightMatrices(); // set vector reflect matrix
+        rjCnkSetLightMatrix(ix_lt); // set vector reflect matrix
+
+        rjCnkPushLightToGX(ix_lt);
+    }
 
     /** Ambient **/
 
-    const EVENT_LIGHT* const p_bl = &EventLights[0];
+    const EVENT_LIGHT* p_bl = &EventLights[0];
 
     MultiAmbi.r = p_bl->amb_r;
     MultiAmbi.g = p_bl->amb_g;
     MultiAmbi.b = p_bl->amb_b;
 
-    SingleAmbi.r = p_bl->r * p_bl->ambi;
-    SingleAmbi.g = p_bl->g * p_bl->ambi;
-    SingleAmbi.b = p_bl->b * p_bl->ambi;
+    SingleAmbi = p_bl->ambi;
 }
 
 void
 EventLightSwitchSingle(void)
 {
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_1, true);
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_1, ON);
 
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_2, false);
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_3, false);
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_4, false);
+    rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, 1.f, SingleAmbi);
 
-    rjCnkSetAmbient(SingleAmbi.r, SingleAmbi.g, SingleAmbi.b);
+    // turn off all other lights
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_2, OFF);
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_3, OFF);
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_4, OFF);
 }
 
 void
 EventLightSwitchMulti(Uint32 attr)
 {
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_1, (attr & EV_ENTF_LIGHT1));
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_2, (attr & EV_ENTF_LIGHT2));
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_3, (attr & EV_ENTF_LIGHT3));
-    rjCnkSetLightSwitch(RFD_CNK_MULTILIGHT_4, (attr & EV_ENTF_LIGHT4));
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_1, (attr & EV_ENTF_LIGHT1));
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_2, (attr & EV_ENTF_LIGHT2));
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_3, (attr & EV_ENTF_LIGHT3));
+    rjCnkSetLightSwitch(RJD_CNK_LIGHT_4, (attr & EV_ENTF_LIGHT4));
 
     rjCnkSetAmbient(MultiAmbi.r, MultiAmbi.g, MultiAmbi.b);
 }
