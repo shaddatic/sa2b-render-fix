@@ -20,11 +20,19 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_draw/evd_internal.h> /* parent & siblings                    */
+#include <rfm_event/ev_internal.h> /* parent & siblings                             */
 
-static NJS_PLANE ReflectionPlanes[32];
-
+/************************/
+/*  Game Definitions    */
+/************************/
+/****** Functions *******************************************************************/
 #define SetAlphaFade        FUNC_PTR(void, __cdecl, (Sint32), 0x00600B40)
+
+/************************/
+/*  Data                */
+/************************/
+/****** Reflection Plane ************************************************************/
+static NJS_PLANE ReflectionPlanes[32];
 
 /************************/
 /*  Source              */
@@ -113,8 +121,9 @@ EventDrawReflectionModels(int nbScene)
         switch ( EventGetEntryType(p_entry) )
         {
             case EV_ENTRY_TYPE_NONE:
+            {
                 break;
-
+            }
             case EV_ENTRY_TYPE_DRAW:
             {
                 EventLightSwitchSingle();
@@ -154,7 +163,9 @@ EventDrawReflectionModels(int nbScene)
             case EV_ENTRY_TYPE_EASYNOFOG:
             case EV_ENTRY_TYPE_MODDRAW:
             case EV_ENTRY_TYPE_MODMTN:
+            {
                 break;
+            }
         }
     }
 }
@@ -184,9 +195,8 @@ EventDrawReflectionsSub(int nbScene)
 void
 EventDrawReflections(void)
 {
-    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 
-    RFRS_SetCnkPassMode(RFRS_CNKPASSMD_INVERSE);
     RFRS_SetTransMode(RFRS_TRANSMD_AUTO_TRANS);
 
     SaveConstantAttr();
@@ -195,13 +205,12 @@ EventDrawReflections(void)
     EventCalcReflectionPlanes();
 
     EventDrawReflectionsSub(EVENT_BASE_SCENE);
-    EventDrawReflectionsSub(EventScene);
+    EventDrawReflectionsSub(EventSceneNum);
 
     LoadConstantAttr();
     LoadControl3D();
 
     RFRS_SetTransMode(RFRS_TRANSMD_END);
-    RFRS_SetCnkPassMode(RFRS_CNKPASSMD_END);
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 }
