@@ -30,6 +30,7 @@
 #include <rf_mdlutil.h>
 #include <rf_util.h>
 #include <rf_renderstate.h>
+#include <rf_njcnk.h>
 
 /** Self **/
 #include <rfm_common.h>
@@ -106,6 +107,31 @@ DrawGameHUDHook(void)
     njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
 }
 
+#define EmeraldKeys             DATA_ARY(NJS_CNK_MODEL*, 0x00B43240, [3])
+#define EmeraldKeyEyes          DATA_ARY(NJS_CNK_MODEL*, 0x00B4324C, [3])
+
+static int
+DrawEmeraldKey(int i)
+{
+    njCnkSimpleDrawModel(EmeraldKeys[i]);
+    njCnkSimpleDrawModel(EmeraldKeyEyes[i]);
+
+    return 0;
+}
+
+__declspec(naked)
+static int
+___DrawEmeraldKey(void)
+{
+    __asm
+    {
+        push        esi
+        call        DrawEmeraldKey
+        add esp,    4
+        retn
+    }
+}
+
 void
 RFM_CommonInit(void)
 {
@@ -157,9 +183,8 @@ RFM_CommonInit(void)
     /** Game HUD texture overdraw fix **/
     FuncHook(DrawGameHUDHookInfo, DrawGameHUD, DrawGameHUDHook);
 
-    /** Fix keys in Death Chamber & Egg Quaters glowing eye effect caused by the
-        programmer referencing the wrong model array **/
-    WritePointer(0x006D276B, 0x00B4324C);
+    /** Fix keys in Death Chamber & Egg Quaters glowing eye effect **/
+    WriteCall(0x006D27A7, ___DrawEmeraldKey);
 
     /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
     static const double chaokey_chk_fix = 300.0;
