@@ -12,6 +12,7 @@
 #include <samt/sonic/task.h>    /* task                                             */
 #include <samt/sonic/njctrl.h>  /* ninja control                                    */
 #include <samt/sonic/display.h> /* screen display                                   */
+#include <samt/sonic/camera.h>  /* camcontwk                                        */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -20,33 +21,60 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_draw/evd_internal.h> /* parent & siblings                    */
+#include <rfm_event/ev_internal.h> /* parent & siblings                             */
+
+/************************/
+/*  Game Definitions    */
+/************************/
+/****** Camera **********************************************************************/
+#define EvCamRangeOutPos                DATA_REF(NJS_POINT3, 0x01DB0FF0)
 
 /************************/
 /*  Source              */
 /************************/
+/****** Static **********************************************************************/
+static bool
+EntryRangeOut(const EVENT_ENTRY* pEntry, f32 dist)
+{
+    const NJS_VECTOR v =
+    {
+        pEntry->position.x - EvCamRangeOutPos.x,
+        pEntry->position.y - EvCamRangeOutPos.y,
+        pEntry->position.z - EvCamRangeOutPos.z
+    };
+
+    return ( njScalor2(&v) >= (dist*dist) );
+}
+
 /****** Extern **********************************************************************/
 EV_ENTRY_TYPE
 EventGetEntryType(const EVENT_ENTRY* pEntry)
 {
     if (!pEntry->pObject && !pEntry->pGjsObject)
+    {
         return EV_ENTRY_TYPE_NONE;
+    }
 
     const int attr = pEntry->attr;
 
-    if (!pEntry->pMotion)
+    if ( !pEntry->pMotion )
     {
-        if (attr & EV_ENTF_NOFOG)
+        if ( attr & EV_ENTF_NOFOG )
         {
             return EV_ENTRY_TYPE_EASYNOFOG;
         }
 
-        if (attr & EV_ENTF_MODVOL)
+        if ( EntryRangeOut(pEntry, 1000.f) )
+        {
+            return EV_ENTRY_TYPE_NONE;
+        }
+
+        if ( attr & EV_ENTF_MODVOL )
         {
             return EV_ENTRY_TYPE_MODDRAW;
         }
 
-        if (attr & EV_ENTF_FORCESIMPLE)
+        if ( attr & EV_ENTF_FORCESIMPLE )
         {
             return EV_ENTRY_TYPE_DRAW;
         }
@@ -56,14 +84,14 @@ EventGetEntryType(const EVENT_ENTRY* pEntry)
         }
     }
 
-    if (attr & EV_ENTF_MODVOL)
+    if ( attr & EV_ENTF_MODVOL )
     {
         return EV_ENTRY_TYPE_MODMTN;
     }
 
-    if (pEntry->pShape)
+    if ( pEntry->pShape )
     {
-        if (attr & EV_ENTF_FORCESIMPLE)
+        if ( attr & EV_ENTF_FORCESIMPLE )
         {
             return EV_ENTRY_TYPE_SHAPE;
         }
@@ -74,7 +102,7 @@ EventGetEntryType(const EVENT_ENTRY* pEntry)
     }
     else // is regular motion
     {
-        if (attr & EV_ENTF_FORCESIMPLE)
+        if ( attr & EV_ENTF_FORCESIMPLE )
         {
             return EV_ENTRY_TYPE_MTN;
         }
