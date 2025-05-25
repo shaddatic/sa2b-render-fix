@@ -106,6 +106,8 @@
     <ClCompile Include="rf_font.c" />
     <ClCompile Include="rf_gx.c" />
     <ClCompile Include="rf_light.c" />
+    <ClCompile Include="rf_light\rfl_file.c" />
+    <ClCompile Include="rf_light\rfl_setlight.c" />
     <ClCompile Include="rf_magic.cpp" />
     <ClCompile Include="rf_modchk.c" />
     <ClCompile Include="rf_model.c" />
@@ -175,6 +177,7 @@
     <ClInclude Include="rf_font.h" />
     <ClInclude Include="rf_gx.h" />
     <ClInclude Include="rf_light.h" />
+    <ClInclude Include="rf_light\rfl_internal.h" />
     <ClInclude Include="rf_magic.h" />
     <ClInclude Include="rf_modchk.h" />
     <ClInclude Include="rf_njcnk.h" />

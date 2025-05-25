@@ -366,6 +366,12 @@
     <ClCompile Include="rfm_common\rfc_landtable.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_light\rfl_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_light\rfl_setlight.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -540,6 +546,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_light\rfl_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

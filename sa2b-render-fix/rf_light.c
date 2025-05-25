@@ -6,7 +6,7 @@
 #include <samt/writeop.h>       /* WriteJump                                        */
 
 /****** GX **************************************************************************/
-#include <samt/gx/gxlight.h>
+#include <samt/gx/gxlight.h>    /* gxlight                                          */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -19,7 +19,8 @@
 #include <rf_gx.h>              /* rf gx                                            */
 
 /****** Self ************************************************************************/
-#include <rf_light.h>           /* self                                             */
+#include <rf_light.h>              /* self                                          */
+#include <rf_light/rfl_internal.h> /* children                                      */
 
 /************************/
 /*  Constants           */
@@ -432,4 +433,7 @@ RF_LightInit(void)
     WriteJump(0x0042A950, gjSetLightColor_Hook);
 
     WriteJump(0x0042AA60, ___gjLoadLight_Hook);
+
+    RFL_FileInit();
+    RFL_SetLightInit();
 }
