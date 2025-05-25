@@ -195,10 +195,14 @@ RFRS_SetAlphaTestRef(int32_t value)
 void
 RFRS_SetModifierMode(RFRS_MODMD mode)
 {
-    RFMOD_SetInvertMode(mode == RFRS_MODMD_INVERSE);
-
-    CnkModModeOverride = (mode != RFRS_MODMD_INVERSE) ?
-                         RFRS_MODMD_NORMAL : RFRS_MODMD_INVERSE;
+    if ( mode == RFRS_MODMD_INVERSE )
+    {
+        _nj_control_3d_flag_ |= NJD_CONTROL_3D_MIRROR_MODEL;
+    }
+    else
+    {
+        _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_MIRROR_MODEL;
+    }
 }
 
 void
@@ -239,15 +243,13 @@ RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD mode)
 void
 RFRS_SetCnkPassMode(RFRS_CNKPASSMD mode)
 {
-    switch (mode) {
-    case RFRS_CNKPASSMD_NORMAL:
-    case RFRS_CNKPASSMD_INVERSE:
-        CnkPassModeOverride = mode;
-        break;
-
-    case RFRS_CNKPASSMD_END:
-        CnkPassModeOverride = CnkPassModeDefault;
-        break;
+    if ( mode == RFRS_CNKPASSMD_INVERSE )
+    {
+        _nj_control_3d_flag_ |= NJD_CONTROL_3D_MIRROR_MODEL;
+    }
+    else
+    {
+        _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_MIRROR_MODEL;
     }
 }
 
@@ -298,7 +300,7 @@ RFRS_GetAlphaTestRef(void)
 RFRS_MODMD
 RFRS_GetModifierMode(void)
 {
-    return CnkModModeOverride;
+    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_MODMD_INVERSE : RFRS_MODMD_NORMAL;
 }
 
 RFRS_CNKDRAWMD
@@ -316,7 +318,7 @@ RFRS_GetCnkFuncMode(void)
 RFRS_CNKPASSMD
 RFRS_GetCnkPassMode(void)
 {
-    return CnkPassModeOverride;
+    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_CNKPASSMD_INVERSE : RFRS_CNKPASSMD_NORMAL;
 }
 
 RFRS_SOCTEXHACKMD

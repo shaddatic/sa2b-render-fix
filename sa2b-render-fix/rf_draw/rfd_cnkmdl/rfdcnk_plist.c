@@ -388,7 +388,7 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
         {
             if ( flag & CNKST_HAS_TRANSDB )
             {
-                if ( RFRS_GetCnkPassMode() == RFRS_CNKPASSMD_NORMAL )
+                if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) )
                 {
                     pCtx->flag |= CTXFLG_CULL_INVERSE;
                     rjCnkPlistSub(pCtx, plist, njvtxbuf);

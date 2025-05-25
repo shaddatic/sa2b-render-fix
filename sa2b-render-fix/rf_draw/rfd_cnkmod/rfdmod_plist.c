@@ -35,7 +35,7 @@ rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvt
 
     const CNK_VO_P3* p_vo = p_volume->d;
 
-    if ( RFMOD_GetInvertMode() )
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL )
     {
         for (s32 i = 0; i < nb_poly; ++i)
         {
