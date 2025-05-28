@@ -255,10 +255,27 @@ CNK_VERTEX_HEAD;
 /****** Sub-Structures **************************************************************/
 typedef struct
 {
+    Uint16 r : 5;               /* red component                             [0~31] */
+    Uint16 g : 6;               /* green component                           [0~63] */
+    Uint16 b : 5;               /* blue component                            [0~31] */
+}
+CNK_565;
+
+typedef struct
+{
+    Uint16 a : 4;               /* alpha component                           [0~15] */
+    Uint16 r : 4;               /* red component                             [0~15] */
+    Uint16 g : 4;               /* green component                           [0~15] */
+    Uint16 b : 4;               /* blue component                            [0~15] */
+}
+CNK_4444;
+
+typedef struct
+{
     Sint32   :  2;              /* padding                                          */
-    Sint32 x : 10;              /* x normal                                 [0~512] */
-    Sint32 y : 10;              /* y normal                                 [0~512] */
-    Sint32 z : 10;              /* z normal                                 [0~512] */
+    Sint32 x : 10;              /* x normal                              [-512~511] */
+    Sint32 y : 10;              /* y normal                              [-512~511] */
+    Sint32 z : 10;              /* z normal                              [-512~511] */
 }
 CNK_VNX;
 
@@ -288,7 +305,7 @@ CNK_VERTEX;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
-    Uint32     col;             /* vertex color                              [BGRA] */
+    NJS_BGRA   col;             /* vertex color                                     */
 }
 CNK_VERTEX_D8;
 
@@ -317,8 +334,32 @@ CNK_VERTEX_NF;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
+    CNK_565    col;             /* diffuse color                                    */
+    CNK_565    spc;             /* specular color                                   */
+}
+CNK_VERTEX_S5;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    CNK_4444   col;             /* diffuse color                                    */
+    CNK_565    spc;             /* specular color                                   */
+}
+CNK_VERTEX_S4;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    Uint16     col;             /* diffuse intensity                      [0~65535] */
+    Uint16     spc;             /* specular intensity                     [0~65535] */
+}
+CNK_VERTEX_IN;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    Uint32     col;             /* vertex color                              [BGRA] */
+    NJS_BGRA   col;             /* diffuse color                                    */
 }
 CNK_VERTEX_VN_D8;
 
@@ -342,6 +383,33 @@ CNK_VERTEX_VN_NF;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
+    NJS_VECTOR nrm;             /* normal                                           */
+    CNK_565    col;             /* diffuse color                                    */
+    CNK_565    spc;             /* specular color                                   */
+}
+CNK_VERTEX_VN_S5;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    NJS_VECTOR nrm;             /* normal                                           */
+    CNK_4444   col;             /* diffuse color                                    */
+    CNK_565    spc;             /* specular color                                   */
+}
+CNK_VERTEX_VN_S4;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
+    NJS_VECTOR nrm;             /* normal                                           */
+    Uint16     col;             /* diffuse intensity                      [0~65535] */
+    Uint16     spc;             /* specular intensity                     [0~65535] */
+}
+CNK_VERTEX_VN_IN;
+
+typedef struct
+{
+    NJS_POINT3 pos;             /* position                                         */
     CNK_VNX    nrm;             /* 32bit normal                                     */
 }
 CNK_VERTEX_VNX;
@@ -350,7 +418,7 @@ typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
     CNK_VNX    nrm;             /* 32bit normal                                     */
-    Uint32     col;             /* vertex color                              [BGRA] */
+    NJS_BGRA   col;             /* diffuse color                                    */
 }
 CNK_VERTEX_VNX_D8;
 
@@ -365,8 +433,8 @@ CNK_VERTEX_VNX_UF;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
-    Uint32     col;             /* vertex color                              [BGRA] */
-    Uint32     spc;             /* specular color                            [BGRA] */
+    NJS_BGRA   col;             /* diffuse color                                    */
+    NJS_BGRA   spc;             /* specular color                      [A: padding] */
 }
 CNK_VERTEX_D8_S8;
 
@@ -375,7 +443,7 @@ typedef struct
     NJS_POINT3 pos;             /* position                                         */
     Uint16     i;               /* vertex buffer index                              */
     Uint16     w;               /* weight value                             [0~255] */
-    Uint32     col;             /* vertex color                              [BGRA] */
+    NJS_BGRA   col;             /* diffuse color                                    */
 }
 CNK_VERTEX_NF_D8;
 
@@ -618,13 +686,13 @@ CNK_STRIP_UV_D8;
 /****** 32bit Vertex Normal *********************************************************/
 /*
 *   Description:
-*     Convert integer vertex normal value to 0.f~1.f.
+*     Convert integer vertex normal value to -1.f~1.f.
 *
 *   Parameters:
 *     - vnx         : normal value
 *
 *   Returns:
-*     32bit Normal value converted to 0.f~1.f.
+*     32bit Normal value converted to -1.f~1.f.
 */
 #define CNK_GET_VNX(vnx)            ((Float)(vnx)*CNK_VNX_MUL)
 

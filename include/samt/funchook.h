@@ -125,7 +125,7 @@ void    TrampolineCreate( void* pDst, const void* pCall );
 /** Call original hooked function **/
 #define FuncHookCall(info, code)                HookInfoUnhook(info); \
                                                 code; \
-                                                HookInfoRehook(info);
+                                                HookInfoRehook(info)
 
 /** Create trampoline **/
 #define Trampoline(_pdst, _pcall)               TrampolineCreate((void*)(_pdst), (void*)(_pcall))

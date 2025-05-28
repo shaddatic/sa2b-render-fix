@@ -112,6 +112,7 @@ typedef enum mt_saanim_type
     SAANIM_ERROR_FILEVER    = -4,   /* unsupported file version                     */
 
     SAANIM_TYPE_MOTION      = 8,    /* ninja motion                                 */
+    SAANIM_TYPE_CHAO,               /* chao motion                         (sangle) */
 }
 mt_saanim_type;
 

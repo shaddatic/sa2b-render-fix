@@ -2,23 +2,46 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/util/devutil.h'
 *
 *   Description:
-*       SAMT utility header containing useful development environment tools
+*     SAMT utility header containing useful development environment tools.
 */
-#ifndef _UTIL_DEVUTIL_H_
-#define _UTIL_DEVUTIL_H_
+#ifndef H_UTIL_DEVUTIL
+#define H_UTIL_DEVUTIL
 
-/************************/
-/*  Macro               */
-/************************/
-/** To make a trackable comment/note **/
-#define ___NOTE(_note)
+EXTERN_START
 
-/** To make a trackable, vital comment/note
-    that also stops non-debug compilation **/
+/********************************/
+/*  Macro                       */
+/********************************/
+/****** Note Macros *****************************************************************************/
+/*
+*   Description:
+*     Make a simple traceable comment/note.
+*
+*   Examples:
+*     - ___NOTE("When our tools are better in a later version, this should be changed");
+*/
+#define ___NOTE(note)
+/*
+*   Description:
+*     Make a traceable 'todo' comment/note.
+*
+*   Examples:
+*     - ___TODO("This isn't quite working how I intended, return to this before release");
+*/
+#define ___TODO(note)
+/*
+*   Description:
+*     Make an urgent traceable comment/note that halts compilation when not in debug mode.
+* 
+*   Examples:
+*     - ___VITAL("Do NOT leave this as-is! Even in a dev build this is bad!");
+*/
 #ifndef NDEBUG
-#   define ___VITAL(_note)
+#   define ___VITAL(note)
 #else
-#   define ___VITAL(_note)  static_assert(false, _note)
+#   define ___VITAL(note)   static_assert(false, note)
 #endif/*NDEBUG*/
 
-#endif/*_UTIL_DEVUTIL_H_*/
+EXTERN_END
+
+#endif/*H_UTIL_DEVUTIL*/
