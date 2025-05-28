@@ -35,7 +35,6 @@
 /************************/
 /****** Event Draw Mode *************************************************************/
 static bool ApplyModelDiffuse;
-static bool NewEventRenderer;
 
 /************************/
 /*  Source              */
@@ -460,13 +459,6 @@ RFCTRL_EventApplyModelDiffuse(void)
     ApplyModelDiffuse = true;
 }
 
-/****** Feature *********************************************************************/
-bool
-RFF_NewEventRenderer(void)
-{
-    return NewEventRenderer;
-}
-
 /****** Init ************************************************************************/
 void
 EV_DrawInit(void)
@@ -474,5 +466,4 @@ EV_DrawInit(void)
     WriteJump(0x005FABF0, EventDisplayer);
     WriteJump(0x005FAD20, EventDisplayerDelayed);
 
-    NewEventRenderer = true;
 }
