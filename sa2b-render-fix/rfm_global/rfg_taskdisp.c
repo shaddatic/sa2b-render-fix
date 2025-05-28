@@ -14,12 +14,14 @@
 #include <samt/sonic/player.h>
 #include <samt/sonic/light.h>
 #include <samt/sonic/njctrl.h>
+#include <samt/sonic/display.h>
 
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_mod.h>
 #include <rf_feature.h>
+#include <rf_draw.h>
 
 #define byte_0174AFFD           DATA_REF(int8_t  , 0x0174AFFD)
 #define SomeCountMax            DATA_REF(size_t  , 0x01A5A3D0)
