@@ -348,6 +348,155 @@ GetCurrCameraCullState(void)
     }
 }
 
+___TODO("This aspect ratio code needs to be fully implemented before release."
+        "Especially make the 'AspectRatioMode' static, rather than have code directly write to it (EventExec)");
+
+typedef enum
+{
+    RFE_ASPECT_FULL,
+    RFE_ASPECT_43,
+    RFE_ASPECT_169,
+}
+RFE_ASPECT_MODE;
+
+s32 AspectRatioMode = RFE_ASPECT_FULL;
+
+void
+RF_SetAspectMode(RFE_ASPECT_MODE mode)
+{
+    AspectRatioMode = mode;
+}
+
+static void
+DrawVerticalBars(void)
+{
+#define Z_43BARS        (1.f)
+
+    f32 tgt_ratio;
+
+    switch ( AspectRatioMode )
+    {
+        case RFE_ASPECT_FULL: default:
+        {
+            return;
+        }
+        case RFE_ASPECT_43:
+        {
+            tgt_ratio = 1.f;
+            break;
+        }
+        case RFE_ASPECT_169:
+        {
+            tgt_ratio = 1.333333333333333f;
+            break;
+        }
+    }
+
+    const f32 disp_ratio = GetDisplayRatio();
+
+    if ( disp_ratio <= tgt_ratio )
+    {
+        return;
+    }
+
+    NJS_POLYGON_VTX poly[4];
+
+    /** Init polyvtx **/
+    {
+        poly[0].y   = 0.0f;
+        poly[0].z   = Z_43BARS;
+        poly[0].col = 0xFF000000;
+        poly[1].y   = 480.0f;
+        poly[1].z   = Z_43BARS;
+        poly[1].col = 0xFF000000;
+        poly[2].y   = 0.0f;
+        poly[2].z   = Z_43BARS;
+        poly[2].col = 0xFF000000;
+        poly[3].y   = 480.0f;
+        poly[3].z   = Z_43BARS;
+        poly[3].col = 0xFF000000;
+    }
+
+    const f32 res_shft = (disp_ratio - 1.f) * (320.0f) + 1.f;
+    const f32 tgt_shft = (tgt_ratio  - 1.f) * (320.0f) + 1.f;
+
+    // left bar
+    {
+        const f32 edge_pos = 0.f - res_shft;
+        const f32 trgt_pos = 0.f - tgt_shft;
+
+        poly[0].x = edge_pos;
+        poly[1].x = edge_pos;
+        poly[2].x = trgt_pos;
+        poly[3].x = trgt_pos;
+
+        rjDrawPolygon(poly, ARYLEN(poly), false);
+    }
+
+    // right bar
+    {
+        const f32 edge_pos = 640.f + res_shft;
+        const f32 trgt_pos = 640.f + tgt_shft;
+
+        poly[0].x = edge_pos;
+        poly[1].x = edge_pos;
+        poly[2].x = trgt_pos;
+        poly[3].x = trgt_pos;
+
+        rjDrawPolygon(poly, ARYLEN(poly), false);
+    }
+}
+
+static f32 SaveDisplayResX;
+
+static void
+StartPillarBox(void)
+{
+    DrawVerticalBars();
+}
+
+static void
+EndPillarBox(void)
+{
+    DrawVerticalBars();
+
+    AspectRatioMode = RFE_ASPECT_FULL;
+}
+
+static void
+StartHud(void)
+{
+    SaveDisplayResX = DisplayResolutionX;
+
+    f32 tgt_aspect;
+
+    switch ( AspectRatioMode )
+    {
+        case RFE_ASPECT_FULL: default:
+        {
+            return;
+        }
+        case RFE_ASPECT_43:
+        {
+            tgt_aspect = (640.f/480.f);
+            break;
+        }
+        case RFE_ASPECT_169:
+        {
+            tgt_aspect = (1920.f/1080.f);
+            break;
+        }
+    }
+
+    DisplayResolutionX = ( DisplayResolutionY * tgt_aspect );
+}
+
+static void
+EndHud(void)
+{
+    DisplayResolutionX = SaveDisplayResX;
+}
+
 static void
 TaskDisplayAll(void)
 {
@@ -356,7 +505,10 @@ TaskDisplayAll(void)
     /** Some tasks don't reset the constant material. This is normally handled in
         the task 'disp_shad' exec function, but since that doesn't run anymore we
         need to handle it ourselves. This was likely a thing on DC too **/
+
     ResetConstantMaterial();
+
+    StartPillarBox();
 
     /** Draw Displayer **/
     {
@@ -438,6 +590,8 @@ TaskDisplayAll(void)
         }
     }
 
+    StartHud();
+
     /** Draw game HUD **/
     if (ulGlobalMode == MD_ACTION && ssGameMode != MD_GAME_INIT && !MultiIntroPno)
     {
@@ -456,6 +610,8 @@ TaskDisplayAll(void)
     
     /** Draw fade **/
     njExecuteFade();
+
+    EndHud();
 
     /** Draw Late displayer **/
     TaskDisplayDispLate(btp[0]);
@@ -493,6 +649,8 @@ TaskDisplayAll(void)
     ML_DisplayDebugString(NJM_LOCATION(1 , 16), "GAME MD:");
     ML_DisplayDebugInt(   NJM_LOCATION(12, 16), ssGameMode, 2);
 #endif
+
+    EndPillarBox();
 }
 
 void
