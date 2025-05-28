@@ -11,88 +11,94 @@
 /****** Game ************************************************************************/
 #include <samt/sonic/task.h>    /* task                                             */
 #include <samt/sonic/camera.h>  /* camera                                           */
+#include <samt/sonic/input.h>   /* player input                                     */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_eventinfo.h>       /* event data                                       */
 
+
 /****** Self ************************************************************************/
 #include <rfm_event/ev_internal.h>          /* parent & siblings                    */
 
+/****** Camera Data *****************************************************************/
+#define EvCamRangeOutPos                DATA_REF(NJS_POINT3, 0x01DB0FF0)
+#define EvCameraContWk                  DATA_REF(camcontwk , 0x01A283A0)
+#define EventCameraMotionNum            DATA_REF(int       , 0x01DB0EC4)
+
 /************************/
-/*  Game Structures     */
+/*  Macros              */
 /************************/
-/****** Camera Motion ***************************************************************/
-typedef struct
-{
-    Float* pos;
-    Float* vec;
-    Angle* roll;
-    Angle* ang;
-}
-CAM_MTN_OUTPUT;
+/****** Fast Square *****************************************************************/
+#define SQR(x)              ((x) * (x))
 
 /************************/
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
-#pragma optimize("", off)
-static void
-CalcCamMotion(CAM_MTN_OUTPUT* input, const NJS_CAMERA* pCam, const NJS_MOTION* motion, float frame)
-{
-    static const uintptr_t p = 0x007816B0;
-
-    __asm
-    {
-        push [frame]
-        push [motion]
-        mov edi, [pCam]
-        mov eax, [input]
-        call p
-        add esp, 8
-    }
-}
-#pragma optimize("", on)
-
 static void
 EventCamMotion(const NJS_CAMERA* pInCam, const NJS_MOTION* motion, float frame)
 {
-    NJS_CAMERA cam;
+    NJS_CAMERA cam = *pInCam;
 
-    CAM_MTN_OUTPUT out;
+    NJS_CMOTION_DATA data;
 
-    out.pos  = &cam.px;
-    out.vec  = &cam.vx;
-    out.roll = &cam.roll;
-    out.ang  = &cam.ang;
+    data.pos  = &cam.px;
+    data.vect = &cam.vx;
+    data.roll = &cam.roll;
+    data.ang  = &cam.ang;
 
-    CalcCamMotion(&out, pInCam, motion, frame);
+    njGetCameraMotion(pInCam, motion, &data, frame);
 
     cam.roll = -cam.roll;
 
     EventCamera = cam;
-
-    njSetCamera(&cam);
 }
 
-__declspec(naked)
 static void
-___EventCamMotion(void)
+GetInverseAngleXYFromVec(const NJS_VECTOR* pVec, Angle* pAnsX, Angle* pAnsY)
 {
-    __asm
-    {
-        push [esp+8]
-        push [esp+8]
-        push eax
-        call EventCamMotion
-        add esp, 12
-        retn
-    }
+    *pAnsY = njArcTan2( -pVec->x, -pVec->z );
+    *pAnsX = njArcTan2(  pVec->y, njSqrt( SQR(pVec->x) + SQR(pVec->z) ) );
 }
 
-/****** Init ************************************************************************/
+/****** Extern **********************************************************************/
 void
-EV_CameraInit(void)
+EV_CameraExec(task* tp)
 {
-    WriteJump(0x007817F0, ___EventCamMotion);
+    const taskwk* twp = tp->twp;
+
+    if ( twp->flag & DBG_FLAG_CAMERA )
+    {
+        EV_DebugCameraExec(tp);
+    }
+    else // normal camera exec
+    {
+        const EVENT_SCENE* p_scene = &SceneData[EventSceneNum];
+
+        if ( EventCameraMotionNum >= p_scene->nbCameraMotion )
+        {
+            EventCameraMotionNum = 0;
+        }
+
+        EventCamMotion( &EventBaseCamera, p_scene->pCameraMotions[EventCameraMotionNum], EventSceneFrame );
+    }
+
+    NJS_VECTOR v = { EventCamera.vx, EventCamera.vy, EventCamera.vz };
+
+    njUnitVector(&v);
+
+    EvCamRangeOutPos.x = ( v.x * 500.f ) + EventCamera.px;
+    EvCamRangeOutPos.y = ( v.y * 500.f ) + EventCamera.py;
+    EvCamRangeOutPos.z = ( v.z * 500.f ) + EventCamera.pz;
+
+    EvCameraContWk.pos.x = EventCamera.px;
+    EvCameraContWk.pos.y = EventCamera.py;
+    EvCameraContWk.pos.z = EventCamera.pz;
+
+    EvCameraContWk.dir.x = EventCamera.vx;
+    EvCameraContWk.dir.y = EventCamera.vy;
+    EvCameraContWk.dir.z = EventCamera.vz;
+
+    GetInverseAngleXYFromVec(&EvCameraContWk.dir, &EvCameraContWk.ang.x, &EvCameraContWk.ang.y);
 }

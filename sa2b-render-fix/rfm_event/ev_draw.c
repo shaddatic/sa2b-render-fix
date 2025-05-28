@@ -4,6 +4,10 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 #include <samt/writeop.h>       /* writejump                                        */
+#include <samt/funchook.h>      /* funchook                                         */
+
+/****** Utility *********************************************************************/
+#include <samt/util/cnkmdl.h>   /* chunk model                                      */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -18,10 +22,11 @@
 #include <rf_eventinfo.h>       /* event data                                       */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
+#include <rf_draw.h>            /* mod draw                                         */
+#include <rf_util.h>            /* switch displayer                                 */
 
 /****** Self ************************************************************************/
 #include <rfm_event/ev_internal.h>          /* parent & siblings                    */
-#include <rfm_event/ev_draw/evd_internal.h> /* children                             */
 
 /************************/
 /*  Game Functions      */
@@ -29,6 +34,13 @@
 /****** Event ***********************************************************************/
 #define SetEntryMotionCallback      FUNC_PTR(void, __fastcall, (NJS_CNK_OBJECT*), 0x00601B50)
 #define gjDrawObject                FUNC_PTR(void, __cdecl   , (GJS_OBJECT*)    , 0x0042B530)
+
+/************************/
+/*  Constants           */
+/************************/
+/****** Event ***********************************************************************/
+#define CHUNK_ATTR_OPAQUE       (1)
+#define CHUNK_ATTR_TRANSPARENT  (2)
 
 /************************/
 /*  Data                */
@@ -39,6 +51,343 @@ static bool ApplyModelDiffuse;
 /************************/
 /*  Source              */
 /************************/
+/****** Get Chunk *******************************************************************/
+static s32
+EV_GetCnkAttr(const Sint16* pPList)
+{
+    s32 attr = 0;
+
+    if ( (RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT) && _nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE )
+    {
+        attr |= CHUNK_ATTR_TRANSPARENT;
+    }
+
+    const Sint16* plist = pPList;
+
+    for ( ; ; )
+    {
+        const int type = CNK_GET_OFFTYPE(plist);
+
+        if (type == NJD_CE)
+        {
+            /** NJD_ENDOFF **/
+            break;
+        }
+
+        if (type == NJD_CN)
+        {
+            /** NJD_NULLOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type <= CNK_BITSOFF_MAX)
+        {
+            /** NJD_BITSOFF **/
+
+            /** Next offset **/
+            ++plist;
+            continue;
+        }
+
+        if (type <= CNK_TINYOFF_MAX)
+        {
+            /** NJD_TINYOFF **/
+
+            /** Next offset **/
+            plist += 2;
+            continue;
+        }
+
+        if (type <= CNK_MATOFF_MAX)
+        {
+            /** NJD_MATOFF **/
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        if (type <= CNK_STRIPOFF_MAX)
+        {
+            /** NJD_STRIPOFF **/
+            const Sint16 fst = plist[0];
+
+            if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
+            {
+                attr |= CHUNK_ATTR_TRANSPARENT;
+            }
+            else
+            {
+                attr |= CHUNK_ATTR_OPAQUE;
+            }
+
+            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+            {
+                return attr;
+            }
+
+            /** Next offset **/
+            plist += ((u16*)plist)[1] + 2;
+            continue;
+        }
+
+        /** An error occured, stop **/
+        break;
+    }
+
+    return attr;
+}
+
+static s32
+EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
+{
+    s32 attr = 0;
+
+    const NJS_CNK_OBJECT* restrict p_obj = object;
+
+    do
+    {
+        if ( p_obj->model && p_obj->model->plist )
+        {
+            attr |= EV_GetCnkAttr(p_obj->model->plist);
+
+            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+            {
+                return attr;
+            }
+        }
+
+        if ( p_obj->child )
+        {
+            attr |= EV_GetCnkAttrObject(p_obj->child);
+
+            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+            {
+                return attr;
+            }
+        }
+
+        p_obj = p_obj->sibling;
+    }
+    while ( p_obj );
+
+    return attr;
+}
+
+/****** Draw Chunk ******************************************************************/
+static void
+EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
+{
+    const s32 attr = EV_GetCnkAttrObject( object );
+
+    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    {
+        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
+        {
+            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+
+            rjCnkDrawObject(object);
+
+            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+
+            rjCnkDrawObject(object);
+
+            RFRS_SetCullMode(RFRS_CULLMD_END);
+        }
+        else if ( attr & CHUNK_ATTR_TRANSPARENT )
+        {
+            rjCnkDrawObject(object);
+        }
+    }
+    else if ( attr & CHUNK_ATTR_OPAQUE )
+    {
+        rjCnkDrawObject(object);
+    }
+}
+
+static void
+EV_CnkEasyDrawObject(const NJS_CNK_OBJECT* object)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
+
+    EV_CnkDrawObjectSub(object);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleDrawObject(const NJS_CNK_OBJECT* object)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
+
+    EV_CnkDrawObjectSub(object);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkEasyMultiDrawObject(const NJS_CNK_OBJECT* object)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
+
+    EV_CnkDrawObjectSub(object);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleMultiDrawObject(const NJS_CNK_OBJECT* object)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
+
+    EV_CnkDrawObjectSub(object);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkDrawMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+{
+    const s32 attr = EV_GetCnkAttrObject( object );
+
+    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    {
+        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
+        {
+            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+
+            rjCnkDrawMotion(object, motion, frame);
+
+            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+
+            rjCnkDrawMotion(object, motion, frame);
+
+            RFRS_SetCullMode(RFRS_CULLMD_END);
+        }
+        else if ( attr & CHUNK_ATTR_TRANSPARENT )
+        {
+            rjCnkDrawMotion(object, motion, frame);
+        }
+    }
+    else if ( attr & CHUNK_ATTR_OPAQUE )
+    {
+        rjCnkDrawMotion(object, motion, frame);
+    }
+}
+
+static void
+EV_CnkEasyDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
+
+    EV_CnkDrawMotionSub(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
+
+    EV_CnkDrawMotionSub(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkEasyMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
+
+    EV_CnkDrawMotionSub(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
+
+    EV_CnkDrawMotionSub(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkDrawShapeMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+{
+    const s32 attr = EV_GetCnkAttrObject( object );
+
+    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    {
+        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
+        {
+            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+
+            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+
+            RFRS_SetCullMode(RFRS_CULLMD_END);
+        }
+        else if ( attr & CHUNK_ATTR_TRANSPARENT )
+        {
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+        }
+    }
+    else if ( attr & CHUNK_ATTR_OPAQUE )
+    {
+        rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+    }
+}
+
+static void
+EV_CnkEasyDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
+
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
+
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkEasyMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
+
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+static void
+EV_CnkSimpleMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
+
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
 /****** Static **********************************************************************/
 static void
 EventScrollTexture(const int nbScene, const int nbEntry)
@@ -55,12 +404,136 @@ EventScrollTexture(const int nbScene, const int nbEntry)
 }
 
 static void
+EV_SetConstMat(void)
+{
+    NJS_ARGB argb = {0};
+
+    const f32 evframe = EventLastFrame;
+
+    for ( int i = 0; i < ARYLEN(EventEffData.screen); ++i )
+    {
+        const EV_EFF_SCREEN* restrict p_scr = &EventEffData.screen[i];
+
+        if ( p_scr->type < EV_EFF_SCREEN_SPRITE_FADEIN )
+        {
+            continue;
+        }
+
+        if ( evframe >= p_scr->frame && evframe <= (p_scr->frame + p_scr->frametime) )
+        {
+            const f32 spframe = evframe - p_scr->frame;
+
+            if ( spframe < 30.f && p_scr->type == EV_EFF_SCREEN_SPRITE_FADEIN )
+            {
+                argb.a = spframe * (1.f/30.f);
+            }
+            else if ( (p_scr->frametime - 30) <= spframe && p_scr->fadeout )
+            {
+                argb.a = ((f32)(p_scr->frame + p_scr->frametime) - evframe) * (1.f/30.f);
+            }
+            else
+            {
+                argb.a = 1.f;
+            }
+
+            argb.r =
+            argb.g =
+            argb.b = 1.f;
+        }
+    }
+
+    njSetConstantMaterial(&argb);
+}
+
+static void
+EventSceneModDraw(const int nbScene)
+{
+    const EVENT_SCENE* const p_scene = &SceneData[nbScene];
+
+    const int nb_entry = p_scene->nbEntry;
+
+    for (int i = 0; i < nb_entry; ++i)
+    {
+        const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
+
+        const int attr = p_entry->attr;
+
+        njPushMatrixEx();
+
+        switch ( EventGetEntryType(p_entry) )
+        {
+            case EV_ENTRY_TYPE_NONE:
+            case EV_ENTRY_TYPE_DRAW:
+            case EV_ENTRY_TYPE_MTN:
+            case EV_ENTRY_TYPE_SHAPE:
+            case EV_ENTRY_TYPE_EASYNOFOG:
+            case EV_ENTRY_TYPE_MULTIDRAW:
+            case EV_ENTRY_TYPE_MULTIMTN:
+            case EV_ENTRY_TYPE_MULTISHAPE:
+            {
+                break;
+            }
+            case EV_ENTRY_TYPE_MODDRAW:
+            {
+                njCnkModDrawObject(p_entry->pObject);
+                break;
+            }
+            case EV_ENTRY_TYPE_MODMTN:
+            {
+                njCnkModDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
+                break;
+            }
+        }
+
+        njCnkSetMotionCallback(NULL);
+
+        njPopMatrixEx();
+    }
+}
+
+static void
 EventSceneDraw(const int nbScene, const int nbLayer)
 {
+    switch ( DebugDrawPass )
+    {
+        case DBG_DRAWPASS_ALL:
+        {
+            break;
+        }
+        case DBG_DRAWPASS_OPAQUE:
+        {
+            if ( nbLayer != EV_ALL_LAYERS )
+            {
+                return;
+            }
+            break;
+        }
+        case DBG_DRAWPASS_TRANS:
+        {
+            if ( nbLayer == EV_ALL_LAYERS )
+            {
+                return;
+            }
+            break;
+        }
+        default: // specific layer
+        {
+            const s32 layer = (DebugDrawPass - DBG_DRAWPASS_LAYER_START);
+
+            if ( layer != nbLayer )
+            {
+                return;
+            }
+            break;
+        }
+    }
+
     OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     if (ApplyModelDiffuse)
-        OffControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
+    {
+        OffControl3D(NJD_CONTROL_3D_DEPTH_QUEUE|NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
+    }
 
     const EVENT_SCENE* const p_scene = &SceneData[nbScene];
 
@@ -70,14 +543,18 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     {
         const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
 
-        if (nbLayer != EV_ALL_LAYERS && p_entry->layer != nbLayer)
+        if ( nbLayer == EV_ALL_LAYERS )
+        {
+            SetEntryMotionCallback(p_entry->pObject);
+        }
+        else if ( p_entry->layer != nbLayer )
+        {
             continue;
+        }
 
         const bool use_gj = !p_entry->pObject;
 
         const int attr = p_entry->attr;
-
-        SetEntryMotionCallback(p_entry->pObject);
 
         njPushMatrixEx();
 
@@ -100,11 +577,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
-                    njCnkSimpleDrawObject(p_entry->pObject);
+                    EV_CnkSimpleDrawObject(p_entry->pObject);
                 }
                 else
                 {
-                    njCnkEasyDrawObject(p_entry->pObject);
+                    EV_CnkEasyDrawObject(p_entry->pObject);
                 }
 
                 break;
@@ -115,15 +592,13 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 EventScrollTexture(nbScene, i);
 
-                DRAW_MTN:
-
                 if ( (attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE)) )
                 {
-                    njCnkSimpleDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
+                    EV_CnkSimpleDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
+                    EV_CnkEasyDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
 
                 break;
@@ -134,17 +609,13 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 EventScrollTexture(nbScene, i);
 
-                /** Fix for Rouges wings in E0024 **/
-                if (EventNum == 24 && nbScene == 1 && i == 8)
-                    goto DRAW_MTN;
-
-                if ( (attr & EV_ENTF_SIMPLEMAT) )
+                if ( (attr & EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE) )
                 {
-                    njCnkSimpleDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                    EV_CnkSimpleDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                    EV_CnkEasyDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
 
                 break;
@@ -183,11 +654,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawObject(p_entry->pObject);
+                    EV_CnkSimpleMultiDrawObject(p_entry->pObject);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawObject(p_entry->pObject);
+                    EV_CnkEasyMultiDrawObject(p_entry->pObject);
                 }
 
                 break;
@@ -200,11 +671,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
+                    EV_CnkSimpleMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
+                    EV_CnkEasyMultiDrawMotion(p_entry->pObject, p_entry->pMotion, EventSceneFrame);
                 }
 
                 break;
@@ -217,11 +688,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                    EV_CnkSimpleMultiDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                    EV_CnkEasyMultiDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 }
 
                 break;
@@ -238,11 +709,13 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
     EventLightSwitchSingle();
 
-    if (nbLayer < 1 && p_scene->pBig)
+    /** Draw Big **/
+
+    if ( nbLayer < 1 && p_scene->pBig && EvBigActive )
     {
         const EVENT_BIG* const p_big = p_scene->pBig;
 
-        if (p_big->nbMotion)
+        if ( p_big->nbScene )
         {
             njPushMatrixEx();
 
@@ -262,40 +735,11 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     }
 
     if (ApplyModelDiffuse)
-        OnControl3D(NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-static int
-EventSceneGetLayerCount(const int nbScene)
-{
-    int nb_layer = 0;
-
-    const EVENT_SCENE* const p_scene = &SceneData[nbScene];
-
-    const int nb_entry = p_scene->nbEntry;
-
-    for (int i = 0; i < nb_entry; ++i)
     {
-        const EVENT_ENTRY* const p_entry = &p_scene->pEntries[i];
-
-        const int layer = p_entry->layer + 1;
-
-        if (nb_layer < layer)
-            nb_layer = layer;
+        OnControl3D(NJD_CONTROL_3D_DEPTH_QUEUE|NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL);
     }
 
-    return nb_layer;
-}
-
-static int
-EventGetLayerCount(void)
-{
-    const int nb_layer_base  = EventSceneGetLayerCount(EVENT_BASE_SCENE);
-    const int nb_layer_scene = EventSceneGetLayerCount(EventScene);
-
-    return MAX(nb_layer_base, nb_layer_scene);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 static void
@@ -351,36 +795,146 @@ EventEquipmentDraw(void)
     OffControl3D(NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_SHADOW);
 }
 
-/****** Task ************************************************************************/
+#define Z_VALUE             (1.0f)
+
+#define EvBackColor                 DATA_REF(NJS_COLOR, 0x01DB0F88)
+#define EvScreenEffectColor         DATA_REF(NJS_COLOR, 0x01DB0EB8)
+
 static void
-EventDisplayerDelayed(task* tp)
+EV_DrawScreenEffect(void)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
+    njSetBackColor( EvBackColor.color, EvBackColor.color, EvBackColor.color );
+
+    if ( EvScreenEffectColor.argb.a == 0x00 )
+    {
         return;
+    }
+
+    const f32 disp_ratio = GetDisplayRatio();
+
+    const f32 x_adj = (disp_ratio - 1.0f) * (320.0f) + 1.0f;
+
+    const Uint32 color = EvScreenEffectColor.color;
+
+    NJS_POLYGON_VTX poly[4];
+
+    poly[0].x   = 0.0f - x_adj;
+    poly[0].y   = 0.0f;
+    poly[0].z   = Z_VALUE;
+    poly[0].col = color;
+
+    poly[1].x   = 0.0f - x_adj;
+    poly[1].y   = 480.0f;
+    poly[1].z   = Z_VALUE;
+    poly[1].col = color;
+
+    poly[2].x   = 640.0f + x_adj;
+    poly[2].y   = 0.0f;
+    poly[2].z   = Z_VALUE;
+    poly[2].col = color;
+
+    poly[3].x   = 640.0f + x_adj;
+    poly[3].y   = 480.0f;
+    poly[3].z   = Z_VALUE;
+    poly[3].col = color;
+
+    rjDrawPolygon(poly, ARYLEN(poly), EvScreenEffectColor.argb.a != 0xFF);
+}
+
+/****** Task ************************************************************************/
+void
+EventDisplayerShadow(task* tp)
+{
+    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    {
+        return;
+    }
+
+    /** Setup draw state **/
+    njSetCamera( &EventCamera );
+
+    /** Draw modifiers **/
+    EventSceneModDraw(EVENT_BASE_SCENE);
+    EventSceneModDraw(EventSceneNum);
+}
+
+void
+EventDisplayerSort(task* tp)
+{
+    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    {
+        return;
+    }
+
+    /** Set constant material via screen sprites **/
+    EV_SetConstMat();
 
     /** Draw **/
     njSetBackColor(0, 0, 0);
-    EventCameraInit();
+    njSetCamera( &EventCamera );
 
     njSetTexture(EventData.pTexlist);
     EventLightSet();
 
     njCnkSetMotionCallback(NULL);
 
-    /** Draw Event Scenes **/
-    {
-        const int old_rmode = _gj_render_mode_;
+    const int old_rmode = _gj_render_mode_;
 
-        _gj_render_mode_    = GJD_DRAW_TRANS;
+    {
+        _gj_render_mode_ = GJD_DRAW_TRANS;
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
-        const int nb_layer = EventGetLayerCount();
-
-        for (int i = 1; i < nb_layer; ++i)
+        for (int i = 1; i <= 8; ++i)
         {
             EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventScene      , i);
+            EventSceneDraw(EventSceneNum   , i);
+        }
+
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+
+        _gj_render_mode_ = old_rmode;
+    }
+}
+
+void
+EventDisplayerDelayed(task* tp)
+{
+    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    {
+        return;
+    }
+
+    /** Set constant material via screen sprites **/
+    EV_SetConstMat();
+
+    /** Draw **/
+    njSetBackColor(0, 0, 0);
+    njSetCamera( &EventCamera );
+
+    njSetTexture(EventData.pTexlist);
+    EventLightSet();
+
+    EV_DebugDisp(tp);
+
+    njCnkSetMotionCallback(NULL);
+
+    /** Draw Event Scenes **/
+
+    EventDrawReflections();
+    EventDrawSprites();
+
+    const int old_rmode = _gj_render_mode_;
+
+    {
+        _gj_render_mode_ = GJD_DRAW_TRANS;
+
+        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+
+        for (int i = 9; i <= 16; ++i)
+        {
+            EventSceneDraw(EVENT_BASE_SCENE, i);
+            EventSceneDraw(EventSceneNum   , i);
         }
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
@@ -388,31 +942,37 @@ EventDisplayerDelayed(task* tp)
         _gj_render_mode_ = old_rmode;
     }
 
-    EventDrawReflections();
-
     if (EventUseFlare)
+    {
         EventDrawFlare(&EventFlarePos);
-
-    EventDrawSprites();
+    }
 
     if (EventDebugInfo == 1)
+    {
         EventDebug();
-    if (EventDebugInfo == 2)
+    }
+    else if (EventDebugInfo == 2)
+    {
         EventDebugNull();
+    }
 
-    EventDrawScreenQuad();
-    Draw43Bars();
+    EV_DrawScreenEffect();
 }
 
-static void
+void
 EventDisplayer(task* tp)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.0f == EventFrame)
+    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    {
         return;
+    }
+
+    /** Set constant material via screen sprites **/
+    EV_SetConstMat();
 
     /** Draw **/
     njSetBackColor(0, 0, 0);
-    EventCameraInit();
+    njSetCamera( &EventCamera );
 
     njSetTexture(EventData.pTexlist);
     EventLightSet();
@@ -432,7 +992,14 @@ EventDisplayer(task* tp)
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
 
         EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
-        EventSceneDraw(EventScene      , EV_ALL_LAYERS);
+        EventSceneDraw(EventSceneNum   , EV_ALL_LAYERS);
+
+        /** Draw opaque equipment strips **/
+
+        if ( EV_GetEquipmentMode() )
+        {
+            EventEquipmentDraw();
+        }
 
         /** Draw first transparent layer **/
 
@@ -441,15 +1008,19 @@ EventDisplayer(task* tp)
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
 
         EventSceneDraw(EVENT_BASE_SCENE, 0);
-        EventSceneDraw(EventScene      , 0);
+        EventSceneDraw(EventSceneNum   , 0);
+
+        /** Draw transparent equipment strips **/
+
+        if ( EV_GetEquipmentMode() )
+        {
+            EventEquipmentDraw();
+        }
 
         RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
         _gj_render_mode_ = old_rmode;
     }
-
-    if ( EV_GetEquipmentMode() )
-        EventEquipmentDraw();
 }
 
 /****** Control *********************************************************************/
@@ -463,7 +1034,9 @@ RFCTRL_EventApplyModelDiffuse(void)
 void
 EV_DrawInit(void)
 {
-    WriteJump(0x005FABF0, EventDisplayer);
-    WriteJump(0x005FAD20, EventDisplayerDelayed);
+    WriteJump(0x005FAA70, EventInitiator);
 
+    WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
+
+    SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 }

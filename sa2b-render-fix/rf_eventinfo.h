@@ -15,16 +15,16 @@
 
 typedef struct
 {
-    int     startid;
+    Sint32  texid;
     Sint16* pTiny;
 }
 EVENT_TEXANIM_TINYDATA;
 
 typedef struct 
 {
-    NJS_CNK_OBJECT*         pObject;
-    int                     count;
-    EVENT_TEXANIM_TINYDATA* pTinyData;
+    NJS_CNK_OBJECT*           pObject;
+    int                       count;
+    EVENT_TEXANIM_TINYDATA** ppTinyData;
 }
 EVENT_TEXANIM_CHUNKDATA;
 
@@ -60,7 +60,7 @@ typedef struct
     NJS_CNK_OBJECT* pShadowModel;
     void*           pUvScroll;
     NJS_POINT3      position;
-    int             attr;
+    u32             attr;
     int             layer;
 }
 EVENT_ENTRY;
@@ -85,9 +85,9 @@ EVENT_BIG_MOTION;
 
 typedef struct
 {
-    NJS_CNK_OBJECT* object;
+    NJS_CNK_OBJECT*   object;
     EVENT_BIG_MOTION* motions;
-    int nbMotion;
+    int               nbScene;
     int Unknown;
 }
 EVENT_BIG;
@@ -97,8 +97,8 @@ typedef struct
     EVENT_ENTRY* pEntries;
     int          nbEntry;
 
-    int* pCameraMotionIds;
-    int  nbCameraMotionId;
+    NJS_MOTION** pCameraMotions;
+    int         nbCameraMotion;
 
     int* pPtclMotionIds;
     int  nbPtclMotionId;
@@ -151,7 +151,7 @@ typedef struct
     int               nbScene;
     Sint16*           pSpriteSizes;
     EVENT_REFLECTION* pReflections;
-    NJS_CNK_OBJECT*   pBlareObjects;
+    NJS_CNK_OBJECT**  pBlareObjects;
     NJS_CNK_OBJECT*   pWalkerObjects;
     NJS_CNK_OBJECT*   pMilesObjects;
     EVENT_EQUIPMENT*  pEquipment;
@@ -159,6 +159,136 @@ typedef struct
     int               dropShadow;
 }
 EVENT_HEADER;
+
+typedef struct
+{
+    u32 frame;
+
+    u8 tone;
+    u8 staff_speed_maybe;
+    s16 voice_num;
+
+    a7 bgm[16];
+    a7 jingle[16];
+
+    u32 VsyncWaitCount;
+
+    s32 padding[7];
+}
+EV_EFF_SOUND;
+
+enum
+{
+    EV_EFF_SCREEN_NONE,
+
+    EV_EFF_SCREEN_COLOR,
+    EV_EFF_SCREEN_COLOR2,
+    EV_EFF_SCREEN_SPRITE_FADEIN,
+    EV_EFF_SCREEN_SPRITE,
+    EV_EFF_SCREEN_BACKCOLOR,
+    EV_EFF_SCREEN_BACKCOLOR2,
+};
+
+typedef struct
+{
+    uint32_t frame;
+    int8_t type;
+    NJS_COLOR color;
+    int16_t fadeout;
+    uint16_t texID;
+    uint32_t frametime;
+    int16_t posX;
+    int16_t posY;
+    float width;
+    float height;
+    int gap[8];
+}
+EV_EFF_SCREEN;
+
+typedef struct
+{
+    uint32_t frame;
+    int8_t type;
+    int8_t motionID;
+    float texID;
+    float pulsectrl;
+    float unkF;
+    float scl;
+    int gap[8];
+}
+EV_EFF_SIMPLEPTCL;
+
+typedef struct 
+{
+    uint32_t frame;
+    int32_t fademode;
+    NJS_VECTOR vec;
+    float r;
+    float g;
+    float b;
+    float inten;
+    float r_ambi;
+    float g_ambi;
+    float b_ambi;
+    int gap[5];
+}
+EV_EFF_LIGHT;
+
+typedef struct 
+{
+    uint32_t frame;
+    int32_t duration;
+    uint8_t param1;
+    uint8_t param2;
+    uint8_t param3;
+    uint8_t param4;
+    uint8_t param5;
+    uint8_t param6;
+    uint32_t lifetime;
+    int gap[11];
+}
+EV_EFF_BLARE;
+
+typedef struct 
+{
+    NJS_POINT3 pos;
+    NJS_VECTOR unkV_0;
+    uint16_t unk16_0;
+    uint16_t unk16_1;
+    uint16_t unk16_2;
+    uint16_t unk16_3;
+    uint32_t frame;
+    NJS_VECTOR spread;
+    int32_t count;
+    int32_t unk32_0;
+    int32_t type;
+    int32_t unk32_1;
+}
+EV_EFF_PTCL;
+
+typedef struct
+{
+    uint32_t frame;
+    uint16_t posX;
+    uint16_t posY;
+    float depth;
+    int32_t type;
+    char fname[48];
+}
+EV_EFF_OVERLAY;
+
+typedef struct
+{
+    int                 i[256][2];
+    EV_EFF_SOUND        sound[512];
+    EV_EFF_SCREEN       screen[64];
+    EV_EFF_SIMPLEPTCL   simpleptcl[2048];
+    EV_EFF_LIGHT        lights[4][256];
+    EV_EFF_BLARE        blares[64];
+    EV_EFF_PTCL         ptcls[64];
+    EV_EFF_OVERLAY      overlays[64];
+}
+EV_EFF_INFO;
 
 typedef struct
 {
@@ -176,11 +306,36 @@ typedef struct
 }
 EVENT_HEADER_DC;
 
+typedef struct 
+{
+    int enabled;
+    int maxtimer;
+    int maxdraw;
+    int drawnum;
+}
+EV_BLARE_INFO;
+
+
+enum
+{
+    EVENTMD_START,
+
+    EVENTMD_UNK_1,
+
+    EVENTMD_TIMECARD,
+    EVENTMD_PLAY,
+    EVENTMD_END,
+
+    EVENTMD_UNK_5,
+    EVENTMD_UNK_6,
+    EVENTMD_UNK_7,
+};
+
 #define EventData               DATA_REF(EVENT_HEADER, 0x0204FE20)
 #define SceneData               DATA_REF(EVENT_SCENE*, 0x01DB0FD4)
-#define EventFrame              DATA_REF(f32         , 0x01DB0FC0)
+#define EventFrame              DATA_REF(f32         , 0x01DB0EC0)
 #define EventSceneFrame         DATA_REF(f32         , 0x01DB0FC4)
-#define EventScene              DATA_REF(int         , 0x01DB0FC8)
+#define EventSceneNum           DATA_REF(int         , 0x01DB0FC8)
 #define DisableCutscene         DATA_REF(bool        , 0x0174B007)
 #define CutsceneMode            DATA_REF(int         , 0x01A283FC)
 #define EventUseFlare           DATA_REF(int         , 0x01A298EC)
@@ -188,13 +343,26 @@ EVENT_HEADER_DC;
 #define EventActive             DATA_REF(bool        , 0x0174AFF9)
 #define EventNum                DATA_REF(int         , 0x01A28AF4)
 
+#define EventSpeed              DATA_REF(f32, 0x01DB0EAC)
+
+#define EventLastFrame          DATA_REF(float, 0x01DB0FC0)
+
+#define EventEffData            DATA_REF(EV_EFF_INFO , 0x01FEFE20)
+
 #define EventBigScene           DATA_REF(s32         , 0x01DB0FBC)
 #define EventBigFrame           DATA_REF(f32         , 0x01DB0F90)
+#define EvBigActive             DATA_REF(b32         , 0x01DB0FD8)
+#define EvBigLastScene          DATA_REF(s32         , 0x01DB0FDC)
 
 #define EventCamera             DATA_REF(NJS_CAMERA  , 0x01D19C20)
 
+#define EventBaseCamera         DATA_REF(NJS_CAMERA  , 0x01DB0E80)
+
+
 #define EventReflectionListPos      DATA_ARY(NJS_POINT3, 0x01A28AF8, [32])
 #define EventReflectionListNorm     DATA_ARY(NJS_VECTOR, 0x01A28C78, [32])
+
+#define EvBlareInfo                 DATA_ARY(EV_BLARE_INFO, 0x01DB0100, [64])
 
 #define EventEquipmentMatrices      DATA_ARY(NJS_MATRIX, 0x01DB0500, [36])
 #define EventEquipmentFlags         DATA_ARY(Sint8     , 0x01DB0BC0, [36])
