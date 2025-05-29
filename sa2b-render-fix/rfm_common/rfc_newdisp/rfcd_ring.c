@@ -143,11 +143,8 @@ RFCD_RingInit(void)
 
     WriteJump(0x006BD500, CNK_DrawRingShadow);
 
-    ___NOTE("Fix tinting: Temporary until specular is restored");
-
-    RF_CnkModelMaterialDiffuse(object_ring0->model, -1, -1, 0xFF, 0xFF, 0xFF);
-    RF_CnkModelMaterialDiffuse(object_ring1->model, -1, -1, 0xFF, 0xFF, 0xFF);
-
     if ( RF_ConfigGetInt(CNF_MISC_DCRING) )
+    {
         RF_CnkModelMaterialDiffuse(object_ringshadow->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
+    }
 }
