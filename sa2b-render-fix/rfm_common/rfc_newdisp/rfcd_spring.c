@@ -18,10 +18,6 @@
 /****** Self ************************************************************************/
 #include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings              */
 
-___NOTE("EasyDraw is used here, but they actually used DirectDraw. However, using"
-        "Direct caused the models to become way too dark due to lacking specular."
-        "When specular is restored, these all should be switched to DirectDraw");
-
 /************************/
 /*  Game Data           */
 /************************/
@@ -70,7 +66,7 @@ CNK_ObjectSpringADisp(const task* tp)
 
     /** spring base **/
 
-    njCnkEasyDrawModel(p_base->model);
+    njCnkDirectDrawModel(p_base->model);
 
     const f32 sprf = *((f32*)&tp->mwp);
 
@@ -80,7 +76,7 @@ CNK_ObjectSpringADisp(const task* tp)
 
     njScale(NULL, 0.98f, sprf + 1.f, 0.98f);
 
-    njCnkEasyDrawModel(p_spring->model);
+    njCnkDirectDrawModel(p_spring->model);
 
     /** spring face **/
 
@@ -88,7 +84,7 @@ CNK_ObjectSpringADisp(const task* tp)
 
     njTranslate(NULL, 0.f, sprf * 4.f, 0.f);
 
-    njCnkEasyDrawModel(p_face->model);
+    njCnkDirectDrawModel(p_face->model);
 
     njPopMatrixEx();
 }
@@ -123,7 +119,7 @@ CNK_ObjectSpringBDisp(const task* tp)
     NJS_CNK_OBJECT* p_spring = p_base->child;
     NJS_CNK_OBJECT* p_face   = p_spring->child;
 
-    njCnkEasyDrawModel(p_base->model);
+    njCnkDirectDrawModel(p_base->model);
 
     const f32 sprf = *((f32*)&tp->mwp);
 
@@ -139,7 +135,7 @@ CNK_ObjectSpringBDisp(const task* tp)
 
     njTranslate(NULL, 0.f, sprf * 4.f, 0.f);
 
-    njCnkEasyDrawModel(p_face->model);
+    njCnkDirectDrawModel(p_face->model);
 
     njPopMatrixEx();
 
@@ -147,7 +143,7 @@ CNK_ObjectSpringBDisp(const task* tp)
 
     njScale(NULL, 0.98f, sprf + 1.f, 0.98f);
 
-    njCnkEasyDrawModel(p_spring->model);
+    njCnkDirectDrawModel(p_spring->model);
 
     njPopMatrix(2);
 }
@@ -170,13 +166,13 @@ CNK_Object3SpringDisp(const task* tp)
 
     NJS_CNK_OBJECT* p_base = object_3spring;
 
-    njCnkEasyDrawModel(p_base->model);
+    njCnkDirectDrawModel(p_base->model);
 
     const f32 trans = njAbs(mwp->spd.x);
 
     njTranslate(NULL, 0.f, trans, trans);
 
-    njCnkEasyDrawModel(p_base->child->model);
+    njCnkDirectDrawModel(p_base->child->model);
 
     njPopMatrixEx();
 }
