@@ -388,62 +388,80 @@ rjShapeLinkIntLinearVlist(const NJS_MKEY_P *Vertex1Key, int Vertex1NbKeys, const
         }
 
         /** Get vertex chunk attributes **/
-        bool has_vtx;
-        bool has_nrm;
-        bool has_col;
-        bool has_flg;
+        bool has_vtx; // has position data
+        bool has_nrm; // has normal data
+        bool has_ot1; // has other data (1), flag/color
+        bool has_ot2; // has other data (2), flag/color
 
-        switch ( cnk_type ) {
+        switch ( cnk_type )
+        {
             case NJD_CV:
+            {
                 has_vtx = true;
                 has_nrm = false;
-                has_col = false;
-                has_flg = false;
+                has_ot1 = false;
+                has_ot2 = false;
                 break;
-
+            }
             case NJD_CV_D8:
+            {
                 has_vtx = true;
                 has_nrm = false;
-                has_col = true;
-                has_flg = false;
+                has_ot1 = true;
+                has_ot2 = false;
                 break;
-
+            }
             case NJD_CV_UF:
             case NJD_CV_NF:
+            {
                 has_vtx = true;
                 has_nrm = false;
-                has_col = false;
-                has_flg = true;
+                has_ot1 = false;
+                has_ot2 = true;
                 break;
-
+            }
             case NJD_CV_VN:
+            {
                 has_vtx = true;
                 has_nrm = true;
-                has_col = false;
-                has_flg = false;
+                has_ot1 = false;
+                has_ot2 = false;
                 break;
-
+            }
             case NJD_CV_VN_D8:
+            {
                 has_vtx = true;
                 has_nrm = true;
-                has_col = true;
-                has_flg = false;
+                has_ot1 = true;
+                has_ot2 = false;
                 break;
-
+            }
             case NJD_CV_VN_UF:
             case NJD_CV_VN_NF:
+            {
                 has_vtx = true;
                 has_nrm = true;
-                has_col = false;
-                has_flg = true;
+                has_ot1 = false;
+                has_ot2 = true;
                 break;
-
+            }
+            case NJD_CV_D8_S8:
+            case NJD_CV_NF_D8:
+            {
+                has_vtx = true;
+                has_nrm = false;
+                has_ot1 = true;
+                has_ot2 = true;
+                break;
+            }
             default:
+            {
                 has_vtx = false;
                 has_nrm = false;
-                has_col = false;
-                has_flg = false;
+                has_ot1 = false;
+                has_ot2 = false;
                 break;
+            }
         }
 
         /** Copy vertex chunk header info **/
@@ -619,11 +637,15 @@ rjShapeLinkIntLinearVlist(const NJS_MKEY_P *Vertex1Key, int Vertex1NbKeys, const
                 src_ptr += 3;
             }
 
-            if ( has_col )
+            if ( has_ot1 )
+            {
                 *dst_ptr++ = *src_ptr++;
+            }
 
-            if ( has_flg )
+            if ( has_ot2 )
+            {
                 *dst_ptr++ = *src_ptr++;
+            }
         }
 
         src_cnk_base += 1 + cnk_size;
