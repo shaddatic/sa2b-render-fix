@@ -218,6 +218,17 @@ void    rjDrawTextureEx( const NJS_TEXTURE_VTX* polygon, Int count, Int trans );
 */
 void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
+/****** Polygon *********************************************************************/
+/*
+*   Draw a multi-vertex polygon.
+*
+*   Parameters:
+*     - polygon : polygon vertex list
+*     - count   : polygon vertex count
+*     - trans   : is transparent
+*/
+void    rjDrawPolygon( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
+
 /****** Draw Line *******************************************************************/
 /*
 *   Description:
@@ -289,25 +300,6 @@ void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float
 /*
 *   RF Chunk Draw
 */
-
-/****** Internal Chunk Draw *********************************************************/
-/*
-*   Description:
-*     Internal draw function for Chunk model for use as a model draw callback in
-*   DrawObject, DrawMotion, etc. Doesn't call 'CnkBeginDrawModel'.
-*
-*   Parameters:
-*     - model       : chunk model pointer
-*
-*   Returns:
-*     '0' if drawn, or '-1' if the model was clipped.
-*/
-Sint32  _rjCnkDrawModel( const NJS_CNK_MODEL* model );
-/*
-*   Description:
-*     Setup Render Fix parameters for a new Chunk draw.
-*/
-void    rjCnkBeginDrawModel( void );
 
 /****** Chunk Draw ******************************************************************/
 /*

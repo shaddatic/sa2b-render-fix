@@ -96,7 +96,7 @@ LineDraw(const NJS_POINT2* const pPtN, const NJS_POINT2* const pPtF, const f32 o
         poly[i].y = calc_d.y + pPtN->y;
     }
 
-    njDrawPolygon(poly, ARYLEN(poly), LineTrans);
+    rjDrawPolygon(poly, ARYLEN(poly), LineTrans);
 }
 
 /****** Extern **********************************************************************/

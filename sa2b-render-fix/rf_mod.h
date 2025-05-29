@@ -44,29 +44,6 @@ MOD_TRI;
 */
 void    RFMOD_Init(void);
 
-/****** Draw Modifier ***************************************************************/
-/*
-*   Description:
-*     Get the top of the current modifier buffer.
-*
-*   Parameters:
-*     - nbTri   : the number of tris you will add to the buffer
-*
-*   Returns:
-*     A pointer to the top of the modifier buffer, or 'nullptr' if 'nbTri' would
-*   breach the buffer bounds.
-*/
-MOD_TRI* RFMOD_GetBuffer( s32 nbTri );
-/*
-*   Description:
-*     Get the current invert mode for the modifier render state. If this is true,
-*   you must add the tris to the buffer with reversed winding.
-*
-*   Returns:
-*     'true' if modifiers must be inverted, or 'false' if not
-*/
-bool    RFMOD_GetInvertMode( void );
-
 /****** Draw Buffer *****************************************************************/
 /*
 *   Description:
@@ -104,14 +81,6 @@ void    RFMOD_SetAlpha(float a);
 *     - mode    : modifier draw mode to set to
 */
 void    RFMOD_SetDrawMode( RFE_MOD_MODE mode );
-/*
-*   Description:
-*     Set the modifier inverted drawing mode.
-*
-*   Parameters:
-*     - bInv    : inverted mode state
-*/
-void    RFMOD_SetInvertMode( bool bInv );
 
 /****** Control Modifier ************************************************************/
 /*

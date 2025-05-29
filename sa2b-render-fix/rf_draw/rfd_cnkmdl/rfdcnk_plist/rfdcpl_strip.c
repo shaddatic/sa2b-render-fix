@@ -24,460 +24,492 @@
 /************************/
 /*  Source              */
 /************************/
+/****** Check Specular **************************************************************/
+static bool
+UseSpecular(CNK_CTX* restrict pCtx)
+{
+    return ( !(pCtx->fst & NJD_FST_IS) && (pCtx->fst & NJD_FST_ENV || pCtx->flag & CTXF_CTL_NONTEXSPEC) );
+}
+
 /************************************************************************************/
 /*
-*   Push to Draw Buffer
+*   Draw Strip
 */
-
-/****** Position+Normal *************************************************************/
+/****** Normal **********************************************************************/
 static void
-PushStrip_PosNorm(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkDrawStrip(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
-    const CNK_STRIP* p_strip = pStrip;
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
+
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
+
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
     {
-        CnkStartTriStrip( p_strip->len );
+        const int len = rjStartTriStrip( p_st->len );
 
-        GXBUF_POSNORM* p_buf = GetVertexBuffer();
-
-        // get strip length
-        const int len = ABS(p_strip->len);
+        RJS_VERTEX_PCS* p_buf = rjGetVertexBuffer();
 
         // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
+        const CNK_ST* restrict p_polyvtx = p_st->d;
 
         for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
-
-            /** Set draw buffer **/
-
-            // set position
-            p_buf->pos = p_vtx->pos;
-
-            // Set normal
-            p_buf->nrm = p_vtx->nrm;
-
-            /** End set buffer **/
-
-            ++p_buf;
-
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
-        }
-
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
-
-        CopyCopyVertex(sizeof(*p_buf));
-
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
-    }
-}
-
-static void
-PushStrip_PosNorm_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
-{
-    const CNK_STRIP* p_strip = pStrip;
-
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
-    {
-        CnkStartTriStripInverse( p_strip->len );
-
-        GXBUF_POSNORM* p_buf = GetVertexBuffer();
-
-        // get strip length
-        const int len = ABS(p_strip->len);
-
-        // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
-
-        for (int i = 0; i < len; ++i)
-        {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
-
-            /** Set draw buffer **/
-
-            // set position
-            p_buf->pos = p_vtx->pos;
-
-            // Set inverted normal
-            p_buf->nrm.x = -p_vtx->nrm.x;
-            p_buf->nrm.y = -p_vtx->nrm.y;
-            p_buf->nrm.z = -p_vtx->nrm.z;
-
-            /** End set buffer **/
-
-            ++p_buf;
-
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
-        }
-
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
-
-        CopyCopyVertex(sizeof(*p_buf));
-
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
-    }
-}
-
-/****** Position+Color **************************************************************/
-static void
-PushStrip_PosCol(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
-{
-    const CNK_STRIP* p_strip = pStrip;
-
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
-    {
-        CnkStartTriStrip( p_strip->len );
-
-        GXBUF_POSCOL* p_buf = GetVertexBuffer();
-
-        // get strip length
-        const int len = ABS(p_strip->len);
-
-        // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
-
-        for (int i = 0; i < len; ++i)
-        {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
-
-            /** Set draw buffer **/
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
 
             // set color
-            p_buf->col = p_vtx->col;
+            p_buf->col = fn_color( p_vtx );
+
+            // set specular
+            p_buf->spc = fn_specu( p_vtx );
 
             /** End set buffer **/
 
             ++p_buf;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // next polygon vertex
+            p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, i, ufo);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
+        rjEndTriStrip(len);
 
-        CopyCopyVertex(sizeof(*p_buf));
-
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx;
     }
 }
 
+/****** Environment *****************************************************************/
 static void
-PushStrip_PosCol_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkDrawStrip_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
-    const CNK_STRIP* p_strip = pStrip;
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    for (int ix_str = 0; ix_str < nbStrip; ++ix_str)
+    f32 offset_u;
+    f32 offset_v;
+
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
     {
-        CnkStartTriStripInverse( p_strip->len );
+        offset_u = _rj_cnk_env_scroll_.u;
+        offset_v = _rj_cnk_env_scroll_.v;
+    }
+    else
+    {
+        offset_u = 0.f;
+        offset_v = 0.f;
+    }
 
-        GXBUF_POSCOL* p_buf = GetVertexBuffer();
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-        // get strip length
-        const int len = ABS(p_strip->len);
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
+
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        const int len = rjStartTriStrip( p_st->len );
+
+        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
 
         // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
+        const CNK_ST* restrict p_polyvtx = p_st->d;
 
         for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
-
-            /** Set draw buffer **/
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
 
+            // set uv coords
+            p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + offset_u;
+            p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + offset_v;
+
             // set color
-            p_buf->col = p_vtx->col;
+            p_buf->col = fn_color( p_vtx );
+
+            // set specular
+            p_buf->spc = fn_specu( p_vtx );
 
             /** End set buffer **/
 
             ++p_buf;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // next polygon vertex
+            p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, i, ufo);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
+        rjEndTriStrip(len);
 
-        CopyCopyVertex(sizeof(*p_buf));
-
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx;
     }
 }
 
-/****** Flat Shading: Position+Normal ***********************************************/
+/****** Position Environment ********************************************************/
 static void
-PushStrip_PosNorm_FL(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkDrawStrip_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
-    const CNK_STRIP* p_strip = pStrip;
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
+    f32 offset_u;
+    f32 offset_v;
+
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
     {
-        CnkStartTriList( p_strip->len );
+        offset_u = _rj_cnk_env_scroll_.u;
+        offset_v = _rj_cnk_env_scroll_.v;
+    }
+    else
+    {
+        offset_u = 0.f;
+        offset_v = 0.f;
+    }
 
-        GXBUF_POSNORM* p_buf_base = GetVertexBuffer();
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-        // get inverted strip state
-        bool invst = !(p_strip->len < 0);
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
 
-        // get strip length
-        const int len = ABS(p_strip->len);
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        const int len = rjStartTriStrip( p_st->len );
 
-        // get polygon count
-        const int nb_poly = (len - 2);
+        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
 
         // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
+        const CNK_ST* restrict p_polyvtx = p_st->d;
 
-        for (int i = 0; i < nb_poly; ++i)
+        for (int i = 0; i < len; ++i)
         {
-            GXBUF_POSNORM* p_buf = p_buf_base;
+            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
-            NJS_VECTOR norm = {0}; // normal accumulator
+            // set position
+            p_buf->pos = p_vtx->pos;
 
-            /** buffer increment value for destripping algorithm **/
+            // set uv coords
+            p_buf->u = -p_vtx->pos.x + offset_u;
+            p_buf->v = -p_vtx->pos.y + offset_v;
+
+            // set color
+            p_buf->col = fn_color( p_vtx );
+
+            // set specular
+            p_buf->spc = fn_specu( p_vtx );
+
+            /** End set buffer **/
+
+            ++p_buf;
+
+            // next polygon vertex
+            p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, i, ufo);
+        }
+
+        rjEndTriStrip(len);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx;
+    }
+}
+
+/************************************************************************************/
+/*
+*   Draw Strip (Flat Shading)
+*/
+/****** Normal Flat *****************************************************************/
+static void
+rjCnkDrawStrip_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+{
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
+
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
+
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
+
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        Bool invst;
+        const Sint32 nb_vert = rjStartTriDestrip( p_st->len, &invst );
+
+        // get vertex buffer
+        RJS_VERTEX_PCS* p_buf_base = rjGetVertexBuffer();
+
+        // get strip array
+        const CNK_ST* restrict p_st_base = p_st->d;
+
+        for (int ix_poly = 0, ix_vert = 0; ix_vert < nb_vert; ++ix_poly, ix_vert += 3)
+        {
+            RJS_VERTEX_PCS* p_buf = p_buf_base;
+
+            const CNK_ST* restrict p_polyvtx = p_st_base;
+
             int buf_inc;
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_ST* restrict p_st_2 = p_st;
+            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
-
-                /** Set draw buffer **/
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
 
-                // add normal
-                norm.x += p_vtx->nrm.x;
-                norm.y += p_vtx->nrm.y;
-                norm.z += p_vtx->nrm.z;
+                // set last vertex
+                p_last_vtx = p_vtx;
 
-                /** End set buffer **/
+                /** End set buffer vertex **/
 
                 p_buf += buf_inc;
 
-                // user offset only applies per polygon, so we skip the first two
-                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
+                // to next polygon vertex
+                p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, ix_poly+j, ufo);
             }
 
-            /** Adjust accumulated normal (div 3) **/
-            norm.x *= (1.f/3.f);
-            norm.y *= (1.f/3.f);
-            norm.z *= (1.f/3.f);
+            // get color/spec
+            const Uint32 color = fn_color(p_last_vtx);
+            const Uint32 specu = fn_specu(p_last_vtx);
 
-            /** Set flat normal for triangle **/
-            (p_buf_base++)->nrm = norm;
-            (p_buf_base++)->nrm = norm;
-            (p_buf_base++)->nrm = norm;
+            // set color/spec
+            p_buf_base[0].col = color;
+            p_buf_base[0].spc = specu;
+            p_buf_base[1].col = color;
+            p_buf_base[1].spc = specu;
+            p_buf_base[2].col = color;
+            p_buf_base[2].spc = specu;
 
-            /** Swap strip inverse mode for next tri **/
+            p_buf_base += 3;
+
+            // swap strip winding mode for next polygon
             invst = !invst;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // base to next polygon vertex
+            p_st_base = NEXT_STRIP_POLY(p_st_base, ix_poly, ufo);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
+        rjEndTriDestrip(nb_vert);
 
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        // we're now two strip indexes short
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_st_base;
     }
 }
 
+/****** Environment Flat ************************************************************/
 static void
-PushStrip_PosNorm_FL_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkDrawStrip_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
-    const CNK_STRIP* p_strip = pStrip;
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
+    f32 offset_u;
+    f32 offset_v;
+
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
     {
-        CnkStartTriListInverse( p_strip->len );
+        offset_u = _rj_cnk_env_scroll_.u;
+        offset_v = _rj_cnk_env_scroll_.v;
+    }
+    else
+    {
+        offset_u = 0.f;
+        offset_v = 0.f;
+    }
 
-        GXBUF_POSNORM* p_buf_base = GetVertexBuffer();
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-        // get inverted strip state
-        bool invst = !(p_strip->len < 0);
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
 
-        // get strip length
-        const int len = ABS(p_strip->len);
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        Bool invst;
+        const Sint32 len = rjStartTriDestrip( p_st->len, &invst );
 
-        // get polygon count
-        const int nb_poly = (len - 2);
+        // get vertex buffer
+        RJS_VERTEX_PTCS* p_buf_base = rjGetVertexBuffer();
 
         // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
+        const CNK_ST* restrict p_polyvtx_base = p_st->d;
 
-        for (int i = 0; i < nb_poly; ++i)
+        for (int ix_poly = 0, ix_vert = 0; ix_vert < len; ++ix_poly, ix_vert += 3)
         {
-            GXBUF_POSNORM* p_buf = p_buf_base;
+            RJS_VERTEX_PTCS* p_buf = p_buf_base;
 
-            NJS_VECTOR norm = {0}; // normal accumulator
+            const CNK_ST* restrict p_polyvtx = p_polyvtx_base;
 
-            /** buffer increment value for destripping algorithm **/
             int buf_inc;
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_ST* restrict p_st_2 = p_st;
+            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st_2->i ];
-
-                /** Set draw buffer **/
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
 
-                // sub normal
-                norm.x -= p_vtx->nrm.x;
-                norm.y -= p_vtx->nrm.y;
-                norm.z -= p_vtx->nrm.z;
+                // set uv coords
+                p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + offset_u;
+                p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + offset_v;
 
-                /** End set buffer **/
+                // set last vertex
+                p_last_vtx = p_vtx;
+
+                /** End set buffer vertex **/
 
                 p_buf += buf_inc;
 
-                // user offset only applies per polygon, so we skip the first two
-                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
+                // to next polygon vertex
+                p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, ix_poly+j, ufo);
             }
 
-            /** Adjust accumulated normal (div 3) **/
-            norm.x *= (1.f/3.f);
-            norm.y *= (1.f/3.f);
-            norm.z *= (1.f/3.f);
+            // get color/spec
+            const Uint32 color = fn_color(p_last_vtx);
+            const Uint32 specu = fn_specu(p_last_vtx);
 
-            /** Set flat normal for triangle **/
-            (p_buf_base++)->nrm = norm;
-            (p_buf_base++)->nrm = norm;
-            (p_buf_base++)->nrm = norm;
+            // set color/spec
+            p_buf_base[0].col = color;
+            p_buf_base[0].spc = specu;
+            p_buf_base[1].col = color;
+            p_buf_base[1].spc = specu;
+            p_buf_base[2].col = color;
+            p_buf_base[2].spc = specu;
 
-            /** Swap strip inverse mode for next tri **/
+            p_buf_base += 3;
+
+            // swap strip winding mode for next polygon
             invst = !invst;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // base to next polygon vertex
+            p_polyvtx_base = NEXT_STRIP_POLY(p_polyvtx_base, ix_poly, ufo);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf_base) * (nb_poly * 3);
+        rjEndTriDestrip(len);
 
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        // we're now two strip indexes short
+        p_polyvtx_base = CNK_NEXT_POLY(p_polyvtx_base, ufo);
+        p_polyvtx_base = CNK_NEXT_POLY(p_polyvtx_base, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx_base;
     }
 }
 
-/****** No-Normal Envmap: Position+Col+UV *******************************************/
+/****** Positional Environment Flat *************************************************/
 static void
-PushStrip_PosColUV_ENV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkDrawStrip_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
-    const bool do_scroll = _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL;
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    const f32 scroll_u = do_scroll ? _rj_cnk_env_scroll_u_ : 0.f;
-    const f32 scroll_v = do_scroll ? _rj_cnk_env_scroll_v_ : 0.f;
+    f32 offset_u;
+    f32 offset_v;
 
-    const CNK_STRIP* p_strip = pStrip;
-
-    for (int i = 0; i < nbStrip; ++i)
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
     {
-        CnkStartTriStrip( p_strip->len );
-
-        GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
-
-        const int len = ABS(p_strip->len);
-
-        const CNK_ST* restrict p_st = p_strip->d;
-
-        for (int i = 0; i < len; ++i)
-        {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
-
-            /** Set draw buffer **/
-
-            // set position
-            p_buf->pos = p_vtx->pos;
-
-            // set color
-            p_buf->col = p_vtx->col;
-
-            // set uv coords
-            p_buf->u = -p_vtx->pos.x + scroll_u;
-            p_buf->v = -p_vtx->pos.y + scroll_v;
-
-            /** End set buffer **/
-
-            ++p_buf;
-
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
-        }
-
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
-
-        CopyCopyVertex(sizeof(*p_buf));
-
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        offset_u = _rj_cnk_env_scroll_.u;
+        offset_v = _rj_cnk_env_scroll_.v;
     }
-}
-
-static void
-PushStrip_PosColUV_ENV_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, const int ufo, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
-{
-    const bool do_scroll = _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL;
-
-    const f32 scroll_u = do_scroll ? _rj_cnk_env_scroll_u_ : 0.f;
-    const f32 scroll_v = do_scroll ? _rj_cnk_env_scroll_v_ : 0.f;
-
-    const CNK_STRIP* p_strip = pStrip;
-
-    for (int ix_strip = 0; ix_strip < nbStrip; ++ix_strip)
+    else
     {
-        CnkStartTriStripInverse( p_strip->len );
+        offset_u = 0.f;
+        offset_v = 0.f;
+    }
 
-        GXBUF_POSCOLUV* p_buf = GetVertexBuffer();
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-        const int len = ABS(p_strip->len);
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
 
-        const CNK_ST* restrict p_st = (CNK_ST*)&p_strip->d;
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        Bool invst;
+        const Sint32 len = rjStartTriDestrip( p_st->len, &invst );
 
-        for (int i = 0; i < len; ++i)
+        // get vertex buffer
+        RJS_VERTEX_PTCS* p_buf_base = rjGetVertexBuffer();
+
+        // get strip array
+        const CNK_ST* restrict p_polyvtx_base = p_st->d;
+
+        for (int ix_poly = 0, ix_vtx = 0; ix_vtx < len; ++ix_poly, ix_vtx += 3)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &njvtxbuf[ p_st->i ];
+            RJS_VERTEX_PTCS* p_buf = p_buf_base;
 
-            /** Set draw buffer **/
+            const CNK_ST* restrict p_polyvtx = p_polyvtx_base;
 
-            // set position
-            p_buf->pos = p_vtx->pos;
+            int buf_inc;
 
-            // set color
-            p_buf->col = p_vtx->col;
+            DESTRIP_START(p_buf, buf_inc, invst);
 
-            // set uv coords
-            p_buf->u = -p_vtx->pos.x + scroll_u;
-            p_buf->v = -p_vtx->pos.y + scroll_v;
+            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
 
-            /** End set buffer **/
+            for (int j = 0; j < 3; ++j)
+            {
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
-            ++p_buf;
+                // set position
+                p_buf->pos = p_vtx->pos;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+                // set uv coords
+                p_buf->u = -p_vtx->pos.x + offset_u;
+                p_buf->v = -p_vtx->pos.y + offset_v;
+
+                // set last vertex
+                p_last_vtx = p_vtx;
+
+                /** End set buffer vertex **/
+
+                p_buf += buf_inc;
+
+                // to next polygon vertex
+                p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, ix_poly+j, ufo);
+            }
+
+            // get color/spec
+            const Uint32 color = fn_color(p_last_vtx);
+            const Uint32 specu = fn_specu(p_last_vtx);
+
+            // set color/spec
+            p_buf_base[0].col = color;
+            p_buf_base[0].spc = specu;
+            p_buf_base[1].col = color;
+            p_buf_base[1].spc = specu;
+            p_buf_base[2].col = color;
+            p_buf_base[2].spc = specu;
+
+            p_buf_base += 3;
+
+            // swap strip winding mode for next polygon
+            invst = !invst;
+
+            // base to next polygon vertex
+            p_polyvtx_base = NEXT_STRIP_POLY(p_polyvtx_base, ix_poly, ufo);
         }
 
-        _gx_vtx_buf_offset_ += sizeof(*p_buf) * len;
+        rjEndTriDestrip(len);
 
-        CopyCopyVertex(sizeof(*p_buf));
+        // we're now two strip indexes short
+        p_polyvtx_base = CNK_NEXT_POLY(p_polyvtx_base, ufo);
+        p_polyvtx_base = CNK_NEXT_POLY(p_polyvtx_base, ufo);
 
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx_base;
     }
 }
 
@@ -485,6 +517,362 @@ PushStrip_PosColUV_ENV_INV(const CNK_STRIP* restrict pStrip, const int nbStrip, 
 /*
 *   Chunk Strip
 */
+/****** Static **********************************************************************/
+static void
+rjCnkStrip_VND8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+{
+    RJE_CNK_VCOLFUNC cfunc;
+    RJE_CNK_SPECFUNC sfunc = UseSpecular(pCtx) ? _rj_cnk_spec_mode_ : RJE_CNK_SPECFUNC_NONE;
+
+    bool use_light = false;
+
+    if ( pCtx->fst & NJD_FST_ENV )
+    {
+        rjCnkStartVertexTex(pCtx);
+
+        if ( pCtx->fst & NJD_FST_IL )
+        {
+        FST_ENV_IL:
+            cfunc = RJE_CNK_VCOLFUNC_D8;
+
+            rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else // use lighting
+        {
+            if ( !(pCtx->flag & CTXF_CTL_MULTIVND8) )
+            {
+                goto FST_ENV_IL;
+            }
+
+            cfunc = RJE_CNK_VCOLFUNC_LIGHTD8;
+
+            use_light = true;
+            rjCnkBeginLighting(pCtx);
+
+            rjCnkSetPolygonCullingMode(pCtx, TRUE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+    else // non environment
+    {
+        rjCnkStartVertexNonTex(pCtx);
+
+        if ( pCtx->fst & NJD_FST_IL )
+        {
+        FST_IL:
+            cfunc = RJE_CNK_VCOLFUNC_D8;
+
+            rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else // use lighting
+        {
+            if ( !(pCtx->flag & CTXF_CTL_MULTIVND8) )
+            {
+                goto FST_IL;
+            }
+
+            cfunc = RJE_CNK_VCOLFUNC_LIGHTD8;
+
+            use_light = true;
+            rjCnkBeginLighting(pCtx);
+
+            rjCnkSetPolygonCullingMode(pCtx, TRUE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+
+    /** two pass lighting **/
+
+    if ( use_light && rjCnkBeginTwoPassLighting(pCtx) )
+    {
+        if ( pCtx->fst & NJD_FST_ENV )
+        {
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else
+        {
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+
+    rjCnkEndVertex();
+}
+
+static void
+rjCnkStrip_VN(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+{
+    RJE_CNK_VCOLFUNC cfunc;
+    RJE_CNK_SPECFUNC sfunc = UseSpecular(pCtx) ? _rj_cnk_spec_mode_ : RJE_CNK_SPECFUNC_NONE;
+
+    bool use_light = false;
+
+    if ( pCtx->fst & NJD_FST_ENV )
+    {
+        rjCnkStartVertexTex(pCtx);
+
+        if ( pCtx->fst & NJD_FST_IL )
+        {
+            cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
+
+            rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else // use lighting
+        {
+            cfunc = RJE_CNK_VCOLFUNC_LIGHT;
+
+            use_light = true;
+            rjCnkBeginLighting(pCtx);
+
+            rjCnkSetPolygonCullingMode(pCtx, TRUE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+    else // non environment
+    {
+        rjCnkStartVertexNonTex(pCtx);
+
+        if ( pCtx->fst & NJD_FST_IL )
+        {
+            cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
+
+            rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else // use lighting
+        {
+            cfunc = RJE_CNK_VCOLFUNC_LIGHT;
+
+            use_light = true;
+            rjCnkBeginLighting(pCtx);
+
+            rjCnkSetPolygonCullingMode(pCtx, TRUE);
+
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+
+    /** two pass lighting **/
+
+    if ( use_light && rjCnkBeginTwoPassLighting(pCtx) )
+    {
+        if ( pCtx->fst & NJD_FST_ENV )
+        {
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_ENV_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip_ENV( striph, vbuf, cfunc, sfunc );
+            }
+        }
+        else
+        {
+            if ( pCtx->fst & NJD_FST_FL )
+            {
+                rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+            }
+            else // not flat shading
+            {
+                rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+            }
+        }
+    }
+
+    rjCnkEndVertex();
+}
+
+static void
+rjCnkStrip_D8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+{
+    RJE_CNK_VCOLFUNC const cfunc = RJE_CNK_VCOLFUNC_D8;
+    RJE_CNK_SPECFUNC const sfunc = RJE_CNK_SPECFUNC_NONE;
+
+    if ( pCtx->fst & NJD_FST_ENV )
+    {
+        rjCnkStartVertexTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        if ( pCtx->fst & NJD_FST_FL )
+        {
+            rjCnkDrawStrip_POS_FL(striph, vbuf, cfunc, sfunc);
+        }
+        else // not flat shading
+        {
+            rjCnkDrawStrip_POS(striph, vbuf, cfunc, sfunc);
+        }
+    }
+    else // non environment
+    {
+        rjCnkStartVertexNonTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        if ( pCtx->fst & NJD_FST_FL )
+        {
+            rjCnkDrawStrip_FL(striph, vbuf, cfunc, sfunc);
+        }
+        else // not flat shading
+        {
+            rjCnkDrawStrip(striph, vbuf, cfunc, sfunc);
+        }
+    }
+
+    rjCnkEndVertex();
+}
+
+static void
+rjCnkStrip_D8S8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+{
+    if ( !UseSpecular(pCtx) )
+    {
+        rjCnkStrip_D8(pCtx, striph, vbuf);
+        return;
+    }
+
+    RJE_CNK_VCOLFUNC const cfunc = RJE_CNK_VCOLFUNC_D8;
+    RJE_CNK_SPECFUNC const sfunc = RJE_CNK_SPECFUNC_S8;
+
+    if ( pCtx->fst & NJD_FST_ENV )
+    {
+        rjCnkStartVertexTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        if ( pCtx->fst & NJD_FST_FL )
+        {
+            rjCnkDrawStrip_POS_FL( striph, vbuf, cfunc, sfunc );
+        }
+        else // not flat shading
+        {
+            rjCnkDrawStrip_POS( striph, vbuf, cfunc, sfunc );
+        }
+    }
+    else // non environment
+    {
+        rjCnkStartVertexNonTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        if ( pCtx->fst & NJD_FST_FL )
+        {
+            rjCnkDrawStrip_FL( striph, vbuf, cfunc, sfunc );
+        }
+        else // not flat shading
+        {
+            rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+        }
+    }
+
+    rjCnkEndVertex();
+}
+
+static void
+rjCnkStrip_CV(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+{
+    RJE_CNK_VCOLFUNC const cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
+    RJE_CNK_SPECFUNC const sfunc = RJE_CNK_SPECFUNC_NONE;
+
+    if ( pCtx->fst & NJD_FST_ENV )
+    {
+        rjCnkStartVertexTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        rjCnkDrawStrip_POS( striph, vbuf, cfunc, sfunc );
+    }
+    else // non environment
+    {
+        rjCnkStartVertexNonTex(pCtx);
+
+        rjCnkSetPolygonCullingMode(pCtx, FALSE);
+
+        rjCnkDrawStrip( striph, vbuf, cfunc, sfunc );
+    }
+
+    rjCnkEndVertex();
+}
 
 /****** Static **********************************************************************/
 static void
@@ -495,186 +883,39 @@ CnkSetupStrip(CNK_CTX* pCtx)
 }
 
 /****** Extern **********************************************************************/
-static void
-rjCnkStrip_DB(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
-{
-    const CNK_STRIP_HEAD* restrict head = (CNK_STRIP_HEAD*)plist;
-
-    const int nb_strip = head->nbstrip;
-    const int ufo      = head->ufo;
-
-    const CNK_STRIP* restrict p_strip = (const CNK_STRIP*)&head->d;
-
-    if ( pCtx->fst & NJD_FST_ENV )
-    {
-        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM )
-        {
-            CnkSetupTexStrip(pCtx);
-
-            VertexDeclInfo = VertexDecl_PosColUV;
-
-            if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                PushStrip_PosColUV_ENV(p_strip, nb_strip, ufo, njvtxbuf);
-
-            if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                PushStrip_PosColUV_ENV_INV(p_strip, nb_strip, ufo, njvtxbuf);
-        }
-        else
-        {
-            CnkSetupEnvStrip(pCtx);
-
-            VertexDeclInfo = VertexDecl_PosNorm;
-
-            if (pCtx->fst & NJD_FST_FL)
-            {
-                if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStrip_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
-
-                if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStrip_PosNorm_FL_INV(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-            else
-            {
-                if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStrip_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
-
-                if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStrip_PosNorm_INV(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-        }
-
-    }
-    else // No tex
-    {
-        CnkSetupNoTexStrip(pCtx);
-
-        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR )
-        {
-            VertexDeclInfo = VertexDecl_PosCol;
-
-            if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                PushStrip_PosCol(p_strip, nb_strip, ufo, njvtxbuf);
-
-            if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                PushStrip_PosCol_INV(p_strip, nb_strip, ufo, njvtxbuf);
-        }
-        else
-        {
-            /** We don't need to handle the case where the vertex attributes don't
-                include normals, the shader just ignores them anyway. Although,
-                this is a potential area of improvement in the future. **/
-
-            VertexDeclInfo = VertexDecl_PosNorm;
-
-            if (pCtx->fst & NJD_FST_FL)
-            {
-                if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStrip_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
-
-                if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStrip_PosNorm_FL_INV(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-            else
-            {
-                if (pCtx->flag & CTXFLG_CULL_NORMAL)
-                    PushStrip_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
-
-                if (pCtx->flag & CTXFLG_CULL_INVERSE)
-                    PushStrip_PosNorm_INV(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-        }
-    }
-
-    /** End CnkStrip and draw buffered vertex list **/
-
-    GX_End();
-}
-
 void
-rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
     CnkSetupStrip(pCtx);
 
-    /** If this strip is double sided and we're not using Easy or Direct draw
-        modes, then additional logic is required for correctly inverting normals.
-        This logic is done in a seperate '_DB' function, so we can omit the extra
-        logic when it isn't needed. Otherwise, the functions are the same. **/
-    if ( pCtx->fst & NJD_FST_DB && !(pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT) ))
+    const CNK_STRIP_HEAD* striph = (const CNK_STRIP_HEAD*) plist;
+
+    if ( _rj_cnk_vertex_attr_ & RJD_CVF_NORMAL )
     {
-        rjCnkStrip_DB(pCtx, plist, njvtxbuf);
-        return;
-    }
-
-    const CNK_STRIP_HEAD* head = (CNK_STRIP_HEAD*)plist;
-
-    const int nb_strip = head->nbstrip;
-    const int ufo      = head->ufo;
-
-    const CNK_STRIP* const p_strip = (const CNK_STRIP*)&head->d;
-
-    if ( pCtx->fst & NJD_FST_ENV )
-    {
-        /** Draw environment mapped strip **/
-
-        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_NONORM )
+        if ( _rj_cnk_vertex_attr_ & RJD_CVF_COLOR )
         {
-            CnkSetupTexStrip(pCtx);
-
-            VertexDeclInfo = VertexDecl_PosColUV;
-
-            PushStrip_PosColUV_ENV(p_strip, nb_strip, ufo, njvtxbuf);
+            rjCnkStrip_VND8(pCtx, striph, vbuf);
+        }
+        else // normals only
+        {
+            rjCnkStrip_VN(pCtx, striph, vbuf);
+        }
+    }
+    else if ( _rj_cnk_vertex_attr_ & RJD_CVF_COLOR )
+    {
+        if ( _rj_cnk_vertex_attr_ & RJD_CVF_SPECULAR )
+        {
+            rjCnkStrip_D8S8(pCtx, striph, vbuf);
         }
         else
         {
-            CnkSetupEnvStrip(pCtx);
-
-            VertexDeclInfo = VertexDecl_PosNorm;
-
-            if ( pCtx->fst & NJD_FST_FL )
-            {
-                PushStrip_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-            else
-            {
-                PushStrip_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
-            }
+            rjCnkStrip_D8(pCtx, striph, vbuf);
         }
-
     }
-    else // not env mapped
+    else // only position
     {
-        /** Draw non-tex strip **/
-
-        CnkSetupNoTexStrip(pCtx);
-
-        if ( _nj_cnk_vtx_attrs_ & CNKVTX_FLG_VCOLOR )
-        {
-            VertexDeclInfo = VertexDecl_PosCol;
-
-            PushStrip_PosCol(p_strip, nb_strip, ufo, njvtxbuf);
-        }
-        else
-        {
-            /** We don't need to handle the case where the vertex attributes don't
-                include normals, the shader just ignores them anyway. Although,
-                this is a potential area of improvement in the future. **/
-
-            VertexDeclInfo = VertexDecl_PosNorm;
-
-            if (pCtx->fst & NJD_FST_FL)
-            {
-                PushStrip_PosNorm_FL(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-            else
-            {
-                PushStrip_PosNorm(p_strip, nb_strip, ufo, njvtxbuf);
-            }
-        }
+        rjCnkStrip_CV(pCtx, striph, vbuf);
     }
-
-    /** End CnkStrip and draw buffered vertex list **/
-
-    GX_End();
 }
 
 /************************************************************************************/
@@ -683,7 +924,7 @@ rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTE
 */
 
 void
-rjCnkStripVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkStripVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
 
 }
@@ -694,7 +935,7 @@ rjCnkStripVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VER
 */
 
 void
-rjCnkStripUVVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf, bool uvh)
+rjCnkStripUVVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
 {
 
 }
@@ -705,7 +946,7 @@ rjCnkStripUVVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_V
 */
 
 void
-rjCnkStripD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkStripD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
     
 }
@@ -716,7 +957,7 @@ rjCnkStripD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VER
 */
 
 void
-rjCnkStripUVD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict njvtxbuf, bool uvh)
+rjCnkStripUVD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
 {
 
 }

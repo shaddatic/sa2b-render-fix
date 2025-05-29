@@ -16,34 +16,29 @@
 /****** Self ************************************************************************/
 #include <rf_draw.h>            /* parent                                           */
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** Cnk Draw ********************************************************************/
-typedef struct cnk_vtx_buf      CNK_VERTEX_BUFFER;
+#include <rf_draw/rfd_core.h>
 
 EXTERN_START
 
 /************************/
 /*  Prototypes          */
 /************************/
-/****** Cnk Draw ********************************************************************/
+/****** Init ************************************************************************/
 /*
 *   Description:
-*     Begin Chunk draw.
+*     Init Core draw sub-module.
 */
-void    rjCnkBeginDrawModel( void );
+void    RFD_CoreInit( void );
 /*
 *   Description:
-*     Sub-function for Chunk draw that doesn't check model clip or call 'BeginDraw'.
-*
-*   Parameters:
-*     - model       : chunk model to draw
-*
-*   Returns:
-*     '0' if drawn, or '-1' if clipped due to draw/vertex type incompatibility.
+*     Init Chunk draw sub-module.
 */
-Sint32  rjCnkDrawModelSub( const NJS_CNK_MODEL* model );
+void    RFD_ChunkInit( void );
+/*
+*   Description:
+*     Init Texture-Error sub-module.
+*/
+void    RFD_TexerrInit( void );
 
 /****** Cnk Shape *******************************************************************/
 /*

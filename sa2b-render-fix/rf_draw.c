@@ -32,13 +32,20 @@
 #include <rf_draw/rfd_internal.h> /* children                                       */
 
 /************************/
-/*  Constants           */
+/*  Game Data           */
 /************************/
 /****** DrawTextureEx ***************************************************************/
 #define TexExCount          DATA_REF(int32_t, 0x0077F6BF)
 
 /****** DrawPolygon2D ***************************************************************/
 #define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
+
+/************************/
+/*  Data                */
+/************************/
+/****** Depth Queue *****************************************************************/
+Float _rj_depth_queue_near_;
+Float _rj_depth_queue_far_;
 
 /************************/
 /*  Source              */
@@ -115,6 +122,13 @@ void
 rjSetCheapShadowColor(Float r, Float g, Float b)
 {
     RFMOD_SetColor( r, g, b );
+}
+
+void
+rjSetDepthQueue(Float near, Float far)
+{
+    _rj_depth_queue_near_ = near;
+    _rj_depth_queue_far_  = far;
 }
 
 /****** Set Tex (Draw) **************************************************************/
@@ -217,7 +231,7 @@ EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
 {
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
 
-    njCnkTransformObject(object, _rjCnkDrawModel);
+    njCnkTransformObject(object, rjCnkDrawModel);
 
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
 }
@@ -225,9 +239,9 @@ EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
 static void
 MenuScreenEffectFix(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    const int nj3dflag = _nj_control_3d_flag_;
+    const u32 nj3dflag = _nj_control_3d_flag_;
 
-    _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL;
+    _nj_control_3d_flag_ = nj3dflag & ~NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL;
 
     njCnkSimpleDrawMotion(object, motion, frame);
 
@@ -249,23 +263,32 @@ ___MenuScreenEffectFix(void)
     }
 }
 
+__declspec(naked)
+static void
+___njCnkEasyDrawModel(void)
+{
+    __asm
+    {
+        push        eax
+        call        njCnkEasyDrawModel
+        add esp,    4
+        retn
+    }
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
 {
+    RFD_CoreInit();
+    RFD_ChunkInit();
+    RFD_TexerrInit();
+
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);
 
     /** Allow 'n' argument to be writeable **/
     WriteData(&Poly2DN, 4, int32_t);
-
-    /** RF Chunk draw functions **/
-    WriteJump(0x0042D340, rjCnkBeginDrawModel);
-    WriteJump(0x0042D500, rjCnkDrawModelSub);
-
-    /** Fix shape motion not calling MotionCallback **/
-    WriteJump(0x00784890, rjCnkPushPopShape);
-    WriteJump(0x00784E70, rjCnkPushPopShapeLink);
 
     /** Fix chCnk and Ginja using the wrong multiplication value to convert 0~256
         integer UVs to 0~1. In vanilla, it uses (1/255) **/
@@ -277,9 +300,7 @@ RF_DrawInit(void)
     WritePointer(0x005A5C1C, &s_NewUvMul); // chCnk // NJD_CV_VN_D8
     WritePointer(0x0041BCC3, &s_NewUvMul); // Ginja
 
-    EXTERN NJS_TEXLIST texlist_rf_texerr[];
-
-    texLoadTexturePrsFile("RF_TEXERR", texlist_rf_texerr);
+    /** 2D draw params **/
 
     WriteJump(0x004291B0, SetTexForDraw);
 
@@ -293,6 +314,8 @@ RF_DrawInit(void)
 
     njPolygonCullingMode(NJD_POLYGON_CULLINGSMALL);
 
+    rjSetDepthQueue(-1800.f, -2000.f);
+
 //  njPolygonCullingSize(0.05f);
 
     /** Fix draw function issues **/
@@ -302,4 +325,10 @@ RF_DrawInit(void)
     WriteCall(0x007561FF, EasyDrawObject);         // Spindash Aura
 
     WriteCall(0x0066838C, ___MenuScreenEffectFix); // DC menu screen effect text too bright
+
+    WriteCall(0x0055D53E, EasyDrawObject);         // ALO ball
+
+    WriteCall(0x006D9F51, ___njCnkEasyDrawModel);  // Savepoint
+    WriteCall(0x006D9FFE, ___njCnkEasyDrawModel);
+    WriteCall(0x006DA08A, ___njCnkEasyDrawModel);
 }

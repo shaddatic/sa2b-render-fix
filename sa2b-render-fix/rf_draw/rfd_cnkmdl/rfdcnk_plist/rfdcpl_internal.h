@@ -13,6 +13,8 @@
 /************************/
 /*  External Headers    */
 /************************/
+#include <rf_gx.h>
+
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* grand-parent                     */
 

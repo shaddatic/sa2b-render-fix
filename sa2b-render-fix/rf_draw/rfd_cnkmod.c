@@ -24,23 +24,34 @@
 Sint32
 njCnkModDrawModel(const NJS_CNK_MODEL* model)
 {
-    if (_nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP)
-        if (model->r > 0 && njCnkModelClip(model))
-            return -1;
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP )
+    {
+        if ( model->r > 0.f && njCnkModelClip(model) )
+        {
+            return CNK_RETN_CLIP;
+        }
+    }
 
-    if (model->vlist)
-        rjCnkModVList(model->vlist, _nj_vertex_buf_);
+    if ( model->vlist )
+    {
+        if ( rjCnkModVList(model->vlist, _nj_vertex_buf_) == CNK_RETN_CLIP )
+        {
+            return CNK_RETN_CLIP;
+        }
+    }
 
-    if (model->plist)
+    if ( model->plist )
+    {
         rjCnkModPList(model->plist, _nj_vertex_buf_);
+    }
 
-    return 0;
+    return CNK_RETN_OK;
 }
 
 void
 njCnkModDrawObject(const NJS_CNK_OBJECT* const object)
 {
-    njCnkTransformObject(object, njCnkModDrawModel);
+    rjCnkTransformObject(object, njCnkModDrawModel);
 }
 
 void

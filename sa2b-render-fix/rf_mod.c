@@ -56,14 +56,21 @@ static MOD_COLOR ModColor;
 
 static s32      ModBufferInitTriNum     = NB_MOD_TRI;
 
-static MOD_TRI* ModBuffer;
-static s32      ModBufferNum;
-static s32      ModBufferMax;
+//static MOD_TRI* ModBuffer;
+//static s32      ModBufferNum;
+//static s32      ModBufferMax;
+
+static s16      ModDrawShadow;
+
+void
+rjClearModVertexBuffer(void);
 
 void
 RFMOD_ClearBuffer(void)
 {
-    ModBufferNum = 0;
+    rjClearModVertexBuffer();
+
+    //ModBufferNum = 0;
 }
 
 void
@@ -86,43 +93,30 @@ RFMOD_SetDrawMode(RFE_MOD_MODE mode)
     ModMode = mode;
 }
 
-static bool ModInvertWinding;
 
-void
-RFMOD_SetInvertMode(bool bInv)
-{
-    ModInvertWinding = bInv;
-}
+//MOD_TRI*
+//RFMOD_GetBuffer(s32 nbTri)
+//{
+//    const s32 buf_cur = ModBufferNum;
+//
+//    const s32 buf_top = nbTri + buf_cur;
+//
+//    if (buf_top >= ModBufferMax)
+//    {
+//        OutputString("RFDBG: Modifier buffer is full!");
+//        return nullptr;
+//    }
+//
+//    ModBufferNum = buf_top;
+//
+//    return &ModBuffer[buf_cur];
+//}
 
-bool
-RFMOD_GetInvertMode(void)
-{
-    return ModInvertWinding;
-}
-
-MOD_TRI*
-RFMOD_GetBuffer(s32 nbTri)
-{
-    const s32 buf_cur = ModBufferNum;
-
-    const s32 buf_top = nbTri + buf_cur;
-
-    if (buf_top >= ModBufferMax)
-    {
-        OutputString("RFDBG: Modifier buffer is full!");
-        return nullptr;
-    }
-
-    ModBufferNum = buf_top;
-
-    return &ModBuffer[buf_cur];
-}
-
-static void
-DrawModifierList(void)
-{
-    DX9_DrawPrimitiveUP(DX9_PRITYPE_TRIANGLELIST, ModBufferNum, ModBuffer, sizeof(NJS_POINT3));
-}
+//static void
+//DrawModifierList(void)
+//{
+//    DX9_DrawPrimitive(DX9_PRITYPE_TRIANGLELIST, ModBufferNum, ModBuffer, sizeof(NJS_POINT3));
+//}
 
 static void
 DrawScreenQuad(void)
@@ -236,6 +230,9 @@ NO_FOG:
     return true;
 }
 
+void
+rjRenderModVertexBuffer(void);
+
 static void
 DrawBufferFast(void)
 {
@@ -247,6 +244,9 @@ DrawBufferFast(void)
     /****** Initial Setup ******/
     /** Save render state **/
     ModSaveRenderState();
+
+    /** Force Z Func **/
+    DX9_SetZFunc(DX9_CMP_LEQ);
 
     /** Setup shader info **/
     DX9_SetVtxShader(ModVtxShader);
@@ -293,7 +293,7 @@ DrawBufferFast(void)
 
     DX9_SetStencilWriteMask(STENCIL_BITS_LOW);
 
-    DrawModifierList();
+    rjRenderModVertexBuffer();
 
     DX9_SetStencilTwoSided(false);
 
@@ -370,27 +370,35 @@ DrawBufferDebug(void)
     DX9_SetDstBlend(DX9_BLND_INVSRCALPHA);
 
     /****** Draw the Modifier Buffer ******/
-    DrawModifierList();
+    rjRenderModVertexBuffer();
 
     /** Load render state **/
     ModLoadRenderState();
 }
 
+EXTERN Uint32 _rj_mod_vertex_buffer_num_;
+
 void
 RFMOD_DrawBuffer(void)
 {
-    if (!ModBufferNum)
+    if (!_rj_mod_vertex_buffer_num_ || !ModDrawShadow) // !ModBufferNum || 
         return;
 
-    switch (ModMode) {
-    case MODMD_FAST:
-        DrawBufferFast();
-        break;
-
-    case MODMD_DEBUG:
-        DrawBufferDebug();
-        break;
+    switch (ModMode)
+    {
+        case MODMD_FAST:
+        {
+            DrawBufferFast();
+            break;
+        }
+        case MODMD_DEBUG:
+        {
+            DrawBufferDebug();
+            break;
+        }
     }
+
+    ModDrawShadow = FALSE;
 }
 
 void
@@ -417,12 +425,17 @@ RFMOD_OffShadow(void)
     DX9_SetStencilPass(DX9_STCL_ZERO);
 }
 
+void
+rjInitModVertexBuffer(Sint32 size);
+
 static void
 RFMOD_CreateBuffer(void)
 {
-    ModBuffer    = mtAlloc(MOD_TRI, ModBufferInitTriNum);
-    ModBufferMax = ModBufferInitTriNum;
-    ModBufferNum = 0;
+    rjInitModVertexBuffer(0x8000);
+
+    //ModBuffer    = mtAlloc(MOD_TRI, ModBufferInitTriNum);
+    //ModBufferMax = ModBufferInitTriNum;
+    //ModBufferNum = 0;
 }
 
 #define GJD_ALPHAMODE_SOLID (0)
@@ -431,47 +444,59 @@ RFMOD_CreateBuffer(void)
 
 #define _gj_alpha_mode_     DATA_REF(uint32_t, 0x025EFE50)
 
-static s32
-ModifierBegin(void)
+s32
+ModifierStart(void)
 {
-    switch (_gj_alpha_mode_) {
-    case GJD_ALPHAMODE_SOLID:
-        if (_nj_control_3d_flag_ & (NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_SHADOW_OPAQUE))
+    switch (_gj_alpha_mode_)
+    {
+        case GJD_ALPHAMODE_SOLID:
         {
-            RFMOD_OnShadow();
-            return 2;
+            if (_nj_control_3d_flag_ & (NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_SHADOW_OPAQUE))
+            {
+                RFMOD_OnShadow();
+                return 2;
+            }
+
+            return 0;
         }
-
-        return 0;
-
-    case GJD_ALPHAMODE_ATEST:
-        if (_nj_control_3d_flag_ & NJD_CONTROL_3D_SHADOW)
+        case GJD_ALPHAMODE_ATEST:
         {
-            RFMOD_OnShadow();
-            return 2;
+            if (_nj_control_3d_flag_ & NJD_CONTROL_3D_SHADOW)
+            {
+                RFMOD_OnShadow();
+                return 2;
+            }
+
+            return 0;
+
         }
-
-        return 0;
-
-    case GJD_ALPHAMODE_BLEND:
-        RFMOD_Suspend();
-        return 1;
+        case GJD_ALPHAMODE_BLEND: default:
+        {
+            RFMOD_Suspend();
+            return 1;
+        }
     }
 
     return 0;
 }
 
-static void
+void
 ModifierEnd(const s32 i)
 {
-    switch (i) {
-    case 1:
-        RFMOD_Resume();
-        break;
+    switch (i)
+    {
+        case 1:
+        {
+            RFMOD_Resume();
+            break;
+        }
+        case 2:
+        {
+            ModDrawShadow = TRUE;
 
-    case 2:
-        RFMOD_OffShadow();
-        break;
+            RFMOD_OffShadow();
+            break;
+        }
     }
 }
 
@@ -479,7 +504,7 @@ static hook_info HookInfoGxEnd[1];
 static void
 GX_EndStencilCheck(void)
 {
-    const s32 i = ModifierBegin();
+    const s32 i = ModifierStart();
 
     FuncHookCall( HookInfoGxEnd, GX_End() );
 
@@ -493,7 +518,7 @@ static hook_info HookInfoGjDraw[1];
 static void __cdecl
 GjDrawStencilCheck(int a1, char a2)
 {
-    const s32 i = ModifierBegin();
+    const s32 i = ModifierStart();
 
     FuncHookCall( HookInfoGjDraw, sub_41BE30(a1, a2) );
 

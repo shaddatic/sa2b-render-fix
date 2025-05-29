@@ -15,6 +15,7 @@
 #include <rf_renderstate.h> /* render state                                         */
 #include <rf_util.h>        /* utility                                              */
 #include <rf_gx.h>          /* rf gx                                                */
+#include <rf_light.h>
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
@@ -43,30 +44,29 @@ BgraToArgb(const NJS_BGRA* restrict pBgra, NJS_ARGB* restrict pArgb)
 static void
 rjCnkContextBlend(CNK_CTX* restrict pCtx)
 {
-    if ( !(pCtx->flag & CTXFLG_CTX_BLEND) )
-        return;
-
-    if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_BLEND_MODE) )
+    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_BLEND_MODE )
     {
-        _nj_cnk_blend_mode_ = pCtx->blend;
+        _rj_cnk_blend_mode_ = _nj_cnk_blend_mode_;
     }
-
-    pCtx->flag &= ~CTXFLG_CTX_BLEND;
+    else
+    {
+        _rj_cnk_blend_mode_ = pCtx->blend;
+    }
 }
 
 static void
 rjCnkContextTiny(CNK_CTX* restrict pCtx)
 {
-    EXTERN NJS_TEXLIST texlist_rf_texerr[];
+    EXTERN NJS_TEXNAME texture_rf_texerr[];
 
-    if ( !(pCtx->flag & CTXFLG_CTX_TINY) )
+    if ( !(pCtx->flag & CTXF_TINY) )
         return;
 
-    pCtx->flag &= ~CTXFLG_CTX_TINY;
+    pCtx->flag &= ~CTXF_TINY;
 
     /** get texture **/
 
-    s16 texid = pCtx->tiny.texid; //texbits & NJD_TID_MASK;
+    s16 texid = pCtx->tiny.texid;
 
     // call texture callback
     if (_rj_cnk_texture_callback_) texid = _rj_cnk_texture_callback_(texid);
@@ -76,7 +76,7 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
     if ( !p_tls || texid >= (s16)p_tls->nbTexture )
     {
     TEX_ERR:
-        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texlist_rf_texerr->textures[0].texaddr;
+        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
 
         NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
 
@@ -226,8 +226,6 @@ rjCnkContextTiny(CNK_CTX* restrict pCtx)
 static void
 rjCnkContextDiff(CNK_CTX* restrict pCtx)
 {
-    pCtx->flag &= ~CTXFLG_CTX_DIFF;
-
     const Uint32 nj3dflag = _nj_control_3d_flag_;
 
     NJS_ARGB diff;
@@ -251,24 +249,17 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             BgraToArgb(&pCtx->diff, &diff);
     }
 
-    /** diffuse color is clamped **/
-
-    diff.a = CLAMP(diff.a, 0.f, 1.f);
-    diff.r = CLAMP(diff.r, 0.f, 1.f);
-    diff.g = CLAMP(diff.g, 0.f, 1.f);
-    diff.b = CLAMP(diff.b, 0.f, 1.f);
-
     /** Adjust diffuse depending on Ninja, draw function, and strip context **/
     {
-        const s32 funcmd = pCtx->flag & CTXFLG_MASK_FUNC;
+        const s32 funcmd = pCtx->flag & CTXF_MASK_FUNC;
 
         const u32 ctxflg = pCtx->flag;
 
         /** If using texture AND is not DirectDraw, ELSE keep diffuse **/
-        if ( !(ctxflg & CTXFLG_STRIP_NOTEX) && !(funcmd & CTXFLG_FUNC_DIRECT) )
+        if ( !(ctxflg & CTXF_STATE_NONTEX) && !(funcmd & CTXF_FUNC_DIRECT) )
         {
             /** If EasyDraw/EasyMultiDraw **/
-            if ( funcmd & CTXFLG_FUNC_EASY )
+            if ( funcmd & CTXF_FUNC_EASY )
             {
                 diff.r = 1.f;
                 diff.g = 1.f;
@@ -278,65 +269,62 @@ rjCnkContextDiff(CNK_CTX* restrict pCtx)
             else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
             {
                 /** is NormalDraw             OR is SimpleMulti             OR  not CnkS type **/
-                if ( funcmd == CTXFUNC_NORMAL || funcmd & CTXFLG_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
+                if ( funcmd == CTX_FUNC_NORMAL || funcmd & CTXF_FUNC_MULTI || !(ctxflg & CTXFLG_STRIP_NOUVS) )
                 {
                     diff.r = 1.f;
                     diff.g = 1.f;
                     diff.b = 1.f;
                 }
+                else goto CLAMP_DIFF;
             }
+            else goto CLAMP_DIFF;
+        }
+        else
+        {
+        CLAMP_DIFF:
+            diff.r = CLAMP(diff.r, 0.f, 1.f);
+            diff.g = CLAMP(diff.g, 0.f, 1.f);
+            diff.b = CLAMP(diff.b, 0.f, 1.f);
         }
     }
 
+    diff.a = CLAMP(diff.a, 0.f, 1.f);
+
     /** apply diffuse **/
 
-    RX_SetChanMatColor_Direct(0, diff.r, diff.g, diff.b, diff.a);
+    _rj_cnk_diff_material_ = diff;
 }
 
 static void
 rjCnkContextAmbi(CNK_CTX* restrict pCtx)
 {
-    EXTERN NJS_ARGB _rj_ambi_color_;
-
-    pCtx->flag &= ~CTXFLG_CTX_AMBI;
-
-    NJS_ARGB ambi;
-
     if ( pCtx->fst & NJD_FST_IA )
     {
-        ambi.r = 0.f;
-        ambi.g = 0.f;
-        ambi.b = 0.f;
+        _rj_cnk_ambi_material_.r = 0.f;
+        _rj_cnk_ambi_material_.g = 0.f;
+        _rj_cnk_ambi_material_.b = 0.f;
+    }
+    else if ( pCtx->flag & CTXF_CTL_AMBIMATERIAL )
+    {
+        _rj_cnk_ambi_material_.r = _rj_cnk_light_ambient_.r * ( (f32)pCtx->ambi.r * (1.f/255.f) );
+        _rj_cnk_ambi_material_.g = _rj_cnk_light_ambient_.g * ( (f32)pCtx->ambi.g * (1.f/255.f) );
+        _rj_cnk_ambi_material_.b = _rj_cnk_light_ambient_.b * ( (f32)pCtx->ambi.b * (1.f/255.f) );
     }
     else
     {
-        const s32 funcmd = pCtx->flag & CTXFLG_MASK_FUNC;
-
-        /**  If Normal Draw           OR  using a MultiDraw variant **/
-        if ( funcmd == CTXFUNC_NORMAL || (funcmd & CTXFLG_FUNC_MULTI) )
-        {
-            ambi.r = _rj_ambi_color_.r * ( (f32)pCtx->ambi.r * (1.f/255.f) );
-            ambi.g = _rj_ambi_color_.g * ( (f32)pCtx->ambi.g * (1.f/255.f) );
-            ambi.b = _rj_ambi_color_.b * ( (f32)pCtx->ambi.b * (1.f/255.f) );
-        }
-        else
-        {
-            ambi.r = _rj_ambi_color_.r;
-            ambi.g = _rj_ambi_color_.g;
-            ambi.b = _rj_ambi_color_.b;
-        }
+        _rj_cnk_ambi_material_.r = _rj_cnk_light_ambient_.r;
+        _rj_cnk_ambi_material_.g = _rj_cnk_light_ambient_.g;
+        _rj_cnk_ambi_material_.b = _rj_cnk_light_ambient_.b;
     }
-
-    RX_SetChanAmbColor_Direct(ambi.r, ambi.g, ambi.b);
 }
 
 static void
 rjCnkContextSpec(CNK_CTX* restrict pCtx)
 {
-    if ( !(pCtx->flag & CTXFLG_CTX_SPEC) )
-        return;
-
-    pCtx->flag &= ~CTXFLG_CTX_SPEC;
+    _rj_cnk_spec_material_.a =  (Float)pCtx->spec.a;
+    _rj_cnk_spec_material_.r = ((Float)pCtx->spec.r * (1.f/255.f));
+    _rj_cnk_spec_material_.g = ((Float)pCtx->spec.g * (1.f/255.f));
+    _rj_cnk_spec_material_.b = ((Float)pCtx->spec.b * (1.f/255.f));
 }
 
 static void
@@ -350,46 +338,16 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
 {
     const Sint16 fst = pCtx->fst;
 
-    const bool fst_ua  = ( fst & (NJD_FST_UA|NJD_FST_NAT) );
-
-    const s32 bld = _nj_cnk_blend_mode_;
+    const s32 bld = _rj_cnk_blend_mode_;
 
     const s32 bld_src = (bld & NJD_FBS_MASK);
     const s32 bld_dst = (bld & NJD_FBD_MASK);
 
-    SetBlendMode(bld_src, bld_dst, fst_ua);
-
-    /** Set culling mode **/
-
-    if ( pCtx->flag & (CTXFLG_FUNC_EASY|CTXFLG_FUNC_DIRECT) )
+    if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
     {
-        const bool nrm = pCtx->flag & CTXFLG_CULL_NORMAL;
-        const bool inv = pCtx->flag & CTXFLG_CULL_INVERSE;
+        SetBlendMode(bld_src, bld_dst, TRUE);
 
-        if (nrm)
-        {
-            if (inv) // both
-            {
-                GX_SetCullMode(GXD_CULLMODE_NONE);
-            }
-            else // normal
-            {
-                GX_SetCullMode(GXD_CULLMODE_CW);
-            }
-        }
-        else // inverse
-        {
-            GX_SetCullMode(GXD_CULLMODE_CCW);
-        }
-    }
-    else // calc inverted normals
-    {
-        GX_SetCullMode(GXD_CULLMODE_CW);
-    }
-
-    if (fst_ua)
-    {
-        const bool notex = (pCtx->flag & CTXFLG_STRIP_NOTEX);
+        const bool notex = (pCtx->flag & CTXF_STATE_NONTEX);
 
         if ( (fst & NJD_FST_NAT)        // IF NoAlphaTest flag
             || bld_src == NJD_FBS_ONE   // OR src is ONE
@@ -400,27 +358,55 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
             SetTransparentDraw();
         }
         else
+        {
             SetAlphaTestDraw();
-    } 
-    else
+        }
+    }        
+    else // opaque strip
+    {
+        SetBlendMode(bld_src, bld_dst, FALSE);
+
         SetOpaqueDraw();
-}
-
-static void
-rjCnkContextLight(const CNK_CTX* restrict pCtx)
-{
-    ___NOTE("To be replaced in a later update");
-
-    CnkSetupLights_Ext( (pCtx->fst >> 8) );
+    }
 }
 
 /****** Extern **********************************************************************/
 void
+rjCnkBeginContext(CNK_CTX* restrict pCtx)
+{
+    const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
+
+    pCtx->flag = funcmd;
+
+    if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd == RFRS_CNKFUNCMD_SIMPLE || funcmd == RFRS_CNKFUNCMD_SIMPLEMULTI )
+    {
+        pCtx->flag |= CTXF_CTL_BACKFACECULL;
+    }
+
+    if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & RFRS_CNKFUNCMD_MULTIBIT )
+    {
+        pCtx->flag |= (CTXF_CTL_AMBIMATERIAL|CTXF_CTL_MULTIVND8);
+    }
+
+    if ( true ) ___NOTE("This will be a setting to allow specular on non-textured polygons");
+    {
+        pCtx->flag |= CTXF_CTL_NONTEXSPEC;
+    }
+
+    // to fix a cloud blending bug in metal harbor
+    pCtx->blend = (Uint16) _rj_cnk_blend_mode_;
+}
+
+void
 rjCnkSetBlend(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     pCtx->blend = plist[0] & (NJD_FBS_MASK|NJD_FBD_MASK);
+}
 
-    pCtx->flag |= CTXFLG_CTX_BLEND;
+void
+rjCnkSetExponent(CNK_CTX* restrict pCtx, const Sint16* plist)
+{
+    pCtx->spec.a = ((CNK_BITS_EXPONENT*)plist)->exp;
 }
 
 void
@@ -448,8 +434,6 @@ rjCnkSetMaterial(CNK_CTX* restrict pCtx, const Sint16* plist)
     {
         pCtx->spec = *(NJS_BGRA*)(&plist[mat_index]);
     }
-
-    pCtx->flag |= ( flag << CTXFLG_SHIFT_MAT );
 }
 
 void
@@ -457,11 +441,11 @@ rjCnkSetTexture(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     pCtx->tiny = *(CNK_TINY*)(&plist[0]);
 
-    pCtx->flag |= CTXFLG_CTX_TINY;
+    pCtx->flag |= CTXF_TINY;
 }
 
-Sint16
-GetCnkStripFlags(const Sint16* plist)
+void
+rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
     Sint16 fst = plist[0];
 
@@ -473,25 +457,18 @@ GetCnkStripFlags(const Sint16* plist)
     switch ( RFRS_GetCnkFuncMode() )
     {
         case RFRS_CNKFUNCMD_NORMAL:
+        case RFRS_CNKFUNCMD_SIMPLE:
         {
-          //fst &= ~(0);
             break;
         }
         case RFRS_CNKFUNCMD_EASY:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB|NJD_FST_ENV);
-            fst |= (NJD_FST_DB);
-            break;
-        }
-        case RFRS_CNKFUNCMD_SIMPLE:
-        {
-          //fst &= ~(0);
             break;
         }
         case RFRS_CNKFUNCMD_EASYMULTI:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_DB|NJD_FST_ENV);
-            fst |= (NJD_FST_DB);
             break;
         }
         case RFRS_CNKFUNCMD_SIMPLEMULTI:
@@ -502,7 +479,6 @@ GetCnkStripFlags(const Sint16* plist)
         case RFRS_CNKFUNCMD_DIRECT:
         {
             fst &= ~(NJD_FST_IL|NJD_FST_IA|NJD_FST_DB);
-            fst |= (NJD_FST_DB);
             break;
         }
     }
@@ -512,19 +488,78 @@ GetCnkStripFlags(const Sint16* plist)
         fst |= (NJD_FST_DB);
     }
 
-    //fst |= NJD_FST_FL;
+    switch ( _rj_cnk_depth_queue_ )
+    {
+        case RJD_CNK_DEPTHQUEUE_OFF:
+        case RJD_CNK_DEPTHQUEUE_NEAR:
+        {
+            break;
+        }
+        case RJD_CNK_DEPTHQUEUE_ON:
+        {
+            fst |= NJD_FST_UA;
+            break;
+        }
+    }
 
-    return fst & NJD_FST_MASK;
+    pCtx->fst = fst & NJD_FST_MASK;
 }
 
 void
-rjCnkSetStrip(CNK_CTX* restrict pCtx, const Sint16* plist)
+rjCnkSetPolygonCullingMode(CNK_CTX* restrict pCtx, Bool light)
 {
-    pCtx->fst = GetCnkStripFlags(plist);
+    const Uint32 nrm = pCtx->flag & CTXF_DRAW_NORMAL;
+    const Uint32 inv = pCtx->flag & CTXF_DRAW_INVERSE;
+
+    if ( pCtx->flag & CTXF_CTL_BACKFACECULL )
+    {
+        if ( nrm ) // normal
+        {
+            /*
+            *   if both sides are set to draw, meaning opaque pass, we need to
+            *   first determine if this strip is double sided. If it is, we then check
+            *   if lighting calculations are going to be used. If not, then no cull.
+            * 
+            *   If either of those things fail though, cull CW and let the
+            *   'BeginTwoPass' functions handle the inverse side.
+            */
+
+            if ( inv && (pCtx->fst & NJD_FST_DB) && !light ) // both
+            {
+                GX_SetCullMode(GXD_CULLMODE_NONE);
+            }
+            else // normal
+            {
+                GX_SetCullMode(GXD_CULLMODE_CW);
+            }
+        }
+        else // inverse
+        {
+            GX_SetCullMode(GXD_CULLMODE_CCW);
+        }
+    }
+    else // easy/multi/direct
+    {
+        if ( nrm )
+        {
+            if ( inv ) // both
+            {
+                GX_SetCullMode(GXD_CULLMODE_NONE);
+            }
+            else // normal
+            {
+                GX_SetCullMode(GXD_CULLMODE_CW);
+            }
+        }
+        else // inverse
+        {
+            GX_SetCullMode(GXD_CULLMODE_CCW);
+        }
+    }
 }
 
 void
-rjCnkContext(CNK_CTX* restrict pCtx)
+rjCnkExecContext(CNK_CTX* restrict pCtx)
 {
     rjCnkContextBlend(pCtx);
     rjCnkContextTiny(pCtx);
@@ -532,5 +567,4 @@ rjCnkContext(CNK_CTX* restrict pCtx)
     rjCnkContextAmbi(pCtx);
     rjCnkContextSpec(pCtx);
     rjCnkContextStrip(pCtx);
-    rjCnkContextLight(pCtx);
 }

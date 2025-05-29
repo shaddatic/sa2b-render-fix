@@ -32,7 +32,10 @@ rjCnkModVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint(NULL, &(p_vtx++)->pos, &(p_buf++)->pos);
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        p_vtx++;
+        p_buf++;
     }
 }
 
@@ -51,7 +54,10 @@ rjCnkModVertexD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint(NULL, &(p_vtx++)->pos, &(p_buf++)->pos);
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        p_vtx++;
+        p_buf++;
     }
 }
 
@@ -70,7 +76,10 @@ rjCnkModVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint(NULL, &(p_vtx++)->pos, &(p_buf++)->pos);
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        p_vtx++;
+        p_buf++;
     }
 }
 
@@ -89,12 +98,15 @@ rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        njCalcPoint(NULL, &(p_vtx++)->pos, &(p_buf++)->pos);
+        njCalcPoint(NULL, &p_vtx->pos, &p_buf->pos);
+
+        p_vtx++;
+        p_buf++;
     }
 }
 
 static void
-rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* vbuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -112,7 +124,7 @@ rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
         njCalcPoint(NULL, &p_vtx->pos, &pos);
 
-        CNK_VERTEX_BUFFER* p_vbuf = &pVtxBuf[ p_vtx->i ];
+        CNK_VERTEX_BUFFER* p_vbuf = &vbuf[ p_vtx->i ];
 
         const f32 mul = CNK_GET_WEIGHT(p_vtx->w);
 
@@ -142,8 +154,8 @@ rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 /****** Extern **********************************************************************/
-int32_t
-rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
+Sint32
+rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const vbuf)
 {
     const Sint32* vlist = pVList;
 
@@ -159,33 +171,44 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const njvtxbuf)
 
         const CNK_VERTEX_HEAD* pvhead = (void*)vlist;
 
-        CNK_VERTEX_BUFFER* p_vbuf = &njvtxbuf[ pvhead->indexoffset ];
+        CNK_VERTEX_BUFFER* p_vbuf = &vbuf[ pvhead->indexoffset ];
 
-        switch (type) {
-        case NJD_CV: /** Original Mod Vertex Fmt **/
-            rjCnkModVertex(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_D8:
-            rjCnkModVertexD8(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN:
-            rjCnkModVertexVN(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN_D8:
-            rjCnkModVertexVND8(vlist, p_vbuf);
-            break;
-
-        case NJD_CV_VN_NF:
-            rjCnkModVertexVNNF(vlist, p_vbuf);
-            break;
+        switch (type)
+        {
+            case NJD_CV: /** Original Mod Vertex Fmt **/
+            {
+                rjCnkModVertex(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_D8:
+            {
+                rjCnkModVertexD8(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN:
+            {
+                rjCnkModVertexVN(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_D8:
+            {
+                rjCnkModVertexVND8(vlist, p_vbuf);
+                break;
+            }
+            case NJD_CV_VN_NF:
+            {
+                rjCnkModVertexVNNF(vlist, p_vbuf);
+                break;
+            }
+            default:
+            {
+                return CNK_RETN_CLIP;
+            }
         }
 
         /** Next data chunk **/
         vlist += pvhead->size + 1;
     }
 
-    return 0;
+    return CNK_RETN_OK;
 }

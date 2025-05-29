@@ -19,19 +19,23 @@
 /************************/
 /****** Static **********************************************************************/
 static void
-rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
+rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const vbuf)
 {
     const CNK_VOLUME_HEAD* p_vohead = (CNK_VOLUME_HEAD*) pPList;
 
     const int nb_poly = p_vohead->nbpoly;
     const int ufo     = p_vohead->ufo;
 
-    MOD_TRI* const p_modbuf = RFMOD_GetBuffer(nb_poly);
+    const int nb_vtx = rjStartModTriList( nb_poly );
 
-    if (!p_modbuf)
+    if ( !nb_vtx )
+    {
         return;
+    }
 
-    const CNK_VOLUME_P3* p_volume = (CNK_VOLUME_P3*) p_vohead->d;
+    RJS_VERTEX_M* p_vbuf = rjGetModVertexBuffer();
+
+    const CNK_VOLUME_P3* p_volume = (const CNK_VOLUME_P3*) p_vohead->d;
 
     const CNK_VO_P3* p_vo = p_volume->d;
 
@@ -39,157 +43,167 @@ rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvt
     {
         for (s32 i = 0; i < nb_poly; ++i)
         {
-            p_modbuf[i].vtx[2] = njvtxbuf[p_vo->i0].pos;
-            p_modbuf[i].vtx[1] = njvtxbuf[p_vo->i1].pos;
-            p_modbuf[i].vtx[0] = njvtxbuf[p_vo->i2].pos;
+            p_vbuf[0].pos = vbuf[p_vo->i2].pos;
+            p_vbuf[1].pos = vbuf[p_vo->i1].pos;
+            p_vbuf[2].pos = vbuf[p_vo->i0].pos;
+            
+            p_vbuf += 3;
 
             p_vo = CNK_NEXT_POLY(p_vo, ufo);
         }
     }
-    else
+    else // normal draw
     {
         for (s32 i = 0; i < nb_poly; ++i)
         {
-            p_modbuf[i].vtx[0] = njvtxbuf[p_vo->i0].pos;
-            p_modbuf[i].vtx[1] = njvtxbuf[p_vo->i1].pos;
-            p_modbuf[i].vtx[2] = njvtxbuf[p_vo->i2].pos;
+            p_vbuf[0].pos = vbuf[p_vo->i0].pos;
+            p_vbuf[1].pos = vbuf[p_vo->i1].pos;
+            p_vbuf[2].pos = vbuf[p_vo->i2].pos;
+
+            p_vbuf += 3;
 
             p_vo = CNK_NEXT_POLY(p_vo, ufo);
         }
     }
+
+    rjEndModTriList( nb_vtx );
 }
 
 static void
-rjCnkModStrip(const Sint16* plist, const CNK_VERTEX_BUFFER* const njvtxbuf)
+rjCnkModStrip(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
-    const CNK_STRIP_HEAD* p_sthead = (CNK_STRIP_HEAD*) plist;
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-    const bool invmod = RFMOD_GetInvertMode();
-
-    const int nb_strip = p_sthead->nbstrip;
-    const int ufo      = p_sthead->ufo;
-
-    const CNK_STRIP* restrict p_strip = (CNK_STRIP*) p_sthead->d;
+    const CNK_STRIP* p_st = (const CNK_STRIP*) striph->d;
 
     for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
     {
-        // get inverted strip state
-        bool invst = !(p_strip->len < 0);
+        Bool invst;
+        const Sint32 nb_vert = rjStartModTriDestrip( p_st->len, &invst );
 
-        // get strip length
-        const int len = ABS(p_strip->len);
-
-        // get polygon count
-        const int nb_poly = (len - 2);
-
-        /** get and set buffer **/
-        MOD_TRI* restrict p_buf_base = RFMOD_GetBuffer(nb_poly);
-
-        if (!p_buf_base)
+        if ( !nb_vert )
+        {
             return;
+        }
+
+        // get vertex buffer
+        RJS_VERTEX_M* p_buf_base = rjGetModVertexBuffer();
 
         // get strip array
-        const CNK_ST* restrict p_st = p_strip->d;
+        const CNK_ST* restrict p_st_base = p_st->d;
 
-        for (int i = 0; i < nb_poly; ++i)
+        for (int ix_poly = 0, ix_vert = 0; ix_vert < nb_vert; ++ix_poly, ix_vert += 3)
         {
-            NJS_POINT3* restrict p_buf = p_buf_base->vtx;
+            RJS_VERTEX_M* p_buf = p_buf_base;
 
-            /** buffer increment value for destripping algorithm **/
+            const CNK_ST* restrict p_polyvtx = p_st_base;
+
             int buf_inc;
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_ST* restrict p_st_2 = p_st;
-
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_st_2->i ];
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
-                *p_buf = p_vtx->pos;
+                // set position
+                p_buf->pos = p_vtx->pos;
+
+                /** End set buffer vertex **/
 
                 p_buf += buf_inc;
 
-                // user offset only applies per polygon, so we skip the first two
-                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
+                // to next polygon vertex
+                p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, ix_poly+j, ufo);
             }
 
-            p_buf_base++;
+            p_buf_base += 3;
 
+            // swap strip winding mode for next polygon
             invst = !invst;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // base to next polygon vertex
+            p_st_base = NEXT_STRIP_POLY(p_st_base, ix_poly, ufo);
         }
 
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        rjEndModTriDestrip(nb_vert);
+
+        // we're now two strip indexes short
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_st_base;
     }
 }
 
 static void
-rjCnkModStripUV(const Sint16* plist, const CNK_VERTEX_BUFFER* const njvtxbuf)
+rjCnkModStripUV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
-    const CNK_STRIP_HEAD* pStripHead = (CNK_STRIP_HEAD*) plist;
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
 
-    const bool invmod = RFMOD_GetInvertMode();
-
-    const int nb_strip = pStripHead->nbstrip;
-    const int ufo      = pStripHead->ufo;
-
-    const CNK_STRIP_UV* restrict p_strip = (CNK_STRIP_UV*) pStripHead->d;
+    const CNK_STRIP_UV* p_st = (const CNK_STRIP_UV*) striph->d;
 
     for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
     {
-        // get inverted strip state
-        bool invst = !(p_strip->len < 0);
+        Bool invst;
+        const Sint32 nb_vert = rjStartModTriDestrip( p_st->len, &invst );
 
-        // get strip length
-        const int len = ABS(p_strip->len);
-
-        // get polygon count
-        const int nb_poly = (len - 2);
-
-        /** get and set buffer **/
-        MOD_TRI* restrict p_buf_base = RFMOD_GetBuffer(nb_poly);
-
-        if (!p_buf_base)
+        if ( !nb_vert )
+        {
             return;
+        }
+
+        // get vertex buffer
+        RJS_VERTEX_M* p_buf_base = rjGetModVertexBuffer();
 
         // get strip array
-        const CNK_ST_UV* restrict p_st = p_strip->d;
+        const CNK_ST_UV* restrict p_st_base = p_st->d;
 
-        for (int i = 0; i < nb_poly; ++i)
+        for (int ix_poly = 0, ix_vert = 0; ix_vert < nb_vert; ++ix_poly, ix_vert += 3)
         {
-            NJS_POINT3* restrict p_buf = p_buf_base->vtx;
+            RJS_VERTEX_M* p_buf = p_buf_base;
 
-            /** buffer fix and increment values for destripping algorithm **/
+            const CNK_ST_UV* restrict p_polyvtx = p_st_base;
+
             int buf_inc;
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_ST_UV* restrict p_st_2 = p_st;
-
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* p_vtx = &njvtxbuf[ p_st_2->i ];
+                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
-                *p_buf = p_vtx->pos;
+                // set position
+                p_buf->pos = p_vtx->pos;
+
+                /** End set buffer vertex **/
 
                 p_buf += buf_inc;
 
-                // user offset only applies per polygon, so we skip the first two
-                p_st_2 = (i+j >= 2) ? CNK_NEXT_POLY(p_st_2, ufo) : CNK_NEXT_POLY(p_st_2, 0);
+                // to next polygon vertex
+                p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, ix_poly+j, ufo);
             }
 
-            p_buf_base++;
+            p_buf_base += 3;
 
+            // swap strip winding mode for next polygon
             invst = !invst;
 
-            // user offset only applies per polygon, so we skip the first two
-            p_st = (i >= 2) ? CNK_NEXT_POLY(p_st, ufo) : CNK_NEXT_POLY(p_st, 0);
+            // base to next polygon vertex
+            p_st_base = NEXT_STRIP_POLY(p_st_base, ix_poly, ufo);
         }
 
-        p_strip = CNK_NEXT_STRIP(p_strip, len, ufo);
+        rjEndModTriDestrip(nb_vert);
+
+        // we're now two strip indexes short
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+        p_st_base = CNK_NEXT_POLY(p_st_base, ufo);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_st_base;
     }
 }
 
@@ -249,15 +263,18 @@ rjCnkModPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbu
         {
             /** NJD_VOLOFF **/
 
-            switch ( VOSW(type) ) {
-            case VOSW( NJD_CO_P3 ):
-
-                rjCnkModVolumeP3(plist, njvtxbuf);
-                break;
-
-            case VOSW( NJD_CO_P4 ):
-            case VOSW( NJD_CO_ST ):
-                break;
+            switch ( VOSW(type) )
+            {
+                case VOSW( NJD_CO_P3 ):
+                {
+                    rjCnkModVolumeP3(plist, njvtxbuf);
+                    break;
+                }
+                case VOSW( NJD_CO_P4 ):
+                case VOSW( NJD_CO_ST ):
+                {
+                    break;
+                }
             }
 
             /** Next offset **/
@@ -267,22 +284,26 @@ rjCnkModPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbu
 
         if (type <= CNK_STRIPOFF_MAX)
         {
+            const CNK_STRIP_HEAD* striph = (const CNK_STRIP_HEAD*)plist;
+
             /** NJD_STRIPOFF **/
-            switch ( STSW(type) ) {
-            case STSW( NJD_CS ):
-
-                rjCnkModStrip(plist, njvtxbuf);
-                break;
-
-            case STSW( NJD_CS_UVN ):
-            case STSW( NJD_CS_UVH ):
-
-                rjCnkModStripUV(plist, njvtxbuf);
-                break;
+            switch ( STSW(type) )
+            {
+                case STSW( NJD_CS ):
+                {
+                    rjCnkModStrip(striph, njvtxbuf);
+                    break;
+                }
+                case STSW( NJD_CS_UVN ):
+                case STSW( NJD_CS_UVH ):
+                {
+                    rjCnkModStripUV(striph, njvtxbuf);
+                    break;
+                }
             }
 
             /** Next offset **/
-            plist += ((u16*)plist)[1] + 2;
+            plist += striph->size + 2;
             continue;
         }
 

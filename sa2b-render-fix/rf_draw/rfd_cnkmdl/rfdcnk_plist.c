@@ -33,29 +33,33 @@
 /************************/
 /****** Static **********************************************************************/
 static bool
-GetStripDrawState(CNK_CTX* const pCtx)
+GetStripDrawState(CNK_CTX* restrict pCtx)
 {
-    const s32 ctxflg = pCtx->flag;
+    const s32 flag = pCtx->flag;
 
     const Sint16 fst = pCtx->fst;
 
     /** if current draw mode doesn't match the transparent state of this strip, skip it **/
     const bool fst_ua = (fst & (NJD_FST_UA|NJD_FST_NAT));
 
-    if ( (bool)(ctxflg & CTXFLG_DRAW_TRANS) != fst_ua )
+    if ( (bool)(flag & CTXF_DRAW_TRANS) != fst_ua )
+    {
         return false;
+    }
 
-    /** if this strip isn't double sided and normal faces aren't being drawn, hide its inverse face **/
-    const bool fst_db = (fst & NJD_FST_DB);
+    /** if back face culling is supported, normal faces aren't being drawn, and
+        this strip isn't double sided: hide the inverse faces **/
 
-    if ( !(ctxflg & CTXFLG_CULL_NORMAL) && !fst_db )
+    if ( flag & CTXF_CTL_BACKFACECULL && !(flag & CTXF_DRAW_NORMAL) && !(fst & NJD_FST_DB) )
+    {
         return false;
+    }
 
     return true;
 }
 
 static void
-rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
+rjCnkPlistSub(CNK_CTX* restrict pCtx, const Sint16* pPList, const void* vbuf)
 {
     const Sint16* plist = pPList;
 ;
@@ -83,28 +87,34 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
         if (type <= CNK_BITSOFF_MAX)
         {
             /** NJD_BITSOFF **/
-            switch (type) {
-            case NJD_CB_BA: // CnkBits Blend Alpha
+            switch (type)
+            {
+                case NJD_CB_BA: // CnkBits Blend Alpha
+                {
+                    rjCnkSetBlend(pCtx, plist);
+                    break;
+                }
+                case NJD_CB_DA: // CnkBits mipmap 'D' Adjust
+                {
+                    break;
+                }
+                case NJD_CB_EXP: // CnkBits specular EXPonent
+                {
+                    rjCnkSetExponent(pCtx, plist);
+                    break;
+                }
+                case NJD_CB_CP: // CnkBits Cache Polygons
+                {
+                    /** caching is handled in the exec-pass **/
+                    return;
+                }
+                case NJD_CB_DP: // CnkBits Draw Polygons
+                {
+                    s32 cache_idx = ((u8*)plist)[1];
 
-                rjCnkSetBlend(pCtx, plist);
-                break;
-
-            case NJD_CB_DA: // CnkBits mipmap 'D' Adjust
-                break;
-
-            case NJD_CB_EXP: // CnkBits specular EXPonent
-                break;
-
-            case NJD_CB_CP: // CnkBits Cache Polygons
-                /** caching is handled in the pre-pass **/
-                return;
-
-            case NJD_CB_DP: // CnkBits Draw Polygons
-
-                s32 cache_idx = ((u8*)plist)[1];
-
-                rjCnkPlistSub(pCtx, _nj_cnk_polygon_cache_tbl_[cache_idx], njvtxbuf);
-                break;
+                    rjCnkPlistSub(pCtx, _nj_cnk_polygon_cache_tbl_[cache_idx], vbuf);
+                    break;
+                }
             }
 
             /** Next offset **/
@@ -146,47 +156,47 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
                 {
                     case STSW( NJD_CS ):
                     {
-                        rjCnkStrip(pCtx, plist, njvtxbuf);
+                        rjCnkStrip(pCtx, plist, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN ):
                     {
-                        rjCnkStripUV(pCtx, plist, njvtxbuf, IS_UVN);
+                        rjCnkStripUV(pCtx, plist, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH ):
                     {
-                        rjCnkStripUV(pCtx, plist, njvtxbuf, IS_UVH);
+                        rjCnkStripUV(pCtx, plist, vbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_VN ):
                     {
-                        rjCnkStripVN(pCtx, plist, njvtxbuf);
+                        rjCnkStripVN(pCtx, plist, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, IS_UVN);
+                        rjCnkStripUVVN(pCtx, plist, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, njvtxbuf, IS_UVH);
+                        rjCnkStripUVVN(pCtx, plist, vbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_D8 ):
                     {
-                        rjCnkStripD8(pCtx, plist, njvtxbuf);
+                        rjCnkStripD8(pCtx, plist, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, IS_UVN);
+                        rjCnkStripUVD8(pCtx, plist, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, njvtxbuf, IS_UVH);
+                        rjCnkStripUVD8(pCtx, plist, vbuf, IS_UVH);
                         break;
                     }
                 }
@@ -203,7 +213,7 @@ rjCnkPlistSub(CNK_CTX* pCtx, const Sint16* pPList, const void* njvtxbuf)
 }
 
 static void
-ExecCnkPlist(const Sint16* pPList, u32* pFlag)
+ExecCnkPlist(const CNK_CTX* restrict pCtx, const Sint16* pPList, u32* pFlag)
 {
     const Sint16* plist = pPList;
 
@@ -228,36 +238,33 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
 
         if (type <= CNK_BITSOFF_MAX)
         {
+            const CNK_BITS_HEAD* p_bits = (const void*) plist;
+
             /** NJD_BITSOFF **/
-            switch (type) {
-                s32 cache_idx;
+            switch (type)
+            {
+                case NJD_CB_CP: // CnkBits Cache Polygons
+                {
+                    const CNK_BITS_POLYLIST* p_cache = (const CNK_BITS_POLYLIST*)&p_bits->d;
 
-            case NJD_CB_BA: // CnkBits Blend Alpha
-                break;
+                    const s32 ix_cache = p_cache->list;
 
-            case NJD_CB_DA: // CnkBits mipmap 'D' Adjust
-                break;
+                    _nj_cnk_polygon_cache_tbl_[ix_cache] = plist + CNK_BITSOFF_SIZE; // cache next offset
 
-            case NJD_CB_EXP: // CnkBits specular EXPonent
-                break;
+                    _nj_cnk_polygon_cache_num_++;
+                    return;
+                }
+                case NJD_CB_DP: // CnkBits Draw Polygons
+                {
+                    const CNK_BITS_POLYLIST* p_cache = (const CNK_BITS_POLYLIST*)&p_bits->d;
 
-            case NJD_CB_CP: // CnkBits Cache Polygons
+                    const s32 ix_cache = p_cache->list;
 
-                cache_idx = ((u8*)plist)[1];
+                    ExecCnkPlist(pCtx, _nj_cnk_polygon_cache_tbl_[ix_cache], pFlag);
 
-                _nj_cnk_polygon_cache_tbl_[cache_idx] = &(plist)[1]; // cache next offset
-
-                ++_nj_cnk_polygon_cache_num_;
-                return;
-
-            case NJD_CB_DP: // CnkBits Draw Polygons
-
-                cache_idx = ((u8*)plist)[1];
-
-                ExecCnkPlist(_nj_cnk_polygon_cache_tbl_[cache_idx], pFlag);
-
-                --_nj_cnk_polygon_cache_num_;
-                break;
+                    _nj_cnk_polygon_cache_num_--;
+                    break;
+                }
             }
 
             /** Next offset **/
@@ -286,17 +293,40 @@ ExecCnkPlist(const Sint16* pPList, u32* pFlag)
         if (type <= CNK_STRIPOFF_MAX)
         {
             /** NJD_STRIPOFF **/
-            const Sint16 fst = GetCnkStripFlags(plist);
+            Sint16 fst = plist[0];
+
+            if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_CNK_CONSTANT_ATTR )
+            {
+                fst = (fst & _nj_constant_attr_and_) | _nj_constant_attr_or_;
+            }
+
+            switch ( _rj_cnk_depth_queue_ )
+            {
+                case RJD_CNK_DEPTHQUEUE_OFF:
+                case RJD_CNK_DEPTHQUEUE_NEAR:
+                {
+                    break;
+                }
+                case RJD_CNK_DEPTHQUEUE_ON:
+                {
+                    fst |= NJD_FST_UA;
+                    break;
+                }
+            }
 
             if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
             {
                 *pFlag |= CNKST_HAS_TRANS;
 
-                if ( fst & (NJD_FST_DB) )
+                if ( !(pCtx->flag & CTXF_CTL_BACKFACECULL) || fst & (NJD_FST_DB) || RFRS_GetCullMode() == RFRS_CULLMD_NONE )
+                {
                     *pFlag |= CNKST_HAS_TRANSDB;
+                }
             }
             else
+            {
                 *pFlag |= CNKST_HAS_OPAQUE;
+            }
 
             /** Next offset **/
             plist += ((u16*)plist)[1] + 2;
@@ -329,20 +359,20 @@ DrawOpaqueStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restric
     {
         case RFRS_CULLMD_NORMAL:
         {
-            pCtx->flag |= CTXFLG_CULL_NORMAL;
+            pCtx->flag |= CTXF_DRAW_NORMAL;
             rjCnkPlistSub(pCtx, plist, njvtxbuf);
             break;
         }
         case RFRS_CULLMD_INVERSE:
         {
-            pCtx->flag |= CTXFLG_CULL_INVERSE;
+            pCtx->flag |= CTXF_DRAW_INVERSE;
             rjCnkPlistSub(pCtx, plist, njvtxbuf);
             break;
         }
         case RFRS_CULLMD_AUTO:
         case RFRS_CULLMD_NONE:
         {
-            pCtx->flag |= (CTXFLG_CULL_NORMAL|CTXFLG_CULL_INVERSE);
+            pCtx->flag |= (CTXF_DRAW_NORMAL|CTXF_DRAW_INVERSE);
             rjCnkPlistSub(pCtx, plist, njvtxbuf);
             break;
         }
@@ -360,8 +390,8 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
         strip ordering issues. The pass order can be changed by setting the
         'CnkPassMode' to 'inverse'. **/
 
-    pCtx->flag |=  CTXFLG_DRAW_TRANS;
-    pCtx->flag &= ~CTXFLG_MASK_CULL;
+    pCtx->flag |=  CTXF_DRAW_TRANS;
+    pCtx->flag &= ~(CTXF_DRAW_NORMAL|CTXF_DRAW_INVERSE);
 
     /** Draw normal and inverse mesh faces depending on culling mode, pass mode,
         and the existence of double sided strips. If there are no double sided
@@ -370,7 +400,7 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
     {
         case RFRS_CULLMD_NORMAL:
         {
-            pCtx->flag |= CTXFLG_CULL_NORMAL;
+            pCtx->flag |= CTXF_DRAW_NORMAL;
             rjCnkPlistSub(pCtx, plist, njvtxbuf);
             break;
         }
@@ -378,7 +408,7 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
         {
             if ( flag & CNKST_HAS_TRANSDB )
             {
-                pCtx->flag |= CTXFLG_CULL_INVERSE;
+                pCtx->flag |= CTXF_DRAW_INVERSE;
                 rjCnkPlistSub(pCtx, plist, njvtxbuf);
             }
             break;
@@ -390,26 +420,26 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
             {
                 if ( !(_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) )
                 {
-                    pCtx->flag |= CTXFLG_CULL_INVERSE;
+                    pCtx->flag |= CTXF_DRAW_INVERSE;
                     rjCnkPlistSub(pCtx, plist, njvtxbuf);
-                    pCtx->flag &= ~CTXFLG_CULL_INVERSE;
+                    pCtx->flag &= ~CTXF_DRAW_INVERSE;
 
-                    pCtx->flag |= CTXFLG_CULL_NORMAL;
+                    pCtx->flag |= CTXF_DRAW_NORMAL;
                     rjCnkPlistSub(pCtx, plist, njvtxbuf);
                 }
                 else // draw inverse order
                 {
-                    pCtx->flag |= CTXFLG_CULL_NORMAL;
+                    pCtx->flag |= CTXF_DRAW_NORMAL;
                     rjCnkPlistSub(pCtx, plist, njvtxbuf);
-                    pCtx->flag &= ~CTXFLG_CULL_NORMAL;
+                    pCtx->flag &= ~CTXF_DRAW_NORMAL;
 
-                    pCtx->flag |= CTXFLG_CULL_INVERSE;
+                    pCtx->flag |= CTXF_DRAW_INVERSE;
                     rjCnkPlistSub(pCtx, plist, njvtxbuf);
                 }
             }
             else
             {
-                pCtx->flag |= CTXFLG_CULL_NORMAL;
+                pCtx->flag |= CTXF_DRAW_NORMAL;
                 rjCnkPlistSub(pCtx, plist, njvtxbuf);
             }
             break;
@@ -417,25 +447,32 @@ DrawTransStrip(CNK_CTX* pCtx, const Sint16* restrict plist, const void* restrict
     }
 }
 
+void    rjCnkBeginDraw(void);
+void    rjCnkEndDraw(void);
+
 /****** Extern **********************************************************************/
 void
-rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvtxbuf)
+rjCnkPList(const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
-    EXTERN NJS_ARGB _rj_ambi_color_;
-
     /** Setup the Chunk context. This is used to track the current draw context of
         the model and it's strips. If the diffuse color is changed, it's applied to
         this context first.
         The 'flag' struct member starts with the function emulation mode, so we
         initiate it to the current function mode value. **/
 
-    CNK_CTX ctx = { .flag = RFRS_GetCnkFuncMode() };
+    CNK_CTX ctx;
+    rjCnkBeginContext( &ctx );
 
     /** First pass of the Chunk 'plist' data. This executes plist data, such as
         cache and draw 'bits' data, and gets strip attributes (opaque, alpha,
         double sided flags) and puts them into 'flag'. **/
     u32 flag = 0;
-    ExecCnkPlist(pPList, &flag);
+    ExecCnkPlist(&ctx, plist, &flag);
+
+    if ( !flag )
+    {
+        return;
+    }
 
     /** Depending on the current transparancy mode and the attributes of the
         'plist', draw the opaque and/or transparent strips.
@@ -444,42 +481,44 @@ rjCnkPList(const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict njvt
         strip is stored into another buffer and drawn in one go, rather than having
         to loop through the plist multiple times. This isn't that slow though, so
         it's fine for now. **/
+
+    rjCnkBeginDraw();
+
     switch ( RFRS_GetCnkDrawMode() )
     {
         case RFRS_CNKDRAWMD_ALL:
         {
             if (flag & CNKST_HAS_OPAQUE)
-                DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
+            {
+                DrawOpaqueStrip(&ctx, plist, vbuf);
+            }
 
             if (flag & CNKST_HAS_TRANS)
-                DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
+            {
+                DrawTransStrip(&ctx, plist, vbuf, flag);
+            }
 
             break;
         }
         case RFRS_CNKDRAWMD_OPAQUE:
         {
             if (flag & CNKST_HAS_OPAQUE)
-                DrawOpaqueStrip(&ctx, pPList, njvtxbuf);
+            {
+                DrawOpaqueStrip(&ctx, plist, vbuf);
+            }
 
             break;
         }
         case RFRS_CNKDRAWMD_TRANSPARENT:
         {
             if (flag & CNKST_HAS_TRANS)
-                DrawTransStrip(&ctx, pPList, njvtxbuf, flag);
+            {
+                DrawTransStrip(&ctx, plist, vbuf, flag);
+            }
 
             break;
         }
     }
 
-    /** End chunk draw **/
-
-    if (flag) // if any drawing occured
-    {
-        // reset ambient color
-        RX_SetChanAmbColor_Direct(_rj_ambi_color_.r, _rj_ambi_color_.g, _rj_ambi_color_.b);
-
-        // unset culling mode
-        GX_SetCullMode(GXD_CULLMODE_NONE);
-    }
+    rjCnkEndDraw();
 }

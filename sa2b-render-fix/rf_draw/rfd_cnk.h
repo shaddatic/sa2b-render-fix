@@ -2,7 +2,7 @@
 *   SA2 Render Fix - '/rf_draw/rfd_cnk.h'
 *
 *   Description:
-*     Internal utility header for CnkDraw functions
+*     Common header for Chunk draw (Normal/Modifier)
 *
 *   Contributors:
 *     - Shaddatic
@@ -87,7 +87,23 @@ EXTERN_START
 *     - invst   : if this stripped triangle is inverted
 */
 #define DESTRIP_START(buf, buf_inc, invst) \
-    if (invst) { buf_inc = 1; } else { buf += 2; buf_inc = -1; }
+    if (invst) { buf += 2; buf_inc = -1; } else { buf_inc = 1; }
+
+/****** Next Strip Polygon **********************************************************/
+/*
+*   Description:
+*     Get next strip polygon, while also checking the strip index to ensure the user
+*   flag offset value is only applied after the 2nd index.
+*
+*   Parameters:
+*     - strip       : current strip polygon
+*     - ix          : current strip poly index
+*     - ufo         : user flag offset value
+*
+*   Returns:
+*     Next strip polygon.
+*/
+#define NEXT_STRIP_POLY(strip, ix, ufo)          CNK_NEXT_POLY((strip), ((ix) >= 2) ? (ufo) : 0)
 
 /************************/
 /*  Structures          */
@@ -97,17 +113,28 @@ typedef struct cnk_vtx_buf
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    Uint32     col;             /* color                                            */
-    Sint32     dmy;             /* dummy                                            */
+    NJS_ARGB   col;             /* color                                            */
+
+    union {
+        NJS_ARGB   spc;         /* specular                                         */
+        Float      inten[6];    /* light intensities                                */
+    };
 }
 CNK_VERTEX_BUFFER;
 
 /************************/
-/*  Game References     */
+/*  Prototypes          */
 /************************/
-/****** Cnk Matrix ******************************************************************/
-#define _env_matrix_44_         DATA_REF(NJS_MATRIX44, 0x01AF14E0)
-#define _unit_matrix_44_        DATA_REF(NJS_MATRIX44, 0x01AF1A10)
+/****** Transform Object ************************************************************/
+/*
+*   Description:
+*     Transform and draw a Chunk object with set draw function.
+*
+*   Parameters:
+*     - object      : chunk object
+*     - callback    : model draw function
+*/
+void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
 
 EXTERN_END
 
