@@ -91,7 +91,7 @@ GX_LoadLightObjImm(const RX_LIGHT_ATTR* pAttr, int num)
         mov ecx, [num]
         mov eax, [pAttr]
         call GX_LoadLightObjImm_p
-}
+    }
 }
 
 static void
@@ -154,7 +154,44 @@ ___rjCnkSetLightIntensity(Int light, Float inten, Float ambient)
         _rj_cnk_light_ambient_.b = p_lite->b * ambi;
 
         _rj_cnk_light_ambient_.inten = ambi;
+    }
 }
+
+static void
+___rjCnkSetLightPoint(Int light, Float px, Float py, Float pz)
+{
+    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
+
+    p_lite->type = RJD_CNK_LIGHTMD_POINT;
+
+    p_lite->p.x = px;
+    p_lite->p.y = py;
+    p_lite->p.z = pz;
+}
+
+static void
+___rjCnkSetLightRange(Int light, Float nrange, Float frange)
+{
+    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
+
+    p_lite->near = nrange * nrange;
+
+    const Float f_n = (frange - nrange);
+
+    if ( f_n < 0.f )
+    {
+        p_lite->far = 0.f;
+    }
+    else if ( f_n == 0.f )
+    {
+        p_lite->far = -1.0f;
+    }
+    else
+    {
+        const Float f = 1.f / (frange - nrange);
+
+        p_lite->far = -(f * f);
+    }
 }
 
 static void
@@ -280,7 +317,7 @@ rjCnkSetLightIntensity(Int light, Float inten, Float ambient)
         for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
         {
             ___rjCnkSetLightIntensity(i, inten, -1.f);
-}
+        }
     }
     else
     {
@@ -305,6 +342,38 @@ rjCnkSetLightVector(Int light, Float vx, Float vy, Float vz)
 }
 
 void
+rjCnkSetLightPoint(Int light, Float px, Float py, Float pz)
+{
+    if ( light == RJD_CNK_LIGHT_ALL )
+    {
+        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+        {
+            ___rjCnkSetLightPoint(i, px, py, pz);
+        }
+    }
+    else
+    {
+        ___rjCnkSetLightPoint(light, px, py, pz);
+    }
+}
+
+void
+rjCnkSetLightRange(Int light, Float nrange, Float frange)
+{
+    if ( light == RJD_CNK_LIGHT_ALL )
+    {
+        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+        {
+            ___rjCnkSetLightRange(i, nrange, frange);
+        }
+    }
+    else
+    {
+        ___rjCnkSetLightRange(light, nrange, frange);
+    }
+}
+
+void
 rjCnkSetLightMatrix(Int light)
 {
     if ( light == RJD_CNK_LIGHT_ALL )
@@ -312,8 +381,8 @@ rjCnkSetLightMatrix(Int light)
         for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
         {
             ___rjCnkSetLightMatrix(i);
+        }
     }
-}
     else
     {
         ___rjCnkSetLightMatrix(light);
@@ -341,7 +410,7 @@ void
 rjCnkPushAmbientToGX(void)
 {
     RX_SetChanAmbColor_Direct(_rj_cnk_light_ambient_.r, _rj_cnk_light_ambient_.g, _rj_cnk_light_ambient_.b);
-    }
+}
 
 /****** Hooks ***********************************************************************/
 static void
