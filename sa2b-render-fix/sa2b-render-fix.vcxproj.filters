@@ -168,9 +168,6 @@
     <ClCompile Include="rf_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_modifier.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rfm_amine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -294,9 +291,6 @@
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_plist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_shdmap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_draw\rfd_shape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -306,19 +300,13 @@
     <ClCompile Include="rf_njcnk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_olddraw.c">
+    <ClCompile Include="rfm_event\ev_reflection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_draw\evd_reflection.c">
+    <ClCompile Include="rfm_event\ev_common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_draw\evd_common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rfm_event\ev_draw\evd_light.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rfm_event\ev_draw\evd_43bars.c">
+    <ClCompile Include="rfm_event\ev_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_camera.c">
@@ -369,7 +357,40 @@
     <ClCompile Include="rf_light\rfl_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_cfunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_sfunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cmn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_polygon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_exec.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_blare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_depthqueue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_light\rfl_setlight.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_texerr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -527,9 +548,6 @@
     <ClInclude Include="rf_njcnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfm_event\ev_draw\evd_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_gx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -546,6 +564,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_draw\rfd_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_light\rfl_internal.h">
