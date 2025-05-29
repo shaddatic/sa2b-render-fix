@@ -11,6 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
+#include <rf_draw.h>
 
 #define BACKCOLOR_Z_VAL     (1.f/16'000'000.f)
 
@@ -52,7 +53,7 @@ njDrawBackColor2(void)
     vtx[3].x = 640.0f + scrn_ratio;
     vtx[3].y = 480.0f;
 
-    njDrawPolygon(vtx, 4, false);
+    rjDrawPolygon(vtx, 4, false);
 }
 
 const void* const RendererClear_p = (void*)0x00867B20;
