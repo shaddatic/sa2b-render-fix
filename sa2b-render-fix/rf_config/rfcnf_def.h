@@ -265,7 +265,6 @@ CNFE_MISC_PAUSEFONTCOL;
 /** Event section **/
 #define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Enhanced Displayer */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
-#define CNF_EVENT_DRAWMOD           CNFO_INT(   CNFS_EVENT          , "draw_mod"            , CNFE_BOOL_ENABLED                     )   /* Draw Shadow Modifiers */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
 
 /** Miscellaneous section **/
