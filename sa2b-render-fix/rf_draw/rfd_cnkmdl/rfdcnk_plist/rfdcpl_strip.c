@@ -91,19 +91,7 @@ rjCnkDrawStrip_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFE
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    f32 offset_u;
-    f32 offset_v;
-
-    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
-    {
-        offset_u = _rj_cnk_env_scroll_.u;
-        offset_v = _rj_cnk_env_scroll_.v;
-    }
-    else
-    {
-        offset_u = 0.f;
-        offset_v = 0.f;
-    }
+    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
 
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -127,8 +115,8 @@ rjCnkDrawStrip_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFE
             p_buf->pos = p_vtx->pos;
 
             // set uv coords
-            p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + offset_u;
-            p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + offset_v;
+            p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + uv_off.u;
+            p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + uv_off.v;
 
             // set color
             p_buf->col = fn_color( p_vtx );
@@ -158,19 +146,7 @@ rjCnkDrawStrip_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFE
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    f32 offset_u;
-    f32 offset_v;
-
-    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
-    {
-        offset_u = _rj_cnk_env_scroll_.u;
-        offset_v = _rj_cnk_env_scroll_.v;
-    }
-    else
-    {
-        offset_u = 0.f;
-        offset_v = 0.f;
-    }
+    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
 
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -194,8 +170,8 @@ rjCnkDrawStrip_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFE
             p_buf->pos = p_vtx->pos;
 
             // set uv coords
-            p_buf->u = -p_vtx->pos.x + offset_u;
-            p_buf->v = -p_vtx->pos.y + offset_v;
+            p_buf->u = -p_vtx->pos.x + uv_off.u;
+            p_buf->v = -p_vtx->pos.y + uv_off.v;
 
             // set color
             p_buf->col = fn_color( p_vtx );
@@ -314,19 +290,7 @@ rjCnkDrawStrip_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BU
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    f32 offset_u;
-    f32 offset_v;
-
-    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
-    {
-        offset_u = _rj_cnk_env_scroll_.u;
-        offset_v = _rj_cnk_env_scroll_.v;
-    }
-    else
-    {
-        offset_u = 0.f;
-        offset_v = 0.f;
-    }
+    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
 
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -364,8 +328,8 @@ rjCnkDrawStrip_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BU
                 p_buf->pos = p_vtx->pos;
 
                 // set uv coords
-                p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + offset_u;
-                p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + offset_v;
+                p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + uv_off.u;
+                p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + uv_off.v;
 
                 // set last vertex
                 p_last_vtx = p_vtx;
@@ -417,19 +381,7 @@ rjCnkDrawStrip_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BU
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
 
-    f32 offset_u;
-    f32 offset_v;
-
-    if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL )
-    {
-        offset_u = _rj_cnk_env_scroll_.u;
-        offset_v = _rj_cnk_env_scroll_.v;
-    }
-    else
-    {
-        offset_u = 0.f;
-        offset_v = 0.f;
-    }
+    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
 
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -467,8 +419,8 @@ rjCnkDrawStrip_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BU
                 p_buf->pos = p_vtx->pos;
 
                 // set uv coords
-                p_buf->u = -p_vtx->pos.x + offset_u;
-                p_buf->v = -p_vtx->pos.y + offset_v;
+                p_buf->u = -p_vtx->pos.x + uv_off.u;
+                p_buf->v = -p_vtx->pos.y + uv_off.v;
 
                 // set last vertex
                 p_last_vtx = p_vtx;

@@ -31,18 +31,6 @@ UseSpecular(const CNK_CTX* restrict pCtx)
     return ( !(pCtx->fst & NJD_FST_IS) );
 }
 
-RJS_UV
-rjCnkGetUvScroll(void)
-{
-    return _rj_cnk_uv_scroll_;
-}
-
-RJS_UV
-rjCnkGetEnvUvScroll(void)
-{
-    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL) ? _rj_cnk_env_scroll_ : (RJS_UV){0};
-}
-
 /************************************************************************************/
 /*
 *   Draw Strip

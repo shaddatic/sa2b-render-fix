@@ -389,6 +389,18 @@ void    rjCnkBeginLighting(const CNK_CTX* restrict pCtx);
 
 bool    rjCnkBeginTwoPassLighting(const CNK_CTX* restrict pCtx);
 
+/****** Get UV Scroll ***************************************************/
+/*
+*   Description:
+*     Get UV scroll values.
+*/
+RJS_UV  rjCnkGetUvScroll( void );
+/*
+*   Description:
+*     Get Environment UV scroll values.
+*/
+RJS_UV  rjCnkGetEnvUvScroll( void );
+
 /****** External Functions (Draw) ***************************************************/
 /*
 *   Description:
