@@ -77,10 +77,10 @@ typedef Uint32 (RJF_CNK_VCOLFUNC)(const CNK_VERTEX_BUFFER* restrict pVtx);
 typedef Uint32 (RJF_CNK_SPECFUNC)(const CNK_VERTEX_BUFFER* restrict pVtx);
 
 /****** Vlist Calculations **********************************************************/
-typedef void   (RJF_CNK_VLIST_POS)(const NJS_POINT3* pIn, NJS_POINT3* pOut);
-typedef void   (RJF_CNK_VLIST_NRM)(const NJS_VECTOR* pIn, NJS_VECTOR* pOut);
-typedef void   (RJF_CNK_VLIST_COL)(const NJS_ARGB*   pIn, NJS_ARGB*   pOut);
-typedef void   (RJF_CNK_VLIST_SPC)(const NJS_ARGB*   pIn, NJS_ARGB*   pOut);
+typedef void (RJF_CNK_VLIST_POS)(NJS_POINT3* dst, const NJS_POINT3* src);
+typedef void (RJF_CNK_VLIST_NRM)(NJS_VECTOR* dst, const NJS_VECTOR* src);
+typedef void (RJF_CNK_VLIST_COL)(NJS_ARGB*   dst, const NJS_ARGB*   src);
+typedef void (RJF_CNK_VLIST_SPC)(NJS_ARGB*   dst, const NJS_ARGB*   src);
 
 /************************/
 /*  Enums               */
@@ -171,10 +171,10 @@ EXTERN Sint32   _rj_cnk_depth_queue_;
 EXTERN RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC]; /* vcol funcs    */
 EXTERN RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC]; /* spec funcs    */
 
-EXTERN RJF_CNK_VLIST_POS* _rj_cnk_vlistfunc_pos_; /* vertex position function       */
-EXTERN RJF_CNK_VLIST_NRM* _rj_cnk_vlistfunc_nrm_; /* vertex normal function         */
-EXTERN RJF_CNK_VLIST_COL* _rj_cnk_vlistfunc_col_; /* vertex color function          */
-EXTERN RJF_CNK_VLIST_SPC* _rj_cnk_vlistfunc_spc_; /* vertex specular function       */
+EXTERN RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_; /* vertex position function       */
+EXTERN RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_; /* vertex normal function         */
+EXTERN RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_; /* vertex color function          */
+EXTERN RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_; /* vertex specular function       */
 
 /****** UV Scroll *******************************************************************/
 EXTERN RJS_UV _rj_cnk_uv_scroll_;   /* u offset                                     */
@@ -264,8 +264,11 @@ void    rjCnkSetStrip( CNK_CTX* restrict pCtx, const Sint16* plist );
 *   Parameters:
 *     - pVList      : base vlist pointer
 *     - pVBuf       : vertex buffer
+*
+*   Returns:
+*     'CNK_RETN_OK' on success; or 'CNK_RETN_CLIP' on failure.
 */
-int     rjCnkVList( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVBuf );
+Sint32  rjCnkVList( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVBuf );
 /*
 *   Description:
 *     Draw a Chunk polygon list using a specified vertex buffer
@@ -277,12 +280,12 @@ int     rjCnkVList( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict p
 void    rjCnkPList( const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict pVBuf );
 
 /****** Vlist Calculations **********************************************************/
-void    rjCnkCalcVlistPosition( const NJS_POINT3* pIn, NJS_POINT3* pOut );
-void    rjCnkCalcVlistNormal(   const NJS_VECTOR* pIn, NJS_VECTOR* pOut );
-void    rjCnkCalcVlistColor(    const NJS_ARGB* pIn, NJS_ARGB* pOut );
-void    rjCnkCalcVlistSpecular( const NJS_ARGB* pIn, NJS_ARGB* pOut );
+void    rjCnkCalcVlistPosition( NJS_POINT3* dst, const NJS_POINT3* src );
+void    rjCnkCalcVlistNormal(   NJS_VECTOR* dst, const NJS_VECTOR* src );
+void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
+void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
 
-void    rjCnkCalcVlistNormalUnit( const NJS_VECTOR* pIn, NJS_VECTOR* pOut );
+void    rjCnkCalcVlistNormalUnit( NJS_VECTOR* dst, const NJS_VECTOR* src );
 
 /****** Depth Queue *****************************************************************/
 void    rjCnkBeginDepthQueue(const NJS_CNK_MODEL* model);

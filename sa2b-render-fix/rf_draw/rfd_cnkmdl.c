@@ -65,10 +65,10 @@ RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC] =
     [RJE_CNK_SPECFUNC_S8]     = rjCnkSpecularS8,
 };
 
-RJF_CNK_VLIST_POS* _rj_cnk_vlistfunc_pos_ = rjCnkCalcVlistPosition;
-RJF_CNK_VLIST_NRM* _rj_cnk_vlistfunc_nrm_ = rjCnkCalcVlistNormal;
-RJF_CNK_VLIST_COL* _rj_cnk_vlistfunc_col_ = rjCnkCalcVlistColor;
-RJF_CNK_VLIST_SPC* _rj_cnk_vlistfunc_spc_ = rjCnkCalcVlistSpecular;
+RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_ = rjCnkCalcVlistPosition;
+RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_ = rjCnkCalcVlistNormal;
+RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_ = rjCnkCalcVlistColor;
+RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_ = rjCnkCalcVlistSpecular;
 
 /****** UV Offset *******************************************************************/
 RJS_UV _rj_cnk_uv_scroll_;
@@ -355,9 +355,9 @@ rjCnkSetModelCallback(void(__cdecl* callback)(NJS_CNK_MODEL* model))
 }
 
 void
-rjCnkSetVListPositionFunc(void(__cdecl* func)(const NJS_POINT3* in, NJS_POINT3* out))
+rjCnkSetVListPositionFunc(void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3* src))
 {
-    _rj_cnk_vlistfunc_pos_ = ( func ) ? ( func ) : ( rjCnkCalcVlistPosition );
+    _rj_cnk_vlist_pfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistPosition );
 }
 
 /****** Model With No Clip **********************************************************/
