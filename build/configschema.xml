@@ -172,8 +172,8 @@ Disabling this may cause player characters to look out of place in some situatio
       </Property>
     </Group>
     <Group name="event" display="Events">
-      <Property name="rf_disp" display="Enhanced Event Renderer" type="eBOOL" defaultvalue="1">
-        <HelpText>Use Render Fix's custom event renderer which fixes some in-built transparancy sorting issues, such as player equipment and modifier shadows, and allows for other effects such as a forced 4:3 aspect ratio.</HelpText>
+      <Property name="rf_disp" display="Render Fix Event Renderer" type="eBOOL" defaultvalue="1">
+        <HelpText>Use Render Fix's powerful event renderer, which restores Dreamcast features and adds other advanced logic - such as transparency sorting.</HelpText>
       </Property>
       <Property name="draw_equip" display="Draw Player Equipment" type="eBOOL" defaultvalue="1">
         <HelpText>Draw player upgrades/equipment in events.
@@ -184,11 +184,6 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
         <HelpText>Force the event into 4:3 by drawing black bars at the side of the screen. This covers up many issues that the player was never intended to see.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
-      </Property>
-      <Property name="draw_mod" display="Draw Shadow Modifiers Volumes" type="eBOOL" defaultvalue="1">
-        <HelpText>Draw shadow modifiers from the Dreamcast version.
-
-NOTE: Requires 'RF's Event Renderer' to draw without sorting issues.</HelpText>
       </Property>
     </Group>
     <Group name="misc" display="Miscellaneous">
@@ -220,9 +215,6 @@ Shadow maps are no longer actively supported, and may be removed in the future.<
     <Group name="experimental" display="Experimental Settings">
       <Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
         <HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
-      </Property>
-      <Property name="event_draw" display="New RF Event Renderer" type="eBOOL" defaultvalue="0">
-        <HelpText>Use the experimental, entirely custom Render Fix Event system. It restores the DC lighting system, fixes reflections, un-tints and correctly applies backface culling to objects, and much more. It pulls much of this off by emulating the original DC draw functions and their quirks, making it about as accurate to DC as possible.</HelpText>
       </Property>
     </Group>
     <Group name="compatibility" display="Compatibility Settings">

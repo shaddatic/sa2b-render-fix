@@ -263,7 +263,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
-#define CNF_EVENT_DISPREPLCE        CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Enhanced Displayer */
+#define CNF_EVENT_RFDISP            CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Render Fix Renderer */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
 
@@ -277,7 +277,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Experimental section **/
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
-#define CNF_EXP_EVDRAW              CNFO_INT(   CNFS_EXP            , "event_draw"          , CNFE_BOOL_DISABLED                    )   /* New RF Event Renderer */
 
 /** Compatibility section **/
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */

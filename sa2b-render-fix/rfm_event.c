@@ -50,7 +50,7 @@ RFM_EventInit(void)
 {
     EV_ByteSwapInit();
 
-    if (RF_ConfigGetInt(CNF_EVENT_DISPREPLCE))
+    if ( RF_ConfigGetInt(CNF_EVENT_RFDISP) )
     {
         EV_DrawInit();
 
