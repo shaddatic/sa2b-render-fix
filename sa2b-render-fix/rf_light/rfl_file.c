@@ -31,10 +31,22 @@
 /****** Self ************************************************************************/
 #include <rf_light/rfl_internal.h> /* parent & siblings                             */
 
+/************************/
+/*  Game Defs           */
+/************************/
+/****** Core Toolkit ****************************************************************/
 #define GlobalBuffer            DATA_ARY(byte, 0x01DEFE20, [0x100000])
 
+/************************/
+/*  Macros              */
+/************************/
+/****** Character Count *************************************************************/
 #define CHARIN(s)               (sizeof(s) - 1)
 
+/************************/
+/*  Source              */
+/************************/
+/****** Static **********************************************************************/
 static void
 GetLightFilePaths(const c8* puPathBase, const c8** ppuOutPathDC, const c8** ppuOutPathGC)
 {
@@ -165,23 +177,31 @@ LoadLightFile_RF(const char* pcFileName)
 
     GetLightFilePaths(pu_buf, &pu_light_dc, &pu_light_gc);
 
-    for ( int i = 0; i < LIGHT_COUNT; ++i )
-    {
-        Lights[i]   = (LIGHT)    { 0 };
-        LightsGC[i] = (LIGHT_GC) { 0 };
-    }
+    /** The idea here is:
 
-    if ( pu_light_dc )
+      - If NEITHER file exists, the light data should be left as-is.
+      - If the DC light file exists and the GC *doesn't*, the GC light data should be nulled out.
+      - If the DC file doesn't but GC does, the DC data should be left alone.
+      - If BOTH exist, they should both be loaded normally.
+
+        Hope that makes sense lol **/
+
+    bool has_dc_file = false;
+    bool has_gc_file = false;
+
+//  if ( pu_light_dc ) // will always be a valid pointer
     {
         OutputFormat("RF INFO: Reading light file: %s", pu_light_dc);
 
-        LIGHT* p_lights_dc = (void*) &GlobalBuffer[0x400];
+        LIGHT* p_lights = (void*) &GlobalBuffer[0x400];
 
-        if ( mtFileReadEx(pu_light_dc, p_lights_dc, SIZEOF_LIGHTBIN) )
+        if ( mtFileReadEx(pu_light_dc, p_lights, SIZEOF_LIGHTBIN) )
         {
-            ByteswapLights(p_lights_dc);
+            ByteswapLights(p_lights);
 
-            mtMemCopy(Lights, p_lights_dc, SIZEOF_LIGHTBIN);
+            mtMemCopy(Lights, p_lights, SIZEOF_LIGHTBIN);
+
+            has_dc_file = true;
         }
     }
 
@@ -189,17 +209,27 @@ LoadLightFile_RF(const char* pcFileName)
     {
         OutputFormat("RF INFO: Reading light file: %s", pu_light_gc);
 
-        LIGHT_GC* p_lights_gc = (void*) &GlobalBuffer[0x400];
+        LIGHT_GC* p_lights = (void*) &GlobalBuffer[0x400];
 
-        if ( mtFileReadEx(pu_light_gc, p_lights_gc, SIZEOF_LIGHTBIN_GC) )
+        if ( mtFileReadEx(pu_light_gc, p_lights, SIZEOF_LIGHTBIN_GC) )
         {
-            ByteswapLightsGC(p_lights_gc);
+            ByteswapLightsGC(p_lights);
 
-            mtMemCopy(LightsGC, p_lights_gc, SIZEOF_LIGHTBIN_GC);
+            mtMemCopy(LightsGC, p_lights, SIZEOF_LIGHTBIN_GC);
+
+            has_gc_file = true;
         }
+    }
+
+    // if DC exists but GC doesn't, then null GC light data
+
+    if ( has_dc_file && !has_gc_file )
+    {
+        mtMemSet(LightsGC, 0x00, SIZEOF_LIGHTBIN_GC);
     }
 }
 
+/****** Init ************************************************************************/
 void
 RFL_FileInit(void)
 {
