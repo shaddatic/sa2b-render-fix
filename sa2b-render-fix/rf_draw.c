@@ -331,4 +331,6 @@ RF_DrawInit(void)
     WriteCall(0x006D9F51, ___njCnkEasyDrawModel);  // Savepoint
     WriteCall(0x006D9FFE, ___njCnkEasyDrawModel);
     WriteCall(0x006DA08A, ___njCnkEasyDrawModel);
+
+    WriteCall(0x00656B3A, ___njCnkEasyDrawModel); // Sand Ocean: Moon
 }
