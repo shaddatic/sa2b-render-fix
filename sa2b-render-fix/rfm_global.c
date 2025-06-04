@@ -72,6 +72,8 @@ RFF_SpotLightFix(void)
 void
 RFM_GlobalInit(void)
 {
+    RFG_FrameSkipInit();
+
     if (RF_ConfigGetInt(CNF_GLOBAL_IGBIX))
     {
         WriteJump(0x0042FAD0, njSearchTexMemList_);

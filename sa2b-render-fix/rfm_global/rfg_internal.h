@@ -31,6 +31,8 @@ void    RFG_3DSpriteInit( void );
 
 void    RFG_DrawLineInit( void );
 
+void    RFG_FrameSkipInit( void );
+
 EXTERN_END
 
 #endif/*_RFM_GLOBAL_INTERNAL_H_*/

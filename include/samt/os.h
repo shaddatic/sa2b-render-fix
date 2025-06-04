@@ -22,6 +22,34 @@ u32     mtOSGetTickCount( void );
 */
 u64     mtOSGetTickCount64( void );
 
+/****** Sleep ***********************************************************************/
+/*
+*   Description:
+*     Sleep process for a set time in miliseconds.
+*
+*   Parameters:
+*     - ms          : milliseconds to sleep for
+*/
+void    mtOSSleep( u32 ms );
+
+/****** Clock ***********************************************************************/
+/*
+*   Description:
+*     High resolution clock for performance critical tasks.
+*
+*   Returns:
+*     Clock value in variable units < 1us.
+*/
+s64     mtOSHighResolutionClock( void );
+/*
+*   Description:
+*     Get the number of 'clocks' per second for the above function.
+*
+*   Returns:
+*     Clock frequency per second.
+*/
+s64     mtOSHighResolutionFrequency( void );
+
 /****** Windows CMD *****************************************************************/
 /*
 *   Description:
