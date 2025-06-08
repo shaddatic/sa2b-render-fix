@@ -393,6 +393,11 @@ rjCnkBeginContext(CNK_CTX* restrict pCtx)
         pCtx->flag |= CTXF_CTL_NONTEXSPEC;
     }
 
+    // set default material
+    pCtx->diff = (NJS_BGRA){  1,  1,  1,  1 };
+    pCtx->ambi = (NJS_BGRA){  1,  1,  1,  1 };
+    pCtx->spec = (NJS_BGRA){  0,  0,  0, 16 };
+
     // to fix a cloud blending bug in metal harbor
     pCtx->blend = (Uint16) _rj_cnk_blend_mode_;
 }
