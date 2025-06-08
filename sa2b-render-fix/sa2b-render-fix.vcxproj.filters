@@ -393,6 +393,9 @@
     <ClCompile Include="rfm_event\ev_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_global\rfg_frameskip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
