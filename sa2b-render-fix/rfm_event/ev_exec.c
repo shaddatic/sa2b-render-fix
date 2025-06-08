@@ -53,6 +53,8 @@ EXTERN s32 AspectRatioMode;
 static void
 EV_SceneExec(void)
 {
+    EventSceneNum = 1;
+
     const f32 ev_frame = EventFrame;
 
     f32 ev_frame_sub = 0.f;
@@ -69,7 +71,7 @@ EV_SceneExec(void)
         {
             const f32 new_sub = (f32)p_scene->nbFrame + ev_frame_sub;
 
-            if ( new_sub - 1.0f >= EventFrame )
+            if ( new_sub - 1.0f >= ev_frame )
             {
                 break;
             }
@@ -82,14 +84,7 @@ EV_SceneExec(void)
 
     const f32 new_frame = ev_frame - ev_frame_sub;
 
-    if ( new_frame < 0.f )
-    {
-        EventSceneFrame = 0.f;
-    }
-    else
-    {
-        EventSceneFrame = new_frame;
-    }
+    EventSceneFrame = MAX(new_frame, 0.f);
 
     /** Execute Big **/
 
