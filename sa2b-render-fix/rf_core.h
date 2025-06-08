@@ -19,6 +19,9 @@
 #include <samt/util/c_constexpr.h>
 #include <samt/util/c_nullptr.h>
 
+/** System **/
+#include <samt/shinobi/sg_xpt.h>
+
 /** Source **/
 #include <samt/sonic/debug.h>
 
