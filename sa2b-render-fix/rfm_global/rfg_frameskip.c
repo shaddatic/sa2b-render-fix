@@ -133,26 +133,43 @@ OnRenderSceneStart(void)
 /****** Extern **********************************************************************/
 ___TODO("These will be moved to a seperate module eventually");
 
-void
-rjSetWaitVsyncCount(s32 count)
+static void
+SetWaitVsyncCount(Sint32 count)
 {
+    WaitVsyncCount = count;
+
+    TaskExecLoop1 = ABS(count);
+    TaskExecLoop2 = ABS(count);
+
+    TaskExecCount = 0;
+
+    ExecLoopDebug1 = 1;
+    ExecLoopDebug2 = 1;
+}
+
+void
+rjSetWaitVsyncCount(Sint32 count)
+{
+    // if 0, force reset count back to 1
     if ( count == 0 )
     {
-        WaitVsyncCount = 1;
+        SetWaitVsyncCount(1);
         return;
     }
 
+    // if the wait count is negative, eg. the game is sped up,
+    // don't accept any non-negative values
     if ( WaitVsyncCount < 0 )
     {
         if ( count < 0 )
         {
-            WaitVsyncCount = count;
+            SetWaitVsyncCount(count);
         }
-
         return;
     }
 
-    WaitVsyncCount = count;
+    // otherwise, just set the value as given
+    SetWaitVsyncCount(count);
 }
 
 s32
