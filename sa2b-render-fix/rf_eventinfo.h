@@ -171,7 +171,7 @@ typedef struct
     a7 bgm[16];
     a7 jingle[16];
 
-    u32 VsyncWaitCount;
+    u32 WaitVsyncCount;
 
     s32 padding[7];
 }
@@ -325,10 +325,11 @@ enum
     EVENTMD_TIMECARD,
     EVENTMD_PLAY,
     EVENTMD_END,
+    EVENTMD_RELEASE,
 
-    EVENTMD_UNK_5,
     EVENTMD_UNK_6,
     EVENTMD_UNK_7,
+    EVENTMD_UNK_8,
 };
 
 #define EventData               DATA_REF(EVENT_HEADER, 0x0204FE20)

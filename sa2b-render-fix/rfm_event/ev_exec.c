@@ -149,14 +149,6 @@ EV_AllowsWideAspect(void)
     return EventNum == 350;
 }
 
-static f32
-GetEventFrameStep(void)
-{
-    const int vsync = EventEffData.sound[0].VsyncWaitCount;
-
-    return (vsync == 0) ? 0.5f : 0.5f * (f32)vsync;
-}
-
 static void
 EventDestructor(task* tp)
 {
@@ -168,7 +160,7 @@ EventDestructor(task* tp)
 static void
 EventExecutor(task* tp)
 {
-    if ( DisableCutsceneRendering || DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == EVENTMD_TIMECARD )
+    if ( DisableCutsceneRendering || DisableCutscene || CutsceneMode == EVENTMD_UNK_7 || CutsceneMode == EVENTMD_UNK_8 || CutsceneMode == EVENTMD_TIMECARD )
     {
         return;
     }
@@ -193,17 +185,15 @@ EventExecutor(task* tp)
 
     EV_DebugExec(tp);
 
-    ___TODO("This should actually do something");
+    ___TODO("This should check a user setting in future");
 
     if ( true ) // frameskip
     {
         twp->scl.x += UseLagEmu() ? ( EventSpeed * 0.5f ) : ( EventSpeed );
 
-        const f32 fstep = GetEventFrameStep();
-
-        if ( ABS(twp->scl.x) >= fstep )
+        if ( ABS(twp->scl.x) >= EVENT_FRAME_STEP )
         {
-            const f32 add_frame = ( twp->scl.x - fmodf(twp->scl.x, fstep) );
+            const f32 add_frame = ( twp->scl.x - fmodf(twp->scl.x, EVENT_FRAME_STEP) );
 
             EventFrame += add_frame;
             twp->scl.x -= add_frame;
