@@ -1036,11 +1036,64 @@ RFCTRL_EventApplyModelDiffuse(void)
     ApplyModelDiffuse = true;
 }
 
+/****** Vsync ***********************************************************************/
+
+___TODO("Add and use actual header for this");
+void rjSetWaitVsyncCount( Sint32 count );
+
+static void
+EV_SetWaitVsyncCount(void)
+{
+    if ( false ) // 30fps mode
+    {
+        rjSetWaitVsyncCount( 2 );
+        return;
+    }
+
+    if ( true )
+    {
+        const int wait_vsync = EventEffData.sound[0].WaitVsyncCount;
+
+        rjSetWaitVsyncCount( MAX( 1, wait_vsync ) );
+    }
+    else
+    {
+        rjSetWaitVsyncCount( 1 );
+    }
+}
+
+static void
+EV_ResetWaitVsyncCountTimecard(void)
+{
+    CutsceneMode = EVENTMD_TIMECARD;
+
+    rjSetWaitVsyncCount( 1 );
+}
+
+static void
+EV_ResetWaitVsyncCount7(void)
+{
+    CutsceneMode = EVENTMD_UNK_7;
+
+    rjSetWaitVsyncCount( 1 );
+}
+
 /****** Init ************************************************************************/
 void
 EV_DrawInit(void)
 {
     WriteJump(0x005FAA70, EventInitiator);
+
+    WriteNOP( 0x00602B5C, 0x00602B72);
+    WriteCall(0x00602B5C, EV_SetWaitVsyncCount);
+
+    WriteNOP( 0x005FB385, 0x005FB38F);
+    WriteCall(0x005FB385, EV_ResetWaitVsyncCountTimecard);
+
+    WriteNOP( 0x005FB775, 0x005FB77F);
+    WriteCall(0x005FB775, EV_ResetWaitVsyncCount7);
+
+    WriteJump(0x005F8EE0, EV_SetWaitVsyncCount);
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
 
