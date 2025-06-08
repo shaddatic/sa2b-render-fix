@@ -842,10 +842,16 @@ EV_DrawScreenEffect(void)
 }
 
 /****** Task ************************************************************************/
+static boo;
+EventDispRetn(void)
+{
+    return (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.f == EventFrame);
+}
+
 void
 EventDisplayerShadow(task* tp)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    if ( EventDispRetn() )
     {
         return;
     }
@@ -861,7 +867,7 @@ EventDisplayerShadow(task* tp)
 void
 EventDisplayerSort(task* tp)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    if ( EventDispRetn() )
     {
         return;
     }
@@ -900,7 +906,7 @@ EventDisplayerSort(task* tp)
 void
 EventDisplayerDelayed(task* tp)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    if ( EventDispRetn() )
     {
         return;
     }
@@ -962,7 +968,7 @@ EventDisplayerDelayed(task* tp)
 void
 EventDisplayer(task* tp)
 {
-    if (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 1.f > EventFrame)
+    if ( EventDispRetn() )
     {
         return;
     }
