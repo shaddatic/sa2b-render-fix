@@ -168,11 +168,9 @@ EventExecutor(task* tp)
     taskwk* restrict twp = tp->twp;
 
     // 4:3 bars
+    if ( EV_Get43Mode() == EV_43MD_ALWAYS && !EV_AllowsWideAspect() && GetDisplayRatio() > 1.f )
     {
-        if ( EV_Get43Mode() == EV_43MD_ALWAYS && !EV_AllowsWideAspect() && GetDisplayRatio() > 1.f )
-        {
-            AspectRatioMode = 1;
-        }
+        AspectRatioMode = 1;
     }
 
     // update last frame, may be changed inside of 'DebugExec'
@@ -182,21 +180,23 @@ EventExecutor(task* tp)
 
     ___TODO("This should check a user setting in future");
 
-    if ( true ) // frameskip
+    const f32 add_frame = UseLagEmu() ? ( EventSpeed * 0.5f ) : ( EventSpeed );
+
+    if ( true ) // psudo-frameskip
     {
-        twp->scl.x += UseLagEmu() ? ( EventSpeed * 0.5f ) : ( EventSpeed );
+        twp->scl.x += add_frame;
 
         if ( ABS(twp->scl.x) >= EVENT_FRAME_STEP )
         {
-            const f32 add_frame = ( twp->scl.x - fmodf(twp->scl.x, EVENT_FRAME_STEP) );
+            const f32 add_step = ( twp->scl.x - fmodf(twp->scl.x, EVENT_FRAME_STEP) );
 
-            EventFrame += add_frame;
-            twp->scl.x -= add_frame;
+            EventFrame += add_step;
+            twp->scl.x -= add_step;
         }
     }
     else
     {
-        EventFrame += UseLagEmu() ? ( EventSpeed * 0.5f ) : ( EventSpeed );
+        EventFrame += add_frame;
     }
 
     // check if this frame is different than the "current" frame
