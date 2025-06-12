@@ -36,65 +36,60 @@ typedef void(__cdecl* EDIT_FUNC)(task*);
 /************************/
 typedef union _UNION_STATUS
 {
-    f32       fRangeOut;
-    int32_t pObjSleepCondition;
+    f32             fRangeOut;
+    s32             pObjSleepCondition;
 }
 UNION_STATUS;
 
 typedef struct _OBJ_EDITENTRY
 {
-    uint16_t  usID;
-    int16_t   rotx;
-    int16_t   roty;
-    int16_t   rotz;
-    f32       xpos;
-    f32       ypos;
-    f32       zpos;
-    f32       xscl;
-    f32       yscl;
-    f32       zscl;
+    u16             usID;
+    s16             rotx;
+    s16             roty;
+    s16             rotz;
+    f32             xpos;
+    f32             ypos;
+    f32             zpos;
+    f32             xscl;
+    f32             yscl;
+    f32             zscl;
 }
 OBJ_EDITENTRY;
 
-#pragma warning(push)
-#pragma warning(disable : 4200)     /* zero-sized array in struct/union             */
-
 typedef struct _OBJ_EDITTABLE
 {
-    uint32_t      ulCount;          /* number of edit entries in array              */
-    uint32_t      padding[7];       /* padding space, unused                        */
-    OBJ_EDITENTRY objEditEntry[];   /* variable sized array of edit entries         */
+    u32             ulCount;        /* number of edit entries in array              */
+    u32             padding[7];     /* padding space, unused                        */
+    OBJ_EDITENTRY   objEditEntry[]; /* variable sized array of edit entries         */
 }
 OBJ_EDITTABLE;
 
-#pragma warning(pop)
-
 typedef struct _OBJ_CONDITION
 {
-    uint8_t        scCount;
-    uint8_t        scUserFlag;
-    int16_t        ssCondition;
-    task*          ptask;
-    OBJ_EDITENTRY* pObjEditEntry;
-    UNION_STATUS   unionStatus;
+    u8              scCount;
+    u8              scUserFlag;
+    s16             ssCondition;
+    task*           ptask;
+    OBJ_EDITENTRY*  pObjEditEntry;
+    UNION_STATUS    unionStatus;
 }
 OBJ_CONDITION;
 
 typedef struct _OBJ_ITEMENTRY
 {
-    uint8_t   ucInitMode;
-    uint8_t   ucLevel;
-    int16_t   ssAttribute;
-    f32       fRange;
-    EDIT_FUNC fnExec;
-    char*     strObjName;
+    u8              ucInitMode;
+    u8              ucLevel;
+    s16             ssAttribute;
+    f32             fRange;
+    EDIT_FUNC       fnExec;
+    char*           strObjName;
 }
 OBJ_ITEMENTRY;
 
 typedef struct _OBJ_ITEMTABLE
 {
-    int32_t        slCount;
-    OBJ_ITEMENTRY* pObjItemEntry;
+    s32             slCount;
+    OBJ_ITEMENTRY*  pObjItemEntry;
 }
 OBJ_ITEMTABLE;
 
