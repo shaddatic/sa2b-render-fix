@@ -23,7 +23,7 @@
 void
 RF_ObjPakInit(void)
 {
-    if ( RF_ConfigGetInt(CNF_DEBUG_OBJPAK_W) == 1 )
+    if ( false )
     {
         size_t fsize;
         byte* const fbuf = mtFileLoad("./resource/Shader/win32/obj.pak", &fsize);

@@ -284,7 +284,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_COMPAT_OFFBFC           CNFO_INT(   CNFS_COMPAT         , "off_bfc"             , CNFE_BOOL_DISABLED                    )   /* Disable Back-Face Culling */
 
 /** Debug section **/
-#define CNF_DEBUG_OBJPAK_W          CNFO_INT(   CNFS_DEBUG          , "objpak_write"        , CNFE_BOOL_ENABLED                     )   /* Allow Writing To obj.pak */
+#define CNF_DEBUG_FRAMEINFO         CNFO_INT(   CNFS_DEBUG          , "frametime_info"      , CNFE_BOOL_DISABLED                    )   /* Debug framtime info */
 #define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 

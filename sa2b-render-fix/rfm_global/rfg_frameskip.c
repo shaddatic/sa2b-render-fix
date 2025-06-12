@@ -13,6 +13,7 @@
 #include <rf_core.h>        /* core                                                 */
 #include <rf_config.h>      /* config                                               */
 #include <rf_util.h>        /* replacefloat                                         */
+#include <rf_config.h>      /* config get                                           */
 
 /****** Std *************************************************************************/
 #include <math.h>           /* fmax                                                 */
@@ -50,6 +51,9 @@ static s64 FrameStart;          /* frametime clock start           (for debug in
 
 /****** Frame Time ******************************************************************/
 static f64 FrameTime;           /* last frametime in milliseconds                   */
+
+/****** Settings ********************************************************************/
+static bool DebugFrameInfo;     /* debug frametime info                             */
 
 /************************/
 /*  Source              */
@@ -108,10 +112,8 @@ OnRenderSceneEnd(void)
 
     const f64 vsync_ms = (TARGET_MS * vsync_wait_count);
 
-    ___TODO("Make frametime information a toggleable option");
-
     // frametime debug
-    if ( false )
+    if ( DebugFrameInfo )
     {
         char ubuf[64];
 
@@ -311,6 +313,8 @@ RFG_FrameSkipInit(void)
     ReplaceFloat(0x00436448, &MidiMultiply);
 
     /** End **/
+
+    DebugFrameInfo = RF_ConfigGetInt( CNF_DEBUG_FRAMEINFO );
 
     rjSetWaitVsyncCount(1);
 }
