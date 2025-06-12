@@ -188,8 +188,78 @@ EventByteSwapMainFile(EVENT_HEADER* pEvHead)
         // Other stuff
 
         if (pEvHead->pTexAnims)
+        {
             EventByteSwapTexAnim(pEvHead->pTexAnims);
+        }
     }
+}
+
+#define GET_PTR(p, offset)      (void*)((uintptr_t)(p) + (uintptr_t)(offset))
+
+static void
+EventFixTexlist(NJS_TEXLIST** pptls)
+{
+    OutputPointer(*pptls);
+
+    const bool be = !( (u32)(*pptls) & 0x00007FFF );
+
+    if ( be )
+    {
+        EndianSwap32( &(*pptls) );
+    }
+
+    OutputPointer(*pptls);
+
+    NJS_TEXLIST* ptls = GET_PTR(*pptls, pptls);
+
+    //const bool be = (bool)( ptls->nbTexture & 0xFFFF0000 );
+
+    if ( be )
+    {
+        EndianSwap32( &ptls->textures );
+        EndianSwap32( &ptls->nbTexture );
+    }
+
+    ptls->textures = GET_PTR(ptls->textures, pptls);
+
+    NJS_TEXNAME* p_texn = ptls->textures;
+    const u32   nb_texn = ptls->nbTexture;
+
+    for ( u32 ix_texn = 0; ix_texn < nb_texn; ++ix_texn )
+    {
+        NJS_TEXNAME* p_curr_texn = &p_texn[ix_texn];
+
+        if ( be )
+        {
+            EndianSwap32( &p_curr_texn->filename );
+            EndianSwap32( &p_curr_texn->attr );
+        }
+
+        if ( p_curr_texn->filename )
+        {
+            p_curr_texn->filename = GET_PTR(p_curr_texn->filename, ptls);
+        
+            if ( p_curr_texn->attr )
+            {
+                NJS_TEXINFO* p_texinfo = p_curr_texn->filename;
+        
+                if ( be )
+                {
+                    EndianSwap32( &p_texinfo->texaddr );
+                }
+        
+                p_texinfo->texaddr = GET_PTR(p_texinfo->texaddr, ptls);
+            }
+        }
+    }
+}
+
+#define EventTexlist        DATA_REF(NJS_TEXLIST**, 0x01AEDE18)
+
+static void
+___EventByteSwapTexlist(void)
+{
+    EventFixTexlist(EventTexlist);
 }
 
 void
@@ -197,4 +267,6 @@ EV_ByteSwapInit(void)
 {
     WriteCall(0x005FEFF7, ___EventByteSwapTexAnim);
     WriteJump(0x005FE320, ___EventByteSwapReflection);
+
+    //WriteJump(0x00600120, ___EventByteSwapTexlist);
 }
