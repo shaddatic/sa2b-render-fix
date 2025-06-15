@@ -20,7 +20,7 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_internal.h> /* parent & siblings                             */
+#include <rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                */
 
 /************************/
 /*  Game Definitions    */

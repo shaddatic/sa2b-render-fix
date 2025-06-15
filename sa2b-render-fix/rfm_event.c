@@ -14,51 +14,18 @@
 #include <rfm_event/ev_internal.h> /* children                                      */
 
 /************************/
-/*  Data                */
-/************************/
-/****** Event Settings **************************************************************/
-static bool          EventEquipmentEnable;
-static RFE_EV_43MODE EventEnforce43;
-static bool          NewEventRenderer;
-
-/************************/
 /*  Source              */
 /************************/
-/****** Extern **********************************************************************/
-bool
-EV_GetEquipmentMode(void)
-{
-    return EventEquipmentEnable;
-}
-
-RFE_EV_43MODE
-EV_Get43Mode(void)
-{
-    return EventEnforce43;
-}
-
-/****** Feature *********************************************************************/
-bool
-RFF_NewEventRenderer(void)
-{
-    return NewEventRenderer;
-}
-
 /****** Init ************************************************************************/
 void
 RFM_EventInit(void)
 {
     EV_ByteSwapInit();
 
+    WriteData(0x00458A18, 350, s32); // force play E0350
+
     if ( RF_ConfigGetInt(CNF_EVENT_RFDISP) )
     {
-        EV_DrawInit();
-
-        EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
-        EventEnforce43       = RF_ConfigGetInt(CNF_EVENT_43MD);
-
-        NewEventRenderer = true;
+        EV_RendererInit();
     }
-
-    WriteData(0x00458A18, 350, s32); // force play E0350
 }

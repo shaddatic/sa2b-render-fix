@@ -294,22 +294,22 @@
     <ClCompile Include="rf_draw\rfd_shape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_draw.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_njcnk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_reflection.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_reflection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_common.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_light.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_camera.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_camera.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_magic.cpp">
@@ -369,13 +369,13 @@
     <ClCompile Include="rf_draw\rfd_polygon.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_exec.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_exec.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_blare.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_blare.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_debug.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_core.c">
@@ -390,10 +390,19 @@
     <ClCompile Include="rf_draw\rfd_texerr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event\ev_texanim.c">
+    <ClCompile Include="rfm_event\ev_renderer\evr_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_frameskip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_renderer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_renderer\evr_task.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rfm_event\ev_renderer\evr_vsync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -573,6 +582,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_light\rfl_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfm_event\ev_renderer\evr_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

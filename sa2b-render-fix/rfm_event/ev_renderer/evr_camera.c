@@ -17,9 +17,8 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_eventinfo.h>       /* event data                                       */
 
-
 /****** Self ************************************************************************/
-#include <rfm_event/ev_internal.h>          /* parent & siblings                    */
+#include <rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                */
 
 /****** Camera Data *****************************************************************/
 #define EvCamRangeOutPos                DATA_REF(NJS_POINT3, 0x01DB0FF0)

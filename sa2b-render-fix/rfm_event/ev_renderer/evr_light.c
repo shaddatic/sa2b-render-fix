@@ -20,7 +20,7 @@
 #include <rf_light.h>           /* render fix light                                 */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_internal.h> /* parent & siblings                             */
+#include <rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                */
 
 typedef struct
 {

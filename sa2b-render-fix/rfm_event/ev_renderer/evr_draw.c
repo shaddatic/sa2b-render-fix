@@ -3,8 +3,6 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
-#include <samt/writeop.h>       /* writejump                                        */
-#include <samt/funchook.h>      /* funchook                                         */
 
 /****** Utility *********************************************************************/
 #include <samt/util/cnkmdl.h>   /* chunk model                                      */
@@ -26,7 +24,7 @@
 #include <rf_util.h>            /* switch displayer                                 */
 
 /****** Self ************************************************************************/
-#include <rfm_event/ev_internal.h>          /* parent & siblings                    */
+#include <rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                */
 
 /************************/
 /*  Game Functions      */
@@ -403,7 +401,7 @@ EventScrollTexture(const int nbScene, const int nbEntry)
     }
 }
 
-static void
+void
 EV_SetConstMat(void)
 {
     NJS_ARGB argb = {0};
@@ -445,7 +443,7 @@ EV_SetConstMat(void)
     njSetConstantMaterial(&argb);
 }
 
-static void
+void
 EventSceneModDraw(const int nbScene)
 {
     const EVENT_SCENE* const p_scene = &SceneData[nbScene];
@@ -491,7 +489,7 @@ EventSceneModDraw(const int nbScene)
     }
 }
 
-static void
+void
 EventSceneDraw(const int nbScene, const int nbLayer)
 {
     switch ( DebugDrawPass )
@@ -742,7 +740,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-static void
+void
 EventResetEquipmentFlags(void)
 {
     for (int i = 0; i < ARYLEN(EventEquipmentFlags); ++i)
@@ -753,7 +751,7 @@ EventResetEquipmentFlags(void)
 
 #define PlayerEqipmentList          DATA_ARY(Sint8, 0x01DEB300, [29])
 
-static void
+void
 EventEquipmentDraw(void)
 {
     OnControl3D(NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_SHADOW);
@@ -800,7 +798,7 @@ EventEquipmentDraw(void)
 #define EvBackColor                 DATA_REF(NJS_COLOR, 0x01DB0F88)
 #define EvScreenEffectColor         DATA_REF(NJS_COLOR, 0x01DB0EB8)
 
-static void
+void
 EV_DrawScreenEffect(void)
 {
     njSetBackColor( EvBackColor.color, EvBackColor.color, EvBackColor.color );
@@ -841,261 +839,9 @@ EV_DrawScreenEffect(void)
     rjDrawPolygon(poly, ARYLEN(poly), EvScreenEffectColor.argb.a != 0xFF);
 }
 
-/****** Task ************************************************************************/
-static boo;
-EventDispRetn(void)
-{
-    return (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.f == EventFrame);
-}
-
-void
-EventDisplayerShadow(task* tp)
-{
-    if ( EventDispRetn() )
-    {
-        return;
-    }
-
-    /** Setup draw state **/
-    njSetCamera( &EventCamera );
-
-    /** Draw modifiers **/
-    EventSceneModDraw(EVENT_BASE_SCENE);
-    EventSceneModDraw(EventSceneNum);
-}
-
-void
-EventDisplayerSort(task* tp)
-{
-    if ( EventDispRetn() )
-    {
-        return;
-    }
-
-    /** Set constant material via screen sprites **/
-    EV_SetConstMat();
-
-    /** Draw **/
-    njSetBackColor(0, 0, 0);
-    njSetCamera( &EventCamera );
-
-    njSetTexture(EventData.pTexlist);
-    EventLightSet();
-
-    njCnkSetMotionCallback(NULL);
-
-    const int old_rmode = _gj_render_mode_;
-
-    {
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
-
-        for (int i = 1; i <= 8; ++i)
-        {
-            EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventSceneNum   , i);
-        }
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-
-        _gj_render_mode_ = old_rmode;
-    }
-}
-
-void
-EventDisplayerDelayed(task* tp)
-{
-    if ( EventDispRetn() )
-    {
-        return;
-    }
-
-    /** Set constant material via screen sprites **/
-    EV_SetConstMat();
-
-    /** Draw **/
-    njSetBackColor(0, 0, 0);
-    njSetCamera( &EventCamera );
-
-    njSetTexture(EventData.pTexlist);
-    EventLightSet();
-
-    EV_DebugDisp(tp);
-
-    njCnkSetMotionCallback(NULL);
-
-    /** Draw Event Scenes **/
-
-    EventDrawReflections();
-    EventDrawSprites();
-
-    const int old_rmode = _gj_render_mode_;
-
-    {
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
-
-        for (int i = 9; i <= 16; ++i)
-        {
-            EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventSceneNum   , i);
-        }
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-
-        _gj_render_mode_ = old_rmode;
-    }
-
-    if (EventUseFlare)
-    {
-        EventDrawFlare(&EventFlarePos);
-    }
-
-    if (EventDebugInfo == 1)
-    {
-        EventDebug();
-    }
-    else if (EventDebugInfo == 2)
-    {
-        EventDebugNull();
-    }
-
-    EV_DrawScreenEffect();
-}
-
-void
-EventDisplayer(task* tp)
-{
-    if ( EventDispRetn() )
-    {
-        return;
-    }
-
-    /** Set constant material via screen sprites **/
-    EV_SetConstMat();
-
-    /** Draw **/
-    njSetBackColor(0, 0, 0);
-    njSetCamera( &EventCamera );
-
-    njSetTexture(EventData.pTexlist);
-    EventLightSet();
-
-    EventResetEquipmentFlags();
-
-    njCnkSetMotionCallback(NULL);
-
-    /** Draw Event Scenes **/
-    {
-        const int old_rmode = _gj_render_mode_;
-
-        /** Draw all opaque polygons **/
-
-        _gj_render_mode_ = GJD_DRAW_SOLID;
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
-
-        EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
-        EventSceneDraw(EventSceneNum   , EV_ALL_LAYERS);
-
-        /** Draw opaque equipment strips **/
-
-        if ( EV_GetEquipmentMode() )
-        {
-            EventEquipmentDraw();
-        }
-
-        /** Draw first transparent layer **/
-
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
-
-        EventSceneDraw(EVENT_BASE_SCENE, 0);
-        EventSceneDraw(EventSceneNum   , 0);
-
-        /** Draw transparent equipment strips **/
-
-        if ( EV_GetEquipmentMode() )
-        {
-            EventEquipmentDraw();
-        }
-
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
-
-        _gj_render_mode_ = old_rmode;
-    }
-}
-
 /****** Control *********************************************************************/
 void
 RFCTRL_EventApplyModelDiffuse(void)
 {
     ApplyModelDiffuse = true;
-}
-
-/****** Vsync ***********************************************************************/
-
-___TODO("Add and use actual header for this");
-void rjSetWaitVsyncCount( Sint32 count );
-
-static void
-EV_SetWaitVsyncCount(void)
-{
-    if ( false ) // 30fps mode
-    {
-        rjSetWaitVsyncCount( 2 );
-        return;
-    }
-
-    if ( true )
-    {
-        const int wait_vsync = EventEffData.sound[0].WaitVsyncCount;
-
-        rjSetWaitVsyncCount( MAX( 1, wait_vsync ) );
-    }
-    else
-    {
-        rjSetWaitVsyncCount( 1 );
-    }
-}
-
-static void
-EV_ResetWaitVsyncCountTimecard(void)
-{
-    CutsceneMode = EVENTMD_TIMECARD;
-
-    rjSetWaitVsyncCount( 1 );
-}
-
-static void
-EV_ResetWaitVsyncCount7(void)
-{
-    CutsceneMode = EVENTMD_UNK_7;
-
-    rjSetWaitVsyncCount( 1 );
-}
-
-/****** Init ************************************************************************/
-void
-EV_DrawInit(void)
-{
-    WriteJump(0x005FAA70, EventInitiator);
-
-    WriteNOP( 0x00602B5C, 0x00602B72);
-    WriteCall(0x00602B5C, EV_SetWaitVsyncCount);
-
-    WriteNOP( 0x005FB385, 0x005FB38F);
-    WriteCall(0x005FB385, EV_ResetWaitVsyncCountTimecard);
-
-    WriteNOP( 0x005FB775, 0x005FB77F);
-    WriteCall(0x005FB775, EV_ResetWaitVsyncCount7);
-
-    WriteJump(0x005F8EE0, EV_SetWaitVsyncCount);
-
-    WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
-
-    SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 }
