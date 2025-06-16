@@ -161,7 +161,7 @@ EV_DebugExec(task* tp)
 
     taskwk* restrict twp = tp->twp;
 
-    if ( true ) // debug controls
+    if ( EventDebugFlag ) // debug controls
     {
         const PDS_PERIPHERAL* restrict p_peri = per[0];
 
