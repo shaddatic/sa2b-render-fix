@@ -80,6 +80,15 @@ typedef enum
 }
 RFE_EV_43MODE;
 
+/****** WaitVsync Mode **************************************************************/
+typedef enum
+{
+    EV_VSYNCMD_30,              /* always 30fps                                     */
+    EV_VSYNCMD_EVENT,           /* event choses vsync                               */
+    EV_VSYNCMD_60,              /* always 60fps                                     */
+}
+RFE_EV_VSYNC;
+
 /****** Draw Pass *******************************************************************/
 typedef enum
 {
@@ -98,8 +107,9 @@ RFE_DBG_DRAWPASS;
 /*  Extern Data         */
 /************************/
 /****** Settings ********************************************************************/
-EXTERN bool            EventEquipmentEnable;
-EXTERN RFE_EV_43MODE   EventEnforce43;
+EXTERN bool             EventEquipmentEnable;
+EXTERN RFE_EV_43MODE    EventEnforce43;
+EXTERN RFE_EV_VSYNC     EventVsyncMode;
 
 /****** Draw Pass *******************************************************************/
 EXTERN s32 DebugDrawPass;

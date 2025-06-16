@@ -19,6 +19,7 @@
 /****** Event Settings **************************************************************/
 bool            EventEquipmentEnable;
 RFE_EV_43MODE   EventEnforce43;
+RFE_EV_VSYNC    EventVsyncMode;
 
 /****** Feature *********************************************************************/
 static bool     NewEventRenderer;
@@ -46,6 +47,7 @@ EV_RendererInit(void)
 
     EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
     EventEnforce43       = RF_ConfigGetInt(CNF_EVENT_43MD);
+    EventVsyncMode       = RF_ConfigGetInt(CNF_EVENT_VSYNC);
 
     NewEventRenderer = true;
 }

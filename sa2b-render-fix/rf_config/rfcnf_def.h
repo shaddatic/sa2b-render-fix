@@ -136,6 +136,14 @@ typedef enum
 CNFE_CART_CARTSPRITE;
 
 /****** Event Section *******************************************************/
+typedef enum // vsync mode
+{
+    CNFE_EVENT_VSYNC_60,
+    CNFE_EVENT_VSYNC_EVSET,
+    CNFE_EVENT_VSYNC_30,
+}
+CNFE_EVENT_VSYNC;
+
 /** Cart Sprite Fix **/
 typedef enum
 {
@@ -264,6 +272,7 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Event section **/
 #define CNF_EVENT_RFDISP            CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Render Fix Renderer */
+#define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
 

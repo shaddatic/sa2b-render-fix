@@ -39,21 +39,25 @@ void rjSetWaitVsyncCount( Sint32 count );
 static void
 EV_SetWaitVsyncCount(void)
 {
-    if ( false ) // 30fps mode
+    switch ( EventVsyncMode )
     {
-        rjSetWaitVsyncCount( 2 );
-        return;
-    }
+        case EV_VSYNCMD_30:
+        {
+            rjSetWaitVsyncCount( 2 );
+            break;
+        }
+        case EV_VSYNCMD_EVENT:
+        {
+            const int wait_vsync = EventEffData.sound[0].WaitVsyncCount;
 
-    if ( true )
-    {
-        const int wait_vsync = EventEffData.sound[0].WaitVsyncCount;
-
-        rjSetWaitVsyncCount( MAX( 1, wait_vsync ) );
-    }
-    else
-    {
-        rjSetWaitVsyncCount( 1 );
+            rjSetWaitVsyncCount( MAX( 1, wait_vsync ) );
+            break;
+        }
+        case EV_VSYNCMD_60:
+        {
+            rjSetWaitVsyncCount( 1 );
+            break;
+        }
     }
 }
 
