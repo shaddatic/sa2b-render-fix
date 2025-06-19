@@ -20,9 +20,9 @@
 static bool
 CheckModByNameAndAuthor(const char* name, const char* author)
 {
-    const mod_info* mhp = MI_GetInfoByName(name);
+    const ml_modinfo* mhp = miGetInfoByName(name);
 
-    return (mhp && mtStrMatch( mhp->cAuthor, author, STR_NOMAX ));
+    return (mhp && mtStrMatch( mhp->puAuthor, author, STR_NOMAX ));
 }
 
 void
@@ -30,9 +30,9 @@ RF_ModCheckInit(void)
 {
     /** Check Render Fix's mod-list position **/
     {
-        const mod_info* mhp = MI_GetInfoByPosition(0);
+        const ml_modinfo* mhp = miGetInfoByIndex(0);
 
-        if (!mtStrMatch( mhp->cID, "sa2-render-fix", STR_NOMAX ))
+        if ( !mtStrMatch(mhp->puID, "sa2-render-fix", STR_NOMAX) )
         {
             RF_Alert("Mod Position",
                 "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
@@ -45,7 +45,7 @@ RF_ModCheckInit(void)
 
     /** Check Highest Quality Textures by Speeps **/
     {
-        if (CheckModByNameAndAuthor("High Quality Textures", "Speeps"))
+        if ( CheckModByNameAndAuthor("High Quality Textures", "Speeps") )
         {
             RF_ModConflictStrict("High Quality Textures", "Render Fix");
         }
@@ -53,7 +53,7 @@ RF_ModCheckInit(void)
 
     /** Check Rendering Fixes by End User **/
     {
-        if (CheckModByNameAndAuthor("Rendering Fixes", "End User"))
+        if ( CheckModByNameAndAuthor("Rendering Fixes", "End User") )
         {
             RF_ModConflictStrict("Rendering Fixes", "Render Fix & Cutscene Revamp");
         }
@@ -61,7 +61,7 @@ RF_ModCheckInit(void)
 
     /** Check Enhanced Shadows by Shaddatic **/
     {
-        if (MI_GetInfoByDLL("enhanced-shadows"))
+        if ( miGetInfoByDllName("enhanced-shadows") )
         {
             RF_ModConflictStrict("Enhanced Shadows", "Render Fix");
         }
@@ -70,7 +70,7 @@ RF_ModCheckInit(void)
 
     /** Check No Model Tinting by Speeps **/
     {
-        if ( MI_GetInfoByDLL("NoTinting") )
+        if ( miGetInfoByDllName("NoTinting") )
         {
             RF_ModConflictStrict("No Model Tinting", "Render Fix");
         }
@@ -79,7 +79,7 @@ RF_ModCheckInit(void)
 
     /** Check Restored GUN Logos by Speeps **/
     {
-        if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && MI_GetInfoByDLL("RestoredGUNLogos"))
+        if ( RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && miGetInfoByDllName("RestoredGUNLogos") )
         {
             RF_ModConflictEither("Restored GUN Logos", "GUN Emblem Fix");
         }
@@ -87,7 +87,7 @@ RF_ModCheckInit(void)
 
     /** Check DC Shadows by Exant **/
     {
-        if (RFF_CheapShadow() && MI_GetInfoByDLL("sa2-dc-lighting"))
+        if ( RFF_CheapShadow() && miGetInfoByDllName("sa2-dc-lighting") )
         {
             RF_ModConflictEither("DC Shadows", "Modifer Shadows");
         }
@@ -95,7 +95,7 @@ RF_ModCheckInit(void)
 
     /** Check Eggman Lighting Fix by Exant **/
     {
-        if (RFF_SpotLightFix() && MI_GetInfoByDLL("NoLightingPatch"))
+        if ( RFF_SpotLightFix() && miGetInfoByDllName("NoLightingPatch") )
         {
             RF_ModConflictEither("Eggman Lighting Fix", "Spot Light Fix");
         }

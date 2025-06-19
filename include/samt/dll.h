@@ -9,111 +9,114 @@
 
 EXTERN_START
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** DLL Handle ******************************************************************/
-typedef struct dll_handle   dll_handle; /* HMODULE                                  */
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** DLL Handle ******************************************************************************/
+typedef struct mt_dllhandle             mt_dllhandle; /* windows hmodule                        */
 
-/************************/
-/*  Structures          */
-/************************/
-/****** DLL Exports *****************************************************************/
-typedef struct dll_export
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** DLL Exports *****************************************************************************/
+typedef struct mt_dllexport
 {
-    const void* pPtr;   /* pointer to pointer to write export address to            */
-    const char* cName;  /* name of DLL library export                               */
+    const void** ppExportDst;       /* pointer to pointer to write export address to            */
+    const c7*   pcExportName;       /* name of DLL library export                               */
 }
-dll_export;
+mt_dllexport;
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Get Handle ******************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Get Handle ******************************************************************************/
 /*
 *   Description:
-*     Get handle of already mounted DLL by file name.
+*     Get handle of mounted DLL by its file name.
 *
 *   Examples:
-*     DLL_GetHandle( "name-of-dll" );
+*     - mtDllGetMountedHandle( "Data_DLL" );
 *
 *   Parameters:
-*     - uName   : name of the DLL file
+*     - puDllName   : name of dll file, excluding the extension
 *
 *   Returns:
-*     The DLL handle, or nullptr if a DLL of that name is not mounted
+*     The DLL handle ###; or 'nullptr' on failure.
 */
-dll_handle* DLL_GetHandle( const c8* uName );
+mt_dllhandle* mtDllGetMountedHandle( const c8* puDllName );
 
-/****** Mount/Unmount DLL ***********************************************************/
+/****** Mount/Unmount DLL ***********************************************************************/
 /*
 *   Description:
-*     Mount a DLL from either the main system files or a local path. The local path
-*   will be searched first. If the DLL is not found locally, the system files will
-*   then be searched.
+*     Mount a new DLL file. Either a direct path can be used, or simply the file name of the
+*   DLL; if the name is used, the local game path is searched first followed by the system
+*   files.
 *
 *   Examples:
-*     DLL_Mount( "file" );
-*     DLL_Mount( "./path/to/dll/file.dll" );
+*     - mtDllMount( "mymodule" );
+*     - mtDllMount( "./my/path/mymodule.dll" );
 *
 *   Parameters:
-*     - uPath   : name/path to DLL file
+*     - puDllNamePath : file name of/path to dll
 *
 *   Returns:
-*     The DLL handle, or nullptr if the file is not found
+*     New handle for mounted DLL; or 'nullptr' on failure.
 */
-dll_handle* DLL_Mount( const c8* uPath );
+mt_dllhandle* mtDllMount( const c8* puDllNamePath );
 /*
 *   Description:
-*     Mount a DLL like above, but instead using two strings which are then
-*   concatonated together ("'uPathL'/'uPathR'").
+*     Unmount a DLL file.
+*
+*   Notes:
+*     - This will release all data and functions in the DLL also, so care should be taken to
+*       not reference any released memory addresses.
+*
+*   Parameters:
+*     - pDll        : dll handle
+*/
+void    mtDllUnmount( mt_dllhandle* pDll );
+/*
+*   Description:
+*     Mount a new DLL file using two path parameters, combined as ('puDllPath'/'puDllFile').
 *
 *   Examples:
-*     DLL_Mount2( GetModPath(), "file.dll" );
+*     - mtDllMount2( mtGetModPath(), "mydlls/mymodule.dll" );
 *
 *   Parameters:
-*     - uPathL  : string to use on the left side of the path
-*     - uPathR  : string to use on the right side of the path
-*
-*   Returns:
-*     The DLL handle, or nullptr if the file is not found
-*/
-dll_handle* DLL_Mount2( const c8* uPathL, const c8* uPathR );
-/*
-*   Description:
-*     Unmount a DLL file. This will also release any data/functions from the
-*   library; care should be taken to correctly clean up any references to them.
-*
-*   Parameters:
-*     - pHdl    : handle to a dll to unmount
-*/
-void    DLL_Unmount( dll_handle* pHdl );
-
-/****** Get Exports *****************************************************************/
-/*
-*   Description:
-*     Get an exported pointer from a mounted DLL library, which may include
-*   functions or data.
-*
-*   Parameters:
-*     - pHdl    : handle to a dll to unmount
-*     - cExName : name of the export in ASCII
+*     - puDllPath   : left part of path
+*     - puDllFile   : right part of path
 * 
 *   Returns:
-*     A pointer to the DLL export, or nullptr if no export is found
+*     New handle for mounted DLL; or 'nullptr' on failure.
 */
-void*   DLL_GetExport(const dll_handle* pHdl, const char* cExName);
+mt_dllhandle* mtDllMount2( const c8* puDllPath, const c8* puDllFile );
+
+/****** DLL Exports *****************************************************************************/
 /*
 *   Description:
-*     Get a list of exported pointers from a mounted DLL library, which may include
-*   functions or data.
+*     Get a DLL export from a DLL handle.
 *
 *   Parameters:
-*     - pHdl     : handle to a dll to unmount
-*     - pExList  : pointer to an export list
-*     - nbExList : number of entries in the export list
+*     - pDll         : dll handle
+*     - pcExportName : export function/data name
+*
+*   Returns:
+*     The DLL export; or 'nullptr' on failure.
 */
-void    DLL_GetExportList(const dll_handle* pHdl, const dll_export* pExList, size_t nbExList);
+void*   mtDllGetExport( const mt_dllhandle* pDll, const c7* pcExportName );
+/*
+*   Description:
+*     Get a list of DLL exports in one call.
+*
+*   Parameters:
+*     - pDll         : dll handle
+*     - pExportList  : export structure list
+*     - nbExportList : number of export structures
+*
+*   Returns:
+*     Number of exports successfully retrieved.
+*/
+size    mtDllGetExportList( const mt_dllhandle* pDll, mt_dllexport* pExportList, usize nbExportList );
 
 EXTERN_END
 

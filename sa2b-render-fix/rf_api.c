@@ -3,7 +3,6 @@
 #include <samt/modloader.h>
 
 /** Utility **/
-#include <samt/util/ml_type.h>
 #include <samt/util/dllexport.h>
 
 /** Ninja **/
@@ -44,21 +43,21 @@ const RFAPI_CORE rfapi_core =
     .pApiFont = &rfapi_font,
 };
 
-typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const char*, const HelperFunctions*);
+typedef void(__cdecl RF_INIT)(const RFAPI_CORE*, const c8*, const HelperFunctions*);
 
 static void
 ApiCallByFuncName(const char* name)
 {
-    const size_t nb_mod = MI_GetTotalNumber();
+    const size_t nb_mod = miGetModCount();
 
     for (size_t i = 0; i < nb_mod; ++i)
     {
-        const mod_info* p_mi = MI_GetInfoByPosition(i);
+        const ml_modinfo* p_mi = miGetInfoByIndex(i);
 
-        RF_INIT* const init = MI_GetExport(p_mi, name);
+        RF_INIT* const init = miGetExport(p_mi, name);
 
         if (init)
-            init(&rfapi_core, p_mi->cPath, ML_GetHelperFunctions());
+            init( &rfapi_core, p_mi->puPath, mtGetHelperFunctions() );
     }
 }
 

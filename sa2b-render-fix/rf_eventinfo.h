@@ -168,8 +168,8 @@ typedef struct
     u8 staff_speed_maybe;
     s16 voice_num;
 
-    a7 bgm[16];
-    a7 jingle[16];
+    c7 bgm[16];
+    c7 jingle[16];
 
     u32 WaitVsyncCount;
 

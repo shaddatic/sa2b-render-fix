@@ -38,7 +38,7 @@ RF_ChunkLoadObjectFile(const char* fname)
 
     snprintf(buf, 260, "./" MODEL_PATH "/%s.sa2mdl", fname);
 
-    const char* fpath = ML_GetReplaceablePath(buf);
+    const char* fpath = mlGetReplacedFile(buf);
 
     mt_samdl* p_samdl = mtSAModelLoad(fpath, SAMDL_CHUNK);
 
@@ -58,7 +58,7 @@ RF_ChunkLoadModelFile(const char* fname)
 
     snprintf(buf, 260, "./" MODEL_PATH "/%s.sa2mdl", fname);
 
-    const char* fpath = ML_GetReplaceablePath(buf);
+    const char* fpath = mlGetReplacedFile(buf);
 
     mt_samdl* p_samdl = mtSAModelLoad(fpath, SAMDL_CHUNK|SAMDL_MODEL);
 
@@ -83,7 +83,7 @@ RF_LoadChunkObjectList(LOAD_SAMDL_LIST* pInOutList, size_t nbList)
 
         snprintf(buf, 260, "./" MODEL_PATH "/%s.sa2mdl", pInOutList[i].puPath);
 
-        const char* fpath = ML_GetReplaceablePath(buf);
+        const char* fpath = mlGetReplacedFile(buf);
 
         mt_samdl* p_samdl = mtSAModelLoad(fpath, SAMDL_CHUNK);
 
@@ -128,7 +128,7 @@ RF_GinjaLoadObjectFile(const char* fname)
 
     snprintf(buf, 260, "./" MODEL_PATH "/%s.sa2bmdl", fname);
 
-    const char* fpath = ML_GetReplaceablePath(buf);
+    const char* fpath = mlGetReplacedFile(buf);
 
     mt_samdl* p_samdl = mtSAModelLoad(fpath, SAMDL_GINJA);
 

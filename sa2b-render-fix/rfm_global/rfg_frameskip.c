@@ -62,7 +62,7 @@ static bool DebugFrameInfo;     /* debug frametime info                         
 static s64
 GetClock(void)
 {
-    return mtOSHighResolutionClock();
+    return osHighResolutionClock();
 }
 
 static f64
@@ -74,7 +74,7 @@ GetMilliseconds(s64 clock, s64 freq)
 static f64
 GetFrameTime(s64 last_clock, s64 freq)
 {
-    return ((f64)(mtOSHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
+    return ((f64)(osHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
 }
 
 /****** Export **********************************************************************/
@@ -106,7 +106,7 @@ EXPORT_DLL
 void __cdecl
 OnRenderSceneEnd(void)
 {
-    const s64 freq = mtOSHighResolutionFrequency();
+    const s64 freq = osHighResolutionFrequency();
 
     const f64 vsync_wait_count = ( WaitVsyncCount >= 0 ) ? (f64)WaitVsyncCount : 1.0;
 
@@ -115,21 +115,19 @@ OnRenderSceneEnd(void)
     // frametime debug
     if ( DebugFrameInfo )
     {
-        char ubuf[64];
-
         static f64 s_avg_ms;
 
         const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
 
         const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / vsync_wait_count) );
 
-        ML_SetDebugFontColor( (frame_ms > vsync_ms) ? 0xFFFF0000 : 0xFFFFFFFF );
+        mlDebugSetScale( 8 );
+        mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF0000 : 0xFFFFFFFF );
 
-        ML_SetDebugFontScale(16.f);
-        ML_DisplayDebugString( NJM_LOCATION(11,1), "IMM /      AVG /    TGT");
+        mlDebugPrintC( NJM_LOCATION(11,1), "IMM /      AVG /    TGT");
 
-        ML_DisplayDebugStringF(NJM_LOCATION(1,3), ubuf, 64, "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms);
-        ML_DisplayDebugStringF(NJM_LOCATION(1,4), ubuf, 64, "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms);
+        mlDebugPrint(NJM_LOCATION(1,3), "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms);
+        mlDebugPrint(NJM_LOCATION(1,4), "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms);
 
         s_avg_ms = avg_ms;
     }
@@ -158,7 +156,7 @@ OnRenderSceneEnd(void)
             const u32 sleep_ms = (u32)floor(wait_ms);
 
             // sleep most of the time first to save CPU time
-            if ( sleep_ms > SLEEP_GRACE_MS ) mtOSSleep( sleep_ms - SLEEP_GRACE_MS );
+            if ( sleep_ms > SLEEP_GRACE_MS ) osSleep( sleep_ms - SLEEP_GRACE_MS );
 
             // wait for the remaining time
             while ( wait_ms > GetFrameTime(start_clock, freq) );

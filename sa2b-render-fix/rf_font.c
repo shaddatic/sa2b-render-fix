@@ -444,7 +444,7 @@ RF_FontChaoGet(RFE_FONT_TYPE type)
 static RFS_FONT*
 LoadReplaceableFont(const c8* fpath, RFE_FONT_FTYPE ftype)
 {
-    return RF_FontLoadFile(ML_GetReplaceablePath(fpath), ftype);
+    return RF_FontLoadFile(mlGetReplacedFile(fpath), ftype);
 }
 
 static RFS_FONT*

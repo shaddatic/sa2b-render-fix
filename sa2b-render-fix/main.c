@@ -59,7 +59,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs)
     DX9_Init();
 
     /** Mod Loader Check **/
-    if ( ML_GetCurrVersion() < MLVER_MIN )
+    if ( mtGetModLoaderVersion() < MLVER_MIN )
     {
         RF_FatalError("Mod Loader Version",
             "Render Fix can't operate safely on the currently installed version of the SA2 Mod Loader.\n"
@@ -111,5 +111,3 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs)
     RF_ConfigEnd();
 }
 
-EXPORT_DLL
-ml_modinfo SA2ModInfo = { ML_VERSION };

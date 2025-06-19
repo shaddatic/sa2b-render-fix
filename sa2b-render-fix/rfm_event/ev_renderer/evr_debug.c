@@ -291,10 +291,10 @@ EV_DebugExec(task* tp)
 
         if ( twp->btimer )
         {
-            ML_SetDebugFontScale( 16.f );
-            ML_SetDebugFontColor( (NJS_COLOR){ .argb = { 255, 255, 255, twp->btimer } }.color );
+            mlDebugSetScale( 16 );
+            mlDebugSetColor( (NJS_COLOR){ .argb = { 255, 255, 255, twp->btimer } }.color );
 
-            ML_DisplayDebugString(NJM_LOCATION(1, 1), s_DebugTextBuffer);
+            mlDebugPrintC(NJM_LOCATION(1, 1), s_DebugTextBuffer);
 
             twp->btimer -= 5;
         }
@@ -308,10 +308,8 @@ EV_DebugDisp(task* tp)
 
     if ( twp->flag & DBG_FLAG_PRINTINFO )
     {
-        ML_SetDebugFontScale( 16.f );
-        ML_SetDebugFontColor( 0xFFFFFFFF );
-
-        char buf[64];
+        mlDebugSetScale( 8 );
+        mlDebugSetColor( 0xFFFFFFFF );
 
         char* pc_evtype;
 
@@ -340,56 +338,37 @@ EV_DebugDisp(task* tp)
             pc_evtype = "OTHER";
         }
 
-        snprintf(buf, ARYLEN(buf), "EVENT        : E%04i (%s)", EventNum, pc_evtype);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 3), buf);
-
-        snprintf(buf, ARYLEN(buf), "EVENT SCENE  : %02i     /%02i", EventSceneNum, EventData.nbScene);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 4), buf);
-
-        snprintf(buf, ARYLEN(buf), "EVENT FRAME  : %06.1f /%i", EventFrame, EventData.pScenes[EVENT_BASE_SCENE].nbFrame);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 5), buf);
-
-        snprintf(buf, ARYLEN(buf), "SCENE FRAME  : %06.1f /%i", EventSceneFrame, EventData.pScenes[EventSceneNum].nbFrame);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 6), buf);
+        mlDebugPrint(NJM_LOCATION(1, 3), "EVENT        : E%04i (%s)"        , EventNum          , pc_evtype);
+        mlDebugPrint(NJM_LOCATION(1, 4), "EVENT SCENE  : %02i     /%02i"    , EventSceneNum     , EventData.nbScene);
+        mlDebugPrint(NJM_LOCATION(1, 5), "EVENT FRAME  : %06.1f /%i"        , EventFrame        , EventData.pScenes[EVENT_BASE_SCENE].nbFrame);
+        mlDebugPrint(NJM_LOCATION(1, 6), "SCENE FRAME  : %06.1f /%i"        , EventSceneFrame   , EventData.pScenes[EventSceneNum].nbFrame);
 
         // camera
 
-        snprintf(buf, ARYLEN(buf), "CAMERA POS   : %+.2f, %+.2f, %+.2f", EventCamera.px, EventCamera.py, EventCamera.pz);
+        NJS_VECTOR vec_norm =
+        {
+            EventCamera.vx,
+            EventCamera.vy,
+            EventCamera.vz
+        };
 
-        ML_DisplayDebugString(NJM_LOCATION(1, 8), buf);
+        njUnitVector(&vec_norm);
 
-        NJS_VECTOR vec = { EventCamera.vx, EventCamera.vy, EventCamera.vz };
+        NJS_POINT3 pos_look =
+        {
+            EventCamera.px + EventCamera.vx,
+            EventCamera.py + EventCamera.vy,
+            EventCamera.pz + EventCamera.vz
+        };
 
-        njUnitVector(&vec);
-
-        snprintf(buf, ARYLEN(buf), "CAMERA VEC   : %+.2f, %+.2f, %+.2f", vec.x, vec.y, vec.z);
-
-        vec.x = ( EventCamera.px + EventCamera.vx );
-        vec.y = ( EventCamera.py + EventCamera.vy );
-        vec.z = ( EventCamera.pz + EventCamera.vz );
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 9), buf);
-
-        snprintf(buf, ARYLEN(buf), "CAMERA LOOKAT: %+.2f, %+.2f, %+.2f", vec.x, vec.y, vec.z);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 10), buf);
-
-        snprintf(buf, ARYLEN(buf), "CAMERA ROLL  : %+.2f", NJM_ANG_DEG(EventCamera.roll));
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 11), buf);
-
-        snprintf(buf, ARYLEN(buf), "CAMERA FOV   : %+.2f", NJM_ANG_DEG(EventCamera.ang));
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 12), buf);
+        mlDebugPrint(NJM_LOCATION(1, 8) , "CAMERA POS   : %+.2f, %+.2f, %+.2f"  , EventCamera.px  , EventCamera.py    , EventCamera.pz);
+        mlDebugPrint(NJM_LOCATION(1, 9) , "CAMERA VEC   : %+.2f, %+.2f, %+.2f"  , vec_norm.x      , vec_norm.y        , vec_norm.z);
+        mlDebugPrint(NJM_LOCATION(1, 10), "CAMERA LOOKAT: %+.2f, %+.2f, %+.2f"  , pos_look.x      , pos_look.y        , pos_look.z);
+        mlDebugPrint(NJM_LOCATION(1, 11), "CAMERA ROLL  : %+.2f"                , NJM_ANG_DEG(EventCamera.roll));
+        mlDebugPrint(NJM_LOCATION(1, 12), "CAMERA FOV   : %+.2f"                , NJM_ANG_DEG(EventCamera.ang));
 
         // sprite alpha
 
-        snprintf(buf, ARYLEN(buf), "ALPHA EFFECT : %+.2f", _nj_constant_material_.a);
-
-        ML_DisplayDebugString(NJM_LOCATION(1, 14), buf);
+        mlDebugPrint(NJM_LOCATION(1, 14), "ALPHA EFFECT : %+.2f", _nj_constant_material_.a);
     }
 }

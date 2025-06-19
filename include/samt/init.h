@@ -12,9 +12,14 @@
 /************************/
 /****** Utility *********************************************************************/
 #include <samt/util/dllexport.h>    /* export_dll                                   */
-#include <samt/util/ml_type.h>      /* ml_helpfuncs                                 */
 
 EXTERN_START
+
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Mod Loader ******************************************************************************/
+typedef struct ml_helpfuncs             ml_helpfuncs;   /* helperfunctions                      */
 
 /************************/
 /*  Prototypes          */
@@ -118,9 +123,4 @@ EXTERN_END
     {
         
     }
-*
-*   Valid Mod Info (# == SA2 or SADX):
-*
-    EXPORT_DLL
-    ml_modinfo #ModInfo = { ML_VERSION };
 */

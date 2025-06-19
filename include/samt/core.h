@@ -153,7 +153,7 @@ typedef int32_t             b32;    /* 4 byte boolean                           
 *   Character Types
 */
 /****** ASCII ***********************************************************************************/
-typedef char                a7;     /* ASCII-7                                                  */
+typedef char                c7;     /* ASCII-7                                                  */
 
 /****** Unicode *********************************************************************************/
 typedef char                c8;     /* UTF-8 code unit or ASCII                                 */
@@ -162,10 +162,18 @@ typedef uint32_t            c32;    /* UTF-32 code point                        
 
 /************************************************************************************************/
 /*
-*   Generic Types
+*   Other Types
 */
 /****** Byte ************************************************************************************/
 typedef uint8_t             byte;   /* basic byte type                                          */
+
+/****** Pointer *********************************************************************************/
+typedef uintptr_t           pint;   /* pointer integer value                                    */
+typedef intptr_t            poff;   /* pointer offset value                                     */
+
+/****** Size ************************************************************************************/
+typedef int32_t             size;   /* size integer                                             */
+typedef uint32_t            usize;  /* unsigned size integer                                    */
 
 /************************/
 /*  Core Functions      */

@@ -10,155 +10,164 @@
 #ifndef H_SAMT_MODINFO
 #define H_SAMT_MODINFO
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** DLL Handle ******************************************************************/
-typedef struct dll_handle       dll_handle;
-
-/****** Config **********************************************************************/
-typedef struct mt_config           mt_config;
-
 EXTERN_START
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Mod Dependency Entry ********************************************************/
-typedef struct mod_dependency
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** DLL Handle ******************************************************************************/
+typedef struct mt_dllhandle             mt_dllhandle; /* windows hmodule                        */
+
+/****** Config **********************************************************************************/
+typedef struct mt_config                mt_config; /* config file                               */
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Mod Dependency Entry ********************************************************************/
+typedef struct ml_moddeps
 {
-    const char* cID;
-    const char* cPath;
-    const char* cName;
-    const char* cLink;
+    const c8*              puID;        /* mod ID, from mod.ini                                 */
+    const c8*              puPath;      /* expected mod path                                    */
+    const c8*              puName;      /* mod name, from mod.ini                               */
+    const c8*              puLink;      /* mod download link                                    */
 }
-mod_dependency;
+ml_moddeps;
 
-/****** Mod Info ********************************************************************/
-typedef struct mod_info
+/****** Mod Info ********************************************************************************/
+typedef struct ml_modinfo
 {
-    const char* cName;              /* mod name, from mod.ini                       */
-    const char* cAuthor;            /* mod authors, from mod.ini                    */
-    const char* cDescription;       /* mod description, from mod.ini                */
-    const char* cVersion;           /* mod version, from mod.ini                    */
-    const char* cPath;              /* mod path                                     */
-    const char* cID;                /* mod ID, from mod.ini                         */
+    const c8*            puName;        /* mod name, from mod.ini                               */
+    const c8*            puAuthor;      /* mod authors, from mod.ini                            */
+    const c8*            puDesc;        /* mod description, from mod.ini                        */
+    const c8*            puVersion;     /* mod version, from mod.ini                            */
+    const c8*            puPath;        /* mod path                                             */
+    const c8*            puID;          /* mod ID, from mod.ini                                 */
 
-    const dll_handle* pDll;         /* pointer to DLL handle                        */
+    const mt_dllhandle*      pDll;      /* pointer to DLL handle                                */
 
-    bool bSaveRedirectMain;         /* mod has redirected the main save path        */
-    bool bSaveRedirectChao;         /* mod has redirected the chao save path        */
+    bool        bSaveRedirectMain;      /* mod has redirected the main save path                */
+    bool        bSaveRedirectChao;      /* mod has redirected the chao save path                */
 
-    const mod_dependency* pDepList; /* pointer to mod dependency list               */
-    int                  nbDepList; /* number of dependency entries                 */
+    const ml_moddeps*   pDepsList;      /* pointer to mod dependency list                       */
+    int                nbDepsList;      /* number of dependency entries                         */
 }
-mod_info;
+ml_modinfo;
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Mod Loader Support **********************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Mod Loader Support **********************************************************************/
 /*
 *   Description:
-*     If the ModInfo functions are supported by the currently installed Mod Loader
-*   version.
+*     Check if the 'Mod' helper functions are supported by the current Mod Loader version.
 *
 *   Returns:
-*     If the Mod Loader HelperFunctions version is >= 9
+*     'true' if the Mod Loader version is >= 9; or 'false' if not.
 */
-bool    MI_IsSupported( void );
+bool    miCheckSupport( void );
 
-/****** Mod Count *******************************************************************/
+/****** Total Mod Count *************************************************************************/
 /*
 *   Description:
-*     Get the total number of mods enabled by the user.
-*
-*   Returns:
-*     The total number of mods currently active
+*     Get the total number of currently active mods, and by extension the number of mod slots
+*   in use.
 */
-int     MI_GetTotalNumber( void );
+size    miGetModCount( void );
 
-/****** Get Info ********************************************************************/
+/****** Get Mod Info ****************************************************************************/
 /*
 *   Description:
-*     Get mod info via ID string
+*     Get a mod info via its set ID string (recommended).
 *
 *   Parameters:
-*     - cID     : ID of the mod as defined in it's mod.ini
+*     - puID        : mod id string
 *
 *   Returns:
-*     A 'mod_info' pointer, or nullptr if no mod is found
+*     Mod info structure; or 'nullptr' if the mod is not active.
 */
-const mod_info* MI_GetInfoByID( const char* cID );
+const ml_modinfo* miGetInfoByID( const c8* puID );
 /*
 *   Description:
-*     Get mod info via DLL name
+*     Get a mod info via its position in the mod list.
 *
 *   Parameters:
-*     - uDLL    : name of the mod's DLL file
+*     - index       : mod position index value, starting at 0
 *
 *   Returns:
-*     A 'mod_info' pointer, or nullptr if no mod is found
+*     Mod info structure; or 'nullptr' if the mod is not active.
 */
-const mod_info* MI_GetInfoByDLL( const c8* uDLL );
+const ml_modinfo* miGetInfoByIndex( usize index );
 /*
 *   Description:
-*     Get mod info via mod name
+*     Get a mod info via its DLL handle.
 *
 *   Parameters:
-*     - cName   : name of the mod as defined in it's mod.ini
+*     - pDll        : dll handle
 *
 *   Returns:
-*     A 'mod_info' pointer, or nullptr if no mod is found
+*     Mod info structure; or 'nullptr' if the dll is not linked to a mod.
 */
-const mod_info* MI_GetInfoByName( const char* cName );
+const ml_modinfo* miGetInfoByDll( const mt_dllhandle* pDll );
 /*
 *   Description:
-*     Get mod info via mod path
+*     Get a mod info via its DLL file name.
 *
 *   Parameters:
-*     - cPath   : path to the mod
+*     - puDllName   : name of the dll file, excluding the extension
 *
 *   Returns:
-*     A 'mod_info' pointer, or nullptr if no mod is found
+*     Mod info structure; or 'nullptr' if the mod is not active.
 */
-const mod_info* MI_GetInfoByPath( const char* cPath );
+const ml_modinfo* miGetInfoByDllName( const c8* puDllName );
 /*
 *   Description:
-*     Get mod info via mod position in the user's mod list
+*     Get a mod info via its name.
 *
 *   Parameters:
-*     - index   : mod list index of the mod
-* 
+*     - puName      : mod name
+*
 *   Returns:
-*     A 'mod_info' pointer, or nullptr if no mod is found
+*     Mod info structure; or 'nullptr' if the mod is not active.
 */
-const mod_info* MI_GetInfoByPosition( int index );
+const ml_modinfo* miGetInfoByName( const c8* puName );
+/*
+*   Description:
+*     Get a mod info via its filesystem path, starting at the game directory.
+*
+*   Parameters:
+*     - puPath      : mod path
+*
+*   Returns:
+*     Mod info structure; or 'nullptr' if the mod is not active.
+*/
+const ml_modinfo* miGetInfoByPath( const c8* puPath );
 
-/****** Info Function ***************************************************************/
+/****** Additional Info Functions ***************************************************************/
 /*
 *   Description:
-*     Get a mod DLL export via it's mod_info. Calls 'DLL_GetExport' internally.
+*     Get the position index of a mod via its mod info structure.
 *
-*   Parameters:
-*     - pMod    : mod info pointer
-*     - cExName : DLL export identifier
-* 
 *   Returns:
-*     A pointer to the DLL export, or nullptr if no export is found
+*     Position index in the mod list; or '-1' on failure.
 */
-void*   MI_GetExport( const mod_info* pMod, const char* cExName );
+size    miGetIndex( const ml_modinfo* pModInfo );
 /*
 *   Description:
-*     Open a mod's config file via it's mod info. Calls 'ConfigOpen2' internally.
+*     Get a DLL export of a mod via its mod info structure.
 *
-*   Parameters:
-*     - pMod    : mod info pointer
-* 
 *   Returns:
-*     A config pointer created from the mod's config.ini
+*     Exported function or data; or 'nullptr' on failure.
 */
-mt_config* MI_GetConfig( const mod_info* pMod );
+void*   miGetExport( const ml_modinfo* pModInfo, const c7* pcExportName );
+/*
+*   Description:
+*     Get 
+*
+*   Returns:
+*     User config of mod; or 'nullptr' on failure.
+*/
+mt_config* miGetConfig( const ml_modinfo* pModInfo );
 
 EXTERN_END
 

@@ -111,7 +111,7 @@ RFU_CalcInvertedMatrix(const NJS_MATRIX* m)
 eRFU_FILE_OWNER
 RFU_GetFileOwnership(const char* pcPath)
 {
-    const char* const repl_path = ML_GetReplaceablePath(pcPath);
+    const char* const repl_path = mlGetReplacedFile(pcPath);
 
     if ( PathIsGame(repl_path) )
         return FOWN_GAME;
@@ -132,7 +132,7 @@ RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
     {
         snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s", pcPath); // also used for replace path
 
-        const char* const repl_path = ML_GetReplaceablePath(file_buf);
+        const char* const repl_path = mlGetReplacedFile(file_buf);
 
         /** Check if the file is replaced, or if Render Fix owns the replaced file **/
         if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
@@ -152,7 +152,7 @@ RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
         return false;
     }
 
-    ML_ReplaceFile(file_buf, opti_buf);
+    mlReplaceFile(file_buf, opti_buf);
 
     return true;
 }
@@ -166,7 +166,7 @@ RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
     {
         snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcTexName);
 
-        const char* const repl_path = ML_GetReplaceablePath(file_buf);
+        const char* const repl_path = mlGetReplacedFile(file_buf);
 
         /** Check if the file isn't replaced, or if Render Fix owns the replaced file **/
         if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
@@ -190,7 +190,7 @@ RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
         return false;
     }
 
-    ML_ReplaceFile(file_buf, opti_buf);
+    mlReplaceFile(file_buf, opti_buf);
 
     return true;
 }
@@ -204,7 +204,7 @@ RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
     {
         snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.GVR", pcPvrName); // also used for replace path
 
-        const char* const repl_path = ML_GetReplaceablePath(file_buf);
+        const char* const repl_path = mlGetReplacedFile(file_buf);
 
         /** Check if the file isn't replaced, or if Render Fix owns the replaced file **/
         if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
@@ -225,7 +225,7 @@ RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
         return false;
     }
 
-    ML_ReplaceFile(file_buf, opti_buf);
+    mlReplaceFile(file_buf, opti_buf);
 
     return true;
 }
@@ -239,7 +239,7 @@ ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char*
     {
         snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s/%s.ini", pcPrsName, pcPrsName);
 
-        const char* const repl_path = ML_GetReplaceablePath(file_buf);
+        const char* const repl_path = mlGetReplacedFile(file_buf);
 
         /** Check if the file is replaced, or if Render Fix owns the replaced file **/
         if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
@@ -250,7 +250,7 @@ ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char*
     {
         snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcPrsName); // also used for replace path
 
-        const char* const repl_path = ML_GetReplaceablePath(file_buf);
+        const char* const repl_path = mlGetReplacedFile(file_buf);
 
         /** Check if the file is replaced, or if Render Fix owns the replaced file **/
         if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
@@ -270,7 +270,7 @@ ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char*
         return false;
     }
 
-    ML_ReplaceFile(file_buf, opti_buf);
+    mlReplaceFile(file_buf, opti_buf);
 
     return true;
 }

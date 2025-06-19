@@ -60,26 +60,26 @@ GetLightFilePaths(const c8* puPathBase, const c8** ppuOutPathDC, const c8** ppuO
     mtStrAppend(pu_path_gc, STR_AUTOLEN, "_gc.bin", STR_NOMAX);
 
     // get replaced paths
-    const c8* pu_repl_path_dc = ML_GetReplaceablePath(puPathBase);
-    const c8* pu_repl_path_gc = ML_GetReplaceablePath(pu_path_gc);
+    const c8* pu_repl_path_dc = mlGetReplacedFile(puPathBase);
+    const c8* pu_repl_path_gc = mlGetReplacedFile(pu_path_gc);
 
     const c8* pu_out_path_dc = nullptr;
     const c8* pu_out_path_gc = nullptr; 
 
-    const s32 nb_mod = MI_GetTotalNumber();
+    const s32 nb_mod = miGetModCount();
 
     for (s32 i = nb_mod - 1; i >= 0; --i)
     {
-        const mod_info* p_modinfo = MI_GetInfoByPosition(i);
+        const ml_modinfo* p_modinfo = miGetInfoByIndex(i);
 
-        if ( mtPathSearch(pu_repl_path_gc, p_modinfo->cPath, STR_NOMAX) == 0 )
+        if ( mtPathSearch(pu_repl_path_gc, p_modinfo->puPath, STR_NOMAX) == 0 )
         {
             pu_out_path_gc = pu_repl_path_gc;
             pu_out_path_dc = pu_repl_path_dc;
             break;
         }
 
-        if ( mtPathSearch(pu_repl_path_dc, p_modinfo->cPath, STR_NOMAX) == 0 )
+        if ( mtPathSearch(pu_repl_path_dc, p_modinfo->puPath, STR_NOMAX) == 0 )
         {
             pu_out_path_dc = pu_repl_path_dc;
             break;

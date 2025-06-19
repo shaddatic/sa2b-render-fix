@@ -560,12 +560,12 @@ __njCnkDrawMotionHook(void)
 static mt_config*
 GetDisableUpgradeModelsConfig(void)
 {
-    const mod_info* p_modinfo = MI_GetInfoByDLL("SA2DisableUpgradeModels");
+    const ml_modinfo* p_modinfo = miGetInfoByDllName("SA2DisableUpgradeModels");
 
-    if (!p_modinfo)
+    if ( !p_modinfo )
         return NULL;
 
-    return MI_GetConfig(p_modinfo);
+    return miGetConfig(p_modinfo);
 }
 
 void
