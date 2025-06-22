@@ -16,6 +16,12 @@
 EXTERN_START
 
 /********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Helper Functions ************************************************************************/
+typedef struct HelperFunctions          HelperFunctions; /* mod loader helper functions         */
+
+/********************************/
 /*  Constants                   */
 /********************************/
 /****** Current Version *************************************************************************/
@@ -26,31 +32,147 @@ EXTERN_START
 #define ML_MINVER_REPLFILE              ( 7) /* minimum version for replace file                */
 #define ML_MINVER_DEBUG                 ( 8) /* minimum version for debug text                  */
 #define ML_MINVER_MODINFO               ( 9) /* minimum version for mod info                    */
+#define ML_MINVER_SETTINGS              ( 9) /* minimum version for settings struct             */
 #define ML_MINVER_REGVOICE              (10) /* minimum version for register voice              */
 #define ML_MINVER_REPLTEX               (11) /* minimum version for replace texture             */
 #define ML_MINVER_RESETFILE             (12) /* minimum version for reset replaced file         */
+#define ML_MINVER_EXLIBPATH             (15) /* minimum version for exlibpath                   */
 #define ML_MINVER_FILEMODIX             (16) /* minimum version for file mod index              */
 
 /********************************/
-/*  Opaque Types                */
+/*  Includes                    */
 /********************************/
-/****** Helper Functions ************************************************************************/
-typedef struct HelperFunctions          HelperFunctions; /* mod loader helper functions         */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>        /* ninja common                                         */
+
+#ifdef __cplusplus
+/****** Std Cpp *********************************************************************************/
+#include <string>                       /* cpp string                                           */
+#endif
+
+/********************************/
+/*  Types                       */
+/********************************/
+/****** Wstring *********************************************************************************/
+#ifdef __cplusplus
+typedef std::wstring                    ml_std_wstring;
+#else
+typedef byte                            ml_std_wstring[24];
+#endif
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Mod Loader User Settings ****************************************************************/
+typedef enum ml_screenmode
+{
+    ML_SCREENMD_WINDOWED,
+    ML_SCREENMD_FULLSCREEN,
+    ML_SCREENMD_BORDERLESS,
+    ML_SCREENMD_CUSTOM,
+}
+ml_screenmode;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Mod Loader User Settings ****************************************************************/
+typedef struct ml_scrnres
+{
+    s32 x, y;
+}
+ml_scrnres;
+
+/****** Mod Loader User Settings ****************************************************************/
+typedef struct ml_settings
+{
+    /****** Mod Loader Version >= 9 *********************************************************/    
+    struct
+    {
+        bool             console;       /* output debug to console                          */
+        bool              screen;       /* output debug to screen text                      */
+        bool                file;       /* output debug to text file                        */
+        bool            crashdmp;       /* create crash dumps                               */
+    }
+    Debug;
+
+    bool           pausefocusloss;      /* pause game when window is not in focus           */
+    bool             noexitprompt;      /* don't prompt when closing window                 */
+    s32                 screennum;      /* display number                                   */
+    bool               borderless;      /* use borderless window                            */
+    bool               fullscreen;      /* use fullscreen                                   */
+    bool                skipintro;      /* skip game intro                                  */
+    bool                  noasync;      /* no asynchronous file loading                     */
+    ml_scrnres         resolution;      /* screen resolution                                */
+
+    // language settings
+    struct
+    {
+        s32                speech;      /* set speech language                              */
+        s32                  text;      /* set text language                                */
+    }
+    Language;
+
+    bool         customwindowflag;      /* using custom window size                         */
+    ml_scrnres   customwindowsize;      /* custom window size values                        */
+
+    bool         resizewindowflag;      /* allow resizing of game window                    */
+    bool           fixaspectratio;      /* deprecated, use 'screenStretch'                  */
+    bool                 limitfps;      /* frame limiter                                    */
+
+    // test spawn settings
+    struct
+    {
+        s32           stagenum;         /* stage number to spawn into                       */
+        s32             plnum1;         /* player 1 character                               */
+        s32             plnum2;         /* player 2 character                               */
+
+        bool         setposflag;        /* use custom spawn pos                             */
+        s32          px, py, pz;        /* custom spawn position, xyz                       */
+        Angle        ay;                /* custom spawn angle, Y                            */
+
+        s32            eventnum;        /* event number                                     */
+        s32             savenum;        /* save number                                      */
+    }
+    TestSpawn;
+
+    bool              extendedvbuf;     /* using extended vertex buffer                     */
+
+    // fixes
+    bool                   envfix;      /* environment map fix                              */
+    bool            screenfadefix;      /* screen fading fix                                */
+    bool               citycarfix;      /* iGPU city escape tram car fix                    */
+    bool                  ptclfix;      /* iGPU particle fix                                */
+
+    // screen mode
+    bool       keepaspectonresize;      /* deprecated, use 'aspectstretch'                  */
+    ml_screenmode      screenmode;      /* current screen mode                              */
+
+    /****** Mod Loader Version >= 14 ********************************************************/
+    bool              noborderimg;      /* don't use border image PNG                       */
+    bool            aspectstretch;      /* allow stretching of the game                     */
+
+    /****** Mod Loader Version >= 15 ********************************************************/
+    ml_std_wstring      exlibpath;      /* std::wstring, external library path              */
+}
+ml_settings;
 
 /********************************/
 /*  Prototypes                  */
 /********************************/
-/****** Base Functions **************************************************************************/
+/****** HelperFuncs *****************************************************************************/
 /*
 *   Description:
 *     Get the raw Mod Loader 'HelperFunctions' structure, as passed into 'mtSystemInit'.
 */
 const HelperFunctions* mtGetHelperFunctions( void );
+
+/****** Mod Loader Version **********************************************************************/
 /*
 *   Description:
-*     Get the current Mod Loader version.
+*     Get the current Mod Loader version number.
 */
-s32     mtGetModLoaderVersion( void );
+s32     mlGetVersion( void );
 
 /****** Version >= 4 ****************************************************************************/
 /*
@@ -201,6 +323,16 @@ void    mlDebugPrintF( s32 loc, f32 val, s32 digit );
 */
 void    mlDebugSetScaleDirect( f32 scale );
 
+/****** Version >= 9 ****************************************************************************/
+/*
+*   Description:
+*     Get the global Mod Loader settings structure.
+*
+*   Notes:
+*     - This pointer will remain constant for the liftime of the program.
+*/
+const ml_settings* mlGetUserSettings( void );
+
 /****** Version >= 10 ***************************************************************************/
 /*
 *   Description:
@@ -262,6 +394,21 @@ void    mlResetReplacedFile( const c7* pcSrcPath );
 */
 void    mlMotionLerpNearestStart( void );
 void    mlMotionLerpNearestEnd(   void );
+
+/****** Version >= 15 ***************************************************************************/
+/*
+*   Description:
+*     Get the path to the Mod Loader's external library directory. This is internally stored as
+*   a 'c16' in the settings structure, so this function also converts it into a usable form.
+*
+*   Parameters:
+*     - puOutPath   : destination string buffer
+*     - szOutPath   : maximum size of the destination buffer
+*
+*   Returns:
+*     Number of characters copied into the buffer, including terminator.
+*/
+size    mlGetExLibPath( c8* puOutPath, usize szOutPath );
 
 /****** Version >= 16 ***************************************************************************/
 /*

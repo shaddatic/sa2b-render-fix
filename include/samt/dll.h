@@ -21,7 +21,7 @@ typedef struct mt_dllhandle             mt_dllhandle; /* windows hmodule        
 /****** DLL Exports *****************************************************************************/
 typedef struct mt_dllexport
 {
-    const void** ppExportDst;       /* pointer to pointer to write export address to            */
+    const void* ppExportDst;        /* pointer to pointer to write export address to            */
     const c7*   pcExportName;       /* name of DLL library export                               */
 }
 mt_dllexport;
