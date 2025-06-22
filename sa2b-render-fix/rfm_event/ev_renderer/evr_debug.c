@@ -291,7 +291,7 @@ EV_DebugExec(task* tp)
 
         if ( twp->btimer )
         {
-            mlDebugSetScale( 16 );
+            mlDebugSetScale( 8 );
             mlDebugSetColor( (NJS_COLOR){ .argb = { 255, 255, 255, twp->btimer } }.color );
 
             mlDebugPrintC(NJM_LOCATION(1, 1), s_DebugTextBuffer);
