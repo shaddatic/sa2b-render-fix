@@ -238,6 +238,14 @@ typedef struct
 }
 dx9_vtx_elem;
 
+/****** Shader Macro ****************************************************************************/
+typedef struct
+{
+    const char* pcName;             /* macro symbol (eg. 'MACRO')                               */
+    const char* pcDef;              /* macro definition (eg. '1')                               */
+}
+dx9_macro;
+
 /************************/
 /*  Prototypes          */
 /************************/
@@ -504,21 +512,20 @@ bool    DX9_SetPointScaleEnable(  bool  state );
 dx9_vtx_shader* DX9_LoadVtxShader( const char* puPath );
 /*
 *   Description:
-*     Load and compile a vertex shader source file. It is not recommended to use
-*   this in production code.
+*     Load and compile a vertex shader source file.
 * 
-*   Examples:
-*     - DX9_CompileVtxShader("vs.hlsl", "main", "vs_3_0");
+*   Notes:
+*     - Shader entry is always "main"
+*     - Shader profile is always "vs_3_0"
 * 
 *   Parameters:
-*     - puPath      : path to source file                                         [ASCII/UTF-8]
-*     - pcFunc      : name of the entry point function
-*     - pcProfile   : shader profile name, eg. "vs_3_0"
+*     - puPath      : path to source file                                          [ASCII/UTF-8]
+*     - pMacros     : Null terminated macro list                                  [opt: nullptr]
 * 
 *   Returns:
 *     pointer to a vertex shader; or 'nullptr' on failure.
 */
-dx9_vtx_shader* DX9_CompileVtxShader( const char* puPath, const char* pcFunc, const char* pcProfile );
+dx9_vtx_shader* DX9_CompileVtxShader( const char* puPath, const dx9_macro* pMacros );
 
 /****** Set Vertex Shader ***********************************************************************/
 /*
@@ -570,21 +577,20 @@ bool    DX9_SetVtxShaderConstantI( const void* p, uint32_t reg, dx9_size nb );
 dx9_pxl_shader* DX9_LoadPxlShader( const char* puPath );
 /*
 *   Description:
-*     Load and compile a pixel shader source file. It is not recommended to use this
-*   in production code.
+*     Load and compile a pixel shader source file.
 * 
-*   Examples:
-*     - DX9_CompilePxlShader("ps.hlsl", "main", "ps_3_0");
+*   Notes:
+*     - Shader entry is always "main"
+*     - Shader profile is always "ps_3_0"
 * 
 *   Parameters:
 *     - puPath      : path to source file                                          [ASCII/UTF-8]
-*     - pcFunc      : name of the entry point function
-*     - pcProfile   : shader profile name, eg. "ps_3_0"
+*     - pMacros     : Null terminated macro list                                  [opt: nullptr]
 * 
 *   Returns:
 *     Created pixel shader; or 'nullptr' on failure.
 */
-dx9_pxl_shader* DX9_CompilePxlShader( const char* puPath, const char* pcFunc, const char* pcProfile );
+dx9_pxl_shader* DX9_CompilePxlShader( const char* puPath, const dx9_macro* pMacros );
 
 /****** Set Pixel Shader ************************************************************************/
 /*
