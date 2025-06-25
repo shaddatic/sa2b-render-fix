@@ -248,6 +248,14 @@ TGT: Target being aimed for.
 FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.</HelpText>
       </Property>
+      <Property name="event" display="Event Debug Controls" type="eBOOL" defaultvalue="0">
+        <HelpText>Enable Render Fix's Event debug functions: 
+X - Free-Cam - Analog sticks to move &amp; look, up/down dpad to zoom in/out, left/right dpad to roll.
+Y - Scrubbing - The triggers are fine controls, the shoulders skip scenes.
+B - Layer Viewer - Pressing B multiple times will switch draw layers.
+
+Back - Display Event debug info.</HelpText>
+      </Property>
       <Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
         <HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
       </Property>
