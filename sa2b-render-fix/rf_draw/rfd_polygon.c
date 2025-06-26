@@ -16,24 +16,12 @@
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* self                             */
 
 /************************/
-/*  Game Defs           */
-/************************/
-/****** Sprite HScale ***************************************************************/
-#define _gj_sprite_scale_               DATA_REF(f32, 0x025EFF54)
-
-/************************/
 /*  Source              */
 /************************/
 /****** Extern **********************************************************************/
 void
 rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 {
-    njDrawPolygon(polygon, count, trans);
-
-    return; ___TODO("Currently unfinished, needs 2D shader still");
-
-    const Float xscl = _gj_sprite_scale_;
-
     rjSetBlend2D(trans);
 
     rjStartVertex2D(RJE_VERTEX_PC);
@@ -44,13 +32,10 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i, ++polygon, ++p_buf )
     {
-        const Float ooz = -1.f / polygon->z;
-
-        p_buf->pos.x = (polygon->x - 320.f) * (1.f/640.f) * xscl;
-        p_buf->pos.y = (polygon->y - 240.f) * (1.f/480.f);
-        p_buf->pos.z = ooz;
-
-        p_buf->col = polygon->col;
+        p_buf->pos.x = polygon->x;
+        p_buf->pos.y = polygon->y;
+        p_buf->pos.z = polygon->z;
+        p_buf->col   = polygon->col;
     }
 
     rjEndTriStrip(nbv);
