@@ -34,11 +34,9 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 
     const Float xscl = _gj_sprite_scale_;
 
-    rjStartDraw2D();
-
     rjSetBlend2D(trans);
 
-    rjStartVertex(RJE_VERTEX_PC);
+    rjStartVertex2D(RJE_VERTEX_PC);
 
     const Sint32 nbv = rjStartTriStrip(count);
 

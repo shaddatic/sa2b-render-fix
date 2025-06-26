@@ -110,34 +110,30 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /*
 *   Draw Core
 */
-/****** Common **********************************************************************/
-/*
-*   Description:
-*     Start 2D draw, no perspective.
-*/
-void    rjStartDraw2D( void );
-/*
-*   Description:
-*     Start 3D draw, use perspective.
-*/
-void    rjStartDraw3D( void );
-
 /****** 2D Draw *********************************************************************/
 /*
 *   Description:
-*     Start 2D draw, no perspective.
+*     Set blend mode via ninja context struct.
 */
 void    rjSetBlend2D( Int trans );
 
 /****** Start/End Vertex ************************************************************/
 /*
 *   Description:
-*     Start draw state and vertex buffer for specific vertex type.
+*     Start 2D draw state and vertex buffer for specific vertex type.
 *
 *   Parameters:
 *     - vtype       : vertex type
 */
-void    rjStartVertex( RJE_VERTEX_TYPE vtype );
+void    rjStartVertex2D( RJE_VERTEX_TYPE vtype );
+/*
+*   Description:
+*     Start 3D draw state and vertex buffer for specific vertex type.
+*
+*   Parameters:
+*     - vtype       : vertex type
+*/
+void    rjStartVertex3D( RJE_VERTEX_TYPE vtype );
 /*
 *   Description:
 *     End vertex, and draw vertex buffer.

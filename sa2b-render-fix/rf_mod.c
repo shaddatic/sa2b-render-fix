@@ -2,6 +2,8 @@
 #include <samt/memory.h>
 #include <samt/funchook.h>
 
+#include <samt/ninja/ninja.h>
+
 /** GX **/
 #define SAMT_INCL_FUNCPTRS
 #include <samt/gx/gx.h>

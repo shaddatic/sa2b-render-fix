@@ -28,7 +28,7 @@
 void
 rjCnkStartVertexNonTex(CNK_CTX* const pCtx)
 {
-    rjStartVertex(RJE_VERTEX_PCS); // pos,col,spec
+    rjStartVertex3D(RJE_VERTEX_PCS); // pos,col,spec
 
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 0.f;
@@ -44,7 +44,7 @@ rjCnkStartVertexNonTex(CNK_CTX* const pCtx)
 void
 rjCnkStartVertexTex(CNK_CTX* const pCtx)
 {
-    rjStartVertex(RJE_VERTEX_PTCS); // pos,tex,col,spec
+    rjStartVertex3D(RJE_VERTEX_PTCS); // pos,tex,col,spec
 
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 1.f;

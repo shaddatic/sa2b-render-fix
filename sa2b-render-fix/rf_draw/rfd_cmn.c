@@ -55,7 +55,8 @@ typedef enum
 {
     RJE_DRAW_2D,            /* draw 2d space                                        */
     RJE_DRAW_3D,            /* draw 3d space, with perspective                      */
-    RJE_DRAW_CS,            /* draw cheap shadow                                    */
+
+    NB_DRAW_MD,
 }
 RJE_DRAW;
 
@@ -96,69 +97,41 @@ static Uint32 _rj_vertex_buffer_stride_;
 
 static Uint32 _rj_polygon_format_;
 
-static dx9_vtx_decl* _rj_curr_vertex_decl_;
+static dx9_vtx_decl* _rj_curr_vtx_decl_;
 
-static dx9_vtx_decl* _rj_vertex_decls_[NB_RJE_VERTEX];
+static dx9_vtx_decl* _rj_vtx_decls_[NB_RJE_VERTEX];
 
 #define RJD_SHADEREFF_TEX           (1)
 #define RJD_SHADEREFF_FOG           (2)
 #define RJD_SHADEREFF_STEX          (4)
 #define RJD_SHADEREFF_PALLETE       (8)
 
-static dx9_vtx_shader* _rj_curr_vertex_shader_;
-static dx9_pxl_shader* _rj_curr_frgmnt_shader_;
+static dx9_vtx_shader* _rj_curr_vtx_shader_;
+static dx9_pxl_shader* _rj_curr_pxl_shader_;
 
-static dx9_vtx_shader* _rj_vertex_shaders_[NB_RJE_VERTEX];
-static dx9_pxl_shader* _rj_pixel_shaders_[NB_RJE_PIXEL];
+static dx9_vtx_shader* _rj_vtx_shaders_[NB_RJE_VERTEX][NB_DRAW_MD];
+
+static dx9_pxl_shader* _rj_pxl_shaders_[NB_RJE_PIXEL];
 
 /************************/
 /*  Source              */
 /************************/
 /****** Extern **********************************************************************/
-#define _sprite_aspect_         DATA_REF(f32, 0x025EFF54)
-
-void
-rjStartDraw2D(void)
-{
-    _rj_context_.drawmd = RJE_DRAW_2D;
-    
-    DX9_SetPxlShaderConstantF(&_sprite_aspect_, 128, 1);
-
-    //SetShaders(0);
-
-    //rjShaderLightsOff();
-}
-
-void
-rjStartDraw3D(void)
-{
-    _rj_context_.drawmd = RJE_DRAW_3D;
-}
-
 void
 rjSetBlend2D(Int trans)
 {
-    if ( trans )
-    {
-        SetTransparentDraw();
+    trans ? SetTransparentDraw() : SetOpaqueDraw();
 
-        const Uint32 texmode = _nj_curr_ctx_->texmode;
+    const Uint32 texmode = _nj_curr_ctx_->texmode;
 
-        const s32 src = (texmode >> 29) & 7;
-        const s32 dst = (texmode >> 26) & 7;
+    const s32 src = (texmode >> 29) & 7;
+    const s32 dst = (texmode >> 26) & 7;
 
-        GX_SetBlendMode(src, dst, TRUE);
-    }
-    else
-    {
-        SetOpaqueDraw();
-
-        GX_SetBlendMode(GXD_BLENDMODE_ZERO, GXD_BLENDMODE_ONE, FALSE);
-    }
+    GX_SetBlendMode(src, dst, trans);
 }
 
-void
-rjStartVertex(RJE_VERTEX_TYPE vtxdecl)
+static void
+___rjStartVertex(RJE_VERTEX_TYPE vtxdecl, Sint32 use3d)
 {
     _rj_vertex_buffer_base_ = (byte*) _gx_vtx_buf_base_;
     _rj_vertex_buffer_top_  = _rj_vertex_buffer_base_;
@@ -189,7 +162,7 @@ rjStartVertex(RJE_VERTEX_TYPE vtxdecl)
         case RJE_VERTEX_PTC:
         {
             tex = true;
-            
+
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTC);
             break;
         }
@@ -214,9 +187,21 @@ rjStartVertex(RJE_VERTEX_TYPE vtxdecl)
         effect |= RJD_SHADEREFF_FOG;
     }
 
-    _rj_curr_vertex_decl_   = _rj_vertex_decls_[vtxdecl];
-    _rj_curr_vertex_shader_ = _rj_vertex_shaders_[vtxdecl];
-    _rj_curr_frgmnt_shader_ = _rj_pixel_shaders_[effect];
+    _rj_curr_vtx_decl_   = _rj_vtx_decls_[vtxdecl];
+    _rj_curr_vtx_shader_ = _rj_vtx_shaders_[vtxdecl][use3d];
+    _rj_curr_pxl_shader_ = _rj_pxl_shaders_[effect];
+}
+
+void
+rjStartVertex2D(RJE_VERTEX_TYPE vtxdecl)
+{
+    ___rjStartVertex(vtxdecl, RJE_DRAW_2D);
+}
+
+void
+rjStartVertex3D(RJE_VERTEX_TYPE vtxdecl)
+{
+    ___rjStartVertex(vtxdecl, RJE_DRAW_3D);
 }
 
 void
@@ -269,38 +254,6 @@ void*
 rjGetVertexBuffer(void)
 {
     return (void*)(_rj_vertex_buffer_top_);
-}
-
-void
-rjStartVertexVolume(void)
-{
-    rjStartVertex(RJE_VERTEX_P);
-
-    _rj_invert_polygons_ = FALSE;
-}
-
-void
-rjStartVertexNonTex(void)
-{
-    rjStartVertex(RJE_VERTEX_PC);
-
-    //RF_MagicSetShaderConstantFloat(MAGIC_SHADER_VERTEX, 155, 0.f, 1);
-}
-
-void
-rjStartVertexTex(void)
-{
-    rjStartVertex(RJE_VERTEX_PTC);
-
-    //RF_MagicSetShaderConstantFloat(MAGIC_SHADER_VERTEX, 155, 1.f, 1);
-}
-
-void
-rjStartVertexTexSpec(void)
-{
-    rjStartVertex(RJE_VERTEX_PTCS);
-
-    _rj_invert_polygons_ = FALSE;
 }
 
 s32     ModifierStart(void);
@@ -358,8 +311,8 @@ rjEndVertex(void)
         }
     }
 
-    rjSetVertexDecl(_rj_curr_vertex_decl_);
-    rjSetShaders(_rj_curr_vertex_shader_, _rj_curr_frgmnt_shader_);
+    rjSetVertexDecl(_rj_curr_vtx_decl_);
+    rjSetShaders(_rj_curr_vtx_shader_, _rj_curr_pxl_shader_);
 
     const size_t sz = (_rj_vertex_buffer_num_ * _rj_vertex_buffer_stride_);
 
@@ -692,24 +645,78 @@ rjInitModVertexBuffer(Sint32 size)
     _rj_mod_vertex_buffer_ = DX9_CreateVertexBuffer(size * 4, DX9_USAGE_DYNAMIC|DX9_USAGE_WRITEONLY, DX9_POOL_DEFAULT);
 }
 
+#define SHADER_VS_NAME      "rjvs"
+#define SHADER_PS_NAME      "rjps"
+#define SHADERMOD_VS_NAME   "rjmvs"
+#define SHADERMOD_PS_NAME   "rjmps"
+
 /****** Init ************************************************************************/
 void
 RFD_CoreInit(void)
 {
-    /** Vertex Shaders **/
+    // compile shaders
+    {
+        dx9_macro macros[5];
 
-    _rj_vertex_shaders_[RJE_VERTEX_P]    = RF_LoadVtxShader("chunk_vs_p");
-    _rj_vertex_shaders_[RJE_VERTEX_PC]   = RF_LoadVtxShader("chunk_vs_pc");
-    _rj_vertex_shaders_[RJE_VERTEX_PCS]  = RF_LoadVtxShader("chunk_vs_pcs");
-    _rj_vertex_shaders_[RJE_VERTEX_PTC]  = RF_LoadVtxShader("chunk_vs_ptc");
-    _rj_vertex_shaders_[RJE_VERTEX_PTCS] = RF_LoadVtxShader("chunk_vs_ptcs");
+        macros[0] = (dx9_macro){ "VTX_3D", "1" };
 
-    /** Pixel Shaders **/
+        /** Vertex Shaders **/
 
-    _rj_pixel_shaders_[RJE_PIXEL_N]  = RF_LoadPxlShader("chunk_ps");
-    _rj_pixel_shaders_[RJE_PIXEL_T]  = RF_LoadPxlShader("chunk_ps_t");
-    _rj_pixel_shaders_[RJE_PIXEL_F]  = RF_LoadPxlShader("chunk_ps_f");
-    _rj_pixel_shaders_[RJE_PIXEL_TF] = RF_LoadPxlShader("chunk_ps_tf");
+        macros[1] = (dx9_macro){ 0 };
+
+        _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
+        _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+
+        macros[1] = (dx9_macro){ "VTX_C", "1" };
+        macros[2] = (dx9_macro){ 0 };
+
+        _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
+        _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+
+        macros[1] = (dx9_macro){ "VTX_C", "1" };
+        macros[2] = (dx9_macro){ "VTX_S", "1" };
+        macros[3] = (dx9_macro){ 0 };
+
+        _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
+        _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+
+        macros[1] = (dx9_macro){ "VTX_T", "1" };
+        macros[2] = (dx9_macro){ "VTX_C", "1" };
+        macros[3] = (dx9_macro){ 0 };
+
+        _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
+        _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+
+        macros[1] = (dx9_macro){ "VTX_T", "1" };
+        macros[2] = (dx9_macro){ "VTX_C", "1" };
+        macros[3] = (dx9_macro){ "VTX_S", "1" };
+        macros[4] = (dx9_macro){ 0 };
+
+        _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
+        _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+
+        /** Pixel Shaders **/
+
+        macros[0] = (dx9_macro){ 0 };
+
+        _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+
+        macros[0] = (dx9_macro){ "PXL_T", "1" };
+        macros[1] = (dx9_macro){ 0 };
+
+        _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+
+        macros[0] = (dx9_macro){ "PXL_F", "1" };
+        macros[1] = (dx9_macro){ 0 };
+
+        _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+
+        macros[0] = (dx9_macro){ "PXL_T", "1" };
+        macros[1] = (dx9_macro){ "PXL_F", "1" };
+        macros[2] = (dx9_macro){ 0 };
+
+        _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+    }
 
     /** Vertex Buffers **/
 
@@ -727,14 +734,14 @@ RFD_CoreInit(void)
     vtx_elems[3] = vtx_elems[1];
     vtx_elems[4] = vtx_elems[1];
 
-    _rj_vertex_decls_[RJE_VERTEX_P] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_P] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + color
 
 //  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
     vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
 
-    _rj_vertex_decls_[RJE_VERTEX_PC] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_PC] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + color + specular
 
@@ -742,7 +749,7 @@ RFD_CoreInit(void)
 //  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
     vtx_elems[2] = (dx9_vtx_elem){ 0, 16, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
 
-    _rj_vertex_decls_[RJE_VERTEX_PCS] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_PCS] = DX9_CreateVtxDecl(vtx_elems);
 
     vtx_elems[2] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
@@ -751,7 +758,7 @@ RFD_CoreInit(void)
 //  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
     vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
 
-    _rj_vertex_decls_[RJE_VERTEX_PT] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_PT] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + tex + color
 
@@ -759,7 +766,7 @@ RFD_CoreInit(void)
 //  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
     vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
 
-    _rj_vertex_decls_[RJE_VERTEX_PTC] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_PTC] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + tex + color + spec
 
@@ -768,5 +775,5 @@ RFD_CoreInit(void)
 //  vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
     vtx_elems[3] = (dx9_vtx_elem){ 0, 24, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
 
-    _rj_vertex_decls_[RJE_VERTEX_PTCS] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJE_VERTEX_PTCS] = DX9_CreateVtxDecl(vtx_elems);
 }
