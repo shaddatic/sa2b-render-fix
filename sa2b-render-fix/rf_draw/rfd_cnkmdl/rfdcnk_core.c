@@ -109,7 +109,7 @@ ___rjCnkGetAutoSpecMode(void)
 void
 rjCnkBeginDraw(void)
 {
-    ___NOTE("This will read a global renderstate eventually");
+    ___TODO("Make this a global renderstate");
     switch ( 1 ) 
     {
         case 0:
