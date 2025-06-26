@@ -58,12 +58,6 @@ LineClipAtScreen(NJS_POINT3* pInOutPtB, const NJS_POINT3* pInPtF)
     RFU_LerpPoints(pInOutPtB, pInOutPtB, pInPtF, ratio_b);
 }
 
-static f32
-LineConvertZVal(const f32 z)
-{
-    return 1.f - z;
-}
-
 static void
 LineDraw(const NJS_POINT2* const pPtN, const NJS_POINT2* const pPtF, const f32 oozN, const f32 oozF)
 {
