@@ -793,7 +793,7 @@ EventEquipmentDraw(void)
     OffControl3D(NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_SHADOW);
 }
 
-#define Z_VALUE             (1.0f)
+#define SCRNPOLY_Z_VALUE            (1.0f)
 
 #define EvBackColor                 DATA_REF(NJS_COLOR, 0x01DB0F88)
 #define EvScreenEffectColor         DATA_REF(NJS_COLOR, 0x01DB0EB8)
@@ -818,22 +818,22 @@ EV_DrawScreenEffect(void)
 
     poly[0].x   = 0.0f - x_adj;
     poly[0].y   = 0.0f;
-    poly[0].z   = Z_VALUE;
+    poly[0].z   = SCRNPOLY_Z_VALUE;
     poly[0].col = color;
 
     poly[1].x   = 0.0f - x_adj;
     poly[1].y   = 480.0f;
-    poly[1].z   = Z_VALUE;
+    poly[1].z   = SCRNPOLY_Z_VALUE;
     poly[1].col = color;
 
     poly[2].x   = 640.0f + x_adj;
     poly[2].y   = 0.0f;
-    poly[2].z   = Z_VALUE;
+    poly[2].z   = SCRNPOLY_Z_VALUE;
     poly[2].col = color;
 
     poly[3].x   = 640.0f + x_adj;
     poly[3].y   = 480.0f;
-    poly[3].z   = Z_VALUE;
+    poly[3].z   = SCRNPOLY_Z_VALUE;
     poly[3].col = color;
 
     rjDrawPolygon(poly, ARYLEN(poly), EvScreenEffectColor.argb.a != 0xFF);
