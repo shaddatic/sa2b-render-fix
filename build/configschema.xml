@@ -248,6 +248,11 @@ TGT: Target being aimed for.
 FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.</HelpText>
       </Property>
+      <Property name="game_speed" display="Game Speed" type="eDBG_GAMESPEED" defaultvalue="0">
+        <HelpText>Changes the game speed by always forcing a set number of skipped frames.
+
+This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only ran 60x per frame.</HelpText>
+      </Property>
       <Property name="event" display="Event Debug Controls" type="eBOOL" defaultvalue="0">
         <HelpText>Enable Render Fix's Event debug functions: 
 X - Free-Cam - Analog sticks to move &amp; look, up/down dpad to zoom in/out, left/right dpad to roll.
@@ -333,6 +338,17 @@ Back - Display Event debug info.</HelpText>
       <EnumMember name="2" display="Always 60FPS"></EnumMember>
       <EnumMember name="1" display="Let Event Decide"></EnumMember>
       <EnumMember name="0" display="Always 30FPS"></EnumMember>
+    </Enum>
+    <Enum name="eDBG_GAMESPEED">
+      <EnumMember name="15" display="16x Speed"></EnumMember>
+      <EnumMember name="13" display="14x Speed"></EnumMember>
+      <EnumMember name="11" display="12x Speed"></EnumMember>
+      <EnumMember name="9" display="10x Speed"></EnumMember>
+      <EnumMember name="7" display="8x Speed"></EnumMember>
+      <EnumMember name="5" display="6x Speed"></EnumMember>
+      <EnumMember name="3" display="4x Speed"></EnumMember>
+      <EnumMember name="1" display="2x Speed"></EnumMember>
+      <EnumMember name="0" display="Normal"></EnumMember>
     </Enum>
   </Enums>
 </ConfigSchema>
