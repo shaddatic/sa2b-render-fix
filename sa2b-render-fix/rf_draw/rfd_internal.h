@@ -39,6 +39,11 @@ void    RFD_ChunkInit( void );
 *     Init Texture-Error sub-module.
 */
 void    RFD_TexerrInit( void );
+/*
+*   Description:
+*     Init polygon/texture draw.
+*/
+void    RFD_PolygonInit( void );
 
 /****** Cnk Shape *******************************************************************/
 /*

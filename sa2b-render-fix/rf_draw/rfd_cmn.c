@@ -130,6 +130,76 @@ rjSetBlend2D(Int trans)
     GX_SetBlendMode(src, dst, trans);
 }
 
+#define TexInfo2D           DATA_REF(TEXTURE_INFO, 0x019341A0)
+
+void
+rjSetTexture2D(void)
+{
+    const Uint32 texmode = _nj_curr_ctx_->texmode;
+
+    const NJS_TEXSURFACE* p_texsrf = _nj_curr_ctx_->texsurface;
+
+    /** texture info start **/
+
+    TEXTURE_INFO* p_tinfo = &TexInfo2D;
+
+    /** texture pointer and palette **/
+
+    const Uint32 sflag = p_texsrf->fSurfaceFlags;
+
+    if ( sflag & NJD_SURFACEFLAGS_PALETTIZED )
+    {
+        p_tinfo->surface = p_texsrf->pSurface;
+        p_tinfo->palette = _nj_curr_ctx_->bank;
+    }
+    else
+    {
+        p_tinfo->surface = p_texsrf->pSurface;
+        p_tinfo->palette = -1;
+    }
+
+    /** texture filtering **/
+
+    p_tinfo->min_filter = 1;
+    p_tinfo->mag_filter = 1;
+
+    /** texture wrapping **/
+
+    if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+    {
+        p_tinfo->address_u = 0;
+    }
+    else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+    {
+        p_tinfo->address_u = 2;
+    }
+    else // repeat
+    {
+        p_tinfo->address_u = 1;
+    }
+
+    if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
+    {
+        p_tinfo->address_v = 0;
+    }
+    else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
+    {
+        p_tinfo->address_v = 2;
+    }
+    else // repeat
+    {
+        p_tinfo->address_u = 1;
+    }
+
+    /** tes5 **/
+
+    p_tinfo->mip_level = (bool)( sflag & NJD_SURFACEFLAGS_MIPMAPED );
+
+    /** set texture **/
+
+    RX_SetTexture(p_tinfo, 0);
+}
+
 static void
 ___rjStartVertex(RJE_VERTEX_TYPE vtxdecl, Sint32 use3d)
 {

@@ -228,6 +228,16 @@ void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 att
 *     - trans   : is transparent
 */
 void    rjDrawPolygon( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
+/*
+*   Draw a multi-vertex textured polygon.
+*
+*   Parameters:
+*     - polygon     : polygon vertex list
+*     - count       : polygon vertex count
+*     - tex         : gbix value of texture to draw
+*     - flag        : transparency flag
+*/
+void    rjDrawTexture( const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag );
 
 /****** Draw Line *******************************************************************/
 /*
