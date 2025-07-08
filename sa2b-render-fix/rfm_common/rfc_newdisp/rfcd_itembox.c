@@ -24,12 +24,25 @@ typedef struct
 }
 ITEMBOX_INFO;
 
-#define texlist_itembox         DATA_ARY(NJS_TEXLIST  , 0x00B493F8, [1])
+/********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Texlists ********************************************************************************/
+#define texlist_itembox             DATA_ARY(NJS_TEXLIST  , 0x00B493F8, [1])
+#define texlist_itemboxair          DATA_ARY(NJS_TEXLIST  , 0x00B48784, [1])
+#define texlist_itemboxballoon      DATA_ARY(NJS_TEXLIST  , 0x00B19008, [1])
 
-#define object_itembox          DATA_ARY(NJS_CNK_OBJECT, 0x00B4A19C, [1])
+/****** Objects *********************************************************************************/
+#define object_itembox              DATA_ARY(NJS_CNK_OBJECT, 0x00B4A19C, [1])
+#define object_itemboxair           DATA_ARY(NJS_CNK_OBJECT, 0x00B49304, [1])
+#define object_itemboxballoon       DATA_ARY(NJS_CNK_OBJECT, 0x00B198A4, [1])
 
-#define ItemBoxInfoList         DATA_ARY(ITEMBOX_INFO, 0x00B4D120, [11])
-#define DisableObjectFog        DATA_REF(b32         , 0x01AEFE64)
+/****** Itembox Info ****************************************************************************/
+#define ItemBoxInfoList             DATA_ARY(ITEMBOX_INFO, 0x00B4D120, [11])
+#define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
+
+/****** Disable Fog *****************************************************************************/
+#define DisableObjectFog            DATA_REF(b32         , 0x01AEFE64)
 
 static void
 ObjectItemBoxDisp_RF(task* tp)
@@ -158,12 +171,6 @@ ObjectItemBoxDispSort_RF(task* tp)
     njPopMatrixEx();
 }
 
-#define texlist_itemboxair          DATA_ARY(NJS_TEXLIST  , 0x00B48784, [1])
-
-#define object_itemboxair           DATA_ARY(NJS_CNK_OBJECT, 0x00B49304, [1])
-
-#define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
-
 static void
 ObjectItemBoxAirDispSort_RF(task* tp)
 {
@@ -253,9 +260,6 @@ ObjectItemBoxAirDispSort_RF(task* tp)
     njPopMatrixEx();
 }
 
-#define texlist_itemboxballoon      DATA_ARY(NJS_TEXLIST  , 0x00B19008, [1])
-#define model_itemboxballoon        DATA_ARY(NJS_CNK_MODEL, 0x00B1988C, [1])
-
 static void
 ObjectItemBoxBalloonDisplayer_RF(task* tp)
 {
@@ -306,7 +310,7 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
 
         njScale(NULL, sclx, scly, sclz);
 
-        njCnkSimpleDrawModel(model_itemboxballoon);
+        njCnkSimpleDrawModel(object_itemboxballoon->model);
     }
     njPopMatrixEx();
 
