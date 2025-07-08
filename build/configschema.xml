@@ -249,9 +249,9 @@ FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.</HelpText>
       </Property>
       <Property name="game_speed" display="Game Speed" type="eDBG_GAMESPEED" defaultvalue="0">
-        <HelpText>Changes the game speed by always forcing a set number of skipped frames.
+        <HelpText>Changes the game speed by always forcing a set number of skipped frames. This setting has no effect on most menu elements.
 
-This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only ran 60x per frame.</HelpText>
+This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only called 60x per second.</HelpText>
       </Property>
       <Property name="event" display="Event Debug Controls" type="eBOOL" defaultvalue="0">
         <HelpText>Enable Render Fix's Event debug functions: 
