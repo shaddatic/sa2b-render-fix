@@ -1,64 +1,67 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>      /* core                                                 */
-#include <samt/init.h>      /* export dll                                           */
-#include <samt/writeop.h>   /* writenop/jump                                        */
-#include <samt/writemem.h>  /* writedata                                            */
-#include <samt/os.h>        /* highresclock                                         */
-#include <samt/modloader.h> /* debugprint                                           */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/init.h>              /* export dll                                               */
+#include <samt/writeop.h>           /* writenop/jump                                            */
+#include <samt/writemem.h>          /* writedata                                                */
+#include <samt/os.h>                /* highresclock                                             */
+#include <samt/modloader.h>         /* debugprint                                               */
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>        /* core                                                 */
-#include <rf_config.h>      /* config                                               */
-#include <rf_util.h>        /* replacefloat                                         */
-#include <rf_config.h>      /* config get                                           */
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_config.h>              /* config                                                   */
+#include <rf_util.h>                /* replacefloat                                             */
+#include <rf_config.h>              /* config get                                               */
 
-/****** Std *************************************************************************/
-#include <math.h>           /* fmax                                                 */
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>              /* replaceflaot                                             */
 
-/****** Self ************************************************************************/
-#include <rfm_global/rfg_internal.h> /* parent & siblings                           */
+/****** Std *************************************************************************************/
+#include <math.h>                   /* fmax                                                     */
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Basic Constants *************************************************************/
-#define SLEEP_GRACE_MS      (1)               /* sleep call grace time              */
-#define MS_PER_SEC          (1000.0)          /* milliseconds per second            */
-#define TARGET_MS           (MS_PER_SEC/60.0) /* target performance                 */
+/****** Self ************************************************************************************/
+#include <rfm_global/rfg_internal.h> /* parent & siblings                                       */
 
-/************************/
-/*  Game Defs           */
-/************************/
-/****** Task Exec *******************************************************************/
-#define TaskExecLoop1           DATA_REF(s32, 0x01DEB50C)
-#define TaskExecLoop2           DATA_REF(s32, 0x01DEB514)
-#define TaskExecCount           DATA_REF(s32, 0x01DEB510)
-#define ExecLoopDebug1          DATA_REF(s32, 0x025EFF60)
-#define ExecLoopDebug2          DATA_REF(s32, 0x025EFF60)
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Basic Constants *************************************************************************/
+#define SLEEP_GRACE_MS              (1)               /* sleep call grace time                  */
+#define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
+#define TARGET_MS                   (MS_PER_SEC/60.0) /* target performance                     */
 
-/************************/
-/*  Data                */
-/************************/
-/****** Target Vsync Mode ***********************************************************/
-static s32 WaitVsyncCount;      /* target vsync wait count                          */
+/********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Task Exec *******************************************************************************/
+#define TaskExecLoop1               DATA_REF(s32, 0x01DEB50C)
+#define TaskExecLoop2               DATA_REF(s32, 0x01DEB514)
+#define TaskExecCount               DATA_REF(s32, 0x01DEB510)
+#define ExecLoopDebug1              DATA_REF(s32, 0x025EFF60)
+#define ExecLoopDebug2              DATA_REF(s32, 0x025EFF60)
 
-/****** Clock ***********************************************************************/
-static s64 ClockStart;          /* total frame clock start              (for vsync) */
-static s64 FrameStart;          /* frametime clock start           (for debug info) */
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Target Vsync Mode ***********************************************************************/
+static s32 WaitVsyncCount;          /* target vsync wait count                                  */
 
-/****** Frame Time ******************************************************************/
-static f64 FrameTime;           /* last frametime in milliseconds                   */
+/****** Clock ***********************************************************************************/
+static s64 ClockStart;              /* total frame clock start                      (for vsync) */
+static s64 FrameStart;              /* frametime clock start                   (for debug info) */
 
-/****** Settings ********************************************************************/
-static bool DebugFrameInfo;     /* debug frametime info                             */
+/****** Frame Time ******************************************************************************/
+static f64 FrameTime;               /* last frametime in milliseconds                           */
 
-/************************/
-/*  Source              */
-/************************/
-/****** Static **********************************************************************/
+/****** Settings ********************************************************************************/
+static bool DebugFrameInfo;         /* debug frametime info                                     */
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Static **********************************************************************************/
 static s64
 GetClock(void)
 {
@@ -77,7 +80,7 @@ GetFrameTime(s64 last_clock, s64 freq)
     return ((f64)(osHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
 }
 
-/****** Export **********************************************************************/
+/****** Export **********************************************************************************/
 EXPORT_DLL
 void __cdecl
 OnRenderSceneStart(void)
@@ -169,7 +172,7 @@ OnRenderSceneEnd(void)
     ClockStart = GetClock();
 }
 
-/****** Extern **********************************************************************/
+/****** Extern **********************************************************************************/
 ___TODO("These will be moved to a seperate module eventually");
 
 static void
@@ -217,7 +220,7 @@ rjGetWaitVsyncCount(void)
     return WaitVsyncCount;
 }
 
-/****** Hook ************************************************************************/
+/****** Hook ************************************************************************************/
 static void
 ResetWaitVsyncCount(void)
 {
@@ -241,7 +244,7 @@ SetMidiPerformanceCounter(void)
     DATA_ARY(u64, 0x01934B08, [1000])[5] = 0;
 }
 
-/****** Init ************************************************************************/
+/****** Init ************************************************************************************/
 void
 RFG_FrameSkipInit(void)
 {
@@ -307,8 +310,7 @@ RFG_FrameSkipInit(void)
 
     // with our other fixes, their magic number breaks so we need to adjust it to get the
     // sequence data to play at a normal speed again, but this will work for all framerates
-    static f64 MidiMultiply = 8.4;
-    ReplaceFloat(0x00436448, &MidiMultiply);
+    RFU_ReplaceFloat(0x00436448, 8.4);
 
     /** End **/
 

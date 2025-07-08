@@ -1,36 +1,47 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* writedata                                                */
+#include <samt/writeop.h>           /* writejump                                                */
+#include <samt/funchook.h>          /* funchook                                                 */
 
-/** GX **/
+/****** GX **************************************************************************************/
 #define SAMT_INCL_FUNCPTRS
-#include <samt/gx/gx.h>
+#include <samt/gx/gx.h>             /* gx                                                       */
 #undef  SAMT_INCL_FUNCPTRS
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/display.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/display.h>     /* getdisplayratio                                          */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_util.h>
-#include <rf_objpak.h>
-#include <rf_renderstate.h>
-#include <rf_magic.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_config.h>              /* getconfig                                                */
+#include <rf_renderstate.h>         /* setdefaultcullmode                                       */
+#include <rf_magic.h>               /* setpointsize                                             */
 
-/** Self **/
-#include <rfm_global.h>
-#include <rfm_global/rfg_internal.h>
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>              /* replaceflaot                                             */
 
-/** Globals **/
-static bool RfgBackColor;
-static bool RfgSpotLight;
+/****** Self ************************************************************************************/
+#include <rfm_global.h>              /* self                                                    */
+#include <rfm_global/rfg_internal.h> /* children                                                */
 
-/** Static functions **/
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Feature *********************************************************************************/
+static bool RfgBackColor;           /* backcolor setting                                        */
+static bool RfgSpotLight;           /* spotlight fix                                            */
+
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Static **********************************************************************************/
 static int __cdecl
 njSearchTexMemList_(void)
 {
@@ -56,7 +67,7 @@ __SetPointSize(void)
     }
 }
 
-/** Extern functions **/
+/****** Feature *********************************************************************************/
 bool
 RFF_BackColorDraw(void)
 {
@@ -69,6 +80,7 @@ RFF_SpotLightFix(void)
     return RfgSpotLight;
 }
 
+/****** Init ************************************************************************************/
 void
 RFM_GlobalInit(void)
 {
@@ -94,50 +106,48 @@ RFM_GlobalInit(void)
 
     if (RF_ConfigGetInt(CNF_GLOBAL_PTCLSCALE))
     {
-        static const double ptcldbl00 = 1.5;
-        static const double ptcldbl01 = 2.0;
+        const double ptcldbl00 = 1.5;
+        const double ptcldbl01 = 2.0;
 
-        static const double ptcldbl02 = 1.0;
+        const double ptcldbl02 = 1.0;
 
-        static const double ptcldbl03 = 30.0;
-        static const double ptcldbl04 = 32.5;
+        const double ptcldbl03 = 30.0;
+        const double ptcldbl04 = 32.5;
 
-        static const double ptcldbl05 = 0.0000457763671875;
+        const double ptcldbl05 = 0.0000457763671875;
 
         /** Some particles were made 2x as big to counteract
             the halvaning, this reverts that **/
 
-        ReplaceFloat(0x006D6117, &ptcldbl00); // RocketRocket
-        ReplaceFloat(0x006D611D, &ptcldbl01); // ^
+        RFU_ReplaceFloat(0x006D6117, ptcldbl00); // RocketRocket
+        RFU_ReplaceFloat(0x006D611D, ptcldbl01); // ^
 
-        ReplaceFloat(0x006D5455, &ptcldbl02); // Rocket
-        ReplaceFloat(0x006D545B, &ptcldbl01); // ^
+        RFU_ReplaceFloat(0x006D5455, ptcldbl02); // Rocket
+        RFU_ReplaceFloat(0x006D545B, ptcldbl01); // ^
 
-        ReplaceFloat(0x006F4FC3, &ptcldbl03); // MH Rocket
-        ReplaceFloat(0x006F4FC9, &ptcldbl04);
-        ReplaceFloat(0x006F500C, &ptcldbl03); // ^
-        ReplaceFloat(0x006F5012, &ptcldbl04);
-        ReplaceFloat(0x006F50C9, &ptcldbl03); // ^
-        ReplaceFloat(0x006F50CF, &ptcldbl04);
+        RFU_ReplaceFloat(0x006F4FC3, ptcldbl03); // MH Rocket
+        RFU_ReplaceFloat(0x006F4FC9, ptcldbl04);
+        RFU_ReplaceFloat(0x006F500C, ptcldbl03); // ^
+        RFU_ReplaceFloat(0x006F5012, ptcldbl04);
+        RFU_ReplaceFloat(0x006F50C9, ptcldbl03); // ^
+        RFU_ReplaceFloat(0x006F50CF, ptcldbl04);
 
         WriteData(0x006CF22E, 0x9090, uint16_t);// RocketMissile
-        ReplaceFloat(0x006CF228, &ptcldbl05); // ^
-        ReplaceFloat(0x006CF230, &ptcldbl01); // ^
+        RFU_ReplaceFloat(0x006CF228, ptcldbl05); // ^
+        RFU_ReplaceFloat(0x006CF230, ptcldbl01); // ^
         WriteData(0x006CEEF2, 0x9090, uint16_t);// ^
-        ReplaceFloat(0x006CEEE8, &ptcldbl05); // ^
-        ReplaceFloat(0x006CEEF4, &ptcldbl01); // ^
+        RFU_ReplaceFloat(0x006CEEE8, ptcldbl05); // ^
+        RFU_ReplaceFloat(0x006CEEF4, ptcldbl01); // ^
 
-        ReplaceFloat(0x004B1290, &ptcldbl00); // StartRocketRocket (Final Rush)
-        ReplaceFloat(0x004B1296, &ptcldbl01);
+        RFU_ReplaceFloat(0x004B1290, ptcldbl00); // StartRocketRocket (Final Rush)
+        RFU_ReplaceFloat(0x004B1296, ptcldbl01);
 
         WriteNOP(0x00492506, 0x0049250C); // ptcl * 0.5
 
         /** PtclPolygon **/
-        static double ptclpolyscl;
+        double ptclpolyscl = RF_ConfigGetFloat(CNF_MISC_PTCLPOLYSCL);
 
-        ptclpolyscl = RF_ConfigGetFloat(CNF_MISC_PTCLPOLYSCL);
-
-        ReplaceFloat(0x007801A6, &ptclpolyscl);
+        RFU_ReplaceFloat(0x007801A6, ptclpolyscl);
         WriteJump(GX_SetPointSize_p, __SetPointSize);
     }
 
@@ -164,10 +174,10 @@ RFM_GlobalInit(void)
 
     if (true) // Aspect test
     {
-        static const double new_asp_test = (4/3);
+        const f64 new_asp_test = (4.0/3.0);
 
-        ReplaceFloat(0x00794778, &new_asp_test); // ActionWindow button sprite
-        ReplaceFloat(0x0079499D, &new_asp_test); // ^
+        RFU_ReplaceFloat(0x00794778, new_asp_test); // ActionWindow button sprite
+        RFU_ReplaceFloat(0x0079499D, new_asp_test); // ^
 
         /** Stage map completely breaks **/
         /*

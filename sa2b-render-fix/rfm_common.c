@@ -1,73 +1,102 @@
-#include <samt/core.h>
-#include <samt/memory.h>
-#include <samt/writeop.h>
-#include <samt/model.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/memory.h>            /* memcopy                                                  */
+#include <samt/writeop.h>           /* writecall                                                */
+#include <samt/funchook.h>          /* funchook                                                 */
+#include <samt/string.h>            /* strformat                                                */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/score.h>
-#include <samt/sonic/njctrl.h>
-#include <samt/sonic/texture.h>
-#include <samt/sonic/set.h>
-#include <samt/sonic/datadll.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/texture.h>     /* texload                                                  */
+#include <samt/sonic/set.h>         /* set                                                      */
+#include <samt/sonic/datadll.h>     /* getdatadlladdr                                           */
+#include <samt/sonic/game.h>        /* stagenumber                                              */
 
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/landtable.h>
+#include <samt/sonic/landtable.h>   /* landtable                                                */
 #undef SAMT_INCL_FUNCPTRS
 
-/** Std **/
-#include <stdio.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_config.h>              /* getconfig                                                */
+#include <rf_file.h>                /* load model                                               */
+#include <rf_mdlutil.h>             /* materialflag                                             */
+#include <rf_njcnk.h>               /* easysimpledirect                                         */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_usermsg.h>
-#include <rf_file.h>
-#include <rf_mdlutil.h>
-#include <rf_util.h>
-#include <rf_renderstate.h>
-#include <rf_njcnk.h>
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>              /* replacefloat                                             */
 
-/** Self **/
-#include <rfm_common.h>
-#include <rfm_common/rfc_internal.h>
+/****** Self ************************************************************************************/
+#include <rfm_common.h>              /* self                                                    */
+#include <rfm_common/rfc_internal.h> /* children                                                */
 
-#define ReplaceObjectModel(pobject, pmodel)        ((NJS_CNK_OBJECT*)pobject)->model = pmodel
-
+/********************************/
+/*  External Data               */
+/********************************/
+/****** Kumi Beetle *****************************************************************************/
 EXTERN NJS_CNK_MODEL model_e_kumi_emblem[];
 EXTERN NJS_CNK_MODEL model_e_g_kumi_emblem[];
 EXTERN NJS_CNK_MODEL model_e_b_kumi_emblem[];
 EXTERN NJS_CNK_MODEL model_e_gold_emblem[];
 EXTERN NJS_CNK_MODEL model_e_kyoko_emblem[];
 
+/****** Shouko Jet ******************************************************************************/
 EXTERN NJS_CNK_MODEL model_e_shouko_wing_port[];
 EXTERN NJS_CNK_MODEL model_e_shouko_wing_starboard[];
 EXTERN NJS_CNK_MODEL model_e_shouko_aft[];
 
+/****** Path Kumi Beetle ************************************************************************/
 EXTERN NJS_CNK_MODEL model_e_g_pathkumi_emblem[];
 EXTERN NJS_CNK_MODEL model_e_b_pathkumi_emblem[];
 
+/****** Emi Tank ********************************************************************************/
 EXTERN NJS_CNK_MODEL model_e_t_emi_emblem[];
 EXTERN NJS_CNK_MODEL model_e_a_emi_emblem[];
 
+/****** City Truck ******************************************************************************/
 EXTERN NJS_CNK_MODEL model_ce_truck_hood[];
 
+/****** Ai Hunter *******************************************************************************/
 EXTERN NJS_CNK_MODEL model_e_s_ai_shield[];
 
-#define CurrentLevel            DATA_REF(int16_t, 0x01934B70)
+/********************************/
+/*  Macros                      */
+/********************************/
+/****** Replace Model ***************************************************************************/
+#define ReplaceObjectModel(pobject, pmodel)        ((NJS_CNK_OBJECT*)pobject)->model = pmodel
 
+/********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Global Light Manager ********************************************************************/
+#define ObjectGlobalLightManagerTaskP       DATA_REF(task*, 0x01A5A660)
+#define ObjectGlobalLightManager            FUNC_PTR(void, __cdecl, (task*), 0x004CAB20)
+
+/****** Emerald Key Models **********************************************************************/
+#define EmeraldKeys                 DATA_ARY(NJS_CNK_MODEL*, 0x00B43240, [3])
+#define EmeraldKeyEyes              DATA_ARY(NJS_CNK_MODEL*, 0x00B4324C, [3])
+
+/****** Game Hud ********************************************************************************/
+#define DrawGameHUD                 FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Static **********************************************************************************/
 static int __fastcall
 EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
 {
-    char strbuf[260];
+    c7 buf[260];
 
-    snprintf(strbuf, 260, "%s_STG%02i", fname, CurrentLevel);
+    mtStrFormat(buf, ARYLEN(buf), "%s_STG%02i", fname, ssStageNumber);
 
-    const int err = texLoadTexturePrsFile(strbuf, ptlo);
+    const int err = texLoadTexturePrsFile(buf, ptlo);
 
     if (err == -1)
         return texLoadTexturePrsFile(fname, ptlo);
@@ -75,15 +104,11 @@ EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
     return err;
 }
 
-#define ObjectGlobalLightManagerTaskPointer     DATA_REF(task*, 0x01A5A660)
-
 static void
 ObjectGlobalLightSWDestructor(task* tp)
 {
-    ObjectGlobalLightManagerTaskPointer = NULL;
+    ObjectGlobalLightManagerTaskP = NULL;
 }
-
-#define ObjectGlobalLightManager    FUNC_PTR(void, __cdecl, (task*), 0x004CAB20)
 
 static hook_info ObjectGlobalLightManagerHookInfo[1];
 static void
@@ -94,7 +119,7 @@ ObjectGlobalLightManagerHook(task* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-#define DrawGameHUD         FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
+___TODO("This is redundant now, remove it");
 
 static hook_info DrawGameHUDHookInfo[1];
 static void
@@ -106,9 +131,6 @@ DrawGameHUDHook(void)
 
     njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
 }
-
-#define EmeraldKeys             DATA_ARY(NJS_CNK_MODEL*, 0x00B43240, [3])
-#define EmeraldKeyEyes          DATA_ARY(NJS_CNK_MODEL*, 0x00B4324C, [3])
 
 static int
 DrawEmeraldKey(int i)
@@ -132,13 +154,12 @@ ___DrawEmeraldKey(void)
     }
 }
 
+/****** Init ************************************************************************************/
 void
 RFM_CommonInit(void)
 {
     RFC_TransparancyInit();
-
     RFC_NewDisplayerInit();
-
     RFC_LandtableInit();
 
     /** Restore Big the Cat in Wild Canyon **/
@@ -187,8 +208,7 @@ RFM_CommonInit(void)
     WriteCall(0x006D27A7, ___DrawEmeraldKey);
 
     /** Fix Chao Key model not dissapearing when collected in 16:9 if the camera is too far away **/
-    static const double chaokey_chk_fix = 300.0;
-    ReplaceFloat(0x006E9B4A, &chaokey_chk_fix);
+    RFU_ReplaceFloat(0x006E9B4A, 300.0);
 
     /** Fixing IA flags **/
 

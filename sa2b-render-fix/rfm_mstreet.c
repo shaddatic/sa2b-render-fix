@@ -1,12 +1,25 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>          /* core                                                         */
 
-#include <rf_core.h>
-#include <rf_util.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>            /* core                                                         */
 
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>          /* replaceflaot                                                 */
+
+/****** Self ************************************************************************************/
+#include <rfm_mstreet.h>        /* self                                                         */
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Init ************************************************************************************/
 void
 RFM_MissionStreetInit(void)
 {
-    static const float PosOne = 1.0f;
-    ReplaceFloat(0x005B5C3C, &PosOne);
+    /** Fix car headlight sprites "facing" the wrong direction **/
+    RFU_ReplaceFloat(0x005B5C3C, 1.0);
 }

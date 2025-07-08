@@ -211,6 +211,7 @@
     <ClInclude Include="rf_usermsg.h" />
     <ClInclude Include="rfm_shadows\shd_internal.h" />
     <ClInclude Include="rfm_menus.h" />
+    <ClInclude Include="rfu_float.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

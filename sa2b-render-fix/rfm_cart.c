@@ -1,25 +1,39 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
-#include <samt/string.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* writedata                                                */
+#include <samt/writeop.h>           /* writecall                                                */
+#include <samt/string.h>            /* strformat                                                */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Game **/
-#include <samt/sonic/game.h>
-#include <samt/sonic/light.h>
+/****** Render Fix ******************************************************************************/
+#include <samt/sonic/game.h>        /* stagenumber                                              */
+#include <samt/sonic/light.h>       /* loadlightfile                                            */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_util.h>
-#include <rf_config.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_config.h>              /* getconfig                                                */
 
-/** Self **/
-#include <rfm_cart.h>
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>              /* replacefloat                                             */
 
-#define CartSeaDisplay      FUNC_PTR(void, __cdecl, (void), 0x00621C90)
+/****** Self ************************************************************************************/
+#include <rfm_cart.h>               /* self                                                     */
 
+/********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Function Ptrs **************************************************************************/
+#define CartSeaDisplay              FUNC_PTR(void, __cdecl, (void), 0x00621C90)
+
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Static **********************************************************************************/
 static void
 DrawCartSea(void)
 {
@@ -38,6 +52,7 @@ LoadCartLightFiles(void)
     LoadLightFile(ubuf);
 }
 
+/****** Init ************************************************************************************/
 void
 RFM_CartInit(void)
 {
@@ -53,8 +68,6 @@ RFM_CartInit(void)
 
     switch (RF_ConfigGetInt(CNF_CART_CARTSPRITE))
     {
-        static const double SpriteSubtract = 6.0;
-
         case CNFE_CART_CARTSPRITE_DREAMCAST:
         {
             WriteNOP(0x0061CB07, 0x0061CB0C);
@@ -62,7 +75,7 @@ RFM_CartInit(void)
         }
         case CNFE_CART_CARTSPRITE_ENABLED:
         {
-            ReplaceFloat(0x0061EE25, &SpriteSubtract);
+            RFU_ReplaceFloat(0x0061EE25, 6.0); // sprite sub
             break;
         }
     }
@@ -70,9 +83,9 @@ RFM_CartInit(void)
     if (RF_ConfigGetInt(CNF_CART_ZANKI))
     {
         /** Okay, but how does a mistake like this occur? **/
-        static const float zanki_py = 424.0f + 3.0f + 7.0f;
+        const f64 zanki_py = 424.0 + 3.0 + 7.0;
 
-        ReplaceFloat(0x0044E78F, &zanki_py);
+        RFU_ReplaceFloat(0x0044E78F, zanki_py);
     }
 
     // load cart light files

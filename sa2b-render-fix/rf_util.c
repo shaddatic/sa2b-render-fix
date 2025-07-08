@@ -405,3 +405,102 @@ RFU_ReplaceChunkObject(NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile)
 
     return result;
 }
+
+/****** Replace File ****************************************************************************/
+static f32  FloatList[64];
+static size FloatNumber;
+static f64  DoubleList[64];
+static size DoubleNumber;
+
+static bool
+ReplaceFloat_(pint pOpcode, poff offset, f32 val)
+{
+    const f32*  p_flt = nullptr;
+    const size nb_flt = FloatNumber;
+
+    for ( size i = 0; i < nb_flt; ++i )
+    {
+        if ( FloatList[i] == val )
+        {
+            p_flt = &FloatList[i];
+            break;
+        }
+    }
+
+    if ( !p_flt )
+    {
+        if ( FloatNumber >= ARYLEN(FloatList) )
+        {
+            return false;
+        }
+
+        FloatList[nb_flt] = val;
+
+        p_flt = &FloatList[nb_flt];
+
+        FloatNumber = nb_flt + 1;
+    }
+
+    WritePointer(pOpcode+offset, p_flt);
+
+    return true;
+}
+
+static bool
+ReplaceDouble(pint pOpcode, poff offset, f64 val)
+{
+    const f64*  p_dbl = nullptr;
+    const size nb_dbl = DoubleNumber;
+
+    for ( size i = 0; i < nb_dbl; ++i )
+    {
+        if ( DoubleList[i] == val )
+        {
+            p_dbl = &DoubleList[i];
+            break;
+        }
+    }
+
+    if ( !p_dbl )
+    {
+        if ( DoubleNumber >= ARYLEN(DoubleList) )
+        {
+            return false;
+        }
+
+        DoubleList[nb_dbl] = val;
+
+        p_dbl = &DoubleList[nb_dbl];
+
+        DoubleNumber = nb_dbl + 1;
+    }
+
+    WritePointer(pOpcode+offset, p_dbl);
+
+    return true;
+}
+
+bool
+RFU_ReplaceFloat(pint pOpcode, f64 val)
+{
+    const u8 cmp = *(u8*)pOpcode;
+
+    switch ( cmp )
+    {
+        case 0xD8:
+        case 0xD9:
+        {
+            return ReplaceFloat_(pOpcode, 2, (f32)val);
+        }
+        case 0xDC:
+        case 0xDD:
+        {
+            return ReplaceDouble(pOpcode, 2, val);
+        }
+        default:
+        {
+            OutputFormat("Invalid float opcode %i", cmp);
+            return false;
+        }
+    }
+}

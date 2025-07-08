@@ -26,7 +26,9 @@
 #include <rf_gx.h>              /* render fix gx                                    */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* ninja chunk draw                                 */
-#include <rf_util.h>            /* replaceflaot                                     */
+
+/****** RF Utility ******************************************************************/
+#include <rfu_float.h>          /* replaceflaot                                     */
 
 /****** Self ************************************************************************/
 #include <rf_draw.h>              /* self                                           */
@@ -279,23 +281,23 @@ RF_DrawInit(void)
     /** Fix chCnk and Ginja using the wrong multiplication value to convert 0~256
         integer UVs to 0~1. In vanilla, it uses (1/255) **/
 
-    static const f64 s_NewUvMul = (1.0/256.0);
+    const f64 uvmul_new = (1.0/256.0);
 
-    WritePointer(0x005A563C, &s_NewUvMul); // chCnk // NJD_CV_D8
-    WritePointer(0x005A591C, &s_NewUvMul); // chCnk // NJD_CV_VN
-    WritePointer(0x005A5C1C, &s_NewUvMul); // chCnk // NJD_CV_VN_D8
-    WritePointer(0x0041BCC3, &s_NewUvMul); // Ginja
+    RFU_ReplaceFloat(0x005A563A, uvmul_new); // chCnk // NJD_CV_D8
+    RFU_ReplaceFloat(0x005A591A, uvmul_new); // chCnk // NJD_CV_VN
+    RFU_ReplaceFloat(0x005A5C1A, uvmul_new); // chCnk // NJD_CV_VN_D8
+    RFU_ReplaceFloat(0x0041BCC1, uvmul_new); // Ginja
 
-    static const f32 s_FarClip = 65536.f;
+    const f64 farclip = 65536.0;
 
-    ReplaceFloat(0x00458FC5, &s_FarClip);
-    ReplaceFloat(0x004EE20A, &s_FarClip);
-    ReplaceFloat(0x004EE329, &s_FarClip);
-    ReplaceFloat(0x0067C829, &s_FarClip);
-    ReplaceFloat(0x006B5BAE, &s_FarClip);
-    ReplaceFloat(0x006B602F, &s_FarClip);
-    ReplaceFloat(0x00458E63, &s_FarClip);
-    ReplaceFloat(0x0044BBD0, &s_FarClip);
+    RFU_ReplaceFloat(0x00458FC5, farclip);
+    RFU_ReplaceFloat(0x004EE20A, farclip);
+    RFU_ReplaceFloat(0x004EE329, farclip);
+    RFU_ReplaceFloat(0x0067C829, farclip);
+    RFU_ReplaceFloat(0x006B5BAE, farclip);
+    RFU_ReplaceFloat(0x006B602F, farclip);
+    RFU_ReplaceFloat(0x00458E63, farclip);
+    RFU_ReplaceFloat(0x0044BBD0, farclip);
 
     /** 2D draw params **/
 

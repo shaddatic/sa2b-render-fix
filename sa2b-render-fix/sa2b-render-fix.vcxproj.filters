@@ -587,6 +587,9 @@
     <ClInclude Include="rfm_event\ev_renderer\evr_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rfu_float.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />

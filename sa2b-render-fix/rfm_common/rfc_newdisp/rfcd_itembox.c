@@ -1,22 +1,35 @@
-#include <samt/core.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writeop.h>           /* writejump                                                */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/njctrl.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* task                                                     */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_draw.h>
-#include <rf_renderstate.h>
-#include <rf_enemywk.h>
-#include <rf_njcnk.h>
-#include <rf_util.h>
-#include <rf_mdlutil.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_draw.h>                /* cnkdraw                                                  */
+#include <rf_njcnk.h>               /* easysimpledirect                                         */
+#include <rf_renderstate.h>         /* setcullmode                                              */
+#include <rf_util.h>                /* switchdisplayer                                          */
+#include <rf_mdlutil.h>             /* changediffuse                                            */
 
+/****** RF Utility ******************************************************************************/
+#include <rfu_float.h>              /* replacefloat                                             */
+
+/****** Self ************************************************************************************/
+#include <rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings                          */
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Itemboxwk *******************************************************************************/
 typedef struct 
 {
     int texid;
@@ -44,6 +57,10 @@ ITEMBOX_INFO;
 /****** Disable Fog *****************************************************************************/
 #define DisableObjectFog            DATA_REF(b32         , 0x01AEFE64)
 
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Task ************************************************************************************/
 static void
 ObjectItemBoxDisp_RF(task* tp)
 {
@@ -327,6 +344,7 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
     RFRS_SetCullMode(RFRS_CULLMD_END);
 }
 
+/****** Init ************************************************************************************/
 void
 RFCD_ItemBoxInit(void)
 {
@@ -357,9 +375,7 @@ RFCD_ItemBoxInit(void)
 
     WriteNOP( 0x00625199, 0x0062519B);
 
-    static const double bloondbl = 85.0;
-
-    ReplaceFloat(0x006251EE, &bloondbl);
+    RFU_ReplaceFloat(0x006251EE, 85.0); // alpha value
 
     /** Object Fix **/
 

@@ -295,16 +295,6 @@ bool    RFU_ReplaceChunkObject( NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile 
 *     - func        : function to call
 */
 #define WriteCallToMovDwordPtr(addr, func)              WriteNOP((addr), (addr) + 7); WriteCall((addr), (func))
-/*
-*   Description:
-*     Change a float or double value pointer in an 'fld', 'fcom', 'fadd', 'fsub',
-*   and etc instructions.
-*
-*   Parameters:
-*     - addr        : address of float instruction
-*     - pflt        : new float or double pointer
-*/
-#define ReplaceFloat(addr, pflt)                        WritePointer((addr)+2, (pflt))
 
 /************************************************************************************/
 /*
