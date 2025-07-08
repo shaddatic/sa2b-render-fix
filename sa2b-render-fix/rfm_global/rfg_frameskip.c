@@ -317,5 +317,5 @@ RFG_FrameSkipInit(void)
     // set wait vsync count
     const int game_speed = RF_ConfigGetInt( CNF_DEBUG_GAMESPEED );
 
-    rjSetWaitVsyncCount( -game_speed );
+    rjSetWaitVsyncCount( 0 - game_speed );
 }
