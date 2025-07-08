@@ -90,36 +90,24 @@ RF_ConfigSetString(const RFS_CNF_STRING* pCnf, const c8* set)
 int32_t
 RF_ConfigDirectGetInt(const c8* section, const c8* key, int def)
 {
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config read after free");
-
     return mtConfigGetInt(ConfigPointer, section, key, def);
 }
 
 bool
 RF_ConfigDirectGetBool(const c8* section, const c8* key, bool def)
 {
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config read after free");
-
     return mtConfigGetBool(ConfigPointer, section, key, def);
 }
 
 f64
 RF_ConfigDirectGetFloat(const c8* section, const c8* key, f64 def)
 {
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config read after free");
-
     return mtConfigGetFloat(ConfigPointer, section, key, def);
 }
 
 const c8*
 RF_ConfigDirectGetString(const c8* section, const c8* key, const c8* def)
 {
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config read after free");
-
     return mtConfigGetString(ConfigPointer, section, key, def);
 }
 
@@ -131,9 +119,6 @@ RF_ConfigDirectSetInt(const c8* section, const c8* key, int set)
 {
     ConfigSet = true;
 
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config set after free");
-
     mtConfigSetInt(ConfigPointer, section, key, set);
 }
 
@@ -141,9 +126,6 @@ void
 RF_ConfigDirectSetBool(const c8* section, const c8* key, bool set)
 {
     ConfigSet = true;
-
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config set after free");
 
     mtConfigSetBool(ConfigPointer, section, key, set);
 }
@@ -153,9 +135,6 @@ RF_ConfigDirectSetFloat(const c8* section, const c8* key, f64 set)
 {
     ConfigSet = true;
 
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config set after free");
-
     mtConfigSetFloat(ConfigPointer, section, key, set);
 }
 
@@ -163,9 +142,6 @@ void
 RF_ConfigDirectSetString(const c8* section, const c8* key, const c8* set)
 {
     ConfigSet = true;
-
-    if (!ConfigPointer)
-        RF_DebugFuncError("Config set after free");
 
     mtConfigSetString(ConfigPointer, section, key, set);
 }

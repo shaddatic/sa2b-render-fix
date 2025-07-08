@@ -1,18 +1,40 @@
-#include <samt/core.h>
-#include <samt/msgbox.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/msgbox.h>            /* msgbox                                                   */
+#include <samt/string.h>            /* strformat                                                */
 
-/** Std **/
-#include <stdio.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core/self                                                */
 
-/** Render Fix **/
-#include <rf_core.h>
-
-void
-___DebugFuncError(const c8* func, const c8* body)
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Message Box *****************************************************************************/
+bool
+RF_MessageOut(const c8* puTitle, const c8* puBody, eRF_MSGINPUT input, eRF_MSGICON icon)
 {
-    c8 str[128];
+    const mt_msgbox_retn ret = mtMsgBox(puTitle, puBody, (mt_msgbox_input)input, (mt_msgbox_icon)icon);
 
-    snprintf(str, sizeof(str), "Render Fix Debug: %s", func);
-
-    mtMsgWarning(str, body);
+    switch ( ret )
+    {
+        case MSGBOX_RETN_OK:
+        case MSGBOX_RETN_RETRY:
+        case MSGBOX_RETN_YES:
+        case MSGBOX_RETN_HELP:
+        case MSGBOX_RETN_TRYAGAIN:
+        case MSGBOX_RETN_CONTINUE:
+        {
+            return true;
+        }
+        case MSGBOX_RETN_CANCEL: default:
+        case MSGBOX_RETN_ABORT:
+        case MSGBOX_RETN_NO:
+        case MSGBOX_RETN_CLOSE:
+        {
+            return false;
+        }
+    }
 }
