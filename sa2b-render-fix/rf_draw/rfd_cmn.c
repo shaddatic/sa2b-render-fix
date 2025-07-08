@@ -127,7 +127,7 @@ rjSetBlend2D(Int trans)
     const s32 src = (texmode >> 29) & 7;
     const s32 dst = (texmode >> 26) & 7;
 
-    GX_SetBlendMode(src, dst, trans);
+    GX_SetBlendMode(src, dst, !!trans);
 }
 
 #define TexInfo2D           DATA_REF(TEXTURE_INFO, 0x019341A0)
