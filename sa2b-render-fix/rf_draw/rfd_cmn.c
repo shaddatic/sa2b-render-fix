@@ -176,6 +176,13 @@ rjSetTexture2D(void)
         }
     }
 
+    ___TODO("finish UI filtering feature");
+
+    if ( false ) // don't filter on magnify
+    {
+        p_tinfo->mag_filter = 0;
+    }
+
     /** texture wrapping **/
 
     if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
