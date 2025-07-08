@@ -407,13 +407,19 @@ RFU_ReplaceChunkObject(NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile)
 }
 
 /****** Replace File ****************************************************************************/
+void
+RFU_DirectReplaceFloat(pint pOpcode, const void* pFlt)
+{
+    WritePointer(pOpcode+2, pFlt);
+}
+
 static f32  FloatList[64];
 static size FloatNumber;
 static f64  DoubleList[64];
 static size DoubleNumber;
 
 static bool
-ReplaceFloat_(pint pOpcode, poff offset, f32 val)
+ReplaceFloat(pint pOpcode, f32 val)
 {
     const f32*  p_flt = nullptr;
     const size nb_flt = FloatNumber;
@@ -441,13 +447,13 @@ ReplaceFloat_(pint pOpcode, poff offset, f32 val)
         FloatNumber = nb_flt + 1;
     }
 
-    WritePointer(pOpcode+offset, p_flt);
+    RFU_DirectReplaceFloat(pOpcode, p_flt);
 
     return true;
 }
 
 static bool
-ReplaceDouble(pint pOpcode, poff offset, f64 val)
+ReplaceDouble(pint pOpcode, f64 val)
 {
     const f64*  p_dbl = nullptr;
     const size nb_dbl = DoubleNumber;
@@ -475,7 +481,7 @@ ReplaceDouble(pint pOpcode, poff offset, f64 val)
         DoubleNumber = nb_dbl + 1;
     }
 
-    WritePointer(pOpcode+offset, p_dbl);
+    RFU_DirectReplaceFloat(pOpcode, p_dbl);
 
     return true;
 }
@@ -490,12 +496,12 @@ RFU_ReplaceFloat(pint pOpcode, f64 val)
         case 0xD8:
         case 0xD9:
         {
-            return ReplaceFloat_(pOpcode, 2, (f32)val);
+            return ReplaceFloat(pOpcode, (f32)val);
         }
         case 0xDC:
         case 0xDD:
         {
-            return ReplaceDouble(pOpcode, 2, val);
+            return ReplaceDouble(pOpcode, val);
         }
         default:
         {
