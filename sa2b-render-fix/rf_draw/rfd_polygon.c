@@ -79,7 +79,7 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
     _nj_curr_ctx_->texsurface = rjGetTextureSurfaceG(tex);
 
     rjSetBlend2D(flag);
-    rjSetTexture2D();
+    rjSetTexture2D(FALSE);
 
     rjStartVertex2D(RJE_VERTEX_PTC);
 

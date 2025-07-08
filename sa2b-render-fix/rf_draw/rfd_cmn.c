@@ -133,7 +133,7 @@ rjSetBlend2D(Int trans)
 #define TexInfo2D           DATA_REF(TEXTURE_INFO, 0x019341A0)
 
 void
-rjSetTexture2D(void)
+rjSetTexture2D(Int clamp)
 {
     const Uint32 texmode = _nj_curr_ctx_->texmode;
 
@@ -170,8 +170,8 @@ rjSetTexture2D(void)
         }
         case 1: case 2: case 3: // bilinear (default) // trilinear B // trilinear A
         {
-    p_tinfo->min_filter = 1;
-    p_tinfo->mag_filter = 1;
+            p_tinfo->min_filter = 1;
+            p_tinfo->mag_filter = 1;
             break;
         }
     }
@@ -185,30 +185,37 @@ rjSetTexture2D(void)
 
     /** texture wrapping **/
 
-    if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+    if ( clamp )
     {
-        p_tinfo->address_u = 0;
+        p_tinfo->address_u = p_tinfo->address_u = 0;
     }
-    else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+    else
     {
-        p_tinfo->address_u = 2;
-    }
-    else // repeat
-    {
-        p_tinfo->address_u = 1;
-    }
+        if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+        {
+            p_tinfo->address_u = 0;
+        }
+        else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+        {
+            p_tinfo->address_u = 2;
+        }
+        else // repeat
+        {
+            p_tinfo->address_u = 1;
+        }
 
-    if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
-    {
-        p_tinfo->address_v = 0;
-    }
-    else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
-    {
-        p_tinfo->address_v = 2;
-    }
-    else // repeat
-    {
-        p_tinfo->address_u = 1;
+        if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
+        {
+            p_tinfo->address_v = 0;
+        }
+        else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
+        {
+            p_tinfo->address_v = 2;
+        }
+        else // repeat
+        {
+            p_tinfo->address_u = 1;
+        }
     }
 
     /** tes5 **/
