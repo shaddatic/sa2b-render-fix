@@ -143,25 +143,38 @@ rjSetTexture2D(void)
 
     TEXTURE_INFO* p_tinfo = &TexInfo2D;
 
+    p_tinfo->surface = p_texsrf->pSurface;
+
     /** texture pointer and palette **/
 
     const Uint32 sflag = p_texsrf->fSurfaceFlags;
 
     if ( sflag & NJD_SURFACEFLAGS_PALETTIZED )
     {
-        p_tinfo->surface = p_texsrf->pSurface;
         p_tinfo->palette = _nj_curr_ctx_->bank;
     }
     else
     {
-        p_tinfo->surface = p_texsrf->pSurface;
         p_tinfo->palette = -1;
     }
 
     /** texture filtering **/
 
+    switch ( (texmode & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
+    {
+        case 0: // point
+        {
+            p_tinfo->min_filter = 0;
+            p_tinfo->mag_filter = 0;
+            break;
+        }
+        case 1: case 2: case 3: // bilinear (default) // trilinear B // trilinear A
+        {
     p_tinfo->min_filter = 1;
     p_tinfo->mag_filter = 1;
+            break;
+        }
+    }
 
     /** texture wrapping **/
 
