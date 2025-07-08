@@ -48,7 +48,7 @@ VS_OUT main(VS_IN input)
     output.PositionInfo.xyz = input.position;
     output.PositionInfo.w   = output.ScreenPosition.z;
 #else
-    output.ScreenPosition.x = ((input.position.x / +320.f) - 1.f) *  g_DeviceInfo.w;
+    output.ScreenPosition.x = ((input.position.x / +320.f) - 1.f) * g_DeviceInfo.w;
     output.ScreenPosition.y = ((input.position.y / -240.f) + 1.f);
     output.ScreenPosition.z = 1.f - input.position.z;
     output.ScreenPosition.w = 1.f;
