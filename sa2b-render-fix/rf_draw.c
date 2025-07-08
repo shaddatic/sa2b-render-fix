@@ -95,22 +95,6 @@ AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
 }
 
 void
-rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
-{
-    TexExCount = count;
-    njDrawTextureEx(polygon, 4, trans);
-    TexExCount = 4;
-}
-
-void
-rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
-{
-    Poly2DN = n;
-    njDrawPolygon2D(p, 4, pri, attr);
-    Poly2DN = 4;
-}
-
-void
 rjSetCheapShadowMode(Int mode)
 {
     if (mode < 0 || mode > 256)

@@ -74,12 +74,22 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 }
 
 void
-rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
+rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 {
-    _nj_curr_ctx_->texsurface = rjGetTextureSurfaceG(tex);
+    Int uv_clamp = TRUE;
 
-    rjSetBlend2D(flag);
-    rjSetTexture2D(FALSE);
+    for ( int i = 0; i < count; ++i )
+    {
+        if ( polygon[i].u > 1.f || polygon[i].u < 0.f ||
+             polygon[i].v > 1.f || polygon[i].v < 0.f )
+        {
+            uv_clamp = FALSE;
+            break;
+        }
+    }
+
+    rjSetBlend2D(trans);
+    rjSetTexture2D(uv_clamp);
 
     rjStartVertex2D(RJE_VERTEX_PTC);
 
@@ -100,6 +110,76 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
     rjEndTriStrip(nbv);
 
     rjEndVertex();
+}
+
+void
+rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
+{
+    _nj_curr_ctx_->texsurface = rjGetTextureSurfaceG(tex);
+
+    rjDrawTextureEx(polygon, count, flag);
+}
+
+void
+rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
+{
+    const f32 uv_mul = (1.f/256.f);
+
+    const NJS_POINT2* p_pos = p->p;
+    const NJS_TEX*    p_tex = &p->tex->tex;
+    const Uint32*     p_col = &p->col->color;
+
+    const f32 z = 1.f - (pri / -65536.f);
+
+    rjSetBlend2D( attr & NJD_TRANSPARENT );
+
+    if ( attr & NJD_USE_TEXTURE )
+    {
+        rjSetTexture2D(FALSE);
+
+        rjStartVertex2D(RJE_VERTEX_PTC);
+
+        const Sint32 nbv = rjStartTriStrip(n);
+
+        RJS_VERTEX_PTC* p_buf = rjGetVertexBuffer();
+
+        for ( int i = 0; i < n; ++i, ++p, ++p_buf )
+        {
+            p_buf->pos.x = p_pos[i].x;
+            p_buf->pos.y = p_pos[i].y;
+            p_buf->pos.z = z;
+
+            p_buf->u     = (f32)p_tex[i].u * uv_mul;
+            p_buf->v     = (f32)p_tex[i].v * uv_mul;
+
+            p_buf->col   = p_col[i];
+        }
+
+        rjEndTriStrip(nbv);
+
+        rjEndVertex();
+    }
+    else // non-tex
+    {
+        rjStartVertex2D(RJE_VERTEX_PC);
+
+        const Sint32 nbv = rjStartTriStrip(n);
+
+        RJS_VERTEX_PC* p_buf = rjGetVertexBuffer();
+
+        for ( int i = 0; i < n; ++i, ++p, ++p_buf )
+        {
+            p_buf->pos.x = p_pos[i].x;
+            p_buf->pos.y = p_pos[i].y;
+            p_buf->pos.z = z;
+
+            p_buf->col   = p_col[i];
+        }
+
+        rjEndTriStrip(nbv);
+
+        rjEndVertex();
+    }
 }
 
 /****** ASM *************************************************************************/
@@ -138,10 +218,47 @@ ___DrawTexture(void)
     }
 }
 
+__declspec(naked)
+static void
+___DrawTextureEx(void)
+{
+    __asm
+    {
+        push        [esp+4]
+        push        4
+        push        eax
+
+        call        rjDrawTextureEx
+
+        add esp,    12
+        retn
+    }
+}
+
+__declspec(naked)
+static void
+___DrawPolygon2D(void)
+{
+    __asm
+    {
+        push        [esp+8]
+        push        [esp+8]
+        push        4
+        push        eax
+
+        call        rjDrawPolygon2D
+
+        add esp,    16
+        retn
+    }
+}
+
 /****** Init ************************************************************************/
 void
 RFD_PolygonInit(void)
 {
     WriteJump(0x0077F7F0, ___DrawPolygon);
     WriteJump(0x0077F510, ___DrawTexture);
+    WriteJump(0x0077F6B0, ___DrawTextureEx);
+    WriteJump(0x00490FA0, ___DrawPolygon2D);
 }

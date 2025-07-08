@@ -114,13 +114,19 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /*
 *   Description:
 *     Set blend mode via ninja context struct.
+*
+*   Parameters:
+*     - trans       : use translucency
 */
 void    rjSetBlend2D( Int trans );
 /*
 *   Description:
 *     Set texture parameters from ninja context struct.
+*
+*   Parameters:
+*     - clamp       : force clamped texture coordinates
 */
-void    rjSetTexture2D( void );
+void    rjSetTexture2D( Int clamp );
 
 /****** Start/End Vertex ************************************************************/
 /*
