@@ -349,7 +349,8 @@ RFCD_ItemBoxInit(void)
 
     ___NOTE("We'll replace this too eventually, but for now just edit the vanilla disp");
 
-    WriteData(0x00624E45, DISP_SORT, u8); 
+    SwitchDisplayer(0x00624E43, DISP_SORT);
+
     WriteNOP( 0x00625199, 0x0062519B);
 
     static const double bloondbl = 85.0;
