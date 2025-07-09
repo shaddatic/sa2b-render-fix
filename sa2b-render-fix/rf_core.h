@@ -82,9 +82,9 @@ bool    RF_MessageOut( const c8* puHeader, const c8* puBody, eRF_MSGINPUT input,
 /*  Function Macros             */
 /********************************/
 /****** Debug Out *******************************************************************************/
-#define RF_DbgInfo(s, ...)          ___OutputDebugString("RF INFO: "  s __VA_ARGS__)
-#define RF_DbgWarn(s, ...)          ___OutputDebugString("RF WARN: "  s __VA_ARGS__)
-#define RF_DbgError(s, ...)         ___OutputDebugString("RF ERROR: " s __VA_ARGS__)
+#define RF_DbgInfo(...)             ___OutputDebugString("RF INFO: "                     __VA_ARGS__)
+#define RF_DbgWarn(...)             ___OutputDebugString("RF WARN: [" __FUNCTION__ "] "  __VA_ARGS__)
+#define RF_DbgError(...)            ___OutputDebugString("RF ERROR: [" __FUNCTION__ "] " __VA_ARGS__)
 
 /****** Message Box *****************************************************************************/
 #define RF_MsgInfo(h, b)            RF_MessageOut("Render Fix : " h, b, MSGINPUT_OK, MSGICON_INFO)
