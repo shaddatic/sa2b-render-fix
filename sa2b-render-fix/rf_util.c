@@ -161,6 +161,21 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
 }
 
 /****** Replace File ****************************************************************/
+static void
+ReplaceFile(const c7* pcSrcPath, const c7* pcDstPath)
+{
+    const size ix_rf = mtGetModIndex();
+
+    if ( ix_rf == -1 ) // old mod loader
+    {
+        mlReplaceFile(pcSrcPath, pcDstPath);
+    }
+    else // supports mod index features
+    {
+        mlReplaceFileAtIndex(pcSrcPath, pcDstPath, ix_rf);
+    }
+}
+
 bool
 RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 {
@@ -207,7 +222,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 
     RF_DbgInfo("Replaced file '%s' with '/%s/%s'", pcGdPath, pcOptiFolder, pcGdPath);
 
-    mlReplaceFile(pc_path_src, pc_path_dst);
+    ReplaceFile(pc_path_src, pc_path_dst);
 
     return true;
 }
@@ -260,7 +275,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
     RF_DbgInfo("Replaced texture '%s.PRS' with '/%s/PRS/%s.pak'", pcTexName, pcOptiFolder, pcTexName);
 
-    mlReplaceFile(pc_src, pc_dst);
+    ReplaceFile(pc_src, pc_dst);
 
     return true;
 }
@@ -328,7 +343,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
     RF_DbgInfo("Replaced texture '%s.GVR' with '/%s/PRS/%s.pak'", pcPvrName, pcOptiFolder, pcPvrName);
 
-    mlReplaceFile(pc_src, pc_dst);
+    ReplaceFile(pc_src, pc_dst);
 
     return true;
 }
@@ -372,7 +387,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
     RF_DbgInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
 
-    mlReplaceFile(pc_src, pc_dst);
+    ReplaceFile(pc_src, pc_dst);
 
     return true;
 }
