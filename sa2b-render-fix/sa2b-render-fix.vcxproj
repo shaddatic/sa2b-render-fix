@@ -173,6 +173,7 @@
     <ClInclude Include="rfm_event\ev_internal.h" />
     <ClInclude Include="rfm_common.h" />
     <ClInclude Include="rfm_wjungle.h" />
+    <ClInclude Include="rfu_file.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_api\rfapi_internal.h" />
     <ClInclude Include="rf_config.h" />

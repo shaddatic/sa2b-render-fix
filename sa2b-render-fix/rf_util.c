@@ -21,11 +21,10 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_mdlutil.h>         /* change strip flag                                */
 
-/****** Std *************************************************************************/
-#include <stdio.h>              /* snprintf                                         */
-
 /****** Self ************************************************************************/
 #include <rf_util.h>            /* self                                             */
+#include <rfu_float.h>          /* self, float                                      */
+#include <rfu_file.h>           /* self, file                                       */
 
 /************************/
 /*  Source              */
@@ -108,183 +107,274 @@ RFU_CalcInvertedMatrix(const NJS_MATRIX* m)
 }
 
 /****** File Ownership **************************************************************/
-eRFU_FILE_OWNER
-RFU_GetFileOwnership(const char* pcPath)
+eRFU_FOWN
+RFU_GetFileOwnership(const c7* pcSrcFile)
 {
-    const char* const repl_path = mlGetReplacedFile(pcPath);
+    c7 pc_path[128]; // base file path
 
-    if ( PathIsGame(repl_path) )
-        return FOWN_GAME;
+    const size sz_path = ARYLEN(pc_path);
 
-    if (PathIsRF(repl_path))
-        return FOWN_RF;
+    /** Calculate Source Path **/
+
+    const size sz_fmt = mtStrFormat(pc_path, sz_path, "resource/gd_PC/%s", pcSrcFile);
+
+    if ( sz_fmt >= sz_path )
+    {
+        RF_DbgWarn("Path buffer overflowed!");
+        return FOWN_ERROR;
+    }
+
+    /** Get Ownership **/
+    
+    const size ix_rf = mtGetModIndex();
+
+    if ( ix_rf == -1 ) // old mod loader
+    {
+        const c7* repl_path = mlGetReplacedFile(pc_path);
+
+        if ( PathIsGame(repl_path) )
+        {
+            return FOWN_GAME;
+        }
+
+        if ( PathIsRF(repl_path) )
+        {
+            return FOWN_RF;
+        }
+    }
+    else // supports mod index features
+    {
+        const size ix_file = mlGetFileModIndex(pc_path);
+
+        if ( ix_file == -1 )
+        {
+            return FOWN_GAME;
+        }
+
+        if ( ix_file <= ix_rf )
+        {
+            return FOWN_RF;
+        }
+    }
 
     return FOWN_OTHER;
 }
 
 /****** Replace File ****************************************************************/
 bool
-RFU_ReplaceFile(const char* pcPath, const char* pcOptiFolder)
+RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 {
-    char file_buf[128]; // base file path
-
-    /** Check for path ownership **/
+    /** Check File Ownership **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s", pcPath); // also used for replace path
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pcGdPath);
 
-        const char* const repl_path = mlGetReplacedFile(file_buf);
-
-        /** Check if the file is replaced, or if Render Fix owns the replaced file **/
-        if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgWarn("File '%s' is not owned by the Game or RF", pcGdPath);
             return false;
+        }
     }
 
-    char opti_buf[256]; // optional file path
+    /** Owned by RF, Replace File **/
 
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s", mtGetModPath(), pcOptiFolder, pcPath);
+    c7 pc_path_src[128];
+    c7 pc_path_dst[128];
 
-    if ( !mtFileExists(opti_buf) )
+    const size sz_path = ARYLEN(pc_path_src);
+
+    /** Calculate Source Path **/
     {
-        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s", pcOptiFolder, pcPath);
+        const size sz_fmt = mtStrFormat(pc_path_src, sz_path, "resource/gd_PC/%s", pcGdPath);
 
-        OutputFormat("RF WARN: (RFU_ReplaceFile) Optional file \"%s\" was not found", opti_buf);
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Source path buffer overflowed!");
+            return false;
+        }
+    }
+    /** Calculate Destination Path **/
+    {
+        const size sz_fmt = mtStrFormat(pc_path_dst, sz_path, "%s/optional/%s/%s", mtGetModPath(), pcOptiFolder, pcGdPath);
 
-        return false;
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Destination path buffer overflowed!");
+            return false;
+        }
     }
 
-    mlReplaceFile(file_buf, opti_buf);
+    /** Replace File **/
+
+    RF_DbgInfo("Replaced file '%s' with '/%s/%s'", pcGdPath, pcOptiFolder, pcGdPath);
+
+    mlReplaceFile(pc_path_src, pc_path_dst);
 
     return true;
 }
 
 bool
-RFU_ReplaceTexture(const char* pcTexName, const char* pcOptiFolder)
+RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 {
-    char file_buf[128]; // base file path
+    c7 pc_src[128];
+    c7 pc_dst[128];
 
-    /** Check for texture file ownership **/
+    const size sz_path = ARYLEN(pc_src);
+
+    /** Check File Ownership **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcTexName);
+        mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s.PRS", pcTexName);
 
-        const char* const repl_path = mlGetReplacedFile(file_buf);
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pc_src);
 
-        /** Check if the file isn't replaced, or if Render Fix owns the replaced file **/
-        if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgInfo("Texture file '%s.PRS' is not owned by the Game or RF", pcTexName);
             return false;
+        }
     }
 
-    char opti_buf[256]; // optional file path
+    /** Owned by RF, Replace File **/
 
-    /** Make vanilla PAK path **/
-    snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/PRS/%s.pak", pcTexName);
-
-    /** Make optional folder PAK path **/
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
-
-    if ( !mtFileExists(opti_buf) )
+    /** Calculate Source Path **/
     {
-        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcTexName);
+        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s/PRS/%s.pak", pcTexName);
 
-        OutputFormat("RF WARN: (RFU_ReplaceTexture) Texture PAK file \"%s\" was not found", opti_buf);
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Source path buffer overflowed!");
+            return false;
+        }
+    }
+    /** Calculate Destination Path **/
+    {
+        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
 
-        return false;
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Destination path buffer overflowed!");
+            return false;
+        }
     }
 
-    mlReplaceFile(file_buf, opti_buf);
+    /** Replace File **/
+
+    RF_DbgInfo("Replaced texture '%s.PRS' with '/%s/PRS/%s.pak'", pcTexName, pcOptiFolder, pcTexName);
+
+    mlReplaceFile(pc_src, pc_dst);
 
     return true;
 }
 
 bool
-RFU_ReplacePvr(const char* pcPvrName, const char* pcOptiFolder)
+RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 {
-    char file_buf[128]; // base file path
+    c7 pc_src[128];
+    c7 pc_dst[128];
 
-    /** Check for GVR file ownership **/
+    const size sz_path = ARYLEN(pc_src);
+
+    /** Check File Ownership (PRS) **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.GVR", pcPvrName); // also used for replace path
+        // we check PRS too due to a logic inconsistancy in the
+        // Mod Loader's 'ReplaceFile' function
 
-        const char* const repl_path = mlGetReplacedFile(file_buf);
+        mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s.PRS", pcPvrName);
 
-        /** Check if the file isn't replaced, or if Render Fix owns the replaced file **/
-        if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pc_src);
+
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
             return false;
+        }
     }
-
-    char opti_buf[256]; // optional file path
-
-    /** Make optional folder PAK path **/
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
-
-    if ( !mtFileExists(opti_buf) )
+    /** Check File Ownership (PVR) **/
     {
-        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/PRS/%s.pak", pcOptiFolder, pcPvrName);
+        mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s.GVR", pcPvrName);
 
-        OutputFormat("RF WARN: (RFU_ReplacePvr) Texture PAK file \"%s\" was not found", opti_buf);
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pc_src);
 
-        return false;
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
+            return false;
+        }
     }
 
-    mlReplaceFile(file_buf, opti_buf);
+    /** Owned by RF, Replace File **/
+
+    /** Calculate Source Path **/
+    {
+        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s/PRS/%s.pak", pcPvrName);
+
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Source path buffer overflowed!");
+            return false;
+        }
+    }
+    /** Calculate Destination Path **/
+    {
+        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
+
+        if ( sz_fmt >= sz_path )
+        {
+            RF_DbgWarn("Destination path buffer overflowed!");
+            return false;
+        }
+    }
+
+    /** Replace File **/
+
+    RF_DbgInfo("Replaced texture '%s.GVR' with '/%s/PRS/%s.pak'", pcPvrName, pcOptiFolder, pcPvrName);
+
+    mlReplaceFile(pc_src, pc_dst);
 
     return true;
 }
 
-static bool
-ReplacePlayerPrsSub(const char* pcPrsName, const char* pcOptiFolder, const char* pcErrText)
+bool
+RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 {
-    char file_buf[128]; // base file path
+    c7 pc_src[128];
+    c7 pc_dst[128];
+
+    const size sz_path = ARYLEN(pc_src);
 
     /** Check for folder based player model files **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s/%s.ini", pcPrsName, pcPrsName);
+        mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s/%s.ini", pcPrsName, pcPrsName);
 
-        const char* const repl_path = mlGetReplacedFile(file_buf);
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pc_src);
 
-        /** Check if the file is replaced, or if Render Fix owns the replaced file **/
-        if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
+        }
     }
-
     /** Check for PRS based player model files **/
     {
-        snprintf(file_buf, ARYLEN(file_buf), "resource/gd_PC/%s.PRS", pcPrsName); // also used for replace path
+        mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s.PRS", pcPrsName, pcPrsName);
 
-        const char* const repl_path = mlGetReplacedFile(file_buf);
+        const eRFU_FOWN fown = RFU_GetFileOwnership(pc_src);
 
-        /** Check if the file is replaced, or if Render Fix owns the replaced file **/
-        if ( !PathIsGame(repl_path) && !PathIsRF(repl_path) )
+        if ( fown > FOWN_RF )
+        {
+            RF_DbgInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
+        }
     }
 
-    char opti_buf[256]; // optional file path
+    mtStrFormat(pc_dst, sz_path, "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
 
-    snprintf(opti_buf, ARYLEN(opti_buf), "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
+    /** Replace File **/
 
-    if ( !mtFileExists(opti_buf) )
-    {
-        snprintf(opti_buf, ARYLEN(opti_buf), "/optional/%s/%s.PRS", pcOptiFolder, pcPrsName);
+    RF_DbgInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
 
-        OutputFormat(pcErrText, opti_buf);
-
-        return false;
-    }
-
-    mlReplaceFile(file_buf, opti_buf);
+    mlReplaceFile(pc_src, pc_dst);
 
     return true;
-}
-
-bool
-RFU_ReplaceMdl(const char* pcMdlName, const char* pcOptiFolder)
-{
-    return ReplacePlayerPrsSub(pcMdlName, pcOptiFolder, "RF WARN: (RFU_ReplaceMdl) Player model file \"%s\" was not found");
-}
-
-bool
-RFU_ReplaceMtn(const char* pcMtnName, const char* pcOptiFolder)
-{
-    return ReplacePlayerPrsSub(pcMtnName, pcOptiFolder, "RF WARN: (RFU_ReplaceMtn) Player motion file \"%s\" was not found");
 }
 
 /****** Replace Model ***************************************************************/

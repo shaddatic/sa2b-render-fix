@@ -28,6 +28,9 @@
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_feature.h>         /* render fix feature check                         */
 
+/****** RF Utility ******************************************************************/
+#include <rfu_file.h>           /* filereplace                                      */
+
 /****** Self ************************************************************************/
 #include <rfm_player.h>               /* self                                       */
 #include <rfm_player/rfpl_internal.h> /* children                                   */
@@ -224,41 +227,43 @@ RFM_PlayerInit(void)
 
     if ( RF_ConfigGetInt( CNF_PLAYER_MODEL ) == CNFE_PLAYER_MODEL_DREAMCAST )
     {
-        DreamcastPlayerModels[PLNO_SONIC]    = RFU_ReplaceMdl("SONICMDL" , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_SHADOW]   = RFU_ReplaceMdl("TERIOSMDL", "plmdl_dc");
-        DreamcastPlayerModels[PLNO_MILES]    = RFU_ReplaceMdl("MILESMDL" , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_EGGMAN]   = RFU_ReplaceMdl("EGGMDL"   , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_KNUCKLES] = RFU_ReplaceMdl("KNUCKMDL" , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_SONIC]    = RFU_ReplacePlayerPrs("SONICMDL" , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_SHADOW]   = RFU_ReplacePlayerPrs("TERIOSMDL", "plmdl_dc");
+        DreamcastPlayerModels[PLNO_MILES]    = RFU_ReplacePlayerPrs("MILESMDL" , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_EGGMAN]   = RFU_ReplacePlayerPrs("EGGMDL"   , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_KNUCKLES] = RFU_ReplacePlayerPrs("KNUCKMDL" , "plmdl_dc");
 
-        if ( RFU_ReplaceMdl("ROUGEMDL", "plmdl_dc") )
+        if ( RFU_ReplacePlayerPrs("ROUGEMDL", "plmdl_dc") )
         {
             DreamcastPlayerModels[PLNO_ROUGE] = true;
 
-            RFU_ReplaceMtn("ROUGEMTN", "plmdl_dc");
+            RFU_ReplacePlayerPrs("ROUGEMTN", "plmdl_dc");
         }
 
-        DreamcastPlayerModels[PLNO_TAILS_WALKER] = RFU_ReplaceMdl("TWALKMDL" , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_EGG_WALKER]   = RFU_ReplaceMdl("EWALKMDL" , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_AMY]          = RFU_ReplaceMdl("AMYMDL"   , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_SUPER_SONIC]  = RFU_ReplaceMdl("SSONICMDL", "plmdl_dc");
+        DreamcastPlayerModels[PLNO_TAILS_WALKER] = RFU_ReplacePlayerPrs("TWALKMDL" , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_EGG_WALKER]   = RFU_ReplacePlayerPrs("EWALKMDL" , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_AMY]          = RFU_ReplacePlayerPrs("AMYMDL"   , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_SUPER_SONIC]  = RFU_ReplacePlayerPrs("SSONICMDL", "plmdl_dc");
 
-        if ( RFU_ReplaceMdl("SSHADOWMDL", "plmdl_dc") )
+        if ( RFU_ReplacePlayerPrs("SSHADOWMDL", "plmdl_dc") )
         {
             DreamcastPlayerModels[PLNO_SUPER_SONIC] = true;
 
             RFU_ReplaceTexture("SSHADOWTEX", "plmdl_dc");
         }
 
-        DreamcastPlayerModels[PLNO_METAL_SONIC] = RFU_ReplaceMdl("METALSONICMDL", "plmdl_dc");
-        DreamcastPlayerModels[PLNO_CHAO_WALKER] = RFU_ReplaceMdl("CWALKMDL"     , "plmdl_dc");
-        DreamcastPlayerModels[PLNO_TICAL]       = RFU_ReplaceMdl("TICALMDL"     , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_METAL_SONIC] = RFU_ReplacePlayerPrs("METALSONICMDL", "plmdl_dc");
+        DreamcastPlayerModels[PLNO_CHAO_WALKER] = RFU_ReplacePlayerPrs("CWALKMDL"     , "plmdl_dc");
+        DreamcastPlayerModels[PLNO_TICAL]       = RFU_ReplacePlayerPrs("TICALMDL"     , "plmdl_dc");
 
-        if ( RFU_ReplaceMdl("CHAOS0MDL", "plmdl_dc") )
+        if ( RFU_ReplacePlayerPrs("CHAOS0MDL", "plmdl_dc") )
         {
             DreamcastPlayerModels[PLNO_CHAOS0] = true;
 
             if ( !RFF_Chaos0TexAnim() )
+            {
                 RFU_ReplaceTexture("CHAOS0TEX", "plmdl_dc");
+            }
         }
     }
 
