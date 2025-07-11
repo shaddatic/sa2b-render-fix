@@ -37,6 +37,16 @@ void    EV_RendererInit( void );
 */
 void    EV_ByteSwapInit( void );
 
+/****** Byteswap ********************************************************************/
+/*
+*   Description:
+*     Byteswap an Event effect file (_0/j/1/2/3/4).
+*
+*   Parameters:
+*     - pEffectInfo : effect info structure
+*/
+void    EV_ByteswapEffectInfo( EV_EFF_INFO* pEffectInfo );
+
 EXTERN_END
 
 #endif/*H_RF_EVENT_INTERNAL*/

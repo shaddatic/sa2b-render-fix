@@ -163,9 +163,16 @@ EVENT_HEADER;
 typedef struct
 {
     u32 frame;
+    u32 time;
+}
+EV_EFF_SUBTITLE;
 
-    u8 tone;
-    u8 staff_speed_maybe;
+typedef struct
+{
+    u32 frame;
+
+    u8 snd_begin;
+    u8 staff_ctrl;
     s16 voice_num;
 
     c7 bgm[16];
@@ -201,7 +208,7 @@ typedef struct
     int16_t posY;
     float width;
     float height;
-    int gap[8];
+    int padding[8];
 }
 EV_EFF_SCREEN;
 
@@ -214,7 +221,7 @@ typedef struct
     float pulsectrl;
     float unkF;
     float scl;
-    int gap[8];
+    int padding[8];
 }
 EV_EFF_SIMPLEPTCL;
 
@@ -226,11 +233,11 @@ typedef struct
     float r;
     float g;
     float b;
-    float inten;
-    float r_ambi;
-    float g_ambi;
-    float b_ambi;
-    int gap[5];
+    float ambi_inten;
+    float ambi_r;
+    float ambi_g;
+    float ambi_b;
+    int padding[5];
 }
 EV_EFF_LIGHT;
 
@@ -245,14 +252,14 @@ typedef struct
     uint8_t param5;
     uint8_t param6;
     uint32_t lifetime;
-    int gap[11];
+    int padding[11];
 }
 EV_EFF_BLARE;
 
 typedef struct 
 {
     NJS_POINT3 pos;
-    NJS_VECTOR unkV_0;
+    NJS_VECTOR vec;
     uint16_t unk16_0;
     uint16_t unk16_1;
     uint16_t unk16_2;
@@ -272,14 +279,17 @@ typedef struct
     uint16_t posX;
     uint16_t posY;
     float depth;
-    int32_t type;
-    char fname[48];
+    int8_t  type;
+    int16_t texID;
+    char fname[32];
+
+    int padding[4];
 }
 EV_EFF_OVERLAY;
 
 typedef struct
 {
-    int                 i[256][2];
+    EV_EFF_SUBTITLE     subtitle[256];
     EV_EFF_SOUND        sound[512];
     EV_EFF_SCREEN       screen[64];
     EV_EFF_SIMPLEPTCL   simpleptcl[2048];

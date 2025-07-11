@@ -262,11 +262,205 @@ ___EventByteSwapTexlist(void)
     EventFixTexlist(EventTexlist);
 }
 
+/****** Effect File *****************************************************************************/
+void
+EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
+{
+    // subtitles
+    {
+        EV_EFF_SUBTITLE* p_subtitle = pEffectInfo->subtitle;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->subtitle); ++i )
+        {
+            EndianSwap32( &p_subtitle[i].frame );
+            EndianSwap32( &p_subtitle[i].time );
+        }
+    }
+
+    // sound
+    {
+        EV_EFF_SOUND* p_sound = pEffectInfo->sound;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->sound); ++i )
+        {
+            EndianSwap32( &p_sound[i].frame );
+            // tone
+            // staff
+            EndianSwap16( &p_sound[i].voice_num );
+            // bgm
+            // jingle
+            EndianSwap32( &p_sound[i].WaitVsyncCount );
+            EndianSwap32( &p_sound[i].padding[0] );
+            EndianSwap32( &p_sound[i].padding[1] );
+            EndianSwap32( &p_sound[i].padding[2] );
+            EndianSwap32( &p_sound[i].padding[3] );
+            EndianSwap32( &p_sound[i].padding[4] );
+            EndianSwap32( &p_sound[i].padding[5] );
+            EndianSwap32( &p_sound[i].padding[6] );
+        }
+    }
+
+    // screen
+    {
+        EV_EFF_SCREEN* p_screen = pEffectInfo->screen;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->screen); ++i )
+        {
+            EndianSwap32( &p_screen[i].frame );
+            // type
+            EndianSwap32( &p_screen[i].color );
+            EndianSwap16( &p_screen[i].fadeout );
+            EndianSwap16( &p_screen[i].texID );
+            EndianSwap32( &p_screen[i].frametime );
+            EndianSwap16( &p_screen[i].posX );
+            EndianSwap16( &p_screen[i].posY );
+            EndianSwap32( &p_screen[i].width );
+            EndianSwap32( &p_screen[i].height );
+            EndianSwap32( &p_screen[i].padding[0] );
+            EndianSwap32( &p_screen[i].padding[1] );
+            EndianSwap32( &p_screen[i].padding[2] );
+            EndianSwap32( &p_screen[i].padding[3] );
+            EndianSwap32( &p_screen[i].padding[4] );
+            EndianSwap32( &p_screen[i].padding[5] );
+            EndianSwap32( &p_screen[i].padding[6] );
+        }
+    }
+
+    // simpleptcl
+    {
+        EV_EFF_SIMPLEPTCL* p_simpleptcl = pEffectInfo->simpleptcl;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->simpleptcl); ++i )
+        {
+            EndianSwap32( &p_simpleptcl[i].frame );
+            // type
+            // motionID
+            EndianSwap32( &p_simpleptcl[i].texID );
+            EndianSwap32( &p_simpleptcl[i].pulsectrl );
+            EndianSwap32( &p_simpleptcl[i].unkF );
+            EndianSwap32( &p_simpleptcl[i].scl );
+            EndianSwap32( &p_simpleptcl[i].padding[0] );
+            EndianSwap32( &p_simpleptcl[i].padding[1] );
+            EndianSwap32( &p_simpleptcl[i].padding[2] );
+            EndianSwap32( &p_simpleptcl[i].padding[3] );
+            EndianSwap32( &p_simpleptcl[i].padding[4] );
+            EndianSwap32( &p_simpleptcl[i].padding[5] );
+            EndianSwap32( &p_simpleptcl[i].padding[6] );
+        }
+    }
+
+    // lights
+    {
+        EV_EFF_LIGHT* p_light = pEffectInfo->lights[0];
+
+        for ( int i = 0; i < (4*256); ++i )
+        {
+            EndianSwap32( &p_light[i].frame );
+            EndianSwap32( &p_light[i].fademode );
+            EndianSwap32( &p_light[i].vec.x );
+            EndianSwap32( &p_light[i].vec.y );
+            EndianSwap32( &p_light[i].vec.z );
+            EndianSwap32( &p_light[i].r );
+            EndianSwap32( &p_light[i].g );
+            EndianSwap32( &p_light[i].b );
+            EndianSwap32( &p_light[i].ambi_inten );
+            EndianSwap32( &p_light[i].ambi_r );
+            EndianSwap32( &p_light[i].ambi_g );
+            EndianSwap32( &p_light[i].ambi_b );
+            EndianSwap32( &p_light[i].padding[0] );
+            EndianSwap32( &p_light[i].padding[1] );
+            EndianSwap32( &p_light[i].padding[2] );
+            EndianSwap32( &p_light[i].padding[3] );
+            EndianSwap32( &p_light[i].padding[4] );
+        }
+    }
+
+    // blares
+    {
+        EV_EFF_BLARE* p_blare = pEffectInfo->blares;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->blares); ++i )
+        {
+            EndianSwap32( &p_blare[i].frame );
+            EndianSwap32( &p_blare[i].duration );
+            // param1
+            // param2
+            // param3
+            // param4
+            // param5
+            // param6
+            EndianSwap32( &p_blare[i].lifetime );
+            EndianSwap32( &p_blare[i].padding[ 0] );
+            EndianSwap32( &p_blare[i].padding[ 1] );
+            EndianSwap32( &p_blare[i].padding[ 2] );
+            EndianSwap32( &p_blare[i].padding[ 3] );
+            EndianSwap32( &p_blare[i].padding[ 4] );
+            EndianSwap32( &p_blare[i].padding[ 5] );
+            EndianSwap32( &p_blare[i].padding[ 6] );
+            EndianSwap32( &p_blare[i].padding[ 7] );
+            EndianSwap32( &p_blare[i].padding[ 8] );
+            EndianSwap32( &p_blare[i].padding[ 9] );
+            EndianSwap32( &p_blare[i].padding[10] );
+        }
+    }
+
+    // ptcls
+    {
+        EV_EFF_PTCL* p_ptcl = pEffectInfo->ptcls;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->ptcls); ++i )
+        {
+            EndianSwap32( &p_ptcl[i].pos.x );
+            EndianSwap32( &p_ptcl[i].pos.y );
+            EndianSwap32( &p_ptcl[i].pos.z );
+            EndianSwap32( &p_ptcl[i].vec.x );
+            EndianSwap32( &p_ptcl[i].vec.y );
+            EndianSwap32( &p_ptcl[i].vec.z );
+            EndianSwap16( &p_ptcl[i].unk16_0 );
+            EndianSwap16( &p_ptcl[i].unk16_1 );
+            EndianSwap16( &p_ptcl[i].unk16_2 );
+            EndianSwap16( &p_ptcl[i].unk16_3 );
+            EndianSwap32( &p_ptcl[i].frame );
+            EndianSwap32( &p_ptcl[i].spread.x );
+            EndianSwap32( &p_ptcl[i].spread.y );
+            EndianSwap32( &p_ptcl[i].spread.z );
+            EndianSwap32( &p_ptcl[i].count );
+            EndianSwap32( &p_ptcl[i].unk32_0 );
+            EndianSwap32( &p_ptcl[i].type );
+            EndianSwap32( &p_ptcl[i].unk32_1 );
+        }
+    }
+
+    // ptcls
+    {
+        EV_EFF_OVERLAY* p_overlay = pEffectInfo->overlays;
+
+        for ( int i = 0; i < ARYLEN(pEffectInfo->overlays); ++i )
+        {
+            EndianSwap32( &p_overlay[i].frame );
+            EndianSwap16( &p_overlay[i].posX );
+            EndianSwap16( &p_overlay[i].posY );
+            EndianSwap32( &p_overlay[i].depth );
+            // type
+            EndianSwap16( &p_overlay[i].texID );
+            // fname
+            EndianSwap32( &p_overlay[i].padding[0] );
+            EndianSwap32( &p_overlay[i].padding[1] );
+            EndianSwap32( &p_overlay[i].padding[2] );
+            EndianSwap32( &p_overlay[i].padding[3] );
+            EndianSwap32( &p_overlay[i].padding[4] );
+        }
+    }
+}
+
+/****** Init ************************************************************************************/
 void
 EV_ByteSwapInit(void)
 {
     WriteCall(0x005FEFF7, ___EventByteSwapTexAnim);
     WriteJump(0x005FE320, ___EventByteSwapReflection);
+
+    WriteJump(0x00603040, EV_ByteswapEffectInfo);
 
     //WriteJump(0x00600120, ___EventByteSwapTexlist);
 }
