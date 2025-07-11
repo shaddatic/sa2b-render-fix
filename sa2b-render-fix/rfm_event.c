@@ -21,6 +21,7 @@ void
 RFM_EventInit(void)
 {
     EV_ByteSwapInit();
+    EV_FileInit();
 
     WriteData(0x00458A18, 350, s32); // force play E0350
 

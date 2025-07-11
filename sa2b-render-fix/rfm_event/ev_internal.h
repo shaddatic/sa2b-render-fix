@@ -36,6 +36,11 @@ void    EV_RendererInit( void );
 *     Init event camera parameter fix.
 */
 void    EV_ByteSwapInit( void );
+/*
+*   Description:
+*     Init event file loading sub-module.
+*/
+void    EV_FileInit( void );
 
 /****** Byteswap ********************************************************************/
 /*

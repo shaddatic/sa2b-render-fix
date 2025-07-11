@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="rfm_event\ev_file.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_blare.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_exec.c" />

@@ -405,6 +405,9 @@
     <ClCompile Include="rfm_event\ev_renderer\evr_vsync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_event\ev_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
