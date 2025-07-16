@@ -263,6 +263,19 @@ ___njCnkEasyDrawModel(void)
     }
 }
 
+__declspec(naked)
+static void
+___SetScreenHook(void)
+{
+    __asm
+    {
+        push        eax
+        call        njSetScreen // SAMT
+        add esp,    4
+        retn
+    }
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
@@ -278,6 +291,9 @@ RF_DrawInit(void)
 
     /** Allow 'n' argument to be writeable **/
     WriteData(&Poly2DN, 4, int32_t);
+
+    /** Replace game's `njSetScreen` with SAMT version **/
+    WriteJump(0x0077E980, ___SetScreenHook);
 
     /** Fix chCnk and Ginja using the wrong multiplication value to convert 0~256
         integer UVs to 0~1. In vanilla, it uses (1/255) **/
