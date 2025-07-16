@@ -197,7 +197,7 @@ DrawMapTextBackdrop(void)
 
     NJS_POINT2COL poly = { points, colors, 0, 4 };
 
-    rjDrawPolygon2D(&poly, 4, -1.0f, NJD_FILL | NJD_TRANSPARENT);
+    rjDrawPolygon2D(&poly, 4, 0.f, NJD_FILL | NJD_TRANSPARENT);
 }
 
 static void
