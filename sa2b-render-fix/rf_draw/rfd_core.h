@@ -103,6 +103,9 @@ EXTERN Sint32 _rj_invert_polygons_; /* invert polygon winding                   
 EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                       */
 EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                        */
 
+/****** Texture Error ***************************************************************/
+EXTERN NJS_TEXLIST texlist_rf_texerr[];
+
 /************************/
 /*  Prototypes          */
 /************************/
@@ -127,6 +130,41 @@ void    rjSetBlend2D( Int trans );
 *     - clamp       : force clamped texture coordinates
 */
 void    rjSetTexture2D( Int clamp );
+/*
+*   Description:
+*     Convert 2D depth value to hw depth value.
+*
+*   Parameters:
+*     - pri         : z priority                                  [-1.f ~ -65536.f]
+*
+*   Returns:
+*     Hardware Z depth.
+*/
+f32     rjGetDepth2D( f32 pri );
+
+/****** Texture Surface *************************************************************/
+/*
+*   Description:
+*     Get loaded texture surface via the current texlist index.
+*
+*   Parameters:
+*     - n           : texlist index
+*
+*   Returns:
+*     Texture surface; or 'nullptr' on failure.
+*/
+NJS_TEXSURFACE* rjGetTextureSurface( Int n );
+/*
+*   Description:
+*     Get loaded texture surface via it's global texture index.
+*
+*   Parameters:
+*     - gbix        : global texture index value
+*
+*   Returns:
+*     Texture surface; or 'nullptr' on failure.
+*/
+NJS_TEXSURFACE* rjGetTextureSurfaceG( Int gbix );
 
 /****** Start/End Vertex ************************************************************/
 /*

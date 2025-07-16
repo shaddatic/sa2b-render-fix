@@ -19,36 +19,10 @@
 #include <rf_draw/rfd_internal.h>               /* parent & siblings                */
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* self                             */
 
-/************************/
-/*  Source              */
-/************************/
-/****** Extern **********************************************************************/
-static NJS_TEXSURFACE*
-rjGetTextureSurfaceG(Int gbix)
-{
-    const Int nb_texman = _nj_texmanagesize;
-
-    if ( nb_texman <= 0 )
-    {
-        return nullptr;
-    }
-
-    const NJS_TEXMANAGE* p_texman = _nj_texmanage;
-
-    for ( int i = 0; i < nb_texman; ++i, ++p_texman )
-    {
-        const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
-
-        if ( p_texsys && p_texsys->globalIndex == gbix )
-        {
-            return (NJS_TEXSURFACE*) &p_texsys->texsurface;
-        }
-    }
-
-    return nullptr;
-}
-
-/****** Extern **********************************************************************/
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Raw *************************************************************************************/
 void
 rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 {
@@ -129,7 +103,7 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     const NJS_TEX*    p_tex = &p->tex->tex;
     const Uint32*     p_col = &p->col->color;
 
-    const f32 z = 1.f - (pri / -65536.f);
+    const f32 z = rjGetDepth2D( pri );
 
     rjSetBlend2D( attr & NJD_TRANSPARENT );
 

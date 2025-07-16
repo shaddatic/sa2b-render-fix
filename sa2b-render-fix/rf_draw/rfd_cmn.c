@@ -227,6 +227,70 @@ rjSetTexture2D(Int clamp)
     RX_SetTexture(p_tinfo, 0);
 }
 
+
+static NJS_TEXSURFACE*
+___rjGetTextureSurface(const NJS_TEXLIST* tls, Int n)
+{
+    const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) tls->textures[0].texaddr;
+    const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+
+    return (NJS_TEXSURFACE*) p_texsys->texsurface.pSurface;
+}
+
+NJS_TEXSURFACE*
+rjGetTextureSurface(Int n)
+{
+    const NJS_TEXLIST* p_tls = _nj_curr_ctx_->texlist;
+
+    if ( !p_tls || p_tls->nbTexture <= (Uint32) n )
+    {
+    TEXX_ERROR:
+        return ___rjGetTextureSurface(texlist_rf_texerr, 0);
+    }
+
+    NJS_TEXSURFACE* p_tsf = ___rjGetTextureSurface(p_tls, n);
+
+    if ( !p_tsf )
+    {
+        goto TEXX_ERROR;
+    }
+
+    return p_tsf;
+
+    return ___rjGetTextureSurface(p_tls, n);
+}
+
+NJS_TEXSURFACE*
+rjGetTextureSurfaceG(Int gbix)
+{
+    const Int nb_texman = _nj_texmanagesize;
+
+    if ( nb_texman <= 0 )
+    {
+        return ___rjGetTextureSurface(texlist_rf_texerr, 0);
+    }
+
+    const NJS_TEXMANAGE* p_texman = _nj_texmanage;
+
+    for ( int i = 0; i < nb_texman; ++i, ++p_texman )
+    {
+        const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+
+        if ( p_texsys && p_texsys->globalIndex == gbix )
+        {
+            return (NJS_TEXSURFACE*) &p_texsys->texsurface;
+        }
+    }
+
+    return ___rjGetTextureSurface(texlist_rf_texerr, 0);
+}
+
+Float
+rjGetDepth2D(f32 pri)
+{
+    return ( pri > -1.f ) ? ( 1.f ) : ( -1.f / pri );
+}
+
 static void
 ___rjStartVertex(RJE_VERTEX_TYPE vtxdecl, Sint32 use3d)
 {
