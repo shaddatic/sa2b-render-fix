@@ -23,7 +23,7 @@
 /********************************/
 /****** Raw *************************************************************************************/
 void
-rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
+rjDrawPolygon(const NJS_POLYGON_VTX* restrict polygon, Int count, Int trans)
 {
     rjSetBlend2D(trans);
 
@@ -31,14 +31,14 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 
     const Sint32 nbv = rjStartTriStrip(count);
 
-    RJS_VERTEX_PC* p_buf = rjGetVertexBuffer();
+    RJS_VERTEX_PC* restrict p_buf = rjGetVertexBuffer();
 
-    for ( int i = 0; i < count; ++i, ++polygon, ++p_buf )
+    for ( int i = 0; i < count; ++i )
     {
-        p_buf->pos.x = polygon->x;
-        p_buf->pos.y = polygon->y;
-        p_buf->pos.z = polygon->z;
-        p_buf->col   = polygon->col;
+        p_buf[i].pos.x = polygon[i].x;
+        p_buf[i].pos.y = polygon[i].y;
+        p_buf[i].pos.z = polygon[i].z;
+        p_buf[i].col   = polygon[i].col;
     }
 
     rjEndTriStrip(nbv);
@@ -47,7 +47,7 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 }
 
 void
-rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
+rjDrawTextureEx(const NJS_TEXTURE_VTX* restrict polygon, Int count, Int trans)
 {
     Int uv_clamp = TRUE;
 
@@ -68,16 +68,16 @@ rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 
     const Sint32 nbv = rjStartTriStrip(count);
 
-    RJS_VERTEX_PTC* p_buf = rjGetVertexBuffer();
+    RJS_VERTEX_PTC* restrict p_buf = rjGetVertexBuffer();
 
-    for ( int i = 0; i < count; ++i, ++polygon, ++p_buf )
+    for ( int i = 0; i < count; ++i )
     {
-        p_buf->pos.x = polygon->x;
-        p_buf->pos.y = polygon->y;
-        p_buf->pos.z = polygon->z;
-        p_buf->u     = polygon->u;
-        p_buf->v     = polygon->v;
-        p_buf->col   = polygon->col;
+        p_buf[i].pos.x = polygon[i].x;
+        p_buf[i].pos.y = polygon[i].y;
+        p_buf[i].pos.z = polygon[i].z;
+        p_buf[i].u     = polygon[i].u;
+        p_buf[i].v     = polygon[i].v;
+        p_buf[i].col   = polygon[i].col;
     }
 
     rjEndTriStrip(nbv);
@@ -93,8 +93,9 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
     rjDrawTextureEx(polygon, count, flag);
 }
 
+/****** Draw 2D *********************************************************************************/
 void
-rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
+rjDrawPolygon2D(const NJS_POINT2COL* restrict p, Sint32 n, Float pri, Uint32 attr)
 {
     const f32 uv_mul = (1.f/256.f);
 
@@ -114,18 +115,18 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 
         const Sint32 nbv = rjStartTriStrip(n);
 
-        RJS_VERTEX_PTC* p_buf = rjGetVertexBuffer();
+        RJS_VERTEX_PTC* restrict p_buf = rjGetVertexBuffer();
 
-        for ( int i = 0; i < n; ++i, ++p, ++p_buf )
+        for ( int i = 0; i < n; ++i )
         {
-            p_buf->pos.x = p_pos[i].x;
-            p_buf->pos.y = p_pos[i].y;
-            p_buf->pos.z = z;
+            p_buf[i].pos.x = p_pos[i].x;
+            p_buf[i].pos.y = p_pos[i].y;
+            p_buf[i].pos.z = z;
 
-            p_buf->u     = (f32)p_tex[i].u * uv_mul;
-            p_buf->v     = (f32)p_tex[i].v * uv_mul;
+            p_buf[i].u     = (f32)p_tex[i].u * uv_mul;
+            p_buf[i].v     = (f32)p_tex[i].v * uv_mul;
 
-            p_buf->col   = p_col[i];
+            p_buf[i].col   = p_col[i];
         }
 
         rjEndTriStrip(nbv);
@@ -138,15 +139,15 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 
         const Sint32 nbv = rjStartTriStrip(n);
 
-        RJS_VERTEX_PC* p_buf = rjGetVertexBuffer();
+        RJS_VERTEX_PC* restrict p_buf = rjGetVertexBuffer();
 
-        for ( int i = 0; i < n; ++i, ++p, ++p_buf )
+        for ( int i = 0; i < n; ++i )
         {
-            p_buf->pos.x = p_pos[i].x;
-            p_buf->pos.y = p_pos[i].y;
-            p_buf->pos.z = z;
+            p_buf[i].pos.x = p_pos[i].x;
+            p_buf[i].pos.y = p_pos[i].y;
+            p_buf[i].pos.z = z;
 
-            p_buf->col   = p_col[i];
+            p_buf[i].col   = p_col[i];
         }
 
         rjEndTriStrip(nbv);
@@ -155,7 +156,90 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     }
 }
 
-/****** ASM *************************************************************************/
+/****** Sub 3D **********************************************************************************/
+void
+rjDrawPolygon3DExStart(Int trans)
+{
+    rjSetBlend2D(trans);
+}
+
+void
+rjDrawPolygon3DExSetData(const NJS_POLYGON_VTX* restrict p, Int count)
+{
+    rjStartVertex3D(RJE_VERTEX_PC);
+
+    const Sint32 nbv = rjStartTriStrip(count);
+
+    RJS_VERTEX_PC* restrict p_buf = rjGetVertexBuffer();
+
+    for ( int i = 0; i < count; ++i )
+    {
+        NJS_POINT3 pos = { 0 };
+        njCalcPoint(NULL, (NJS_POINT3*)&p[i].x, &pos);
+
+        p_buf[i].pos.x = pos.x;
+        p_buf[i].pos.y = pos.y;
+        p_buf[i].pos.z = pos.z;
+
+        p_buf[i].col   = p[i].col;
+    }
+
+    rjEndTriStrip(nbv);
+
+    rjEndVertex();
+}
+
+void
+rjDrawTexture3DExStart(Int trans)
+{
+    rjSetBlend2D(trans);
+    rjSetTexture2D(FALSE);
+}
+
+void
+rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* restrict p, Int count)
+{
+    rjStartVertex3D(RJE_VERTEX_PTC);
+
+    const Sint32 nbv = rjStartTriStrip(count);
+
+    RJS_VERTEX_PTC* restrict p_buf = rjGetVertexBuffer();
+
+    for ( int i = 0; i < count; ++i )
+    {
+        NJS_POINT3 pos = { 0 };
+        njCalcPoint(NULL, (NJS_POINT3*)&p[i].x, &pos);
+
+        p_buf[i].pos.x = pos.x;
+        p_buf[i].pos.y = pos.y;
+        p_buf[i].pos.z = pos.z;
+
+        p_buf[i].u     = p[i].u;
+        p_buf[i].v     = p[i].v;
+        p_buf[i].col   = p[i].col;
+    }
+
+    rjEndTriStrip(nbv);
+
+    rjEndVertex();
+}
+
+/****** Draw 3D *********************************************************************************/
+void
+rjDrawTexture3DEx(const NJS_TEXTURE_VTX* restrict p, const Int count, Int trans)
+{
+    rjDrawTexture3DExStart(trans);
+    rjDrawTexture3DExSetData(p, count);
+}
+
+void
+rjDrawPolygon3DEx(const NJS_POLYGON_VTX* restrict p, const Int count, Int trans)
+{
+    rjDrawPolygon3DExStart(trans);
+    rjDrawPolygon3DExSetData(p, count);
+}
+
+/****** ASM *************************************************************************************/
 __declspec(naked)
 static void
 ___DrawPolygon(void)
@@ -226,7 +310,39 @@ ___DrawPolygon2D(void)
     }
 }
 
-/****** Init ************************************************************************/
+__declspec(naked)
+static void
+___DrawPolygon3DSetData(void)
+{
+    __asm
+    {
+        push        ecx
+        push        eax
+
+        call        rjDrawPolygon3DExSetData
+
+        add esp,    8
+        retn
+    }
+}
+
+__declspec(naked)
+static void
+___DrawTexture3DSetData(void)
+{
+    __asm
+    {
+        push        ecx
+        push        eax
+
+        call        rjDrawTexture3DExSetData
+
+        add esp,    8
+        retn
+    }
+}
+
+/****** Init ************************************************************************************/
 void
 RFD_PolygonInit(void)
 {
@@ -234,4 +350,7 @@ RFD_PolygonInit(void)
     WriteJump(0x0077F510, ___DrawTexture);
     WriteJump(0x0077F6B0, ___DrawTextureEx);
     WriteJump(0x00490FA0, ___DrawPolygon2D);
+    WriteJump(0x00780F60, rjDrawPolygon3DExStart);
+    WriteJump(0x00781090, ___DrawPolygon3DSetData);
+    WriteJump(0x00781370, ___DrawTexture3DSetData);
 }
