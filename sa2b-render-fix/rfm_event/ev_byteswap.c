@@ -264,7 +264,7 @@ ___EventByteSwapTexlist(void)
 
 /****** Effect File *****************************************************************************/
 void
-EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
+EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo, bool bPartial)
 {
     // subtitles
     {
@@ -290,17 +290,19 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             // bgm
             // jingle
             EndianSwap32( &p_sound[i].WaitVsyncCount );
-            EndianSwap32( &p_sound[i].padding[0] );
-            EndianSwap32( &p_sound[i].padding[1] );
-            EndianSwap32( &p_sound[i].padding[2] );
-            EndianSwap32( &p_sound[i].padding[3] );
-            EndianSwap32( &p_sound[i].padding[4] );
-            EndianSwap32( &p_sound[i].padding[5] );
-            EndianSwap32( &p_sound[i].padding[6] );
+
+            //EndianSwap32( &p_sound[i].padding[0] );
+            //EndianSwap32( &p_sound[i].padding[1] );
+            //EndianSwap32( &p_sound[i].padding[2] );
+            //EndianSwap32( &p_sound[i].padding[3] );
+            //EndianSwap32( &p_sound[i].padding[4] );
+            //EndianSwap32( &p_sound[i].padding[5] );
+            //EndianSwap32( &p_sound[i].padding[6] );
         }
     }
 
     // screen
+    if ( !bPartial )
     {
         EV_EFF_SCREEN* p_screen = pEffectInfo->screen;
 
@@ -316,17 +318,19 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             EndianSwap16( &p_screen[i].posY );
             EndianSwap32( &p_screen[i].width );
             EndianSwap32( &p_screen[i].height );
-            EndianSwap32( &p_screen[i].padding[0] );
-            EndianSwap32( &p_screen[i].padding[1] );
-            EndianSwap32( &p_screen[i].padding[2] );
-            EndianSwap32( &p_screen[i].padding[3] );
-            EndianSwap32( &p_screen[i].padding[4] );
-            EndianSwap32( &p_screen[i].padding[5] );
-            EndianSwap32( &p_screen[i].padding[6] );
+
+            //EndianSwap32( &p_screen[i].padding[0] );
+            //EndianSwap32( &p_screen[i].padding[1] );
+            //EndianSwap32( &p_screen[i].padding[2] );
+            //EndianSwap32( &p_screen[i].padding[3] );
+            //EndianSwap32( &p_screen[i].padding[4] );
+            //EndianSwap32( &p_screen[i].padding[5] );
+            //EndianSwap32( &p_screen[i].padding[6] );
         }
     }
 
     // simpleptcl
+    if ( !bPartial )
     {
         EV_EFF_SIMPLEPTCL* p_simpleptcl = pEffectInfo->simpleptcl;
 
@@ -339,17 +343,19 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             EndianSwap32( &p_simpleptcl[i].pulsectrl );
             EndianSwap32( &p_simpleptcl[i].unkF );
             EndianSwap32( &p_simpleptcl[i].scl );
-            EndianSwap32( &p_simpleptcl[i].padding[0] );
-            EndianSwap32( &p_simpleptcl[i].padding[1] );
-            EndianSwap32( &p_simpleptcl[i].padding[2] );
-            EndianSwap32( &p_simpleptcl[i].padding[3] );
-            EndianSwap32( &p_simpleptcl[i].padding[4] );
-            EndianSwap32( &p_simpleptcl[i].padding[5] );
-            EndianSwap32( &p_simpleptcl[i].padding[6] );
+
+            //EndianSwap32( &p_simpleptcl[i].padding[0] );
+            //EndianSwap32( &p_simpleptcl[i].padding[1] );
+            //EndianSwap32( &p_simpleptcl[i].padding[2] );
+            //EndianSwap32( &p_simpleptcl[i].padding[3] );
+            //EndianSwap32( &p_simpleptcl[i].padding[4] );
+            //EndianSwap32( &p_simpleptcl[i].padding[5] );
+            //EndianSwap32( &p_simpleptcl[i].padding[6] );
         }
     }
 
     // lights
+    if ( !bPartial )
     {
         EV_EFF_LIGHT* p_light = pEffectInfo->lights[0];
 
@@ -367,15 +373,17 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             EndianSwap32( &p_light[i].ambi_r );
             EndianSwap32( &p_light[i].ambi_g );
             EndianSwap32( &p_light[i].ambi_b );
-            EndianSwap32( &p_light[i].padding[0] );
-            EndianSwap32( &p_light[i].padding[1] );
-            EndianSwap32( &p_light[i].padding[2] );
-            EndianSwap32( &p_light[i].padding[3] );
-            EndianSwap32( &p_light[i].padding[4] );
+
+            //EndianSwap32( &p_light[i].padding[0] );
+            //EndianSwap32( &p_light[i].padding[1] );
+            //EndianSwap32( &p_light[i].padding[2] );
+            //EndianSwap32( &p_light[i].padding[3] );
+            //EndianSwap32( &p_light[i].padding[4] );
         }
     }
 
     // blares
+    if ( !bPartial )
     {
         EV_EFF_BLARE* p_blare = pEffectInfo->blares;
 
@@ -390,24 +398,26 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             // param5
             // param6
             EndianSwap32( &p_blare[i].lifetime );
-            EndianSwap32( &p_blare[i].padding[ 0] );
-            EndianSwap32( &p_blare[i].padding[ 1] );
-            EndianSwap32( &p_blare[i].padding[ 2] );
-            EndianSwap32( &p_blare[i].padding[ 3] );
-            EndianSwap32( &p_blare[i].padding[ 4] );
-            EndianSwap32( &p_blare[i].padding[ 5] );
-            EndianSwap32( &p_blare[i].padding[ 6] );
-            EndianSwap32( &p_blare[i].padding[ 7] );
-            EndianSwap32( &p_blare[i].padding[ 8] );
-            EndianSwap32( &p_blare[i].padding[ 9] );
-            EndianSwap32( &p_blare[i].padding[10] );
+
+            //EndianSwap32( &p_blare[i].padding[ 0] );
+            //EndianSwap32( &p_blare[i].padding[ 1] );
+            //EndianSwap32( &p_blare[i].padding[ 2] );
+            //EndianSwap32( &p_blare[i].padding[ 3] );
+            //EndianSwap32( &p_blare[i].padding[ 4] );
+            //EndianSwap32( &p_blare[i].padding[ 5] );
+            //EndianSwap32( &p_blare[i].padding[ 6] );
+            //EndianSwap32( &p_blare[i].padding[ 7] );
+            //EndianSwap32( &p_blare[i].padding[ 8] );
+            //EndianSwap32( &p_blare[i].padding[ 9] );
+            //EndianSwap32( &p_blare[i].padding[10] );
         }
     }
 
     // ptcls
+    if ( !bPartial )
     {
         EV_EFF_PTCL* p_ptcl = pEffectInfo->ptcls;
-
+    
         for ( int i = 0; i < ARYLEN(pEffectInfo->ptcls); ++i )
         {
             EndianSwap32( &p_ptcl[i].pos.x );
@@ -431,7 +441,8 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
         }
     }
 
-    // ptcls
+    // movie overlays
+    if ( !bPartial )
     {
         EV_EFF_OVERLAY* p_overlay = pEffectInfo->overlays;
 
@@ -444,13 +455,19 @@ EV_ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
             // type
             EndianSwap16( &p_overlay[i].texID );
             // fname
-            EndianSwap32( &p_overlay[i].padding[0] );
-            EndianSwap32( &p_overlay[i].padding[1] );
-            EndianSwap32( &p_overlay[i].padding[2] );
-            EndianSwap32( &p_overlay[i].padding[3] );
-            EndianSwap32( &p_overlay[i].padding[4] );
+
+            //EndianSwap32( &p_overlay[i].padding[0] );
+            //EndianSwap32( &p_overlay[i].padding[1] );
+            //EndianSwap32( &p_overlay[i].padding[2] );
+            //EndianSwap32( &p_overlay[i].padding[3] );
         }
     }
+}
+
+static void
+ByteswapEffectInfo(EV_EFF_INFO* pEffectInfo)
+{
+    EV_ByteswapEffectInfo(pEffectInfo, false);
 }
 
 /****** Init ************************************************************************************/

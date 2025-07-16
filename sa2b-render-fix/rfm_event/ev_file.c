@@ -42,7 +42,9 @@
 /*  Game Defs                   */
 /********************************/
 /****** Effect Data *****************************************************************************/
-#define EvEffectInfo            DATA_REF(EV_EFF_INFO, 0x01FEFE20)
+#define EvEffectInfo                DATA_REF(EV_EFF_INFO, 0x01FEFE20)
+
+#define LargeFileBuffer             DATA_ARY(EV_EFF_INFO, 0x01EEFE20, [4])
 
 /********************************/
 /*  Data                        */
@@ -90,210 +92,188 @@ EV_LoadEffectFiles(void)
 {
     RF_DbgInfo("Loading Event effect files...");
 
-    c7 pc_buf[64];
+    c7 c_buf[64];
 
-    const size sz_buf = ARYLEN(pc_buf);
+    const size sz_buf = ARYLEN(c_buf);
 
-    EV_EFF_INFO* const p_eff_buffer = mtAlloc(EV_EFF_INFO, 5);
-
-    EV_EFF_INFO* const p_eff_core = &p_eff_buffer[0];
-    EV_EFF_INFO* const p_eff_msic = &p_eff_buffer[1];
-    EV_EFF_INFO* const p_eff_lite = &p_eff_buffer[2];
-    EV_EFF_INFO* const p_eff_lang = &p_eff_buffer[3];
-    EV_EFF_INFO* const p_eff_spch = &p_eff_buffer[4];
+    EV_EFF_INFO* const p_core_buf = &LargeFileBuffer[0];
+    EV_EFF_INFO* const p_file_buf = &LargeFileBuffer[1];
 
     /** Load Event Files ************************************************************************/
 
-    bool core_err = false; // if the '_c' file wasn't loaded
+    // file info
+    bool use_new_logic   = false; // if the '_c' file was loaded, so use new RF event file logic
+    int  wait_vsync_val = 0;
+
+    // structure info
+    const size nb_snd = ARYLEN(EvEffectInfo.sound);
+
+    int ix_cur_snd = 0;
 
     // core file (_c/_0)
     {
-        mtStrFormat(pc_buf, sz_buf, "e%04i_c.prs", EventNum);
+        mtStrFormat(c_buf, sz_buf, "e%04i_c.prs", EventNum);
 
-        if ( LoadAndDecompressPrs(pc_buf, p_eff_core) >= 0 )
+        if ( LoadAndDecompressPrs(c_buf, p_core_buf) >= 0 )
         {
-            EV_ByteswapEffectInfo(p_eff_core);
-        }
-        else // error
-        {
-            core_err = true;
+            use_new_logic = true;
 
-            RF_DbgInfo("Event file '%s' not found, falling back to 'e%04i_0.prs' and vanilla logic", pc_buf, EventNum);
+            EV_ByteswapEffectInfo(p_core_buf, false);
 
-            mtStrFormat(pc_buf, sz_buf, "e%04i_0.prs", EventNum);
+            mtMemCopy( &EvEffectInfo, p_core_buf, sizeof(EvEffectInfo) );
 
-            if ( LoadAndDecompressPrs(pc_buf, p_eff_core) >= 0 )
+            // copy sound init and staff control 'sound' data entries
+
+            for ( int i = 0; i < nb_snd; ++i )
             {
-                EV_ByteswapEffectInfo(p_eff_core);
+                const EV_EFF_SOUND* p_sound = &p_core_buf->sound[i];
+
+                if ( p_sound->frame == 0 ) continue;
+
+                if ( p_sound->snd_begin  != 0xFF ) EvEffectInfo.sound[ix_cur_snd++] = COPY_SOUND_DATA(*p_sound, snd_begin);
+                if ( p_sound->staff_ctrl != 0xFF ) EvEffectInfo.sound[ix_cur_snd++] = COPY_SOUND_DATA(*p_sound, staff_ctrl);
             }
+
+            wait_vsync_val = p_core_buf->sound[0].WaitVsyncCount;
+        }
+        else // error, no '_c' file available! Use Vanilla logic (_0)
+        {
+            use_new_logic = false;
+
+            RF_DbgInfo("Event file '%s' not found, falling back to 'e%04i_0.prs' and vanilla logic", c_buf, EventNum);
+
+            mtStrFormat(c_buf, sz_buf, "e%04i_0.prs", EventNum);
+
+            if ( LoadAndDecompressPrs(c_buf, p_core_buf) >= 0 )
+            {
+                EV_ByteswapEffectInfo(p_core_buf, false);
+            }
+
+            mtMemCopy( &EvEffectInfo, p_core_buf, sizeof(EvEffectInfo) );
         }
     }
+
     // language/subtitle file (_j/1/2/3/4)
     {
-        mtStrFormat(pc_buf, sz_buf, "e%04i_%c.prs", EventNum, LangFileChars[Language]);
+        mtStrFormat(c_buf, sz_buf, "e%04i_%c.prs", EventNum, LangFileChars[Language]);
 
-        if ( LoadAndDecompressPrs(pc_buf, p_eff_lang) >= 0 )
+        if ( LoadAndDecompressPrs(c_buf, p_file_buf) >= 0 )
         {
-            EV_ByteswapEffectInfo(p_eff_lang);
+            EV_ByteswapEffectInfo(p_file_buf, true);
+        }
 
-            // copy language file data to fill in gaps left by '_c' not being loaded
-            if ( core_err )
+        mtMemCopy( EvEffectInfo.subtitle, p_file_buf->subtitle, sizeof(EvEffectInfo.subtitle) );
+
+        if ( !use_new_logic )
+        {
+            // if the core file was not found, we need to get the core 'sound' data from the
+            // language file.
+
+            for ( int i = 0; i < nb_snd; ++i )
             {
-                mtMemCopy( p_eff_core->sound, p_eff_lang->sound, sizeof(p_eff_lang->sound) );
+                const EV_EFF_SOUND* p_sound = &p_file_buf->sound[i];
+
+                if ( p_sound->frame == 0 ) continue;
+
+                if ( p_sound->snd_begin  != 0xFF ) EvEffectInfo.sound[ix_cur_snd++] = COPY_SOUND_DATA(*p_sound, snd_begin);
+                if ( p_sound->staff_ctrl != 0xFF ) EvEffectInfo.sound[ix_cur_snd++] = COPY_SOUND_DATA(*p_sound, staff_ctrl);
             }
+
+            // and the vsync data
+            wait_vsync_val = p_file_buf->sound[0].WaitVsyncCount;
         }
     }
+
     // speech/voice file (_j/1/2/3/4)
     {
         if ( Language != Speech )
         {
-            mtStrFormat(pc_buf, sz_buf, "e%04i_%c.prs", EventNum, LangFileChars[Speech]);
-
-            if ( LoadAndDecompressPrs(pc_buf, p_eff_spch) >= 0 )
+            mtStrFormat(c_buf, sz_buf, "e%04i_%c.prs", EventNum, LangFileChars[Speech]);
+        
+            if ( LoadAndDecompressPrs(c_buf, p_file_buf) >= 0 )
             {
-                EV_ByteswapEffectInfo(p_eff_spch);
+                EV_ByteswapEffectInfo(p_file_buf, true);
             }
         }
-        else // if language matches speech mode, just copy language info
+
+        for ( int i = 0; i < nb_snd; ++i )
         {
-            mtMemCopy( p_eff_spch->sound, p_eff_lang->sound, sizeof(p_eff_lang->sound) );
+            const EV_EFF_SOUND* p_sound = &p_file_buf->sound[i];
+        
+            if ( p_sound->frame == 0 ) continue;
+        
+            if ( p_sound->voice_num != -1 ) EvEffectInfo.sound[ix_cur_snd++] = COPY_SOUND_DATA(*p_sound, voice_num);
         }
     }
+
     // music/jingle file (_m)
     {
-        mtStrFormat(pc_buf, sz_buf, "e%04i_m.prs", EventNum);
+        const EV_EFF_INFO* p_src = p_file_buf;
 
-        if ( LoadAndDecompressPrs(pc_buf, p_eff_msic) >= 0 )
+        if ( use_new_logic )
         {
-            EV_ByteswapEffectInfo(p_eff_msic);
+            mtStrFormat(c_buf, sz_buf, "e%04i_m.prs", EventNum);
+
+            if ( LoadAndDecompressPrs(c_buf, p_file_buf) >= 0 )
+            {
+                EV_ByteswapEffectInfo(p_file_buf, true);
+            }
+            else // error
+            {
+                RF_DbgInfo("Event file '%s' not found, falling back to core file", c_buf);
+
+                p_src = p_core_buf;
+            }
         }
-        else // error
-        {
-            RF_DbgInfo("Event file '%s' not found, falling back to language info", pc_buf);
-
-            mtMemCopy( p_eff_msic->sound, p_eff_lang->sound, sizeof(p_eff_lang->sound) );
-        }
-    }
-    // light file (_l)
-    {
-        mtStrFormat(pc_buf, sz_buf, "e%04i_l.prs", EventNum);
-
-        if ( LoadAndDecompressPrs(pc_buf, p_eff_lite) >= 0 )
-        {
-            EV_ByteswapEffectInfo(p_eff_lite);
-        }
-        else // error
-        {
-            RF_DbgInfo("Event file '%s' not found, falling back to core info", pc_buf);
-
-            mtMemCopy( p_eff_lite->lights, p_eff_core->lights, sizeof(p_eff_core->lights) );
-        }
-    }
-
-    /** Apply Files *****************************************************************************/
-
-    // subtitles
-    {
-        mtMemCopy(EvEffectInfo.subtitle, p_eff_lang->subtitle, sizeof(EvEffectInfo.subtitle));
-    }
-    // sound info
-    {
-        int ix_snd = 0; // current sound entry index
-
-        const size nb_snd = ARYLEN(EvEffectInfo.sound);
-
-        // sound/staff control (core file)
 
         for ( int i = 0; i < nb_snd; ++i )
         {
-            const EV_EFF_SOUND* p_sound = &p_eff_core->sound[i];
+            const EV_EFF_SOUND* p_sound = &p_src->sound[i];
 
-            if ( p_sound->frame == 0 )
-            {
-                continue;
-            }
-
-            if ( p_sound->snd_begin != 0xFF )
-            {
-                EvEffectInfo.sound[ix_snd++] = COPY_SOUND_DATA(*p_sound, snd_begin);
-            }
-
-            if ( p_sound->staff_ctrl != 0xFF )
-            {
-                EvEffectInfo.sound[ix_snd++] = COPY_SOUND_DATA(*p_sound, staff_ctrl);
-            }
-        }
-
-        // music/jingle (music file)
-
-        for ( int i = 0; i < nb_snd; ++i )
-        {
-            const EV_EFF_SOUND* p_sound = &p_eff_msic->sound[i];
-
-            if ( p_sound->frame == 0 )
-            {
-                continue;
-            }
+            if ( p_sound->frame == 0 ) continue;
 
             if ( p_sound->bgm[0] )
             {
-                EvEffectInfo.sound[ix_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
+                EvEffectInfo.sound[ix_cur_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
 
-                mtMemCopy( EvEffectInfo.sound[ix_snd].bgm, p_sound->bgm, sizeof(p_sound->bgm) );
-
-                ix_snd++;
+                mtMemCopy( EvEffectInfo.sound[ix_cur_snd++].bgm, p_sound->bgm, sizeof(p_sound->bgm) );
             }
 
             if ( p_sound->jingle[0] )
             {
-                EvEffectInfo.sound[ix_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
+                EvEffectInfo.sound[ix_cur_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
 
-                mtMemCopy( EvEffectInfo.sound[ix_snd].jingle, p_sound->jingle, sizeof(p_sound->jingle) );
-
-                ix_snd++;
+                mtMemCopy( EvEffectInfo.sound[ix_cur_snd++].jingle, p_sound->jingle, sizeof(p_sound->jingle) );
             }
-        }
-
-        // voice/speech info (language file)
-
-        for ( int i = 0; i < nb_snd; ++i )
-        {
-            const EV_EFF_SOUND* p_sound = &p_eff_spch->sound[i];
-
-            if ( p_sound->frame == 0 )
-            {
-                continue;
-            }
-
-            if ( p_sound->voice_num != -1 )
-            {
-                EvEffectInfo.sound[ix_snd++] = COPY_SOUND_DATA(*p_sound, voice_num);
-            }
-        }
-
-        // end sound info
-
-        for ( int i = ix_snd; i < nb_snd; ++i )
-        {
-            EvEffectInfo.sound[i] = (EV_EFF_SOUND){ DEF_SOUND_STRUC };
         }
     }
-    // rest info (core/light file)
+
+    // light file (_l)
+    if ( use_new_logic )
     {
-        mtMemCopy( EvEffectInfo.screen    , p_eff_core->screen    , sizeof(EvEffectInfo.screen)     );
-        mtMemCopy( EvEffectInfo.simpleptcl, p_eff_core->simpleptcl, sizeof(EvEffectInfo.simpleptcl) );
+        mtStrFormat(c_buf, sz_buf, "e%04i_l.prs", EventNum);
 
-        // light info (light file)
-        mtMemCopy( EvEffectInfo.lights    , p_eff_lite->lights    , sizeof(EvEffectInfo.lights)     );
+        if ( LoadAndDecompressPrs(c_buf, p_file_buf) >= 0 )
+        {
+            EV_ByteswapEffectInfo(p_file_buf, false);
 
-        mtMemCopy( EvEffectInfo.blares    , p_eff_core->blares    , sizeof(EvEffectInfo.blares)     );
-        mtMemCopy( EvEffectInfo.ptcls     , p_eff_core->ptcls     , sizeof(EvEffectInfo.ptcls)      );
-        mtMemCopy( EvEffectInfo.overlays  , p_eff_core->overlays  , sizeof(EvEffectInfo.overlays)   );
+            mtMemCopy( EvEffectInfo.lights, p_file_buf->lights, sizeof(EvEffectInfo.lights) );
+        }
+        else // error
+        {
+            RF_DbgInfo("Event file '%s' not found, falling back to core file", c_buf);
+        }
+    }
+    // end sound info
 
-        EvEffectInfo.sound[0].WaitVsyncCount = p_eff_core->sound[0].WaitVsyncCount;
+    RF_DbgInfo("%i/512 Event sound entries used", ix_cur_snd);
+
+    for ( int i = ix_cur_snd; i < nb_snd; ++i )
+    {
+        EvEffectInfo.sound[i] = (EV_EFF_SOUND){ DEF_SOUND_STRUC };
     }
 
-    mtFree(p_eff_buffer);
+    EvEffectInfo.sound[0].WaitVsyncCount = wait_vsync_val;
 }
 
 /****** Init ************************************************************************************/

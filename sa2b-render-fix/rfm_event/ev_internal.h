@@ -49,8 +49,9 @@ void    EV_FileInit( void );
 *
 *   Parameters:
 *     - pEffectInfo : effect info structure
+*     - bPartial    : if the file only contains sub and voice data
 */
-void    EV_ByteswapEffectInfo( EV_EFF_INFO* pEffectInfo );
+void    EV_ByteswapEffectInfo( EV_EFF_INFO* pEffectInfo, bool bPartial );
 
 EXTERN_END
 
