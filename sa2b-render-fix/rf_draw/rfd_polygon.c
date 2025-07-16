@@ -1,23 +1,22 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>          /* core                                             */
-#include <samt/writeop.h>       /* WriteJump                                        */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writeop.h>           /* WriteJump                                                */
 
 #define SAMT_INCL_INTERNAL
 
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h>   /* ninja                                            */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
 #undef SAMT_INCL_INTERNAL
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>            /* core                                             */
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
 
-/****** Self ************************************************************************/
-#include <rf_draw/rfd_internal.h>               /* parent & siblings                */
-#include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* self                             */
+/****** Self ************************************************************************************/
+#include <rf_draw/rfd_internal.h>   /* parent & siblings                                        */
 
 /********************************/
 /*  Source                      */
