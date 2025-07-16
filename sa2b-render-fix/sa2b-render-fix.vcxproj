@@ -114,6 +114,7 @@
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_plist.c" />
     <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_vlist.c" />
     <ClCompile Include="rf_draw\rfd_line.c" />
+    <ClCompile Include="rf_draw\rfd_sprite.c" />
     <ClCompile Include="rf_draw\rfd_texerr.c" />
     <ClCompile Include="rf_font.c" />
     <ClCompile Include="rf_gx.c" />

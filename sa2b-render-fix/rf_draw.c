@@ -271,6 +271,7 @@ RF_DrawInit(void)
     RFD_ChunkInit();
     RFD_TexerrInit();
     RFD_PolygonInit();
+    RFD_SpriteInit();
 
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);

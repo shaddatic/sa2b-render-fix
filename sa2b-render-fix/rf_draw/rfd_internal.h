@@ -44,6 +44,11 @@ void    RFD_TexerrInit( void );
 *     Init polygon/texture draw.
 */
 void    RFD_PolygonInit( void );
+/*
+*   Description:
+*     Init sprite draw.
+*/
+void    RFD_SpriteInit( void );
 
 /****** Cnk Shape *******************************************************************/
 /*
