@@ -2,16 +2,19 @@
 /*  Includes            */
 /************************/
 /****** Core Toolkit ****************************************************************/
-#include <samt/core.h>      /* core                                                 */
+#include <samt/core.h>          /* core                                             */
 
 /****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h> /* ninja                                              */
+#include <samt/ninja/ninja.h>   /* ninja                                            */
 
 /****** GX **************************************************************************/
-#include <samt/gx/gx.h>     /* GX                                                   */
+#include <samt/gx/gx.h>         /* GX                                               */
+
+/****** Game ************************************************************************/
+#include <samt/sonic/shaders.h> /* GX                                               */
 
 /****** Render Fix ******************************************************************/
-#include <rf_core.h>        /* core                                                 */
+#include <rf_core.h>            /* core                                             */
 
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                */
@@ -53,6 +56,9 @@ CnkPListShadow_Ext(const Sint16* plist, const void* njvtxbuf)
 int
 CnkDrawShadow_Ext(const NJS_CNK_MODEL* model, const void* vbuf)
 {
+    SetShaders(1);
+    gjStartVertex3D(&_nj_unit_matrix_, 0);
+
     if ( model->vlist )
     {
         if ( CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true) == -1 )
