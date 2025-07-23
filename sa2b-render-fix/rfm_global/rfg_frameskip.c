@@ -54,6 +54,7 @@ static s64 FrameStart;              /* frametime clock start                   (
 
 /****** Frame Time ******************************************************************************/
 static f64 FrameTime;               /* last frametime in milliseconds                           */
+static f64 FrameTimeTotal;          /* total last frametime in milliseconds                     */
 
 /****** Settings ********************************************************************************/
 static bool DebugFrameInfo;         /* debug frametime info                                     */
@@ -80,28 +81,43 @@ GetFrameTime(s64 last_clock, s64 freq)
     return ((f64)(osHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
 }
 
+static s32
+GetVsyncFrameskip(void)
+{
+    const s32 wait_vsync = WaitVsyncCount;
+
+    return ( wait_vsync >= 0 ) ? wait_vsync - 1 : -wait_vsync;
+}
+
 /****** Export **********************************************************************************/
 EXPORT_DLL
 void __cdecl
 OnRenderSceneStart(void)
 {
+    static s32 LastFrameskip = 0;
+
     // get the start of the frame clock for debug frametime info
     FrameStart = GetClock();
 
-    const s32 loop_offset = ( WaitVsyncCount >= 0 ) ? 0 : -WaitVsyncCount;
-
     // frameskip
     {
-        const f64 frametime = FrameTime + 0.01;
+        s32 frameskip = 1 + (s32)floor(FrameTime / TARGET_MS);
 
-        const s32 frameskip = (s32)floor(frametime / TARGET_MS) + loop_offset;
+        // if this is a sudden lag spike that's lasted longer than a quater of a second (in
+        // gametime), then reuse the previous frameskip value
+        if ( frameskip >= (LastFrameskip + 15) )
+        {
+            frameskip = LastFrameskip;
+        }
 
-        // make sure we don't go crazy over a single frame of lag
-        const s32 min_frameskip = TaskExecLoop1 + 1;
-        const s32 new_frameskip = MIN( min_frameskip, frameskip );
+        LastFrameskip = frameskip;
 
-        TaskExecLoop1 = new_frameskip;
-        TaskExecLoop2 = new_frameskip;
+        // include vsync frameskips
+        frameskip += GetVsyncFrameskip();
+
+        // set frameskip
+        TaskExecLoop1 = frameskip;
+        TaskExecLoop2 = frameskip;
     }
 }
 
@@ -165,7 +181,8 @@ OnRenderSceneEnd(void)
             while ( wait_ms > GetFrameTime(start_clock, freq) );
         }
 
-        FrameTime = delta_ms + wait_ms;
+        FrameTime      = delta_ms;
+        FrameTimeTotal = delta_ms + wait_ms;
     }
 
     // get the end of this frame clock for vsync calculations
@@ -232,7 +249,7 @@ GetFrameTimeMidi(void)
 {
     // Give the game the actual frametime in ms, it will then do 'ft - 0.f' because we set the
     // start time to 0 and continue on as normal with the correct frametime info
-    return FrameTime;
+    return FrameTimeTotal;
 }
 
 static void
