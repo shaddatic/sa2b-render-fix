@@ -4,6 +4,7 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 #include <samt/writeop.h>       /* writejump                                        */
+#include <samt/funchook.h>      /* function hook                                    */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -13,12 +14,15 @@
 #include <samt/sonic/player.h>  /* player                                           */
 #include <samt/sonic/game.h>    /* game info                                        */
 #include <samt/sonic/score.h>   /* timer info                                       */
+#include <samt/sonic/njctrl.h>  /* oncontrol3d                                      */
+
+#define SAMT_INCL_FUNCPTRS
 
 /****** Player **********************************************************************/
-#include <samt/sonic/figure/sonic.h> /* sonic                                       */
-
-/****** Character *******************************************************************/
+#include <samt/sonic/figure/sonic.h>    /* sonic                                    */
 #include <samt/sonic/figure/knuckles.h> /* knuckles work                            */
+
+#undef SAMT_INCL_FUNCPTRS
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -38,6 +42,36 @@
 /************************/
 /*  Game Functions      */
 /************************/
+/****** Player Displayer Pointers ***************************************************/
+#define SonicDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x00720090)
+#define KnucklesDisp_p          FUNC_PTR(void, __cdecl, (task*), 0x0072EF20)
+#define RougeDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x00730970)
+#define MilesDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x007507D0)
+#define EggmanDisp_p            FUNC_PTR(void, __cdecl, (task*), 0x0073EF20)
+#define TailsWalkerDisp_p       FUNC_PTR(void, __cdecl, (task*), 0x00741077)
+#define EggWalkerDisp_p         FUNC_PTR(void, __cdecl, (task*), 0x007444F0)
+#define SuperSonicDisp_p        FUNC_PTR(void, __cdecl, (task*), 0x0049CA60)
+#define ChaoWalkerDisp_p        FUNC_PTR(void, __cdecl, (task*), 0x007444F0)
+#define DarkChaoWalkerDisp_p    FUNC_PTR(void, __cdecl, (task*), 0x007444F0)
+#define TicalDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x0072FB10)
+#define ChaosDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x00731A30)
+#define ChaosDispDely_p         FUNC_PTR(void, __cdecl, (task*), 0x00731A30)
+
+/****** Player Displayers ***********************************************************/
+#define SonicDisp               SonicDisp_p
+#define KnucklesDisp            KnucklesDisp_p
+#define RougeDisp               RougeDisp_p
+#define MilesDisp               MilesDisp_p
+#define EggmanDisp              EggmanDisp_p
+#define TailsWalkerDisp         TailsWalkerDisp_p
+#define EggWalkerDisp           EggWalkerDisp_p
+#define SuperSonicDisp          SuperSonicDisp_p
+#define ChaoWalkerDisp          ChaoWalkerDisp_p
+#define DarkChaoWalkerDisp      DarkChaoWalkerDisp_p
+#define TicalDisp               TicalDisp_p
+#define ChaosDisp               ChaosDisp_p
+#define ChaosDispDely           ChaosDispDely_p
+
 /****** Player Object ***************************************************************/
 #define CreatePlayerObjectData          FUNC_PTR(PLAYER_OBJECT*, __cdecl, (NJS_CNK_OBJECT*), 0x00447580)
 
@@ -47,6 +81,10 @@
 /****** Feature Booleans ************************************************************/
 static bool DreamcastPlayerModels[NB_PLNO];
 static bool DisablePlayerShadowing;
+
+/****** Compatibility ***************************************************************/
+static bool BrokenModelFix;
+static bool ConstTexMaterial;
 
 /************************/
 /*  Source              */
@@ -179,6 +217,236 @@ ___CreatePlayerDrawLightDashWithAlphaReducing(void)
     }
 }
 
+/****** Player Model Compat *********************************************************/
+static void
+ConstTexMaterialCompatStart(void)
+{
+    OffControl3D( NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL );
+}
+
+static void
+ConstTexMaterialCompatEnd(void)
+{
+    OnControl3D( NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL );
+}
+
+static void
+BrokenModelCompatStart(void)
+{
+    OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
+
+    _nj_constant_attr_and_ = ~(NJD_FST_IA|NJD_FST_FL);
+    _nj_constant_attr_or_  =  (NJD_FST_IS|NJD_FST_DB);
+}
+
+static void
+BrokenModelCompatEnd(void)
+{
+    _nj_constant_attr_and_ =  NJD_FST_MASK;
+    _nj_constant_attr_or_  = ~NJD_FST_MASK;
+
+    OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
+}
+
+static void
+PlayerModelCompatStartDisplayer(void)
+{
+    if ( ConstTexMaterial )
+    {
+        ConstTexMaterialCompatStart();
+    }
+
+    if ( BrokenModelFix )
+    {
+        BrokenModelCompatStart();
+    }
+    
+}
+
+static void
+PlayerModelCompatEndDisplayer(void)
+{
+    if ( BrokenModelFix )
+    {
+        BrokenModelCompatEnd();
+    }
+
+    if ( ConstTexMaterial )
+    {
+        ConstTexMaterialCompatEnd();
+    }
+}
+
+static hook_info SonicDisp_CompatHookInfo[1];
+static void
+SonicDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( SonicDisp_CompatHookInfo, SonicDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info MilesDisp_CompatHookInfo[1];
+static void
+MilesDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( MilesDisp_CompatHookInfo, MilesDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info KnucklesDisp_CompatHookInfo[1];
+static void
+KnucklesDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( KnucklesDisp_CompatHookInfo, KnucklesDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info EggmanDisp_CompatHookInfo[1];
+static void
+EggmanDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( EggmanDisp_CompatHookInfo, EggmanDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info RougeDisp_CompatHookInfo[1];
+static void
+RougeDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( RougeDisp_CompatHookInfo, RougeDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info EggWalkerDisp_CompatHookInfo[1];
+static void
+EggWalkerDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( EggWalkerDisp_CompatHookInfo, EggWalkerDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info TailsWalkerDisp_CompatHookInfo[1];
+static void
+TailsWalkerDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( TailsWalkerDisp_CompatHookInfo, TailsWalkerDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info SuperSonicDisp_CompatHookInfo[1];
+static void
+SuperSonicDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( SuperSonicDisp_CompatHookInfo, SuperSonicDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info ChaoWalkerDisp_CompatHookInfo[1];
+static void
+ChaoWalkerDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( ChaoWalkerDisp_CompatHookInfo, ChaoWalkerDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info DarkChaoWalkerDisp_CompatHookInfo[1];
+static void
+DarkChaoWalkerDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( DarkChaoWalkerDisp_CompatHookInfo, DarkChaoWalkerDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info TicalDisp_CompatHookInfo[1];
+static void
+TicalDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( TicalDisp_CompatHookInfo, TicalDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info ChaosDisp_CompatHookInfo[1];
+static void
+ChaosDisp_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( ChaosDisp_CompatHookInfo, ChaosDisp(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static hook_info ChaosDispDely_CompatHookInfo[1];
+static void
+ChaosDispDely_CompatHook(task* tp)
+{
+    PlayerModelCompatStartDisplayer();
+
+    FuncHookCall( ChaosDispDely_CompatHookInfo, ChaosDispDely(tp) );
+
+    PlayerModelCompatEndDisplayer();
+}
+
+static void
+PlayerModelCompatHook(void)
+{
+    static bool IsHooked = false;
+
+    if ( IsHooked )
+    {
+        return;
+    }
+
+    FuncHook( SonicDisp_CompatHookInfo          , SonicDisp_p           , SonicDisp_CompatHook );
+    FuncHook( MilesDisp_CompatHookInfo          , MilesDisp_p           , MilesDisp_CompatHook );
+    FuncHook( KnucklesDisp_CompatHookInfo       , KnucklesDisp_p        , KnucklesDisp_CompatHook );
+    FuncHook( EggmanDisp_CompatHookInfo         , EggmanDisp_p          , EggmanDisp_CompatHook );
+    FuncHook( RougeDisp_CompatHookInfo          , RougeDisp_p           , RougeDisp_CompatHook );
+    FuncHook( EggWalkerDisp_CompatHookInfo      , EggWalkerDisp_p       , EggWalkerDisp_CompatHook );
+    FuncHook( TailsWalkerDisp_CompatHookInfo    , TailsWalkerDisp_p     , TailsWalkerDisp_CompatHook );
+    FuncHook( SuperSonicDisp_CompatHookInfo     , SuperSonicDisp_p      , SuperSonicDisp_CompatHook );
+    FuncHook( ChaoWalkerDisp_CompatHookInfo     , ChaoWalkerDisp_p      , ChaoWalkerDisp_CompatHook );
+    FuncHook( DarkChaoWalkerDisp_CompatHookInfo , DarkChaoWalkerDisp_p  , DarkChaoWalkerDisp_CompatHook );
+    FuncHook( TicalDisp_CompatHookInfo          , TicalDisp_p           , TicalDisp_CompatHook );
+    FuncHook( ChaosDisp_CompatHookInfo          , ChaosDisp_p           , ChaosDisp_CompatHook );
+    FuncHook( ChaosDispDely_CompatHookInfo      , ChaosDispDely_p       , ChaosDispDely_CompatHook );
+
+    IsHooked = true;
+}
+
 /****** Feature *********************************************************************/
 bool
 RFF_DreamcastPlayerModel(int pno)
@@ -201,6 +469,20 @@ RFM_PlayerInit(void)
 {
     RFPL_ModelPrsInit();
     RFPL_Chaos0Init();
+
+    if ( RF_ConfigGetInt( CNF_COMPAT_PLBROKENFIX ) )
+    {
+        PlayerModelCompatHook();
+
+        BrokenModelFix = true;
+    }
+
+    if ( RF_ConfigGetInt( CNF_COMPAT_PLCONSTTEXMAT ) )
+    {
+        PlayerModelCompatHook();
+
+        ConstTexMaterial = true;
+    }
 
     /** This fixes a crash in 'SetRouge' caused by her DC model having no vlist data
         on one of her body object nodes, seemingly just adjusting some weights on

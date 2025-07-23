@@ -288,6 +288,8 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
 /** Compatibility section **/
+#define CNF_COMPAT_PLBROKENFIX      CNFO_INT(   CNFS_COMPAT         , "pl_brokenfix"        , CNFE_BOOL_DISABLED                    )   /* Broken Character Model Fix */
+#define CNF_COMPAT_PLCONSTTEXMAT    CNFO_INT(   CNFS_COMPAT         , "pl_consttexmat"      , CNFE_BOOL_DISABLED                    )   /* Character Model Diffuse Material */
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
 #define CNF_COMPAT_OFFBFC           CNFO_INT(   CNFS_COMPAT         , "off_bfc"             , CNFE_BOOL_DISABLED                    )   /* Disable Back-Face Culling */
