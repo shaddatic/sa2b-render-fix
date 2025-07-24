@@ -1,92 +1,139 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>          /* core                                             */
-#include <samt/writeop.h>       /* writejump                                        */
-#include <samt/memory.h>        /* memcopy                                          */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writeop.h>           /* writejump                                                */
+#include <samt/memory.h>            /* memcopy                                                  */
 
 #define SAMT_INCL_INTERNAL
 
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h>   /* ninja                                            */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
 #undef SAMT_INCL_INTERNAL
 
-/****** GX **************************************************************************/
-#include <samt/gx/gx.h>         /* gx                                               */
+/****** GX **************************************************************************************/
+#include <samt/gx/gx.h>             /* gx                                                       */
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>            /* core                                             */
-#include <rf_gx.h>              /* rfgx                                             */
-#include <rf_shader.h>          /* shader                                           */
-#include <rf_magic.h>           /* magiccache                                       */
+/****** Dx9ctrl *********************************************************************************/
+#include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
 
-/****** Game ************************************************************************/
-#include <samt/sonic/shaders.h> /* shadermode                                       */
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_gx.h>                  /* rfgx                                                     */
+#include <rf_shader.h>              /* shader                                                   */
+#include <rf_magic.h>               /* magiccache                                               */
 
-/****** Self ************************************************************************/
-#include <rf_draw/rfd_internal.h>               /* parent & siblings                */
-#include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* self                             */
+/****** Game ************************************************************************************/
+#include <samt/sonic/shaders.h>     /* shadermode                                               */
 
-#include <dx9ctrl/dx9ctrl.h>
+/****** Self ************************************************************************************/
+#include <rf_draw/rfd_internal.h>               /* parent & siblings                            */
+#include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* self                                         */
 
+/********************************/
+/*  Constants                   */
+/********************************/
+/************************************************************************************************/
+/*
+*   Shader File Names
+*/
+/****** Normal Draw *****************************************************************************/
+#define SHADER_NAME_VS              "rjvs"
+#define SHADER_NAME_PS              "rjps"
+
+/****** Modifier Draw ***************************************************************************/
+#define SHADER_NAME_MODVS           "rjmvs"
+#define SHADER_NAME_MODPS           "rjmps"
+
+/************************************************************************************************/
+/*
+*   Shader Macros
+*/
+/****** Vertex **********************************************************************************/
+#define SM_VTX_3D                   (dx9_macro){ "VTX_3D" , "1" };
+#define SM_VTX_TEX                  (dx9_macro){ "VTX_TEX", "1" };
+#define SM_VTX_COL                  (dx9_macro){ "VTX_COL", "1" };
+#define SM_VTX_OFF                  (dx9_macro){ "VTX_OFF", "1" };
+
+/****** Pixel ***********************************************************************************/
+#define SM_PXL_TEX                  (dx9_macro){ "PXL_TEX", "1" };
+#define SM_PXL_PALETTE              (dx9_macro){ "PXL_TEX", "2" };
+#define SM_PXL_FOG                  (dx9_macro){ "PXL_FOG", "1" };
+
+/****** Shadow Tex ******************************************************************************/
+#define SM_VTX_SHTEX                (dx9_macro){ "VTX_SHTEX", "1" };
+#define SM_PXL_SHTEX                (dx9_macro){ "PXL_SHTEX", "1" };
+
+/****** End Macro *******************************************************************************/
+#define SM_END                      (dx9_macro){ 0 };
+
+/************************************************************************************************/
+/*
+*   Vertex Buffer
+*/
+/****** Buffer Size *****************************************************************************/
+#define RJD_VBUF_SIZE               (0x1C000 * 4)
+
+/************************************************************************************************/
+/*
+*   Vertex Buffer
+*/
+/****** Buffer Size *****************************************************************************/
+#define RJD_SHADEREFF_TEX           (1)
+#define RJD_SHADEREFF_FOG           (2)
+#define RJD_SHADEREFF_PALLETE       (4)
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Pixel Effects ***************************************************************************/
 typedef enum
 {
-    RJE_PIXEL_N,
+    RJE_PIXEL_N,                    /* no pixel effect                                          */
 
-    RJE_PIXEL_T,         // texture
-    RJE_PIXEL_F,         // fog
-    RJE_PIXEL_TF,
-//  RJE_PIXEL_S,
-//  RJE_PIXEL_TS,
-//  RJE_PIXEL_FS,
-//  RJE_PIXEL_TFS,
-
-//  RJE_SHADEREFF_S,        // shadowtex
-//  RJE_SHADEREFF_FS,       // fog + st
-//  RJE_SHADEREFF_P,        // pallete
+    RJE_PIXEL_T,                    /* use texture                                              */
+    RJE_PIXEL_F,                    /* use fog                                                  */
+    RJE_PIXEL_TF,                   /* use tex+fog                                              */
 
     NB_RJE_PIXEL,
 }
 RJE_PIXEL;
 
+/****** Draw Modes ******************************************************************************/
 typedef enum
 {
-    RJE_DRAW_2D,            /* draw 2d space                                        */
-    RJE_DRAW_3D,            /* draw 3d space, with perspective                      */
+    RJE_DRAW_2D,                    /* draw 2d space                                            */
+    RJE_DRAW_3D,                    /* draw 3d space, with perspective                          */
 
     NB_DRAW_MD,
 }
 RJE_DRAW;
 
-typedef struct
-{
-    Sint32          drawmd;
-    
-    Uint32          vstride;
-    RJE_VERTEX_TYPE vtype;
-    RJE_PIXEL       effect;
-}
-RJS_CTX;
+/********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Texture Info ****************************************************************************/
+#define TexInfo2D                   DATA_REF(TEXTURE_INFO, 0x019341A0)
 
-RJS_CTX     _rj_context_;
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Invert Polygons *************************************************************************/
+Sint32 _rj_invert_polygons_;
 
-Sint32      _rj_invert_polygons_;
-
-static dx9_vtx_buff* _rj_mod_vertex_buffer_;
-
-#define RJD_VBUF_TOOBIG         (-1)
-
-#define RJD_VBUF_SIZE_0         (0x0800)
-#define RJD_VBUF_SIZE_1         (0x1000)
-#define RJD_VBUF_SIZE_2         (0x2000)
-#define RJD_VBUF_SIZE_3         (0x4000)
-#define RJD_VBUF_SIZE_4         (0x8000)
-
-#define RJD_VBUF_SIZE           (0x1C000 * 4)
+/****** Available States ************************************************************************/
+static dx9_vtx_decl* _rj_vtx_decls_[NB_RJE_VERTEX];
 
 static dx9_vtx_buff* _rj_vertex_buffer_;
+
+static dx9_vtx_shader* _rj_vtx_shaders_[NB_RJE_VERTEX][NB_DRAW_MD];
+
+static dx9_pxl_shader* _rj_pxl_shaders_[NB_RJE_PIXEL];
+
+/****** Current State ***************************************************************************/
+static Uint32 _rj_polygon_format_;
 
 static byte* _rj_vertex_buffer_base_;
 static byte* _rj_vertex_buffer_top_;
@@ -95,23 +142,13 @@ static byte* _rj_vertex_buffer_cpy_;
 static Uint32 _rj_vertex_buffer_num_;
 static Uint32 _rj_vertex_buffer_stride_;
 
-static Uint32 _rj_polygon_format_;
-
 static dx9_vtx_decl* _rj_curr_vtx_decl_;
-
-static dx9_vtx_decl* _rj_vtx_decls_[NB_RJE_VERTEX];
-
-#define RJD_SHADEREFF_TEX           (1)
-#define RJD_SHADEREFF_FOG           (2)
-#define RJD_SHADEREFF_STEX          (4)
-#define RJD_SHADEREFF_PALLETE       (8)
 
 static dx9_vtx_shader* _rj_curr_vtx_shader_;
 static dx9_pxl_shader* _rj_curr_pxl_shader_;
 
-static dx9_vtx_shader* _rj_vtx_shaders_[NB_RJE_VERTEX][NB_DRAW_MD];
-
-static dx9_pxl_shader* _rj_pxl_shaders_[NB_RJE_PIXEL];
+/****** Modifier ********************************************************************************/
+static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 
 /************************/
 /*  Source              */
@@ -129,8 +166,6 @@ rjSetBlend2D(Int trans)
 
     GX_SetBlendMode(src, dst, !!trans);
 }
-
-#define TexInfo2D           DATA_REF(TEXTURE_INFO, 0x019341A0)
 
 void
 rjSetTexture2D(Int clamp)
@@ -226,7 +261,6 @@ rjSetTexture2D(Int clamp)
 
     RX_SetTexture(p_tinfo, 0);
 }
-
 
 static NJS_TEXSURFACE*
 ___rjGetTextureSurface(const NJS_TEXLIST* tls, Int n)
@@ -746,7 +780,7 @@ rjStartModTriDestrip(Sint32 count, Bool* invst)
 
     if ( mod_num + vtx_num >= _rj_mod_vertex_buffer_max_ )
     {
-        OutputString("RFDBG: Modifier vertex buffer is full!");
+        RF_DbgInfo("Modifier vertex buffer is full!");
 
         return FALSE;
     }
@@ -806,10 +840,40 @@ rjInitModVertexBuffer(Sint32 size)
     _rj_mod_vertex_buffer_ = DX9_CreateVertexBuffer(size * 4, DX9_USAGE_DYNAMIC|DX9_USAGE_WRITEONLY, DX9_POOL_DEFAULT);
 }
 
-#define SHADER_VS_NAME      "rjvs"
-#define SHADER_PS_NAME      "rjps"
-#define SHADERMOD_VS_NAME   "rjmvs"
-#define SHADERMOD_PS_NAME   "rjmps"
+static bool UseShadowTex = false;
+
+static dx9_macro*
+InitShaderMacroVertex(dx9_macro* pMacroAry, const dx9_macro** ppOutMacro2D, const dx9_macro** ppOutMacro3D)
+{
+    int ix_base = 0;
+
+    pMacroAry[ix_base++] = SM_VTX_3D;
+
+    if ( UseShadowTex )
+    {
+        pMacroAry[ix_base++] = SM_VTX_SHTEX;
+    }
+
+    *ppOutMacro2D = &pMacroAry[1]; // exclude 3D macro
+    *ppOutMacro3D = &pMacroAry[0]; // opposite ^^
+
+    return &pMacroAry[ix_base];
+}
+
+static dx9_macro*
+InitShaderMacroPixel(dx9_macro* pMacroAry, const dx9_macro** ppOutMacro)
+{
+    int ix_base = 0;
+
+    if ( UseShadowTex )
+    {
+        pMacroAry[ix_base++] = SM_PXL_SHTEX;
+    }
+
+    *ppOutMacro = &pMacroAry[0];
+
+    return &pMacroAry[ix_base];
+}
 
 /****** Init ************************************************************************/
 void
@@ -817,66 +881,79 @@ RFD_CoreInit(void)
 {
     // compile shaders
     {
-        dx9_macro macros[5];
-
-        macros[0] = (dx9_macro){ "VTX_3D", "1" };
+        dx9_macro macrolist[10];
 
         /** Vertex Shaders **/
+        {
+            const dx9_macro* p_vmacro_2d;
+            const dx9_macro* p_vmacro_3d;
 
-        macros[1] = (dx9_macro){ 0 };
+            dx9_macro* p_setmacro = InitShaderMacroVertex(macrolist, &p_vmacro_2d, &p_vmacro_3d);
 
-        _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
-        _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+            // compile
 
-        macros[1] = (dx9_macro){ "VTX_C", "1" };
-        macros[2] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_END;
 
-        _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
-        _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
 
-        macros[1] = (dx9_macro){ "VTX_C", "1" };
-        macros[2] = (dx9_macro){ "VTX_S", "1" };
-        macros[3] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_VTX_COL;
+            p_setmacro[1] = SM_END;
 
-        _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
-        _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
 
-        macros[1] = (dx9_macro){ "VTX_T", "1" };
-        macros[2] = (dx9_macro){ "VTX_C", "1" };
-        macros[3] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_VTX_COL;
+            p_setmacro[1] = SM_VTX_OFF;
+            p_setmacro[2] = SM_END;
 
-        _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
-        _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
 
-        macros[1] = (dx9_macro){ "VTX_T", "1" };
-        macros[2] = (dx9_macro){ "VTX_C", "1" };
-        macros[3] = (dx9_macro){ "VTX_S", "1" };
-        macros[4] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_VTX_TEX;
+            p_setmacro[1] = SM_VTX_COL;
+            p_setmacro[2] = SM_END;
 
-        _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_VS_NAME, macros+1);
-        _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_VS_NAME, macros);
+            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+
+            p_setmacro[0] = SM_VTX_TEX;
+            p_setmacro[1] = SM_VTX_COL;
+            p_setmacro[2] = SM_VTX_OFF;
+            p_setmacro[3] = SM_END;
+
+            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+        }
 
         /** Pixel Shaders **/
+        {
+            const dx9_macro* p_pmacro;
 
-        macros[0] = (dx9_macro){ 0 };
+            dx9_macro* p_setmacro = InitShaderMacroPixel(macrolist, &p_pmacro);
 
-        _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+            // compile
 
-        macros[0] = (dx9_macro){ "PXL_T", "1" };
-        macros[1] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_END;
 
-        _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+            _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
 
-        macros[0] = (dx9_macro){ "PXL_F", "1" };
-        macros[1] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_PXL_TEX;
+            p_setmacro[1] = SM_END;
 
-        _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+            _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
 
-        macros[0] = (dx9_macro){ "PXL_T", "1" };
-        macros[1] = (dx9_macro){ "PXL_F", "1" };
-        macros[2] = (dx9_macro){ 0 };
+            p_setmacro[0] = SM_PXL_FOG;
+            p_setmacro[1] = SM_END;
 
-        _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePxlShader(SHADER_PS_NAME, macros);
+            _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+
+            p_setmacro[0] = SM_PXL_TEX;
+            p_setmacro[1] = SM_PXL_FOG;
+            p_setmacro[2] = SM_END;
+
+            _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+        }
     }
 
     /** Vertex Buffers **/

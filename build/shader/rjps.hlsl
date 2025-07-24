@@ -1,57 +1,98 @@
+/********************************/
+/*  Constant Registers          */
+/********************************/
+/****** Floats **********************************************************************************/
+float4     f_FogParam               : register(c50); // mode, near, far
+float4     f_FogColor               : register(c51); // r, g, b, a
 
-#define DITHER_DIV  63.f
+/********************************/
+/*  Texture Samplers            */
+/********************************/
+/****** Sampler2D *******************************************************************************/
+sampler2D  s_DiffuseTex             : register(s0);
+sampler2D  s_PaletteTex             : register(s1);
+sampler2D  s_ShadowTex3             : register(s3);
+sampler2D  s_ShadowTex4             : register(s4);
+sampler2D  s_ShadowTex0             : register(s5);
+sampler2D  s_ShadowTex1             : register(s6);
+sampler2D  s_ShadowTex2             : register(s7);
 
-float4 g_FogParam : register(c50);
-float4 g_FogColor : register(c51);
-
-sampler2D g_DiffuseTex : register(s0);
-sampler2D g_PaletteTex : register(s1);
-
-static const float DitherTbl[4][4] = 
-{
-    { 0.9375f, 0.1875f, 0.75f , 0.0f   },
-    { 0.4375f, 0.6875f, 0.25f , 0.5f   },
-    { 0.8125f, 0.0625f, 0.875f, 0.125f },
-    { 0.3125f, 0.5625f, 0.375f, 0.625f }
-};
-
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Pixel Input *****************************************************************************/
 struct PS_IN
 {
-    float4 ScreenPosition      : SV_POSITION;
-    float4 PositionInfo        : TEXCOORD0;
+    float4 position         : SV_POSITION;
+   
+    float w                 : TEXCOORD0;
 
-    float2 uv                  : TEXCOORD1;
-    float4 color               : COLOR0;
-    float4 specular            : COLOR1;
-
-#if (PXL_ST == 1)
-    float4 Shadow12            : TEXCOORD2;
-    float4 Shadow34            : TEXCOORD3;
-    float3 Shadow5             : TEXCOORD4;
+    float2 uv               : TEXCOORD1;    
+    float4 color            : COLOR0;
+    float4 specular         : COLOR1;
+    
+#ifdef PXL_SHTEX
+    float2 stexuv1          : TEXCOORD2;
+    float2 stexuv2          : TEXCOORD3;
+    float2 stexuv3          : TEXCOORD4;
+    float2 stexuv4          : TEXCOORD5;
+    float2 stexuv5          : TEXCOORD6;
+    float  stexnum          : TEXCOORD7;
 #endif
 };
 
+/****** Pixel Output ****************************************************************************/
 struct PS_OUT
 {
-    half4 color                : COLOR;
+    half4 color             : COLOR;
 };
 
-#if (PXL_F == 1)
+/********************************/
+/*  Shader Functions            */
+/********************************/
+/****** Texture *********************************************************************************/
+#if (PXL_TEX == 2)    // palette
 
-float CalcFog(const PS_IN input)
+half4 GetTexture(const float2 uv)
 {
-    float fog = (input.PositionInfo.w - g_FogParam.y) / (g_FogParam.z - g_FogParam.y);
-    
-    float exp2fog = exp2(-8 * fog * fog);
-    float expfog = exp2(-8 * fog);
+    const half   plt_index = (half)tex2D( s_DiffuseTex, uv ).w * totalPaletteIndices + paletteOffset;
+    const float2 plt_uv    = float2(plt_index / indexDiv, 0);
 
-    if(g_FogParam.x > 4.5)
+    return tex2D(s_PaletteTex, plt_uv);
+}
+
+#elif (PXL_TEX == 1)  // diffuse
+
+half4 GetTexture(const float2 uv)
+{
+    return tex2D(s_DiffuseTex, uv);
+}
+
+#endif
+
+/****** Fog *************************************************************************************/
+#if (PXL_FOG == 1)
+
+float GetFogIntensity(const float w)
+{
+    const float fogDensity = 8;
+    
+    const float fog_mode = f_FogParam.x;
+    const float fog_near = f_FogParam.y;
+    const float fog_far  = f_FogParam.z;
+
+    float fog = (w - fog_near) / (fog_far - fog_near);
+    
+    float exp2fog = exp2(-fogDensity * fog * fog);
+    float expfog  = exp2(-fogDensity * fog);
+
+    if ( fog_mode > 4.5 )
     {
-        fog = 1.0f - exp2fog;//(1 - exp2(fog2 * -fogDensity * fog2));
+        fog = saturate( 1.0f - exp2fog );
     }
-    else if (g_FogParam.x > 2.5)
+    else if ( fog_mode > 2.5 )
     {
-        fog = 1.0f - expfog;//(1 - exp2(fog2 * -fogDensity));
+        fog = saturate( 1.0f - expfog );
     }
 
     return saturate(fog);
@@ -59,57 +100,71 @@ float CalcFog(const PS_IN input)
 
 #endif
 
-PS_OUT main(const PS_IN input)
+/****** Shadow Tex ******************************************************************************/
+#if (PXL_SHTEX == 1)
+
+bool HasTex(float texGenCount, int check)
 {
-    float4 out_color;
+    return (texGenCount - (check + 0.2f)) > 0;
+}
 
-#if (PXL_P == 1)
-    const half   plt_index = (half)tex2D(g_DiffuseTex, input.TexCoord).w * totalPaletteIndices + paletteOffset;
-    const float2 plt_uv    = float2(plt_index / indexDiv, 0);
+float GetShadow(sampler2D tex, float2 uv, float texGenCount, int check)
+{
+    half v = tex2D(tex, uv).x;
+    return HasTex(texGenCount, check) ? (1.0f - v) : 1;
+}
 
-    const half4 texd = tex2D(g_PaletteTex, plt_uv);
-#elif (PXL_T == 1)
-    const half4 texd = tex2D(g_DiffuseTex, input.uv);
-#else
-    const half4 texd = float4(1.f, 1.f, 1.f, 1.f);
-#endif
-
-    out_color = ( input.color * texd );
-
-    // add specular color
-    out_color.xyz = saturate( out_color.xyz + input.specular.xyz );
-
-#if (PXL_ST == 1)
+half GetShadowTexIntensity(const PS_IN inp)
+{
     half shadow = 1;
 
-    shadow *= GetShadow(g_ShadowTex0, input.Shadow12.xy, input.Shadow5.z, 1);
-    shadow *= GetShadow(g_ShadowTex1, input.Shadow12.zw, input.Shadow5.z, 2);
-    shadow *= GetShadow(g_ShadowTex2, input.Shadow34.xy, input.Shadow5.z, 3);
-    shadow *= GetShadow(g_ShadowTex3, input.Shadow34.zw, input.Shadow5.z, 4);
-    shadow *= GetShadow(g_ShadowTex4, input.Shadow5.xy , input.Shadow5.z, 5);
+    shadow *= GetShadow(s_ShadowTex0, inp.stexuv1, inp.stexnum, 1);
+    shadow *= GetShadow(s_ShadowTex1, inp.stexuv2, inp.stexnum, 2);
+    shadow *= GetShadow(s_ShadowTex2, inp.stexuv3, inp.stexnum, 3);
+    shadow *= GetShadow(s_ShadowTex3, inp.stexuv4, inp.stexnum, 4);
+    shadow *= GetShadow(s_ShadowTex4, inp.stexuv5, inp.stexnum, 5);
 
-    out_color.xyz *= (shadow > 0.5f) ? 1.f : 0.3125f;
+    return (shadow > 0.5f) ? 1.f : 0.3125f;
+}
+
 #endif
 
-    // add fog color
-#if (PXL_F == 1)
-    const float fogDensity = 8;
-
-    float fog_inten = CalcFog(input);
-
-    out_color.xyz = lerp( out_color.xyz, g_FogColor.xyz, fog_inten );
+/********************************/
+/*  Pixel Shader                */
+/********************************/
+/****** Main ************************************************************************************/
+PS_OUT main(const PS_IN inp)
+{
+    PS_OUT outp;
+    
+    // set initial color
+#ifdef PXL_TEX
+    outp.color = inp.color * GetTexture( inp.uv );
+#else
+    outp.color = inp.color;
 #endif
 
-#if (PXL_D == 1)
-    const float dither = DitherTbl[int(input.ScreenPosition.y % 4.f)][int(input.ScreenPosition.x % 4.f)] / DITHER_DIV;
+    // add specular color
+    outp.color.rgb = saturate( outp.color.rgb + inp.specular.rgb );
 
-    // round color
-    out_color = floor( (out_color + dither) * DITHER_DIV ) / DITHER_DIV;
+    // battle shadowtex system
+#ifdef PXL_SHTEX
+    outp.color.rgb *= GetShadowTexIntensity(inp);
 #endif
 
-    PS_OUT output;
+    // apply fog
+#ifdef PXL_FOG
+    const float fog_inten = GetFogIntensity( inp.w );
 
-    output.color = out_color;
+    outp.color.rgb = lerp( outp.color.rgb, f_FogColor.rgb, fog_inten );
+#endif
+    
+    // debug color test
+#ifdef PXL_TST
+    const float c = inp.w / 16383.f;
+    
+    outp.color = half4( 1.f, c, 0.66f, 1.f );
+#endif
 
-    return output;
+    return outp;
 }
