@@ -411,6 +411,9 @@
     <ClCompile Include="rf_draw\rfd_sprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_kumi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_util\rfu_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
