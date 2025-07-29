@@ -252,7 +252,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
     /** Calculate Source Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s/PRS/%s.pak", pcTexName);
+        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/PRS/%s.pak", pcTexName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -320,13 +320,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
     /** Calculate Source Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/%s/PRS/%s.pak", pcPvrName);
-
-        if ( sz_fmt >= sz_path )
-        {
-            RF_DbgWarn("Source path buffer overflowed!");
-            return false;
-        }
+        // reuse pre-calculated path
     }
     /** Calculate Destination Path **/
     {
