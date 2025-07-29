@@ -222,7 +222,7 @@ rjSetTexture2D(Int clamp)
 
     if ( clamp )
     {
-        p_tinfo->address_u = p_tinfo->address_u = 0;
+        p_tinfo->address_u = p_tinfo->address_v = 0;
     }
     else
     {
