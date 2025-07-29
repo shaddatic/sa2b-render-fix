@@ -20,7 +20,7 @@ static void
 ObjectBunchinDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     njPushMatrixEx();
 

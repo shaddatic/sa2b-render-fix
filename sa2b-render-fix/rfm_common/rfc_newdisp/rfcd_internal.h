@@ -65,7 +65,12 @@ void    RFCD_GoalringInit( void );
 *   Description:
 *     Green Forest 'Jungle Object' displayer init.
 */
-void    RFCD_JungleObjectInit(void);
+void    RFCD_JungleObjectInit( void );
+/*
+*   Description:
+*     Enemy Kumi Beetle.
+*/
+void    RFCD_EnemyKumiInit( void );
 
 EXTERN_END
 

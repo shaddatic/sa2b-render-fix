@@ -46,9 +46,9 @@ typedef struct
     float pframe;
     float lframe;
     float link_ratio;
-    char unkc_type;
+    char type;
     char flag;
-    char unkc_index;
+    char index;
     char unkc_unk3;
     char unkc_unk4;
     char unkc_unk5;
@@ -59,7 +59,7 @@ typedef struct
 }
 ENEMY_MTN;
 
-#define GET_ENEMYWK(_tp)    ((ENEMYWK*)tp->mwp)
+#define GET_ENEMYWK(_tp)    ((enemywk*)tp->mwp)
 
 typedef struct enemywk
 {
@@ -73,17 +73,18 @@ typedef struct enemywk
     __int16 field_48;
     __int16 field_4A;
     uint16_t flag;
-    char f4E[6];
+    s16 scroll;
+    char f4E[4];
     float float54;
     NJS_POINT3 home;
     NJS_POINT3 vec0;
     char f64[24];
     NJS_VECTOR lightPos;
     float flt1;
-    float field_98;
+    float scale_param;
     float field_9C;
     NJS_VECTOR norm;
-    NJS_ARGB argb;
+    NJS_ARGB color;
     NJS_POINT3 colli_center;
     float colli_top;
     float colli_radius;
@@ -104,8 +105,8 @@ typedef struct enemywk
     int view_angle;
     float view_range;
     float hear_range;
-    ENEMY_MTN enemy_mtn;
+    ENEMY_MTN motion;
 }
-ENEMYWK;
+enemywk;
 
 #endif/*_RF_ENEMYWK_H_*/

@@ -17,7 +17,7 @@
 #include <rf_renderstate.h>
 
 static void
-DrawEnemyMod(ENEMYWK* ewp, taskwk* twp)
+DrawEnemyMod(enemywk* ewp, taskwk* twp)
 {
     const float mod_scl   = ewp->shadow_scl;
     const float mod_scl_z = ewp->shadow_scl_ratio * mod_scl;
@@ -40,7 +40,7 @@ static void
 EnemyGenericDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     DrawEnemyMod(ewp, twp);
 }
@@ -84,7 +84,7 @@ static void
 EnemyGoldDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 2)
     {
@@ -120,7 +120,7 @@ static void
 EnemyNamieDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->btimer)
         DrawEnemyMod(ewp, twp);
@@ -151,7 +151,7 @@ static void
 EnemyNamieRocketDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (tp->ptp->twp->btimer == 1)
         DrawEnemyMod(ewp, twp);
@@ -182,7 +182,7 @@ static void
 EnemyPathDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if ((twp->btimer & 2) && (twp->smode == 0 || twp->smode == 1))
         DrawEnemyMod(ewp, twp);
@@ -207,7 +207,7 @@ static void
 EnemyChaosPathDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 1 && twp->btimer & 2)
         DrawEnemyMod(ewp, twp);
@@ -305,7 +305,7 @@ static void
 EnemyAkahigeRocketDisplayerMod(task* tp)
 {
     taskwk* const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (tp->ptp->twp->btimer == 1)
         DrawEnemyMod(ewp, twp);
@@ -337,7 +337,7 @@ static void
 EnemyAkahigeDisplayerMod(task* tp)
 {
     taskwk* const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->btimer)
         DrawEnemyMod(ewp, twp);
@@ -369,7 +369,7 @@ static void
 EnemyBataBeeDisplayerMod(task* tp)
 {
     taskwk* const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 1)
         DrawEnemyMod(ewp, twp);
@@ -415,7 +415,7 @@ static void
 EnemyKumiDisplayerMod(task* tp)
 {
     taskwk*  const twp = tp->twp;
-    ENEMYWK* const ewp = GET_ENEMYWK(tp);
+    enemywk* const ewp = GET_ENEMYWK(tp);
 
     if (twp->mode != 2)
         DrawEnemyMod(ewp, twp);
