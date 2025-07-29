@@ -48,7 +48,7 @@
 #define RougeDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x00730970)
 #define MilesDisp_p             FUNC_PTR(void, __cdecl, (task*), 0x007507D0)
 #define EggmanDisp_p            FUNC_PTR(void, __cdecl, (task*), 0x0073EF20)
-#define TailsWalkerDisp_p       FUNC_PTR(void, __cdecl, (task*), 0x00741077)
+#define TailsWalkerDisp_p       FUNC_PTR(void, __cdecl, (task*), 0x00747DD0)
 #define EggWalkerDisp_p         FUNC_PTR(void, __cdecl, (task*), 0x007444F0)
 #define SuperSonicDisp_p        FUNC_PTR(void, __cdecl, (task*), 0x0049CA60)
 #define ChaoWalkerDisp_p        FUNC_PTR(void, __cdecl, (task*), 0x007444F0)
