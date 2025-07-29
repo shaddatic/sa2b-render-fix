@@ -8,9 +8,6 @@
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
 
-/****** Game ************************************************************************/
-#include <samt/sonic/shaders.h> /* setshaders                                       */
-
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_renderstate.h>     /* render state                                     */
