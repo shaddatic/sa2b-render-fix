@@ -828,7 +828,7 @@ rjClearModVertexBuffer(void)
 void
 rjInitModVertexBuffer(Sint32 size)
 {
-    ___NOTE("This function is temporary, remove later");
+    ___TODO("This function is temporary, remove later");
 
     if ( size <= 0 )
     {
