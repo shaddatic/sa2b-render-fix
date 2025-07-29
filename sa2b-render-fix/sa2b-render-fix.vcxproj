@@ -151,6 +151,7 @@
     <ClCompile Include="rf_texture.c" />
     <ClCompile Include="rfm_global\rfg_mdltint.c" />
     <ClCompile Include="rfm_wjungle.c" />
+    <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rfm_amine.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="rfm_common.h" />
     <ClInclude Include="rfm_wjungle.h" />
     <ClInclude Include="rfu_file.h" />
+    <ClInclude Include="rfu_model.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_api\rfapi_internal.h" />
     <ClInclude Include="rf_config.h" />

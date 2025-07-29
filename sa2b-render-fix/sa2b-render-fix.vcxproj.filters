@@ -411,6 +411,9 @@
     <ClCompile Include="rf_draw\rfd_sprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_util\rfu_model.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">
@@ -597,6 +600,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfu_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfu_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
