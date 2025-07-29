@@ -5,8 +5,8 @@
 #include <samt/core.h>      /* core                                                 */
 #include <samt/writeop.h>   /* writejump                                            */
 
-/****** Game ************************************************************************/
-#include <samt/sonic/shaders.h> /* setshader                                        */
+/****** SOC *************************************************************************/
+#include <samt/soc/shader.h>    /* setshader                                        */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
@@ -99,14 +99,14 @@ RX_SetTexture(const TEXTURE_INFO* restrict pTex, int index)
 
 //      SetPaletteShader( nullptr );
 
-        const int shdrmd = ShaderMode;
+        const int shdrmd = ShaderModelMode;
 
-        if (shdrmd != (shdrmd & ~SHADERMODE_PALLETE))
+        if (shdrmd != (shdrmd & ~SHADERMDL_FLAG_PALETTE))
         {
-            ShaderMode &= ~SHADERMODE_PALLETE;
+            ShaderModelMode &= ~SHADERMDL_FLAG_PALETTE;
 
-            SetShaders(1);
-            SetShaders(ShaderLast);
+            SetShaderType(SHADER_TYPE_MDL);
+            SetShaderType(ShaderTypeLast);
         }
     }
 }

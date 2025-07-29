@@ -277,7 +277,7 @@ PlayerModelCompatEndDisplayer(void)
     }
 }
 
-static hook_info SonicDisp_CompatHookInfo[1];
+static mt_hookinfo SonicDisp_CompatHookInfo[1];
 static void
 SonicDisp_CompatHook(task* tp)
 {
@@ -288,7 +288,7 @@ SonicDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info MilesDisp_CompatHookInfo[1];
+static mt_hookinfo MilesDisp_CompatHookInfo[1];
 static void
 MilesDisp_CompatHook(task* tp)
 {
@@ -299,7 +299,7 @@ MilesDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info KnucklesDisp_CompatHookInfo[1];
+static mt_hookinfo KnucklesDisp_CompatHookInfo[1];
 static void
 KnucklesDisp_CompatHook(task* tp)
 {
@@ -310,7 +310,7 @@ KnucklesDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info EggmanDisp_CompatHookInfo[1];
+static mt_hookinfo EggmanDisp_CompatHookInfo[1];
 static void
 EggmanDisp_CompatHook(task* tp)
 {
@@ -321,7 +321,7 @@ EggmanDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info RougeDisp_CompatHookInfo[1];
+static mt_hookinfo RougeDisp_CompatHookInfo[1];
 static void
 RougeDisp_CompatHook(task* tp)
 {
@@ -332,7 +332,7 @@ RougeDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info EggWalkerDisp_CompatHookInfo[1];
+static mt_hookinfo EggWalkerDisp_CompatHookInfo[1];
 static void
 EggWalkerDisp_CompatHook(task* tp)
 {
@@ -343,7 +343,7 @@ EggWalkerDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info TailsWalkerDisp_CompatHookInfo[1];
+static mt_hookinfo TailsWalkerDisp_CompatHookInfo[1];
 static void
 TailsWalkerDisp_CompatHook(task* tp)
 {
@@ -354,7 +354,7 @@ TailsWalkerDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info SuperSonicDisp_CompatHookInfo[1];
+static mt_hookinfo SuperSonicDisp_CompatHookInfo[1];
 static void
 SuperSonicDisp_CompatHook(task* tp)
 {
@@ -365,7 +365,7 @@ SuperSonicDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info ChaoWalkerDisp_CompatHookInfo[1];
+static mt_hookinfo ChaoWalkerDisp_CompatHookInfo[1];
 static void
 ChaoWalkerDisp_CompatHook(task* tp)
 {
@@ -376,7 +376,7 @@ ChaoWalkerDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info DarkChaoWalkerDisp_CompatHookInfo[1];
+static mt_hookinfo DarkChaoWalkerDisp_CompatHookInfo[1];
 static void
 DarkChaoWalkerDisp_CompatHook(task* tp)
 {
@@ -387,7 +387,7 @@ DarkChaoWalkerDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info TicalDisp_CompatHookInfo[1];
+static mt_hookinfo TicalDisp_CompatHookInfo[1];
 static void
 TicalDisp_CompatHook(task* tp)
 {
@@ -398,7 +398,7 @@ TicalDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info ChaosDisp_CompatHookInfo[1];
+static mt_hookinfo ChaosDisp_CompatHookInfo[1];
 static void
 ChaosDisp_CompatHook(task* tp)
 {
@@ -409,7 +409,7 @@ ChaosDisp_CompatHook(task* tp)
     PlayerModelCompatEndDisplayer();
 }
 
-static hook_info ChaosDispDely_CompatHookInfo[1];
+static mt_hookinfo ChaosDispDely_CompatHookInfo[1];
 static void
 ChaosDispDely_CompatHook(task* tp)
 {

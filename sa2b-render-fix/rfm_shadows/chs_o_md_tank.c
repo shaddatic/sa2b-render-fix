@@ -35,7 +35,7 @@ ObjectMDContainerBoxDisplayerMod(task* tp)
 
 #define ObjectTank      FUNC_PTR(void, __cdecl, (task*), 0x005C37A0)
 
-static hook_info HookInfoObjectTank[1];
+static mt_hookinfo HookInfoObjectTank[1];
 static void
 ObjectTankHook(task* tp)
 {

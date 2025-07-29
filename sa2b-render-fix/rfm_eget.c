@@ -20,7 +20,7 @@
 
 #define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x007986A0)
 
-static hook_info getEmblemDisplayerHookInfo[1];
+static mt_hookinfo getEmblemDisplayerHookInfo[1];
 static void
 getEmblemDisplayerHook(task* const tp)
 {

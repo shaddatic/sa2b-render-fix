@@ -10,125 +10,163 @@
 
 EXTERN_START
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Hook Info *******************************************************************/
-typedef struct hook_info
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Hook Info *******************************************************************************/
+typedef enum mt_hooktype
 {
-    int d[4];               /* opaque data                                          */
-}
-hook_info;
+    HOOK_TYPE_NONE,                 /* hook info not initialized                                */
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Hook Info *******************************************************************/
+    HOOK_TYPE_FUNC,                 /* is a function hook                                       */
+    HOOK_TYPE_CALL,                 /* is a call hook                                           */
+}
+mt_hooktype;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Hook Info *******************************************************************************/
+typedef struct mt_hookinfo
+{
+    u32 d[5];                       /* opaque data                                              */
+}
+mt_hookinfo;
+
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Hook Info *******************************************************************************/
 /*
 *   Description:
-*     Reverse a hook by restoring original code using a populated hook info.
+*     Enable and disable a hook.
 *
 *   Parameters:
-*     - info    : hook info pointer
+*     - pHookInfo   : hook info
+*     - state       : hook state to set                                                [ON/OFF]
 */
-void    HookInfoUnhook( const hook_info* info );
+void    mtHookInfoSwitch( const mt_hookinfo* pHookInfo, s32 state );
 /*
 *   Description:
-*     Rehook a function using a populated hook info.
+*     Get hook info type.
 *
 *   Parameters:
-*     - info    : hook info pointer
-*/
-void    HookInfoRehook( const hook_info* info );
-/*
-*   Description:
-*     Check if a hook is currently active and is the first function hook in the call
-*   chain. If either of those cases aren't true, this function will return 'false'.
-*
-*   Parameters:
-*     - info    : hook info pointer
+*     - pHookInfo   : hook info
 *
 *   Returns:
-*     'true' if hook info matches code hook; or 'false' if not.
+*     Type of hook used in the hook info.
 */
-bool    HookInfoCheck( const hook_info* info );
+mt_hooktype mtHookInfoGetType( const mt_hookinfo* pHookInfo );
 /*
 *   Description:
-*     Restore the original code and clear the hook info
+*     Check if a hook info will be called next when the original function is called. This says
+*   nothing about if your hook *can* be called, only about it being called first/next in the
+*   hook chain.
 *
 *   Parameters:
-*     - info    : hook info pointer
+*     - pHookInfo   : hook info
+*
+*   Returns:
+*     'true' if hook is enabled and first/next; or 'false' if not.
 */
-void    HookInfoFree( hook_info* info );
-
-/****** Function Hook ***************************************************************/
+bool    mtHookInfoIsNext( const mt_hookinfo* pHookInfo );
 /*
 *   Description:
-*     Hook a function with optional hook info, allowing for the original
-*   function be called normally by unhooking the code before calling.
-*     Hook pointer should point to the top of the function. Calling methods and
-*   function arguments must be handled by the user.
-*     
+*     Disable the hook and clear the hook info for reuse.
+*
+*   Parameters:
+*     - pHookInfo   : hook info
+*/
+void    mtHookInfoClear( mt_hookinfo* pHookInfo );
+
+/****** Create Hook *****************************************************************************/
+/*
+*   Description:
+*     Hook into a game function, allowing your own functions to be ran instead of the original
+*   code. Paired with an optional hook info, you can disable your hook on the fly and call the
+*   original function alongside your own code.
+*
+*   Examples:
+*     - mtHookFunction( &hinfo, (void*)0x00456780, MyFunction );
+*
 *   Notes:
+*     - Address should point to the top of the hooked function to operate correctly.
+*     - Calling methods and function arguments must be handled by the user.
 *     - If no hook info is given, operates the same as 'WriteJump'.
 * 
 *   Parameters:
-*     - info    : hook info to populate                                  [optional]
-*     - addr    : address of function to hook
-*     - func    : function to call from hook
+*     - pHookInfo   : hook info                                                  [opt: nullptr]
+*     - pHookAddr   : address of function to hook
+*     - pFunc       : user function to call from hook
 */
-void    FuncHookCreate( hook_info* info, void* addr, const void* func );
-
-/****** Call Hook *******************************************************************/
+void    mtHookFunction( mt_hookinfo* RESTRICT pHookInfo, void* RESTRICT pHookAddr, const void* RESTRICT pFunc );
 /*
 *   Description:
-*     Hook a call instruction with optional hook info, allowing for the original
-*   code be called normally by unhooking it before calling.
-*     Hook pointer should point to a valid call instruction, or a clear space in
-*   memory where a call instruction can be placed. Calling methods and function
-*   arguments must be handled by the user.
+*     Hook a game function call, allowing your own functions to be ran instead of the original
+*   path. Paired with an optional hook info, you can disable your hook on the fly and allow the
+*   original call path to run normally.
+*
+*   Examples:
+*     - mtHookFuncCall( &hinfo, (void*)0x00456780, MyFunction );
 *
 *   Notes:
+*     - Address should point to a call instruction, or a clear space in memory where a call can
+*       be placed, to operate correctly.
+*     - Calling methods and function arguments must be handled by the user.
 *     - If no hook info is given, operates the same as 'WriteCall'.
 *
 *   Parameters:
-*     - info    : hook info to populate                                  [optional]
-*     - addr    : address of call instruction to hook
-*     - func    : function to call from hook
+*     - pHookInfo   : hook info                                                  [opt: nullptr]
+*     - pHookAddr   : address of call instruction to hook
+*     - pFunc       : user function to call from hook
 */
-void    CallHookCreate( hook_info* info, void* addr, const void* func );
+void    mtHookFuncCall( mt_hookinfo* RESTRICT pHookInfo, void* RESTRICT pHookAddr, const void* RESTRICT pFunc );
 
-/****** Trampoline Hook *************************************************************/
+/********************************/
+/*  Macro                       */
+/********************************/
+/****** Create Hook *****************************************************************************/
 /*
-*   # Trampoline
+*   Description:
+*     Helper macros for creating a function or function call hook.
 *
-*       A 'Trampoline' is a special CallHook that automatically
-*   jumps to the original call address after your inserted
-*   function has been called.
-*       It is your job to handle arguments & to ensure they're
-*   still applicable to the original function, & therefore any
-*   previous hooks.
-*       If you leave arguments untouched, the first argument on
-*   the left will be the return address. Take this into account
-*   & use it if you wish.
+*   Parameters:
+*     - hinfo       : hook info                                                  [opt: nullptr]
+*     - haddr       : address to hook
+*     - pFunc       : user function to call from hook
 */
-/** Hook with trampoline **/
-void    TrampolineCreate( void* pDst, const void* pCall );
+#define mtHookFunc(hinfo, haddr, func)      mtHookFunction((hinfo), (void*)(haddr), (const void*)(func))
+#define mtHookCall(hinfo, haddr, func)      mtHookFuncCall((hinfo), (void*)(haddr), (const void*)(func))
 
-/************************/
-/*  Macro               */
-/************************/
-/** Create hook **/
-#define FuncHook(info, addr, func)              FuncHookCreate(info, (void*)(addr), (const void*)(func))
-#define CallHook(info, addr, func)              CallHookCreate(info, (void*)(addr), (const void*)(func))
+/****** Call Original ***************************************************************************/
+/*
+*   Description:
+*     Helper macro for calling a function that has been hooked by temporarily disabling the
+*   hook, allowing for a call instruction, then immedietly re-enabling the hook right after.
+*
+*   Examples:
+*     - mtHookInfoCall( FuncHookInfo, var = Func(1, 2, 3) );
+*
+*   Parameters:
+*     - hinfo       : hook info
+*     - call        : function call, including arguments and return value
+*/
+#define mtHookInfoCall(hinfo, call)         mtHookInfoSwitch(hinfo, OFF); \
+                                            call;                         \
+                                            mtHookInfoSwitch(hinfo,  ON)
 
-/** Call original hooked function **/
-#define FuncHookCall(info, code)                HookInfoUnhook(info); \
+/************************************************************************************************/
+/*
+*   Depricated Macros
+*/
+/****** Create Hook *****************************************************************************/
+#define FuncHook(info, pHookAddr, pFunc)              mtHookFunction(info, (void*)(pHookAddr), (const void*)(pFunc))
+#define CallHook(info, pHookAddr, pFunc)              mtHookFuncCall(info, (void*)(pHookAddr), (const void*)(pFunc))
+
+/****** Call Original ***************************************************************************/
+#define FuncHookCall(info, code)                mtHookInfoSwitch(info, OFF); \
                                                 code; \
-                                                HookInfoRehook(info)
-
-/** Create trampoline **/
-#define Trampoline(_pdst, _pcall)               TrampolineCreate((void*)(_pdst), (void*)(_pcall))
+                                                mtHookInfoSwitch(info,  ON)
 
 EXTERN_END
 

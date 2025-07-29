@@ -33,7 +33,7 @@ ObjectMDFireBallDisplayerMod(task* tp)
 
 #define ObjectMDFireBall    FUNC_PTR(void, __cdecl, (task*), 0x005C1280)
 
-static hook_info HookInfoObjectMDFireBall[1];
+static mt_hookinfo HookInfoObjectMDFireBall[1];
 static void
 ObjectMDFireBallHook(task* tp)
 {

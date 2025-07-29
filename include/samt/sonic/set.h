@@ -143,6 +143,22 @@ b32     FreeSetObject( void );
 */
 void    ReviveSetObject( void );
 
+/*
+*   Description:
+*     Check if point is outside the current player's view.
+*
+*   Notes:
+*     - Only works inside of a 'disp' function, otherwise undefined behavior.
+*
+*   Parameters:
+*     - ft          : position
+*     - radius      : size
+*
+*   Returns:
+*     'FALSE' if the position *is* on screen; or 'TRUE' if not.
+*/
+b32     CheckViewV( const NJS_POINT3* ft, f32 radius );
+
 int32_t CheckRangeOut(task* tp);
 int32_t CheckRangeOutWithR(task* tp, float fRange);
 
@@ -184,6 +200,7 @@ void    ObjectGenericExec(task* tp);
 #   define CreateSetObject_p            FUNC_PTR(b32 , __cdecl, (OBJ_ITEMTABLE*, OBJ_EDITTABLE*), 0x00487E40)
 #   define ReviveSetObject_p            FUNC_PTR(void, __cdecl, (void)                          , 0x00488AD0)
 #   define ObjectGenericExec_p          FUNC_PTR(void, __cdecl, (task*)                         , 0x005B4250)
+#   define CheckViewV_p                 FUNC_PTR(b32 , __cdecl, (const NJS_POINT3*, f32)        , 0x007983F0)
 
 /** User-Function ptr **/
 #   define LoadSetFile_p                ((void*)0x00488DD0)

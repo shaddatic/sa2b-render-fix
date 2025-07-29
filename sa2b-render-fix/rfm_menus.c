@@ -136,7 +136,7 @@ __SOCDrawSpriteOnlyConstMat(void)
 
 #define DisplayStageMap                 FUNC_PTR(void, __cdecl, (float, float), 0x00675DF0)
 
-static hook_info HookInfoDisplayStageMap[1];
+static mt_hookinfo HookInfoDisplayStageMap[1];
 static void
 DisplayStageMapHook(float scroll, float fade)
 {
@@ -157,7 +157,7 @@ DisplayStageMapHook(float scroll, float fade)
 
 #define screenEffectDisp                FUNC_PTR(void, __cdecl, (task*), 0x00667E40)
 
-static hook_info HookInfoScreenEffectDisp[1];
+static mt_hookinfo HookInfoScreenEffectDisp[1];
 static void
 screenEffectDispHook(task* tp)
 {
@@ -203,6 +203,8 @@ DrawMapTextBackdrop(void)
 static void
 DrawMapPurpleFill(void)
 {
+    DATA_REF(int, 0x1AEE760) = 3; // part of function we overwrote
+
     NJS_COLOR   colors[4];
     NJS_POINT2  points[4];
 
@@ -239,19 +241,6 @@ DrawMapPurpleFill(void)
     rjDrawPolygon2D(&poly, 4, -20000.0f, NJD_FILL);
 }
 
-__declspec(naked)
-static void
-__DrawMapPurpleFill(void)
-{
-    __asm
-    {
-        push eax
-        call DrawMapPurpleFill
-        pop eax
-        retn
-    }
-}
-
 void
 RFM_MenusInit(void)
 {
@@ -271,7 +260,9 @@ RFM_MenusInit(void)
         WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
 
         if (RF_ConfigGetInt(CNF_EXP_DCMENUFADE))
+        {
             WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
+        }
 
         WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
 
@@ -292,6 +283,7 @@ RFM_MenusInit(void)
         WritePointer(0x006763BB, &posshift);            /* Move icons left  */
         WritePointer(0x00676046, 0x00907420);           /* stop stretch     */
 
-        Trampoline(0x00676080, __DrawMapPurpleFill);    /* fill blank space */
+        WriteNOP(0x00676094, 0x0067609E);               // fill blank space
+        WriteCall(0x00676094, DrawMapPurpleFill);
     }
 }

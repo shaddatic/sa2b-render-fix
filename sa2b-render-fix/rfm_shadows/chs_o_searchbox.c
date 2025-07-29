@@ -30,14 +30,14 @@ ObjectSearchBoxDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoObjectSearchBox[1];
+static mt_hookinfo HookInfoObjectSearchBox[1];
 
 static void
 ObjectSearchBoxHook(task* tp)
 {
-    HookInfoUnhook(HookInfoObjectSearchBox);
+    mtHookInfoSwitch(HookInfoObjectSearchBox, OFF);
     ObjectSearchBox(tp);
-    HookInfoRehook(HookInfoObjectSearchBox);
+    mtHookInfoSwitch(HookInfoObjectSearchBox, ON);
 
     if (tp->disp)
         tp->disp_shad = ObjectSearchBoxDisplayerMod;

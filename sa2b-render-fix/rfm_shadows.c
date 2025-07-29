@@ -94,7 +94,7 @@ DrawBasicShadow(void)
 #define AL_Constructor      FUNC_PTR(void, __cdecl, (task*), 0x0052AB60)
 #define AL_Destructor       FUNC_PTR(void, __cdecl, (task*), 0x0052AE70)
 
-static hook_info AL_ConstructorHookInfo[1];
+static mt_hookinfo AL_ConstructorHookInfo[1];
 static void
 AL_ConstructorHook(task* tp)
 {
@@ -103,7 +103,7 @@ AL_ConstructorHook(task* tp)
     rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
 }
 
-static hook_info AL_DestructorHookInfo[1];
+static mt_hookinfo AL_DestructorHookInfo[1];
 static void
 AL_DestructorHook(task* tp)
 {

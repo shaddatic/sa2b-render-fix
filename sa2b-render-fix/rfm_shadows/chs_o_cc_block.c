@@ -40,7 +40,7 @@ ObjectBlock2DisplayerMod(task* tp)
 
 #define ObjectBlock2    FUNC_PTR(void, __cdecl, (task*), 0x004CF370)
 
-static hook_info HookInfoObjectBlock2[1];
+static mt_hookinfo HookInfoObjectBlock2[1];
 static void
 ObjectBlock2Hook(task* tp)
 {
@@ -74,7 +74,7 @@ ObjectBlockDisplayerMod(task* tp)
 }
 
 #define ObjectBlock    FUNC_PTR(void, __cdecl, (task*), 0x004CE240)
-static hook_info HookInfoObjectBlock[1];
+static mt_hookinfo HookInfoObjectBlock[1];
 static void
 ObjectBlockHook(task* tp)
 {

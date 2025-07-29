@@ -145,7 +145,7 @@ ObjectCECarDisplayerMod(task* tp)
 
 #define ObjectCECar         FUNC_PTR(void, __cdecl, (task*), 0x005DE4E0)
 
-static hook_info ObjectCECarHookInfo[1];
+static mt_hookinfo ObjectCECarHookInfo[1];
 void
 ObjectCECarHook(task* tp)
 {
@@ -215,7 +215,7 @@ ObjectMSCarDisplayerMod(task* tp)
 
 #define ObjectMSCar2        FUNC_PTR(void, __cdecl, (task*), 0x005B4850)
 
-static hook_info ObjectMSCar2HookInfo[1];
+static mt_hookinfo ObjectMSCar2HookInfo[1];
 void
 ObjectMSCar2Hook(task* tp)
 {

@@ -59,7 +59,7 @@ MinimalDisplayerMod(task* tp)
 
 #define ObjectMinimal       FUNC_PTR(void, __cdecl, (task*), 0x0048ADE0)
 
-static hook_info HookInfoObjectMinimal[1];
+static mt_hookinfo HookInfoObjectMinimal[1];
 static void
 ObjectMinimalHook(task* tp)
 {
@@ -70,7 +70,7 @@ ObjectMinimalHook(task* tp)
 
 #define MinimalCreate       FUNC_PTR(task*, __cdecl, (f32, f32, f32, int, uint32_t), 0x0048AAD0)
 
-static hook_info HookInfoMinimalCreate[1];
+static mt_hookinfo HookInfoMinimalCreate[1];
 static task*
 MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 {

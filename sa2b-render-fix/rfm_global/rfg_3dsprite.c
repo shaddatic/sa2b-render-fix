@@ -77,7 +77,7 @@ SendScreenRatioToShader(float resW, float resH)
 
 #define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
 
-static hook_info GX_SetViewportHookInfo[1];
+static mt_hookinfo GX_SetViewportHookInfo[1];
 static void
 GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
 {
@@ -97,7 +97,7 @@ HintTextDisplayer(void* p)
     }
 }
 
-static hook_info HintTextDisplayerHookInfo[1];
+static mt_hookinfo HintTextDisplayerHookInfo[1];
 static void
 HintTextDisplayerHook(void* p)
 {

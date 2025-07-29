@@ -40,7 +40,7 @@
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
-static hook_info ObjectMSCarDispHookInfo[1];
+static mt_hookinfo ObjectMSCarDispHookInfo[1];
 static void
 ObjectMSCarDispHook(task* tp)
 {

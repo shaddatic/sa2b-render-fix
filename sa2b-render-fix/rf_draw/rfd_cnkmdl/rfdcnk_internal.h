@@ -119,14 +119,14 @@ RJE_CNK_SPECFUNC;
 /****** Chunk Context ***************************************************************/
 typedef struct
 {
-    Uint32   flag;      /* context flags                                            */
+    Uint32          flag;       /* context flags                                    */
 
-    Sint16   fst;       /* strip flags, at the top for packing reasons              */
-    Sint16   blend;     /* alpha blend mode                                         */
-    CNK_TINY tiny;      /* texture material                                         */
-    NJS_BGRA diff;      /* diffuse material                                         */
-    NJS_BGRA ambi;      /* ambient material, 'a' is ignored                         */
-    NJS_BGRA spec;      /* specular material, 'a' is exponent                       */
+    Sint16          fst;        /* strip flags, at the top for packing reasons      */
+    Sint16          blend;      /* alpha blend mode                                 */
+    CNK_TINY_HEAD   tiny;       /* texture material                                 */
+    NJS_BGRA        diff;       /* diffuse material                                 */
+    NJS_BGRA        ambi;       /* ambient material, 'a' is ignored                 */
+    NJS_BGRA        spec;       /* specular material, 'a' is exponent               */
 }
 CNK_CTX;
 

@@ -60,7 +60,7 @@ ChaosTextureCallback(Sint16 texid)
 }
 
 /****** Displayer *******************************************************************/
-static hook_info Chaos0DispHookInfo[1];
+static mt_hookinfo Chaos0DispHookInfo[1];
 static void
 Chaos0DispHook(task* tp)
 {
@@ -98,7 +98,7 @@ Chaos0DelyMotionCallback(NJS_CNK_OBJECT* object)
     }
 }
 
-static hook_info Chaos0DispDelyHookInfo[1];
+static mt_hookinfo Chaos0DispDelyHookInfo[1];
 static void
 Chaos0DispDelyHook(task* tp)
 {

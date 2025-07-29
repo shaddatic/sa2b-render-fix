@@ -10,8 +10,8 @@
 /****** GX **************************************************************************/
 #include <samt/gx/gx.h>         /* GX                                               */
 
-/****** Game ************************************************************************/
-#include <samt/sonic/shaders.h> /* GX                                               */
+/****** SOC *************************************************************************/
+#include <samt/soc/shader.h>    /* setshader                                        */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -56,7 +56,7 @@ CnkPListShadow_Ext(const Sint16* plist, const void* njvtxbuf)
 int
 CnkDrawShadow_Ext(const NJS_CNK_MODEL* model, const void* vbuf)
 {
-    SetShaders(1);
+    SetShaderType(SHADER_TYPE_MDL);
     gjStartVertex3D(&_nj_unit_matrix_, 0);
 
     if ( model->vlist )

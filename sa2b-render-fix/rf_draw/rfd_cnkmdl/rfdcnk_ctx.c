@@ -23,9 +23,7 @@
 /************************/
 /*  Source Constants    */
 /************************/
-/****** Shifted FST *****************************************************************/
-#define CNK_FST_UA              (NJD_FST_UA>>NJD_FST_SHIFT) /* use alpha            */
-
+/****** Chunk Texinfo ***************************************************************/
 #define CnkSetTextureList       DATA_ARY(TEXTURE_INFO, 0x01934768, [8])
 
 /************************/
@@ -444,7 +442,7 @@ rjCnkSetMaterial(CNK_CTX* restrict pCtx, const Sint16* plist)
 void
 rjCnkSetTexture(CNK_CTX* restrict pCtx, const Sint16* plist)
 {
-    pCtx->tiny = *(CNK_TINY*)(&plist[0]);
+    pCtx->tiny = *(CNK_TINY_HEAD*)(&plist[0]);
 
     pCtx->flag |= CTXF_TINY;
 }

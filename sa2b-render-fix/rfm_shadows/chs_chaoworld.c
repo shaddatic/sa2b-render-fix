@@ -190,7 +190,7 @@ ChaoDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoCreateChaoExtra[1];
+static mt_hookinfo HookInfoCreateChaoExtra[1];
 static task*
 CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* pElement, NJS_POINT3* pPos, Angle angy)
 {
@@ -288,7 +288,7 @@ ALO_GrowTreeDisplayerMod(task* tp)
     }
 }
 
-static hook_info HookInfoALO_GrowTreeCreate[1];
+static mt_hookinfo HookInfoALO_GrowTreeCreate[1];
 static task*
 ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
 {
@@ -350,7 +350,7 @@ ALO_RaceTreeDisplayerMod(task* tp)
 
 #define ALO_RaceTree        FUNC_PTR(void, __cdecl, (task*), 0x00537E70)
 
-static hook_info HookInfoALO_RaceTree[1];
+static mt_hookinfo HookInfoALO_RaceTree[1];
 static void
 ALO_RaceTreeHook(task* tp)
 {
@@ -402,7 +402,7 @@ AL_EggDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoCreateEgg[1];
+static mt_hookinfo HookInfoCreateEgg[1];
 static task*
 CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, const NJS_POINT3* pPos, int32_t type)
 {
@@ -446,7 +446,7 @@ ALO_ChaosDriveDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_ChaosDriveCreate[1];
+static mt_hookinfo HookInfoALO_ChaosDriveCreate[1];
 static task*
 ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
@@ -494,7 +494,7 @@ ALO_ObakeHeadDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_ObakeHeadCreate[1];
+static mt_hookinfo HookInfoALO_ObakeHeadCreate[1];
 static task*
 ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
@@ -539,7 +539,7 @@ ALO_SeedDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_SeedCreate[1];
+static mt_hookinfo HookInfoALO_SeedCreate[1];
 static task*
 ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
@@ -598,7 +598,7 @@ ALO_FruitDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_FruitCreate[1];
+static mt_hookinfo HookInfoALO_FruitCreate[1];
 static task*
 ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
@@ -645,7 +645,7 @@ AL_MinimalDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoAL_MinimalCreate[1];
+static mt_hookinfo HookInfoAL_MinimalCreate[1];
 static task*
 AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo)
 {
@@ -694,7 +694,7 @@ ALO_RaceFruitDisplayerMod(task* tp)
 
 #define ALO_RaceFruit       FUNC_PTR(void, __cdecl, (task*), 0x0055A560)
 
-static hook_info HookInfoALO_RaceFruit[1];
+static mt_hookinfo HookInfoALO_RaceFruit[1];
 static void
 ALO_RaceFruitHook(task* tp)
 {
@@ -735,7 +735,7 @@ ALO_BallDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_Ball[1];
+static mt_hookinfo HookInfoALO_Ball[1];
 static void
 ALO_BallHook(task* tp)
 {
@@ -805,7 +805,7 @@ ALO_HorseDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static hook_info HookInfoALO_Horse[1];
+static mt_hookinfo HookInfoALO_Horse[1];
 static void
 ALO_HorseHook(task* tp)
 {

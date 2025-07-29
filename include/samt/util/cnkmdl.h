@@ -43,21 +43,24 @@ EXTERN_START
 /****** Bits Offset *****************************************************************/
 #define CNK_BITSOFF_SIZE        (1) /* step count of offset                         */
 
+/****** Tiny Offset *****************************************************************/
+#define CNK_TINYOFF_SIZE        (2) /* step count of offset                         */
+
 /****** Material Offset *************************************************************/
 #define CNK_MATOFF_SIZE_HEAD    (2) /* step count of header                         */
+#define CNK_MATOFF_SIZE_ADD     (2) /* additional step count after reading 'size'   */
 #define CNK_MATOFF_SIZE_MAT     (2) /* step count of material color                 */
 #define CNK_MATOFF_SIZE_1       (CNK_MATOFF_SIZE_HEAD+(CNK_MATOFF_SIZE_MAT*1)) /* D/A/S     */
 #define CNK_MATOFF_SIZE_2       (CNK_MATOFF_SIZE_HEAD+(CNK_MATOFF_SIZE_MAT*2)) /* DA/DS/AS  */
 #define CNK_MATOFF_SIZE_3       (CNK_MATOFF_SIZE_HEAD+(CNK_MATOFF_SIZE_MAT*3)) /* DAS       */
 
-/****** Tiny Offset *****************************************************************/
-#define CNK_TINYOFF_SIZE        (2) /* step count of offset                         */
-
 /****** Volume Offset ***************************************************************/
 #define CNK_VOLOFF_SIZE_HEAD    (3) /* step count of header                         */
+#define CNK_VOLOFF_SIZE_ADD     (2) /* additional step count after reading 'size'   */
 
 /****** Strip Offset ****************************************************************/
 #define CNK_STRIPOFF_SIZE_HEAD  (3) /* step count of header                         */
+#define CNK_STRIPOFF_SIZE_ADD   (2) /* additional step count after reading 'size'   */
 
 /************************************************************************************/
 /*
@@ -121,6 +124,16 @@ EXTERN_START
 /*
 *   Strip Chunk Constants
 */
+/****** Strip Flags *****************************************************************/
+#define CNK_FST_IL              (NJD_FST_IL >>NJD_FST_SHIFT)
+#define CNK_FST_IS              (NJD_FST_IS >>NJD_FST_SHIFT)
+#define CNK_FST_IA              (NJD_FST_IA >>NJD_FST_SHIFT)
+#define CNK_FST_UA              (NJD_FST_UA >>NJD_FST_SHIFT)
+#define CNK_FST_DB              (NJD_FST_DB >>NJD_FST_SHIFT)
+#define CNK_FST_FL              (NJD_FST_FL >>NJD_FST_SHIFT)
+#define CNK_FST_ENV             (NJD_FST_ENV>>NJD_FST_SHIFT)
+#define CNK_FST_NAT             (NJD_FST_NAT>>NJD_FST_SHIFT)
+
 /****** UV Multiply *****************************************************************/
 #define CNK_UVN_MUL             (1.f/256.f)  /* uv multiply value                   */
 #define CNK_UVH_MUL             (1.f/1024.f) /* hd uv multiply value                */
@@ -150,7 +163,7 @@ typedef struct
 
     Uint8  nul;                 /* nothing                                [padding] */
 }
-CNK_NULL;
+CNK_NULL_HEAD;
 
 /************************************************************************************/
 /*
@@ -210,7 +223,7 @@ typedef struct
 
     NJS_BGRA d[];               /* data          [ambi: 'a' = nul, spec: 'a' = exp] */
 }
-CNK_MATERIAL;
+CNK_MATERIAL_HEAD;
 
 /************************************************************************************/
 /*
@@ -229,7 +242,7 @@ typedef struct
     Uint16 ssample : 1;         /* super sample flag                                */
     Uint16 filter  : 2;         /* texture filter mode                              */
 }
-CNK_TINY;
+CNK_TINY_HEAD;
 
 /************************************************************************************/
 /*

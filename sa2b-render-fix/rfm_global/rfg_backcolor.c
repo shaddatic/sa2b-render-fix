@@ -153,7 +153,7 @@ __SetBackColor(void)
 
 #define UnloadRELFile       FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
 
-static hook_info HookInfoUnloadRELFile[1];
+static mt_hookinfo HookInfoUnloadRELFile[1];
 static void
 UnloadRELFileHook(void)
 {

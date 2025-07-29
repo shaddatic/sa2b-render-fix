@@ -11,7 +11,7 @@
 #include <rf_core.h>
 #include <rf_config.h>
 
-static hook_info BgDispCGHookInfo[1];
+static mt_hookinfo BgDispCGHookInfo[1];
 
 #define BgDispCG    FUNC_PTR(void, __cdecl, (task*), 0x00771DD0)
 

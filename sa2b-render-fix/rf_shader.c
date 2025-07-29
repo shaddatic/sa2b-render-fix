@@ -7,9 +7,10 @@
 #include <samt/memory.h>            /* memcopy                                                  */
 #include <samt/string.h>            /* strformat                                                */
 
-/****** Game ************************************************************************************/
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/shaders.h>     /* setshader                                                */
+
+/****** SOC *************************************************************************************/
+#include <samt/soc/shader.h>     /* setshader                                                   */
 #undef  SAMT_INCL_FUNCPTRS
 
 /****** Render Fix ******************************************************************************/
@@ -37,7 +38,7 @@ static dx9_pxl_shader* ShaderPxlEntries[13]; /* replacement pixel  shaders      
 
 /****** Func Hook *******************************************************************************/
 static bool      IsHookedSetAndLoadShader;    /* hook active                                    */
-static hook_info HookInfoSetAndLoadShader[1]; /* hook info                                      */
+static mt_hookinfo HookInfoSetAndLoadShader[1]; /* hook info                                      */
 
 /********************************/
 /*  Source                      */
@@ -174,7 +175,7 @@ RF_CompilePxlShader(const c8* puSrcName, const dx9_macro* pMacroList)
 static void __stdcall
 SetAndLoadShaderHook(int shader)
 {
-    FuncHookCall( HookInfoSetAndLoadShader, SetAndLoadShader(shader) );
+    FuncHookCall( HookInfoSetAndLoadShader, SetShaderIndex(shader) );
 
     if (ShaderVtxEntries[shader])
         DX9_SetVtxShader(ShaderVtxEntries[shader]);
@@ -192,7 +193,7 @@ RF_ReplaceVtxShader(int index, dx9_vtx_shader* pVtxShader)
 
     if (!IsHookedSetAndLoadShader)
     {
-        FuncHook(HookInfoSetAndLoadShader, SetAndLoadShader_p, SetAndLoadShaderHook);
+        FuncHook(HookInfoSetAndLoadShader, SetShaderIndex_p, SetAndLoadShaderHook);
         IsHookedSetAndLoadShader = true;
     }
 
@@ -207,7 +208,7 @@ RF_ReplacePxlShader(int index, dx9_pxl_shader* pPxlShader)
 
     if (!IsHookedSetAndLoadShader)
     {
-        FuncHook(HookInfoSetAndLoadShader, SetAndLoadShader_p, SetAndLoadShaderHook);
+        FuncHook(HookInfoSetAndLoadShader, SetShaderIndex_p, SetAndLoadShaderHook);
         IsHookedSetAndLoadShader = true;
     }
 

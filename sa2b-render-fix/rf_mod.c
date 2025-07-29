@@ -9,8 +9,8 @@
 #include <samt/gx/gx.h>
 #undef  SAMT_INCL_FUNCPTRS
 
-/** Source **/
-#include <samt/sonic/shaders.h>
+/****** SOC *************************************************************************/
+#include <samt/soc/shader.h>    /* setshader                                        */
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -200,7 +200,9 @@ LerpModAndFogColor(MOD_COLOR* const pModCol, const NJS_COLOR* const pFogCol, con
 static bool
 ModSetShaderColor(void)
 {
-    if (FogDataP && ShaderMode & SHADERMODE_FOG)
+    ___TODO("Remove this flag check, this is probably what's breaking Egg Quaters' water");
+
+    if (FogDataP && ShaderModelMode & SHADERMDL_FLAG_FOG)
     {
         f32 density = (100.f - FogDataP->near) / (FogDataP->far - FogDataP->near);
 
@@ -502,7 +504,7 @@ ModifierEnd(const s32 i)
     }
 }
 
-static hook_info HookInfoGxEnd[1];
+static mt_hookinfo HookInfoGxEnd[1];
 static void
 GX_EndStencilCheck(void)
 {
@@ -513,7 +515,7 @@ GX_EndStencilCheck(void)
     ModifierEnd(i);
 }
 
-static hook_info HookInfoGjDraw[1];
+static mt_hookinfo HookInfoGjDraw[1];
 
 #define sub_41BE30      FUNC_PTR(void, __cdecl, (int, char), 0x0041BE30)
 

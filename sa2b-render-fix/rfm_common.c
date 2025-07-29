@@ -110,7 +110,7 @@ ObjectGlobalLightSWDestructor(task* tp)
     ObjectGlobalLightManagerTaskP = NULL;
 }
 
-static hook_info ObjectGlobalLightManagerHookInfo[1];
+static mt_hookinfo ObjectGlobalLightManagerHookInfo[1];
 static void
 ObjectGlobalLightManagerHook(task* tp)
 {

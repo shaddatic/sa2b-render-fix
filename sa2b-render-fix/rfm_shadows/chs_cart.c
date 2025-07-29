@@ -145,7 +145,7 @@ cartDisplayerMod(task* tp)
 
 #define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00623E10)
 
-static hook_info HookInfoCourseDisplayDisplayer[1];
+static mt_hookinfo HookInfoCourseDisplayDisplayer[1];
 static void
 courseDisplayDisplayerHook(task* tp)
 {

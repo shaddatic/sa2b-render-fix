@@ -47,14 +47,14 @@ ObjectGolemUdreelDisplayerMod(task* tp)
 
 #define ObjectGolemUdreel       FUNC_PTR(void, __cdecl, (task*), 0x004BB5D0)
 
-static hook_info HookInfoGolemUdreel[1];
+static mt_hookinfo HookInfoGolemUdreel[1];
 
 static void
 ObjectGolemUdreelHook(task* tp)
 {
-    HookInfoUnhook(HookInfoGolemUdreel);
+    mtHookInfoSwitch(HookInfoGolemUdreel, OFF);
     ObjectGolemUdreel(tp);
-    HookInfoRehook(HookInfoGolemUdreel);
+    mtHookInfoSwitch(HookInfoGolemUdreel, ON);
 
     if (tp->disp)
         tp->disp_shad = ObjectGolemUdreelDisplayerMod;

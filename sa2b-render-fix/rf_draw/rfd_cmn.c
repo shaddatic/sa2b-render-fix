@@ -25,8 +25,8 @@
 #include <rf_shader.h>              /* shader                                                   */
 #include <rf_magic.h>               /* magiccache                                               */
 
-/****** Game ************************************************************************************/
-#include <samt/sonic/shaders.h>     /* shadermode                                               */
+/****** SOC *************************************************************************************/
+#include <samt/soc/shader.h>        /* setshader                                                */
 
 /****** Self ************************************************************************************/
 #include <rf_draw/rfd_internal.h>               /* parent & siblings                            */
@@ -377,7 +377,7 @@ ___rjStartVertex(RJE_VERTEX_TYPE vtxdecl, Sint32 use3d)
 
     RJE_PIXEL effect = tex ? RJD_SHADEREFF_TEX : 0;
 
-    if ( ShaderMode & SHADERMODE_FOG )
+    if ( ShaderModelMode & SHADERMDL_FLAG_FOG )
     {
         effect |= RJD_SHADEREFF_FOG;
     }

@@ -17,5 +17,6 @@
 #include <samt/soc/render.h>
 #include <samt/soc/input.h>
 #include <samt/soc/audio.h>
+#include <samt/soc/shader.h>
 
 #endif/*H_SOC*/

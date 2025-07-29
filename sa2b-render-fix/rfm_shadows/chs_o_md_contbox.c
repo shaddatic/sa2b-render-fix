@@ -32,7 +32,7 @@ ObjectMDContainerBoxDisplayerMod(task* tp)
 
 #define ObjectMDContainerBox    FUNC_PTR(void, __cdecl, (task*), 0x005C3B50)
 
-static hook_info HookInfoObjectMDContainerBox[1];
+static mt_hookinfo HookInfoObjectMDContainerBox[1];
 static void
 ObjectMDContainerBoxHook(task* tp)
 {
