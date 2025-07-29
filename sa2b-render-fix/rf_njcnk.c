@@ -27,6 +27,16 @@ njCnkDirectDrawModel(const NJS_CNK_MODEL* model)
     return result;
 }
 
+void
+njCnkDirectDrawObject(const NJS_CNK_OBJECT* object)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_DIRECT);
+
+    rjCnkDrawObject(object);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
 /****** Easy ************************************************************************/
 Sint32
 njCnkEasyDrawModel(const NJS_CNK_MODEL* model)
@@ -58,6 +68,16 @@ njCnkEasyDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Floa
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
 
     rjCnkDrawMotion(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+void
+njCnkEasyDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
+
+    rjCnkDrawMotionLink(object, motion_link, frame);
 
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
 }
@@ -112,6 +132,16 @@ njCnkEasyMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
 
     rjCnkDrawMotion(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+void
+njCnkEasyMultiDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
+
+    rjCnkDrawMotionLink(object, motion_link, frame);
 
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
 }
@@ -172,6 +202,16 @@ njCnkSimpleDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Fl
 }
 
 void
+njCnkSimpleDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
+
+    rjCnkDrawMotionLink(object, motion_link, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+void
 njCnkSimpleDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
 {
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
@@ -222,6 +262,16 @@ njCnkSimpleMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motio
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
 
     rjCnkDrawMotion(object, motion, frame);
+
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+}
+
+void
+njCnkSimpleMultiDrawMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
+{
+    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
+
+    rjCnkDrawMotionLink(object, motion_link, frame);
 
     RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
 }
