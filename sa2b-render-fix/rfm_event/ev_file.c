@@ -198,7 +198,7 @@ EV_LoadEffectFiles(void)
 
         for ( int i = 0; i < nb_snd; ++i )
         {
-            const EV_EFF_SOUND* p_sound = &p_file_buf->sound[i];
+            const EV_EFF_SOUND* restrict p_sound = &p_file_buf->sound[i];
         
             if ( p_sound->frame == 0 ) continue;
         
@@ -208,7 +208,7 @@ EV_LoadEffectFiles(void)
 
     // music/jingle file (_m)
     {
-        const EV_EFF_INFO* p_src = p_file_buf;
+        const EV_EFF_INFO* restrict p_src = p_file_buf;
 
         if ( use_new_logic )
         {
@@ -228,18 +228,18 @@ EV_LoadEffectFiles(void)
 
         for ( int i = 0; i < nb_snd; ++i )
         {
-            const EV_EFF_SOUND* p_sound = &p_src->sound[i];
+            const EV_EFF_SOUND* restrict p_sound = &p_src->sound[i];
 
             if ( p_sound->frame == 0 ) continue;
 
-            if ( p_sound->bgm[0] )
+            if ( p_sound->bgm[0] && p_sound->bgm[0] != 0xFF )
             {
                 EvEffectInfo.sound[ix_cur_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
 
                 mtMemCopy( EvEffectInfo.sound[ix_cur_snd++].bgm, p_sound->bgm, sizeof(p_sound->bgm) );
             }
 
-            if ( p_sound->jingle[0] )
+            if ( p_sound->jingle[0] && p_sound->jingle[0] != 0xFF )
             {
                 EvEffectInfo.sound[ix_cur_snd] = (EV_EFF_SOUND){ DEF_SOUND_STRUC, .frame = p_sound->frame };
 
