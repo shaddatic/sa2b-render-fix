@@ -211,13 +211,6 @@ rjSetTexture2D(Int clamp)
         }
     }
 
-    ___TODO("finish UI filtering feature");
-
-    if ( false ) // don't filter on magnify
-    {
-        p_tinfo->mag_filter = 0;
-    }
-
     /** texture wrapping **/
 
     if ( clamp )
