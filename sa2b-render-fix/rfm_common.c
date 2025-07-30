@@ -119,19 +119,6 @@ ObjectGlobalLightManagerHook(task* tp)
     tp->dest = ObjectGlobalLightSWDestructor;
 }
 
-___TODO("This is redundant now, remove it");
-
-static hook_info DrawGameHUDHookInfo[1];
-static void
-DrawGameHUDHook(void)
-{
-    njTextureClampMode(NJD_TEXTURECLAMP_CLAMP_UV);
-
-    FuncHookCall( DrawGameHUDHookInfo, DrawGameHUD() );
-
-    njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
-}
-
 static int
 DrawEmeraldKey(int i)
 {
@@ -200,9 +187,6 @@ RFM_CommonInit(void)
     }
 
     FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
-
-    /** Game HUD texture overdraw fix **/
-    FuncHook(DrawGameHUDHookInfo, DrawGameHUD, DrawGameHUDHook);
 
     /** Fix keys in Death Chamber & Egg Quaters glowing eye effect **/
     WriteCall(0x006D27A7, ___DrawEmeraldKey);
