@@ -60,8 +60,8 @@ VS_OUT main(VS_IN inp)
 #ifdef VTX_3D
     outp.position = mul( float4(inp.position, 1.0f), g_ProjMatrix );
 #else
-    outp.position.x = ((inp.position.x / +320.f) - 1.f) * g_DeviceInfo.w;
-    outp.position.y = ((inp.position.y / -240.f) + 1.f);
+    outp.position.x =  inp.position.x * g_DeviceInfo.w;
+    outp.position.y = -inp.position.y;
     outp.position.z = 1.f - inp.position.z;
     outp.position.w = 1.f;
 #endif

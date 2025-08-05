@@ -20,6 +20,16 @@
 #include <rf_draw/rfd_internal.h>   /* parent & siblings                                        */
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** XY Position Shift ***********************************************************************/
+#define XY_ADJ                      (0.002f)
+
+/****** Half Screen Values **********************************************************************/
+#define SCREEN_HW                   (640.f*0.5f)
+#define SCREEN_HH                   (480.f*0.5f)
+
+/********************************/
 /*  Source                      */
 /********************************/
 /****** Sprite Color ****************************************************************************/
@@ -48,6 +58,11 @@ static Bool
 ___rjGetSpritePoints2D(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* restrict sp, Int n, Float pri, Uint32 attr)
 {
     const NJS_TEXANIM* restrict tanim = &sp->tanim[n];
+
+    /**** Constants *************************************************************************/
+
+    const Float scrn_hw = SCREEN_HW;
+    const Float scrn_hh = SCREEN_HH;
 
     /** Calc Points and Angle ***************************************************************/
 
@@ -95,9 +110,9 @@ ___rjGetSpritePoints2D(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* restrict s
 
     for ( int i = 0; i < 4; ++i )
     {
-        pOutPt[i].x += sp->p.x;
-        pOutPt[i].y += sp->p.y;
-        pOutPt[i].z  = z;
+        pOutPt[i].x = ( ((pOutPt[i].x + sp->p.x) - XY_ADJ - scrn_hw) / scrn_hw );
+        pOutPt[i].y = ( ((pOutPt[i].y + sp->p.y) - XY_ADJ - scrn_hh) / scrn_hh );
+        pOutPt[i].z = z;
     }
 
     return FALSE; // no clip

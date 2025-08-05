@@ -12,6 +12,9 @@
 
 #undef SAMT_INCL_INTERNAL
 
+/****** Game ************************************************************************************/
+#include <samt/sonic/display.h>     /* resolution                                               */
+
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 
@@ -19,12 +22,29 @@
 #include <rf_draw/rfd_internal.h>   /* parent & siblings                                        */
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** XY Position Shift ***********************************************************************/
+#define XY_ADJ                      (0.002f)
+
+/****** Half Screen Values **********************************************************************/
+#define SCREEN_HW                   (640.f*0.5f)
+#define SCREEN_HH                   (480.f*0.5f)
+
+/********************************/
 /*  Source                      */
 /********************************/
 /****** Raw *************************************************************************************/
 void
-rjDrawPolygon(const NJS_POLYGON_VTX* restrict polygon, Int count, Int trans)
+rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 {
+    /**** Constants *************************************************************************/
+
+    const Float scrn_hw = SCREEN_HW;
+    const Float scrn_hh = SCREEN_HH;
+
+    /**** Draw ******************************************************************************/
+
     rjSetBlend2D(trans);
 
     rjStartVertex2D(RJE_VERTEX_PC);
@@ -35,8 +55,8 @@ rjDrawPolygon(const NJS_POLYGON_VTX* restrict polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i )
     {
-        p_buf[i].pos.x = polygon[i].x;
-        p_buf[i].pos.y = polygon[i].y;
+        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
         p_buf[i].pos.z = polygon[i].z;
         p_buf[i].col   = polygon[i].col;
     }
@@ -47,8 +67,15 @@ rjDrawPolygon(const NJS_POLYGON_VTX* restrict polygon, Int count, Int trans)
 }
 
 void
-rjDrawTextureEx(const NJS_TEXTURE_VTX* restrict polygon, Int count, Int trans)
+rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 {
+    /**** Constants *************************************************************************/
+
+    const Float scrn_hw = SCREEN_HW;
+    const Float scrn_hh = SCREEN_HH;
+
+    /**** Uv Clamp Hack *********************************************************************/
+
     Int uv_clamp = TRUE;
 
     for ( int i = 0; i < count; ++i )
@@ -61,6 +88,8 @@ rjDrawTextureEx(const NJS_TEXTURE_VTX* restrict polygon, Int count, Int trans)
         }
     }
 
+    /**** Draw ******************************************************************************/
+
     rjSetBlend2D(trans);
     rjSetTexture2D(uv_clamp);
 
@@ -72,12 +101,61 @@ rjDrawTextureEx(const NJS_TEXTURE_VTX* restrict polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i )
     {
-        p_buf[i].pos.x = polygon[i].x;
-        p_buf[i].pos.y = polygon[i].y;
+        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
         p_buf[i].pos.z = polygon[i].z;
         p_buf[i].u     = polygon[i].u;
         p_buf[i].v     = polygon[i].v;
         p_buf[i].col   = polygon[i].col;
+    }
+
+    rjEndTriStrip(nbv);
+
+    rjEndVertex();
+}
+
+void
+rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
+{
+    /**** Constants *************************************************************************/
+
+    const Float scrn_hw = SCREEN_HW;
+    const Float scrn_hh = SCREEN_HH;
+
+    /**** Uv Clamp Hack *********************************************************************/
+
+    Int uv_clamp = TRUE;
+
+    for ( int i = 0; i < count; ++i )
+    {
+        if ( polygon[i].u > 1.f || polygon[i].u < 0.f ||
+            polygon[i].v > 1.f || polygon[i].v < 0.f )
+        {
+            uv_clamp = FALSE;
+            break;
+        }
+    }
+
+    /**** Draw ******************************************************************************/
+
+    rjSetBlend2D(trans);
+    rjSetTexture2D(uv_clamp);
+
+    rjStartVertex2D(RJE_VERTEX_PTCS);
+
+    const Sint32 nbv = rjStartTriStrip(count);
+
+    RJS_VERTEX_PTCS* restrict p_buf = rjGetVertexBuffer();
+
+    for ( int i = 0; i < count; ++i )
+    {
+        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+        p_buf[i].pos.z = polygon[i].z;
+        p_buf[i].u     = polygon[i].u;
+        p_buf[i].v     = polygon[i].v;
+        p_buf[i].col   = polygon[i].bcol;
+        p_buf[i].spc   = polygon[i].ocol;
     }
 
     rjEndTriStrip(nbv);
@@ -93,11 +171,26 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
     rjDrawTextureEx(polygon, count, flag);
 }
 
+void
+rjDrawTextureH(const NJS_TEXTUREH_VTX* polygon, Int count, Int tex, Int flag)
+{
+    _nj_curr_ctx_->texsurface = rjGetTextureSurfaceG(tex);
+
+    rjDrawTextureHEx(polygon, count, flag);
+}
+
 /****** Draw 2D *********************************************************************************/
 void
-rjDrawPolygon2D(const NJS_POINT2COL* restrict p, Sint32 n, Float pri, Uint32 attr)
+rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 {
+    /**** Constants *************************************************************************/
+
+    const Float scrn_hw = SCREEN_HW;
+    const Float scrn_hh = SCREEN_HH;
+
     const f32 uv_mul = (1.f/256.f);
+
+    /**** Draw ******************************************************************************/
 
     const NJS_POINT2* p_pos = p->p;
     const NJS_TEX*    p_tex = &p->tex->tex;
@@ -119,8 +212,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* restrict p, Sint32 n, Float pri, Uint32 att
 
         for ( int i = 0; i < n; ++i )
         {
-            p_buf[i].pos.x = p_pos[i].x;
-            p_buf[i].pos.y = p_pos[i].y;
+            p_buf[i].pos.x = ( (p_pos[i].x - XY_ADJ - scrn_hw) / scrn_hw );
+            p_buf[i].pos.y = ( (p_pos[i].y - XY_ADJ - scrn_hh) / scrn_hh );
             p_buf[i].pos.z = z;
 
             p_buf[i].u     = (f32)p_tex[i].u * uv_mul;
@@ -143,8 +236,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* restrict p, Sint32 n, Float pri, Uint32 att
 
         for ( int i = 0; i < n; ++i )
         {
-            p_buf[i].pos.x = p_pos[i].x;
-            p_buf[i].pos.y = p_pos[i].y;
+            p_buf[i].pos.x = ( (p_pos[i].x - XY_ADJ - scrn_hw) / scrn_hw );
+            p_buf[i].pos.y = ( (p_pos[i].y - XY_ADJ - scrn_hh) / scrn_hh );
             p_buf[i].pos.z = z;
 
             p_buf[i].col   = p_col[i];
@@ -164,7 +257,7 @@ rjDrawPolygon3DExStart(Int trans)
 }
 
 void
-rjDrawPolygon3DExSetData(const NJS_POLYGON_VTX* restrict p, Int count)
+rjDrawPolygon3DExSetData(const NJS_POLYGON_VTX* p, Int count)
 {
     rjStartVertex3D(RJE_VERTEX_PC);
 
@@ -197,7 +290,7 @@ rjDrawTexture3DExStart(Int trans)
 }
 
 void
-rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* restrict p, Int count)
+rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* p, Int count)
 {
     rjStartVertex3D(RJE_VERTEX_PTC);
 
@@ -226,14 +319,14 @@ rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* restrict p, Int count)
 
 /****** Draw 3D *********************************************************************************/
 void
-rjDrawTexture3DEx(const NJS_TEXTURE_VTX* restrict p, const Int count, Int trans)
+rjDrawTexture3DEx(const NJS_TEXTURE_VTX* p, const Int count, Int trans)
 {
     rjDrawTexture3DExStart(trans);
     rjDrawTexture3DExSetData(p, count);
 }
 
 void
-rjDrawPolygon3DEx(const NJS_POLYGON_VTX* restrict p, const Int count, Int trans)
+rjDrawPolygon3DEx(const NJS_POLYGON_VTX* p, const Int count, Int trans)
 {
     rjDrawPolygon3DExStart(trans);
     rjDrawPolygon3DExSetData(p, count);
