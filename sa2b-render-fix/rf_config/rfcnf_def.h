@@ -221,6 +221,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_COMPACT               )   /* Character Spacing */
 #define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_THIRD                 )   /* Space Character Width */
 #define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
+#define CNF_FONT_PTFILTER           CNFO_INT(   CNFS_FONT           , "ptfilter"            , CNFE_BOOL_DISABLED                    )   /* Use point filtering */
 
 /** Player section **/
 #define CNF_PLAYER_MODEL            CNFO_INT(   CNFS_PLAYER         , "model"               , CNFE_PLAYER_MODEL_GAMECUBE            )   /* Player model mode */
@@ -284,6 +285,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_MISC_NOSHADOWS          CNFO_INT(   CNFS_MISC           , "no_shadows"          , CNFE_BOOL_DISABLED                    )   /* Disable Shadows */
 
 /** Experimental section **/
+#define CNF_EXP_UIFILTER            CNFO_INT(   CNFS_EXP            , "uifilter"            , CNFE_BOOL_DISABLED                    )   /* Dreamcast UI Filtering */
 #define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
 /** Compatibility section **/
