@@ -266,7 +266,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Cart section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */
-#define CNF_CART_SEAFIX             CNFO_INT(   CNFS_CART           , "seafix"              , CNFE_BOOL_ENABLED                     )   /* Sea Fix */
 #define CNF_CART_CARTSPRITE         CNFO_INT(   CNFS_CART           , "cart_sprite"         , CNFE_CART_CARTSPRITE_ENABLED          )   /* DC Cart Height */
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 

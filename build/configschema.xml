@@ -161,9 +161,6 @@ Disabling this may cause player characters to look out of place in some situatio
       <Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
         <HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
       </Property>
-      <Property name="seafix" display="Sea Fix" type="eBOOL" defaultvalue="1">
-        <HelpText>Disables fog on the sea model to fix a harsh cut off, and to match the Dreamcast version.</HelpText>
-      </Property>
       <Property name="cart_sprite" display="Cart Sprite/Height Fix" type="eCART_SPRITE" defaultvalue="2">
         <HelpText>The cart models were lowered for Battle, but the cart headlight sprites were not. This lowers the sprites to fix the visual desync. The 'Dreamcast' option instead raises the cart to the sprites to match the Dreamcast version.</HelpText>
       </Property>

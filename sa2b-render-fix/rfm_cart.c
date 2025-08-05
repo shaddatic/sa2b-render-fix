@@ -35,14 +35,6 @@
 /********************************/
 /****** Static **********************************************************************************/
 static void
-DrawCartSea(void)
-{
-    njFogDisable();
-    CartSeaDisplay();
-    njFogEnable();
-}
-
-static void
 LoadCartLightFiles(void)
 {
     c8 ubuf[32];
@@ -56,11 +48,6 @@ LoadCartLightFiles(void)
 void
 RFM_CartInit(void)
 {
-    if (RF_ConfigGetInt(CNF_CART_SEAFIX))
-    {
-        WriteJump(0x00622075, DrawCartSea);
-    }
-
     if (RF_ConfigGetInt(CNF_CART_KANBAN))
     {
         WriteData(0x006224EC, -1063 + 39, s32);
