@@ -46,6 +46,11 @@ The original games used 'Half Width'.</HelpText>
       <Property name="nokey" display="Use Original Text Dialogs" type="eBOOL" defaultvalue="1">
         <HelpText>Force the game into using the gamepad, and therefore original Dreamcast and GameCube, text dialogs. This increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
       </Property>
+      <Property name="ptfilter" display="Font Point Filter" type="eBOOL" defaultvalue="0">
+        <HelpText>Use point sampling on the font textures, same as the Dreamcast version.
+
+NOTE: This is enabled automatically when playing in 480p resolution.</HelpText>
+      </Property>
     </Group>
     <Group name="player" display="Player Settings">
       <Property name="model" display="Character Model Type" type="ePL_MDL" defaultvalue="0">
@@ -219,6 +224,9 @@ Shadow maps are no longer actively supported, and may be removed in the future.<
       </Property>
     </Group>
     <Group name="experimental" display="Experimental Settings">
+      <Property name="uifilter" display="Dreamcast UI Filtering" type="eBOOL" defaultvalue="0">
+        <HelpText>Use point sampling on some UI textures, such as the in-game HUD, to match the Dreamcast version.</HelpText>
+      </Property>
       <Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
         <HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
       </Property>
