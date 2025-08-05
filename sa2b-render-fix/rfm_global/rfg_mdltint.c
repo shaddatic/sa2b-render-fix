@@ -39,12 +39,4 @@ RFG_ModelTintInit(void)
     GjsModelTintFix(0x00B3B67C); // Nocol Skull
     GjsModelTintFix(0x01091CE4); // Tree ST Trunk
     GjsModelTintFix(0x01092464); // Tree SNB Trunk
-
-    // to be removed when specular is restored
-
-//  GjsModelTintFix(0x00B57134); // Ring LOD Far
-//  GjsModelTintFix(0x00B575C4); // Ring LOD Med
-//  GjsModelTintFix(0x00B57AD4); // Ring LOD Close
-
-    CnkModelTintFix(0x00B5674C); // SGRing // Cart rings
 }
