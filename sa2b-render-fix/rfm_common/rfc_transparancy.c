@@ -74,6 +74,15 @@ RFC_TransparancyInit(void)
     if (!RF_ConfigGetInt(CNF_COMMON_TR_SORT))
         return;
 
+    /** enemy light particles **/
+    SwitchDisplayer(0x00510E55, DISP_DELY);
+
+    SwitchDisplayer(0x005110A6, DISP_DELY);
+    SwitchDisplayer(0x005110C7, DISP_DELY);
+    SwitchDisplayer(0x005110E8, DISP_DELY);
+    SwitchDisplayer(0x00511109, DISP_DELY);
+    SwitchDisplayer(0x0051112A, DISP_DELY);
+
     /** Displayer switching **/
     {
         SwitchDisplayer(0x006EDB91, DISP_SORT); // Water Ripples
