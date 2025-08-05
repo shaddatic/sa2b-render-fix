@@ -22,9 +22,6 @@
 /********************************/
 /*  Constants                   */
 /********************************/
-/****** XY Position Shift ***********************************************************************/
-#define XY_ADJ                      (0.002f)
-
 /****** Half Screen Values **********************************************************************/
 #define SCREEN_HW                   (640.f*0.5f)
 #define SCREEN_HH                   (480.f*0.5f)
@@ -110,8 +107,8 @@ ___rjGetSpritePoints2D(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* restrict s
 
     for ( int i = 0; i < 4; ++i )
     {
-        pOutPt[i].x = ( ((pOutPt[i].x + sp->p.x) - XY_ADJ - scrn_hw) / scrn_hw );
-        pOutPt[i].y = ( ((pOutPt[i].y + sp->p.y) - XY_ADJ - scrn_hh) / scrn_hh );
+        pOutPt[i].x = ( ((pOutPt[i].x + sp->p.x) - scrn_hw) / scrn_hw );
+        pOutPt[i].y = ( ((pOutPt[i].y + sp->p.y) - scrn_hh) / scrn_hh );
         pOutPt[i].z = z;
     }
 

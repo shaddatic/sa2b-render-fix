@@ -63,16 +63,20 @@ ___C_MTXMultVec(void)
 static void
 SendScreenRatioToShader(float resW, float resH)
 {
+    ___NOTE("This is far more general now than just 3D sprites, and should be moved at a later date.");
+
     const float adj_w = resW / 640.0f;
     const float adj_h = resH / 480.0f;
 
-    const float res_w = DisplayResolutionX * adj_w;
-    const float res_h = DisplayResolutionY * adj_h;
+    // x and y components are the inverse viewport resolution (Render Fix change)
+    const float inv_x = 1.f / (adj_w * DisplayResolutionX);
+    const float inv_y = 1.f / (adj_h * DisplayResolutionY);
 
-    const float asp_w = res_w / resW;
-    const float asp_h = res_h / resH / asp_w;
+    // z is idk, and w is the aspect ratio difference from 4:3
+    const float asp_w = (DisplayResolutionX * adj_w) / resW;
+    const float asp_h = (DisplayResolutionY * adj_h) / resH / asp_w;
 
-    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
+    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, inv_x, inv_y, asp_w / adj_h, asp_h / adj_w);
 }
 
 #define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)

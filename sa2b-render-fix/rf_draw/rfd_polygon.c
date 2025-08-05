@@ -24,9 +24,6 @@
 /********************************/
 /*  Constants                   */
 /********************************/
-/****** XY Position Shift ***********************************************************************/
-#define XY_ADJ                      (0.002f)
-
 /****** Half Screen Values **********************************************************************/
 #define SCREEN_HW                   (640.f*0.5f)
 #define SCREEN_HH                   (480.f*0.5f)
@@ -55,8 +52,8 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i )
     {
-        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
-        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+        p_buf[i].pos.x = ( (polygon[i].x - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - scrn_hh) / scrn_hh );
         p_buf[i].pos.z = polygon[i].z;
         p_buf[i].col   = polygon[i].col;
     }
@@ -101,8 +98,8 @@ rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i )
     {
-        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
-        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+        p_buf[i].pos.x = ( (polygon[i].x - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - scrn_hh) / scrn_hh );
         p_buf[i].pos.z = polygon[i].z;
         p_buf[i].u     = polygon[i].u;
         p_buf[i].v     = polygon[i].v;
@@ -149,8 +146,8 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
 
     for ( int i = 0; i < count; ++i )
     {
-        p_buf[i].pos.x = ( (polygon[i].x - XY_ADJ - scrn_hw) / scrn_hw );
-        p_buf[i].pos.y = ( (polygon[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+        p_buf[i].pos.x = ( (polygon[i].x - scrn_hw) / scrn_hw );
+        p_buf[i].pos.y = ( (polygon[i].y - scrn_hh) / scrn_hh );
         p_buf[i].pos.z = polygon[i].z;
         p_buf[i].u     = polygon[i].u;
         p_buf[i].v     = polygon[i].v;
@@ -212,8 +209,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 
         for ( int i = 0; i < n; ++i )
         {
-            p_buf[i].pos.x = ( (p_pos[i].x - XY_ADJ - scrn_hw) / scrn_hw );
-            p_buf[i].pos.y = ( (p_pos[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+            p_buf[i].pos.x = ( (p_pos[i].x - scrn_hw) / scrn_hw );
+            p_buf[i].pos.y = ( (p_pos[i].y - scrn_hh) / scrn_hh );
             p_buf[i].pos.z = z;
 
             p_buf[i].u     = (f32)p_tex[i].u * uv_mul;
@@ -236,8 +233,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 
         for ( int i = 0; i < n; ++i )
         {
-            p_buf[i].pos.x = ( (p_pos[i].x - XY_ADJ - scrn_hw) / scrn_hw );
-            p_buf[i].pos.y = ( (p_pos[i].y - XY_ADJ - scrn_hh) / scrn_hh );
+            p_buf[i].pos.x = ( (p_pos[i].x - scrn_hw) / scrn_hw );
+            p_buf[i].pos.y = ( (p_pos[i].y - scrn_hh) / scrn_hh );
             p_buf[i].pos.z = z;
 
             p_buf[i].col   = p_col[i];

@@ -118,5 +118,8 @@ VS_OUT main(VS_IN inp)
     outp.stexnum = g_NumTexGens;
 #endif
 
+    // DirectX 9 pixel offset issue
+    outp.position.xy += g_DeviceInfo.xy * outp.position.w;
+
     return outp;
 }
