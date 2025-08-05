@@ -85,6 +85,7 @@ void
 RFM_GlobalInit(void)
 {
     RFG_FrameSkipInit();
+    RFG_UiFilterInit();
 
     if (RF_ConfigGetInt(CNF_GLOBAL_IGBIX))
     {

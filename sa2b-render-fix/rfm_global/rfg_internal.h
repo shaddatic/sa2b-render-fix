@@ -33,6 +33,8 @@ void    RFG_DrawLineInit( void );
 
 void    RFG_FrameSkipInit( void );
 
+void    RFG_UiFilterInit( void );
+
 EXTERN_END
 
 #endif/*_RFM_GLOBAL_INTERNAL_H_*/

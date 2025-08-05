@@ -55,6 +55,7 @@
     <ClCompile Include="rfm_global\rfg_drawline.c" />
     <ClCompile Include="rfm_global\rfg_frameskip.c" />
     <ClCompile Include="rfm_global\rfg_spotlight_fix.c" />
+    <ClCompile Include="rfm_global\rfg_uifilter.c" />
     <ClCompile Include="rfm_mstreet.c" />
     <ClCompile Include="rfm_player.c" />
     <ClCompile Include="rfm_player\rfpl_chaos0.c" />
