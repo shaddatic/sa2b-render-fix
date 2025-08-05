@@ -5,6 +5,7 @@
 #include <samt/core.h>          /* core                                             */
 #include <samt/writemem.h>      /* WriteData, WriteJump, WritePointer               */
 #include <samt/writeop.h>       /* WriteJump, WriteCall                             */
+#include <samt/funchook.h>      /* hookinfo                                         */
 
 #define SAMT_INCL_INTERNAL
 
@@ -12,6 +13,9 @@
 #include <samt/ninja/ninja.h>   /* ninja                                            */
 
 #undef SAMT_INCL_INTERNAL
+
+/****** Soc *************************************************************************/
+#include <samt/soc/shader.h>    /* setshader                                        */
 
 /****** Utility *********************************************************************/
 #include <samt/util/anyobj.h>   /* ANY_OBJECT                                       */
@@ -276,6 +280,49 @@ ___SetScreenHook(void)
     }
 }
 
+/****** Chao Shader *****************************************************************/
+
+#define chCnkPList_p                FUNC_PTR(void, __cdecl, (Sint16*, Uint16), 0x0056D7C0)
+#define chAttrPList_p               FUNC_PTR(void, __cdecl, (Sint16*, Uint16), 0x0056D9F0)
+
+static void
+chCnkPListHook(Sint16* plist, Uint16 vtype)
+{
+    SetShaderType( SHADER_TYPE_MDL );
+
+    chCnkPList_p(plist, vtype);
+}
+
+static void
+chAttrPListHook(Sint16* plist, Uint16 vtype)
+{
+    SetShaderType( SHADER_TYPE_MDL );
+
+    chAttrPList_p(plist, vtype);
+}
+
+#define ChaoUIElemStart_p           FUNC_PTR(void, __cdecl, (void), 0x00543CE0)
+
+static mt_hookinfo ChaoUIElemStartHookInfo[1];
+static void
+ChaoUIElemStartHook(void)
+{
+    SetShaderType( SHADER_TYPE_UI ); // not a typo, just weird
+
+    mtHookInfoCall( ChaoUIElemStartHookInfo, ChaoUIElemStart_p() );
+}
+
+#define ChaoUIElemStart2_p          FUNC_PTR(void, __cdecl, (void), 0x00583C60)
+
+static mt_hookinfo ChaoUIElemStart2HookInfo[1];
+static void
+ChaoUIElemStart2Hook(void)
+{
+    SetShaderType( SHADER_TYPE_MDL ); // not a typo, just weird
+
+    mtHookInfoCall( ChaoUIElemStart2HookInfo, ChaoUIElemStart2_p() );
+}
+
 /****** Init ************************************************************************/
 void
 RF_DrawInit(void)
@@ -349,4 +396,12 @@ RF_DrawInit(void)
     WriteCall(0x006DA08A, ___njCnkEasyDrawModel);
 
     WriteCall(0x00656B3A, ___njCnkEasyDrawModel); // Sand Ocean: Moon
+
+    /** Fix shader issues (mostly Chao world) **/
+
+    WriteCall( 0x0056DF29, chCnkPListHook );
+    WriteCall( 0x0056DF13, chAttrPListHook );
+
+    mtHookFunc( ChaoUIElemStartHookInfo , ChaoUIElemStart_p , ChaoUIElemStartHook );
+    mtHookFunc( ChaoUIElemStart2HookInfo, ChaoUIElemStart2_p, ChaoUIElemStart2Hook );
 }
