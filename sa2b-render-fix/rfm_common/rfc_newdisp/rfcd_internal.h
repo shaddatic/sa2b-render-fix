@@ -12,6 +12,12 @@
 
 EXTERN_START
 
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** DirectDraw ******************************************************************************/
+#define EnemyDrawAllowDirect        DATA_REF(Bool, 0x0174AFFC)
+
 /************************/
 /*  Prototypes          */
 /************************/
@@ -71,6 +77,11 @@ void    RFCD_JungleObjectInit( void );
 *     Enemy Kumi Beetle.
 */
 void    RFCD_EnemyKumiInit( void );
+/*
+*   Description:
+*     Enemy bullet init.
+*/
+void    RFCD_EnemyBulletInit( void );
 
 EXTERN_END
 

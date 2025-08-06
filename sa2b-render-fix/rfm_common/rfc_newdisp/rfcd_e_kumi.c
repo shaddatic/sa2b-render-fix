@@ -33,9 +33,6 @@
 /********************************/
 /*  Game Defs                   */
 /********************************/
-/****** Static **********************************************************************************/
-#define EnemyKumiAllowDirect        DATA_REF(Bool, 0x0174AFFC)
-
 /****** Kumi Pika Object ************************************************************************/
 #define model_e_kumi_pika           DATA_ARY(NJS_CNK_MODEL , 0x014B2C64, [1])
 #define object_e_kumi_pika          DATA_ARY(NJS_CNK_OBJECT, 0x014B2C7C, [1])
@@ -181,8 +178,6 @@ EnemyKumiDisp_RF(task* tp)
 void
 RFCD_EnemyKumiInit(void)
 {
-    EnemyKumiAllowDirect = TRUE;
-
     WriteCall(0x00500205, FalseAlloc); // syCalloc( 0, 1 ) calls
     WriteCall(0x0050035D, FalseAlloc); // ^^
 

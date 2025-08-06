@@ -22,11 +22,15 @@ RFC_NewDisplayerInit(void)
     RFCD_SpringInit();
     RFCD_GoalringInit();
     RFCD_UDReelInit();
-    RFCD_EnemyJetInit();
     RFCD_MizugomiInit();
     RFCD_ItemBoxInit();
     RFCD_PrisonSirenInit();
     RFCD_FinalChaseGravityCylinderInit();
     RFCD_JungleObjectInit();
+
+    EnemyDrawAllowDirect = TRUE;
+
+    RFCD_EnemyJetInit();
     RFCD_EnemyKumiInit();
+    RFCD_EnemyBulletInit();
 }
