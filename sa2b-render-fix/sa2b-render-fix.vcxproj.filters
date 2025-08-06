@@ -420,6 +420,9 @@
     <ClCompile Include="rfm_global\rfg_uifilter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_bullet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_objpak.h">

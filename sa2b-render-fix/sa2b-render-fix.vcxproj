@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
     <ClCompile Include="rfm_event\ev_file.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_blare.c" />
