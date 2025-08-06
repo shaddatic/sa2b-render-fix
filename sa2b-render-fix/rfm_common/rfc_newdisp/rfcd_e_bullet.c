@@ -28,6 +28,7 @@
 /****** Texlist ********************************************************************************/
 #define texlist_bultex              DATA_ARY(NJS_TEXLIST   , 0x0145F284, [1])
 #define object_e_bullet             DATA_ARY(NJS_CNK_OBJECT, 0x0145F43C, [1])
+#define object_e_bullet_trail       DATA_ARY(NJS_CNK_OBJECT, 0x0145F56C, [1])
 
 /****** Texture Manager *************************************************************************/
 #define EnemyBulletManTexP          DATA_REF(task*, 0x01A5AD9C)
@@ -83,9 +84,69 @@ EnemyBulletDisplayer_RF(const task* tp)
     njPopMatrixEx();
 }
 
+static void
+EnemyBulletChildDisplayer_RF(const task* tp)
+{
+    const taskwk* restrict twp = tp->twp;
+
+    /**** Is Start of Chain *********************************************************************/
+
+    if ( tp->ptp->ctp == tp )
+    {
+        // if ( EnemyDrawAllowDirect != TRUE ) // Dreamcast only
+        {
+            njSetTexture(texlist_bultex);
+        }
+
+        njPushMatrixEx();
+    }
+
+    /**** Draw This Trail ***********************************************************************/
+
+    if ( twp->scl.x > -1.f )
+    {
+        if ( EnemyDrawAllowDirect != TRUE )
+        {
+            SetConstantMaterial(twp->scl.x, 0.f, 0.f, 0.f);
+        }
+
+        njTranslateV(NULL, &twp->pos);
+
+        njRotateY(NULL, twp->ang.y);
+        njRotateX(NULL, twp->ang.x);
+        njRotateZ(NULL, twp->ang.z);
+
+        if ( EnemyBulletManTexP->fwp )
+        {
+            njCnkDirectDrawObject(object_e_bullet_trail);
+        }
+        else
+        {
+            njCnkEasyDrawObject(object_e_bullet_trail);
+        }
+    }
+
+    /**** Is End of Chain ***********************************************************************/
+
+    if ( tp->ptp->ctp == tp->next )
+    {
+        njPopMatrixEx();
+
+        njFogEnable();
+
+        ResetConstantMaterial();
+    }
+    else // another trail to draw
+    {
+        njPopMatrixEx();
+        njPushMatrixEx();
+    }
+}
+
 /****** Init ************************************************************************************/
 void
 RFCD_EnemyBulletInit(void)
 {
     WriteJump(0x00511820, EnemyBulletDisplayer_RF);
+    WriteJump(0x00511570, EnemyBulletChildDisplayer_RF);
 }
