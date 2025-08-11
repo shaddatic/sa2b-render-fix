@@ -34,22 +34,24 @@
 /*  Source Data         */
 /************************/
 /****** Default States **************************************************************/
-static RFRS_CULLMD       CullModeDefault       = RFRS_CULLMD_AUTO;
-static RFRS_TRANSMD      TransModeDefault      = RFRS_TRANSMD_AUTO;
-static RFRS_CMPMD        AlphaFuncDefault      = RFRS_CMPMD_NEQ;
-static uint32_t          AlphaRefDefault       = 0;
-static RFRS_CNKDRAWMD    CnkDrawModeDefault    = RFRS_CNKDRAWMD_ALL;
-static RFRS_CNKFUNCMD    CnkFuncModeDefault    = RFRS_CNKFUNCMD_SIMPLE;
-static RFRS_SOCTEXHACKMD SocTexHackModeDefault = RFRS_SOCTEXHACKMD_ENABLED;
+static RFRS_CULLMD          CullModeDefault             = RFRS_CULLMD_AUTO;
+static RFRS_TRANSMD         TransModeDefault            = RFRS_TRANSMD_AUTO;
+static RFRS_CMPMD           AlphaFuncDefault            = RFRS_CMPMD_NEQ;
+static uint32_t             AlphaRefDefault             = 0;
+static RFRS_CNKDRAWMD       CnkDrawModeDefault          = RFRS_CNKDRAWMD_ALL;
+static RFRS_CNKFUNCMD       CnkFuncModeDefault          = RFRS_CNKFUNCMD_SIMPLE;
+static RFRS_CNKSPECMD       CnkSpecModeDefault          = RFRS_CNKSPECMD_AUTO;
+static RFRS_TWOPASSLIGHTMD  TwoPassLightModeDefault     = RFRS_TWOPASSLIGHTMD_ENABLED;
 
 /****** Override States *************************************************************/
-static RFRS_CULLMD       CullModeOverride       = RFRS_CULLMD_AUTO;
-static RFRS_TRANSMD      TransModeOverride      = RFRS_TRANSMD_AUTO;
-static RFRS_CMPMD        AlphaFuncOverride      = RFRS_CMPMD_NEQ;
-static uint32_t          AlphaRefOverride       = 0;
-static RFRS_CNKDRAWMD    CnkDrawModeOverride    = RFRS_CNKDRAWMD_ALL;
-static RFRS_CNKFUNCMD    CnkFuncModeOverride    = RFRS_CNKFUNCMD_SIMPLE;
-static RFRS_SOCTEXHACKMD SocTexHackModeOverride = RFRS_SOCTEXHACKMD_ENABLED;
+static RFRS_CULLMD          CullModeOverride            = RFRS_CULLMD_AUTO;
+static RFRS_TRANSMD         TransModeOverride           = RFRS_TRANSMD_AUTO;
+static RFRS_CMPMD           AlphaFuncOverride           = RFRS_CMPMD_NEQ;
+static uint32_t             AlphaRefOverride            = 0;
+static RFRS_CNKDRAWMD       CnkDrawModeOverride         = RFRS_CNKDRAWMD_ALL;
+static RFRS_CNKFUNCMD       CnkFuncModeOverride         = RFRS_CNKFUNCMD_SIMPLE;
+static RFRS_CNKSPECMD       CnkSpecModeOverride         = RFRS_CNKSPECMD_AUTO;
+static RFRS_TWOPASSLIGHTMD  TwoPassLightModeOverride    = RFRS_TWOPASSLIGHTMD_ENABLED;
 
 /************************/
 /*  Source              */
@@ -190,19 +192,6 @@ RFRS_SetAlphaTestRef(int32_t value)
 }
 
 void
-RFRS_SetModifierMode(RFRS_MODMD mode)
-{
-    if ( mode == RFRS_MODMD_INVERSE )
-    {
-        _nj_control_3d_flag_ |= NJD_CONTROL_3D_MIRROR_MODEL;
-    }
-    else
-    {
-        _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_MIRROR_MODEL;
-    }
-}
-
-void
 RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
 {
     switch (mode) {
@@ -238,32 +227,42 @@ RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD mode)
 }
 
 void
-RFRS_SetCnkPassMode(RFRS_CNKPASSMD mode)
+RFRS_SetCnkSpecMode(RFRS_CNKSPECMD mode)
 {
-    if ( mode == RFRS_CNKPASSMD_INVERSE )
+    switch (mode)
     {
-        _nj_control_3d_flag_ |= NJD_CONTROL_3D_MIRROR_MODEL;
-    }
-    else
-    {
-        _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_MIRROR_MODEL;
+        case RFRS_CNKSPECMD_NONE:
+        case RFRS_CNKSPECMD_AUTO:
+        case RFRS_CNKSPECMD_NORMAL:
+        case RFRS_CNKSPECMD_EASY:
+        case RFRS_CNKSPECMD_SIMPLE:
+        case RFRS_CNKSPECMD_MULTI:
+        {
+            CnkSpecModeOverride = mode;
+            break;
+        }
+        case RFRS_CNKSPECMD_END:
+        {
+            CnkSpecModeOverride = CnkSpecModeDefault;
+            break;
+        }
     }
 }
 
 void
-RFRS_SetSocTexHackMode(RFRS_SOCTEXHACKMD mode)
+RFRS_SetTwoPassLightingMode(RFRS_TWOPASSLIGHTMD mode)
 {
     switch (mode)
     {
-        case RFRS_SOCTEXHACKMD_DISABLED:
-        case RFRS_SOCTEXHACKMD_ENABLED:
+        case RFRS_TWOPASSLIGHTMD_DISABLED:
+        case RFRS_TWOPASSLIGHTMD_ENABLED:
         {
-            SocTexHackModeOverride = mode;
+            TwoPassLightModeOverride = mode;
             break;
         }
-        case RFRS_SOCTEXHACKMD_END:
+        case RFRS_TWOPASSLIGHTMD_END:
         {
-            SocTexHackModeOverride = SocTexHackModeDefault;
+            TwoPassLightModeOverride = TwoPassLightModeDefault;
             break;
         }
     }
@@ -294,12 +293,6 @@ RFRS_GetAlphaTestRef(void)
     return AlphaRefOverride;
 }
 
-RFRS_MODMD
-RFRS_GetModifierMode(void)
-{
-    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_MODMD_INVERSE : RFRS_MODMD_NORMAL;
-}
-
 RFRS_CNKDRAWMD
 RFRS_GetCnkDrawMode(void)
 {
@@ -312,16 +305,16 @@ RFRS_GetCnkFuncMode(void)
     return CnkFuncModeOverride;
 }
 
-RFRS_CNKPASSMD
-RFRS_GetCnkPassMode(void)
+RFRS_CNKSPECMD
+RFRS_GetCnkSpecMode(void)
 {
-    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_CNKPASSMD_INVERSE : RFRS_CNKPASSMD_NORMAL;
+    return CnkSpecModeOverride;
 }
 
-RFRS_SOCTEXHACKMD
-RFRS_GetSocTexHackMode(void)
+RFRS_TWOPASSLIGHTMD
+RFRS_GetTwoPassLightingMode(void)
 {
-    return SocTexHackModeOverride;
+    return TwoPassLightModeOverride;
 }
 
 /****** Set Default Render Mode *****************************************************/
@@ -365,6 +358,20 @@ RFRS_SetDefaultCnkFuncMode(RFRS_CNKFUNCMD mode)
 {
     CnkFuncModeDefault = mode;
     CnkFuncModeOverride = mode;
+}
+
+void
+RFRS_SetDefaultCnkSpecMode(RFRS_CNKSPECMD mode)
+{
+    CnkSpecModeDefault = mode;
+    CnkSpecModeOverride = mode;
+}
+
+void
+RFRS_SetDefaultTwoPassLightingMode(RFRS_TWOPASSLIGHTMD mode)
+{
+    TwoPassLightModeDefault = mode;
+    TwoPassLightModeOverride = mode;
 }
 
 /****** Init ************************************************************************/

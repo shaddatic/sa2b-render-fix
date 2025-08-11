@@ -12,6 +12,8 @@
 *     - v1.3.2.0: Version 1, added 'SetModifierMode' & 'SetCnkDrawMode'
 *     - v1.4.0.0: Version 2, added 'CnkFunc/PassMode' & 'Get' variants of all functions
 *     - v1.4.0.1: Version 3, added 'SocTexHackMode' functions
+*     - v1.4.1.0: Version 4, depricated 'SocTexHackMode', 'CnkPassMode', & 'ModifierMode'.
+*                            added 'CnkSpecMode' & 'TwoPassLightingMode'
 * 
 *   Availablility:
 *     - RF_EarlyInit : Yes
@@ -27,116 +29,125 @@
 /****** Render State Enums **********************************************************************/
 typedef enum
 {
-    RFRS_CULLMD_END = -1,        /* end and reset to default                        */
+    RFRS_CULLMD_END = -1,           /* end and reset to default                                 */
 
-    RFRS_CULLMD_AUTO,            /* set culling mode by model flags                 */
-    RFRS_CULLMD_NONE,            /* no culling                                      */
-    RFRS_CULLMD_NORMAL,          /* normal culling                                  */
-    RFRS_CULLMD_INVERSE,         /* inverted culling                                */
+    RFRS_CULLMD_AUTO,               /* set culling mode by model flags                [default] */
+    RFRS_CULLMD_NONE,               /* no culling                                               */
+    RFRS_CULLMD_NORMAL,             /* normal culling                                           */
+    RFRS_CULLMD_INVERSE,            /* inverted culling                                         */
 }
 RFRS_CULLMD;
 
 typedef enum
 {
-    RFRS_TRANSMD_END = -1,      /* end and reset to default                         */
+    RFRS_TRANSMD_END = -1,          /* end and reset to default                                 */
 
-    RFRS_TRANSMD_AUTO,          /* set transparancy mode automatically    (default) */
-    RFRS_TRANSMD_OPAQUE,        /* draw without transparancy                        */
-    RFRS_TRANSMD_ALPHATEST,     /* draw transparancy and alpha test    (& Z buffer) */
-    RFRS_TRANSMD_TRANSPARENT,   /* draw transparancy                  (no Z buffer) */
+    RFRS_TRANSMD_AUTO,              /* set transparancy mode automatically            [default] */
+    RFRS_TRANSMD_OPAQUE,            /* draw without transparancy                                */
+    RFRS_TRANSMD_ALPHATEST,         /* draw transparancy w/ alpha test, & Z buffer              */
+    RFRS_TRANSMD_TRANSPARENT,       /* draw transparancy, no Z buffer                           */
     /*
     *     The following modes only change which transparancy mode is used, and leave
     *   'OPAQUE' mode as-is. They were implemented in version 1.3.2 and will simply
     *   do nothing in earlier versions.
     */
-    RFRS_TRANSMD_AUTO_ATEST,    /* auto, use alpha test for transparancy            */
-    RFRS_TRANSMD_AUTO_TRANS,    /* auto, do not use alpha test for transparancy     */
+    RFRS_TRANSMD_AUTO_ATEST,        /* auto, use alpha test for transparancy                    */
+    RFRS_TRANSMD_AUTO_TRANS,        /* auto, do not use alpha test for transparancy             */
 }
 RFRS_TRANSMD;
 
 typedef enum
 {
-    RFRS_CMPMD_END = -1,        /* end and reset to default                         */
+    RFRS_CMPMD_END = -1,            /* end and reset to default                                 */
 
-    RFRS_CMPMD_NVR,             /* never                                            */
-    RFRS_CMPMD_LSS,             /* less                                             */
-    RFRS_CMPMD_EQU,             /* equal                                            */
-    RFRS_CMPMD_LEQ,             /* less or equal                                    */
-    RFRS_CMPMD_GTR,             /* greater                                          */
-    RFRS_CMPMD_NEQ,             /* not equal                                        */
-    RFRS_CMPMD_GEQ,             /* greater or equal                                 */
-    RFRS_CMPMD_ALW,             /* always                                           */
+    RFRS_CMPMD_NVR,                 /* never                                                    */
+    RFRS_CMPMD_LSS,                 /* less                                                     */
+    RFRS_CMPMD_EQU,                 /* equal                                                    */
+    RFRS_CMPMD_LEQ,                 /* less or equal                                            */
+    RFRS_CMPMD_GTR,                 /* greater                                                  */
+    RFRS_CMPMD_NEQ,                 /* not equal                                                */
+    RFRS_CMPMD_GEQ,                 /* greater or equal                                         */
+    RFRS_CMPMD_ALW,                 /* always                                                   */
 }
 RFRS_CMPMD;
 
 typedef enum
 {
-    RFRS_ALPHAREF_END = -1,     /* end and reset to default                         */
+    RFRS_ALPHAREF_END = -1,         /* end and reset to default                                 */
 }
 RFRS_ALPHAREF;
 
 typedef enum
 {
-    RFRS_MODMD_END = -1,        /* end and reset to default                         */
+    RFRS_MODMD_END = -1,            /* end and reset to default                                 */
 
-    RFRS_MODMD_NORMAL,          /* draw modifiers with regular winding              */
-    RFRS_MODMD_INVERSE,         /* draw modifiers with inverse winding              */
+    RFRS_MODMD_NORMAL,              /* draw modifiers with regular winding            [default] */
+    RFRS_MODMD_INVERSE,             /* draw modifiers with inverse winding                      */
 }
 RFRS_MODMD;
 
 typedef enum
 {
-    RFRS_CNKDRAWMD_END = -1,    /* end and reset to default                         */
+    RFRS_CNKDRAWMD_END = -1,        /* end and reset to default                                 */
 
-    RFRS_CNKDRAWMD_ALL,         /* draw all strips                                  */
-    RFRS_CNKDRAWMD_OPAQUE,      /* draw only opaque strips                          */
-    RFRS_CNKDRAWMD_TRANSPARENT, /* draw only transparent strips                     */
+    RFRS_CNKDRAWMD_ALL,             /* draw all strips                                [default] */
+    RFRS_CNKDRAWMD_OPAQUE,          /* draw only opaque strips                                  */
+    RFRS_CNKDRAWMD_TRANSPARENT,     /* draw only transparent strips                             */
 }
 RFRS_CNKDRAWMD;
 
 typedef enum
 {
-    RFRS_CNKFUNCMD_END = -1,     /* end and reset to default                        */
+    RFRS_CNKFUNCMD_END = -1,        /* end and reset to default                                 */
 
-    RFRS_CNKFUNCMD_NORMAL,       /* parameters will be parsed normally              */
-    RFRS_CNKFUNCMD_EASY = 1,     /* parameters will be parsed as if EasyDraw        */
-    RFRS_CNKFUNCMD_SIMPLE,       /* parameters will be parsed as if SimpleDraw      */
-    RFRS_CNKFUNCMD_EASYMULTI = 5,/* parameters will be parsed as if EasyMultiDraw   */
-    RFRS_CNKFUNCMD_SIMPLEMULTI,  /* parameters will be parsed as if SimpleMultiDraw */
-    RFRS_CNKFUNCMD_DIRECT = 8,   /* parameters will be parsed as if DirectDraw      */
+    RFRS_CNKFUNCMD_NORMAL,          /* model parsed normally (rf extension)                     */
+    RFRS_CNKFUNCMD_EASY = 1,        /* use 'EasyDraw' emulation                                 */
+    RFRS_CNKFUNCMD_SIMPLE,          /* use 'SimpleDraw' emulation                     [default] */
+    RFRS_CNKFUNCMD_EASYMULTI = 5,   /* use 'EasyMultiDraw' emulation                            */
+    RFRS_CNKFUNCMD_SIMPLEMULTI,     /* use 'SimpleMultiDraw' emulation                          */
+    RFRS_CNKFUNCMD_DIRECT = 8,      /* use 'DirectDraw' emulation                               */
 }
 RFRS_CNKFUNCMD;
 
 typedef enum
 {
-    RFRS_CNKPASSMD_END = -1,    /* end and reset to default                         */
+    RFRS_CNKPASSMD_END = -1,        /* end and reset to default                                 */
 
-    RFRS_CNKPASSMD_NORMAL,      /* draw inverse tris first, then normal tris        */
-    RFRS_CNKPASSMD_INVERSE,     /* draw normal tris first, then inverse tris        */
+    RFRS_CNKPASSMD_NORMAL,          /* draw inverse tris first, then normal tris      [default] */
+    RFRS_CNKPASSMD_INVERSE,         /* draw normal tris first, then inverse tris                */
 }
 RFRS_CNKPASSMD;
 
 typedef enum
 {
-    RFRS_SOCTEXHACKMD_END = -1, /* end and reset to default                         */
+    RFRS_SOCTEXHACKMD_END = -1,     /* end and reset to default                                 */
 
-    RFRS_SOCTEXHACKMD_DISABLED, /* 2D tex params use the ninja context              */
-    RFRS_SOCTEXHACKMD_ENABLED,  /* context is overridden by soc tex param hack      */
+    RFRS_SOCTEXHACKMD_DISABLED,     /* 2D tex params use the ninja context                      */
+    RFRS_SOCTEXHACKMD_ENABLED,      /* context is overridden by soc tex param hack    [default] */
 }
 RFRS_SOCTEXHACKMD;
 
 typedef enum
 {
-    RFRS_CNKSPECMD_END = -1,    /* end and reset to default                         */
+    RFRS_CNKSPECMD_END = -1,        /* end and reset to default                                 */
 
-    RFRS_CNKSPECMD_NONE,        /* no specular calculations                         */
-    RFRS_CNKSPECMD_AUTO,        /* specular mode matches chunk function mode        */
-    RFRS_CNKSPECMD_NORMAL,      /* use 'normal' specular calculations               */
-    RFRS_CNKSPECMD_EASY,        /* use 'Easy'/'Direct' calculations                 */
-    RFRS_CNKSPECMD_SIMPLE,      /* use 'Simple' calculations                        */
-    RFRS_CNKSPECMD_MULTI,       /* use 'EasyMulti'/'SimpleMulti' calculations       */
+    RFRS_CNKSPECMD_NONE,            /* no specular calculations                                 */
+    RFRS_CNKSPECMD_AUTO,            /* specular mode matches chunk function mode      [default] */
+    RFRS_CNKSPECMD_NORMAL,          /* use 'normal' specular calculations                       */
+    RFRS_CNKSPECMD_EASY,            /* use 'Easy'/'Direct' calculations                         */
+    RFRS_CNKSPECMD_SIMPLE,          /* use 'Simple' calculations                                */
+    RFRS_CNKSPECMD_MULTI,           /* use 'EasyMulti'/'SimpleMulti' calculations               */
 }
 RFRS_CNKSPECMD;
+
+typedef enum
+{
+    RFRS_TWOPASSLIGHTMD_END = -1,     /* end and reset to default                                 */
+
+    RFRS_TWOPASSLIGHTMD_DISABLED,     /* disable the two pass lighting system, always             */
+    RFRS_TWOPASSLIGHTMD_ENABLED,      /* enable two pass lighting where applicable      [default] */
+}
+RFRS_TWOPASSLIGHTMD;
 
 /********************************/
 /*  Constants                   */
@@ -172,7 +183,7 @@ typedef struct
     *     - Useful for transparency sorting
     *
     *   Parameters:
-    *     - mode        : culling mode to set (default: 'AUTO'/'NONE')
+    *     - mode        : culling mode to set
     */
     void(__cdecl* SetCullMode)( RFRS_CULLMD mode );
     /*
@@ -183,29 +194,40 @@ typedef struct
     *     - Useful for forcing the Z buffer on & off via alpha test
     *
     *   Parameters:
-    *     - mode        : transparency mode (default: 'AUTO')
+    *     - mode        : transparency mode
     */
     void(__cdecl* SetTransMode)( RFRS_TRANSMD mode );
     /*
     *   Description:
     *     Set alpha test compare function and reference value.
+    * 
+    *   Notes:
+    *     - Compare mode is 'NEQ' by default, with a ref of '0'
+    *     - Older versions of RF (pre v1.4) use 'GTR', with a ref of '64'
     *
     *   Parameters:
-    *     - mode        : Compare mode to be used (default: 'GTR')
-    *     - value       : A value from 0~255 to compare against (default: 64)
+    *     - mode        : Compare mode to be used
+    *     - value       : A value from 0~255 to compare against
     */
     void(__cdecl* SetAlphaTestFunc)( RFRS_CMPMD mode );
     void(__cdecl* SetAlphaTestRef)(  int32_t   value );
 
     /****** Version >= 1 ************************************************************************/
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : functional
+    *     - reason          : ninja has a specific flag for this purpose
+    *     - alternative     : use 'NJD_CONTROL_3D_MIRROR_MODEL' flag instead
+    * 
     *   Description:
     *     Set modifier model winding mode. If modifiers have inverted normals, such
     *   as being drawn with inverted scaling, this must be set to 'INVERTED' for the
     *   modifiers to work correctly.
     *
     *   Parameters:
-    *     - mode        : modifier mode (default: 'NORMAL')
+    *     - mode        : modifier mode
     */
     void(__cdecl* SetModifierMode)( RFRS_MODMD mode );
     /*
@@ -214,7 +236,7 @@ typedef struct
     *   and transparant strips to be drawn seperately for sorting reasons.
     *
     *   Parameters:
-    *     - mode        : chunk draw mode (default: 'ALL')
+    *     - mode        : chunk draw mode
     */
     void(__cdecl* SetCnkDrawMode)( RFRS_CNKDRAWMD mode );
 
@@ -226,17 +248,24 @@ typedef struct
     *   their quirks.
     *
     *   Parameters:
-    *     - mode        : chunk function emulation mode (default: 'SIMPLE')
+    *     - mode        : chunk function emulation mode
     */
     void(__cdecl* SetCnkFuncMode)( RFRS_CNKFUNCMD mode );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : functional
+    *     - reason          : ninja has a specific flag for this purpose
+    *     - alternative     : use 'NJD_CONTROL_3D_MIRROR_MODEL' flag instead
+    * 
     *   Description:
     *     Set the transparency pass mode. If the scaling is inverted, this should be set
     *   to 'INVERSE' so the front and back faces of transparent strips can be correctly
     *   sorted.
     *
     *   Parameters:
-    *     - mode        : chunk transparency pass mode (default: 'NORMAL')
+    *     - mode        : chunk transparency pass mode
     */
     void(__cdecl* SetCnkPassMode)( RFRS_CNKPASSMD mode );
 
@@ -266,6 +295,13 @@ typedef struct
     */
     int32_t(__cdecl* GetAlphaTestRef)( void );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : functional
+    *     - reason          : ninja has a specific flag for this purpose
+    *     - alternative     : use 'NJD_CONTROL_3D_MIRROR_MODEL' flag instead
+    * 
     *   Description:
     *     Get the current modifier mode.
     */
@@ -281,32 +317,92 @@ typedef struct
     */
     RFRS_CNKFUNCMD(__cdecl* GetCnkFuncMode)( void );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : functional
+    *     - reason          : ninja has a specific flag for this purpose
+    *     - alternative     : use 'NJD_CONTROL_3D_MIRROR_MODEL' flag instead
+    * 
     *   Description:
     *     Get the current Chunk transparancy pass mode.
     */
     RFRS_CNKPASSMD(__cdecl* GetCnkPassMode)( void );
 
     /****** Version >= 3 ************************************************************************/
+
+    /**** SOC Texture Filtering Hack ************************/
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional
+    *     - reason          : most draw functions have been replaced, making it useless
+    *     - alternative     : none
+    * 
     *   Description:
     *     Set the state of SoC's texture param hack, which forces certain texture
     *   parameters depending on the draw function. If you wish to use custom
     *   texture settings via the Ninja context, this should be 'DISABLED' before
     *   doing so.
     *
-    *   Notes:
-    *     - This is a temporary render state until the underlying UV issues for
-    *       these draw functions are fixed.
-    *
     *   Parameters:
     *     - mode        : soc texture param hack mode (default: 'ENABLED')
     */
     void (__cdecl* SetSocTexHackMode)( RFRS_SOCTEXHACKMD mode );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : always returns 'DISABLED'
+    *     - reason          : most draw functions have been replaced, making it useless
+    *     - alternative     : none
+    * 
     *   Description:
     *     Get the current SoC texture hack mode.
     */
     RFRS_SOCTEXHACKMD (__cdecl* GetSocTexHackMode)( void );
+
+    /****** Version >= 4 ************************************************************************/
+
+    /**** Chunk Specular ************************************/
+    /*
+    *   Description:
+    *     Set the Chunk specular calculation mode. Each draw function variant used a different
+    *   method for calculating specular color, and this allows you to mix and match them to
+    *   your liking.
+    *
+    *   Parameters:
+    *     - mode        : chunk specular calculation mode
+    */
+    void (__cdecl* SetCnkSpecMode)( RFRS_CNKSPECMD mode );
+    /*
+    *   Description:
+    *     Get the current Chunk specular calculation mode.
+    */
+    RFRS_CNKSPECMD (__cdecl* GetCnkSpecMode)( void );
+
+    /**** Two Pass Lighting *********************************/
+    /*
+    *   Description:
+    *     Set the two pass lighting calculation mode. This enables two sided polygons to be lit
+    *   seperately - hence two-pass - when drawing Chunk models with 'SimpleDraw'. When
+    *   disabled, both sides of the polygon are lit the same; mimicking 'EasyDraw'.
+    *
+    *   Notes:
+    *     - There's no real reason to disable this, it was only created to support models with
+    *       broken triangle normals as this also then broke their lighting too. If you're using
+    *       this API, just fix your model.
+    *
+    *   Parameters:
+    *     - mode        : two pass lighting mode
+    */
+    void (__cdecl* SetTwoPassLightingMode)( RFRS_TWOPASSLIGHTMD mode );
+    /*
+    *   Description:
+    *     Get the current two pass lighting calculation mode.
+    */
+    RFRS_TWOPASSLIGHTMD (__cdecl* GetTwoPassLightingMode)( void );
 }
 RFAPI_RENDERSTATE;
 

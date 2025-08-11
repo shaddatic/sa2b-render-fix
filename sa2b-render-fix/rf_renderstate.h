@@ -40,7 +40,7 @@ void    RF_RenderStateInit( void );
 *     - Useful for transparency sorting
 *
 *   Parameters:
-*     - mode        : culling mode to set (default: 'AUTO'/'NONE')
+*     - mode        : triangle culling mode
 */
 void    RFRS_SetCullMode( RFRS_CULLMD mode );
 /*
@@ -51,7 +51,7 @@ void    RFRS_SetCullMode( RFRS_CULLMD mode );
 *     - Useful for forcing the Z buffer on & off via alpha test
 *
 *   Parameters:
-*     - mode        : transparency mode (default: 'AUTO')
+*     - mode        : transparency mode
 */
 void    RFRS_SetTransMode( RFRS_TRANSMD mode );
 /*
@@ -59,28 +59,18 @@ void    RFRS_SetTransMode( RFRS_TRANSMD mode );
 *     Set alpha test compare function and reference value.
 *
 *   Parameters:
-*     - mode        : Compare mode to be used (default: 'GTR')
-*     - value       : A value from 0~255 to compare against (default: 64)
+*     - mode        : Compare mode to be used
+*     - value       : A value from 0~255 to compare against
 */
 void    RFRS_SetAlphaTestFunc( RFRS_CMPMD mode );
 void    RFRS_SetAlphaTestRef(  int32_t   value );
-/*
-*   Description:
-*     Set modifier model winding mode. If modifiers have inverted normals, such
-*   as being drawn with inverted scaling, this must be set to 'INVERTED' for the
-*   modifiers to work correctly.
-*
-*   Parameters:
-*     - mode        : modifier mode (default: 'NORMAL')
-*/
-void    RFRS_SetModifierMode( RFRS_MODMD mode );
 /*
 *   Description:
 *     Set the draw mode of opaque/transparent Chunk strips, allowing for opaque and
 *   transparant strips to be drawn seperately for sorting reasons.
 *
 *   Parameters:
-*     - mode        : chunk draw mode (default: 'ALL')
+*     - mode        : chunk draw mode
 */
 void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
 /*
@@ -90,33 +80,34 @@ void    RFRS_SetCnkDrawMode( RFRS_CNKDRAWMD mode );
 *   their quirks.
 *
 *   Parameters:
-*     - mode        : chunk function emulation mode (default: 'SIMPLE')
+*     - mode        : chunk function emulation mode
 */
 void    RFRS_SetCnkFuncMode( RFRS_CNKFUNCMD mode );
 /*
 *   Description:
-*     Set the transparency pass mode. If the scaling is inverted, this should be set
-*   to 'INVERSE' so the front and back faces of transparent strips can be correctly
-*   sorted.
+*     Set the Chunk specular calculation mode. Each draw function variant used a
+*   different method for calculating specular color, and this allows you to mix and
+*   match them to your liking.
 *
 *   Parameters:
-*     - mode        : chunk transparency pass mode (default: 'NORMAL')
+*     - mode        : chunk specular calculation mode
 */
-void    RFRS_SetCnkPassMode( RFRS_CNKPASSMD mode );
+void    RFRS_SetCnkSpecMode( RFRS_CNKSPECMD mode );
 /*
 *   Description:
-*     Set the state of SoC's texture param hack, which forces certain texture
-*   parameters depending on the draw function. If you wish to use custom texture
-*   settings via the Ninja context, this should be 'DISABLED' before doing so.
+*     Set the two pass lighting calculation mode. This enables two sided polygons to
+*   be lit seperately - hence two-pass - when drawing Chunk models with 'SimpleDraw'.
+*   When disabled, both sides of the polygon are lit the same; mimicking 'EasyDraw'.
 *
 *   Notes:
-*     - This is a temporary render state until the underlying UV issues for these
-*       draw functions are fixed.
+*     - There's no real reason to disable this, it was only created to support
+*       models with broken triangle normals as this also then broke their lighting
+*       too. If you're using this API, just fix your model.
 *
 *   Parameters:
-*     - mode        : soc texture param hack mode (default: 'ENABLED')
+*     - mode        : two pass lighting mode
 */
-void    RFRS_SetSocTexHackMode( RFRS_SOCTEXHACKMD mode );
+void    RFRS_SetTwoPassLightingMode( RFRS_TWOPASSLIGHTMD mode );
 
 /****** Get Render State ************************************************************/
 /*
@@ -141,11 +132,6 @@ RFRS_CMPMD RFRS_GetAlphaTestFunc( void );
 int32_t RFRS_GetAlphaTestRef( void );
 /*
 *   Description:
-*     Get the current modifier mode.
-*/
-RFRS_MODMD RFRS_GetModifierMode( void );
-/*
-*   Description:
 *     Get the current Chunk Draw mode.
 */
 RFRS_CNKDRAWMD RFRS_GetCnkDrawMode( void );
@@ -156,14 +142,14 @@ RFRS_CNKDRAWMD RFRS_GetCnkDrawMode( void );
 RFRS_CNKFUNCMD RFRS_GetCnkFuncMode( void );
 /*
 *   Description:
-*     Get the current Chunk transparancy pass mode.
+*     Get the current Chunk specular calculation mode.
 */
-RFRS_CNKPASSMD RFRS_GetCnkPassMode( void );
+RFRS_CNKSPECMD RFRS_GetCnkSpecMode( void );
 /*
 *   Description:
-*     Get the current SoC texture hack mode.
+*     Get the current two pass lighting calculation mode.
 */
-RFRS_SOCTEXHACKMD RFRS_GetSocTexHackMode( void );
+RFRS_TWOPASSLIGHTMD RFRS_GetTwoPassLightingMode( void );
 
 /****** Set Default *****************************************************************/
 /*
@@ -208,6 +194,22 @@ void    RFRS_SetDefaultCnkDrawMode( RFRS_CNKDRAWMD mode );
 *     - mode        : chunk function emulation mode
 */
 void    RFRS_SetDefaultCnkFuncMode( RFRS_CNKFUNCMD mode );
+/*
+*   Description:
+*     Set default Chunk specular calculation mode.
+*
+*   Parameters:
+*     - mode        : chunk function emulation mode
+*/
+void    RFRS_SetDefaultCnkSpecMode( RFRS_CNKSPECMD mode );
+/*
+*   Description:
+*     Set default two pass lighting calculation mode.
+*
+*   Parameters:
+*     - mode        : chunk function emulation mode
+*/
+void    RFRS_SetDefaultTwoPassLightingMode( RFRS_TWOPASSLIGHTMD mode );
 
 EXTERN_END
 
