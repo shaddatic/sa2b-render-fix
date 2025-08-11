@@ -219,61 +219,64 @@ ___CreatePlayerDrawLightDashWithAlphaReducing(void)
 
 /****** Player Model Compat *********************************************************/
 static void
-ConstTexMaterialCompatStart(void)
+ConstTexMaterialCompatStart(int pno)
 {
     OffControl3D( NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL );
 }
 
 static void
-ConstTexMaterialCompatEnd(void)
+ConstTexMaterialCompatEnd(int pno)
 {
     OnControl3D( NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL );
 }
 
 static void
-BrokenModelCompatStart(void)
+BrokenModelCompatStart(int pno)
 {
     OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
+
+    RFRS_SetTwoPassLightingMode(RFRS_TWOPASSLIGHTMD_DISABLED);
 
     _nj_constant_attr_and_ = ~(NJD_FST_IA|NJD_FST_FL);
     _nj_constant_attr_or_  =  (NJD_FST_IS|NJD_FST_DB);
 }
 
 static void
-BrokenModelCompatEnd(void)
+BrokenModelCompatEnd(int pno)
 {
     _nj_constant_attr_and_ =  NJD_FST_MASK;
     _nj_constant_attr_or_  = ~NJD_FST_MASK;
+
+    RFRS_SetTwoPassLightingMode(RFRS_TWOPASSLIGHTMD_END);
 
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }
 
 static void
-PlayerModelCompatStartDisplayer(void)
+PlayerModelCompatStartDisplayer(int pno)
 {
     if ( ConstTexMaterial )
     {
-        ConstTexMaterialCompatStart();
+        ConstTexMaterialCompatStart(pno);
     }
 
     if ( BrokenModelFix )
     {
-        BrokenModelCompatStart();
+        BrokenModelCompatStart(pno);
     }
-    
 }
 
 static void
-PlayerModelCompatEndDisplayer(void)
+PlayerModelCompatEndDisplayer(int pno)
 {
     if ( BrokenModelFix )
     {
-        BrokenModelCompatEnd();
+        BrokenModelCompatEnd(pno);
     }
 
     if ( ConstTexMaterial )
     {
-        ConstTexMaterialCompatEnd();
+        ConstTexMaterialCompatEnd(pno);
     }
 }
 
@@ -281,143 +284,143 @@ static mt_hookinfo SonicDisp_CompatHookInfo[1];
 static void
 SonicDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_SONIC);
 
     FuncHookCall( SonicDisp_CompatHookInfo, SonicDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_SONIC);
 }
 
 static mt_hookinfo MilesDisp_CompatHookInfo[1];
 static void
 MilesDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_MILES);
 
     FuncHookCall( MilesDisp_CompatHookInfo, MilesDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_MILES);
 }
 
 static mt_hookinfo KnucklesDisp_CompatHookInfo[1];
 static void
 KnucklesDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_KNUCKLES);
 
     FuncHookCall( KnucklesDisp_CompatHookInfo, KnucklesDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_KNUCKLES);
 }
 
 static mt_hookinfo EggmanDisp_CompatHookInfo[1];
 static void
 EggmanDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_EGGMAN);
 
     FuncHookCall( EggmanDisp_CompatHookInfo, EggmanDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_EGGMAN);
 }
 
 static mt_hookinfo RougeDisp_CompatHookInfo[1];
 static void
 RougeDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_ROUGE);
 
     FuncHookCall( RougeDisp_CompatHookInfo, RougeDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_ROUGE);
 }
 
 static mt_hookinfo EggWalkerDisp_CompatHookInfo[1];
 static void
 EggWalkerDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_EGG_WALKER);
 
     FuncHookCall( EggWalkerDisp_CompatHookInfo, EggWalkerDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_EGG_WALKER);
 }
 
 static mt_hookinfo TailsWalkerDisp_CompatHookInfo[1];
 static void
 TailsWalkerDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_TAILS_WALKER);
 
     FuncHookCall( TailsWalkerDisp_CompatHookInfo, TailsWalkerDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_TAILS_WALKER);
 }
 
 static mt_hookinfo SuperSonicDisp_CompatHookInfo[1];
 static void
 SuperSonicDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_SUPER_SONIC);
 
     FuncHookCall( SuperSonicDisp_CompatHookInfo, SuperSonicDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_SUPER_SONIC);
 }
 
 static mt_hookinfo ChaoWalkerDisp_CompatHookInfo[1];
 static void
 ChaoWalkerDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_CHAO_WALKER);
 
     FuncHookCall( ChaoWalkerDisp_CompatHookInfo, ChaoWalkerDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_CHAO_WALKER);
 }
 
 static mt_hookinfo DarkChaoWalkerDisp_CompatHookInfo[1];
 static void
 DarkChaoWalkerDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_DARK_WALKER);
 
     FuncHookCall( DarkChaoWalkerDisp_CompatHookInfo, DarkChaoWalkerDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_DARK_WALKER);
 }
 
 static mt_hookinfo TicalDisp_CompatHookInfo[1];
 static void
 TicalDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_TICAL);
 
     FuncHookCall( TicalDisp_CompatHookInfo, TicalDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_TICAL);
 }
 
 static mt_hookinfo ChaosDisp_CompatHookInfo[1];
 static void
 ChaosDisp_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_CHAOS0);
 
     FuncHookCall( ChaosDisp_CompatHookInfo, ChaosDisp(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_CHAOS0);
 }
 
 static mt_hookinfo ChaosDispDely_CompatHookInfo[1];
 static void
 ChaosDispDely_CompatHook(task* tp)
 {
-    PlayerModelCompatStartDisplayer();
+    PlayerModelCompatStartDisplayer(PLNO_CHAOS0);
 
     FuncHookCall( ChaosDispDely_CompatHookInfo, ChaosDispDely(tp) );
 
-    PlayerModelCompatEndDisplayer();
+    PlayerModelCompatEndDisplayer(PLNO_CHAOS0);
 }
 
 static void
