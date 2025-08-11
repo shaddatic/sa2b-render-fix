@@ -8,9 +8,6 @@
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
-/** API **/
-#include <../api/renderfix_api.h>
-
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
@@ -31,7 +28,7 @@ const RFAPI_CORE rfapi_core =
 {
     .version = CORE_API_VER,
 
-    .modver = { 1,4,0,3 },
+    .modver = { 1,4,1,0 },
 
     .pApiControl     = &rfapi_control,
     .pApiConfig      = &rfapi_config,
