@@ -77,6 +77,13 @@ typedef struct
 
     /**** Shadows *******************************************/
     /*
+    *   [[ DEPRICATED : v1.4.0.0 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : always returns '0.6875'
+    *     - reason          : the shadow intensity is no longer changeable by the user
+    *     - alternative     : none
+    *
     *   Description:
     *     Get the shadow opacity used for the main game. This is used for both
     *   modifier volumes and shadow maps.
@@ -86,6 +93,13 @@ typedef struct
     */
     float(__cdecl* ShadowOpacityGlobal)( void );
     /*
+    *   [[ DEPRICATED : v1.4.0.0 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : always returns '0.55078125'
+    *     - reason          : the shadow intensity is no longer changeable by the user
+    *     - alternative     : none
+    * 
     *   Description:
     *     Get the shadow opacity used for Chao World. This is used for modifier
     *   volumes. Shadow maps can use this opacity, but only when the experimental
