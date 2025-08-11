@@ -391,7 +391,7 @@ rjCnkBeginContext(CNK_CTX* restrict pCtx)
         pCtx->flag |= (CTXF_CTL_AMBIMATERIAL|CTXF_CTL_MULTIVND8);
     }
 
-    if ( true ) ___NOTE("This will be a setting to allow specular on non-textured polygons");
+    if ( true ) ___TODO("This will be a setting to allow specular on non-textured polygons");
     {
         pCtx->flag |= CTXF_CTL_NONTEXSPEC;
     }
