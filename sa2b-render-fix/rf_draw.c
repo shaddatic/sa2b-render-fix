@@ -191,17 +191,14 @@ SetTexForDraw(void)
         }
     }
 
-    if ( RFRS_GetSocTexHackMode() == RFRS_SOCTEXHACKMD_ENABLED )
+    if ( SocTexOverrideFlags & (1<<0) )
     {
-        if ( SocTexOverrideFlags & (1<<0) )
-        {
-            TexInfoDraw.address_u = SocTexOverrideAddrU;
-        }
+        TexInfoDraw.address_u = SocTexOverrideAddrU;
+    }
 
-        if ( SocTexOverrideFlags & (1<<1) )
-        {
-            TexInfoDraw.address_v = SocTexOverrideAddrV;
-        }
+    if ( SocTexOverrideFlags & (1<<1) )
+    {
+        TexInfoDraw.address_v = SocTexOverrideAddrV;
     }
 
     /** palette **/
