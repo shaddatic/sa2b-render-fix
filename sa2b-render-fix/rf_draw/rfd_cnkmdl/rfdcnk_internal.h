@@ -34,13 +34,14 @@ EXTERN_START
 
 #define CTXF_TINY               (1<<7)  /* new texture data to apply                */
 
-#define CTXF_STATE_NONTEX        (1<<8)  /* current strip has no texture             */
+#define CTXF_STATE_NONTEX       (1<<8)  /* current strip has no texture             */
 #define CTXFLG_STRIP_NOUVS      (1<<9)  /* current strip has no UV info             */
 
 #define CTXF_CTL_BACKFACECULL   (1<<10) /* uses simple inverted polygon calcs       */
 #define CTXF_CTL_AMBIMATERIAL   (1<<11) /* read ambient material color              */
 #define CTXF_CTL_MULTIVND8      (1<<12) /* use vertex color/light blending          */
 #define CTXF_CTL_NONTEXSPEC     (1<<13) /* notex specular                           */
+#define CTXF_CTL_TWOPASSLIGHT   (1<<14) /* use two pass lighting                    */
 
 #define CTX_FUNC_NORMAL          (0)    /* render fix normal draw                   */
 #define CTX_FUNC_EASY            (1)    /* easy draw                                */

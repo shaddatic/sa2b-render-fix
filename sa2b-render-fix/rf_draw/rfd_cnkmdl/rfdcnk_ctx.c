@@ -379,6 +379,11 @@ rjCnkBeginContext(CNK_CTX* restrict pCtx)
     if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd == RFRS_CNKFUNCMD_SIMPLE || funcmd == RFRS_CNKFUNCMD_SIMPLEMULTI )
     {
         pCtx->flag |= CTXF_CTL_BACKFACECULL;
+
+        if ( RFRS_GetTwoPassLightingMode() == RFRS_TWOPASSLIGHTMD_ENABLED )
+        {
+            pCtx->flag |= CTXF_CTL_TWOPASSLIGHT;
+        }
     }
 
     if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & RFRS_CNKFUNCMD_MULTIBIT )

@@ -41,7 +41,7 @@ rjCnkBeginLighting(const CNK_CTX* restrict pCtx)
     }
     else
     {
-        rjCnkInvertLightDirection( TRUE );
+        rjCnkInvertLightDirection( pCtx->flag & CTXF_CTL_TWOPASSLIGHT );
     }
 }
 
@@ -57,7 +57,7 @@ rjCnkBeginTwoPassLighting(const CNK_CTX* restrict pCtx)
     {
         _rj_invert_polygons_ = TRUE;
 
-        rjCnkInvertLightDirection( TRUE );
+        rjCnkInvertLightDirection( pCtx->flag & CTXF_CTL_TWOPASSLIGHT );
         return true;
     }
 
@@ -109,35 +109,34 @@ ___rjCnkGetAutoSpecMode(void)
 void
 rjCnkBeginDraw(void)
 {
-    ___TODO("Make this a global renderstate");
-    switch ( 1 ) 
+    switch ( RFRS_GetCnkSpecMode() ) 
     {
-        case 0:
+        case RFRS_CNKSPECMD_NONE:
         {
             _rj_cnk_spec_mode_ = RJE_CNK_SPECFUNC_NONE;
             break;
         }
-        case 1:
+        case RFRS_CNKSPECMD_AUTO:
         {
             _rj_cnk_spec_mode_ = ___rjCnkGetAutoSpecMode();
             break;
         }
-        case 2:
+        case RFRS_CNKSPECMD_NORMAL:
         {
             _rj_cnk_spec_mode_ = RJE_CNK_SPECFUNC_NORMAL;
             break;
         }
-        case 3:
+        case RFRS_CNKSPECMD_EASY:
         {
             _rj_cnk_spec_mode_ = RJE_CNK_SPECFUNC_EASY;
             break;
         }
-        case 4:
+        case RFRS_CNKSPECMD_SIMPLE:
         {
             _rj_cnk_spec_mode_ = RJE_CNK_SPECFUNC_SIMPLE;
             break;
         }
-        case 5:
+        case RFRS_CNKSPECMD_MULTI:
         {
             _rj_cnk_spec_mode_ = RJE_CNK_SPECFUNC_MULTI;
             break;
