@@ -1,18 +1,26 @@
-#include <samt/core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-#include <samt/ninja/ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_renderstate.h>         /* render state                                             */
 
-/** API (this is stupid) **/
-#include <../api/renderfix_api.h>
+/****** Self ************************************************************************************/
+#include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_renderstate.h>
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define STATE_API_VER               (3) /* render state api version                             */
 
-/** Constants **/
-#define STATE_API_VER    (3)
-
-/** Exports **/
+/********************************/
+/*  Export Data                 */
+/********************************/
+/****** Render State API ************************************************************************/
 EXTERN
 const RFAPI_RENDERSTATE rfapi_rstate =
 {

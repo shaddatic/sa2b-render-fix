@@ -1,18 +1,29 @@
-#include <samt/core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** API (this is stupid) **/
-#include <../api/renderfix_api.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_config.h>              /* getconfig                                                */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
+/****** Self ************************************************************************************/
+#include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
-/** Constants **/
-#define CNFG_API_VER    (0)
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define CNFG_API_VER                (0) /* config api version                                   */
 
-/** Exports **/
+/********************************/
+/*  Export Data                 */
+/********************************/
+/****** Config API ******************************************************************************/
 EXTERN
 const RFAPI_CONFIG rfapi_config =
 {

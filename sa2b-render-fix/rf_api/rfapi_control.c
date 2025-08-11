@@ -1,18 +1,26 @@
-#include <samt/core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-#include <samt/ninja/ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ctrl.h>                /* rf control                                               */
 
-/** API (this is stupid) **/
-#include <../api/renderfix_api.h>
+/****** Self ************************************************************************************/
+#include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_ctrl.h>
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define CTRL_API_VER                (1) /* control api version                                  */
 
-/** Constants **/
-#define CTRL_API_VER    (1)
-
-/** Exports **/
+/********************************/
+/*  Export Data                 */
+/********************************/
+/****** Control API *****************************************************************************/
 EXTERN
 const RFAPI_CONTROL rfapi_control =
 {

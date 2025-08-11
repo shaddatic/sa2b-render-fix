@@ -1,18 +1,26 @@
-#include <samt/core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-#include <samt/ninja/ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_shader.h>              /* shader                                                   */
 
-/** API (this is stupid) **/
-#include <../api/renderfix_api.h>
+/****** Self ************************************************************************************/
+#include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_shader.h>
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define SHDR_API_VER                (0) /* shader api version                                   */
 
-/** Constants **/
-#define SHDR_API_VER    (0)
-
-/** Exports **/
+/********************************/
+/*  Export Data                 */
+/********************************/
+/****** Shader API ******************************************************************************/
 EXTERN
 const RFAPI_SHADER rfapi_shader =
 {

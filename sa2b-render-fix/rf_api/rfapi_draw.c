@@ -1,18 +1,26 @@
-#include <samt/core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-#include <samt/ninja/ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_draw.h>                /* draw                                                     */
 
-/** API (this is stupid) **/
-#include <../api/renderfix_api.h>
+/****** Self ************************************************************************************/
+#include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_draw.h>
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define DRAW_API_VER                (4) /* draw api version                                     */
 
-/** Constants **/
-#define DRAW_API_VER    (4)
-
-/** Exports **/
+/********************************/
+/*  Export Data                 */
+/********************************/
+/****** Draw API ********************************************************************************/
 EXTERN
 const RFAPI_DRAW rfapi_draw =
 {

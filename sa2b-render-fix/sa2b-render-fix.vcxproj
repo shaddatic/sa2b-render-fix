@@ -309,14 +309,14 @@
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>sa2-render-fix</TargetName>
-    <IncludePath>$(SolutionDir)include\;$(SolutionDir)sa2b-render-fix\</IncludePath>
+    <IncludePath>$(SolutionDir)include\;$(SolutionDir)sa2b-render-fix\;$(SolutionDir)api\</IncludePath>
     <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\</OutDir>
     <IntDir>$(SolutionDir)obj\</IntDir>
     <TargetName>sa2-render-fix</TargetName>
-    <IncludePath>$(SolutionDir)include\;$(SolutionDir)sa2b-render-fix\</IncludePath>
+    <IncludePath>$(SolutionDir)include\;$(SolutionDir)sa2b-render-fix\;$(SolutionDir)api\</IncludePath>
     <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

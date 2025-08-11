@@ -10,53 +10,13 @@
 #ifndef _RF_FONT_H_
 #define _RF_FONT_H_
 
+/************************/
+/*  Includes            */
+/************************/
+/****** API Header ******************************************************************/
+#include <rfapi_font.h>             /* font api header                              */
+
 EXTERN_START
-
-/************************/
-/*  Abstract Types      */
-/************************/
-typedef struct rfs_font     RFS_FONT;
-
-/************************/
-/*  Enums               */
-/************************/
-#ifndef H_RF_EXTERN_API
-
-typedef enum
-{
-    FONT_LANG_JAP,  /* Japanese                                                     */
-    FONT_LANG_ENG,  /* English                                                      */
-    FONT_LANG_GER,  /* German                                                       */
-    FONT_LANG_FRE,  /* French                                                       */
-    FONT_LANG_SPA,  /* Spanish                                                      */
-    FONT_LANG_ITA,  /* Italian                                                      */
-
-    NB_FONT_LANG,   /* count                                                        */
-}
-RFE_FONT_LANG;
-
-typedef enum
-{
-    FONT_FTYPE_RGBA_KANJI,  /* 32bit RGBA & contains Kanji & Kana           (SA2PC) */
-    FONT_FTYPE_RGBA_ASCII,  /* 32bit RGBA & contains ASCII                  (SA2PC) */
-
-    FONT_FTYPE_1BPP_KANJI,  /* 1bpp & contains Kanji & Kana          (SA1,SADX,SA2) */
-    FONT_FTYPE_1BPP_ASCII,  /* 1bpp & contains ASCII                 (SA1,SADX,SA2) */
-
-    NB_FONT_FTYPE,          /* count                                                */
-}
-RFE_FONT_FTYPE;
-
-typedef enum
-{
-    FONT_TYPE_KANJI,    /* Kanji Chao font page                                     */
-    FONT_TYPE_ASCII,    /* Ascii Chao font page                                     */
-
-    NB_FONT_TYPE,       /* count                                                    */
-}
-RFE_FONT_TYPE;
-
-#endif H_RF_EXTERN_API
 
 /************************/
 /*  Functions           */
