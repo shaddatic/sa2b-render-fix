@@ -20,7 +20,6 @@
 
 /****** Self ************************************************************************/
 #include <rf_renderstate.h>               /* self                                   */
-#include <rf_renderstate/rfrs_internal.h> /* children                               */
 
 /************************/
 /*  Game Functions      */
@@ -56,70 +55,6 @@ static RFRS_TWOPASSLIGHTMD  TwoPassLightModeOverride    = RFRS_TWOPASSLIGHTMD_EN
 /************************/
 /*  Source              */
 /************************/
-/****** Trans Mode ******************************************************************/
-static void
-SetOpaqueDrawNew(void)
-{
-    switch (TransModeOverride) {
-    case RFRS_TRANSMD_AUTO:
-    case RFRS_TRANSMD_OPAQUE:
-    case RFRS_TRANSMD_AUTO_ATEST:
-    case RFRS_TRANSMD_AUTO_TRANS:
-        SetTransModeOpaque();
-        break;
-
-    case RFRS_TRANSMD_ALPHATEST:
-        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
-        break;
-
-    case RFRS_TRANSMD_TRANSPARENT:
-        SetTransModeTransparent();
-        break;
-    }
-}
-
-static void
-SetAlphaTestDrawNew(void)
-{
-    switch (TransModeOverride) {
-    case RFRS_TRANSMD_OPAQUE:
-        SetTransModeOpaque();
-        break;
-
-    case RFRS_TRANSMD_AUTO:
-    case RFRS_TRANSMD_ALPHATEST:
-    case RFRS_TRANSMD_AUTO_ATEST:
-        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
-        break;
-
-    case RFRS_TRANSMD_TRANSPARENT:
-    case RFRS_TRANSMD_AUTO_TRANS:
-        SetTransModeTransparent();
-        break;
-    }
-}
-
-static void
-SetTransparentDrawNew(void)
-{
-    switch (TransModeOverride) {
-    case RFRS_TRANSMD_OPAQUE:
-        SetTransModeOpaque();
-        break;
-
-    case RFRS_TRANSMD_ALPHATEST:
-    case RFRS_TRANSMD_AUTO_ATEST:
-        SetTransModeAlphaTest(AlphaFuncOverride, AlphaRefOverride);
-        break;
-
-    case RFRS_TRANSMD_AUTO:
-    case RFRS_TRANSMD_TRANSPARENT:
-    case RFRS_TRANSMD_AUTO_TRANS:
-        SetTransModeTransparent();
-        break;
-    }
-}
-
 /****** Set Render Mode *************************************************************/
 void
 RFRS_SetCullMode(RFRS_CULLMD mode)
@@ -383,21 +318,4 @@ RF_RenderStateInit(void)
         RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_GTR);
         RFRS_SetDefaultAlphaTestRef(64);
     }
-
-    /** Transparancy draw set **/
-    WriteJump(SetOpaqueDraw     , SetOpaqueDrawNew);
-    WriteJump(SetAlphaTestDraw  , SetAlphaTestDrawNew);
-    WriteJump(SetTransparentDraw, SetTransparentDrawNew);
-
-    /** Fix direct calls to Magic draw set **/
-    WriteNOP( 0x005FF290, 0x005FF2E2);
-    WriteData(0x005FF290, 0x56, u8); // push esi
-    WriteData(0x005FF291, 0x57, u8); // push edi
-    WriteCall(0x005FF292, SetTransparentDrawNew);
-
-    WriteNOP( 0x00600569, 0x006005B3);
-    WriteData(0x00600569, 0x83, u8);  // add esp, 8
-    WriteData(0x0060056A, 0xC4, u8);  // ^^^
-    WriteData(0x0060056B, 0x08, u8);  // ^^^
-    WriteCall(0x0060056C, SetTransparentDrawNew);
 }

@@ -329,6 +329,7 @@ RF_DrawInit(void)
     RFD_TexerrInit();
     RFD_PolygonInit();
     RFD_SpriteInit();
+    RFD_AlphaBlendInit();
 
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);

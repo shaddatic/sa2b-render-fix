@@ -37,6 +37,16 @@ typedef enum
 }
 RJE_VERTEX_TYPE;
 
+/****** Alpha Blend Mode ************************************************************/
+typedef enum
+{
+    RJE_ALPHA_OPAQUE,
+    RJE_ALPHA_TRANS,
+    RJE_ALPHA_ALPHATEST,
+    RJE_ALPHA_PUNCHTHROUGH,
+}
+RJE_ALPHA;
+
 /************************/
 /*  Structures          */
 /************************/
@@ -113,6 +123,17 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[];
 /*
 *   Draw Core
 */
+/****** Set Alpha Blend *************************************************************/
+/*
+*   Description:
+*     Set blend mode via ninja context struct.
+*
+*   Parameters:
+*     - src, dst    : source and destination blend modes       [NJD_COLOR_BLENDING]
+*     - mode        : alpha mode
+*/
+void    rjSetAlphaMode( Sint32 src, Sint32 dst, RJE_ALPHA mode );
+
 /****** 2D Draw *********************************************************************/
 /*
 *   Description:

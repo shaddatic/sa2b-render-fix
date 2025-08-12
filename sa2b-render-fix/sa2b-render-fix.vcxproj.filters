@@ -318,9 +318,6 @@
     <ClCompile Include="rf_gx.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_renderstate\rfrs_transmode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -421,6 +418,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_bullet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_alphablend.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -558,9 +558,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_draw\rfd_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_renderstate\rfrs_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_internal.h">

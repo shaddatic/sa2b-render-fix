@@ -49,6 +49,11 @@ void    RFD_PolygonInit( void );
 *     Init sprite draw.
 */
 void    RFD_SpriteInit( void );
+/*
+*   Description:
+*     Init blend mode hooks.
+*/
+void    RFD_AlphaBlendInit(void);
 
 /****** Cnk Shape *******************************************************************/
 /*
