@@ -415,14 +415,6 @@ RJS_UV  rjCnkGetEnvUvScroll( void );
 */
 int     CnkDrawShadow_Ext( const NJS_CNK_MODEL* model, const void* vbuf );
 
-/************************/
-/*  Function Ptrs       */
-/************************/
-/****** External Functions **********************************************************/
-#define SetOpaqueDraw               FUNC_PTR(void, __cdecl, (void), 0x0042C030)
-#define SetAlphaTestDraw            FUNC_PTR(void, __cdecl, (void), 0x0042C0A0)
-#define SetTransparentDraw          FUNC_PTR(void, __cdecl, (void), 0x0042C170)
-
 EXTERN_END
 
 #endif/*H_RF_DRAW_CNKMDL_INTERNAL*/

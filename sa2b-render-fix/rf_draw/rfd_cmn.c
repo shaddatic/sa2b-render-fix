@@ -157,14 +157,30 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 void
 rjSetBlend2D(Int trans)
 {
-    trans ? SetTransparentDraw() : SetOpaqueDraw();
+    RJE_ALPHA alphamd;
+
+    if ( trans )
+    {
+        if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_USE_PUNCHTHROUGH )
+        {
+            alphamd = RJE_ALPHA_PUNCHTHROUGH;
+        }
+        else
+        {
+            alphamd = RJE_ALPHA_TRANS;
+        }
+    }
+    else
+    {
+        alphamd = RJE_ALPHA_OPAQUE;
+    }
 
     const Uint32 texmode = _nj_curr_ctx_->texmode;
 
     const s32 src = (texmode >> 29) & 7;
     const s32 dst = (texmode >> 26) & 7;
 
-    GX_SetBlendMode(src, dst, !!trans);
+    rjSetAlphaMode(src, dst, alphamd);
 }
 
 void

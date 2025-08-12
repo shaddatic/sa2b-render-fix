@@ -326,12 +326,6 @@ rjCnkContextSpec(CNK_CTX* restrict pCtx)
 }
 
 static void
-SetBlendMode(s32 src, s32 dst, bool ua)
-{
-    GX_SetBlendMode((src>>NJD_FBS_SHIFT), (dst>>NJD_FBD_SHIFT), ua);
-}
-
-static void
 rjCnkContextStrip(CNK_CTX* restrict pCtx)
 {
     const Sint16 fst = pCtx->fst;
@@ -341,31 +335,36 @@ rjCnkContextStrip(CNK_CTX* restrict pCtx)
     const s32 bld_src = (bld & NJD_FBS_MASK);
     const s32 bld_dst = (bld & NJD_FBD_MASK);
 
+    RJE_ALPHA alphamd;
+
     if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
     {
-        SetBlendMode(bld_src, bld_dst, TRUE);
-
-        const bool notex = (pCtx->flag & CTXF_STATE_NONTEX);
-
-        if ( (fst & NJD_FST_NAT)        // IF NoAlphaTest flag
-            || bld_src == NJD_FBS_ONE   // OR src is ONE
-            || bld_dst == NJD_FBD_ONE   // OR dst is ONE
-            || notex                    // OR no texture
-            || (pTexSurface && pTexSurface->Type != 14) ) // OR no alpha test tex flag
+        if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_USE_PUNCHTHROUGH )
         {
-            SetTransparentDraw();
+            alphamd = RJE_ALPHA_PUNCHTHROUGH;
         }
-        else
+        else // not punchthrough
         {
-            SetAlphaTestDraw();
+            if ( (pCtx->flag & CTXF_STATE_NONTEX) ||        // no texture
+                 (fst & NJD_FST_NAT)              ||        // OR NAT flag
+                 (bld_src == NJD_FBS_ONE)         ||        // OR src is ONE
+                 (bld_dst == NJD_FBD_ONE)         ||        // OR dst is ONE
+                 (pTexSurface && pTexSurface->Type != 14) ) // OR texture is NOT ARGB1555
+            {
+                alphamd = RJE_ALPHA_TRANS;
+            }
+            else
+            {
+                alphamd = RJE_ALPHA_ALPHATEST;
+            }
         }
     }        
     else // opaque strip
     {
-        SetBlendMode(bld_src, bld_dst, FALSE);
-
-        SetOpaqueDraw();
+        alphamd = RJE_ALPHA_OPAQUE;
     }
+
+    rjSetAlphaMode(bld_src>>NJD_FBS_SHIFT, bld_dst>>NJD_FBD_SHIFT, alphamd);
 }
 
 /****** Extern **********************************************************************/
