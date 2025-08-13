@@ -541,10 +541,10 @@ RFCTRL_SetModBufferSize(s32 nbTri, s32 nbTriList)
 void
 RFMOD_Init(void)
 {
-    ModBasicVtxShader = RF_LoadVtxShader("basic_vs");
+    ModBasicVtxShader = RF_LoadVShader("basic_vs");
 
-    ModVtxShader = RF_LoadVtxShader("stencil_vs");
-    ModPxlShader = RF_LoadPxlShader("stencil_ps");
+    ModVtxShader = RF_LoadVShader("stencil_vs");
+    ModPxlShader = RF_LoadPShader("stencil_ps");
 
     const dx9_vtx_elem vtx_ele_list[] =
     {

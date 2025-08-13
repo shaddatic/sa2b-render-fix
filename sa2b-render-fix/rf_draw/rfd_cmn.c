@@ -890,36 +890,36 @@ RFD_CoreInit(void)
 
             p_setmacro[0] = SM_END;
 
-            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_P][RJE_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
 
             p_setmacro[0] = SM_VTX_COL;
             p_setmacro[1] = SM_END;
 
-            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PC][RJE_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
 
             p_setmacro[0] = SM_VTX_COL;
             p_setmacro[1] = SM_VTX_OFF;
             p_setmacro[2] = SM_END;
 
-            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PCS][RJE_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
 
             p_setmacro[0] = SM_VTX_TEX;
             p_setmacro[1] = SM_VTX_COL;
             p_setmacro[2] = SM_END;
 
-            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTC][RJE_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
 
             p_setmacro[0] = SM_VTX_TEX;
             p_setmacro[1] = SM_VTX_COL;
             p_setmacro[2] = SM_VTX_OFF;
             p_setmacro[3] = SM_END;
 
-            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_2D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_3D] = RF_CompileVtxShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJE_VERTEX_PTCS][RJE_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
         }
 
         /** Pixel Shaders **/
@@ -932,23 +932,23 @@ RFD_CoreInit(void)
 
             p_setmacro[0] = SM_END;
 
-            _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+            _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
 
             p_setmacro[0] = SM_PXL_TEX;
             p_setmacro[1] = SM_END;
 
-            _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+            _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
 
             p_setmacro[0] = SM_PXL_FOG;
             p_setmacro[1] = SM_END;
 
-            _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+            _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
 
             p_setmacro[0] = SM_PXL_TEX;
             p_setmacro[1] = SM_PXL_FOG;
             p_setmacro[2] = SM_END;
 
-            _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePxlShader(SHADER_NAME_PS, p_pmacro);
+            _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
         }
     }
 

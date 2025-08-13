@@ -6,7 +6,8 @@
 *   shaders with your own.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.4.1.0        : Version 1, added 'GetGame#Shader' & 'Compile#Shader' functions.
 * 
 *   Availability:
 *     - RF_EarlyInit    : Yes
@@ -79,22 +80,58 @@ typedef struct
     *     - puPath      : file path to pre-compiled shader
     *   
     *   Returns:
-    *     Loaded DX9 shader object; or 'nullptr' on failure.
+    *     Shader handle; or 'nullptr' on failure.
     */
-    dx9_vtx_shader* (__cdecl* LoadVtxShader)( const c8* puPath );
-    dx9_pxl_shader* (__cdecl* LoadPxlShader)( const c8* puPath );
+    RFS_VSHADER* (__cdecl* LoadVShader)( const c8* puPath );
+    RFS_PSHADER* (__cdecl* LoadPShader)( const c8* puPath );
 
-    /**** Replace shader ************************************/
+    /**** Set Game Shader ***********************************/
     /*
     *   Description:
-    *     Replace a vanilla game shader by index.
+    *     Replace a game shader index with custom shaders.
+    *
+    *   Notes:
+    *     - Using 'nullptr' will restore the shader index to vanilla.
+    *     - If you're only replacing only one shader in a shader index, please try to have the
+    *       input and output structures match vanilla to reduce conflicts.
     *
     *   Parameters:
-    *     - ixShader    : Index of the shader as called for by the game
-    *     - p___Shader  : Pointer to the new shader object
+    *     - index       : shader index to replace or reset
+    *     - p#Shader    : shader to set                                          [opt: nullptr]
     */
-    void (__cdecl* ReplaceVtxShader)( int ixShader, dx9_vtx_shader* pVtxShader );
-    void (__cdecl* ReplacePxlShader)( int ixShader, dx9_pxl_shader* pPxlShader );
+    void (__cdecl* SetGameVShader)( RFE_SHADERIX ixShader, RFS_VSHADER* pVShader );
+    void (__cdecl* SetGamePShader)( RFE_SHADERIX ixShader, RFS_PSHADER* pPShader );
+
+    /****** Version >= 1 ************************************************************************/
+
+    /**** Get Game Shader ***********************************/
+    /*
+    *   Description:
+    *     Get the current shaders in a game shader index.
+    *
+    *   Parameters:
+    *     - index       : shader index to get
+    *
+    *   Returns:
+    *     Shader set at the shader index; or 'nullptr' if the vanilla shader is still set.
+    */
+    RFS_VSHADER* (__cdecl* GetGameVShader)( RFE_SHADERIX ixShader );
+    RFS_PSHADER* (__cdecl* GetGamePShader)( RFE_SHADERIX ixShader );
+
+    /**** Compile Shader ************************************/
+    /*
+    *   Description:
+    *     Compile a pixel or vertex shader from a source file (.hlsl) with changeable macros.
+    *
+    *   Parameters:
+    *     - puPath      : path to the source file, including the extension
+    *     - pMacros     : list of macros terminated by a null'd entry
+    *
+    *   Returns:
+    *     Shader handle; or 'nullptr' on failure.
+    */
+    RFS_VSHADER* (__cdecl* CompileVShader)( const c8* puPath, const RFS_MACRO* pMacros );
+    RFS_PSHADER* (__cdecl* CompilePShader)( const c8* puPath, const RFS_MACRO* pMacros );
 }
 RFAPI_SHADER;
 

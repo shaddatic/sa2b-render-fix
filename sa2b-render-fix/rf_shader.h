@@ -78,8 +78,8 @@ void    RF_DirectSetPShader( RFS_PSHADER* pPShader );
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-RFS_VSHADER* RF_CompileVtxShader( const c8* puSrcName, const RFS_MACRO* pMacros );
-RFS_PSHADER* RF_CompilePxlShader( const c8* puSrcName, const RFS_MACRO* pMacros );
+RFS_VSHADER* RF_CompileVShader( const c8* puSrcName, const RFS_MACRO* pMacros );
+RFS_PSHADER* RF_CompilePShader( const c8* puSrcName, const RFS_MACRO* pMacros );
 /*
 *   Description:
 *     Compile a pixel or vertex shader from any source file (.hlsl) with changeable macros.
@@ -91,8 +91,8 @@ RFS_PSHADER* RF_CompilePxlShader( const c8* puSrcName, const RFS_MACRO* pMacros 
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-RFS_VSHADER* RF_DirectCompileVtxShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
-RFS_PSHADER* RF_DirectCompilePxlShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
+RFS_VSHADER* RF_DirectCompileVShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
+RFS_PSHADER* RF_DirectCompilePShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
 
 /****** Load Compiled Shader ********************************************************************/
 /*
@@ -105,8 +105,8 @@ RFS_PSHADER* RF_DirectCompilePxlShader( const c8* puSrcPath, const RFS_MACRO* pM
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-RFS_VSHADER* RF_LoadVtxShader( const c8* puSrcName );
-RFS_PSHADER* RF_LoadPxlShader( const c8* puSrcName );
+RFS_VSHADER* RF_LoadVShader( const c8* puSrcName );
+RFS_PSHADER* RF_LoadPShader( const c8* puSrcName );
 /*
 *   Description:
 *     Load any pre-compiled pixel or vertex shader (.fxc).
@@ -117,8 +117,8 @@ RFS_PSHADER* RF_LoadPxlShader( const c8* puSrcName );
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-RFS_VSHADER* RF_DirectLoadVtxShader( const c8* fpath );
-RFS_PSHADER* RF_DirectLoadPxlShader( const c8* fpath );
+RFS_VSHADER* RF_DirectLoadVShader( const c8* fpath );
+RFS_PSHADER* RF_DirectLoadPShader( const c8* fpath );
 
 EXTERN_END
 

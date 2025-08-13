@@ -67,7 +67,7 @@ CompileError(const char* fpath)
 */
 /****** Direct **********************************************************************************/
 RFS_VSHADER*
-RF_DirectLoadVtxShader(const c8* fpath)
+RF_DirectLoadVShader(const c8* fpath)
 {
     dx9_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
 
@@ -80,7 +80,7 @@ RF_DirectLoadVtxShader(const c8* fpath)
 }
 
 RFS_PSHADER*
-RF_DirectLoadPxlShader(const c8* fpath)
+RF_DirectLoadPShader(const c8* fpath)
 {
     dx9_pxl_shader* vshader = DX9_LoadPxlShader(fpath);
 
@@ -94,23 +94,23 @@ RF_DirectLoadPxlShader(const c8* fpath)
 
 /****** Load Render Fix *************************************************************************/
 RFS_VSHADER*
-RF_LoadVtxShader(const c8* fname)
+RF_LoadVShader(const c8* fname)
 {
     c8 buf[260];
 
     mtStrFormat(buf, 260, "%s/" SHADER_DIR "/%s.fxc", mtGetModPath(), fname);
 
-    return RF_DirectLoadVtxShader(buf);
+    return RF_DirectLoadVShader(buf);
 }
 
 RFS_PSHADER*
-RF_LoadPxlShader(const c8* fname)
+RF_LoadPShader(const c8* fname)
 {
     c8 buf[260];
 
     mtStrFormat(buf, 260, "%s/" SHADER_DIR "/%s.fxc", mtGetModPath(), fname);
 
-    return RF_DirectLoadPxlShader(buf);
+    return RF_DirectLoadPShader(buf);
 }
 
 /************************************************************************************************/
@@ -119,7 +119,7 @@ RF_LoadPxlShader(const c8* fname)
 */
 /****** Direct **********************************************************************************/
 RFS_VSHADER*
-RF_DirectCompileVtxShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
+RF_DirectCompileVShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 {
     dx9_vtx_shader* const p_vshader = DX9_CompileVtxShader(puSrcPath, (dx9_macro*) pMacroList);
 
@@ -132,7 +132,7 @@ RF_DirectCompileVtxShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 }
 
 RFS_PSHADER*
-RF_DirectCompilePxlShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
+RF_DirectCompilePShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 {
     dx9_pxl_shader* const p_pshader = DX9_CompilePxlShader(puSrcPath, (dx9_macro*) pMacroList);
 
@@ -146,21 +146,21 @@ RF_DirectCompilePxlShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 
 /****** Compile Render Fix **********************************************************************/
 RFS_VSHADER*
-RF_CompileVtxShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
+RF_CompileVShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
 {
     c8 buf[256];
     mtStrFormat(buf, 256, "%s/" SHADER_DIR "/%s.hlsl", mtGetModPath(), puSrcName);
 
-    return RF_DirectCompileVtxShader(buf, pMacroList);
+    return RF_DirectCompileVShader(buf, pMacroList);
 }
 
 RFS_PSHADER*
-RF_CompilePxlShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
+RF_CompilePShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
 {
     c8 buf[256];
     mtStrFormat(buf, 256, "%s/" SHADER_DIR "/%s.hlsl", mtGetModPath(), puSrcName);
 
-    return RF_DirectCompilePxlShader(buf, pMacroList);
+    return RF_DirectCompilePShader(buf, pMacroList);
 }
 
 /************************************************************************************************/
@@ -247,7 +247,7 @@ RF_ShaderInit(void)
 {
     mtHookFunc(SetShaderIndexHookInfo, SetShaderIndex_p, SetShaderIndexHook);
 
-    RFS_VSHADER* p_sonicvs = RF_CompileVtxShader("sonicvs", nullptr);
+    RFS_VSHADER* p_sonicvs = RF_CompileVShader("sonicvs", nullptr);
 
     RF_SetGameVShader(RFE_SHADERIX_MDL_NONE, p_sonicvs);
     RF_SetGameVShader(RFE_SHADERIX_MDL_S   , p_sonicvs); 

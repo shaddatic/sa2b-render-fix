@@ -15,7 +15,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define SHDR_API_VER                (0) /* shader api version                                   */
+#define SHDR_API_VER                (1) /* shader api version                                   */
 
 /********************************/
 /*  Export Data                 */
@@ -26,9 +26,17 @@ const RFAPI_SHADER rfapi_shader =
 {
     .version = SHDR_API_VER,
 
-    .LoadVtxShader = RF_DirectLoadVtxShader,
-    .LoadPxlShader = RF_DirectLoadPxlShader,
+    .LoadVShader = RF_DirectLoadVShader,
+    .LoadPShader = RF_DirectLoadPShader,
 
-    .ReplaceVtxShader = RF_ReplaceVtxShader,
-    .ReplacePxlShader = RF_ReplacePxlShader,
+    .SetGameVShader = RF_SetGameVShader,
+    .SetGamePShader = RF_SetGamePShader,
+
+    // version 1
+
+    .GetGameVShader = RF_GetGameVShader,
+    .GetGamePShader = RF_GetGamePShader,
+
+    .CompileVShader = RF_DirectCompileVShader,
+    .CompilePShader = RF_DirectCompilePShader,
 };
