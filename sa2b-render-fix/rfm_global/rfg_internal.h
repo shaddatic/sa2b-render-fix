@@ -21,8 +21,6 @@ void    RFG_BackfaceCullingInit( void );
 
 void    RFG_ModelTintInit( void );
 
-void    RFG_SpotLightFixInit( void );
-
 void    RFG_EnvMapFlip( void );
 
 void    RFG_TaskDisplayInit( void );

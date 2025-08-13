@@ -18,6 +18,13 @@ EXTERN_START
 /********************************/
 /*  Prototypes                  */
 /********************************/
+/****** Init ************************************************************************************/
+/*
+*   Description:
+*     Init shader module, and load Render Fix's custom game shaders.
+*/
+void    RF_ShaderInit( void );
+
 /****** Set/Get Game Shader *********************************************************************/
 /*
 *   Description:

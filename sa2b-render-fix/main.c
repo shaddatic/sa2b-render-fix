@@ -19,6 +19,7 @@
 #include <rf_font.h>
 #include <rf_gx.h>
 #include <rf_light.h>
+#include <rf_shader.h>
 
 /****** Render Fix Modules **********************************************************/
 #include <rfm_global.h>
@@ -79,6 +80,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_FontInit();
     RF_GxInit();
     RF_LightInit();
+    RF_ShaderInit();
 
     /** DXVK init **/
     RF_DXVK_Init();

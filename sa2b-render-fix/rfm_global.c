@@ -77,7 +77,7 @@ RFF_BackColorDraw(void)
 bool
 RFF_SpotLightFix(void)
 {
-    return RfgSpotLight;
+    return true;
 }
 
 /****** Init ************************************************************************************/
@@ -153,12 +153,6 @@ RFM_GlobalInit(void)
     }
 
     RFG_ModelTintInit();
-
-    if (RF_ConfigGetInt(CNF_GLOBAL_SPOTLITE))
-    {
-        RfgSpotLight = true;
-        RFG_SpotLightFixInit();
-    }
 
     if ( true ) // this used to be a setting, but is now always on
     {

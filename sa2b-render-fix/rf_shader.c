@@ -216,29 +216,16 @@ SetShaderIndexHook(int shader)
     if ( p_pshader ) RF_DirectSetPShader(p_pshader);
 }
 
-static void
-HookSetShaderIndex(void)
-{
-    if ( mtHookInfoGetType(SetShaderIndexHookInfo) == HOOK_TYPE_NONE )
-    {
-        mtHookFunc(SetShaderIndexHookInfo, SetShaderIndex_p, SetShaderIndexHook);
-    }
-}
-
 /****** Replace Shader **************************************************************************/
 void
 RF_SetGameVShader(RFE_SHADERIX ixShader, RFS_VSHADER* pVShader)
 {
-    HookSetShaderIndex();
-
     ShaderVtxEntries[ixShader] = pVShader;
 }
 
 void
 RF_SetGamePShader(RFE_SHADERIX ixShader, RFS_PSHADER* pPShader)
 {
-    HookSetShaderIndex();
-
     ShaderPxlEntries[ixShader] = pPShader;
 }
 
@@ -252,4 +239,22 @@ RFS_PSHADER*
 RF_GetGamePShader(RFE_SHADERIX ixShader)
 {
     return ShaderPxlEntries[ixShader];
+}
+
+/****** Init ************************************************************************************/
+void
+RF_ShaderInit(void)
+{
+    mtHookFunc(SetShaderIndexHookInfo, SetShaderIndex_p, SetShaderIndexHook);
+
+    RFS_VSHADER* p_sonicvs = RF_CompileVtxShader("sonicvs", nullptr);
+
+    RF_SetGameVShader(RFE_SHADERIX_MDL_NONE, p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_S   , p_sonicvs); 
+    RF_SetGameVShader(RFE_SHADERIX_MDL_F   , p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_FS  , p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_P   , p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_PS  , p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_PF  , p_sonicvs);
+    RF_SetGameVShader(RFE_SHADERIX_MDL_PFS , p_sonicvs);
 }

@@ -201,9 +201,6 @@
     <ClCompile Include="rf_config.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_global\rfg_spotlight_fix.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_shader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
