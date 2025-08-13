@@ -47,10 +47,10 @@ MOD_COLOR;
 
 static RFE_MOD_MODE ModMode;
 
-static dx9_vtx_shader* ModBasicVtxShader;
+static RFS_VSHADER* ModBasicVtxShader;
 
-static dx9_vtx_shader* ModVtxShader;
-static dx9_pxl_shader* ModPxlShader;
+static RFS_VSHADER* ModVtxShader;
+static RFS_PSHADER* ModPxlShader;
 
 static dx9_vtx_decl* ModVtxDeclaration;
 
@@ -253,8 +253,8 @@ DrawBufferFast(void)
     DX9_SetZFunc(DX9_CMP_LEQ);
 
     /** Setup shader info **/
-    DX9_SetVtxShader(ModVtxShader);
-    DX9_SetPxlShader(ModPxlShader);
+    DX9_SetVtxShader((dx9_vtx_shader*)ModVtxShader);
+    DX9_SetPxlShader((dx9_pxl_shader*)ModPxlShader);
     DX9_SetVtxDecl(ModVtxDeclaration);
 
     /** Enable stencil **/
@@ -333,7 +333,7 @@ DrawBufferFast(void)
     DX9_SetStencilPass(DX9_STCL_ZERO);
 
     /****** Draw the Stencil Buffer ******/
-    DX9_SetVtxShader(ModBasicVtxShader);
+    DX9_SetVtxShader((dx9_vtx_shader*)ModBasicVtxShader);
     DrawScreenQuad();
 
     /****** End Draw Buffer ******/
@@ -357,8 +357,8 @@ DrawBufferDebug(void)
     ModSaveRenderState();
 
     /** Setup shader info **/
-    DX9_SetVtxShader(ModVtxShader);
-    DX9_SetPxlShader(ModPxlShader);
+    DX9_SetVtxShader((dx9_vtx_shader*)ModVtxShader);
+    DX9_SetPxlShader((dx9_pxl_shader*)ModPxlShader);
     DX9_SetVtxDecl(ModVtxDeclaration);
 
     DX9_SetPxlShaderConstantF(&ModColor, 0, 4);

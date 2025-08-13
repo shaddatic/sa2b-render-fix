@@ -52,22 +52,22 @@
 *   Shader Macros
 */
 /****** Vertex **********************************************************************************/
-#define SM_VTX_3D                   (dx9_macro){ "VTX_3D" , "1" };
-#define SM_VTX_TEX                  (dx9_macro){ "VTX_TEX", "1" };
-#define SM_VTX_COL                  (dx9_macro){ "VTX_COL", "1" };
-#define SM_VTX_OFF                  (dx9_macro){ "VTX_OFF", "1" };
+#define SM_VTX_3D                   (RFS_MACRO){ "VTX_3D" , "1" };
+#define SM_VTX_TEX                  (RFS_MACRO){ "VTX_TEX", "1" };
+#define SM_VTX_COL                  (RFS_MACRO){ "VTX_COL", "1" };
+#define SM_VTX_OFF                  (RFS_MACRO){ "VTX_OFF", "1" };
 
 /****** Pixel ***********************************************************************************/
-#define SM_PXL_TEX                  (dx9_macro){ "PXL_TEX", "1" };
-#define SM_PXL_PALETTE              (dx9_macro){ "PXL_TEX", "2" };
-#define SM_PXL_FOG                  (dx9_macro){ "PXL_FOG", "1" };
+#define SM_PXL_TEX                  (RFS_MACRO){ "PXL_TEX", "1" };
+#define SM_PXL_PALETTE              (RFS_MACRO){ "PXL_TEX", "2" };
+#define SM_PXL_FOG                  (RFS_MACRO){ "PXL_FOG", "1" };
 
 /****** Shadow Tex ******************************************************************************/
-#define SM_VTX_SHTEX                (dx9_macro){ "VTX_SHTEX", "1" };
-#define SM_PXL_SHTEX                (dx9_macro){ "PXL_SHTEX", "1" };
+#define SM_VTX_SHTEX                (RFS_MACRO){ "VTX_SHTEX", "1" };
+#define SM_PXL_SHTEX                (RFS_MACRO){ "PXL_SHTEX", "1" };
 
 /****** End Macro *******************************************************************************/
-#define SM_END                      (dx9_macro){ 0 };
+#define SM_END                      (RFS_MACRO){ 0 };
 
 /************************************************************************************************/
 /*
@@ -128,9 +128,9 @@ static dx9_vtx_decl* _rj_vtx_decls_[NB_RJE_VERTEX];
 
 static dx9_vtx_buff* _rj_vertex_buffer_;
 
-static dx9_vtx_shader* _rj_vtx_shaders_[NB_RJE_VERTEX][NB_DRAW_MD];
+static RFS_VSHADER* _rj_vtx_shaders_[NB_RJE_VERTEX][NB_DRAW_MD];
 
-static dx9_pxl_shader* _rj_pxl_shaders_[NB_RJE_PIXEL];
+static RFS_PSHADER* _rj_pxl_shaders_[NB_RJE_PIXEL];
 
 /****** Current State ***************************************************************************/
 static Uint32 _rj_polygon_format_;
@@ -144,8 +144,8 @@ static Uint32 _rj_vertex_buffer_stride_;
 
 static dx9_vtx_decl* _rj_curr_vtx_decl_;
 
-static dx9_vtx_shader* _rj_curr_vtx_shader_;
-static dx9_pxl_shader* _rj_curr_pxl_shader_;
+static RFS_VSHADER* _rj_curr_vtx_shader_;
+static RFS_PSHADER* _rj_curr_pxl_shader_;
 
 /****** Modifier ********************************************************************************/
 static dx9_vtx_buff* _rj_mod_vertex_buffer_;
@@ -435,23 +435,10 @@ rjSetVertexDecl(dx9_vtx_decl* pVDecl)
 }
 
 void
-rjSetShaders(dx9_vtx_shader* vshader, dx9_pxl_shader* pshader)
+rjSetShaders(RFS_VSHADER* vshader, RFS_PSHADER* pshader)
 {
-    RF_MAGIC_SHADERCACHE* p_cache = RF_MagicGetStateCache()->shader;
-
-    if ( p_cache->vshader != vshader )
-    {
-        DX9_SetVtxShader(vshader);
-
-        p_cache->vshader = vshader;
-    }
-
-    if ( p_cache->pshader != pshader )
-    {
-        DX9_SetPxlShader(pshader);
-
-        p_cache->pshader = pshader;
-    }
+    RF_DirectSetVShader(vshader);
+    RF_DirectSetPShader(pshader);
 }
 
 void*
@@ -851,8 +838,8 @@ rjInitModVertexBuffer(Sint32 size)
 
 static bool UseShadowTex = false;
 
-static dx9_macro*
-InitShaderMacroVertex(dx9_macro* pMacroAry, const dx9_macro** ppOutMacro2D, const dx9_macro** ppOutMacro3D)
+static RFS_MACRO*
+InitShaderMacroVertex(RFS_MACRO* pMacroAry, const RFS_MACRO** ppOutMacro2D, const RFS_MACRO** ppOutMacro3D)
 {
     int ix_base = 0;
 
@@ -869,8 +856,8 @@ InitShaderMacroVertex(dx9_macro* pMacroAry, const dx9_macro** ppOutMacro2D, cons
     return &pMacroAry[ix_base];
 }
 
-static dx9_macro*
-InitShaderMacroPixel(dx9_macro* pMacroAry, const dx9_macro** ppOutMacro)
+static RFS_MACRO*
+InitShaderMacroPixel(RFS_MACRO* pMacroAry, const RFS_MACRO** ppOutMacro)
 {
     int ix_base = 0;
 
@@ -890,14 +877,14 @@ RFD_CoreInit(void)
 {
     // compile shaders
     {
-        dx9_macro macrolist[10];
+        RFS_MACRO macrolist[10];
 
         /** Vertex Shaders **/
         {
-            const dx9_macro* p_vmacro_2d;
-            const dx9_macro* p_vmacro_3d;
+            const RFS_MACRO* p_vmacro_2d;
+            const RFS_MACRO* p_vmacro_3d;
 
-            dx9_macro* p_setmacro = InitShaderMacroVertex(macrolist, &p_vmacro_2d, &p_vmacro_3d);
+            RFS_MACRO* p_setmacro = InitShaderMacroVertex(macrolist, &p_vmacro_2d, &p_vmacro_3d);
 
             // compile
 
@@ -937,9 +924,9 @@ RFD_CoreInit(void)
 
         /** Pixel Shaders **/
         {
-            const dx9_macro* p_pmacro;
+            const RFS_MACRO* p_pmacro;
 
-            dx9_macro* p_setmacro = InitShaderMacroPixel(macrolist, &p_pmacro);
+            RFS_MACRO* p_setmacro = InitShaderMacroPixel(macrolist, &p_pmacro);
 
             // compile
 

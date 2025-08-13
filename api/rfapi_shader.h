@@ -20,8 +20,45 @@
 /*  Opaque Types                */
 /********************************/
 /****** Shaders *********************************************************************************/
-typedef struct dx9_vtx_shader       dx9_vtx_shader; /* 'IDirect3DVertexShader9'                 */
-typedef struct dx9_pxl_shader       dx9_pxl_shader; /* 'IDirect3DPixelShader9'                  */
+typedef struct rfs_vshader          RFS_VSHADER; /* 'IDirect3DVertexShader9'                    */
+typedef struct rfs_pshader          RFS_PSHADER; /* 'IDirect3DPixelShader9'                     */
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Game Shaders ****************************************************************************/
+typedef enum
+{
+    RFE_SHADERIX_UI,                /* 2d/ui shader                                             */
+
+    RFE_SHADERIX_MDL_NONE,          /* model, no additional effects                             */
+    RFE_SHADERIX_MDL_S,             /* model, use shadow texture                                */
+    RFE_SHADERIX_MDL_F,             /* model, use fog                                           */
+    RFE_SHADERIX_MDL_FS,            /* model, use fog+stex                                      */
+    RFE_SHADERIX_MDL_P,             /* model, use palette                                       */
+    RFE_SHADERIX_MDL_PS,            /* model, use palette+stex                                  */
+    RFE_SHADERIX_MDL_PF,            /* model, use palette+fog                                   */
+    RFE_SHADERIX_MDL_PFS,           /* model, use palette+fog+stex                              */
+
+    RFE_SHADERIX_MDL_SIMPLE,        /* mode, "simple" model/3d shader                           */
+    RFE_SHADERIX_MDL_SMOKE,         /* mode, "smoke" model/3d shader                            */
+    RFE_SHADERIX_MDL_SHADOWGEN,     /* mode, shadowgen model shader                             */
+    RFE_SHADERIX_MDL_CA,            /* mode, soc model shader                                   */
+
+    NB_RFE_SHADERIX,                /* enum count                                               */
+}
+RFE_SHADERIX;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Shader Macro ****************************************************************************/
+typedef struct
+{
+    const char* pcSym;              /* macro symbol (eg. "USE_FEATURE")                         */
+    const char* pcDef;              /* macro definition (eg. "1")                               */
+}
+RFS_MACRO;
 
 /********************************/
 /*  API Structures              */

@@ -10,14 +10,54 @@
 /********************************/
 /*  Includes                    */
 /********************************/
-/****** Dx9ctrl *********************************************************************************/
-#include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
+/****** API *************************************************************************************/
+#include <rfapi_shader.h>           /* shader api                                               */
 
 EXTERN_START
 
 /********************************/
 /*  Prototypes                  */
 /********************************/
+/****** Set/Get Game Shader *********************************************************************/
+/*
+*   Description:
+*     Replace a game shader index with custom shaders.
+*
+*   Notes:
+*     - Using 'nullptr' will restore the shader index to vanilla.
+*     - If you're only replacing only one shader in a shader index, please try to have the
+*       input and output structures match vanilla to reduce conflicts.
+*
+*   Parameters:
+*     - index       : shader index to replace or reset
+*     - p#Shader    : shader to set                                              [opt: nullptr]
+*/
+void    RF_SetGameVShader( RFE_SHADERIX ixShader, RFS_VSHADER* pVShader );
+void    RF_SetGamePShader( RFE_SHADERIX ixShader, RFS_PSHADER* pPShader );
+/*
+*   Description:
+*     Get the current shaders in a game shader index.
+*
+*   Parameters:
+*     - index       : shader index to get
+*
+*   Returns:
+*     Shader set at the shader index; or 'nullptr' if the vanilla shader is still set.
+*/
+RFS_VSHADER* RF_GetGameVShader( RFE_SHADERIX ixShader );
+RFS_PSHADER* RF_GetGamePShader( RFE_SHADERIX ixShader );
+
+/****** Set DX9 Shader **************************************************************************/
+/*
+*   Description:
+*     Set shaders to DirectX 9 device and to Magic's shader cache.
+*
+*   Parameters:
+     - p#Shader    : shader to set
+*/
+void    RF_DirectSetVShader( RFS_VSHADER* pVShader );
+void    RF_DirectSetPShader( RFS_PSHADER* pPShader );
+
 /****** Compile Shader Source *******************************************************************/
 /*
 *   Description:
@@ -31,8 +71,21 @@ EXTERN_START
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-dx9_vtx_shader* RF_CompileVtxShader( const c8* puSrcName, const dx9_macro* pMacros );
-dx9_pxl_shader* RF_CompilePxlShader( const c8* puSrcName, const dx9_macro* pMacros );
+RFS_VSHADER* RF_CompileVtxShader( const c8* puSrcName, const RFS_MACRO* pMacros );
+RFS_PSHADER* RF_CompilePxlShader( const c8* puSrcName, const RFS_MACRO* pMacros );
+/*
+*   Description:
+*     Compile a pixel or vertex shader from any source file (.hlsl) with changeable macros.
+*
+*   Parameters:
+*     - puSrcPath   : path to the source file, including the extension
+*     - pMacros     : list of macros terminated by a null'd entry
+*
+*   Returns:
+*     Shader handle; or 'nullptr' on failure.
+*/
+RFS_VSHADER* RF_DirectCompileVtxShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
+RFS_PSHADER* RF_DirectCompilePxlShader( const c8* puSrcPath, const RFS_MACRO* pMacros );
 
 /****** Load Compiled Shader ********************************************************************/
 /*
@@ -45,35 +98,8 @@ dx9_pxl_shader* RF_CompilePxlShader( const c8* puSrcName, const dx9_macro* pMacr
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-dx9_vtx_shader* RF_LoadVtxShader( const c8* puSrcName );
-dx9_pxl_shader* RF_LoadPxlShader( const c8* puSrcName );
-
-/****** Replace Game Shader *********************************************************************/
-/*
-*   Description:
-*     Replace a game shader via it's shader index.
-*
-*   Parameters:
-*     - index       : shader index to replace
-*     - p###Shader  : shader handle
-*/
-void    RF_ReplaceVtxShader( int index, dx9_vtx_shader* pVtxShader );
-void    RF_ReplacePxlShader( int index, dx9_pxl_shader* pPxlShader );
-
-/****** Direct Shader **************************************************************************/
-/*
-*   Description:
-*     Compile a pixel or vertex shader from any source file (.hlsl) with changeable macros.
-*
-*   Parameters:
-*     - puSrcPath   : path to the source file, including the extension
-*     - pMacros     : list of macros terminated by a null'd entry
-*
-*   Returns:
-*     Shader handle; or 'nullptr' on failure.
-*/
-dx9_vtx_shader* RF_DirectCompileVtxShader( const c8* puSrcPath, const dx9_macro* pMacros );
-dx9_pxl_shader* RF_DirectCompilePxlShader( const c8* puSrcPath, const dx9_macro* pMacros );
+RFS_VSHADER* RF_LoadVtxShader( const c8* puSrcName );
+RFS_PSHADER* RF_LoadPxlShader( const c8* puSrcName );
 /*
 *   Description:
 *     Load any pre-compiled pixel or vertex shader (.fxc).
@@ -84,8 +110,8 @@ dx9_pxl_shader* RF_DirectCompilePxlShader( const c8* puSrcPath, const dx9_macro*
 *   Returns:
 *     Shader handle; or 'nullptr' on failure.
 */
-dx9_vtx_shader* RF_DirectLoadVtxShader( const c8* fpath );
-dx9_pxl_shader* RF_DirectLoadPxlShader( const c8* fpath );
+RFS_VSHADER* RF_DirectLoadVtxShader( const c8* fpath );
+RFS_PSHADER* RF_DirectLoadPxlShader( const c8* fpath );
 
 EXTERN_END
 

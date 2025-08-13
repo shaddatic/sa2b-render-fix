@@ -16,6 +16,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_usermsg.h>             /* alert                                                    */
+#include <rf_magic.h>               /* magic                                                    */
 
 /****** Dx9ctrl *********************************************************************************/
 #include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
@@ -33,12 +34,8 @@
 /*  Data                        */
 /********************************/
 /****** Shader Replace **************************************************************************/
-static dx9_vtx_shader* ShaderVtxEntries[13]; /* replacement vertex shaders                      */
-static dx9_pxl_shader* ShaderPxlEntries[13]; /* replacement pixel  shaders                      */
-
-/****** Func Hook *******************************************************************************/
-static bool      IsHookedSetAndLoadShader;    /* hook active                                    */
-static mt_hookinfo HookInfoSetAndLoadShader[1]; /* hook info                                      */
+static RFS_VSHADER* ShaderVtxEntries[13]; /* replacement vertex shaders                         */
+static RFS_PSHADER* ShaderPxlEntries[13]; /* replacement pixel  shaders                         */
 
 /********************************/
 /*  Source                      */
@@ -69,7 +66,7 @@ CompileError(const char* fpath)
 *   Load Pre-Compiled Shader File
 */
 /****** Direct **********************************************************************************/
-dx9_vtx_shader*
+RFS_VSHADER*
 RF_DirectLoadVtxShader(const c8* fpath)
 {
     dx9_vtx_shader* vshader = DX9_LoadVtxShader(fpath);
@@ -79,11 +76,10 @@ RF_DirectLoadVtxShader(const c8* fpath)
         RF_ShaderError(fpath);
     }
 
-
-    return vshader;
+    return (RFS_VSHADER*) vshader;
 }
 
-dx9_pxl_shader*
+RFS_PSHADER*
 RF_DirectLoadPxlShader(const c8* fpath)
 {
     dx9_pxl_shader* vshader = DX9_LoadPxlShader(fpath);
@@ -93,11 +89,11 @@ RF_DirectLoadPxlShader(const c8* fpath)
         RF_ShaderError(fpath);
     }
 
-    return vshader;
+    return (RFS_PSHADER*) vshader;
 }
 
 /****** Load Render Fix *************************************************************************/
-dx9_vtx_shader*
+RFS_VSHADER*
 RF_LoadVtxShader(const c8* fname)
 {
     c8 buf[260];
@@ -107,7 +103,7 @@ RF_LoadVtxShader(const c8* fname)
     return RF_DirectLoadVtxShader(buf);
 }
 
-dx9_pxl_shader*
+RFS_PSHADER*
 RF_LoadPxlShader(const c8* fname)
 {
     c8 buf[260];
@@ -122,35 +118,35 @@ RF_LoadPxlShader(const c8* fname)
 *   Compile Shader Source File
 */
 /****** Direct **********************************************************************************/
-dx9_vtx_shader*
-RF_DirectCompileVtxShader(const c8* puSrcPath, const dx9_macro* pMacroList)
+RFS_VSHADER*
+RF_DirectCompileVtxShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 {
-    dx9_vtx_shader* const p_vshader = DX9_CompileVtxShader(puSrcPath, pMacroList);
+    dx9_vtx_shader* const p_vshader = DX9_CompileVtxShader(puSrcPath, (dx9_macro*) pMacroList);
 
     if ( !p_vshader )
     {
         CompileError(puSrcPath);
     }
 
-    return p_vshader;
+    return (RFS_VSHADER*) p_vshader;
 }
 
-dx9_pxl_shader*
-RF_DirectCompilePxlShader(const c8* puSrcPath, const dx9_macro* pMacroList)
+RFS_PSHADER*
+RF_DirectCompilePxlShader(const c8* puSrcPath, const RFS_MACRO* pMacroList)
 {
-    dx9_pxl_shader* const p_pshader = DX9_CompilePxlShader(puSrcPath, pMacroList);
+    dx9_pxl_shader* const p_pshader = DX9_CompilePxlShader(puSrcPath, (dx9_macro*) pMacroList);
 
     if ( !p_pshader )
     {
         CompileError(puSrcPath);
     }
 
-    return p_pshader;
+    return (RFS_PSHADER*) p_pshader;
 }
 
 /****** Compile Render Fix **********************************************************************/
-dx9_vtx_shader*
-RF_CompileVtxShader(const c8* puSrcName, const dx9_macro* pMacroList)
+RFS_VSHADER*
+RF_CompileVtxShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
 {
     c8 buf[256];
     mtStrFormat(buf, 256, "%s/" SHADER_DIR "/%s.hlsl", mtGetModPath(), puSrcName);
@@ -158,8 +154,8 @@ RF_CompileVtxShader(const c8* puSrcName, const dx9_macro* pMacroList)
     return RF_DirectCompileVtxShader(buf, pMacroList);
 }
 
-dx9_pxl_shader*
-RF_CompilePxlShader(const c8* puSrcName, const dx9_macro* pMacroList)
+RFS_PSHADER*
+RF_CompilePxlShader(const c8* puSrcName, const RFS_MACRO* pMacroList)
 {
     c8 buf[256];
     mtStrFormat(buf, 256, "%s/" SHADER_DIR "/%s.hlsl", mtGetModPath(), puSrcName);
@@ -169,48 +165,91 @@ RF_CompilePxlShader(const c8* puSrcName, const dx9_macro* pMacroList)
 
 /************************************************************************************************/
 /*
+*   Set Shaders
+*/
+/****** Hook Func *******************************************************************************/
+void
+RF_DirectSetVShader(RFS_VSHADER* pVShader)
+{
+    RF_MAGIC_SHADERCACHE* restrict p_cache = RF_MagicGetStateCache()->shader;
+
+    if ( p_cache->vshader != pVShader )
+    {
+        DX9_SetVtxShader( (dx9_vtx_shader*) pVShader );
+
+        p_cache->vshader = pVShader;
+    }
+}
+
+void
+RF_DirectSetPShader(RFS_PSHADER* pPShader)
+{
+    RF_MAGIC_SHADERCACHE* restrict p_cache = RF_MagicGetStateCache()->shader;
+
+    if ( p_cache->pshader != pPShader )
+    {
+        DX9_SetPxlShader( (dx9_pxl_shader*) pPShader );
+
+        p_cache->pshader = pPShader;
+    }
+}
+
+/************************************************************************************************/
+/*
 *   Replace Game Shaders
 */
 /****** Hook Func *******************************************************************************/
+static mt_hookinfo SetShaderIndexHookInfo[1];   /* hook info                                    */
+
 static void __stdcall
-SetAndLoadShaderHook(int shader)
+SetShaderIndexHook(int shader)
 {
-    FuncHookCall( HookInfoSetAndLoadShader, SetShaderIndex(shader) );
+    RFS_VSHADER* const p_vshader = ShaderVtxEntries[shader];
+    RFS_PSHADER* const p_pshader = ShaderPxlEntries[shader];
 
-    if (ShaderVtxEntries[shader])
-        DX9_SetVtxShader(ShaderVtxEntries[shader]);
+    if ( !p_pshader || !p_vshader )
+    {
+        mtHookInfoCall( SetShaderIndexHookInfo, SetShaderIndex(shader) );
+    }
 
-    if (ShaderPxlEntries[shader])
-        DX9_SetPxlShader(ShaderPxlEntries[shader]);
+    if ( p_vshader ) RF_DirectSetVShader(p_vshader);
+    if ( p_pshader ) RF_DirectSetPShader(p_pshader);
+}
+
+static void
+HookSetShaderIndex(void)
+{
+    if ( mtHookInfoGetType(SetShaderIndexHookInfo) == HOOK_TYPE_NONE )
+    {
+        mtHookFunc(SetShaderIndexHookInfo, SetShaderIndex_p, SetShaderIndexHook);
+    }
 }
 
 /****** Replace Shader **************************************************************************/
 void
-RF_ReplaceVtxShader(int index, dx9_vtx_shader* pVtxShader)
+RF_SetGameVShader(RFE_SHADERIX ixShader, RFS_VSHADER* pVShader)
 {
-    if (index < 0 || index > 12)
-        return;
+    HookSetShaderIndex();
 
-    if (!IsHookedSetAndLoadShader)
-    {
-        FuncHook(HookInfoSetAndLoadShader, SetShaderIndex_p, SetAndLoadShaderHook);
-        IsHookedSetAndLoadShader = true;
-    }
-
-    ShaderVtxEntries[index] = pVtxShader;
+    ShaderVtxEntries[ixShader] = pVShader;
 }
 
 void
-RF_ReplacePxlShader(int index, dx9_pxl_shader* pPxlShader)
+RF_SetGamePShader(RFE_SHADERIX ixShader, RFS_PSHADER* pPShader)
 {
-    if (index < 0 || index > 12)
-        return;
+    HookSetShaderIndex();
 
-    if (!IsHookedSetAndLoadShader)
-    {
-        FuncHook(HookInfoSetAndLoadShader, SetShaderIndex_p, SetAndLoadShaderHook);
-        IsHookedSetAndLoadShader = true;
-    }
+    ShaderPxlEntries[ixShader] = pPShader;
+}
 
-    ShaderPxlEntries[index] = pPxlShader;
+RFS_VSHADER*
+RF_GetGameVShader(RFE_SHADERIX ixShader)
+{
+    return ShaderVtxEntries[ixShader];
+}
+
+RFS_PSHADER*
+RF_GetGamePShader(RFE_SHADERIX ixShader)
+{
+    return ShaderPxlEntries[ixShader];
 }
