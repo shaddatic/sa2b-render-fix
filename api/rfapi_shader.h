@@ -30,21 +30,29 @@ typedef struct rfs_pshader          RFS_PSHADER; /* 'IDirect3DPixelShader9'     
 /****** Game Shaders ****************************************************************************/
 typedef enum
 {
-    RFE_SHADERIX_UI,                /* 2d/ui shader                                             */
+    /**** 2D Shaders ****************************************/
 
-    RFE_SHADERIX_MDL_NONE,          /* model, no additional effects                             */
-    RFE_SHADERIX_MDL_S,             /* model, use shadow texture                                */
-    RFE_SHADERIX_MDL_F,             /* model, use fog                                           */
-    RFE_SHADERIX_MDL_FS,            /* model, use fog+stex                                      */
-    RFE_SHADERIX_MDL_P,             /* model, use palette                                       */
-    RFE_SHADERIX_MDL_PS,            /* model, use palette+stex                                  */
-    RFE_SHADERIX_MDL_PF,            /* model, use palette+fog                                   */
-    RFE_SHADERIX_MDL_PFS,           /* model, use palette+fog+stex                              */
+    RFE_SHADERIX_UI,                /* 2d/ui shader                      [sonicuivs, sonicuips] */
 
-    RFE_SHADERIX_MDL_SIMPLE,        /* mode, "simple" model/3d shader                           */
-    RFE_SHADERIX_MDL_SMOKE,         /* mode, "smoke" model/3d shader                            */
-    RFE_SHADERIX_MDL_SHADOWGEN,     /* mode, shadowgen model shader                             */
-    RFE_SHADERIX_MDL_CA,            /* mode, soc model shader                                   */
+    /**** Basic Model Shaders *******************************/
+
+    RFE_SHADERIX_MDL_NONE,          /* no additional effects                 [sonicvs, sonicps] */
+    RFE_SHADERIX_MDL_S,             /* use shadow texture                  [sonicvs, sonicps_s] */
+    RFE_SHADERIX_MDL_F,             /* use fog                             [sonicvs, sonicps_f] */
+    RFE_SHADERIX_MDL_FS,            /* use fog+stex                      [sonicvs, sonicps_s_f] */
+    RFE_SHADERIX_MDL_P,             /* use palette                         [sonicvs, sonicps_p] */
+    RFE_SHADERIX_MDL_PS,            /* use palette+stex                  [sonicvs, sonicps_s_p] */
+    RFE_SHADERIX_MDL_PF,            /* use palette+fog                   [sonicvs, sonicps_f_p] */
+    RFE_SHADERIX_MDL_PFS,           /* use palette+fog+stex            [sonicvs, sonicps_s_f_p] */
+
+    /**** Other Model Shaders *******************************/
+
+    RFE_SHADERIX_MDL_SIMPLE,        /* simple model/3d shader      [sonicvs_nolighting, sonicps_simple] */
+    RFE_SHADERIX_MDL_SMOKE,         /* smoke model/3d shader       [sonicvs_nolighting, sonicps_smoke]  */
+    RFE_SHADERIX_MDL_SHADOWGEN,     /* shadowgen model shader    [sonicvs_shadowgen, sonicps_shadowgen] */
+    RFE_SHADERIX_MDL_CA,            /* soc model shader                  [sonicvs_normaluv, sonicps_ca] */
+
+    /**** End Enum ******************************************/
 
     NB_RFE_SHADERIX,                /* enum count                                               */
 }
@@ -96,7 +104,7 @@ typedef struct
     *       input and output structures match vanilla to reduce conflicts.
     *
     *   Parameters:
-    *     - index       : shader index to replace or reset
+    *     - ixShader    : shader index to replace or reset
     *     - p#Shader    : shader to set                                          [opt: nullptr]
     */
     void (__cdecl* SetGameVShader)( RFE_SHADERIX ixShader, RFS_VSHADER* pVShader );
@@ -110,7 +118,7 @@ typedef struct
     *     Get the current shaders in a game shader index.
     *
     *   Parameters:
-    *     - index       : shader index to get
+    *     - ixShader    : shader index to get
     *
     *   Returns:
     *     Shader set at the shader index; or 'nullptr' if the vanilla shader is still set.
@@ -125,7 +133,7 @@ typedef struct
     *
     *   Parameters:
     *     - puPath      : path to the source file, including the extension
-    *     - pMacros     : list of macros terminated by a null'd entry
+    *     - pMacros     : list of macros terminated by a null'd entry            [opt: nullptr]
     *
     *   Returns:
     *     Shader handle; or 'nullptr' on failure.
