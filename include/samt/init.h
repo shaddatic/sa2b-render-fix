@@ -49,6 +49,7 @@ EXTERN_END
 /********************************/
 /*  Export Examples             */
 /********************************/
+/****** Predate Mod Loader Versions *************************************************************/
 /*
 *   Execute at game startup:
 *
@@ -85,7 +86,9 @@ EXTERN_END
     {
 
     }
-*
+*/
+/****** Mod Loader Version >= ~8 ****************************************************************/
+/*
 *   Execute on game close:
 *
     EXPORT_DLL
@@ -98,6 +101,7 @@ EXTERN_END
 *   Execute on device lost:
 *
     EXPORT_DLL
+    void __cdecl
     OnRenderDeviceLost(void)
     {
         
@@ -106,6 +110,7 @@ EXTERN_END
 *   Execute on device reset:
 *
     EXPORT_DLL
+    void __cdecl
     OnRenderDeviceReset(void)
     {
         
@@ -114,6 +119,7 @@ EXTERN_END
 *   Execute on scene start, but before screen clear:
 *
     EXPORT_DLL
+    void __cdecl
     OnRenderSceneStart(void)
     {
         
@@ -122,6 +128,7 @@ EXTERN_END
 *   Execute on scene end:
 *
     EXPORT_DLL
+    void __cdecl
     OnRenderSceneEnd(void)
     {
         

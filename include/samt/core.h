@@ -2,22 +2,22 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/core.h'
 *
 *   Description:
-*     Core header for SAMT, defining everything universally relied upon in the
-*   library. It is recommended to always include it first, either directly or
-*   through a core header made for your project.
+*     Core header for SAMT, defining everything universally relied upon in the library. It is
+*   recommended to always include it first, either directly or through a core header made for
+*   your project.
 */
 #ifndef H_SAMT_CORE
 #define H_SAMT_CORE
 
-/************************/
-/*  Core Init           */
-/************************/
-/****** Core Library ****************************************************************/
+/********************************/
+/*  Core Init                   */
+/********************************/
+/****** Core Library ****************************************************************************/
 #ifndef SAMT_NO_AUTOLIB
 #   pragma comment(lib, "samt.lib")
 #endif
 
-/****** Core Errors *****************************************************************/
+/****** Core Errors *****************************************************************************/
 #ifndef SAMT_NO_COREERR
 #   if !defined(_MSC_VER)
 #       error "SAMT is designed for the MSVC compiler"

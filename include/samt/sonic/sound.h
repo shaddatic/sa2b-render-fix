@@ -52,31 +52,31 @@ enum
 
 #endif/*SAMT_INCL_INTERNAL*/
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Bank Entry ******************************************************************/
-typedef struct bankentry
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Sound Bank Entries **********************************************************************/
+typedef struct _SE_TBL
 {
-    int8_t  memBank;
-    int8_t  index;
-    int8_t  seBank;
-    int8_t  flags;
-    int16_t unk;
-    int16_t dist;
+    s8          bank;               /* memory bank                                              */
+    s8          list;               /* sound list                                               */
+    s8          pri;                /* priority                                                 */
+    s8          attr;               /* attribute flags                                          */
+    s16         timer;              /* timer                                                    */
+    s16         range;              /* sound range                                              */
 }
-BANK_ENTRY;
+SE_TBL; // _SE_TBL
 
-typedef struct banklist
+typedef struct _SE_ENTRY
 {
-    int32_t     nbEntry;
-    BANK_ENTRY* pEntry;
+    u8          entry_num;          /* sound entry count                                        */
+    SE_TBL*     se_tbl;             /* sound entry table                                        */
 }
-BANK_LIST;
+SE_ENTRY; // _SE_ENTRY
 
 #ifdef SAMT_INCL_INTERNAL
 
-/****** SE Entry ********************************************************************/
+/****** SE Entry ********************************************************************************/
 typedef struct
 {
     int8_t      mbank;
@@ -130,7 +130,7 @@ typedef struct
 
     s8          unk3[32];
 
-    BANK_LIST*  bank[8];            /* bank lists                                   */
+    SE_ENTRY*   bank[8];            /* bank lists                                   */
 }
 SEWORK;
 

@@ -30,33 +30,38 @@
 #pragma region gjs_tintfix
 
 static void
-GjsMeshTintFix(GJS_MESHSET* pGinjaMesh, int nbMesh)
+GjsMeshTintFix(GJS_MESHSET* pMeshset, int nbMesh)
 {
     while (nbMesh--)
     {
-        GJS_MESHPARAM* param = pGinjaMesh->params;
-        const int nbparam = pGinjaMesh->nbParam;
+        GJS_MATERIAL* p_mat = pMeshset->mats;
+        const Uint32 nb_mat = pMeshset->nbMat;
 
-        for (int i = 0; i < nbparam; ++i)
+        for ( Uint32 i = 0; i < nb_mat; ++i )
         {
-            if (param->type == GJD_MESH_DIFFUSE)
+            if ( p_mat[i].id == GJ_MT_DIFFUSE )
             {
-                param->data = 0xFFFFFFFF;
+                p_mat[i].setting = 0xFFFFFFFF;
                 break;
             }
-            ++param;
         }
-        ++pGinjaMesh;
+
+        ++pMeshset;
     }
 }
 
 void
 RF_GjsModelTintFix(GJS_MODEL* pModel)
 {
-    if (pModel->nbSolid)
-        GjsMeshTintFix(pModel->meshsolid, pModel->nbSolid);
+    if (pModel->nbOpaque)
+    {
+        GjsMeshTintFix(pModel->opaque, pModel->nbOpaque);
+    }
+
     if (pModel->nbTrans)
-        GjsMeshTintFix(pModel->meshtrans, pModel->nbTrans);
+    {
+        GjsMeshTintFix(pModel->transparent, pModel->nbTrans);
+    }
 }
 
 void

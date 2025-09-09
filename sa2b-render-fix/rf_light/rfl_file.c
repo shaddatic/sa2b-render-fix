@@ -140,9 +140,9 @@ ByteswapLightsGC(LIGHT_GC* pLight)
 {
     for (int i = 0; i < LIGHT_COUNT; ++i)
     {
-        if ( pLight[i].r < 0.f || pLight[i].r > 1.f ||
-             pLight[i].g < 0.f || pLight[i].g > 1.f ||
-             pLight[i].b < 0.f || pLight[i].b > 1.f )
+        if ( pLight[i].lr < 0.f || pLight[i].lr > 1.f ||
+             pLight[i].lg < 0.f || pLight[i].lg > 1.f ||
+             pLight[i].lb < 0.f || pLight[i].lb > 1.f )
         {
             for (int j = 0; j < LIGHT_COUNT; ++j)
             {
@@ -150,13 +150,13 @@ ByteswapLightsGC(LIGHT_GC* pLight)
                 EndianSwap32(&pLight[j].vec.y);
                 EndianSwap32(&pLight[j].vec.z);
 
-                EndianSwap32(&pLight[j].r);
-                EndianSwap32(&pLight[j].g);
-                EndianSwap32(&pLight[j].b);
+                EndianSwap32(&pLight[j].lr);
+                EndianSwap32(&pLight[j].lg);
+                EndianSwap32(&pLight[j].lb);
 
-                EndianSwap32(&pLight[j].amb_r);
-                EndianSwap32(&pLight[j].amb_g);
-                EndianSwap32(&pLight[j].amb_b);
+                EndianSwap32(&pLight[j].ar);
+                EndianSwap32(&pLight[j].ag);
+                EndianSwap32(&pLight[j].ab);
 
                 EndianSwap32(&pLight[j].flag);
             }

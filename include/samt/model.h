@@ -137,26 +137,48 @@ GJS_OBJECT* mtGjsGetNode( const GJS_OBJECT* pObject, size_t ixNode );
 /****** Model ***********************************************************************/
 /*
 *   Description:
-*     Get the total number of entries in a Ginja vertex info list.
+*     Get the total number of entries in a Ginja vertex array list.
 *
 *   Parameters:
-*     - pVertinfo   : ginja vertex info
+*     - pArrays     : ginja vertex array list
 *
 *   Returns:
-*     The length of the Ginja vertinfo, including the termination entry.
+*     The length of a Ginja vertex array list, including the termination entry.
 */
-size_t  mtGjsVertinfoLength( const GJS_VERTINFO* pVertinfo );
+size_t  mtGjsArrayLength( const GJS_ARRAY* pArrays );
 /*
 *   Description:
-*     Get the total size of a Ginja vertex info list.
+*     Get the total size of a Ginja vertex array list.
 *
 *   Parameters:
-*     - pVertinfo   : ginja vertex info
+*     - pArrays     : ginja vertex array list
 *
 *   Returns:
-*     The size of the Ginja vertinfo, in bytes.
+*     The size of a Ginja vertex array list, in bytes.
 */
-size_t  mtGjsVertinfoSize( const GJS_VERTINFO* pVertinfo );
+size_t  mtGjsArraySize( const GJS_ARRAY* pArrays );
+/*
+*   Description:
+*     Get the total number of entries in a Ginja vertex array list.
+*
+*   Parameters:
+*     - pArrays     : ginja vertex array list
+*
+*   Returns:
+*     The length of a Ginja vertex array list, including the termination entry.
+*/
+size_t  mtGjsVlistLength( const GJS_VLIST* pVlist );
+/*
+*   Description:
+*     Get the total size of a Ginja vertex array list.
+*
+*   Parameters:
+*     - pArrays     : ginja vertex array list
+*
+*   Returns:
+*     The size of a Ginja vertex array list, in bytes.
+*/
+size_t  mtGjsVlistSize( const GJS_VLIST* pVlist );
 
 EXTERN_END
 

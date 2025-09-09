@@ -2,101 +2,151 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/light.h'
 *
 *   Description:
-*       Contains structures, data, and functions related to
-*   game lighting.
+*     Header for the game's lighting system.
 */
-#ifndef _SA2B_LIGHT_H_
-#define _SA2B_LIGHT_H_
+#ifndef H_SA2B_LIGHT
+#define H_SA2B_LIGHT
 
-/************************/
-/*  Includes            */
-/************************/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-/************************/
-/*  Structures          */
-/************************/
+EXTERN_START
+
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Light Flags *****************************************************************************/
+#define LIGHTGC_ONFLAG              (1<<0) /* use GC light over regular light                   */
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Light Struct ****************************************************************************/
 typedef struct light
 {
-    NJS_VECTOR  vec;
-    f32         dif;
-    f32         amb;
-    f32         r;
-    f32         g;
-    f32         b;
+    NJS_VECTOR  vec;                /* light direction                                          */
+    f32         inten;              /* light intensity                                          */
+    f32         ambient;            /* light ambient intensity                                  */
+    f32         r, g, b;            /* light color, rgb                                         */
 }
 LIGHT;
 
+/****** Light Struct (GC) ***********************************************************************/
 typedef struct lightgc
 {
-    NJS_VECTOR  vec;
-    f32         r;
-    f32         g;
-    f32         b;
-    f32         amb_r;
-    f32         amb_g;
-    f32         amb_b;
-    uint32_t    flag;
-    uint32_t    unused[2];
+    NJS_VECTOR  vec;                /* light direction                                          */
+    f32         lr, lg, lb;         /* light color, rgb                                         */
+    f32         ar, ag, ab;         /* ambient color, rgb                                       */
+    u32         flag;               /* light flag                                     [LIGHTGC] */
+
+    u32         pad[2];             /* padding                                                  */
 }
 LIGHT_GC;
 
-/************************/
-/*  Data                */
-/************************/
-/** Lights used by the player **/
-#define PlayerLight             DATA_ARY(uint8_t   , 0x01DE4664, [2])
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Player Light Index **********************************************************************/
+#define PlayerLight                 DATA_ARY(uint8_t   , 0x01DE4664, [2])
 
-/** Lights used by the player when swinging on bars, always 0 **/
-#define IronBarLights           DATA_ARY(uint8_t   , 0x01DE4662, [2])
+/****** Player Iron Bar Index *******************************************************************/
+#define IronBarLights               DATA_ARY(uint8_t   , 0x01DE4662, [2])
 
-/** Stage lights, GC is only used if (flag & BIT_0) **/
-#define Lights                  DATA_ARY(LIGHT     , 0x01DE4280, [12])
-#define LightsGC                DATA_ARY(LIGHT_GC  , 0x01DE4420, [12])
+/****** Light Data ******************************************************************************/
+#define Lights                      DATA_ARY(LIGHT     , 0x01DE4280, [12])
+#define LightsGC                    DATA_ARY(LIGHT_GC  , 0x01DE4420, [12])
 
-/** Default light indexes, some objects use player light **/
-#define DefaultPlayerLight      DATA_REF(uint8_t   , 0x01DE4660)
-#define DefaultLight            DATA_REF(uint8_t   , 0x01DE4400)
+/****** Default Light Index *********************************************************************/
+#define DefaultPlayerLight          DATA_REF(uint8_t   , 0x01DE4660)
+#define DefaultLight                DATA_REF(uint8_t   , 0x01DE4400)
 
-/** An unused vector that's set whenever the lights are set **/
-#define UnusedLightVec          DATA_REF(NJS_VECTOR, 0x1DD94A0)
+/****** Unused Vector ***************************************************************************/
+#define UnusedLightVec              DATA_REF(NJS_VECTOR, 0x1DD94A0)
 
-/************************/
-/*  Functions           */
-/************************/
-EXTERN_START
-/** Set current light for drawing via index **/
-void    SetLightIndex( int light );
+/********************************/
+/*  Functions                   */
+/********************************/
+/****** Load Light File *************************************************************************/
+/*
+*   Description:
+*     Load a light binary file into 'Lights' array, and 'LightsGC' array if '_gc' variant is
+*   found.
+*
+*   Notes:
+*     - Light files are in the 'gd_PC' directory as '#_light.bin' or '#_light_gc.bin'.
+*
+*   Parameters:
+*     - pcFileName  : light file name, including extension
+*/
+s32     LoadLightFile( const c7* pcFileName );
 
-/** Load light file into 'Lights' or 'LightsGC' **/
-int32_t LoadLightFile( const char* fname );
+/****** Set Draw Light **************************************************************************/
+/*
+*   Description:
+*     Set light info for drawing by index.
+*
+*   Parameters:
+*     - light       : light index
+*/
+void    SetLight( s32 light );
 
-/** Manually change light entry via index **/
-void    SetLight(   int light, const LIGHT*    pLight   );
-void    SetLightGC( int light, const LIGHT_GC* pLightGC );
+/****** Set Player Draw Light *******************************************************************/
+/*
+*   Description:
+*     Set default and draw light index for the players.
+*
+*   Parameters:
+*     - pno         : player number
+*     - light       : light index
+*/
+void    SetPlayerLight( s32 pno, int light );
 
-/** Set default light index for most objects **/
-void    SetDefaultLight( int light );
+/****** Set Light Data **************************************************************************/
+/*
+*   Description:
+*     Manually change the light info at a specific index for either index set.
+*
+*   Parameters:
+*     - light       : light index
+*     - pLight      : light data to set
+*/
+void    SetLightInfo(   s32 light, const LIGHT*    pLight );
+void    SetLightInfoGC( s32 light, const LIGHT_GC* pLight );
 
-/** Set default and draw light index for the players **/
-void    SetPlayerLight( int player, int light );
-void    SetDefaultPlayerLight(      int light );
+/****** Set Default Light Index *****************************************************************/
+/*
+*   Description:
+*     Set default light index for most objects, specifically ones that don't set their own.
+*
+*   Parameters:
+*     - light       : light index
+*/
+void    SetDefaultLight( s32 light );
+/*
+*   Description:
+*     Set default player light index, some objects use this too.
+*
+*   Parameters:
+*     - light       : light index
+*/
+void    SetDefaultPlayerLight( s32 light );
 
-/** SAMT function to convert DC lights to GC lights **/
-void    ConvertLight( LIGHT_GC* pLightGC, const LIGHT* pLight );
-
-EXTERN_END
-
-/************************/
-/*  Function Ptrs       */
-/************************/
 #ifdef SAMT_INCL_FUNCPTRS
-/** Function ptrs **/
-#   define LoadLightFile_p      FUNC_PTR(int32_t, __fastcall, (const char*), 0x006C3AE0)
 
-/** User-Function ptrs **/
-#   define SetLightIndex_p      ((void*)0x00487060)
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define LoadLightFile_p             FUNC_PTR(int32_t, __fastcall, (const char*), 0x006C3AE0)
+
+/****** Usercall Pointers ***********************************************************************/
+#define SetLightIndex_p             ((void*)0x00487060) /* ###(EAX)                             */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif/*_SA2B_LIGHT_H_*/
+EXTERN_END
+
+#endif/*H_SA2B_LIGHT*/

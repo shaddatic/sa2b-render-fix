@@ -30,9 +30,9 @@ SetLightIndex_RF(s32 light)
     {
         const LIGHT_GC* p_light = &LightsGC[light];
 
-        rjCnkSetLightColor(RJD_CNK_LIGHT_1, p_light->r, p_light->g, p_light->b);
+        rjCnkSetLightColor(RJD_CNK_LIGHT_1, p_light->lr, p_light->lg, p_light->lb);
 
-        rjCnkSetAmbient(p_light->amb_r, p_light->amb_g, p_light->amb_b);
+        rjCnkSetAmbient(p_light->ar, p_light->ag, p_light->ab);
 
         rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->vec.x, p_light->vec.y, p_light->vec.z);
     }
