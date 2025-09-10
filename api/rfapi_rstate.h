@@ -194,7 +194,12 @@ typedef struct
     *     Set transparency rendering mode.
     *
     *   Notes:
-    *     - Useful for forcing the Z buffer on & off via alpha test
+    *     - The 'AUTO_#' transparency states only force the alpha state of translucent
+    *       polygons, while leaving opaque polygons as-is.
+    *     - By default, 'ALPHATEST' is the same as 'TRANSPARENT' visually; but only 'ALPHATEST'
+    *       writes to the Z buffer.
+    *     - 'PUNCH' forces the 'PUNCHTHROUGH' alpha state, which is opaque blending + alpha
+    *       test. Otherwise, you can enable it with 'NJD_CONTROL_3D_USE_PUNCHTHROUGH'.
     *
     *   Parameters:
     *     - mode        : transparency mode
