@@ -42,7 +42,7 @@ SetLightIndex_RF(s32 light)
 
         rjCnkSetLightColor(RJD_CNK_LIGHT_1, p_light->r, p_light->g, p_light->b);
 
-        rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, p_light->dif, p_light->amb);
+        rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, p_light->inten, p_light->ambient);
 
         rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->vec.x, p_light->vec.y, p_light->vec.z);
     }
