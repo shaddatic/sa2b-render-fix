@@ -836,11 +836,9 @@ CnkSetupStrip(CNK_CTX* pCtx)
 
 /****** Extern **********************************************************************/
 void
-rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkStrip(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
     CnkSetupStrip(pCtx);
-
-    const CNK_STRIP_HEAD* striph = (const CNK_STRIP_HEAD*) plist;
 
     if ( _rj_cnk_vertex_attr_ & RJD_CVF_NORMAL )
     {
@@ -876,7 +874,7 @@ rjCnkStrip(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTE
 */
 
 void
-rjCnkStripVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkStripVN(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
 
 }
@@ -887,7 +885,7 @@ rjCnkStripVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VER
 */
 
 void
-rjCnkStripUVVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
+rjCnkStripUVVN(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
 {
 
 }
@@ -898,7 +896,7 @@ rjCnkStripUVVN(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_V
 */
 
 void
-rjCnkStripD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkStripD8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
 {
     
 }
@@ -909,7 +907,7 @@ rjCnkStripD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VER
 */
 
 void
-rjCnkStripUVD8(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
+rjCnkStripUVD8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh)
 {
 
 }

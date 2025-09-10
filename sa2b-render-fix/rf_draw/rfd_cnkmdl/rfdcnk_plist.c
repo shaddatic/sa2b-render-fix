@@ -152,51 +152,53 @@ rjCnkPlistSub(CNK_CTX* restrict pCtx, const Sint16* pPList, const void* vbuf)
                 isn't double sided. If it shouldn't be drawn, just skip it. **/
             if ( GetStripDrawState(pCtx) )
             {
+                const CNK_STRIP_HEAD* restrict striph = (void*) plist;
+
                 switch ( STSW( type ) )
                 {
                     case STSW( NJD_CS ):
                     {
-                        rjCnkStrip(pCtx, plist, vbuf);
+                        rjCnkStrip(pCtx, striph, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN ):
                     {
-                        rjCnkStripUV(pCtx, plist, vbuf, IS_UVN);
+                        rjCnkStripUV(pCtx, striph, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH ):
                     {
-                        rjCnkStripUV(pCtx, plist, vbuf, IS_UVH);
+                        rjCnkStripUV(pCtx, striph, vbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_VN ):
                     {
-                        rjCnkStripVN(pCtx, plist, vbuf);
+                        rjCnkStripVN(pCtx, striph, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, vbuf, IS_UVN);
+                        rjCnkStripUVVN(pCtx, striph, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_VN ):
                     {
-                        rjCnkStripUVVN(pCtx, plist, vbuf, IS_UVH);
+                        rjCnkStripUVVN(pCtx, striph, vbuf, IS_UVH);
                         break;
                     }
                     case STSW( NJD_CS_D8 ):
                     {
-                        rjCnkStripD8(pCtx, plist, vbuf);
+                        rjCnkStripD8(pCtx, striph, vbuf);
                         break;
                     }
                     case STSW( NJD_CS_UVN_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, vbuf, IS_UVN);
+                        rjCnkStripUVD8(pCtx, striph, vbuf, IS_UVN);
                         break;
                     }
                     case STSW( NJD_CS_UVH_D8 ):
                     {
-                        rjCnkStripUVD8(pCtx, plist, vbuf, IS_UVH);
+                        rjCnkStripUVD8(pCtx, striph, vbuf, IS_UVH);
                         break;
                     }
                 }

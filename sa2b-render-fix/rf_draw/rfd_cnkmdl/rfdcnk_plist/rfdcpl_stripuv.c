@@ -845,11 +845,9 @@ CnkSetupStripUV(CNK_CTX* pCtx)
 
 /****** Extern **********************************************************************/
 void
-rjCnkStripUV(CNK_CTX* restrict pCtx, const Sint16* restrict plist, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
 {
     CnkSetupStripUV(pCtx);
-
-    const CNK_STRIP_HEAD* striph = (const CNK_STRIP_HEAD*) plist;
 
     if ( _rj_cnk_vertex_attr_ & RJD_CVF_NORMAL )
     {
