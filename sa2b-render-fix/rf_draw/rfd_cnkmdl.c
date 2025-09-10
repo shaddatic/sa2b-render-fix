@@ -357,6 +357,23 @@ rjCnkSetVListPositionFunc(void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3*
     _rj_cnk_vlist_pfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistPosition );
 }
 
+void
+rjCnkSetVListNormalFunc(void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* src))
+{
+    _rj_cnk_vlist_nfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistNormal );
+}
+
+void
+rjCnkSetVListColorFunc(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
+{
+    _rj_cnk_vlist_cfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistColor );
+}
+
+void
+rjCnkSetVListSpecularFunc(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
+{
+    _rj_cnk_vlist_sfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistSpecular );
+}
 /****** Model With No Clip **********************************************************/
 static Sint32
 CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
