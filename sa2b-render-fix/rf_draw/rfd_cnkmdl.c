@@ -374,7 +374,8 @@ rjCnkSetVListSpecularFunc(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src
 {
     _rj_cnk_vlist_sfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistSpecular );
 }
-/****** Model With No Clip **********************************************************/
+
+/****** Other Draws *****************************************************************/
 static Sint32
 CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
 {
@@ -385,6 +386,37 @@ CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
     return rjCnkDrawModel( &mdl );
 }
 
+#define chAttrEnable                    DATA_REF(Bool, 0x01AED2CC)
+
+static void
+CalcVlistColorCh(NJS_ARGB* dst, const NJS_ARGB* src)
+{
+    // RGBA (Chao) -> ARGB (Cnk)
+    dst->a = src->b;
+    dst->r = src->a;
+    dst->g = src->r;
+    dst->b = src->g;
+}
+
+static Sint32
+CnkDrawModel_ChDraw(const NJS_CNK_MODEL* model)
+{
+    if ( !chAttrEnable )
+    {
+        rjCnkSetVListColorFunc( CalcVlistColorCh );
+
+        const Sint32 ret = rjCnkDrawModel( model );
+
+        rjCnkSetVListColorFunc( nullptr );
+
+        return ret;
+    }
+    else
+    {
+        return CNK_RETN_OK;
+    }
+}
+
 /****** Cnk Init ********************************************************************/
 void
 RFD_ChunkInit(void)
@@ -392,8 +424,8 @@ RFD_ChunkInit(void)
     /** RF Chunk draw functions **/
     WriteRetn(0x0042D340); // begin draw
 
-
     WriteJump(0x0042D500, CnkDrawModel_NoClip); // CnkDrawModelSub
+//  WriteJump(0x0056DDD0, CnkDrawModel_ChDraw);
 
     WriteJump(0x0042EB30, rjCnkTransformObject);
 
