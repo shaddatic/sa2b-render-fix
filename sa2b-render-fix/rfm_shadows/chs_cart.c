@@ -204,6 +204,9 @@ CHS_CartInit(void)
 
     RF_LoadChunkObjectList( (LOAD_SAMDL_LIST*) mdl_list, 8 * 2);
 
+#pragma warning(push)
+#pragma warning(disable : 6011) // annoying warning
+
     /** Models **/
     CartObjectList[0][0] = mdl_list[0][0].pSamdl->pChunk;
 //  CartObjectList[0][1] = mdl_list[0][1].pSamdl->pChunk;
@@ -228,4 +231,6 @@ CHS_CartInit(void)
 
     CartObjectList[7][0] = mdl_list[7][0].pSamdl->pChunk;
     CartObjectList[7][1] = mdl_list[7][1].pSamdl->pChunk;
+
+#pragma warning(pop)
 }
