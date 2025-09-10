@@ -5,7 +5,7 @@
 *     The 'Font' API module is for loading and modifying the in-game text fonts.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
+*     - v1.3.0.0        : Version 0, initial release
 * 
 *   Availability:
 *     - RF_EarlyInit    : Yes

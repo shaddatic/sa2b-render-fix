@@ -8,12 +8,12 @@
 *   back to defaults.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
-*     - v1.3.2.0: Version 1, added 'SetModifierMode' & 'SetCnkDrawMode'
-*     - v1.4.0.0: Version 2, added 'CnkFunc/PassMode' & 'Get' variants of all functions
-*     - v1.4.0.1: Version 3, added 'SocTexHackMode' functions
-*     - v1.4.1.0: Version 4, depricated 'SocTexHackMode', 'CnkPassMode', & 'ModifierMode'.
-*                            added 'CnkSpecMode' & 'TwoPassLightingMode'
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.3.2.0        : Version 1, added 'SetModifierMode' & 'SetCnkDrawMode'
+*     - v1.4.0.0        : Version 2, added 'CnkFunc/PassMode' & 'Get' variants of all functions
+*     - v1.4.0.1        : Version 3, added 'SocTexHackMode' functions
+*     - v1.4.1.0        : Version 4, depricated 'SocTexHack', 'CnkPass', & 'ModifierMode', and
+*                         added 'CnkSpecMode' & 'TwoPassLightingMode'
 * 
 *   Availablility:
 *     - RF_EarlyInit : Yes

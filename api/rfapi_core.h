@@ -7,9 +7,9 @@
 *   did not have an API, and can't call your exported functions.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
-*     - v1.3.1.0: Version 1, added Font API module
-*     - v1.4.1.0: Version 2, ???
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.3.1.0        : Version 1, added Font API module
+*     - v1.4.1.0        : Version 2, ???
 */
 #ifndef H_RFAPI_CORE
 #define H_RFAPI_CORE

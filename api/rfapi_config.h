@@ -9,7 +9,7 @@
 *   correctly.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
+*     - v1.3.0.0        : Version 0, initial release
 * 
 *   Availability:
 *     - RF_EarlyInit    : Yes

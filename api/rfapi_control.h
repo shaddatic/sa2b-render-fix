@@ -7,8 +7,8 @@
 *   requiring the user to change a setting themselves.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
-*     - v1.4.0.0: Version 1, added 'EventApplyModelDiffuse'
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.4.0.0        : Version 1, added 'EventApplyModelDiffuse'
 * 
 *   Availability:
 *     - RF_EarlyInit    : Yes

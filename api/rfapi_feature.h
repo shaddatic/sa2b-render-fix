@@ -5,8 +5,8 @@
 *     The 'Feature' API Module is for checking the current state of specific features of Render Fix are currently
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
-*     - v1.4.0.0: Version 1, added 'NewEventRenderer' and other player related functions
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.4.0.0        : Version 1, added 'NewEventRenderer' and other player related functions
 * 
 *   Availability:
 *     - RF_EarlyInit    : No

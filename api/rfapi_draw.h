@@ -5,11 +5,11 @@
 *     The 'Draw' API module is for drawing polygons, modifiers, or models to the screen.
 * 
 *   Version History:
-*     - v1.3.0.0: Version 0, initial release
-*     - v1.3.1.0: Version 1, added 'DrawTextureEx' & 'DrawPolygon2D'
-*     - v1.3.2.0: Version 2, added 'DrawLine' function set
-*     - v1.4.0.0: Version 3, added additional modifier and Chunk related functions
-*     - v1.4.0.1: Version 4, added 'SetCheapShadowColor'
+*     - v1.3.0.0        : Version 0, initial release
+*     - v1.3.1.0        : Version 1, added 'DrawTextureEx' & 'DrawPolygon2D'
+*     - v1.3.2.0        : Version 2, added 'DrawLine' function set
+*     - v1.4.0.0        : Version 3, added additional modifier and Chunk related functions
+*     - v1.4.0.1        : Version 4, added 'SetCheapShadowColor'
 * 
 *   Availability:
 *     - RF_EarlyInit    : No
