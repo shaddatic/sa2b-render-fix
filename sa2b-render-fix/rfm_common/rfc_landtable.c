@@ -51,7 +51,7 @@ DrawLandtable_RF(void)
 
     njSetTexture( pObjLandTable->pTexList );
 
-    SetLightIndex(2);
+    SetLight(2);
 
     //if ( pObjLandTable->ssAttribute & 2 ) // some flag? does nothing in battle
     {

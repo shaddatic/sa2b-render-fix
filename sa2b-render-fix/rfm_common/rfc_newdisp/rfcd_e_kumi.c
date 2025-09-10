@@ -79,7 +79,7 @@ EnemyKumiDisp_RF(task* tp)
         return;
     }
 
-    SetLightIndex(8);
+    SetLight(8);
 
     switch ( twp->smode )
     {
@@ -171,7 +171,7 @@ EnemyKumiDisp_RF(task* tp)
     }
     njPopMatrixEx();
 
-    SetLightIndex(DefaultLight);
+    SetLight(DefaultLight);
 }
 
 /****** Init ************************************************************************************/

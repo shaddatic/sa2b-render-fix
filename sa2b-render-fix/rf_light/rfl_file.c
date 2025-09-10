@@ -123,8 +123,8 @@ ByteswapLights(LIGHT* pLight)
                EndianSwap32(&pLight[j].vec.y);
                EndianSwap32(&pLight[j].vec.z);
 
-               EndianSwap32(&pLight[j].dif);
-               EndianSwap32(&pLight[j].amb);
+               EndianSwap32(&pLight[j].inten);
+               EndianSwap32(&pLight[j].ambient);
 
                EndianSwap32(&pLight[j].r);
                EndianSwap32(&pLight[j].g);
