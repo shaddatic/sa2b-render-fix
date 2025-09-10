@@ -46,13 +46,16 @@ typedef enum
     RFRS_TRANSMD_OPAQUE,            /* draw without transparancy                                */
     RFRS_TRANSMD_ALPHATEST,         /* draw transparancy w/ alpha test, & Z buffer              */
     RFRS_TRANSMD_TRANSPARENT,       /* draw transparancy, no Z buffer                           */
-    /*
-    *     The following modes only change which transparancy mode is used, and leave
-    *   'OPAQUE' mode as-is. They were implemented in version 1.3.2 and will simply
-    *   do nothing in earlier versions.
-    */
+
+    /**** v1.3.2.0+ *****************************************/
+
     RFRS_TRANSMD_AUTO_ATEST,        /* auto, use alpha test for transparancy                    */
     RFRS_TRANSMD_AUTO_TRANS,        /* auto, do not use alpha test for transparancy             */
+
+    /**** Version >= 4 **************************************/
+
+    RFRS_TRANSMD_PUNCH,             /* draw with punchthrough (opaque+alphatest)                */
+    RFRS_TRANSMD_AUTO_PUNCH,        /* auto, use punchthrough for transparency                  */
 }
 RFRS_TRANSMD;
 

@@ -153,6 +153,7 @@ rjSetAlphaMode_Opaque(void)
         case RFRS_TRANSMD_OPAQUE:
         case RFRS_TRANSMD_AUTO_ATEST:
         case RFRS_TRANSMD_AUTO_TRANS:
+        case RFRS_TRANSMD_AUTO_PUNCH:
         {
             ___SetAlphaMode_Opaque();
             break;
@@ -166,6 +167,10 @@ rjSetAlphaMode_Opaque(void)
         {
             ___SetAlphaMode_Transparent();
             break;
+        }
+        case RFRS_TRANSMD_PUNCH:
+        {
+            ___SetAlphaMode_Punchthrough();
         }
     }
 }
@@ -193,6 +198,11 @@ rjSetAlphaMode_Transparent(void)
             ___SetAlphaMode_Transparent();
             break;
         }
+        case RFRS_TRANSMD_PUNCH:
+        case RFRS_TRANSMD_AUTO_PUNCH:
+        {
+            ___SetAlphaMode_Punchthrough();
+        }
     }
 }
 
@@ -218,6 +228,11 @@ rjSetAlphaMode_Alphatest(void)
         {
             ___SetAlphaMode_Transparent();
             break;
+        }
+        case RFRS_TRANSMD_PUNCH:
+        case RFRS_TRANSMD_AUTO_PUNCH:
+        {
+            ___SetAlphaMode_Punchthrough();
         }
     }
 }
@@ -245,6 +260,8 @@ rjSetAlphaMode_Punchthrough(void)
             break;
         }
         case RFRS_TRANSMD_AUTO:
+        case RFRS_TRANSMD_PUNCH:
+        case RFRS_TRANSMD_AUTO_PUNCH:
         {
             ___SetAlphaMode_Punchthrough();
         }

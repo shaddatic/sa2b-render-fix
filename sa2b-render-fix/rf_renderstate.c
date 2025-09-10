@@ -83,6 +83,8 @@ RFRS_SetTransMode(RFRS_TRANSMD mode)
     case RFRS_TRANSMD_TRANSPARENT:
     case RFRS_TRANSMD_AUTO_ATEST:
     case RFRS_TRANSMD_AUTO_TRANS:
+    case RFRS_TRANSMD_PUNCH:
+    case RFRS_TRANSMD_AUTO_PUNCH:
         TransModeOverride = mode;
         break;
 
