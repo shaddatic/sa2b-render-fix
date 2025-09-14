@@ -212,7 +212,7 @@ LandTableIsGinja(const OBJ_LANDTABLE* pLand)
     return true;
 }
 
-static hook_info LandChangeLandTableHookInfo[1];
+static mt_hookinfo LandChangeLandTableHookInfo[1];
 static void
 LandChangeLandTableHook(OBJ_LANDTABLE* land)
 {
