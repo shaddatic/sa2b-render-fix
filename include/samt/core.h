@@ -58,6 +58,7 @@
 
 /****** Core Warning Disable ********************************************************************/
 #ifndef SAMT_NO_WARNDISABLE
+#   pragma warning(disable:5105)    /* macro expansion producing 'defined' has undefined bhv    */
 #   pragma warning(disable:4200)    /* allow variable length arrays in structs                  */
 #endif
 

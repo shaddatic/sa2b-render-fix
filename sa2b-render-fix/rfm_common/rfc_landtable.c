@@ -81,11 +81,11 @@ DrawLandtable_RF(void)
 
             if ( !(landattr & LANDDRAW_NOSHADOW) )
             {
-                gjSetShadow( &p_landentry->xCenter, p_landentry->r );
+                gjSetShadow( &p_landentry->xCenter, p_landentry->radius );
                 gjTranslateShadow( p_obj->pos, p_obj->ang );
             }
 
-            if ( boolLandTableGinja )
+            if ( boolLandGjmdl )
             {
                 gjDrawModel( (GJS_MODEL*)p_obj->model );
             }
@@ -181,7 +181,7 @@ LandDisplayerSort_RF(task* tp)
 static bool
 LandTableIsGinja(const OBJ_LANDTABLE* pLand)
 {
-    int count = pLand->ssCnkCount;
+    int count = pLand->ssDispCount;
 
     if (count < 0)
         count = pLand->ssCount;
@@ -212,11 +212,11 @@ LandTableIsGinja(const OBJ_LANDTABLE* pLand)
     return true;
 }
 
-static hook_info LandChangeLandTableHookInfo[1];
+static mt_hookinfo LandChangeLandTableHookInfo[1];
 static void
 LandChangeLandTableHook(OBJ_LANDTABLE* land)
 {
-    boolLandTableGinja = LandTableIsGinja(land);
+    boolLandGjmdl = LandTableIsGinja(land);
 
     FuncHookCall( LandChangeLandTableHookInfo, LandChangeLandTable(land) );
 }

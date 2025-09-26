@@ -241,7 +241,7 @@ typedef struct
 NJS_MDATA5;
 
 /****** Motion Structs **************************************************************/
-typedef struct
+typedef struct njmot
 {
     void*           mdata;      /* NJS_MDATA array                                  */
     Uint32          nbFrame;    /* frame count                                      */
@@ -250,7 +250,7 @@ typedef struct
 }
 NJS_MOTION;
 
-typedef struct
+typedef struct njmotlink
 {
     NJS_MOTION*     motion[2];      /* motion's pointers                            */
     Float           frame[2];       /* current frames                               */
@@ -258,14 +258,14 @@ typedef struct
 NJS_MOTION_LINK;
 
 /****** Action Structs **************************************************************/
-typedef struct
+typedef struct njact
 {
     NJS_CNK_OBJECT* object;         /* object pointer                               */
     NJS_MOTION*     motion;         /* motion                                       */
 }
 NJS_ACTION;
 
-typedef struct
+typedef struct njactlink
 {
     NJS_CNK_OBJECT*  object;        /* object pointer                               */
     NJS_MOTION_LINK* motionlink;    /* motion-link pointer                          */

@@ -80,10 +80,11 @@ void    mtMemSetProtected32( void* pDst, u32 val, size_t nb );
 void    mtMemSetProtected64( void* pDst, u64 val, size_t nb );
 
 #ifdef __cplusplus
+EXTERN_END
+
 /************************/
 /*  C++ Functions       */
 /************************/
-EXTERN_END
 /****** Write Data ******************************************************************/
 /*
 *   Description:

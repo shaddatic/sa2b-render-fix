@@ -119,9 +119,9 @@ ByteswapLights(LIGHT* pLight)
        {
            for (int j = 0; j < LIGHT_COUNT; ++j)
            {
-               EndianSwap32(&pLight[j].vec.x);
-               EndianSwap32(&pLight[j].vec.y);
-               EndianSwap32(&pLight[j].vec.z);
+               EndianSwap32(&pLight[j].x);
+               EndianSwap32(&pLight[j].y);
+               EndianSwap32(&pLight[j].z);
 
                EndianSwap32(&pLight[j].inten);
                EndianSwap32(&pLight[j].ambient);
@@ -146,9 +146,9 @@ ByteswapLightsGC(LIGHT_GC* pLight)
         {
             for (int j = 0; j < LIGHT_COUNT; ++j)
             {
-                EndianSwap32(&pLight[j].vec.x);
-                EndianSwap32(&pLight[j].vec.y);
-                EndianSwap32(&pLight[j].vec.z);
+                EndianSwap32(&pLight[j].x);
+                EndianSwap32(&pLight[j].y);
+                EndianSwap32(&pLight[j].z);
 
                 EndianSwap32(&pLight[j].lr);
                 EndianSwap32(&pLight[j].lg);

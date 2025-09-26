@@ -172,7 +172,7 @@ typedef struct
 NJS_MESHSET;
 
 /****** Model ***********************************************************************/
-typedef struct mdl
+typedef struct njmdl
 {
     NJS_POINT3*     points;     /* vertex list                                      */
     NJS_POINT3*     normals;    /* vertex normal list                               */
@@ -197,15 +197,15 @@ NJS_MODEL;
 *   Object Structure
 */
 /****** Object **********************************************************************/
-typedef struct obj
+typedef struct njobj
 {
     Uint32          evalflags;  /* evalation flags                                  */
     NJS_MODEL*      model;      /* model data pointer                               */
     Float           pos[3];     /* translation                                      */
     Angle           ang[3];     /* rotation or im part of quat                      */
     Float           scl[3];     /* scaling                                          */
-    struct obj*     child;      /* child object                                     */
-    struct obj*     sibling;    /* sibling object                                   */
+    struct njobj*   child;      /* child object                                     */
+    struct njobj*   sibling;    /* sibling object                                   */
 
 #if (SAMT_CURR_GAME == SAMT_GAME_SA2B)
 

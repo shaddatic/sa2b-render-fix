@@ -16,6 +16,27 @@ EXTERN_START
 typedef struct _iobuf               FILE; /* msvc std file type                                 */
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** File Select Flags ***********************************************************************/
+#define MT_FSF_READONLY             (1<< 0) /* read-only by default                 [####/SAVE] */
+#define MT_FSF_OVERWRITEPROMPT      (1<< 1) /* prompt to overwrite file             [####/SAVE] */
+#define MT_FSF_HIDEREADONLY         (1<< 2) /* hide read-only files                 [OPEN/SAVE] */
+#define MT_FSF_NOCHANGEDIR          (1<< 3) /* don't allow changing file directory  [####/SAVE] */
+#define MT_FSF_ALLOWMULTISELECT     (1<< 9) /* allow multiple files to be selected  [OPEN/SAVE] */
+#define MT_FSF_PATHMUSTEXIST        (1<<11) /* full file path must be valid         [OPEN/SAVE] */
+#define MT_FSF_FILEMUSTEXIST        (1<<12) /* file name must be valid              [OPEN/SAVE] */
+#define MT_FSF_CREATEPROMPT         (1<<13) /* prompt to create file                [####/SAVE] */
+#define MT_FSF_SHAREAWARE           (1<<14) /* ignore network sharing errors        [OPEN/####] */
+#define MT_FSF_NOTESTFILECREATE     (1<<16) /* no tmp file to check perms           [####/SAVE] */
+#define MT_FSF_NONETWORKBUTTON      (1<<17) /* disable network button               [OPEN/SAVE] */
+#define MT_FSF_NODEREFLINKS         (1<<20) /* don't dereference link files         [OPEN/SAVE] */
+#define MT_FSF_NORECENT             (1<<25) /* selected file isn't added to recent  [OPEN/SAVE] */
+#define MT_FSF_SHOWHIDDEN           (1<<28) /* force show hidden files and folders  [OPEN/SAVE] */
+#define MT_FSF_OPEN                 (0)     /* use open file dialogs                  [default] */
+#define MT_FSF_SAVE                 (1<<31) /* use save file dialogs                            */
+
+/********************************/
 /*  Enums                       */
 /********************************/
 /****** File Open Mode **************************************************************************/
@@ -38,6 +59,27 @@ typedef enum mt_fmode
     FMODE_AT_RW,                    /* read/write, append file                      (text mode) */
 }
 mt_fmode;
+
+/****** File Open Mode **************************************************************************/
+typedef enum mt_fselect
+{
+    MT_FSR_ERROR        = -1,
+
+    MT_FSR_OK           = 0,
+    MT_FSR_READONLY,
+}
+mt_fselect;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** File Select Filter **********************************************************************/
+typedef struct mt_fselect_filter
+{
+    const c8* puName;               /* filter name, eg. "Text"                                  */
+    const c8* puFilter;             /* filter def, eg. "*.txt"                                  */
+}
+mt_fselect_filter;
 
 /********************************/
 /*  Prototypes                  */
@@ -401,6 +443,31 @@ bool    mtDirDelete( const c8* puPath );
 *     If the given directory is a valid directory.
 */
 bool    mtDirExists( const c8* puPath );
+
+/************************************************************************************************/
+/*
+*   User Prompt
+*/
+/****** File Select *****************************************************************************/
+/*
+*   Description:
+*     Open a file/directory select window for the user.
+*
+*   Notes:
+*     - When multi-file select is enabled, the output path will be formatted as:
+*       "file_directory\0fname_1\0fname_2\0fname_3\0\0"
+*
+*   Parameters:
+*     - puOutPath   : output path buffer
+*     - lnOutPath   : output buffer length
+*     - puFilters   : null terminated extension filters
+*     - puStartPath : initial path for window
+*     - flag        : flags                                                            [MT_FSF]
+*
+*   Returns:
+*     'OK' or 'READONLY' on success; or 'ERROR' on failure.
+*/
+mt_fselect mtFileSelect( c8* puOutPath, size lnOutPath, const mt_fselect_filter* puFilters, const c8* puStartPath, u32 flag );
 
 EXTERN_END
 

@@ -19,12 +19,6 @@
 EXTERN_START
 
 /********************************/
-/*  Opaque Types                */
-/********************************/
-/****** Chunk Object ****************************************************************************/
-typedef struct cnkobj               NJS_CNK_OBJECT;
-
-/********************************/
 /*  Enums                       */
 /********************************/
 /****** Cart Index ******************************************************************************/
@@ -42,6 +36,52 @@ enum
     CART_CAR_DOWNLOAD,              /* downloadable cart                                        */
 
     CART_CAR_MAX,                   /* enum count                                               */
+};
+
+/****** Cart SE Index ***************************************************************************/
+enum
+{
+    SE_CART_SONIC_DASH,             /* dash speech,  sonic                                      */
+    SE_CART_SONIC_BOOST,            /* boost speech, sonic                                      */
+    SE_CART_SHADOW_DASH,            /* dash speech,  shadow                                     */
+    SE_CART_SHADOW_BOOST,           /* boost speech, shadow                                     */
+    SE_CART_KNUCKLES_DASH,          /* dash speech,  knuckles                                   */
+    SE_CART_KNUCKLES_BOOST,         /* boost speech, knuckles                                   */
+    SE_CART_ROUGE_DASH,             /* dash speech,  rouge                                      */
+    SE_CART_ROUGE_BOOST,            /* boost speech, rouge                                      */
+    SE_CART_TAILS_DASH,             /* dash speech,  tails                                      */
+    SE_CART_TAILS_BOOST,            /* boost speech, tails                                      */
+    SE_CART_EGGMAN_DASH,            /* dash speech,  eggman                                     */
+    SE_CART_EGGMAN_BOOST,           /* boost speech, eggman                                     */
+    SE_CART_SPRCIAL_ENGINE,         /* special engine                                           */
+    SE_CART_CART_ENGINE,            /* engine                                                   */
+    SE_CART_IDLING,                 /* idle                                                     */
+    SE_CART_WHEELSPINE,             /* wheel spin                                               */
+    SE_CART_BREAK,                  /* break                                                    */
+    SE_CART_COLLISION,              /* collision, 1                                             */
+    SE_CART_COLLISION2,             /* collision, 2                                             */
+    SE_CART_THROUGH,                /* through (?)                                              */
+    SE_CART_BOM1,                   /* BOM, 1 (?)                                               */
+    SE_CART_BOM2,                   /* BOM, 2 (?)                                               */
+    SE_CART_PATCAR,                 /* pat car (?)                                              */
+    SE_CART_TORNADE,                /* tornado (?)                                              */
+    SE_CART_START1,                 /* start beep, 1                                            */
+    SE_CART_START2,                 /* start beep, 2                                            */
+    SE_CART_PYRON,                  /* pylon (?)                                                */
+    SE_CART_BOOST,                  /* boost sound                                              */
+    SE_CART_WIND,                   /* wind                                                     */
+    SE_CART_TUNNEL,                 /* tunnel woosh                                             */
+
+    SE_CART_EX_NORMAL_EGGMAN,       /* ????                                                     */
+    SE_CART_EX_HIDE_SHADOW,         /* ????                                                     */
+    SE_CART_EX_NORMAL_KNUCKLES,     /* ????                                                     */
+    SE_CART_EX_NORMAL_ROUGE,        /* ????                                                     */
+    SE_CART_EX_HIDE_TAILS,          /* ????                                                     */
+    SE_CART_EX_HIDE_KNUCKLES,       /* ????                                                     */
+    SE_CART_EX_NORMAL_EGGMAN2,      /* ????                                                     */
+    SE_CART_EX_HIDE_CHAO,           /* ????                                                     */
+    SE_CART_EX_ROBO_ACC,            /* robo accelerate                                          */
+    SE_CART_EX_ROBO_BREAK,          /* robo break                                               */
 };
 
 /********************************/
@@ -74,11 +114,11 @@ CAR_MODEL_INFO;
 
 typedef struct
 {
-    s32             engineSe;       /* engine se number                                         */
-    s32             breakSe;        /* break se number                                          */
-    s32             goalAdx;        /* music on goal                                            */
-    s32             first5;         /* ?????                                                    */
-    s32             sixth5;         /* ?????                                                    */
+    s32             engineSe;       /* engine se index                                          */
+    s32             breakSe;        /* break se index                                           */
+    s32             goalAdx;        /* goal serif number                                        */
+    s32             first5;         /* first place serif number                                 */
+    s32             sixth5;         /* last place serif number                                  */
     NJS_CNK_OBJECT* kageObject;     /* shadow object                                            */
 }
 CART_EXTRA_PARAM;

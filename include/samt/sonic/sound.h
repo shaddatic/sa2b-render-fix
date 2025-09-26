@@ -24,15 +24,15 @@ EXTERN_START
 /****** Bank Number *****************************************************************/
 enum
 {
-    STG_SE,                     /* stage sound effects                     [bank 5] */
-    GM,                         /* game sounds                             [bank 1] */
-    CH,                         /* character sounds                        [bank 2] */
-    VC,                         /* voice clip                              [bank 3] */
-    EM,                         /* enemy                                   [bank 4] */
-    NA,                         /* nothing                                          */
-    STG_ENV,                    /* stage environment sounds                [bank 6] */
-    WT,                         /* water sounds                            [bank 7] */
-    SY,                         /* system sounds                           [bank 0] */
+    SNB_STG_SE,                 /* stage sound effects                     [bank 5] */
+    SNB_GM,                     /* game sounds                             [bank 1] */
+    SNB_CH,                     /* character sounds                        [bank 2] */
+    SNB_VC,                     /* voice clip                              [bank 3] */
+    SNB_EM,                     /* enemy                                   [bank 4] */
+    SNB_NA,                     /* nothing                                          */
+    SNB_STG_ENV,                /* stage environment sounds                [bank 6] */
+    SNB_WT,                     /* water sounds                            [bank 7] */
+    SNB_SY,                     /* system sounds                           [bank 0] */
 };
 
 #ifdef SAMT_INCL_INTERNAL

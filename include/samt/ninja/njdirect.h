@@ -13,7 +13,7 @@ EXTERN_START
 /*  Structures                  */
 /********************************/
 /****** Direct Head *****************************************************************************/
-typedef struct
+typedef struct njdirhead
 {
     Float       x,y,z;              /* position                                                 */
     Float       r;                  /* radius                                                   */

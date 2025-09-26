@@ -34,7 +34,7 @@ SetLightIndex_RF(s32 light)
 
         rjCnkSetAmbient(p_light->ar, p_light->ag, p_light->ab);
 
-        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->vec.x, p_light->vec.y, p_light->vec.z);
+        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->x, p_light->y, p_light->z);
     }
     else // Dreamcast light
     {
@@ -44,7 +44,7 @@ SetLightIndex_RF(s32 light)
 
         rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, p_light->inten, p_light->ambient);
 
-        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->vec.x, p_light->vec.y, p_light->vec.z);
+        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->x, p_light->y, p_light->z);
     }
 
     rjCnkSetLightMatrix(RJD_CNK_LIGHT_1);

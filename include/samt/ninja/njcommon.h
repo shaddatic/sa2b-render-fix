@@ -248,4 +248,30 @@ typedef struct {
     Uint32    ocol;
 } NJS_TEXTUREH_VTX;
 
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Motion **********************************************************************************/
+typedef struct njmot        NJS_MOTION;
+typedef struct njmotlink    NJS_MOTION_LINK;
+
+/****** Action **********************************************************************************/
+typedef struct njact        NJS_ACTION;
+typedef struct njactlink    NJS_ACTION_LINK;
+
+/****** Direct Draw *****************************************************************************/
+typedef struct njdirhead    NJS_DIRECT_HEAD;
+
+/****** Basic Model *****************************************************************************/
+typedef struct njmdl        NJS_MODEL;
+typedef struct njobj        NJS_OBJECT;
+
+/****** Chunk Model *****************************************************************************/
+typedef struct cnkmdl       NJS_CNK_MODEL;
+typedef struct cnkobj       NJS_CNK_OBJECT;
+
+/****** Ginja Model *****************************************************************************/
+typedef struct gjmdl        GJS_MODEL;
+typedef struct gjobj        GJS_OBJECT;
+
 #endif

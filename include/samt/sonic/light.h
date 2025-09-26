@@ -27,19 +27,19 @@ EXTERN_START
 /****** Light Struct ****************************************************************************/
 typedef struct light
 {
-    NJS_VECTOR  vec;                /* light direction                                          */
+    f32         x,y,z;              /* light vector                                             */
     f32         inten;              /* light intensity                                          */
     f32         ambient;            /* light ambient intensity                                  */
-    f32         r, g, b;            /* light color, rgb                                         */
+    f32         r,g,b;              /* light color, rgb                                         */
 }
 LIGHT;
 
 /****** Light Struct (GC) ***********************************************************************/
 typedef struct lightgc
 {
-    NJS_VECTOR  vec;                /* light direction                                          */
-    f32         lr, lg, lb;         /* light color, rgb                                         */
-    f32         ar, ag, ab;         /* ambient color, rgb                                       */
+    f32         x,y,z;              /* light vector                                             */
+    f32         lr,lg,lb;           /* light color, rgb                                         */
+    f32         ar,ag,ab;           /* ambient color, rgb                                       */
     u32         flag;               /* light flag                                     [LIGHTGC] */
 
     u32         pad[2];             /* padding                                                  */
