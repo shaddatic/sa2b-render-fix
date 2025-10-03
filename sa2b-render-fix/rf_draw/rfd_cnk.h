@@ -109,7 +109,7 @@ EXTERN_START
 /*  Structures          */
 /************************/
 /****** Vertex Buffer ***************************************************************/
-typedef struct cnk_vtx_buf
+typedef struct rjvtxbuf
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
@@ -120,7 +120,7 @@ typedef struct cnk_vtx_buf
         Float      inten[6];    /* light intensities                                */
     };
 }
-CNK_VERTEX_BUFFER;
+RJS_VERTEX_BUF;
 
 /************************/
 /*  Prototypes          */

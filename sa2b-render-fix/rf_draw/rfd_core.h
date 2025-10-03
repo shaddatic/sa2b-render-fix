@@ -12,129 +12,154 @@
 
 EXTERN_START
 
-/************************/
-/*  Opaque Types        */
-/************************/
-/****** Cnk Draw ********************************************************************/
-typedef struct cnk_vtx_buf      CNK_VERTEX_BUFFER;
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Cnk Draw ********************************************************************************/
+typedef struct rjvtxbuf             RJS_VERTEX_BUF; /* polygon vertex buffer                    */
 
-/************************/
-/*  Enums               */
-/************************/
-/****** Vertex Type *****************************************************************/
-typedef enum
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Vertex Type *****************************************************************************/
+typedef enum rjvtxtype
 {
-    RJE_VERTEX_P,           /* position                                             */
-    RJE_VERTEX_PT,          /* pos + texture (uv)                                   */
-    RJE_VERTEX_PC,          /* pos + color                                          */
-    RJE_VERTEX_PTC,         /* pos + tex + color                                    */
-    RJE_VERTEX_PCS,         /* pos + color + specular                               */
-    RJE_VERTEX_PTCS,        /* pos + tex + color + spec                             */
+    RJ_VERTEX_P,                    /* position                                                 */
+    RJ_VERTEX_PT,                   /* pos + texture (uv)                                       */
+    RJ_VERTEX_PC,                   /* pos + color                                              */
+    RJ_VERTEX_PTC,                  /* pos + tex + color                                        */
+    RJ_VERTEX_PCS,                  /* pos + color + specular                                   */
+    RJ_VERTEX_PTCS,                 /* pos + tex + color + spec                                 */
 
-    NB_RJE_VERTEX,          /* vertex number                                        */
+    NB_RJ_VERTEX,                   /* vertex number                                            */
 
-    RJE_VERTEX_M = RJE_VERTEX_P, /* modifier vertex                                 */
+    RJ_VERTEX_M = RJ_VERTEX_P,      /* modifier vertex                                          */
 }
-RJE_VERTEX_TYPE;
+RJ_VERTEX_TYPE;
 
-/****** Alpha Blend Mode ************************************************************/
-typedef enum
+/****** Alpha Blend Mode ************************************************************************/
+typedef enum rjalphamd
 {
-    RJE_ALPHA_OPAQUE,
-    RJE_ALPHA_TRANS,
-    RJE_ALPHA_ALPHATEST,
-    RJE_ALPHA_PUNCHTHROUGH,
+    RJ_ALPHA_OPAQUE,                /* opaque drawing                                           */
+    RJ_ALPHA_TRANS,                 /* translucent drawing                                      */
+    RJ_ALPHA_ALPHATEST,             /* alpha test drawing (translucent)                         */
+    RJ_ALPHA_PUNCHTHROUGH,          /* punchthrough drawing (opaque)                            */
 }
-RJE_ALPHA;
+RJ_ALPHA;
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Vertex Type *****************************************************************/
-typedef struct
+/****** Alpha Blend Mode ************************************************************************/
+typedef enum rjcullmd
 {
-    NJS_POINT3  pos;        /* position                                             */
+    RJ_CULL_NONE,                   /* no culling                                               */
+    RJ_CULL_CW,                     /* cull clock-wise polygons                                 */
+    RJ_CULL_CCW,                    /* cull counter clock-wise polygons                         */
+}
+RJ_CULL;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Vertex Type *****************************************************************************/
+typedef struct rjvtxp
+{
+    NJS_POINT3  pos;                /* position                                                 */
 }
 RJS_VERTEX_P, RJS_VERTEX_M;
 
-typedef struct
+typedef struct rjvtxpt
 {
-    NJS_POINT3  pos;        /* position                                             */
-    Float       u,v;        /* texture coordinates                                  */
+    NJS_POINT3  pos;                /* position                                                 */
+    Float       u,v;                /* texture coordinates                                      */
 }
 RJS_VERTEX_PT;
 
-typedef struct
+typedef struct rjvtxpc
 {
-    NJS_POINT3  pos;        /* position                                             */
-    Uint32      col;        /* diffuse color                                 [BGRA] */
+    NJS_POINT3  pos;                /* position                                                 */
+    Uint32      col;                /* diffuse color                                     [BGRA] */
 }
 RJS_VERTEX_PC;
 
-typedef struct
+typedef struct rjvtxptc
 {
-    NJS_POINT3  pos;        /* position                                             */
-    Float       u,v;        /* texture coordinates                                  */
-    Uint32      col;        /* diffuse color                                 [BGRA] */
+    NJS_POINT3  pos;                /* position                                                 */
+    Float       u,v;                /* texture coordinates                                      */
+    Uint32      col;                /* diffuse color                                     [BGRA] */
 }
 RJS_VERTEX_PTC;
 
-typedef struct
+typedef struct rjvtxpcs
 {
-    NJS_POINT3  pos;        /* position                                             */
-    Uint32      col;        /* diffuse color                                 [BGRA] */
-    Uint32      spc;        /* specular color                                [BGR_] */
+    NJS_POINT3  pos;                /* position                                                 */
+    Uint32      col;                /* diffuse color                                     [BGRA] */
+    Uint32      spc;                /* specular color                                    [BGR_] */
 }
 RJS_VERTEX_PCS;
 
-typedef struct
+typedef struct rjvtxptcs
 {
-    NJS_POINT3  pos;        /* position                                             */
-    Float       u,v;        /* texture coordinates                                  */
-    Uint32      col;        /* diffuse color                                 [BGRA] */
-    Uint32      spc;        /* specular color                                [BGR_] */
+    NJS_POINT3  pos;                /* position                                                 */
+    Float       u,v;                /* texture coordinates                                      */
+    Uint32      col;                /* diffuse color                                     [BGRA] */
+    Uint32      spc;                /* specular color                                    [BGR_] */
 }
 RJS_VERTEX_PTCS;
 
-/****** Texture UV ******************************************************************/
-typedef struct
+/****** Texture UV ******************************************************************************/
+typedef struct rjuv
 {
-    Float       u,v;        /* texture coordinates                                  */
+    Float       u,v;                /* texture coordinates                                      */
 }
 RJS_UV;
 
-/************************/
-/*  Extern Data         */
-/************************/
-/****** Polygon Winding *************************************************************/
-EXTERN Sint32 _rj_invert_polygons_; /* invert polygon winding                       */
+/********************************/
+/*  Extern Data                 */
+/********************************/
+/****** Depth Queue *****************************************************************************/
+EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
+EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
 
-/****** Depth Queue *****************************************************************/
-EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                       */
-EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                        */
+/****** Texture Error ***************************************************************************/
+EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                                        */
 
-/****** Texture Error ***************************************************************/
-EXTERN NJS_TEXLIST texlist_rf_texerr[];
-
-/************************/
-/*  Prototypes          */
-/************************/
-/************************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/************************************************************************************************/
 /*
 *   Draw Core
 */
-/****** Set Alpha Blend *************************************************************/
+/****** Set Alpha Blend *************************************************************************/
 /*
 *   Description:
 *     Set blend mode via ninja context struct.
 *
 *   Parameters:
-*     - src, dst    : source and destination blend modes       [NJD_COLOR_BLENDING]
+*     - src, dst    : source and destination blend modes                   [NJD_COLOR_BLENDING]
 *     - mode        : alpha mode
 */
-void    rjSetAlphaMode( Sint32 src, Sint32 dst, RJE_ALPHA mode );
+void    rjSetAlphaMode( Sint32 src, Sint32 dst, RJ_ALPHA mode );
 
-/****** 2D Draw *********************************************************************/
+/****** Culling *********************************************************************************/
+/*
+*   Description:
+*     Set the polygon culling mode.
+*
+*   Parameters:
+*     - mode        : polygon culling mode
+*/
+void    rjPolygonCulling( RJ_CULL mode );
+/*
+*   Description:
+*     Set the invert polygon mode. If this is enabled, CW polygons will be drawn as CCW
+*   polygons, and vice versa.
+*
+*   Parameters:
+*     - mode        : ON/OFF
+*/
+void    rjInvertPolygons( Bool mode );
+
+/****** 2D Draw *********************************************************************************/
 /*
 *   Description:
 *     Set blend mode via ninja context struct.
@@ -156,14 +181,14 @@ void    rjSetTexture2D( Int clamp );
 *     Convert 2D depth value to hw depth value.
 *
 *   Parameters:
-*     - pri         : z priority                                  [-1.f ~ -65536.f]
+*     - pri         : z priority                                              [-1.f ~ -65536.f]
 *
 *   Returns:
 *     Hardware Z depth.
 */
 f32     rjGetDepth2D( f32 pri );
 
-/****** Texture Surface *************************************************************/
+/****** Texture Surface *************************************************************************/
 /*
 *   Description:
 *     Get loaded texture surface via the current texlist index.
@@ -187,7 +212,7 @@ NJS_TEXSURFACE* rjGetTextureSurface( Int n );
 */
 NJS_TEXSURFACE* rjGetTextureSurfaceG( Int gbix );
 
-/****** Start/End Vertex ************************************************************/
+/****** Start/End Vertex ************************************************************************/
 /*
 *   Description:
 *     Start 2D draw state and vertex buffer for specific vertex type.
@@ -195,7 +220,7 @@ NJS_TEXSURFACE* rjGetTextureSurfaceG( Int gbix );
 *   Parameters:
 *     - vtype       : vertex type
 */
-void    rjStartVertex2D( RJE_VERTEX_TYPE vtype );
+void    rjStartVertex2D( RJ_VERTEX_TYPE vtype );
 /*
 *   Description:
 *     Start 3D draw state and vertex buffer for specific vertex type.
@@ -203,14 +228,14 @@ void    rjStartVertex2D( RJE_VERTEX_TYPE vtype );
 *   Parameters:
 *     - vtype       : vertex type
 */
-void    rjStartVertex3D( RJE_VERTEX_TYPE vtype );
+void    rjStartVertex3D( RJ_VERTEX_TYPE vtype );
 /*
 *   Description:
 *     End vertex, and draw vertex buffer.
 */
 void    rjEndVertex( void );
 
-/****** Get Vertex Buffer ***********************************************************/
+/****** Get Vertex Buffer ***********************************************************************/
 /*
 *   Description:
 *     Get the top of the vertex buffer.
@@ -221,7 +246,7 @@ void    rjEndVertex( void );
 */
 void*   rjGetVertexBuffer( void );
 
-/****** Triangle Strip **************************************************************/
+/****** Triangle Strip **************************************************************************/
 /*
 *   Description:
 *     Start a triangle strip.
@@ -242,7 +267,7 @@ Sint32  rjStartTriStrip( Sint32 len );
 */
 void    rjEndTriStrip( Sint32 vtx );
 
-/****** Destrip (Tri List) **********************************************************/
+/****** Destrip (Tri List) **********************************************************************/
 /*
 *   Description:
 *     Start a de-stripped triangle strip, for flat shading.
@@ -264,11 +289,11 @@ Sint32  rjStartTriDestrip( Sint32 len, Bool* pOutInvst );
 */
 void    rjEndTriDestrip( Sint32 vtx );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Modifier Volume Core
 */
-/****** Modifier Buffer *************************************************************/
+/****** Modifier Buffer *************************************************************************/
 /*
 *   Description:
 *     Get the top of the modifier vertex buffer.
@@ -279,7 +304,7 @@ void    rjEndTriDestrip( Sint32 vtx );
 */
 RJS_VERTEX_M* rjGetModVertexBuffer( void );
 
-/****** Modifier List ***************************************************************/
+/****** Modifier List ***************************************************************************/
 /*
 *   Description:
 *     Start a modifier triangle list.
@@ -300,7 +325,7 @@ Sint32  rjStartModTriList( Sint32 poly );
 */
 void    rjEndModTriList( Sint32 vtx );
 
-/****** Modifier Destrip ************************************************************/
+/****** Modifier Destrip ************************************************************************/
 /*
 *   Description:
 *     Start a modifier triangle destrip.

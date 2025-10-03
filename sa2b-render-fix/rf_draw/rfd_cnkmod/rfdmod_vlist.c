@@ -18,7 +18,7 @@
 /************************/
 /****** Static **********************************************************************/
 static void
-rjCnkModVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+rjCnkModVertex(const Sint32* pVList, RJS_VERTEX_BUF* pVtxBuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -28,7 +28,7 @@ rjCnkModVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const CNK_VERTEX* p_vtx = (void*) p_vhead->d;
 
-    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+    RJS_VERTEX_BUF* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
@@ -40,7 +40,7 @@ rjCnkModVertex(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 static void
-rjCnkModVertexD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+rjCnkModVertexD8(const Sint32* pVList, RJS_VERTEX_BUF* pVtxBuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -50,7 +50,7 @@ rjCnkModVertexD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const CNK_VERTEX_D8* p_vtx = (void*) p_vhead->d;
 
-    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+    RJS_VERTEX_BUF* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
@@ -62,7 +62,7 @@ rjCnkModVertexD8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 static void
-rjCnkModVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+rjCnkModVertexVN(const Sint32* pVList, RJS_VERTEX_BUF* pVtxBuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -72,7 +72,7 @@ rjCnkModVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const CNK_VERTEX_VN* p_vtx = (void*) p_vhead->d;
 
-    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+    RJS_VERTEX_BUF* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
@@ -84,7 +84,7 @@ rjCnkModVertexVN(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 static void
-rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
+rjCnkModVertexVND8(const Sint32* pVList, RJS_VERTEX_BUF* pVtxBuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -94,7 +94,7 @@ rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 
     const CNK_VERTEX_VN_D8* p_vtx = (void*) p_vhead->d;
 
-    CNK_VERTEX_BUFFER* p_buf = pVtxBuf;
+    RJS_VERTEX_BUF* p_buf = pVtxBuf;
 
     for (int i = 0; i < nb_vtx; ++i)
     {
@@ -106,7 +106,7 @@ rjCnkModVertexVND8(const Sint32* pVList, CNK_VERTEX_BUFFER* pVtxBuf)
 }
 
 static void
-rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* vbuf)
+rjCnkModVertexVNNF(const Sint32* pVList, RJS_VERTEX_BUF* vbuf)
 {
     const CNK_VERTEX_HEAD* p_vhead = (void*) pVList;
 
@@ -124,7 +124,7 @@ rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* vbuf)
 
         njCalcPoint(NULL, &p_vtx->pos, &pos);
 
-        CNK_VERTEX_BUFFER* p_vbuf = &vbuf[ p_vtx->i ];
+        RJS_VERTEX_BUF* p_vbuf = &vbuf[ p_vtx->i ];
 
         const f32 mul = CNK_GET_WEIGHT(p_vtx->w);
 
@@ -155,7 +155,7 @@ rjCnkModVertexVNNF(const Sint32* pVList, CNK_VERTEX_BUFFER* vbuf)
 
 /****** Extern **********************************************************************/
 Sint32
-rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const vbuf)
+rjCnkModVList(const Sint32* const pVList, RJS_VERTEX_BUF* const vbuf)
 {
     const Sint32* vlist = pVList;
 
@@ -171,7 +171,7 @@ rjCnkModVList(const Sint32* const pVList, CNK_VERTEX_BUFFER* const vbuf)
 
         const CNK_VERTEX_HEAD* pvhead = (void*)vlist;
 
-        CNK_VERTEX_BUFFER* p_vbuf = &vbuf[ pvhead->indexoffset ];
+        RJS_VERTEX_BUF* p_vbuf = &vbuf[ pvhead->indexoffset ];
 
         switch (type)
         {

@@ -270,34 +270,34 @@ rjSetAlphaMode_Punchthrough(void)
 
 /****** Extern **********************************************************************************/
 void
-rjSetAlphaMode(Sint32 src, Sint32 dst, RJE_ALPHA mode)
+rjSetAlphaMode(Sint32 src, Sint32 dst, RJ_ALPHA mode)
 {
     Bool trans;
 
     switch (mode)
     {
-        case RJE_ALPHA_OPAQUE: default:
+        case RJ_ALPHA_OPAQUE: default:
         {
             trans = FALSE;
 
             rjSetAlphaMode_Opaque();
             break;
         }
-        case RJE_ALPHA_TRANS:
+        case RJ_ALPHA_TRANS:
         {
             trans = TRUE;
 
             rjSetAlphaMode_Transparent();
             break;
         }
-        case RJE_ALPHA_ALPHATEST:
+        case RJ_ALPHA_ALPHATEST:
         {
             trans = TRUE;
 
             rjSetAlphaMode_Alphatest();
             break;
         }
-        case RJE_ALPHA_PUNCHTHROUGH:
+        case RJ_ALPHA_PUNCHTHROUGH:
         {
             trans = FALSE;
 

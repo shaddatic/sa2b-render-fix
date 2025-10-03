@@ -37,7 +37,7 @@ EXTERN_START
 *   Returns:
 *     '0' on success, or '1' if VList type is unparsable
 */
-int32_t rjCnkModVList( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
+int32_t rjCnkModVList( const Sint32* pVList, RJS_VERTEX_BUF* njvtxbuf );
 /*
 *   Description:
 *     Parse Chunk PList parameters as a modifier model.
@@ -46,7 +46,7 @@ int32_t rjCnkModVList( const Sint32* pVList, CNK_VERTEX_BUFFER* njvtxbuf );
 *     - pPList   : pointer to a chunk plist
 *     - njvtxbuf : vertex buffer to read from
 */
-void    rjCnkModPList( const Sint16* pPList, const CNK_VERTEX_BUFFER* njvtxbuf );
+void    rjCnkModPList( const Sint16* pPList, const RJS_VERTEX_BUF* njvtxbuf );
 
 EXTERN_END
 

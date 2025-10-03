@@ -10,84 +10,89 @@
 #ifndef H_RF_DRAW_CNKMDL_INTERNAL
 #define H_RF_DRAW_CNKMDL_INTERNAL
 
-/************************/
-/*  External Includes   */
-/************************/
-/****** Self ************************************************************************/
-#include <rf_draw/rfd_internal.h> /* grand parent                                   */
-#include <rf_draw/rfd_cnk.h>      /* parent util                                    */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Self ************************************************************************************/
+#include <rf_draw/rfd_internal.h>   /* grand parent                                             */
+#include <rf_draw/rfd_cnk.h>        /* parent util                                              */
 
 EXTERN_START
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Chunk Context ***************************************************************/
-#define CTXF_FUNC_EASY          (1<<0)  /* easy draw variant                        */
-#define CTXF_FUNC_SIMPLE        (1<<1)  /* simple draw variant                      */
-#define CTXF_FUNC_MULTI         (1<<2)  /* multi draw variant                       */
-#define CTXF_FUNC_DIRECT        (1<<3)  /* direct draw                              */
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Chunk conteXt Flag **********************************************************************/
+#define RJD_CXF_BACKFACECULL        (1<<0) /* uses simple inverted polygon calcs                */
+#define RJD_CXF_AMBIMATERIAL        (1<<1) /* read ambient material color                       */
+#define RJD_CXF_VND8                (1<<2) /* use vertex color/light blending                   */
+#define RJD_CXF_NONTEXSPEC          (1<<3) /* notex specular                                    */
+#define RJD_CXF_TWOPASSLIGHT        (1<<4) /* use two pass lighting                             */
 
-#define CTXF_DRAW_TRANS         (1<<4)  /* draw trans strips, if off draw opaque    */
-#define CTXF_DRAW_NORMAL        (1<<5)  /* draw normal triangles                    */
-#define CTXF_DRAW_INVERSE       (1<<6)  /* draw inverse triangles                   */
+/****** Chunk Material Flag *********************************************************************/
+#define RJD_CMF_DIFF                (1<<0)
+#define RJD_CMF_AMBI                (1<<1)
+#define RJD_CMF_SPEC                (1<<2)
 
-#define CTXF_TINY               (1<<7)  /* new texture data to apply                */
+/****** Chunk Strip Flags ***********************************************************************/
+/*
+*   Strip Flag Type Masks
+*/
+#define RJD_CSF_MASK_TYPE           (0x000000FF) /* chunk offset type                           */
+#define RJD_CSF_MASK_FST            (0x0000FF00) /* chunk strip flags                           */
+#define RJD_CSF_MASK_CTX            (0xFFFF0000) /* chunk strip context                         */
+/*
+*   Strip Flag Type Shifts
+*/
+#define RJD_CSF_SHIFT_TYPE          (0)             /* chunk offset type                        */
+#define RJD_CSF_SHIFT_FST           (NJD_FST_SHIFT) /* chunk strip flags                        */
+#define RJD_CSF_SHIFT_CTX           (16)            /* chunk strip context                      */
+/*
+*   Strip 'FST' Flags
+*/
+#define RJD_FST_TRANSLUCENT         (NJD_FST_UA|NJD_FST_NAT) /* translucent flags               */
+/*
+*   Strip Context Flags
+*/
+#define RJD_CSF_USETEX              (1<<(RJD_CSF_SHIFT_CTX+0)) /* strip will use a texture      */
+#define RJD_CSF_HASUVS              (1<<(RJD_CSF_SHIFT_CTX+1)) /* strip has uv 'UVN/UVH' data   */
+#define RJD_CSF_HASNRM              (1<<(RJD_CSF_SHIFT_CTX+2)) /* strip has normal 'VN' data    */
+#define RJD_CSF_HASCOL              (1<<(RJD_CSF_SHIFT_CTX+3)) /* strip has color 'D8' data     */
 
-#define CTXF_STATE_NONTEX       (1<<8)  /* current strip has no texture             */
-#define CTXFLG_STRIP_NOUVS      (1<<9)  /* current strip has no UV info             */
+/****** Chunk Vertex (Flags/Type) ***************************************************************/
+/*
+*   Vertex Attribute Flags
+*/
+#define RJD_CVF_NORMAL              (1<<0) /* has vertex normals                                */
+#define RJD_CVF_COLOR               (1<<1) /* has vertex colors                                 */
+#define RJD_CVF_SPECULAR            (1<<2) /* has vertex offset color                           */
+/*
+*   Vertex Types
+*/
+#define RJD_CVT_P                   (0)                              /* position                */
+#define RJD_CVT_PN                  (RJD_CVF_NORMAL)                 /* pos + normals           */
+#define RJD_CVT_PC                  (RJD_CVF_COLOR)                  /* pos + color             */
+#define RJD_CVT_PNC                 (RJD_CVF_NORMAL|RJD_CVF_COLOR)   /* pos + nrm + col         */
+#define RJD_CVT_PCS                 (RJD_CVF_COLOR|RJD_CVF_SPECULAR) /* pos + col + specular    */
 
-#define CTXF_CTL_BACKFACECULL   (1<<10) /* uses simple inverted polygon calcs       */
-#define CTXF_CTL_AMBIMATERIAL   (1<<11) /* read ambient material color              */
-#define CTXF_CTL_MULTIVND8      (1<<12) /* use vertex color/light blending          */
-#define CTXF_CTL_NONTEXSPEC     (1<<13) /* notex specular                           */
-#define CTXF_CTL_TWOPASSLIGHT   (1<<14) /* use two pass lighting                    */
+/********************************/
+/*  Function Types              */
+/********************************/
+/****** Color Calculations **********************************************************************/
+typedef Uint32 (RJF_CNK_VCOLFUNC)(const RJS_VERTEX_BUF* restrict pVtx);
+typedef Uint32 (RJF_CNK_SPECFUNC)(const RJS_VERTEX_BUF* restrict pVtx);
 
-#define CTX_FUNC_NORMAL          (0)    /* render fix normal draw                   */
-#define CTX_FUNC_EASY            (1)    /* easy draw                                */
-#define CTX_FUNC_SIMPLE          (2)    /* simple draw                              */
-#define CTX_FUNC_EASYMULTI       (5)    /* easy multi draw                          */
-#define CTX_FUNC_SIMPLEMULTI     (6)    /* simple multi draw                        */
-#define CTX_FUNC_DIRECT          (8)    /* direct draw                              */
-
-#define CTXF_MASK_FUNC          (CTXF_FUNC_EASY|CTXF_FUNC_SIMPLE|CTXF_FUNC_MULTI|CTXF_FUNC_DIRECT)
-
-#define CTXF_MASK_DRAW          (CTXF_DRAW_TRANS|CTXF_DRAW_NORMAL|CTXF_DRAW_INVERSE)
-
-/****** Chunk Vertex ****************************************************************/
-#define RJD_CVF_NORMAL          (1<<0)
-#define RJD_CVF_COLOR           (1<<1)
-#define RJD_CVF_SPECULAR        (1<<2)
-
-#define RJD_CVT_POS             (0)
-#define RJD_CVT_POS_NRM         (RJD_CVF_NORMAL)
-#define RJD_CVT_POS_COL         (RJD_CVF_COLOR)
-#define RJD_CVT_POS_NRM_COL     (RJD_CVF_NORMAL|RJD_CVF_COLOR)
-#define RJD_CVT_POS_COL_SPC     (RJD_CVF_COLOR|RJD_CVF_SPECULAR)
-
-/****** Depth Queue *****************************************************************/
-#define RJD_CNK_DEPTHQUEUE_OFF      (0) /* depthqueue is disabled                   */
-#define RJD_CNK_DEPTHQUEUE_NEAR     (1) /* depthqueue is on, but behind near plane  */
-#define RJD_CNK_DEPTHQUEUE_ON       (2) /* depthqueue is enabled                    */
-
-/************************/
-/*  Function Types      */
-/************************/
-/****** Color Calculations **********************************************************/
-typedef Uint32 (RJF_CNK_VCOLFUNC)(const CNK_VERTEX_BUFFER* restrict pVtx);
-typedef Uint32 (RJF_CNK_SPECFUNC)(const CNK_VERTEX_BUFFER* restrict pVtx);
-
-/****** Vlist Calculations **********************************************************/
+/****** Vlist Calculations **********************************************************************/
 typedef void (RJF_CNK_VLIST_POS)(NJS_POINT3* dst, const NJS_POINT3* src);
 typedef void (RJF_CNK_VLIST_NRM)(NJS_VECTOR* dst, const NJS_VECTOR* src);
 typedef void (RJF_CNK_VLIST_COL)(NJS_ARGB*   dst, const NJS_ARGB*   src);
 typedef void (RJF_CNK_VLIST_SPC)(NJS_ARGB*   dst, const NJS_ARGB*   src);
 
-/************************/
-/*  Enums               */
-/************************/
-/****** Vertex Color Functions ******************************************************/
-typedef enum
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Vertex Color Functions ******************************************************************/
+typedef enum rjcnkvcolmd
 {
     RJE_CNK_VCOLFUNC_MATERIAL,
     RJE_CNK_VCOLFUNC_D8,
@@ -98,8 +103,8 @@ typedef enum
 }
 RJE_CNK_VCOLFUNC;
 
-/****** Specular Functions **********************************************************/
-typedef enum
+/****** Specular Functions **********************************************************************/
+typedef enum rjcnkspecmd
 {
     RJE_CNK_SPECFUNC_NONE,
 
@@ -107,157 +112,122 @@ typedef enum
     RJE_CNK_SPECFUNC_EASY,
     RJE_CNK_SPECFUNC_SIMPLE,
     RJE_CNK_SPECFUNC_MULTI,
-
     RJE_CNK_SPECFUNC_S8,
 
     NB_RJE_CNK_SPECFUNC,
 }
 RJE_CNK_SPECFUNC;
 
-/************************/
-/*  Game Structures     */
-/************************/
-/****** Chunk Context ***************************************************************/
-typedef struct
+/****** Depth Queue Mode ************************************************************************/
+typedef enum rjcnkdq
 {
-    Uint32          flag;       /* context flags                                    */
-
-    Sint16          fst;        /* strip flags, at the top for packing reasons      */
-    Sint16          blend;      /* alpha blend mode                                 */
-    CNK_TINY_HEAD   tiny;       /* texture material                                 */
-    NJS_BGRA        diff;       /* diffuse material                                 */
-    NJS_BGRA        ambi;       /* ambient material, 'a' is ignored                 */
-    NJS_BGRA        spec;       /* specular material, 'a' is exponent               */
+    RJ_CNK_DQ_OFF,                  /* depthqueue is disabled                                   */
+    RJ_CNK_DQ_NEAR,                 /* depthqueue is on, but behind near plane                  */
+    RJ_CNK_DQ_ON,                   /* depthqueue is enabled                                    */
 }
-CNK_CTX;
+RJ_CNK_DEPTHQUEUE;
 
-/************************/
-/*  Game References     */
-/************************/
-/****** Texture *********************************************************************/
-#define pTexSurface                     DATA_REF(NJS_TEXSURFACE*, 0x01A55840)
+/****** Depth Queue Mode ************************************************************************/
+typedef enum rjcnkmat
+{
+    RJ_CMC_DIFF,                    /* diffuse material color                                   */
+    RJ_CMC_AMBI,                    /* ambient material color                                   */
+    RJ_CMC_SPEC,                    /* specular material color                                  */
 
-/****** Old Strip Flag for Lighting *************************************************/
+    RJ_NB_CMC,                      /* enum count                                               */
+}
+RJ_CNK_MATCOLOR;
+
+/********************************/
+/*  Game Structures             */
+/********************************/
+/****** Chunk Context ***************************************************************************/
+typedef struct rjcnkctx
+{
+    Uint16          flag;           /* context flags                                            */
+    Uint16          vattr;          /* vertex attributes                                        */
+    Sint16          cull;           /* last culling mode                                        */
+    Sint16          texid;          /* last texture id                                          */
+    CNK_TINY_HEAD   tiny;           /* last texture material                                    */
+    Sint16          spec;           /* specular mode                                            */
+    Sint16          depthq;         /* depth queue mode                                         */
+}
+RJS_CNK_CTX;
+
+typedef struct rjcnkstrip
+{
+    Uint32                flag;            /* strip flags                                       */
+    Uint32                ctrl3d;          /* control 3d context                                */
+    Sint16                blend;           /* alpha blend mode                                  */
+    Sint16                texid;           /* texture id                                        */
+    CNK_TINY_HEAD         tiny;            /* texture material                                  */
+    NJS_BGRA              mats[RJ_NB_CMC]; /* material colors                                   */
+    const CNK_STRIP_HEAD* striph;          /* strip header pointer                              */
+}
+RJS_CNK_STRIP;
+
+/********************************/
+/*  Game References             */
+/********************************/
+/****** Texture *********************************************************************************/
+#define pTexSurface                     DATA_REF(const NJS_TEXSURFACE*, 0x01A55840)
+
+/****** Old Strip Flag for Lighting *************************************************************/
 #define _nj_cnk_strip_flags_            DATA_REF(Uint32, 0x01A5583C)
 #define _nj_cnk_last_strip_flags_       DATA_REF(Uint32, 0x01A55838)
 
-/****** Chunk Polygon cache list ****************************************************/
+/****** Chunk Polygon cache list ****************************************************************/
 #define _nj_cnk_polygon_cache_num_      DATA_REF(Sint32       , 0x025F0108)
 #define _nj_cnk_polygon_cache_tbl_      DATA_ARY(const Sint16*, 0x02670340, [125])
 
-/****** Chunk Vertex Attributes *****************************************************/
+/****** Chunk Vertex Attributes *****************************************************************/
 #define _nj_cnk_vtx_attrs_              DATA_REF(Sint32, 0x019346DC)
 
-/****** Use Basic Draw for Shadows **************************************************/
+/****** Use Basic Draw for Shadows **************************************************************/
 #define ShadowCnkDraw                   DATA_REF(b32, 0x01A55798)
 
-/************************/
-/*  Data                */
-/************************/
-/****** Chunk Draw ******************************************************************/
-EXTERN Uint32   _rj_cnk_vertex_attr_;  /* vertex attributes                         */
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Chunk Draw ******************************************************************************/
+EXTERN RJS_CNK_CTX _rj_cnk_context_;    /*  */
 
-EXTERN Uint32   _rj_cnk_blend_mode_;   /* alpha blend                               */
+EXTERN NJS_ARGB _rj_cnk_diff_material_; /* diffuse material                                     */
+EXTERN NJS_ARGB _rj_cnk_ambi_material_; /* ambient material                                     */
+EXTERN NJS_ARGB _rj_cnk_spec_material_; /* specular material                                    */
 
-EXTERN NJS_ARGB _rj_cnk_diff_material_; /* diffuse material                         */
-EXTERN NJS_ARGB _rj_cnk_ambi_material_; /* ambient material                         */
-EXTERN NJS_ARGB _rj_cnk_spec_material_; /* specular material                        */
+EXTERN Sint32   _rj_cnk_shadow_tex_;    /* shadow tex count                                     */
 
-EXTERN Sint32   _rj_cnk_shadow_tex_;    /* shadow tex count                         */
+EXTERN RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC]; /* vcol funcs                */
+EXTERN RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC]; /* spec funcs                */
 
-EXTERN Sint32   _rj_cnk_spec_mode_;     /* specular mode                            */
+EXTERN RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_; /* vertex position function                     */
+EXTERN RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_; /* vertex normal function                       */
+EXTERN RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_; /* vertex color function                        */
+EXTERN RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_; /* vertex specular function                     */
 
-EXTERN Sint32   _rj_cnk_depth_queue_;
+/****** UV Scroll *******************************************************************************/
+EXTERN RJS_UV _rj_cnk_uv_scroll_;   /* u offset                                                 */
+EXTERN RJS_UV _rj_cnk_env_scroll_;  /* u offset                                                 */
 
-EXTERN RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC]; /* vcol funcs    */
-EXTERN RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC]; /* spec funcs    */
-
-EXTERN RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_; /* vertex position function       */
-EXTERN RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_; /* vertex normal function         */
-EXTERN RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_; /* vertex color function          */
-EXTERN RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_; /* vertex specular function       */
-
-/****** UV Scroll *******************************************************************/
-EXTERN RJS_UV _rj_cnk_uv_scroll_;   /* u offset                                     */
-EXTERN RJS_UV _rj_cnk_env_scroll_;  /* u offset                                     */
-
-/****** Obj/Mdl Callback ************************************************************/
+/****** Obj/Mdl Callback ************************************************************************/
 EXTERN void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
 EXTERN void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
 
-/****** Texture Callback ************************************************************/
-EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback          */
+/****** Texture Callback ************************************************************************/
+EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback                      */
 
-/****** Intensity Multiply, for Simple **********************************************/
+/****** Intensity Multiply, for Simple **********************************************************/
 EXTERN Float _rj_cnk_inten_multiply_;
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Chunk Context ***************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/************************************************************************************************/
 /*
-*   Description:
-*     Begin a new Chunk context structure.
-*
-*   Parameters:
-*     - pCtx        : chunk context
+*   Chunk Parts
 */
-void    rjCnkBeginContext( CNK_CTX* restrict pCtx );
-/*
-*   Description:
-*     Apply a Chunk context to the render state
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*/
-void    rjCnkExecContext( CNK_CTX* restrict pCtx );
-/*
-*   Description:
-*     Set blend types to context.
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*     - plist       : bits/material plist header
-*/
-void    rjCnkSetBlend( CNK_CTX* restrict pCtx, const Sint16* plist );
-/*
-*   Description:
-*     Set exponent bits type to context.
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*     - plist       : bits plist header
-*/
-void    rjCnkSetExponent( CNK_CTX* restrict pCtx, const Sint16* plist );
-/*
-*   Description:
-*     Set material colors to context.
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*     - plist       : material plist header
-*/
-void    rjCnkSetMaterial( CNK_CTX* restrict pCtx, const Sint16* plist );
-/*
-*   Description:
-*     Set texture parameters to context.
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*     - plist       : tiny plist header
-*/
-void    rjCnkSetTexture( CNK_CTX* restrict pCtx, const Sint16* plist );
-/*
-*   Description:
-*     Set strip flags and constant/func/render state flags to context
-*
-*   Parameters:
-*     - pCtx        : chunk context
-*     - plist       : strip plist header
-*/
-void    rjCnkSetStrip( CNK_CTX* restrict pCtx, const Sint16* plist );
-
-/****** Model Functions *************************************************************/
+/****** Model Functions *************************************************************************/
 /*
 *   Description:
 *     Parse a Chunk vertex list into a specified vertex buffer
@@ -269,7 +239,7 @@ void    rjCnkSetStrip( CNK_CTX* restrict pCtx, const Sint16* plist );
 *   Returns:
 *     'CNK_RETN_OK' on success; or 'CNK_RETN_CLIP' on failure.
 */
-Sint32  rjCnkVList( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict pVBuf );
+Sint32  rjCnkVList( const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict pVBuf );
 /*
 *   Description:
 *     Draw a Chunk polygon list using a specified vertex buffer
@@ -278,131 +248,9 @@ Sint32  rjCnkVList( const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict p
 *     - pPList      : base plist pointer
 *     - pVBuf       : vertex buffer to read from
 */
-void    rjCnkPList( const Sint16* restrict pPList, const CNK_VERTEX_BUFFER* restrict pVBuf );
+void    rjCnkPList( const Sint16* restrict pPList, const RJS_VERTEX_BUF* restrict pVBuf );
 
-/****** Vlist Calculations **********************************************************/
-void    rjCnkCalcVlistPosition( NJS_POINT3* dst, const NJS_POINT3* src );
-void    rjCnkCalcVlistNormal(   NJS_VECTOR* dst, const NJS_VECTOR* src );
-void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
-void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
-
-void    rjCnkCalcVlistNormalUnit( NJS_VECTOR* dst, const NJS_VECTOR* src );
-
-/****** Depth Queue *****************************************************************/
-void    rjCnkBeginDepthQueue(const NJS_CNK_MODEL* model);
-
-void    rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, CNK_VERTEX_BUFFER* vbuf);
-void    rjCnkCalculateDepthQueueNF(const CNK_VERTEX_HEAD* vhead, CNK_VERTEX_BUFFER* vbuf);
-
-/****** Vertex Color ****************************************************************/
-/*
-*   Description:
-*     Directly get the buffered vertex color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkVertexColorD8( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Get current Chunk material color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkVertexColorMaterial( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate all lighting on a vertex, and return the absolute light color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkVertexColorLights( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate all lighting on a VND8 vertex, and return the absolute light color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkVertexColorLightsD8( const CNK_VERTEX_BUFFER* restrict pVtx );
-
-/****** Specular ********************************************************************/
-/*
-*   Description:
-*     Get a black specular color to disable specular drawing.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularNone( const CNK_VERTEX_BUFFER* restrict pVtx );
-
-/*
-*   Description:
-*     Get the buffered specular vertex color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularS8( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate Render Fix specular lighting on a vertex, and return the absolute
-*   specular color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularNormal( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate Easy specular lighting on a vertex, and return the absolute
-*   specular color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularEasy( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate Simple specular lighting on a vertex, and return the absolute
-*   specular color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularSimple( const CNK_VERTEX_BUFFER* restrict pVtx );
-/*
-*   Description:
-*     Calculate MultiDraw specular lighting on a vertex, and return the absolute
-*   specular color.
-*
-*   Parameters:
-*     - pVtx        : vertex buffer entry
-*/
-Uint32  rjCnkSpecularMulti( const CNK_VERTEX_BUFFER* restrict pVtx );
-
-/****** Chunk Control ***************************************************************/
-void    rjCnkSetPolygonCullingMode(CNK_CTX* restrict pCtx, Bool light);
-
-void    rjCnkBeginLighting(const CNK_CTX* restrict pCtx);
-
-bool    rjCnkBeginTwoPassLighting(const CNK_CTX* restrict pCtx);
-
-/****** Get UV Scroll ***************************************************/
-/*
-*   Description:
-*     Get UV scroll values.
-*/
-RJS_UV  rjCnkGetUvScroll( void );
-/*
-*   Description:
-*     Get Environment UV scroll values.
-*/
-RJS_UV  rjCnkGetEnvUvScroll( void );
-
-/****** External Functions (Draw) ***************************************************/
+/****** External Functions (Draw) ***************************************************************/
 /*
 *   Description:
 *     Parse and draw a Chunk model for shadowtex models. The difference is this
@@ -414,6 +262,254 @@ RJS_UV  rjCnkGetEnvUvScroll( void );
 *     - vbuf        : vertex buffer
 */
 int     CnkDrawShadow_Ext( const NJS_CNK_MODEL* model, const void* vbuf );
+
+/************************************************************************************************/
+/*
+*   Callback Functions
+*/
+/****** Vlist Calculations **********************************************************************/
+/*
+*   Description:
+*     Default Vlist callback functions.
+*
+*   Parameters:
+*     - dst         : output parameter
+*     - src         : input parameter
+*/
+void    rjCnkCalcVlistPosition( NJS_POINT3* dst, const NJS_POINT3* src );
+void    rjCnkCalcVlistNormal(   NJS_VECTOR* dst, const NJS_VECTOR* src );
+void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
+void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
+/*
+*   Description:
+*     Unit variant of the vertex normals Vlist callback function.
+*
+*   Parameters:
+*     - dst         : output parameter
+*     - src         : input parameter
+*/
+void    rjCnkCalcVlistNormalUnit( NJS_VECTOR* dst, const NJS_VECTOR* src );
+
+/****** Default Callbacks ***********************************************************************/
+/*
+*   Description:
+*     Default texture callback function.
+*
+*   Parameters:
+*     - texid       : input texture id
+*
+*   Returns:
+*     Input texture number, unchanged.
+*/
+Sint16  rjCnkGetTexture( Sint16 texid );
+/*
+*   Description:
+*     Default material callback function.
+*
+*   Parameters:
+*     - dst         : output materials
+*     - src         : input materials
+*     - flag        : material flags
+*
+*   Returns:
+*     Material flags, unchanged.
+*/
+Uint32  rjCnkGetMaterial( NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag );
+
+/************************************************************************************************/
+/*
+*   Chunk Internal
+*/
+/****** Depth Queue *****************************************************************************/
+/*
+*   Description:
+*     Start depth queue calculations (alpha fade at a distance) on a model about to be drawn.
+*
+*   Parameters:
+*     - model       : model to be drawn
+*/
+void    rjCnkBeginDepthQueue( const NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Calculate depth queue colors on the current vertex chunk head, with weighted variant.
+* 
+*   Parameters:
+*     - vhead       : vertex chunk head
+*     - vbuf        : vertex buffer
+*/
+void    rjCnkCalculateDepthQueue(   const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf );
+void    rjCnkCalculateDepthQueueNF( const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf );
+
+/****** Vertex Color ****************************************************************************/
+/*
+*   Description:
+*     Directly get the buffered vertex color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkVertexColorD8( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Get current Chunk material color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkVertexColorMaterial( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate all lighting on a vertex, and return the absolute light color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkVertexColorLights( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate all lighting on a VND8 vertex, and return the absolute light color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkVertexColorLightsD8( const RJS_VERTEX_BUF* restrict pVtx );
+
+/****** Specular ********************************************************************************/
+/*
+*   Description:
+*     Get a black specular color to disable specular drawing.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularNone( const RJS_VERTEX_BUF* restrict pVtx );
+
+/*
+*   Description:
+*     Get the buffered specular vertex color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularS8( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate Render Fix specular lighting on a vertex, and return the absolute
+*   specular color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularNormal( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate Easy specular lighting on a vertex, and return the absolute
+*   specular color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularEasy( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate Simple specular lighting on a vertex, and return the absolute
+*   specular color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularSimple( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate MultiDraw specular lighting on a vertex, and return the absolute
+*   specular color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularMulti( const RJS_VERTEX_BUF* restrict pVtx );
+
+/************************************************************************************************/
+/*
+*   Chunk Parts
+*/
+/****** Get UV Scroll ***************************************************************************/
+/*
+*   Description:
+*     Get UV scroll values.
+*/
+RJS_UV  rjCnkGetUvScroll( void );
+/*
+*   Description:
+*     Get Environment UV scroll values.
+*/
+RJS_UV  rjCnkGetEnvUvScroll( void );
+
+/************************************************************************************************/
+/*
+*   Render Context
+*/
+/****** Polygon Culling *************************************************************************/
+/*
+*   Description:
+*     Change the polygon culling mode for Chunk model.
+*
+*   Notes:
+*     - The 'CW' mode is the default 'forward' for Chunk.
+*
+*   Parameters:
+*     - cullmd      : culling mode
+*/
+void    rjCnkPolygonCulling( RJ_CULL cullmd );
+
+/****** Two Pass Lighting ***********************************************************************/
+/*
+*   Description:
+*     Inverts the Chunk light vectors for two pass lighting. It does this by inverting the
+*   vertex light intensities during the final color function phase.
+*
+*   Parameters:
+*     - sw          : ON/OFF
+*/
+void    rjCnkInvertLightDirection( Bool sw );
+
+/****** Start/End Plist *************************************************************************/
+/*
+*   Description:
+*     Start Chunk Plist draw by initializing first strip entry and setting context flags.
+*
+*   Parameters:
+*     - basest      : base rj strip entry
+*/
+void    rjCnkStartPlist( RJS_CNK_STRIP* restrict basest );
+/*
+*   Description:
+*     End Chunk Plist draw.
+*/
+void    rjCnkEndPlist( void );
+
+/****** Start/End Vertex ************************************************************************/
+/*
+*   Description:
+*     Setup shaders and render context for a textureless Chunk strip.
+*
+*   Parameters:
+*     - pCtx        : current chunk context
+*/
+void    rjCnkStartVertexNonTex( void );
+/*
+*   Description:
+*     Setup shaders and render context for a textured Chunk strip.
+*
+*   Parameters:
+*     - pCtx        : current chunk context
+*/
+void    rjCnkStartVertexTex( void );
+/*
+*   Description:
+*     Draw buffered polygons.
+*/
+void    rjCnkEndVertex( void );
 
 EXTERN_END
 

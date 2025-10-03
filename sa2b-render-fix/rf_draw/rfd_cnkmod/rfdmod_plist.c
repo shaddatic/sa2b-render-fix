@@ -19,7 +19,7 @@
 /************************/
 /****** Static **********************************************************************/
 static void
-rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const vbuf)
+rjCnkModVolumeP3(const Sint16* const pPList, const RJS_VERTEX_BUF* const vbuf)
 {
     const CNK_VOLUME_HEAD* p_vohead = (CNK_VOLUME_HEAD*) pPList;
 
@@ -70,7 +70,7 @@ rjCnkModVolumeP3(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const vbuf
 }
 
 static void
-rjCnkModStrip(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkModStrip(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf)
 {
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -105,7 +105,7 @@ rjCnkModStrip(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* re
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+                const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
@@ -139,7 +139,7 @@ rjCnkModStrip(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* re
 }
 
 static void
-rjCnkModStripUV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkModStripUV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf)
 {
     const int nb_strip = striph->nbstrip;
     const int ufo      = striph->ufo;
@@ -174,7 +174,7 @@ rjCnkModStripUV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* 
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+                const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
@@ -209,7 +209,7 @@ rjCnkModStripUV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* 
 
 /****** Extern **********************************************************************/
 void
-rjCnkModPList(const Sint16* const pPList, const CNK_VERTEX_BUFFER* const njvtxbuf)
+rjCnkModPList(const Sint16* const pPList, const RJS_VERTEX_BUF* const njvtxbuf)
 {
     const Sint16* plist = pPList;
     

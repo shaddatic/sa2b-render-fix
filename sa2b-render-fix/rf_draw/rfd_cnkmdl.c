@@ -26,57 +26,7 @@
 
 #define _gj_shadow_tex_num_         DATA_REF(u8, 0x01934758)
 
-/************************/
-/*  Export Data         */
-/************************/
-/****** Chunk Draw ******************************************************************/
-Uint32   _rj_cnk_vertex_attr_;  /* vertex attributes                                */
-
-Uint32   _rj_cnk_blend_mode_;    /* alpha blend                                     */
-
-NJS_ARGB _rj_cnk_diff_material_; /* diffuse material                                */
-NJS_ARGB _rj_cnk_ambi_material_; /* ambient material                    (a == noop) */
-NJS_ARGB _rj_cnk_spec_material_; /* specular material               (a == exponent) */
-
-Sint32 _rj_cnk_shadow_tex_;
-
-Sint32 _rj_cnk_spec_mode_;
-
-Sint32 _rj_cnk_depth_queue_;
-
-RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC] =
-{
-    [RJE_CNK_VCOLFUNC_MATERIAL] = rjCnkVertexColorMaterial,
-    [RJE_CNK_VCOLFUNC_D8]       = rjCnkVertexColorD8,
-    [RJE_CNK_VCOLFUNC_LIGHT]    = rjCnkVertexColorLights,
-    [RJE_CNK_VCOLFUNC_LIGHTD8]  = rjCnkVertexColorLightsD8,
-};
-
-RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC] =
-{
-    [RJE_CNK_SPECFUNC_NONE]   = rjCnkSpecularNone,
-    [RJE_CNK_SPECFUNC_NORMAL] = rjCnkSpecularNormal,
-    [RJE_CNK_SPECFUNC_EASY]   = rjCnkSpecularEasy,
-    [RJE_CNK_SPECFUNC_SIMPLE] = rjCnkSpecularSimple,
-    [RJE_CNK_SPECFUNC_MULTI]  = rjCnkSpecularMulti,
-    [RJE_CNK_SPECFUNC_S8]     = rjCnkSpecularS8,
-};
-
-RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_ = rjCnkCalcVlistPosition;
-RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_ = rjCnkCalcVlistNormal;
-RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_ = rjCnkCalcVlistColor;
-RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_ = rjCnkCalcVlistSpecular;
-
-/****** UV Offset *******************************************************************/
-RJS_UV _rj_cnk_uv_scroll_;
-RJS_UV _rj_cnk_env_scroll_;
-
-/****** Obj/Mdl Callback ************************************************************/
-void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
-void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
-
-/****** Texture Callback ************************************************************/
-Sint16 (__cdecl* _rj_cnk_texture_callback_)(Sint16 texid);
+#define _nj_cnk_rotbase_matrix_     DATA_REF(NJS_MATRIX, 0x01934AC0)
 
 /************************/
 /*  Source              */
@@ -161,8 +111,6 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
     /** Drawing completed successfully **/
     return CNK_RETN_OK;
 }
-
-#define _nj_cnk_rotbase_matrix_             DATA_REF(NJS_MATRIX, 0x01934AC0)
 
 static inline void
 ___rjCnkObjectRotateBase(void)
@@ -336,7 +284,7 @@ rjCnkSetEnvUvScroll(Float u, Float v)
 void
 rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 texid))
 {
-    _rj_cnk_texture_callback_ = callback;
+    _rj_cnk_texture_callback_ = ( callback ) ? ( callback ) : ( rjCnkGetTexture );
 }
 
 void

@@ -180,7 +180,7 @@ rjDrawSprite2D(const NJS_SPRITE* restrict sp, Int n, Float pri, Uint32 attr)
 
     /** Set Vertex Buffer *******************************************************************/
 
-    rjStartVertex2D(RJE_VERTEX_PTC);
+    rjStartVertex2D(RJ_VERTEX_PTC);
 
     const Sint32 nbv = rjStartTriStrip(4);
 
@@ -429,7 +429,7 @@ rjDrawSprite3D(const NJS_SPRITE* restrict sp, Int n, Uint32 attr)
 
     /** Set Vertex Buffer *******************************************************************/
 
-    rjStartVertex3D(RJE_VERTEX_PTC);
+    rjStartVertex3D(RJ_VERTEX_PTC);
 
     const Sint32 nbv = rjStartTriStrip(4);
 

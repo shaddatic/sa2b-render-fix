@@ -13,8 +13,6 @@
 /************************/
 /*  External Headers    */
 /************************/
-#include <rf_gx.h>
-
 /****** Self ************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* grand-parent                     */
 
@@ -33,7 +31,7 @@ EXTERN_START
 *     - striph      : strip chunk header
 *     - vbuf        : current vertex buffer
 */
-void    rjCnkStrip( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf );
+void    rjCnkStrip( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf );
 /*
 *   Description:
 *     Parse and draw Chunk UV strip chunk.
@@ -44,7 +42,7 @@ void    rjCnkStrip( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict strip
 *     - vbuf        : current vertex buffer
 *     - uvh         : use HD UVs
 */
-void    rjCnkStripUV( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh );
+void    rjCnkStripUV( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh );
 /*
 *   Description:
 *     Parse and draw Chunk VN strip chunk.
@@ -54,7 +52,7 @@ void    rjCnkStripUV( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict str
 *     - striph      : strip chunk header
 *     - vbuf        : current vertex buffer
 */
-void    rjCnkStripVN( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf );
+void    rjCnkStripVN( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf );
 /*
 *   Description:
 *     Parse and draw Chunk UVVN strip chunk.
@@ -65,7 +63,7 @@ void    rjCnkStripVN( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict str
 *     - vbuf        : current vertex buffer
 *     - uvh         : use HD UVs
 */
-void    rjCnkStripUVVN( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh );
+void    rjCnkStripUVVN( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, bool uvh );
 /*
 *   Description:
 *     Parse and draw Chunk D8 strip chunk.
@@ -75,7 +73,7 @@ void    rjCnkStripUVVN( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict s
 *     - striph      : strip chunk header
 *     - vbuf        : current vertex buffer
 */
-void    rjCnkStripD8( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf );
+void    rjCnkStripD8( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf );
 /*
 *   Description:
 *     Parse and draw Chunk UVD8 strip chunk.
@@ -86,7 +84,7 @@ void    rjCnkStripD8( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict str
 *     - vbuf        : current vertex buffer
 *     - uvh         : use HD UVs
 */
-void    rjCnkStripUVD8( CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, bool uvh );
+void    rjCnkStripUVD8( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, bool uvh );
 
 EXTERN_END
 

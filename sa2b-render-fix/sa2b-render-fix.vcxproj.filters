@@ -273,10 +273,7 @@
     <ClCompile Include="rfm_event\ev_byteswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_ctx.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_strip.c">
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmod.c">
@@ -318,10 +315,7 @@
     <ClCompile Include="rfm_common\rfc_newdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_stripuv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.c">
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c">
@@ -352,9 +346,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_cfunc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_sfunc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_cmn.c">
@@ -418,6 +409,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_draw\rfd_alphablend.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_vn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_d8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv_vn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv_d8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -576,9 +579,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_texture\rf_texerr.tls">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cmn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_common\rfc_newdisp\rfcd_internal.h">

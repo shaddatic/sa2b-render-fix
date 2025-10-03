@@ -44,7 +44,7 @@ rjDrawPolygon(const NJS_POLYGON_VTX* polygon, Int count, Int trans)
 
     rjSetBlend2D(trans);
 
-    rjStartVertex2D(RJE_VERTEX_PC);
+    rjStartVertex2D(RJ_VERTEX_PC);
 
     const Sint32 nbv = rjStartTriStrip(count);
 
@@ -90,7 +90,7 @@ rjDrawTextureEx(const NJS_TEXTURE_VTX* polygon, Int count, Int trans)
     rjSetBlend2D(trans);
     rjSetTexture2D(uv_clamp);
 
-    rjStartVertex2D(RJE_VERTEX_PTC);
+    rjStartVertex2D(RJ_VERTEX_PTC);
 
     const Sint32 nbv = rjStartTriStrip(count);
 
@@ -138,7 +138,7 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
     rjSetBlend2D(trans);
     rjSetTexture2D(uv_clamp);
 
-    rjStartVertex2D(RJE_VERTEX_PTCS);
+    rjStartVertex2D(RJ_VERTEX_PTCS);
 
     const Sint32 nbv = rjStartTriStrip(count);
 
@@ -201,7 +201,7 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     {
         rjSetTexture2D(FALSE);
 
-        rjStartVertex2D(RJE_VERTEX_PTC);
+        rjStartVertex2D(RJ_VERTEX_PTC);
 
         const Sint32 nbv = rjStartTriStrip(n);
 
@@ -225,7 +225,7 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     }
     else // non-tex
     {
-        rjStartVertex2D(RJE_VERTEX_PC);
+        rjStartVertex2D(RJ_VERTEX_PC);
 
         const Sint32 nbv = rjStartTriStrip(n);
 
@@ -256,7 +256,7 @@ rjDrawPolygon3DExStart(Int trans)
 void
 rjDrawPolygon3DExSetData(const NJS_POLYGON_VTX* p, Int count)
 {
-    rjStartVertex3D(RJE_VERTEX_PC);
+    rjStartVertex3D(RJ_VERTEX_PC);
 
     const Sint32 nbv = rjStartTriStrip(count);
 
@@ -289,7 +289,7 @@ rjDrawTexture3DExStart(Int trans)
 void
 rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* p, Int count)
 {
-    rjStartVertex3D(RJE_VERTEX_PTC);
+    rjStartVertex3D(RJ_VERTEX_PTC);
 
     const Sint32 nbv = rjStartTriStrip(count);
 

@@ -27,7 +27,7 @@
 /************************/
 /****** Lights **********************************************************************/
 static Float
-rjCnkCalcLightIntensity(int light, const CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
 {
     const RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
 
@@ -125,7 +125,7 @@ rjCnkCalcLightIntensity(int light, const CNK_VERTEX_BUFFER* restrict vbuf)
 }
 
 void
-rjCnkVertexCalculateIntensity(CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexCalculateIntensity(RJS_VERTEX_BUF* restrict vbuf)
 {
     const int litesw = _rj_cnk_light_switch_;
 
@@ -290,7 +290,7 @@ rjCnkGetVlistSI(NJS_ARGB* dst, const Uint16* src)
 */
 /****** Static **********************************************************************/
 static void
-rjCnkVertexSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -300,7 +300,7 @@ rjCnkVertexSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
     const CNK_VERTEX_SH* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -309,7 +309,7 @@ rjCnkVertexSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 }
 
 static void
-rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -320,7 +320,7 @@ rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
     const CNK_VERTEX_VN_SH* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -332,7 +332,7 @@ rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 }
 
 static void
-rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -342,7 +342,7 @@ rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict v
     const CNK_VERTEX* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -351,7 +351,7 @@ rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict v
 }
 
 static void
-rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -362,7 +362,7 @@ rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
     const CNK_VERTEX_D8* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -377,7 +377,7 @@ rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 }
 
 static void
-rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -388,7 +388,7 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
     const CNK_VERTEX_VN* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -400,7 +400,7 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 }
 
 static void
-rjCnkVertexUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -410,7 +410,7 @@ rjCnkVertexUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
     const CNK_VERTEX_UF* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -419,7 +419,7 @@ rjCnkVertexUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 }
 
 static void
-rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -431,7 +431,7 @@ rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
     const CNK_VERTEX_VN_D8* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -449,7 +449,7 @@ rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 }
 
 static void
-rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -461,7 +461,7 @@ rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
     const CNK_VERTEX_D8_S8* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -480,7 +480,7 @@ rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 }
 
 static void
-rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -491,7 +491,7 @@ rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restric
     const CNK_VERTEX_VNX* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -508,7 +508,7 @@ rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restric
 }
 
 static void
-rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -520,7 +520,7 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restr
     const CNK_VERTEX_VNX_D8* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -542,7 +542,7 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restr
 }
 
 static void
-rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -553,7 +553,7 @@ rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restr
     const CNK_VERTEX_VNX_UF* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -570,7 +570,7 @@ rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restr
 }
 
 static void
-rjCnkVertexVNUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -581,7 +581,7 @@ rjCnkVertexVNUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
     const CNK_VERTEX_VN_UF* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
-    CNK_VERTEX_BUFFER* restrict p_vbuf = vbuf;
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
@@ -593,7 +593,7 @@ rjCnkVertexVNUF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 }
 
 static void
-rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -611,7 +611,7 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 
         fn_pfunc(&pos, &p_vertex->pos);
 
-        CNK_VERTEX_BUFFER* restrict p_vbuf = &vbuf[ p_vertex->i ];
+        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
         const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
 
@@ -639,7 +639,7 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict
 }
 
 static void
-rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -662,7 +662,7 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
         fn_nfunc(&nrm, &p_vertex->nrm);
 
         /** Apply weights **/
-        CNK_VERTEX_BUFFER* restrict p_vbuf = &vbuf[ p_vertex->i ];
+        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
         const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
 
@@ -711,7 +711,7 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 }
 
 static void
-rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -730,7 +730,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 
         fn_pfunc(&pos, &p_vertex->pos);
 
-        CNK_VERTEX_BUFFER* restrict p_vbuf = &vbuf[ p_vertex->i ];
+        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
         const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
 
@@ -777,7 +777,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, CNK_VERTEX_BUFFER* restri
 */
 /****** Extern **********************************************************************/
 Sint32
-rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
+rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
 {
     const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
 
@@ -801,15 +801,16 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
         /** Get the vertex buffer offset for this vertex list. Verteces are copied from the
             'vlist' sequentially (excluding weights) into the vertex buffer starting from this
             offset. The vertex buffer struct is fixed as mixed vertex chunk types are possible. **/
-        CNK_VERTEX_BUFFER* restrict p_vbuf = &vbuf[ p_vhead->indexoffset ];
+        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vhead->indexoffset ];
 
         switch ( CVSW(type) )
         {
-            // SH4 Optimized
-
+            /*
+            *   SH4 Optimized
+            */
             case CVSW( NJD_CV_SH ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS;
+                _rj_cnk_context_.vattr = RJD_CVT_P;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -822,7 +823,7 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
             }
             case CVSW( NJD_CV_VN_SH ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -833,11 +834,12 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
                 rjCnkVertexVNSH(p_vhead, p_vbuf);
                 break;
             }
-            // Chunk Vertex
-
+            /*
+            *   Chunk Vertex
+            */
             case CVSW( NJD_CV ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS;
+                _rj_cnk_context_.vattr = RJD_CVT_P;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -850,7 +852,7 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
             }
             case CVSW( NJD_CV_D8 ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_COL;
+                _rj_cnk_context_.vattr = RJD_CVT_PC;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -863,7 +865,7 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
             }
             case CVSW( NJD_CV_UF ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS;
+                _rj_cnk_context_.vattr = RJD_CVT_P;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -876,7 +878,7 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
             }
             case CVSW( NJD_CV_NF ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS;
+                _rj_cnk_context_.vattr = RJD_CVT_P;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -889,66 +891,69 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
                 rjCnkVertexNF(p_vhead, p_vbuf);
                 break;
             }
-            // Vertex Normals
-
+            /*
+            *   Chunk Vertex Normals
+            */
             case CVSW( NJD_CV_VN ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 rjCnkVertexVN(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_D8 ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM_COL;
+                _rj_cnk_context_.vattr = RJD_CVT_PNC;
 
                 rjCnkVertexVND8(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_UF ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 rjCnkVertexVNUF(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_NF ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 nf = true;
-                
+
                 rjCnkVertexVNNF(p_vhead, p_vbuf);
                 break;
             }
-            // Vertex Normals32
-
+            /*
+            *   Chunk Vertex Normals32
+            */
             case CVSW( NJD_CV_VNX ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 rjCnkVertexVNX(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VNX_D8 ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM_COL;
+                _rj_cnk_context_.vattr = RJD_CVT_PNC;
 
                 rjCnkVertexVNXD8(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VNX_UF ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_NRM;
+                _rj_cnk_context_.vattr = RJD_CVT_PN;
 
                 rjCnkVertexVNXUF(p_vhead, p_vbuf);
                 break;
             }
-            // Ninja2 Vertex
-
+            /*
+            *   Chunk Ninja2 Vertex
+            */
             case CVSW( NJD_CV_D8_S8 ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_COL_SPC;
+                _rj_cnk_context_.vattr = RJD_CVT_PCS;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -961,7 +966,7 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
             }
             case CVSW( NJD_CV_NF_D8 ):
             {
-                _rj_cnk_vertex_attr_ = RJD_CVT_POS_COL;
+                _rj_cnk_context_.vattr = RJD_CVT_PC;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -974,8 +979,9 @@ rjCnkVList(const Sint32* restrict pVList, CNK_VERTEX_BUFFER* restrict vbuf)
                 rjCnkVertexNFD8(p_vhead, p_vbuf);
                 break;
             }
-            // End
-
+            /*
+            *   End
+            */
             default:
             {
                 /** Unhandled vertex type, halt draw. **/

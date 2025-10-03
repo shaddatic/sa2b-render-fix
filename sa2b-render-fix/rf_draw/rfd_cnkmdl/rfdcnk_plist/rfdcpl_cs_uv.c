@@ -1,43 +1,35 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>      /* core                                                 */
-#include <samt/memory.h>    /* MemCopy                                              */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h> /* ninja                                              */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/****** GX **************************************************************************/
-#include <samt/gx/gx.h>     /* GX                                                   */
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>        /* core                                                 */
-#include <rf_renderstate.h> /* render state                                         */
-#include <rf_util.h>        /* utility                                              */
-#include <rf_magic.h>       /* magic                                                */
+/****** Self ************************************************************************************/
+#include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_internal.h> /* parent & siblings               */
 
-/****** Self ************************************************************************/
-#include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_internal.h> /* parent & siblings   */
-#include <rf_draw/rfd_cnkmdl/rfdcnk_plist/rfdcpl_cmn.h>      /* common              */
-
-/************************/
-/*  Source              */
-/************************/
-/****** Check Specular **************************************************************/
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Check Specular **************************************************************************/
 static inline bool
-UseSpecular(const CNK_CTX* restrict pCtx)
+UseSpecular(const RJS_CNK_STRIP* restrict pStrip)
 {
-    return ( !(pCtx->fst & NJD_FST_IS) );
+    return ( !(pStrip->flag & NJD_FST_IS) );
 }
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Draw Strip
 */
-/****** Normal **********************************************************************/
+/****** Normal **********************************************************************************/
 static void
-rjCnkDrawStripUV(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -62,7 +54,7 @@ rjCnkDrawStripUV(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK_VE
 
         for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+            const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
@@ -92,9 +84,9 @@ rjCnkDrawStripUV(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK_VE
     }
 }
 
-/****** Environment *****************************************************************/
+/****** Environment *****************************************************************************/
 static void
-rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -117,7 +109,7 @@ rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUF
 
         for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+            const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
@@ -147,9 +139,9 @@ rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUF
     }
 }
 
-/****** Position Environment ********************************************************/
+/****** Position Environment ********************************************************************/
 static void
-rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -172,7 +164,7 @@ rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUF
 
         for (int i = 0; i < len; ++i)
         {
-            const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+            const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
             // set position
             p_buf->pos = p_vtx->pos;
@@ -202,13 +194,13 @@ rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUF
     }
 }
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Draw Strip (Flat Shading)
 */
-/****** Normal Flat *****************************************************************/
+/****** Normal Flat *****************************************************************************/
 static void
-rjCnkDrawStripUV_FL(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV_FL(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -243,11 +235,11 @@ rjCnkDrawStripUV_FL(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
+            const RJS_VERTEX_BUF* restrict p_last_vtx;
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+                const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
@@ -298,9 +290,9 @@ rjCnkDrawStripUV_FL(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const CNK
     }
 }
 
-/****** Environment Flat ************************************************************/
+/****** Environment Flat ************************************************************************/
 static void
-rjCnkDrawStripUV_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -333,11 +325,11 @@ rjCnkDrawStripUV_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
+            const RJS_VERTEX_BUF* restrict p_last_vtx;
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+                const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
@@ -388,9 +380,9 @@ rjCnkDrawStripUV_ENV_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_
     }
 }
 
-/****** Positional Environment Flat *************************************************/
+/****** Positional Environment Flat *************************************************************/
 static void
-rjCnkDrawStripUV_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStripUV_POS_FL(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -435,11 +427,11 @@ rjCnkDrawStripUV_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_
 
             DESTRIP_START(p_buf, buf_inc, invst);
 
-            const CNK_VERTEX_BUFFER* restrict p_last_vtx;
+            const RJS_VERTEX_BUF* restrict p_last_vtx;
 
             for (int j = 0; j < 3; ++j)
             {
-                const CNK_VERTEX_BUFFER* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+                const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
 
                 // set position
                 p_buf->pos = p_vtx->pos;
@@ -490,389 +482,267 @@ rjCnkDrawStripUV_POS_FL(const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_
     }
 }
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Chunk Strip UV
 */
-/****** Vertex **********************************************************************/
+/****** Vertex **********************************************************************************/
 static void
-rjCnkStripUV_VND8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
     RJE_CNK_VCOLFUNC cfunc;
-    RJE_CNK_SPECFUNC sfunc = UseSpecular(pCtx) ? _rj_cnk_spec_mode_ : RJE_CNK_SPECFUNC_NONE;
+    RJE_CNK_SPECFUNC sfunc = UseSpecular(pStrip) ? _rj_cnk_context_.spec : RJE_CNK_SPECFUNC_NONE;
 
-    rjCnkStartVertexTex(pCtx);
-
-    bool use_light = false;
-
-    if ( pCtx->fst & NJD_FST_ENV )
+    if ( pStrip->flag & NJD_FST_ENV )
     {
-        if ( pCtx->fst & NJD_FST_IL )
+        if ( pStrip->flag & NJD_FST_IL )
         {
         FST_ENV_IL:
             cfunc = RJE_CNK_VCOLFUNC_D8;
 
-            rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV_FL( pStrip->striph, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV( pStrip->striph, vbuf, cfunc, sfunc );
             }
         }
         else // use lighting
         {
-            if ( !(pCtx->flag & CTXF_CTL_MULTIVND8) )
+            if ( !(_rj_cnk_context_.flag & RJD_CXF_VND8) )
             {
                 goto FST_ENV_IL;
             }
 
             cfunc = RJE_CNK_VCOLFUNC_LIGHTD8;
 
-            use_light = true;
-            rjCnkBeginLighting(pCtx);
-
-            rjCnkSetPolygonCullingMode(pCtx, TRUE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV_FL( pStrip->striph, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV( pStrip->striph, vbuf, cfunc, sfunc );
             }
         }
     }
     else // non environment
     {
-        if ( pCtx->fst & NJD_FST_IL )
+        if ( pStrip->flag & NJD_FST_IL )
         {
         FST_IL:
             cfunc = RJE_CNK_VCOLFUNC_D8;
 
-            rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
         }
         else // use lighting
         {
-            if ( !(pCtx->flag & CTXF_CTL_MULTIVND8) )
+            if ( !(_rj_cnk_context_.flag & RJD_CXF_VND8) )
             {
                 goto FST_IL;
             }
 
             cfunc = RJE_CNK_VCOLFUNC_LIGHTD8;
 
-            use_light = true;
-            rjCnkBeginLighting(pCtx);
-
-            rjCnkSetPolygonCullingMode(pCtx, TRUE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
         }
     }
-
-    /** two pass lighting **/
-
-    if ( use_light && rjCnkBeginTwoPassLighting(pCtx) )
-    {
-        if ( pCtx->fst & NJD_FST_ENV )
-        {
-            if ( pCtx->fst & NJD_FST_FL )
-            {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
-            }
-            else // not flat shading
-            {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
-            }
-        }
-        else
-        {
-            if ( pCtx->fst & NJD_FST_FL )
-            {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
-            }
-            else // not flat shading
-            {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
-            }
-        }
-    }
-
-    rjCnkEndVertex();
 }
 
 static void
-rjCnkStripUV_VN(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV_VN(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
     RJE_CNK_VCOLFUNC cfunc;
-    RJE_CNK_SPECFUNC sfunc = UseSpecular(pCtx) ? _rj_cnk_spec_mode_ : RJE_CNK_SPECFUNC_NONE;
+    RJE_CNK_SPECFUNC sfunc = UseSpecular(pStrip) ? _rj_cnk_context_.spec : RJE_CNK_SPECFUNC_NONE;
 
-    rjCnkStartVertexTex(pCtx);
-
-    bool use_light = false;
-
-    if ( pCtx->fst & NJD_FST_ENV )
+    if ( pStrip->flag & NJD_FST_ENV )
     {
-        if ( pCtx->fst & NJD_FST_IL )
+        if ( pStrip->flag & NJD_FST_IL )
         {
             cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
 
-            rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV_FL( pStrip->striph, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV( pStrip->striph, vbuf, cfunc, sfunc );
             }
         }
         else // use lighting
         {
             cfunc = RJE_CNK_VCOLFUNC_LIGHT;
 
-            use_light = true;
-            rjCnkBeginLighting(pCtx);
-
-            rjCnkSetPolygonCullingMode(pCtx, TRUE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV_FL( pStrip->striph, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_ENV( pStrip->striph, vbuf, cfunc, sfunc );
             }
         }
     }
     else // non environment
     {
-        if ( pCtx->fst & NJD_FST_IL )
+        if ( pStrip->flag & NJD_FST_IL )
         {
             cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
 
-            rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
         }
         else // use lighting
         {
             cfunc = RJE_CNK_VCOLFUNC_LIGHT;
 
-            use_light = true;
-            rjCnkBeginLighting(pCtx);
-
-            rjCnkSetPolygonCullingMode(pCtx, TRUE);
-
-            if ( pCtx->fst & NJD_FST_FL )
+            if ( pStrip->flag & NJD_FST_FL )
             {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
             else // not flat shading
             {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+                rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
             }
         }
     }
-
-    /** two pass lighting **/
-
-    if ( use_light && rjCnkBeginTwoPassLighting(pCtx) )
-    {
-        if ( pCtx->fst & NJD_FST_ENV )
-        {
-            if ( pCtx->fst & NJD_FST_FL )
-            {
-                rjCnkDrawStripUV_ENV_FL( striph, vbuf, cfunc, sfunc );
-            }
-            else // not flat shading
-            {
-                rjCnkDrawStripUV_ENV( striph, vbuf, cfunc, sfunc );
-            }
-        }
-        else
-        {
-            if ( pCtx->fst & NJD_FST_FL )
-            {
-                rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
-            }
-            else // not flat shading
-            {
-                rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
-            }
-        }
-    }
-
-    rjCnkEndVertex();
 }
 
 static void
-rjCnkStripUV_D8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV_D8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
     const RJE_CNK_VCOLFUNC cfunc = RJE_CNK_VCOLFUNC_D8;
     const RJE_CNK_SPECFUNC sfunc = RJE_CNK_SPECFUNC_NONE;
 
-    rjCnkStartVertexTex(pCtx);
-
-    rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-    if ( pCtx->fst & NJD_FST_ENV )
+    if ( pStrip->flag & NJD_FST_ENV )
     {
-        if ( pCtx->fst & NJD_FST_FL )
+        if ( pStrip->flag & NJD_FST_FL )
         {
-            rjCnkDrawStripUV_POS_FL( striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_POS_FL( pStrip->striph, vbuf, cfunc, sfunc );
         }
         else // not flat shading
         {
-            rjCnkDrawStripUV_POS( striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_POS( pStrip->striph, vbuf, cfunc, sfunc );
         }
     }
     else // non environment
     {
-        if ( pCtx->fst & NJD_FST_FL )
+        if ( pStrip->flag & NJD_FST_FL )
         {
-            rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
         }
         else // not flat shading
         {
-            rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
         }
     }
-
-    rjCnkEndVertex();
 }
 
 static void
-rjCnkStripUV_D8S8(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV_D8S8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
-    if ( pCtx->fst & NJD_FST_IS )
+    if ( pStrip->flag & NJD_FST_IS )
     {
-        rjCnkStripUV_D8(pCtx, striph, vbuf, uvh);
+        rjCnkStripUV_D8(pStrip, vbuf, uvh);
         return;
     }
 
     const RJE_CNK_VCOLFUNC cfunc = RJE_CNK_VCOLFUNC_D8;
     const RJE_CNK_SPECFUNC sfunc = RJE_CNK_SPECFUNC_S8;
 
-    rjCnkStartVertexTex(pCtx);
-
-    rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-    if ( pCtx->fst & NJD_FST_ENV )
+    if ( pStrip->flag & NJD_FST_ENV )
     {
-        if ( pCtx->fst & NJD_FST_FL )
+        if ( pStrip->flag & NJD_FST_FL )
         {
-            rjCnkDrawStripUV_POS_FL( striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_POS_FL( pStrip->striph, vbuf, cfunc, sfunc );
         }
         else // not flat shading
         {
-            rjCnkDrawStripUV_POS( striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_POS( pStrip->striph, vbuf, cfunc, sfunc );
         }
     }
     else // non environment
     {
-        if ( pCtx->fst & NJD_FST_FL )
+        if ( pStrip->flag & NJD_FST_FL )
         {
-            rjCnkDrawStripUV_FL( striph, uvh, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV_FL( pStrip->striph, uvh, vbuf, cfunc, sfunc );
         }
         else // not flat shading
         {
-            rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+            rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
         }
     }
-
-    rjCnkEndVertex();
 }
 
 static void
-rjCnkStripUV_CV(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV_CV(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
     const RJE_CNK_VCOLFUNC cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
     const RJE_CNK_SPECFUNC sfunc = RJE_CNK_SPECFUNC_NONE;
 
-    rjCnkStartVertexTex(pCtx);
-
-    rjCnkSetPolygonCullingMode(pCtx, FALSE);
-
-    if ( pCtx->fst & NJD_FST_ENV )
+    if ( pStrip->flag & NJD_FST_ENV )
     {
-        rjCnkDrawStripUV_POS( striph, vbuf, cfunc, sfunc );
+        rjCnkDrawStripUV_POS( pStrip->striph, vbuf, cfunc, sfunc );
     }
     else // non environment
     {
-        rjCnkDrawStripUV( striph, uvh, vbuf, cfunc, sfunc );
+        rjCnkDrawStripUV( pStrip->striph, uvh, vbuf, cfunc, sfunc );
     }
-
-    rjCnkEndVertex();
 }
 
-/****** Static **********************************************************************/
-static void
-CnkSetupStripUV(CNK_CTX* pCtx)
-{
-    /** UV strip, so remove 'NOUVS' flag **/
-    pCtx->flag &= ~CTXFLG_STRIP_NOUVS;
-}
-
-/****** Extern **********************************************************************/
+/****** Extern **********************************************************************************/
 void
-rjCnkStripUV(CNK_CTX* restrict pCtx, const CNK_STRIP_HEAD* restrict striph, const CNK_VERTEX_BUFFER* restrict vbuf, s32 uvh)
+rjCnkStripUV(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
 {
-    CnkSetupStripUV(pCtx);
-
-    if ( _rj_cnk_vertex_attr_ & RJD_CVF_NORMAL )
+    switch ( _rj_cnk_context_.vattr )
     {
-        if ( _rj_cnk_vertex_attr_ & RJD_CVF_COLOR )
+        case RJD_CVT_P: default:
         {
-            rjCnkStripUV_VND8(pCtx, striph, vbuf, uvh);
+            rjCnkStripUV_CV(strip, vbuf, uvh);
+            break;
         }
-        else // normals only
+        case RJD_CVT_PN:
         {
-            rjCnkStripUV_VN(pCtx, striph, vbuf, uvh);
+            rjCnkStripUV_VN(strip, vbuf, uvh);
+            break;
         }
-    }
-    else if ( _rj_cnk_vertex_attr_ & RJD_CVF_COLOR )
-    {
-        if ( _rj_cnk_vertex_attr_ & RJD_CVF_SPECULAR )
+        case RJD_CVT_PC:
         {
-            rjCnkStripUV_D8S8(pCtx, striph, vbuf, uvh);
+            rjCnkStripUV_D8(strip, vbuf, uvh);
+            break;
         }
-        else // color only
+        case RJD_CVT_PNC:
         {
-            rjCnkStripUV_D8(pCtx, striph, vbuf, uvh);
+            rjCnkStripUV_VND8(strip, vbuf, uvh);
+            break;
         }
-    }
-    else // only position
-    {
-        rjCnkStripUV_CV(pCtx, striph, vbuf, uvh);
+        case RJD_CVT_PCS:
+        {
+            rjCnkStripUV_D8S8(strip, vbuf, uvh);
+            break;
+        }
     }
 }
