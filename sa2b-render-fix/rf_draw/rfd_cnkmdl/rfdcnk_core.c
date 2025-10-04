@@ -10,7 +10,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_renderstate.h>         /* render state                                             */
-#include <rf_magic.h>               /* magic                                                    */
+#include <rf_shader.h>              /* shader constants                                         */
 
 /****** Self ************************************************************************************/
 #include <rf_draw/rfd_cnkmdl/rfdcnk_internal.h> /* parent & siblings                            */
@@ -155,7 +155,7 @@ rjCnkStartVertexNonTex(void)
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 0.f;
 
-    RF_MagicSetShaderConstantFloat(MAGIC_SHADER_VERTEX, 155, smf, 1);
+    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
 }
 
 void
@@ -166,7 +166,7 @@ rjCnkStartVertexTex(void)
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 1.f;
 
-    RF_MagicSetShaderConstantFloat(MAGIC_SHADER_VERTEX, 155, smf, 1);
+    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
 }
 
 void

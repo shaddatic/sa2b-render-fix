@@ -14,7 +14,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_magic.h>
+#include <rf_shader.h>
 
 static void
 FixNinjaDrawSomething(float* pri, NJS_MATRIX* m, NJS_VECTOR* ps, NJS_VECTOR* pd)
@@ -76,7 +76,7 @@ SendScreenRatioToShader(float resW, float resH)
     const float asp_w = (DisplayResolutionX * adj_w) / resW;
     const float asp_h = (DisplayResolutionY * adj_h) / resH / asp_w;
 
-    RF_MagicSetShaderConstantVec4(MAGIC_SHADER_VERTEX, 104, inv_x, inv_y, asp_w / adj_h, asp_h / adj_w);
+    RF_ShaderSetConstant(SHC_VTX_DEVICEINFO, inv_x, inv_y, asp_w / adj_h, asp_h / adj_w);
 }
 
 #define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
