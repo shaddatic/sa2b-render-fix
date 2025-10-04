@@ -24,6 +24,7 @@ float g_LightMask[16]           : register(c70);
 float g_TexGenSrc_0             : register(c140);
 float g_NumTexGens              : register(c155);
 float4x4 g_TexMatrix[10]        : register(c160);
+float4	 g_ScreenInfo            	: register(c200); // RF
 
 /********************************/
 /*  Structures                  */
@@ -206,6 +207,9 @@ PS_IN main(VS_IN input)
     output.UV = input.TexCoord;
 
     output.Shadow5.z = g_NumTexGens;
+	
+	// DirectX 9 pixel offset issue
+    output.ScreenPosition.xy += g_ScreenInfo.xy * output.ScreenPosition.w;
 
     return output;
 }

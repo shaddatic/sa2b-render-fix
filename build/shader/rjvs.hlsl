@@ -8,6 +8,7 @@ float4x4 g_WorldViewITMatrix        : register(c12);
 float4   g_DeviceInfo               : register(c104);
 float    g_NumTexGens               : register(c155);
 float4x4 g_TexMatrix[10]            : register(c160);
+float4	 g_ScreenInfo            	: register(c200); // RF
 
 /********************************/
 /*  Structures                  */
@@ -119,7 +120,7 @@ VS_OUT main(VS_IN inp)
 #endif
 
     // DirectX 9 pixel offset issue
-    outp.position.xy += g_DeviceInfo.xy * outp.position.w;
+    outp.position.xy += g_ScreenInfo.xy * outp.position.w;
 
     return outp;
 }
