@@ -200,9 +200,7 @@ LerpModAndFogColor(MOD_COLOR* const pModCol, const NJS_COLOR* const pFogCol, con
 static bool
 ModSetShaderColor(void)
 {
-    ___TODO("Remove this flag check, this is probably what's breaking Egg Quaters' water");
-
-    if (FogDataP && ShaderModelMode & SHADERMDL_FLAG_FOG)
+    if ( FogDataP )
     {
         f32 density = (100.f - FogDataP->near) / (FogDataP->far - FogDataP->near);
 
