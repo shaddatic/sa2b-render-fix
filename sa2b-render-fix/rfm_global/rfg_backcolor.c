@@ -181,4 +181,7 @@ RFG_NinjaBackColorInit(void)
 
     /** Always reset back color on level exit **/
     FuncHook(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
+
+    // stop clearing render target (optimization)
+    WriteNOP(0x00867B2B, 0x00867B30);
 }
