@@ -449,7 +449,7 @@ rjCnkStripStartMaterial(const RJS_CNK_STRIP* restrict strip)
         else if ( nj3dflag & NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL )
         {
             /** is NormalDraw                    OR is SimpleMulti                   OR  not CnkS type **/
-            if ( funcmd == RFRS_CNKFUNCMD_NORMAL || funcmd & RFRS_CNKFUNCMD_MULTIBIT || !(strip->flag & RJD_CSF_HASUVS) )
+            if ( funcmd == RFRS_CNKFUNCMD_NORMAL || (funcmd & RFRS_CNKFUNCMD_MULTIBIT) || (strip->flag & RJD_CSF_HASUVS) )
             {
                 diff.r = 1.f;
                 diff.g = 1.f;
