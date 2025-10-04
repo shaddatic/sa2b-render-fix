@@ -166,10 +166,10 @@ void
 RFG_NinjaBackColorInit(void)
 {
     WritePointer(0x008B6FDC, __RendererClearHook);
-
+    
     WriteJump(0x00426540, __njSetBackColor2);
     WriteJump(0x00426620, __SetBackColor);
-
+    
     /** SOC SetBackColor calls **/
     KillCall(0x0043AA73); // King Boom Boo
     KillCall(0x0043AC81); // ^
@@ -178,7 +178,7 @@ RFG_NinjaBackColorInit(void)
     KillCall(0x0043AE09); // Pause
     KillCall(0x0043B2C4); // Unpause
     KillCall(0x0043B146); // Unk Menu
-
+    
     /** Always reset back color on level exit **/
     FuncHook(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
 
