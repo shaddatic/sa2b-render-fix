@@ -27,7 +27,7 @@
 #define RJD_CSD_SKIPMAT             (1<<3) /* skip material reads/setting                       */
 
 /****** Check Struct ****************************************************************************/
-#define RJD_CST_MAX                 (64) /* chunk strip entry count                             */
+#define RJD_CST_MAX                 (128) /* chunk strip entry count                            */
 
 /********************************/
 /*  Macros                      */
@@ -645,10 +645,6 @@ rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
                 continue;
             }
 
-            // push
-            p_stentry[1] = p_stentry[0];
-
-            p_stentry++;
             nb_strip++;
 
             if ( nb_strip >= RJD_CST_MAX ) 
@@ -656,6 +652,11 @@ rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
                 RF_DbgWarn("Ran out of Chunk strip slots!");
                 return nb_strip;
             }
+
+            // push
+            p_stentry[1] = p_stentry[0];
+            p_stentry++;
+
             continue;
         }
 
