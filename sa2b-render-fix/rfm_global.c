@@ -97,7 +97,9 @@ RFM_GlobalInit(void)
         RFG_BackfaceCullingInit();
     }
     else
+    {
         RFRS_SetDefaultCullMode(RFRS_CULLMD_NONE);
+    }
 
     if (RF_ConfigGetInt(CNF_GLOBAL_BACKCOLOR))
     {
