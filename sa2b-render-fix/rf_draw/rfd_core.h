@@ -41,7 +41,7 @@ RJ_VERTEX_TYPE;
 typedef enum rjalphamd
 {
     RJ_ALPHA_OPAQUE,                /* opaque drawing                                           */
-    RJ_ALPHA_TRANS,                 /* translucent drawing                                      */
+    RJ_ALPHA_TRANSLUCENT,           /* translucent drawing                                      */
     RJ_ALPHA_ALPHATEST,             /* alpha test drawing (translucent)                         */
     RJ_ALPHA_PUNCHTHROUGH,          /* punchthrough drawing (opaque)                            */
 }

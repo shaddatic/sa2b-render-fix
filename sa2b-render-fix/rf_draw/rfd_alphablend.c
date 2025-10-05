@@ -283,7 +283,7 @@ rjSetAlphaMode(Sint32 src, Sint32 dst, RJ_ALPHA mode)
             rjSetAlphaMode_Opaque();
             break;
         }
-        case RJ_ALPHA_TRANS:
+        case RJ_ALPHA_TRANSLUCENT:
         {
             trans = TRUE;
 

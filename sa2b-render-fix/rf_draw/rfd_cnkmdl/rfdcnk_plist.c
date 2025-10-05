@@ -524,7 +524,7 @@ rjCnkStripStartAlpha(const RJS_CNK_STRIP* restrict strip)
               || (bld_dst == NJD_FBD_ONE)                   // OR dst is ONE
               || (pTexSurface && pTexSurface->Type != 14) ) // OR texture is NOT ARGB1555
             {
-                alphamd = RJ_ALPHA_TRANS;
+                alphamd = RJ_ALPHA_TRANSLUCENT;
             }
             else
             {

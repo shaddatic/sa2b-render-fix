@@ -180,7 +180,7 @@ rjSetBlend2D(Int trans)
         }
         else
         {
-            alphamd = RJ_ALPHA_TRANS;
+            alphamd = RJ_ALPHA_TRANSLUCENT;
         }
     }
     else
