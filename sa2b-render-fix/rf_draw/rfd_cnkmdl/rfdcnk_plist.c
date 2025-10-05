@@ -518,20 +518,24 @@ rjCnkStripStartAlpha(const RJS_CNK_STRIP* restrict strip)
         }
         else // not punchthrough
         {
-            if (!(strip->flag & RJD_CSF_USETEX)             // no texture
-              || (strip->flag & NJD_FST_NAT)                // OR NAT flag
-              || (bld_src == NJD_FBS_ONE)                   // OR src is ONE
-              || (bld_dst == NJD_FBD_ONE)                   // OR dst is ONE
-              || (pTexSurface && pTexSurface->Type != 14) ) // OR texture is NOT ARGB1555
+            if ( (bld_src == NJD_FBS_ONE) || (bld_dst == NJD_FBD_ONE) )                 
             {
                 alphamd = RJ_ALPHA_TRANSLUCENT;
             }
-            else
+            else if ( strip->flag & RJD_FST_EUA )
+            {
+                alphamd = (strip->flag & NJD_FST_UA) ? RJ_ALPHA_ALPHATEST : RJ_ALPHA_TRANSLUCENT;
+            }
+            else if ( (strip->flag & RJD_CSF_USETEX) && pTexSurface->Type == 14 )
             {
                 alphamd = RJ_ALPHA_ALPHATEST;
             }
+            else
+            {
+                alphamd = RJ_ALPHA_TRANSLUCENT;
+            }
         }
-    }        
+    }
     else // opaque strip
     {
         alphamd = RJ_ALPHA_OPAQUE;

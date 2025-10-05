@@ -50,7 +50,8 @@ EXTERN_START
 /*
 *   Strip 'FST' Flags
 */
-#define RJD_FST_TRANSLUCENT         (NJD_FST_UA|NJD_FST_NAT) /* translucent flags               */
+#define RJD_FST_EUA                 (NJD_FST_NAT)            /* extended use alpha              */
+#define RJD_FST_TRANSLUCENT         (NJD_FST_UA|RJD_FST_EUA) /* translucent flags               */
 /*
 *   Strip Context Flags
 */
