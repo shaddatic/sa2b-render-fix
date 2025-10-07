@@ -282,7 +282,7 @@ typedef enum
     /*
     *   Render Fix Constants
     */
-    SHC_VTX_SCRNINFO = SHC_VTX_UNK_200,
+    SHC_VTX_SCREENINFO = SHC_VTX_UNK_200,
 
     /****** Pixel Constants *****************************************************************/
     /*
