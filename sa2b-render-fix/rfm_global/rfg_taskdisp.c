@@ -21,7 +21,7 @@
 #include <rf_config.h>
 #include <rf_mod.h>
 #include <rf_feature.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 #define byte_0174AFFD           DATA_REF(int8_t  , 0x0174AFFD)
 #define SomeCountMax            DATA_REF(size_t  , 0x01A5A3D0)

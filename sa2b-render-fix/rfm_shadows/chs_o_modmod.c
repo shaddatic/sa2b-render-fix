@@ -10,7 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_util.h>
 
 #define ModModModelList     DATA_ARY(NJS_CNK_MODEL*, 0x00B4D830, [3])

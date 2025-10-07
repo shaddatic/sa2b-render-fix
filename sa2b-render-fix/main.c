@@ -15,7 +15,7 @@
 #include <rf_api.h>
 #include <rf_renderstate.h>
 #include <rf_modchk.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_font.h>
 #include <rf_gx.h>
 #include <rf_light.h>

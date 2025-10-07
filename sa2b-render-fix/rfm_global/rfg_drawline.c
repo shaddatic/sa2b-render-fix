@@ -10,7 +10,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
-#include <rf_draw.h>        /* core                                                 */
+#include <rf_ninja.h>       /* rf ninja                                             */
 
 /************************/
 /*  Source              */

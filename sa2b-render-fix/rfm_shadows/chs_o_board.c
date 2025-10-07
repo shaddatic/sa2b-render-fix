@@ -12,7 +12,7 @@
 
 /** Render Fix **/
 #include <rf_file.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 #define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
 #define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)

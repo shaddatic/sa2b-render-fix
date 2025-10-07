@@ -6,7 +6,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* ninja                                            */
-#include <rf_draw.h>            /* rf draw                                          */
+#include <rf_ninja.h>           /* rf draw                                          */
 #include <rf_renderstate.h>     /* render state                                     */
 
 /************************/

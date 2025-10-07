@@ -10,7 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 static const void* const ObjectRobotModifyVList_p = (void*)0x00693AC0;
 void

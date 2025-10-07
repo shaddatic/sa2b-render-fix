@@ -15,7 +15,7 @@
 
 /** Render Fix **/
 #include <rf_file.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_util.h>
 
 #define GET_BOSSWK(_tp)     ((BOSSWK*)_tp->awp)

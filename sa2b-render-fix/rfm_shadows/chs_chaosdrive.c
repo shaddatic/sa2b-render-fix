@@ -10,7 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_util.h>
 
 #define dword_1945E08   DATA_REF(int, 0x1945E08)

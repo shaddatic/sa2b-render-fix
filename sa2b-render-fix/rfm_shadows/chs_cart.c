@@ -16,7 +16,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_file.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_mdlutil.h>
 
 #define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)

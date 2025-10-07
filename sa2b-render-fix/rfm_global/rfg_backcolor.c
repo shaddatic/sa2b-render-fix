@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 #define BACKCOLOR_Z_VAL     (1.f/16'000'000.f)
 

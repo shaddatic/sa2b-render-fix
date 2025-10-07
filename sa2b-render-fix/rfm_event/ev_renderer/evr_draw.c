@@ -20,7 +20,7 @@
 #include <rf_eventinfo.h>       /* event data                                       */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
-#include <rf_draw.h>            /* mod draw                                         */
+#include <rf_ninja.h>           /* mod draw                                         */
 #include <rf_util.h>            /* switch displayer                                 */
 
 /****** Self ************************************************************************/

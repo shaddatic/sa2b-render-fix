@@ -11,7 +11,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 #define ObjectSearchBox     FUNC_PTR(void, __cdecl, (task*), 0x006E7F60)
 

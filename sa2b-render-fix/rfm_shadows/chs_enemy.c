@@ -11,7 +11,7 @@
 #include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_file.h>
 #include <rf_enemywk.h>
 #include <rf_renderstate.h>

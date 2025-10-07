@@ -12,7 +12,7 @@
 
 /** Render Fix **/
 #include <rf_file.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 #include <rf_util.h>
 
 static void

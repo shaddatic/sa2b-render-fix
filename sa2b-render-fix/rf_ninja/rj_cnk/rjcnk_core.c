@@ -1,0 +1,265 @@
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
+
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_renderstate.h>         /* render state                                             */
+#include <rf_shader.h>              /* shader constants                                         */
+
+/****** Self ************************************************************************************/
+#include <rf_ninja/rj_cnk/rjcnk_internal.h> /* parent & siblings                                */
+
+/********************************/
+/*  Extern Data                 */
+/********************************/
+/****** Self ************************************************************************************/
+RJS_CNK_CTX _rj_cnk_context_;
+
+NJS_ARGB    _rj_cnk_diff_material_; /* diffuse material                                         */
+NJS_ARGB    _rj_cnk_ambi_material_; /* ambient material                             (a == noop) */
+NJS_ARGB    _rj_cnk_spec_material_; /* specular material                        (a == exponent) */
+
+Sint32      _rj_cnk_shadow_tex_;
+
+Float _rj_cnk_inten_multiply_ = 1.f;
+
+RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC] =
+{
+    [RJE_CNK_VCOLFUNC_MATERIAL] = rjCnkVertexColorMaterial,
+    [RJE_CNK_VCOLFUNC_D8]       = rjCnkVertexColorD8,
+    [RJE_CNK_VCOLFUNC_LIGHT]    = rjCnkVertexColorLights,
+    [RJE_CNK_VCOLFUNC_LIGHTD8]  = rjCnkVertexColorLightsD8,
+};
+
+RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC] =
+{
+    [RJE_CNK_SPECFUNC_NONE]   = rjCnkSpecularNone,
+    [RJE_CNK_SPECFUNC_NORMAL] = rjCnkSpecularNormal,
+    [RJE_CNK_SPECFUNC_EASY]   = rjCnkSpecularEasy,
+    [RJE_CNK_SPECFUNC_SIMPLE] = rjCnkSpecularSimple,
+    [RJE_CNK_SPECFUNC_MULTI]  = rjCnkSpecularMulti,
+    [RJE_CNK_SPECFUNC_S8]     = rjCnkSpecularS8,
+};
+
+RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_ = rjCnkCalcVlistPosition;
+RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_ = rjCnkCalcVlistNormal;
+RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_ = rjCnkCalcVlistColor;
+RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_ = rjCnkCalcVlistSpecular;
+
+/****** Texture Callback ************************************************************************/
+Sint16 (__cdecl* _rj_cnk_texture_callback_)(Sint16 texid) = rjCnkGetTexture;
+
+/****** UV Offset *******************************************************************************/
+RJS_UV _rj_cnk_uv_scroll_;
+RJS_UV _rj_cnk_env_scroll_;
+
+/****** Obj/Mdl Callback ************************************************************************/
+void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
+void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Default Callbacks ***********************************************************************/
+Sint16
+rjCnkGetTexture(Sint16 texid)
+{
+    return texid;
+}
+
+Uint32
+rjCnkGetMaterial(NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag)
+{
+    if ( flag & RJD_CMF_DIFF ) dst[RJ_CMC_DIFF] = src[RJ_CMC_DIFF];
+    if ( flag & RJD_CMF_AMBI ) dst[RJ_CMC_AMBI] = src[RJ_CMC_AMBI];
+    if ( flag & RJD_CMF_SPEC ) dst[RJ_CMC_SPEC] = src[RJ_CMC_SPEC];
+
+    return flag;
+}
+
+/****** Specular ********************************************************************************/
+static Sint32
+___rjCnkGetAutoSpecMode(void)
+{
+    switch ( RFRS_GetCnkFuncMode() )
+    {
+        case RFRS_CNKFUNCMD_NORMAL:
+        {
+            return RJE_CNK_SPECFUNC_NORMAL;
+        }
+        case RFRS_CNKFUNCMD_EASY:
+        case RFRS_CNKFUNCMD_DIRECT:
+        {
+            return RJE_CNK_SPECFUNC_EASY;
+        }
+        case RFRS_CNKFUNCMD_SIMPLE:
+        {
+            return RJE_CNK_SPECFUNC_SIMPLE;
+        }
+        case RFRS_CNKFUNCMD_EASYMULTI:
+        case RFRS_CNKFUNCMD_SIMPLEMULTI:
+        {
+            return RJE_CNK_SPECFUNC_MULTI;
+        }
+    }
+
+    return RJE_CNK_SPECFUNC_EASY; // this is unreachable
+}
+
+/****** Chunk Polygon ***************************************************************************/
+void
+rjCnkInvertLightDirection(Bool sw)
+{
+    _rj_cnk_inten_multiply_ = sw ? -1.f : 1.f;
+}
+
+/****** Get UV Scroll ***************************************************************************/
+RJS_UV
+rjCnkGetUvScroll(void)
+{
+    return _rj_cnk_uv_scroll_;
+}
+
+RJS_UV
+rjCnkGetEnvUvScroll(void)
+{
+    return (_nj_control_3d_flag_ & NJD_CONTROL_3D_ENV_UV_SCROLL) ? _rj_cnk_env_scroll_ : (RJS_UV){0};
+}
+
+/****** Culling *********************************************************************************/
+void
+rjCnkPolygonCulling(RJ_CULL cullmd)
+{
+    if ( _rj_cnk_context_.cull == cullmd )
+    {
+        return;
+    }
+
+    rjPolygonCulling(cullmd);
+
+    _rj_cnk_context_.cull = cullmd;
+}
+
+/****** Start/End Vertex ************************************************************************/
+void
+rjCnkStartVertexNonTex(void)
+{
+    rjStartVertex3D(RJ_VERTEX_PCS); // pos,col,spec
+
+    /** Magic: Shadow Tex **/
+    const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 0.f;
+
+    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
+}
+
+void
+rjCnkStartVertexTex(void)
+{
+    rjStartVertex3D(RJ_VERTEX_PTCS); // pos,tex,col,spec
+
+    /** Magic: Shadow Tex **/
+    const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 1.f;
+
+    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
+}
+
+void
+rjCnkEndVertex(void)
+{
+    rjEndVertex();
+}
+
+/****** Begin/End Draw **************************************************************************/
+void
+rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
+{
+    // set default strip materials
+    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 1, 1, 1,  1 };
+    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 1, 1, 1,  1 };
+    basest->mats[RJ_CMC_SPEC] = (NJS_BGRA){ 0, 0, 0, 16 };
+
+    // set context control flags
+    {
+        const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
+        const bool           all_on = (funcmd == RFRS_CNKFUNCMD_NORMAL);
+
+        Uint32 new_flag = 0;
+
+        if ( all_on || funcmd == RFRS_CNKFUNCMD_SIMPLE || funcmd == RFRS_CNKFUNCMD_SIMPLEMULTI )
+        {
+            if ( RFRS_GetCullMode() != RFRS_CULLMD_NONE )
+            {
+                new_flag |= RJD_CXF_BACKFACECULL;
+
+                if ( RFRS_GetTwoPassLightingMode() == RFRS_TWOPASSLIGHTMD_ENABLED )
+                {
+                    new_flag |= RJD_CXF_TWOPASSLIGHT;
+                }
+            }
+        }
+
+        if ( all_on || funcmd & RFRS_CNKFUNCMD_MULTIBIT )
+        {
+            new_flag |= (RJD_CXF_AMBIMATERIAL|RJD_CXF_VND8);
+        }
+
+        ___TODO("This will be a setting to allow specular on non-textured polygons");
+        if ( all_on || true ) 
+        {
+            new_flag |= RJD_CXF_NONTEXSPEC;
+        }
+
+        _rj_cnk_context_.flag = new_flag;
+    }
+
+    _rj_cnk_context_.cull  = -1;
+    _rj_cnk_context_.texid = -1;
+    _rj_cnk_context_.tiny  = (CNK_TINY_HEAD){ 0 };
+
+    switch ( RFRS_GetCnkSpecMode() ) 
+    {
+        case RFRS_CNKSPECMD_NONE:
+        {
+            _rj_cnk_context_.spec = RJE_CNK_SPECFUNC_NONE;
+            break;
+        }
+        case RFRS_CNKSPECMD_AUTO:
+        {
+            _rj_cnk_context_.spec = ___rjCnkGetAutoSpecMode();
+            break;
+        }
+        case RFRS_CNKSPECMD_NORMAL:
+        {
+            _rj_cnk_context_.spec = RJE_CNK_SPECFUNC_NORMAL;
+            break;
+        }
+        case RFRS_CNKSPECMD_EASY:
+        {
+            _rj_cnk_context_.spec = RJE_CNK_SPECFUNC_EASY;
+            break;
+        }
+        case RFRS_CNKSPECMD_SIMPLE:
+        {
+            _rj_cnk_context_.spec = RJE_CNK_SPECFUNC_SIMPLE;
+            break;
+        }
+        case RFRS_CNKSPECMD_MULTI:
+        {
+            _rj_cnk_context_.spec = RJE_CNK_SPECFUNC_MULTI;
+            break;
+        }
+    }
+}
+
+void
+rjCnkEndPlist(void)
+{
+    rjPolygonCulling( RJ_CULL_NONE );
+    rjInvertPolygons( OFF );
+}

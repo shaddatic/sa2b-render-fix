@@ -11,7 +11,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 static void
 ObjectPickUpDisplayerMod(task* tp)

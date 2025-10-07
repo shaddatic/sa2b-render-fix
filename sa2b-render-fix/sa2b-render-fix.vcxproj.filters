@@ -69,7 +69,7 @@
     <ClCompile Include="rfm_global\rfg_taskdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw.c">
+    <ClCompile Include="rf_ninja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_shadows\chs_o_board.c">
@@ -255,37 +255,37 @@
     <ClCompile Include="rfm_global\rfg_drawline.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_line.c">
+    <ClCompile Include="rf_ninja\rj_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl.c">
+    <ClCompile Include="rf_ninja\rj_cnk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_external.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_ext.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_vlist.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_vlist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_byteswap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmod.c">
+    <ClCompile Include="rf_ninja\rj_cnkmod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_vlist.c">
+    <ClCompile Include="rf_ninja\rj_cnkmod\rfdmod_vlist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmod\rfdmod_plist.c">
+    <ClCompile Include="rf_ninja\rj_cnkmod\rfdmod_plist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_shape.c">
+    <ClCompile Include="rf_ninja\rj_shape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_renderer\evr_draw.c">
@@ -315,7 +315,7 @@
     <ClCompile Include="rfm_common\rfc_newdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_uv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c">
@@ -345,13 +345,13 @@
     <ClCompile Include="rf_light\rfl_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_cfunc.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_cfunc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cmn.c">
+    <ClCompile Include="rf_ninja\rj_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_polygon.c">
+    <ClCompile Include="rf_ninja\rj_polygon.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_renderer\evr_exec.c">
@@ -363,16 +363,16 @@
     <ClCompile Include="rfm_event\ev_renderer\evr_debug.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_core.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_depthqueue.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_depthqueue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_light\rfl_setlight.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_texerr.c">
+    <ClCompile Include="rf_ninja\rj_texerr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_event\ev_renderer\evr_texanim.c">
@@ -393,7 +393,7 @@
     <ClCompile Include="rfm_event\ev_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_sprite.c">
+    <ClCompile Include="rf_ninja\rj_sprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_kumi.c">
@@ -408,19 +408,19 @@
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_bullet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_alphablend.c">
+    <ClCompile Include="rf_ninja\rj_alphablend.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_vn.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_vn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_d8.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_d8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv_vn.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_uv_vn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_cs_uv_d8.c">
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_uv_d8.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,7 +437,7 @@
     <ClInclude Include="rf_mod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw.h">
+    <ClInclude Include="rf_ninja.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_enemywk.h">
@@ -557,19 +557,19 @@
     <ClInclude Include="rf_font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_internal.h">
+    <ClInclude Include="rf_ninja\rj_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_internal.h">
+    <ClInclude Include="rf_ninja\rj_cnk\rjcnk_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_cnkmdl\rfdcnk_plist\rfdcpl_internal.h">
+    <ClInclude Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_cnkmod\rfdmod_internal.h">
+    <ClInclude Include="rf_ninja\rj_cnkmod\rfdmod_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_cnk.h">
+    <ClInclude Include="rf_ninja\rj_cnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_njcnk.h">
@@ -590,7 +590,7 @@
     <ClInclude Include="rfm_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_draw\rfd_core.h">
+    <ClInclude Include="rf_ninja\rj_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_light\rfl_internal.h">
@@ -606,6 +606,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfu_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_ninja\rjcore\rjcore_init.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

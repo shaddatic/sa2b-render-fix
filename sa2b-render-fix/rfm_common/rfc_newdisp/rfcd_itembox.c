@@ -14,7 +14,7 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_draw.h>                /* cnkdraw                                                  */
+#include <rf_ninja.h>               /* cnkdraw                                                  */
 #include <rf_njcnk.h>               /* easysimpledirect                                         */
 #include <rf_renderstate.h>         /* setcullmode                                              */
 #include <rf_util.h>                /* switchdisplayer                                          */

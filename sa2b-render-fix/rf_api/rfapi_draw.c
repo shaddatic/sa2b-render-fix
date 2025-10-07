@@ -6,7 +6,7 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_draw.h>                /* draw                                                     */
+#include <rf_ninja.h>               /* draw                                                     */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */

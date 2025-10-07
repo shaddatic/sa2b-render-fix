@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_file.h>
-#include <rf_draw.h>
+#include <rf_ninja.h>
 
 typedef union
 {

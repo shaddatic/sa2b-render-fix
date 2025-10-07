@@ -14,7 +14,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_config.h>              /* RF_ConfigGet                                             */
-#include <rf_draw.h>                /* drawtexture                                              */
+#include <rf_ninja.h>               /* drawtexture                                              */
 
 /****** RF Util *********************************************************************************/
 #include <rfu_file.h>               /* core                                                     */
