@@ -277,7 +277,7 @@ EV_LoadEffectFiles(void)
 
     for ( int i = 0; i < ARYLEN(EvEffectInfo.overlays); ++i )
     {
-        if ( EvEffectInfo.overlays[i].type != 0x00 )
+        if ( EvEffectInfo.overlays[i].type != 0 && EvEffectInfo.overlays[i].frame != 0 )
         {
             EvEffectInfo.overlays[i].frame += 15; // + 30 frames
         }
