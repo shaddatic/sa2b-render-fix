@@ -24,6 +24,7 @@
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_ninja.h>           /* mod draw                                         */
 #include <rf_util.h>            /* switch displayer                                 */
+#include <rf_system.h>          /* aspect ratio mode                                */
 
 /****** Self ************************************************************************/
 #include <rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                */
@@ -239,9 +240,6 @@ EventDestructor(task* tp)
 static void
 EventExecutor(task* tp)
 {
-    ___TODO("Replace this with the actual function call when it's ready");
-    EXTERN s32 AspectRatioMode;
-
     if ( DisableCutsceneRendering || DisableCutscene || CutsceneMode == EVENTMD_UNK_7 || CutsceneMode == EVENTMD_UNK_8 || CutsceneMode == EVENTMD_TIMECARD )
     {
         return;
@@ -257,7 +255,9 @@ EventExecutor(task* tp)
     // 4:3 bars
     if ( EventEnforce43 == EV_43MD_ALWAYS && !EV_AllowsWideAspect() && GetDisplayRatio() > 1.f )
     {
-        AspectRatioMode = 1;
+        RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
+
+        RF_SysEasySetPillarAspect( RF_SYS_PBA_43 );
     }
 
     // update last frame, may be changed inside of 'DebugExec'

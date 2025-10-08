@@ -145,6 +145,7 @@
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_mod.c" />
     <ClCompile Include="rf_shader.c" />
+    <ClCompile Include="rf_system.c" />
     <ClCompile Include="rf_usermsg.c" />
     <ClCompile Include="rf_util.c" />
     <ClCompile Include="rfm_shadows.c" />
@@ -213,6 +214,7 @@
     <ClInclude Include="rf_mdlutil.h" />
     <ClInclude Include="rf_mod.h" />
     <ClInclude Include="rf_shader.h" />
+    <ClInclude Include="rf_system.h" />
     <ClInclude Include="rf_texture\rf_texerr.tls" />
     <ClInclude Include="rf_util.h" />
     <ClInclude Include="rf_usermsg.h" />
