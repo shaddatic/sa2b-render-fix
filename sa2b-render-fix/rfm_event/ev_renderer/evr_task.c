@@ -41,7 +41,7 @@
 /*  Source              */
 /************************/
 /****** Task ************************************************************************/
-static boo;
+static bool
 EventDispRetn(void)
 {
     return (DisableCutscene || CutsceneMode == 7 || CutsceneMode == 8 || CutsceneMode == 2 || 0.f == EventFrame);
