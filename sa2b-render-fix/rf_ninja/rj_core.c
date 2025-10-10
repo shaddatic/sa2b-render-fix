@@ -6,12 +6,9 @@
 #include <samt/writeop.h>           /* writejump                                                */
 #include <samt/memory.h>            /* memcopy                                                  */
 
-#define SAMT_INCL_INTERNAL
-
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/ninja.h>       /* ninja                                                    */
-
-#undef SAMT_INCL_INTERNAL
+#include <samt/ninja/njcontext.h>   /* ninja context                                            */
 
 /****** GX **************************************************************************************/
 #include <samt/gx/gx.h>             /* gx                                                       */
@@ -188,10 +185,10 @@ rjSetBlend2D(Int trans)
         alphamd = RJ_ALPHA_OPAQUE;
     }
 
-    const Uint32 texmode = _nj_curr_ctx_->texmode;
+    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
-    const s32 src = (texmode >> 29) & 7;
-    const s32 dst = (texmode >> 26) & 7;
+    const Sint32 src = (tspparam & NJD_COLORBLEND_MASK_SRC) >> NJD_COLORBLEND_SHIFT_SRC;
+    const Sint32 dst = (tspparam & NJD_COLORBLEND_MASK_DST) >> NJD_COLORBLEND_SHIFT_DST;
 
     rjSetAlphaMode(src, dst, alphamd);
 }
@@ -199,9 +196,9 @@ rjSetBlend2D(Int trans)
 void
 rjSetTexture2D(Int clamp)
 {
-    const Uint32 texmode = _nj_curr_ctx_->texmode;
+    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
-    const NJS_TEXSURFACE* p_texsrf = _nj_curr_ctx_->texsurface;
+    const NJS_TEXSURFACE* p_texsrf = _nj_curr_ctx_->texture;
 
     /** texture info start **/
 
@@ -224,7 +221,7 @@ rjSetTexture2D(Int clamp)
 
     /** texture filtering **/
 
-    switch ( (texmode & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
+    switch ( (tspparam & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
     {
         case 0: // point
         {
@@ -248,11 +245,11 @@ rjSetTexture2D(Int clamp)
     }
     else
     {
-        if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+        if ( tspparam & NJD_TEXTURECLAMP_CLAMP_U )
         {
             p_tinfo->address_u = 0;
         }
-        else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+        else if ( tspparam & NJD_TEXTUREFLIP_FLIP_U )
         {
             p_tinfo->address_u = 2;
         }
@@ -261,11 +258,11 @@ rjSetTexture2D(Int clamp)
             p_tinfo->address_u = 1;
         }
 
-        if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
+        if ( tspparam & NJD_TEXTURECLAMP_CLAMP_V )
         {
             p_tinfo->address_v = 0;
         }
-        else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
+        else if ( tspparam & NJD_TEXTUREFLIP_FLIP_V )
         {
             p_tinfo->address_v = 2;
         }

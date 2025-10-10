@@ -7,21 +7,21 @@
 #ifndef H_NJ_TEXTURE
 #define H_NJ_TEXTURE
 
-/************************/
-/*  External Headers    */
-/************************/
-/****** System **********************************************************************/
-#include <samt/shinobi/sg_xpt.h> /* shinobi types                                   */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** System **********************************************************************************/
+#include <samt/shinobi/sg_xpt.h>    /* shinobi types                                            */
 
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/njcommon.h> /* ninja common                                    */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
 EXTERN_START
 
 /************************/
 /*  Constants           */
 /************************/
-/****** Texture Size ****************************************************************/
+/****** Texture Size ****************************************************************************/
 #define NJD_TEXSIZE_1           (1)
 #define NJD_TEXSIZE_2           (2)
 #define NJD_TEXSIZE_4           (4)
@@ -34,7 +34,7 @@ EXTERN_START
 #define NJD_TEXSIZE_512         (512)
 #define NJD_TEXSIZE_1024        (1024)
 
-/****** Texture Attribute ***********************************************************/
+/****** Texture Attribute ***********************************************************************/
 /*
 *   |31 -  21|20 - 17|    16      |15 - 0|
 *    texattr reserved texcontinue  pvmentryId
@@ -56,7 +56,7 @@ EXTERN_START
 
 #define NJD_TEXATTR_TEXCONTINUE         BIT_16
 
-/****** Palette Bank ****************************************************************/
+/****** Palette Bank ****************************************************************************/
 /*
 *   texaddr
 *   |31 - 26|25   -     0|
@@ -66,7 +66,7 @@ EXTERN_START
 #define NJD_TEXBANK_MASK            (0xFC000000)
 #define NJD_TEXPALGLOBAL_MASK       (0x03FFFFFF)
 
-/****** Texture Color Format ********************************************************/
+/****** Texture Color Format ********************************************************************/
 #define NJD_TEXFMT_ARGB_1555            (0x00)
 #define NJD_TEXFMT_RGB_565              (0x01)
 #define NJD_TEXFMT_ARGB_4444            (0x02)
@@ -77,7 +77,7 @@ EXTERN_START
 #define NJD_TEXFMT_YUV_420              (0x06)
 #define NJD_TEXFMT_COLOR_MASK           (0xFF)
 
-/****** Texture Type Format *********************************************************/
+/****** Texture Type Format *********************************************************************/
 #define NJD_TEXFMT_TWIDDLED             (0x0100)
 #define NJD_TEXFMT_TWIDDLED_MM          (0x0200)
 #define NJD_TEXFMT_VQ                   (0x0300)
@@ -98,12 +98,12 @@ EXTERN_START
 
 #define NJD_TEXFMT_TYPE_MASK            (0xFF00)
 
-/****** njCalcTexture ***************************************************************/
+/****** njCalcTexture ***************************************************************************/
 #define NJD_TEXMEM_FREESIZE             (0x00000000)
 #define NJD_TEXMEM_MAXBLOCK             (0x00000001)
 #define NJD_TEXMEM_MAXSIZE              (0x00000002)
 
-/****** Texture Error ***************************************************************/
+/****** Texture Error ***************************************************************************/
 #define NJD_TEXERR_OTHER                (1)
 #define NJD_TEXERR_FILEOPEN             (2)
 #define NJD_TEXERR_EXTND                (3)
@@ -114,28 +114,28 @@ EXTERN_START
 #define NJD_TEXERR_TEXMEMLOAD           (8)
 #define NJD_TEXERR_GLOBALINDEX          (9)
 
-/****** Initial Values **************************************************************/
+/****** Initial Values **************************************************************************/
 #define NJD_GLOBALINDEX_FIRST_VAL       (0xFFFFFFFF)
 #define NJD_BANK_FIRST_VAL              (0xFFFFFFFF)
 
-/****** Section Size ****************************************************************/
+/****** Section Size ****************************************************************************/
 #define NJD_GD_SECT_SIZE        (2048)
 
-/****** Palette Color ***************************************************************/
+/****** Palette Color ***************************************************************************/
 #define NJD_TEXPALETTE_16BPP    (16)
 #define NJD_TEXPALETTE_32BPP    (32)
 
-/****** Bit Depth *******************************************************************/
+/****** Bit Depth *******************************************************************************/
 #define NJD_BITDEPTH_16         (1)
 #define NJD_BITDEPTH_24         (2)
 #define NJD_BITDEPTH_32         (3)
 
-/****** Texture Surface Type ********************************************************/
+/****** Texture Surface Type ********************************************************************/
 #define NJD_SURFACETYPE_FRAMEBUFFER     (1)
 #define NJD_SURFACETYPE_TEXTURE         (2)
 #define NJD_SURFACETYPE_SMALLVQ_TEXTURE (3)
 
-/****** Pixel Format ****************************************************************/
+/****** Pixel Format ****************************************************************************/
 #define NJD_PIXELFORMAT_ARGB1555        (0x00000000)
 #define NJD_PIXELFORMAT_RGB565          (0x08000000)
 #define NJD_PIXELFORMAT_ARGB4444        (0x10000000)
@@ -144,7 +144,7 @@ EXTERN_START
 #define NJD_PIXELFORMAT_PALETTIZED_4BPP (0x28000000)
 #define NJD_PIXELFORMAT_PALETTIZED_8BPP (0x30000000)
 
-/****** Surface Flag ****************************************************************/
+/****** Surface Flag ****************************************************************************/
 #define NJD_SURFACEFLAGS_MIPMAPED       (0x80000000)
 #define NJD_SURFACEFLAGS_VQ             (0x40000000)
 #define NJD_SURFACEFLAGS_NOTWIDDLED     (0x04000000)
@@ -169,121 +169,123 @@ EXTERN_START
 #define NJD_SURFACEFLAGS_USIZE512       (0x00000030)
 #define NJD_SURFACEFLAGS_USIZE1024      (0x00000038)
 
-/************************/
-/*  Macros              */
-/************************/
-/****** Bank/Gbix Value *************************************************************/
-#define NJM_BANKGLOBALINDEX(bank,globalIndex)   (((bank)<<NJD_TEXBANK_SHIFT)|((globalIndex)&NJD_TEXPALGLOBAL_MASK))
-
-/****** Get Texture Info ************************************************************/
-#define NJM_TEXTURE_WIDTH(texlist,n)        (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.nWidth)
-#define NJM_TEXTURE_HEIGHT(texlist,n)       (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.nHeight)
-#define NJM_TEXTURE_GLOBALINDEX(texlist,n)  (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->globalIndex)
-#define NJM_TEXTURE_SIZE(texlist,n)         (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.TextureSize)
-#define NJM_TEXTURE_TYPE(texlist,n)        ((((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.Type) >> 16)
-#define NJM_TEXTURE_SURFACEFLAG(texlist,n)  (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.fSurfaceFlags)
-
-/************************/
-/*  Structures          */
-/************************/
-/****** Texture Surface *************************************************************/
-typedef struct
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Texture Surface *************************************************************************/
+typedef struct njtexsurface
 {
-    Uint32      Type;            /* surface type                                     */
-    Uint32      BitDepth;        /* bit depth                                        */
-    Uint32      PixelFormat;     /* pixel format                                     */
-    Uint32      nWidth;          /* width                                (in pixels) */
-    Uint32      nHeight;         /* height                               (in pixels) */
-    Uint32      TextureSize;     /* total size                            (in bytes) */
-    Uint32      fSurfaceFlags;   /* surface flags                                    */
-    Uint32*     pSurface;        /* pointer to surface data                          */
+    Uint32      Type;               /* surface type                                             */
+    Uint32      BitDepth;           /* bit depth                                                */
+    Uint32      PixelFormat;        /* pixel format                                             */
+    Uint32      nWidth;             /* width                                        [in pixels] */
+    Uint32      nHeight;            /* height                                       [in pixels] */
+    Uint32      TextureSize;        /* total size                                    [in bytes] */
+    Uint32      fSurfaceFlags;      /* surface flags                                            */
+    Uint32*     pSurface;           /* pointer to surface data                                  */
 }
 NJS_TEXSURFACE;
 
-/****** Texture System **************************************************************/
-typedef struct
+/****** Texture System **************************************************************************/
+typedef struct njtexsystem
 {
-    Uint32          globalIndex; /* global index value                              */
-    NJS_TEXSURFACE  texsurface;  /* texture surface data                            */
-    Int             count;       /* reference count                                 */
+    Uint32          globalIndex;    /* global index value                                       */
+    NJS_TEXSURFACE  texsurface;     /* texture surface data                                     */
+    Int             count;          /* reference count                                          */
 }
 NJS_TEXSYSTEM;
 
-/****** Texture Manage **************************************************************/
-typedef struct
+/****** Texture Manage **************************************************************************/
+typedef struct njtexmanage
 {
-    Uint32          tspparam;   /* internal tsp param                               */
-    Uint32          texparam;   /* internal tex param                               */
-    Uint32          bank;       /* palette texture bank number         (-1 == none) */
-    NJS_TEXSYSTEM*  texsys;     /* texture system struct pointer                    */
-    Int             count;      /* reference count                                  */
-    Uint32          texflag;    /* texture flags                           (unused) */
+    Uint32          tspparam;       /* internal tsp param                                       */
+    Uint32          texparam;       /* internal tex param                                       */
+    Uint32          bank;           /* palette texture bank number                 (-1 == none) */
+    NJS_TEXSYSTEM*  texsys;         /* texture system struct pointer                            */
+    Int             count;          /* reference count                                          */
+    Uint32          texflag;        /* texture flags                                   (unused) */
 }
 NJS_TEXMANAGE;
 
-/****** Texture Palette *************************************************************/
-typedef struct
+/****** Texture Palette *************************************************************************/
+typedef struct njtexpalette
 {
-    void*           palette;    /* palette pointer                                  */
-    Uint16          mode;       /* color mode                                       */
-    Sint16          bank;       /* bank                                             */
-    Sint16          offset;     /* entry offset                                     */
-    Sint16          count;      /* entry count                                      */
+    void*           palette;        /* palette pointer                                          */
+    Uint16          mode;           /* color mode                                               */
+    Sint16          bank;           /* bank                                                     */
+    Sint16          offset;         /* entry offset                                             */
+    Sint16          count;          /* entry count                                              */
 }
 NJS_TEXPALETTE;
 
-/****** Texture Error Status ********************************************************/
-typedef struct
+/****** Texture Error Status ********************************************************************/
+typedef struct njtexerrstat
 {
-    Uint32      n;              /* texture number (in texlist) where error occured  */
-    Uint32      globalIndex;    /* global index of texture where error occured      */
-    Sint32      texerr;         /* texture error code                               */
-    Sint32      gdstat;         /* gd status code                                   */
-    Sint32      gderr;          /* gd error code                                    */
-    Sint32      reserved0;      /* reserved                                         */
-    Sint32      reserved1;      /* reserved                                         */
-    Sint32      reserved2;      /* reserved                                         */
+    Uint32      n;                  /* texture number (in texlist) where error occured          */
+    Uint32      globalIndex;        /* global index of texture where error occured              */
+    Sint32      texerr;             /* texture error code                                       */
+    Sint32      gdstat;             /* gd status code                                           */
+    Sint32      gderr;              /* gd error code                                            */
+    Sint32      reserved0;          /* reserved                                                 */
+    Sint32      reserved1;          /* reserved                                                 */
+    Sint32      reserved2;          /* reserved                                                 */
 }
 NJS_TEXERRSTAT;
 
-/****** PVR Texture Header **********************************************************/
-typedef struct
+/****** PVR Texture Header **********************************************************************/
+typedef struct njpvrheaderdata
 {
-    Uint32      nTextureType;   /* pvr texture type                                 */
-    Uint16      nWidth;         /* texture width                        (in pixels) */
-    Uint16      nHeight;        /* texture height                       (in pixels) */
+    Uint32      nTextureType;       /* pvr texture type                                         */
+    Uint16      nWidth;             /* texture width                                (in pixels) */
+    Uint16      nHeight;            /* texture height                               (in pixels) */
 }
 NJS_PVRHEADERDATA;
 
-/****** Memory Texture Info *********************************************************/
-typedef struct
+/****** Memory Texture Info *********************************************************************/
+typedef struct njtexinfo
 {
-    void*           texaddr;    /* texture pointer                                  */
-    NJS_TEXSURFACE  texsurface;	/* texture surface struct                           */
+    void*           texaddr;        /* texture pointer                                          */
+    NJS_TEXSURFACE  texsurface;     /* texture surface struct                                   */
 }
 NJS_TEXINFO;
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Texture Manage **************************************************************/
+/****** Texture List ****************************************************************************/
+typedef struct njtexname
+{
+    void            *filename;      /* texture filename strings                                 */
+    Uint32               attr;      /* texture attribute                                        */
+    Uint32            texaddr;      /* texture memory list address                              */
+}
+NJS_TEXNAME;
+
+typedef struct njtexlist
+{
+    NJS_TEXNAME*    textures;       /* texture array                                            */
+    Uint32          nbTexture;      /* texture count                                            */
+}
+NJS_TEXLIST;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Texture Manage **************************************************************************/
 #define _nj_texmanage           DATA_REF(NJS_TEXMANAGE*, 0x02670590)
 #define _nj_texmanagesize       DATA_REF(Int           , 0x0267058C)
 
-/****** Texture System **************************************************************/
+/****** Texture System **************************************************************************/
 #define _nj_texsys              DATA_REF(NJS_TEXSYSTEM*, 0x025F0278)
 #define _nj_texsyssize          DATA_REF(Int           , 0x025EFFE0)
 
-/****** Texture Count ***************************************************************/
+/****** Texture Count ***************************************************************************/
 #define _nj_tex_count           DATA_REF(Sint32        , 0x025F0260)
 
-/****** Texture Error ***************************************************************/
+/****** Texture Error ***************************************************************************/
 #define _nj_texerr_             DATA_REF(NJS_TEXERRSTAT, 0x025F0280)
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Init ************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Init ************************************************************************************/
 /*
 *   Description:
 *     Init and set Ninja texture manage buffer. Given buffer will be set to
@@ -309,7 +311,7 @@ void    njInitTexManage( NJS_TEXMANAGE *pmng, Int nmng );
 */
 void    njInitTexSystem( NJS_TEXSYSTEM *psys, Int nsys );
 
-/****** Init Ex *********************************************************************/
+/****** Init Ex *********************************************************************************/
 /*
 *   Description:
 *     Init and set both Ninja texture system buffers in one function call. Given
@@ -327,7 +329,7 @@ void    njInitTexSystem( NJS_TEXSYSTEM *psys, Int nsys );
 */
 void    njInitTextureEx( NJS_TEXMANAGE *pmng, Int nmng, NJS_TEXSYSTEM *psys, Int nsys );
 
-/****** Set Texture *****************************************************************/
+/****** Set Texture *****************************************************************************/
 /*
 *   Description:
 *     Set current Texlist structure.
@@ -364,7 +366,7 @@ Sint32  njSetTextureNum( Uint32 n );
 */
 Sint32  njSetTextureNumG( Uint32 globalIndex );
 
-/****** Get Texture *****************************************************************/
+/****** Get Texture *****************************************************************************/
 /*
 *   Description:
 *     Get the current texlist.
@@ -374,7 +376,7 @@ Sint32  njSetTextureNumG( Uint32 globalIndex );
 */
 NJS_TEXLIST* njGetCurrentTexList( void );
 
-/****** Load Texture ****************************************************************/
+/****** Load Texture ****************************************************************************/
 /*
 *   Description:
 *     Load all textures inside a texlist, using texname information.
@@ -390,7 +392,7 @@ NJS_TEXLIST* njGetCurrentTexList( void );
 */
 Sint32 njLoadTexture( NJS_TEXLIST* texlist );
 
-/****** Release Texture *************************************************************/
+/****** Release Texture *************************************************************************/
 /*
 *   Description:
 *     Release all textures inside a texlist.
@@ -408,7 +410,7 @@ Sint32  njReleaseTexture( NJS_TEXLIST* texlist );
 */
 void    njReleaseTextureAll( void );
 
-/****** Palette *********************************************************************/
+/****** Palette *********************************************************************************/
 /*
 *   Description:
 *     Set palette bank index of texture via texture index into the current texlist.
@@ -434,6 +436,20 @@ void    njSetPaletteBankNum( Uint32 n, Uint32 bank );
 *     - bank        : palette bank to set
 */
 void    njSetPaletteBankNumG( Uint32 globalIndex, Uint32 bank );
+
+/********************************/
+/*  Macros                      */
+/********************************/
+/****** Bank/Gbix Value *************************************************************************/
+#define NJM_BANKGLOBALINDEX(bank,globalIndex)   (((bank)<<NJD_TEXBANK_SHIFT)|((globalIndex)&NJD_TEXPALGLOBAL_MASK))
+
+/****** Get Texture Info ************************************************************************/
+#define NJM_TEXTURE_WIDTH(texlist,n)        (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.nWidth)
+#define NJM_TEXTURE_HEIGHT(texlist,n)       (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.nHeight)
+#define NJM_TEXTURE_GLOBALINDEX(texlist,n)  (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->globalIndex)
+#define NJM_TEXTURE_SIZE(texlist,n)         (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.TextureSize)
+#define NJM_TEXTURE_TYPE(texlist,n)        ((((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.Type) >> 16)
+#define NJM_TEXTURE_SURFACEFLAG(texlist,n)  (((NJS_TEXMANAGE*)(texlist)->textures[(n)].texaddr)->texsys->texsurface.fSurfaceFlags)
 
 EXTERN_END
 

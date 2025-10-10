@@ -21,12 +21,14 @@ EXTERN_START
 /** Blend Modes **/
 #define GXD_BLENDMODE_ZERO      (0)
 #define GXD_BLENDMODE_ONE       (1)
-#define GXD_BLENDMODE_OC        (2)
-#define GXD_BLENDMODE_IOC       (3)
+#define GXD_BLENDMODE_SC        (2)
+#define GXD_BLENDMODE_ISC       (3)
 #define GXD_BLENDMODE_SA        (4)
 #define GXD_BLENDMODE_ISA       (5)
 #define GXD_BLENDMODE_DA        (6)
 #define GXD_BLENDMODE_IDA       (7)
+#define GXD_BLENDMODE_DC        GXD_BLENDMODE_SC
+#define GXD_BLENDMODE_IDC       GXD_BLENDMODE_ISC
 
 /************************/
 /*  Functions           */

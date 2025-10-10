@@ -7,12 +7,9 @@
 #include <samt/writeop.h>       /* WriteJump, WriteCall                             */
 #include <samt/funchook.h>      /* hookinfo                                         */
 
-#define SAMT_INCL_INTERNAL
-
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h>   /* ninja                                            */
-
-#undef SAMT_INCL_INTERNAL
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
+#include <samt/ninja/njcontext.h>   /* ninja context                                            */
 
 /****** Soc *************************************************************************/
 #include <samt/soc/shader.h>    /* setshader                                        */
@@ -133,28 +130,28 @@ rjSetDepthQueue(Float near, Float far)
 static void
 SetTexForDraw(void)
 {
-    NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texsurface;
+    NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texture;
 
-    const Uint32 texmode = _nj_curr_ctx_->texmode;
+    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
     /** clamp/flip **/
 
-    if ( texmode & NJD_TEXTURECLAMP_CLAMP_U )
+    if ( tspparam & NJD_TEXTURECLAMP_CLAMP_U )
     {
         TexInfoDraw.address_u = 0;
     }
-    else if ( texmode & NJD_TEXTUREFLIP_FLIP_U )
+    else if ( tspparam & NJD_TEXTUREFLIP_FLIP_U )
     {
         TexInfoDraw.address_u = 2;
     }
     else
         TexInfoDraw.address_u = 1;
 
-    if ( texmode & NJD_TEXTURECLAMP_CLAMP_V )
+    if ( tspparam & NJD_TEXTURECLAMP_CLAMP_V )
     {
         TexInfoDraw.address_v = 0;
     }
-    else if ( texmode & NJD_TEXTUREFLIP_FLIP_V )
+    else if ( tspparam & NJD_TEXTUREFLIP_FLIP_V )
     {
         TexInfoDraw.address_v = 2;
     }
@@ -163,7 +160,7 @@ SetTexForDraw(void)
 
     /** filter mode **/
 
-    switch ( (texmode & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
+    switch ( (tspparam & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
     {
         case 0: // point
         {
