@@ -309,8 +309,6 @@ rjGetTextureSurface(Int n)
     }
 
     return p_tsf;
-
-    return ___rjGetTextureSurface(p_tls, n);
 }
 
 NJS_TEXSURFACE*
