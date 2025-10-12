@@ -103,8 +103,8 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 #define NJD_COLORBLEND_SHIFT_SRC                (29) /* source blend shift                      */
 #define NJD_COLORBLEND_SHIFT_DST                (26) /* destination blend shift                 */
 
-#define NJD_COLORBLEND_MASK_SRC                 (~0xE0000000) /* source mask                    */
-#define NJD_COLORBLEND_MASK_DST                 (~0x1C000000) /* destination mask               */
+#define NJD_COLORBLEND_MASK_SRC                 (0xE0000000) /* source mask                     */
+#define NJD_COLORBLEND_MASK_DST                 (0x1C000000) /* destination mask                */
 
 #define NJD_COLORBLEND_MASK_BOTH                (NJD_COLORBLEND_MASK_SRC|NJD_COLORBLEND_MASK_DST)
 
