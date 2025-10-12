@@ -368,36 +368,9 @@ EndPillarBox(void)
 #define FadePoly        DATA_ARY(NJS_POLYGON_VTX, 0x0171CD60, [4])
 
 static void
-DrawFade(void)
+DrawGameFade(void)
 {
-    const Uint32 alpha = FadeColor.argb.a;
-
-    if ( alpha == 0x00 )
-    {
-        return;
-    }
-
-    njFogDisable();
-
-    const Uint32 col = FadeColor.color;
-
-    FadePoly[0].col = col;
-    FadePoly[1].col = col;
-    FadePoly[2].col = col;
-    FadePoly[3].col = col;
-
-    const f32 res_shift = (GetDisplayRatio() - 1.f) * (320.0f) + 1.f;
-
-    FadePoly[0].x =   0.f - res_shift;
-    FadePoly[1].x =   0.f - res_shift;
-    FadePoly[2].x = 640.f + res_shift;
-    FadePoly[3].x = 640.f + res_shift;
-
-    njColorBlendingMode(0, NJD_COLOR_BLENDING_BOTHSRCALPHA);
-
-    rjDrawPolygon(FadePoly, ARYLEN(FadePoly), alpha != 0xFF);
-
-    njFogEnable();
+    RF_SysDrawScreenFade( FadeColor, FadePoly[0].z );
 }
 
 static void
@@ -512,7 +485,7 @@ TaskDisplayAll(void)
     }
     
     /** Draw fade **/
-    DrawFade();
+    DrawGameFade();
 
     //EndHud();
 

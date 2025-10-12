@@ -18,18 +18,20 @@
 #include <rf_system.h>              /* self                                                     */
 
 /********************************/
-/*  Includes                    */
+/*  Constants                   */
 /********************************/
-/****** Core Toolkit ****************************************************************************/
-#define Z_43BARS        (1.f)
+/****** Pillar Depth ****************************************************************************/
+#define Z_43BARS                    (1.f)       /* polygon depth                                */
 
 /********************************/
-/*  Includes                    */
+/*  Data                        */
 /********************************/
 /****** Core Toolkit ****************************************************************************/
+/****** Pillar Box ******************************************************************************/
 static NJS_TEXLIST* PbTexlist;
 static Sint32       PbTexnum;
 static bool         PbTexAlpha;
+
 static NJS_COLOR    PbColorInnr = { 0xFF000000 };
 static NJS_COLOR    PbColorEdge = { 0xFF000000 };
 
@@ -202,6 +204,49 @@ void
 RF_SysSetPillarAspect(Float aspect)
 {
     PbAspect = aspect;
+}
+
+void
+RF_SysDrawScreenFade(const NJS_COLOR color, Float z)
+{
+    const Uint32 alpha = color.argb.a;
+
+    if ( alpha == 0x00 )
+    {
+        return;
+    }
+
+    NJS_POLYGON_VTX poly[4];
+
+    njFogDisable();
+
+    const f32 res_shift = (GetDisplayRatio() - 1.f) * (320.0f) + 1.f;
+
+    poly[0].x   = 0.f - res_shift;
+    poly[0].y   = 0.f;
+    poly[0].z   = z;
+    poly[0].col = color.color;
+
+    poly[1].x   = 0.f - res_shift;
+    poly[1].y   = 480.f;
+    poly[1].z   = z;
+    poly[1].col = color.color;
+
+    poly[2].x   = 640.f + res_shift;
+    poly[2].y   = 0.f;
+    poly[2].z   = z;
+    poly[2].col = color.color;
+
+    poly[3].x   = 640.f + res_shift;
+    poly[3].y   = 480.f;
+    poly[3].z   = z;
+    poly[3].col = color.color;
+
+    njColorBlendingMode(0, NJD_COLOR_BLENDING_BOTHSRCALPHA);
+
+    rjDrawPolygon(poly, ARYLEN(poly), alpha != 0xFF);
+
+    njFogEnable();
 }
 
 /****** Pillar Box Draw ***********************************************************************&*/
