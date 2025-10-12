@@ -226,7 +226,7 @@ RF_SysCtrlDrawPillar(bool passFinal)
     if ( PbTexlist )
     {
         njSetTexture(PbTexlist);
-        rjSetTextureNum(PbTexnum);
+        njSetTextureNum(PbTexnum);
 
         SysDrawPillar_Tex(tgt_ratio, dsp_ratio, trans);
     }
