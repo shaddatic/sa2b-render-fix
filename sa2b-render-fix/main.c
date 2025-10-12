@@ -96,5 +96,7 @@ EXPORT_DLL
 void __cdecl
 OnRenderSceneEnd(void)
 {
+    RF_SysCtrlIdleFade();
+
     RF_FrameSkipSceneEnd();
 }

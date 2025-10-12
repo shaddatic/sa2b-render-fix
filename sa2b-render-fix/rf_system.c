@@ -1,11 +1,13 @@
 /********************************/
 /*  Includes                    */
 /********************************/
-/****** Core Toolkit ****************************************************************************/
+/****** SAMT ************************************************************************************/
 #include <samt/core.h>              /* core                                                     */
 
 /****** Game ************************************************************************************/
-#include <samt/sonic/display.h>     /* dx9ctrl                                                  */
+#include <samt/sonic/display.h>     /* display settings                                         */
+#include <samt/sonic/input.h>       /* player input                                             */
+#include <samt/sonic/game.h>        /* game vars                                                */
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
@@ -20,13 +22,21 @@
 /********************************/
 /*  Constants                   */
 /********************************/
+/****** Idle Fade *******************************************************************************/
+#define IDLE_TIME                   (60 * 60 * 2) /* timer: frames * seconds * minutes          */
+#define IDLE_MAX                    (196)         /* max intensity                              */
+#define IDLE_ADD                    (4)           /* add intensity                              */
+
 /****** Pillar Depth ****************************************************************************/
 #define Z_43BARS                    (1.f)       /* polygon depth                                */
 
 /********************************/
 /*  Data                        */
 /********************************/
-/****** Core Toolkit ****************************************************************************/
+/****** Idle Fade *******************************************************************************/
+static s16 IdleInten;
+static s16 IdleFrame;
+
 /****** Pillar Box ******************************************************************************/
 static NJS_TEXLIST* PbTexlist;
 static Sint32       PbTexnum;
@@ -247,6 +257,87 @@ RF_SysDrawScreenFade(const NJS_COLOR color, Float z)
     rjDrawPolygon(poly, ARYLEN(poly), alpha != 0xFF);
 
     njFogEnable();
+}
+
+/****** Idle Fade Control ***********************************************************************/
+static bool
+SysCheckPlayerInput(void)
+{
+    for ( int i = 0; i < ARYLEN(per); ++i )
+    {
+        const PDS_PERIPHERAL* p_peri = per[i];
+
+        if ( !p_peri )
+        {
+            continue;
+        }
+
+        if ( p_peri->on || p_peri->x1 || p_peri->x2 || p_peri->y1 || p_peri->y2 || p_peri->r || p_peri->l )
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void
+RF_SysCtrlIdleFade(void)
+{
+    bool no_idle = false;
+
+    s16 idle_frame = IdleFrame;
+    s16 idle_inten = IdleInten;
+
+    if ( ulGlobalMode != MD_ADVERTISE && ulGlobalMode != MD_ACTION )
+    {
+        no_idle = true;
+    }
+
+    if ( ssStageNumber == STAGE_CHAOWORLD && !ChkPause() )
+    {
+        // the Chao World bypass actually on Dreamcast too! Crazy that they thought this much
+        // ahead (that people would want to be idle in the Chao Garden).
+        // I added the pause check though!
+        no_idle = true;
+    }
+
+    const bool is_idle = no_idle ? false : SysCheckPlayerInput();
+
+    if ( is_idle )
+    {
+        idle_frame++;
+    }
+    else
+    {
+        idle_frame = 0;
+    }
+
+    if ( idle_frame >= IDLE_TIME )
+    {
+        idle_frame = IDLE_TIME;
+
+        idle_inten += IDLE_ADD;
+
+        if ( idle_inten > IDLE_MAX )
+        {
+            idle_inten = IDLE_MAX;
+        }
+    }
+    else if ( idle_inten )
+    {
+        idle_inten -= IDLE_ADD;
+    }
+
+    IdleFrame = idle_frame;
+    IdleInten = idle_inten;
+
+    if ( !idle_inten )
+    {
+        return;
+    }
+
+    RF_SysDrawScreenFade( (NJS_COLOR){ .argb.a = (Uint8) idle_inten }, 1.f );
 }
 
 /****** Pillar Box Draw ***********************************************************************&*/

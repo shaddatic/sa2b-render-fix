@@ -176,6 +176,11 @@ void    RF_FrameSkipSceneStart( void );
 *     Frameskip 'OnRenderSceneEnd' function.
 */
 void    RF_FrameSkipSceneEnd( void );
+/*
+*   Description:
+*     Draw idle screen saver fade.
+*/
+void    RF_SysCtrlIdleFade( void );
 
 EXTERN_END
 
