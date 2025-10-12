@@ -20,10 +20,8 @@
 #include <rf_ninja.h>           /* set cheap shadow intensity                       */
 #include <rf_file.h>            /* file load                                        */
 #include <rf_usermsg.h>         /* user message box                                 */
-#include <rf_objpak.h>          /* obj.pak writing                                  */
 
 /****** Self ************************************************************************/
-#include <rfm_shadows.h>              /* self                                       */
 #include <rfm_shadows/shd_internal.h> /* children                                   */
 
 /************************/

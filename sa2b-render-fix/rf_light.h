@@ -95,13 +95,6 @@ EXTERN RJS_AMBIENT _rj_cnk_light_ambient_;  /* ambient data                     
 /************************/
 /*  Functions           */
 /************************/
-/****** Init ************************************************************************/
-/*
-*   Description:
-*     Init light control module.
-*/
-void    RF_LightInit( void );
-
 /****** Light Param *****************************************************************/
 /*
 *   Description:

@@ -133,14 +133,12 @@
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_udreel.c" />
     <ClCompile Include="rf_config.c" />
     <ClCompile Include="rf_njcnk.c" />
-    <ClCompile Include="rf_objpak.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="rfm_common.c" />
     <ClCompile Include="rf_api.c" />
     <ClCompile Include="rf_core.c" />
     <ClCompile Include="rf_renderstate.c" />
     <ClCompile Include="rf_ninja.c" />
-    <ClCompile Include="rf_dxvk.c" />
     <ClCompile Include="rf_file.c" />
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_mod.c" />
@@ -158,31 +156,16 @@
     <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rfm_amine.h" />
-    <ClInclude Include="rfm_b_bigbogy.h" />
-    <ClInclude Include="rfm_cart.h" />
-    <ClInclude Include="rfm_ccore.h" />
-    <ClInclude Include="rfm_cgadget.h" />
     <ClInclude Include="rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rfm_common\rfc_transparancy\rfct_internal.h" />
-    <ClInclude Include="rfm_eget.h" />
     <ClInclude Include="rfm_event\ev_renderer\evr_internal.h" />
-    <ClInclude Include="rfm_global.h" />
     <ClInclude Include="rfm_global\rfg_internal.h" />
-    <ClInclude Include="rfm_mstreet.h" />
-    <ClInclude Include="rfm_player.h" />
     <ClInclude Include="rfm_player\rfpl_internal.h" />
     <ClInclude Include="rfm_shadows\chs_internal.h" />
-    <ClInclude Include="rfm_cescape.h" />
     <ClInclude Include="rfm_cescape\ce_internal.h" />
-    <ClInclude Include="rfm_shadows.h" />
-    <ClInclude Include="rfm_event.h" />
     <ClInclude Include="rfm_event\ev_internal.h" />
-    <ClInclude Include="rfm_common.h" />
-    <ClInclude Include="rfm_wjungle.h" />
     <ClInclude Include="rfu_file.h" />
     <ClInclude Include="rfu_model.h" />
-    <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_api\rfapi_internal.h" />
     <ClInclude Include="rf_config.h" />
     <ClInclude Include="rf_config\rfcnf_def.h" />
@@ -200,15 +183,12 @@
     <ClInclude Include="rf_light.h" />
     <ClInclude Include="rf_light\rfl_internal.h" />
     <ClInclude Include="rf_magic.h" />
-    <ClInclude Include="rf_modchk.h" />
     <ClInclude Include="rf_ninja\rjcore\rjcore_init.h" />
     <ClInclude Include="rf_njcnk.h" />
     <ClInclude Include="rf_renderstate.h" />
-    <ClInclude Include="rf_dxvk.h" />
     <ClInclude Include="rf_enemywk.h" />
     <ClInclude Include="rfm_common\rfc_internal.h" />
     <ClInclude Include="rf_feature.h" />
-    <ClInclude Include="rf_objpak.h" />
     <ClInclude Include="rf_ninja.h" />
     <ClInclude Include="rf_eventinfo.h" />
     <ClInclude Include="rf_file.h" />
@@ -220,7 +200,6 @@
     <ClInclude Include="rf_util.h" />
     <ClInclude Include="rf_usermsg.h" />
     <ClInclude Include="rfm_shadows\shd_internal.h" />
-    <ClInclude Include="rfm_menus.h" />
     <ClInclude Include="rfu_float.h" />
   </ItemGroup>
   <ItemGroup>

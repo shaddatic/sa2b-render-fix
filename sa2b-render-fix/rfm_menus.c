@@ -17,9 +17,6 @@
 #include <rf_config.h>
 #include <rf_ninja.h>
 
-/** Self **/
-#include <rfm_menus.h>
-
 /** Variables **/
 static bool MenuFadeFixEnabled;
 

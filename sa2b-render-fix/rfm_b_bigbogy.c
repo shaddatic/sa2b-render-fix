@@ -14,9 +14,6 @@
 #include <rf_config.h>
 #include <rf_util.h>
 
-/** Self **/
-#include <rfm_b_bigbogy.h>
-
 static LIGHT lights_bigbogy[] =
 {
     { 0.0f, 0.707f, 0.707f, /**/ 1.0f, 0.5f, 1.0f, 1.0f, 1.0f },

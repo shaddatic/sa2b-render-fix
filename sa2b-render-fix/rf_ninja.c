@@ -319,7 +319,7 @@ ChaoUIElemStart2Hook(void)
 
 /****** Init ************************************************************************/
 void
-RF_DrawInit(void)
+RF_NinjaInit(void)
 {
     RFD_CoreInit();
     RFD_ChunkInit();

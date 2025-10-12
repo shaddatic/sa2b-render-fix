@@ -20,9 +20,6 @@
 /*  Functions           */
 /************************/
 EXTERN_START
-/** Init **/
-void    RF_UserMessageInit( void );
-
 /** Post alert **/
 void    RF_Alert(const c8* head, const c8* body);
 

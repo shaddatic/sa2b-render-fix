@@ -55,10 +55,6 @@ RFS_CNF_STRING;
 /*  Functions           */
 /************************/
 EXTERN_START
-/****** Init ****************************************************************/
-void        RF_ConfigInit( void );  /* Open config file                     */
-void        RF_ConfigEnd(  void );  /* Save & free config file              */
-
 /****** Config ***************************************************************/
 /** Config get **/
 int32_t   RF_ConfigGetInt(    const RFS_CNF_INT*    pCnf );

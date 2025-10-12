@@ -1,57 +1,29 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>
-#include <samt/init.h>
-#include <samt/modloader.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/init.h>              /* init                                                     */
+#include <samt/modloader.h>         /* mod loader                                               */
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_usermsg.h>
-#include <rf_objpak.h>
-#include <rf_dxvk.h>
-#include <rf_api.h>
-#include <rf_renderstate.h>
-#include <rf_modchk.h>
-#include <rf_ninja.h>
-#include <rf_font.h>
-#include <rf_gx.h>
-#include <rf_light.h>
-#include <rf_shader.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_init.h>                /* module inits                                             */
+#include <rf_usermsg.h>             /* fatal error                                              */
 
-/****** Render Fix Modules **********************************************************/
-#include <rfm_global.h>
-#include <rfm_shadows.h>
-#include <rfm_common.h>
-#include <rfm_wjungle.h>
-#include <rfm_cescape.h>
-#include <rfm_mstreet.h>
-#include <rfm_cgadget.h>
-#include <rfm_amine.h>
-#include <rfm_ccore.h>
-#include <rfm_menus.h>
-#include <rfm_eget.h>
-#include <rfm_b_bigbogy.h>
-#include <rfm_event.h>
-#include <rfm_cart.h>
-#include <rfm_player.h>
+/****** DX9 Control *****************************************************************************/
+#include <dx9ctrl/dx9ctrl.h>        /* directx control                                          */
 
-#include <rf_init.h>
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Mod Loader ******************************************************************************/
+#define MLVER_MIN   (9)             /* minimum mod loader version                               */
 
-/****** DX9 Control *****************************************************************/
-#include <dx9ctrl/dx9ctrl.h>
-
-/************************/
-/*  Constants           */
-/************************/
-/** Minimum mod loader version **/
-#define MLVER_MIN   (9)
-
-/************************/
-/*  DLL Exports         */
-/************************/
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Mod Init ********************************************************************************/
 EXPORT_DLL
 void __cdecl
 Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
@@ -75,17 +47,13 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
 
     /** Render Fix init **/
     RF_ConfigInit();
-    RF_ObjPakInit();
     RF_UserMessageInit();
     RF_RenderStateInit();
-    RF_DrawInit();
+    RF_NinjaInit();
     RF_FontInit();
     RF_GxInit();
     RF_LightInit();
     RF_ShaderInit();
-
-    /** DXVK init **/
-    RF_DXVK_Init();
 
     /** API **/
     RFAPI_Init();
@@ -115,6 +83,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_ConfigEnd();
 }
 
+/****** On Scene X ******************************************************************************/
 EXPORT_DLL
 void __cdecl
 OnRenderSceneStart(void)

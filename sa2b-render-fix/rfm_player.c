@@ -36,7 +36,6 @@
 #include <rfu_file.h>           /* filereplace                                      */
 
 /****** Self ************************************************************************/
-#include <rfm_player.h>               /* self                                       */
 #include <rfm_player/rfpl_internal.h> /* children                                   */
 
 /************************/

@@ -22,13 +22,6 @@ EXTERN_START
 /************************/
 /*  Functions           */
 /************************/
-/****** Init ************************************************************************/
-/*
-*   Description:
-*     Init Renderstate module.
-*/
-void    RF_RenderStateInit( void );
-
 /****** Set Render State ************************************************************/
 /*
 *   Description:

@@ -21,9 +21,6 @@
     <ClCompile Include="rf_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_objpak.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,9 +136,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_mod.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_dxvk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_usermsg.c">
@@ -428,9 +422,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rf_objpak.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rfm_common\rfc_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -458,13 +449,7 @@
     <ClInclude Include="rfm_shadows\chs_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfm_menus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rfm_cescape\ce_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_cescape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_mdlutil.h">
@@ -473,25 +458,7 @@
     <ClInclude Include="rf_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfm_shadows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_event.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rfm_event\ev_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_amine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_b_bigbogy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_cart.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_renderstate.h">
@@ -503,9 +470,6 @@
     <ClInclude Include="rfm_shadows\shd_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfm_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rfm_global\rfg_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -515,34 +479,10 @@
     <ClInclude Include="rf_feature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rfm_eget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_ccore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_wjungle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_mstreet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_cgadget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_dxvk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_config\rfcnf_def.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_ctrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_modchk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_api\rfapi_internal.h">
@@ -588,9 +528,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfm_player\rfpl_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rfm_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_ninja\rj_core.h">

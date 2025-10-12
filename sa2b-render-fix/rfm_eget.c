@@ -15,9 +15,6 @@
 #include <rf_util.h>
 #include <rf_renderstate.h>
 
-/** Self **/
-#include <rfm_eget.h>
-
 #define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x007986A0)
 
 static mt_hookinfo getEmblemDisplayerHookInfo[1];

@@ -14,7 +14,6 @@
 #include <rf_config.h>
 
 /** Self **/
-#include <rfm_cescape.h>
 #include <rfm_cescape/ce_internal.h>
 
 #define ReplaceObjectFunction(plist, idx, pfunc)    ((OBJ_ITEMENTRY*)plist)[idx].fnExec = (EDIT_FUNC)pfunc

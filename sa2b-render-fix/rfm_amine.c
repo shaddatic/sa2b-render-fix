@@ -8,9 +8,6 @@
 #include <rf_core.h>
 #include <rf_config.h>
 
-/** Self **/
-#include <rfm_amine.h>
-
 EXTERN Sint32 vertex_minemizu[];
 
 static void

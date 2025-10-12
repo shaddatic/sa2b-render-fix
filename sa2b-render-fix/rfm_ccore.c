@@ -14,7 +14,6 @@
 #include <rf_config.h>
 
 /** Self **/
-#include <rfm_ccore.h>
 
 #define ReplaceLandObject(pland, idx, pobj) ((OBJ_LANDTABLE*)pland)->pLandEntry[idx].pObject = (ANY_OBJECT*)pobj
 

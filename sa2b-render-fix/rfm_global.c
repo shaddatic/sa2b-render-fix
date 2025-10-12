@@ -28,7 +28,6 @@
 #include <rfu_float.h>              /* replaceflaot                                             */
 
 /****** Self ************************************************************************************/
-#include <rfm_global.h>              /* self                                                    */
 #include <rfm_global/rfg_internal.h> /* children                                                */
 
 /********************************/

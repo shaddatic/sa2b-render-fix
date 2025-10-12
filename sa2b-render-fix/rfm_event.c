@@ -10,7 +10,6 @@
 #include <rf_config.h>          /* config                                           */
 
 /****** Self ************************************************************************/
-#include <rfm_event.h>             /* self                                          */
 #include <rfm_event/ev_internal.h> /* children                                      */
 
 /************************/
