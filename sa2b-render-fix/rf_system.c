@@ -96,8 +96,8 @@ SysDrawPillar_NonTex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
 static inline void
 SysDrawPillar_Tex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
 {
-    constexpr NJS_COLOR col_innr = PbColorInnr;
-    constexpr NJS_COLOR col_edge = PbColorEdge;
+    const NJS_COLOR col_innr = PbColorInnr;
+    const NJS_COLOR col_edge = PbColorEdge;
 
     NJS_TEXTURE_VTX poly[4];
 
@@ -244,6 +244,7 @@ RF_SysCtrlResetPillar(void)
     PbTexlist         = nullptr;
     PbTexnum          = -1;
     PbTexAlpha        = false;
+
     PbColorInnr.color = 0xFF000000;
     PbColorEdge.color = 0xFF000000;
 }
