@@ -89,10 +89,9 @@ GetVsyncFrameskip(void)
     return ( wait_vsync >= 0 ) ? wait_vsync - 1 : -wait_vsync;
 }
 
-/****** Export **********************************************************************************/
-EXPORT_DLL
-void __cdecl
-OnRenderSceneStart(void)
+/****** Extern **********************************************************************************/
+void
+RF_FrameSkipSceneStart(void)
 {
     static s32 LastFrameskip = 0;
 
@@ -121,9 +120,8 @@ OnRenderSceneStart(void)
     }
 }
 
-EXPORT_DLL
-void __cdecl
-OnRenderSceneEnd(void)
+void
+RF_FrameSkipSceneEnd(void)
 {
     const s64 freq = osHighResolutionFrequency();
 

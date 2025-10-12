@@ -188,6 +188,7 @@
     <ClInclude Include="rf_config\rfcnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
+    <ClInclude Include="rf_init.h" />
     <ClInclude Include="rf_ninja\rj_cnk\rjcnk_internal.h" />
     <ClInclude Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_internal.h" />
     <ClInclude Include="rf_ninja\rj_cnkmod\rfdmod_internal.h" />

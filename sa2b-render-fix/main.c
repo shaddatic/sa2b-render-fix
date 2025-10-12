@@ -38,6 +38,8 @@
 #include <rfm_cart.h>
 #include <rfm_player.h>
 
+#include <rf_init.h>
+
 /****** DX9 Control *****************************************************************/
 #include <dx9ctrl/dx9ctrl.h>
 
@@ -113,3 +115,17 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_ConfigEnd();
 }
 
+EXPORT_DLL
+void __cdecl
+OnRenderSceneStart(void)
+{
+    RF_FrameSkipSceneStart();
+}
+
+
+EXPORT_DLL
+void __cdecl
+OnRenderSceneEnd(void)
+{
+    RF_FrameSkipSceneEnd();
+}

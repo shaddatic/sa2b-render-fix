@@ -617,6 +617,9 @@
     <ClInclude Include="rf_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rf_init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />
