@@ -5,6 +5,9 @@
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
+/** SOC **/
+#include <samt/soc/shader.h>
+
 /** Source **/
 #include <samt/sonic/task.h>
 #include <samt/sonic/camera.h>
@@ -527,6 +530,10 @@ TaskDisplayAll(void)
 #endif
 
     EndPillarBox();
+
+    // Mod Loader debug text fix, logic oversight causes it to set the wrong shader on older
+    // versions if this isn't done.
+    SetShaderType( SHADER_TYPE_UI );
 }
 
 void
