@@ -91,7 +91,6 @@ OnRenderSceneStart(void)
     RF_FrameSkipSceneStart();
 }
 
-
 EXPORT_DLL
 void __cdecl
 OnRenderSceneEnd(void)
