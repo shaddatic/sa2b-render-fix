@@ -365,6 +365,10 @@ RF_NinjaInit(void)
 
     njPolygonCullingMode(NJD_POLYGON_CULLINGSMALL);
 
+    njTextureShadingMode(NJD_TEX_SHADING_MODE_MODULATEALPHA);
+
+    njIgnoreTextureAlphaMode( OFF );
+
     rjSetDepthQueue(-1800.f, -2000.f);
 
 //  njPolygonCullingSize(0.05f);
