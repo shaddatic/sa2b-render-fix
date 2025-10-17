@@ -9,7 +9,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
-#include <rf_mod.h>         /* modifier core                                        */
 
 /****** Self ************************************************************************/
 #include <rf_ninja/rj_cnkmod/rfdmod_internal.h> /* parent & siblings                */

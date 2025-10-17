@@ -16,7 +16,6 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_config.h>          /* config                                           */
-#include <rf_mod.h>             /* modifier core                                    */
 #include <rf_ninja.h>           /* set cheap shadow intensity                       */
 #include <rf_file.h>            /* file load                                        */
 #include <rf_usermsg.h>         /* user message box                                 */
@@ -192,13 +191,13 @@ RFM_ShadowsInit(void)
         return;
     }
 
-    /** Init modifier engine **/
-    RFMOD_Init();
-
+    // get basic shadow model
     model_basic_shadow = RF_ChunkLoadModelFile("common/basic_mod");
 
-    if (RF_ConfigGetInt(CNF_DEBUG_MODIFIER))
-        RFMOD_SetDrawMode(MODMD_DEBUG);
+    if ( RF_ConfigGetInt(CNF_DEBUG_MODIFIER) )
+    {
+        rjCheapShadowDebug( ON );
+    }
 
     CHS_BoardInit();
     CHS_MessengerInit();

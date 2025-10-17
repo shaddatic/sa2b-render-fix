@@ -11,7 +11,6 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_renderstate.h>     /* render state                                     */
-#include <rf_mod.h>
 
 /****** Self ************************************************************************/
 #include <rf_ninja/rj_internal.h>               /* parent & siblings                */

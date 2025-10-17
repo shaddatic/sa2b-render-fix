@@ -135,9 +135,6 @@
     <ClCompile Include="rfm_shadows\chs_boss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_mod.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_usermsg.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -420,15 +417,15 @@
     <ClCompile Include="rf_system.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_ninja\rj_mod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rfm_common\rfc_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_mod.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_ninja.h">

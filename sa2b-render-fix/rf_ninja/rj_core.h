@@ -38,8 +38,23 @@ typedef enum rjvtxtype
 RJ_VERTEX_TYPE;
 
 /****** Alpha Blend Mode ************************************************************************/
+typedef enum rjblend
+{
+    RJ_BLEND_ZERO,                  /* tgt_color * { 0   , 0   , 0   , 0    }                   */
+    RJ_BLEND_ONE,                   /* tgt_color * { 1   , 1   , 1   , 1    }                   */
+    RJ_BLEND_SRCCOLOR,              /* tgt_color * { As  , Rs  , Gs  , Bs   }                   */
+    RJ_BLEND_INVSRCCOLOR,           /* tgt_color * { 1-As, 1-Rs, 1-Gs, 1-Bs }                   */
+    RJ_BLEND_SRCALPHA,              /* tgt_color * { As  , As  , As  , As   }                   */
+    RJ_BLEND_INVSRCALPHA,           /* tgt_color * { 1-As, 1-As, 1-As, 1-As }                   */
+    RJ_BLEND_DSTALPHA,              /* tgt_color * { Ad  , Ad  , Ad  , Ad   }                   */
+    RJ_BLEND_INVDSTALPHA,           /* tgt_color * { 1-Ad, 1-Ad, 1-Ad, 1-Ad }                   */
+}
+RJ_BLEND;
+
 typedef enum rjalphamd
 {
+    RJ_ALPHA_RESET = -1,            /* reset alpha mode to default (opaque)                     */
+
     RJ_ALPHA_OPAQUE,                /* opaque drawing                                           */
     RJ_ALPHA_TRANSLUCENT,           /* translucent drawing                                      */
     RJ_ALPHA_ALPHATEST,             /* alpha test drawing (translucent)                         */
@@ -47,7 +62,7 @@ typedef enum rjalphamd
 }
 RJ_ALPHA;
 
-/****** Alpha Blend Mode ************************************************************************/
+/****** Polygon Culling Mode ********************************************************************/
 typedef enum rjcullmd
 {
     RJ_CULL_NONE,                   /* no culling                                               */
@@ -120,7 +135,11 @@ EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                   
 EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
 
 /****** Texture Error ***************************************************************************/
+EXTERN NJS_TEXNAME texture_rf_texerr[]; /* error texname                                        */
 EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                                        */
+
+/****** Translucency Mode ***********************************************************************/
+#define _rj_alpha_mode_             DATA_REF(RJ_ALPHA, 0x025EFE50)
 
 /********************************/
 /*  Prototypes                  */
@@ -135,10 +154,10 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                        
 *     Set blend mode via ninja context struct.
 *
 *   Parameters:
-*     - src, dst    : source and destination blend modes                   [NJD_COLOR_BLENDING]
+*     - src, dst    : source and destination blend modes                             [RJ_BLEND]
 *     - mode        : alpha mode
 */
-void    rjSetAlphaMode( Sint32 src, Sint32 dst, RJ_ALPHA mode );
+void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
 
 /****** Culling *********************************************************************************/
 /*
@@ -296,6 +315,11 @@ void    rjEndTriDestrip( Sint32 vtx );
 /****** Modifier Buffer *************************************************************************/
 /*
 *   Description:
+*     Draw the current modifier vertex buffer to the screen.
+*/
+void    rjModifierDrawBuffer( void );
+/*
+*   Description:
 *     Get the top of the modifier vertex buffer.
 *
 *   Notes:
@@ -343,6 +367,24 @@ Sint32  rjStartModTriDestrip( Sint32 poly, Bool* pOutInvst );
 *     - vtx         : vertex count, as returned by 'Start'
 */
 void    rjEndModTriDestrip( Sint32 vtx );
+
+/****** Cheap Shadow Effect *********************************************************************/
+/*
+*   Description:
+*     Start cheap shadow effect logic before draw call.
+*
+*   Returns:
+*     Mode number for 'End' function.
+*/
+Sint32  rjCheapShadowEffectStart( void );
+/*
+*   Description:
+*     End cheap shadow effect logic after draw call.
+*
+*   Parameters:
+*     - n       : mode number from 'Start' function.
+*/
+void    rjCheapShadowEffectEnd( Sint32 n );
 
 EXTERN_END
 

@@ -22,7 +22,6 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
-#include <rf_mod.h>
 #include <rf_feature.h>
 #include <rf_ninja.h>
 #include <rf_system.h>
@@ -230,8 +229,10 @@ static bool ModShadowDrawList[NB_MOD_DRAW] = { true, true, true, true, true, tru
 static void
 DrawModBuffer(int index)
 {
-    if (ModShadowDrawList[index])
-        RFMOD_DrawBuffer();
+    if ( ModShadowDrawList[index] )
+    {
+        rjDrawCheapShadow();
+    }
 }
 
 #define TaskDisplayShadows  FUNC_PTR(void, __cdecl, (void), 0x0046FBC0)
@@ -285,7 +286,7 @@ static void
 TaskDisplayShadAllTasks(void)
 {
     /** Clear mod buffer for new frame **/
-    RFMOD_ClearBuffer();
+    rjModifierResetBuffer();
 
     if (ForceShadowMaps || ShadowMapCount) // Delayed by 1 frame
     {

@@ -126,8 +126,10 @@ static dx9_vtx_decl* _rj_vtx_decls_[RJ_NB_VERTEX];
 static dx9_vtx_buff* _rj_vertex_buffer_;
 
 static RFS_VSHADER* _rj_vtx_shaders_[RJ_NB_VERTEX][RJ_NB_DRAW];
-
 static RFS_PSHADER* _rj_pxl_shaders_[NB_RJE_PIXEL];
+
+static RFS_VSHADER* _rj_mvtx_shader_;
+static RFS_PSHADER* _rj_mpxl_shader_;
 
 /****** Current State ***************************************************************************/
 static Uint32 _rj_polygon_format_;
@@ -455,9 +457,6 @@ rjGetVertexBuffer(void)
     return (void*)(_rj_vertex_buffer_top_);
 }
 
-s32     ModifierStart(void);
-void    ModifierEnd(const s32 i);
-
 static Uint32 _rj_vertex_buffer_offset_;
 
 void
@@ -520,11 +519,11 @@ rjEndVertex(void)
 
     if ( sz > RJD_VBUF_SIZE )
     {
-        const s32 i = ModifierStart();
+        const s32 i = rjCheapShadowEffectStart();
 
         DX9_DrawPrimitiveUP(pri_type, pri_num, _rj_vertex_buffer_base_, _rj_vertex_buffer_stride_);
 
-        ModifierEnd(i);
+        rjCheapShadowEffectEnd(i);
 
         _rj_vertex_buffer_num_ = 0;
         return;
@@ -560,11 +559,11 @@ rjEndVertex(void)
 
     /** Draw the vertex buffer **/
 
-    const s32 i = ModifierStart();
+    const s32 i = rjCheapShadowEffectStart();
 
     DX9_DrawPrimitive(pri_type, 0, pri_num);
 
-    ModifierEnd(i);
+    rjCheapShadowEffectEnd(i);
 
     /** Increment offset and reset count **/
 
@@ -811,20 +810,23 @@ rjGetModVertexBuffer(void)
 }
 
 void
-rjRenderModVertexBuffer(void)
+rjModifierDrawBuffer(void)
 {
     if ( !_rj_mod_vertex_buffer_num_ )
     {
         return;
     }
 
+    rjSetVertexDecl( _rj_vtx_decls_[ RJ_VERTEX_M ] );
+    rjSetShaders( _rj_mvtx_shader_, _rj_mpxl_shader_ );
+
     rjSetVertexBuffer( _rj_mod_vertex_buffer_, 0, sizeof(RJS_VERTEX_M) );
 
-    DX9_DrawPrimitive(DX9_PRITYPE_TRIANGLELIST, 0, _rj_mod_vertex_buffer_num_ / 3);
+    DX9_DrawPrimitive( DX9_PRITYPE_TRIANGLELIST, 0, _rj_mod_vertex_buffer_num_ / 3 );
 }
 
 void
-rjClearModVertexBuffer(void)
+rjModifierResetBuffer(void)
 {
     _rj_mod_vertex_buffer_num_ = 0;
 }
@@ -877,6 +879,14 @@ InitShaderMacroPixel(RFS_MACRO* pMacroAry, const RFS_MACRO** ppOutMacro)
     *ppOutMacro = &pMacroAry[0];
 
     return &pMacroAry[ix_base];
+}
+
+void
+RFCTRL_SetModBufferSize(s32 nbTri, s32 nbTriList)
+{
+    ___TODO("This function must be restored before release");
+
+    //SetIfGreater(ModBufferInitTriNum, nbTri);
 }
 
 /****** Init ************************************************************************/
@@ -958,9 +968,16 @@ RFD_CoreInit(void)
 
             _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
         }
+
+        /** Modifier Shaders **/
+
+        _rj_mvtx_shader_ = RF_CompileVShader(SHADER_NAME_MODVS, nullptr);
+        _rj_mpxl_shader_ = RF_CompilePShader(SHADER_NAME_MODPS, nullptr);
     }
 
     /** Vertex Buffers **/
+
+    rjInitModVertexBuffer(0x8000);
 
     _rj_vertex_buffer_ = DX9_CreateVertexBuffer(RJD_VBUF_SIZE, DX9_USAGE_DYNAMIC|DX9_USAGE_WRITEONLY, DX9_POOL_DEFAULT);
 

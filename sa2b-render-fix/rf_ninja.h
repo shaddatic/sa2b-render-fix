@@ -31,6 +31,16 @@ EXTERN_START
 #define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                 */
 #define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
 
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Float Color *****************************************************************************/
+typedef struct rjrgba
+{
+    Float r, g, b, a;               /* color components                                         */
+}
+RJS_RGBA;
+
 /************************/
 /*  Functions           */
 /************************/
@@ -478,6 +488,28 @@ void    rjSetCheapShadowMode( Int mode );
 *     - r, g, b     : cheap shadow color                                      [0~1]
 */
 void    rjSetCheapShadowColor( Float r, Float g, Float b );
+/*
+*   Description:
+*     Enable or disable the Cheap Shadow debug mode, which draws modifier shadows as full
+*   models and skips stencil logic.
+*
+*   Parameters:
+*     - mode    : cheap shadow debug mode                                              [ON/OFF]
+*/
+void    rjCheapShadowDebug( Bool mode );
+
+/*
+*   Description:
+*     Draw the current modifier buffer to the screen.
+*/
+void    rjDrawCheapShadow( void );
+
+/****** Reset Modifier Buffer *******************************************************************/
+/*
+*   Description:
+*     Clear the modifier buffer for a new frame.
+*/
+void    rjModifierResetBuffer( void );
 
 EXTERN_END
 

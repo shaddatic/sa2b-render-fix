@@ -10,20 +10,19 @@
 #ifndef H_RF_DRAW_INTERNAL
 #define H_RF_DRAW_INTERNAL
 
-/************************/
-/*  External Includes   */
-/************************/
-/****** Self ************************************************************************/
-#include <rf_ninja.h>           /* parent                                           */
-
-#include <rf_ninja/rj_core.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Self ************************************************************************************/
+#include <rf_ninja.h>               /* parent                                                   */
+#include <rf_ninja/rj_core.h>       /* core header                                              */
 
 EXTERN_START
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Init ************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Init ************************************************************************************/
 /*
 *   Description:
 *     Init Core draw sub-module.
@@ -53,9 +52,14 @@ void    RFD_SpriteInit( void );
 *   Description:
 *     Init blend mode hooks.
 */
-void    RFD_AlphaBlendInit(void);
+void    RFD_AlphaBlendInit( void );
+/*
+*   Description:
+*     Init modifier volume/cheap shadow.
+*/
+void    RJ_ModifierInit( void );
 
-/****** Cnk Shape *******************************************************************/
+/****** Cnk Shape *******************************************************************************/
 /*
 *   Description:
 *     Draw shape motion with cnkobj tree and BE flag.

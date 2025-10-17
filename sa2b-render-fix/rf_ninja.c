@@ -23,7 +23,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_mod.h>             /* RFMOD_PushPolygon                                */
 #include <rf_gx.h>              /* render fix gx                                    */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* ninja chunk draw                                 */
@@ -95,21 +94,6 @@ AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
     }
     else
         njCnkAnimateMotion(pObject, pMtnCtrl->minfo[0].pMotion, pMtnCtrl->minfo[0].frame);
-}
-
-void
-rjSetCheapShadowMode(Int mode)
-{
-    if (mode < 0 || mode > 256)
-        return;
-
-    RFMOD_SetAlpha( 1.f - ( (Float)mode * (1.f/256.f) ) );
-}
-
-void
-rjSetCheapShadowColor(Float r, Float g, Float b)
-{
-    RFMOD_SetColor( r, g, b );
 }
 
 void
@@ -327,6 +311,7 @@ RF_NinjaInit(void)
     RFD_PolygonInit();
     RFD_SpriteInit();
     RFD_AlphaBlendInit();
+    RJ_ModifierInit();
 
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);

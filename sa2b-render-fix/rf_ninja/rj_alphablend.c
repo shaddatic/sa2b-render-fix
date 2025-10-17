@@ -29,20 +29,7 @@
 /*  Game Defs                   */
 /********************************/
 /****** Transparancy Mode ***********************************************************************/
-typedef enum
-{
-    GJE_ALPHAMD_RESET = -1,
-
-    GJE_ALPHAMD_OPAQUE,
-    GJE_ALPHAMD_ALPHATEST,
-    GJE_ALPHAMD_TRANSPARENT,
-    GJE_ALPHAMD_PUNCHTHROUGH,
-}
-GJE_ALPHAMD;
-
-/****** Transparancy Mode ***********************************************************************/
-#define _gj_alpha_mode_     DATA_REF(GJE_ALPHAMD, 0x025EFE50)
-#define _gj_lock_alphamd_   DATA_REF(bool       , 0x01A55831)
+#define _gj_lock_alphamd_           DATA_REF(bool, 0x01A55831)
 
 /****** External Functions **********************************************************************/
 #define SetOpaqueDraw               FUNC_PTR(void, __cdecl, (void), 0x0042C030)
@@ -61,7 +48,7 @@ ___SetAlphaMode_Opaque(void)
         return;
     }
 
-    if ( _gj_alpha_mode_ != GJE_ALPHAMD_OPAQUE )
+    if ( _rj_alpha_mode_ != RJ_ALPHA_OPAQUE )
     {
         RF_MagicSetAlphaTestEnable(false); // this isn't done in vanilla, this certainly slowed the game down some
 
@@ -69,7 +56,7 @@ ___SetAlphaMode_Opaque(void)
         RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(true);
 
-        _gj_alpha_mode_ = GJE_ALPHAMD_OPAQUE;
+        _rj_alpha_mode_ = RJ_ALPHA_OPAQUE;
     }
 }
 
@@ -81,7 +68,7 @@ ___SetAlphaMode_Transparent(void)
         return;
     }
 
-    if ( _gj_alpha_mode_ != GJE_ALPHAMD_TRANSPARENT )
+    if ( _rj_alpha_mode_ != RJ_ALPHA_TRANSLUCENT )
     {
         RF_MagicSetAlphaTestEnable(false);
 
@@ -89,7 +76,7 @@ ___SetAlphaMode_Transparent(void)
         RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(false);
 
-        _gj_alpha_mode_ = GJE_ALPHAMD_TRANSPARENT;
+        _rj_alpha_mode_ = RJ_ALPHA_TRANSLUCENT;
     }
 }
 
@@ -101,7 +88,7 @@ ___SetAlphaMode_Alphatest(void)
         return;
     }
 
-    if ( _gj_alpha_mode_ != GJE_ALPHAMD_ALPHATEST )
+    if ( _rj_alpha_mode_ != RJ_ALPHA_ALPHATEST )
     {
         const RFRS_CMPMD func = RFRS_GetAlphaTestFunc();
         const Sint32     ref  = RFRS_GetAlphaTestRef();
@@ -114,7 +101,7 @@ ___SetAlphaMode_Alphatest(void)
         RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(true);
 
-        _gj_alpha_mode_ = GJE_ALPHAMD_ALPHATEST;
+        _rj_alpha_mode_ = RJ_ALPHA_ALPHATEST;
     }
 }
 
@@ -126,7 +113,7 @@ ___SetAlphaMode_Punchthrough(void)
         return;
     }
 
-    if ( _gj_alpha_mode_ != GJE_ALPHAMD_PUNCHTHROUGH )
+    if ( _rj_alpha_mode_ != RJ_ALPHA_PUNCHTHROUGH )
     {
         const RFRS_CMPMD func = RFRS_CMPMD_GTR;
         const Sint32     ref  = 64;
@@ -139,7 +126,7 @@ ___SetAlphaMode_Punchthrough(void)
         RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
         RF_MagicSetZWrite(true);
 
-        _gj_alpha_mode_ = GJE_ALPHAMD_PUNCHTHROUGH;
+        _rj_alpha_mode_ = RJ_ALPHA_PUNCHTHROUGH;
     }
 }
 
@@ -270,7 +257,7 @@ rjSetAlphaMode_Punchthrough(void)
 
 /****** Extern **********************************************************************************/
 void
-rjSetAlphaMode(Sint32 src, Sint32 dst, RJ_ALPHA mode)
+rjSetAlphaMode(RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode)
 {
     Bool trans;
 
