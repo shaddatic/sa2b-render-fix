@@ -402,6 +402,12 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 }
 
 static void
+rjCnkStripStartShading(const RJS_CNK_STRIP* restrict strip)
+{
+    rjSetPolygonShading( strip->flag & NJD_FST_FL ? RJ_SHADE_FLAT : RJ_SHADE_GOURAUD );
+}
+
+static void
 rjCnkStripStartMaterial(const RJS_CNK_STRIP* restrict strip)
 {
     const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
@@ -715,6 +721,7 @@ rjCnkStripDraw(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restri
         */
         rjCnkStripStartTexture( strip );
         rjCnkStripStartAlpha( strip );
+        rjCnkStripStartShading( strip );
         rjCnkStripStartMaterial( strip );
         rjCnkStripStartVertex( strip );
     }

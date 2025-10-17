@@ -260,6 +260,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 void
 rjCnkEndPlist(void)
 {
+    rjSetPolygonShading( RJ_SHADE_GOURAUD );
     rjSetPolygonCulling( RJ_CULL_NONE );
     rjInvertPolygons( OFF );
 }

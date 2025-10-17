@@ -169,7 +169,14 @@ rjInvertPolygons(Bool mode)
 void
 rjSetPolygonShading(RJ_SHADE mode)
 {
-    DX9_SetShadingMode( mode == RJ_SHADE_FLAT ? DX9_SHADE_FLAT : DX9_SHADE_GOURAUD );
+    static RJ_SHADE _rj_polygon_shading_;
+
+    if ( mode != _rj_polygon_shading_ )
+    {
+        _rj_polygon_shading_ = mode;
+
+        DX9_SetShadingMode( mode == RJ_SHADE_FLAT ? DX9_SHADE_FLAT : DX9_SHADE_GOURAUD );
+    }
 }
 
 void
