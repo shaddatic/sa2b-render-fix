@@ -114,7 +114,15 @@ rjSetDepthQueue(Float near, Float far)
 static void
 SetTexForDraw(void)
 {
-    NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texture;
+    const NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texture;
+
+    if ( !p_texsurface )
+    {
+        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
+        const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+
+        p_texsurface = &p_texsys->texsurface;
+    }
 
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
