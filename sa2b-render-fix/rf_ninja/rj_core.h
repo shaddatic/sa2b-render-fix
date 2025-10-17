@@ -10,6 +10,13 @@
 #ifndef H_RF_DRAW_CORE
 #define H_RF_DRAW_CORE
 
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
+#include <samt/ninja/njcontext.h>   /* ninja context                                            */
+
 EXTERN_START
 
 /********************************/
