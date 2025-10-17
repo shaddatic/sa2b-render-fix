@@ -62,6 +62,30 @@ typedef enum rjalphamd
 }
 RJ_ALPHA;
 
+/****** Shading Mode ****************************************************************************/
+typedef enum rjshade
+{
+    RJ_SHADE_FLAT,                  /* entire face is shaded with the same color                */
+    RJ_SHADE_GOURAUD,               /* each vertex color is interpolated across the face        */
+}
+RJ_SHADE;
+
+typedef enum rjtexshade
+{
+    /*
+    *   t = texture
+    *   c = color
+    *   o = offset color
+    * 
+    *   pixel_color | pixel_alpha
+    */
+    RJ_TEXSHADE_DECAL,              /*  RGBt + RGBo                         | At                */
+    RJ_TEXSHADE_MODULATE,           /* (RGBc * RGBt) + RGBo                 | Ac                */
+    RJ_TEXSHADE_DECALALPHA,         /* (RGBt * At) + (RGBc * (1-At)) + RGBo | Ac                */
+    RJ_TEXSHADE_MODULATEALPHA,      /* (RGBc * RGBt) + RGBo                 | Ac * At           */
+}
+RJ_TEXSHADE;
+
 /****** Polygon Culling Mode ********************************************************************/
 typedef enum rjcullmd
 {
@@ -154,10 +178,28 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                        
 *     Set blend mode via ninja context struct.
 *
 *   Parameters:
-*     - src, dst    : source and destination blend modes                             [RJ_BLEND]
+*     - src, dst    : source and destination blend modes
 *     - mode        : alpha mode
 */
 void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
+
+/****** Shading Mode ****************************************************************************/
+/*
+*   Description:
+*     Set polygon shading mode.
+*
+*   Parameters:
+*     - mode        : polygon shading mode
+*/
+void    rjSetPolygonShading( RJ_SHADE mode );
+/*
+*   Description:
+*     Set texture shading mode.
+*
+*   Parameters:
+*     - mode        : texture shading mode
+*/
+void    rjSetTextureShading( RJ_TEXSHADE mode );
 
 /****** Culling *********************************************************************************/
 /*
@@ -167,7 +209,7 @@ void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
 *   Parameters:
 *     - mode        : polygon culling mode
 */
-void    rjPolygonCulling( RJ_CULL mode );
+void    rjSetPolygonCulling( RJ_CULL mode );
 /*
 *   Description:
 *     Set the invert polygon mode. If this is enabled, CW polygons will be drawn as CCW

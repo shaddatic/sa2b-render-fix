@@ -154,7 +154,7 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 /************************/
 /****** Culling *********************************************************************************/
 void
-rjPolygonCulling(RJ_CULL mode)
+rjSetPolygonCulling(RJ_CULL mode)
 {
     GX_SetCullMode(mode);
 }
@@ -165,7 +165,20 @@ rjInvertPolygons(Bool mode)
     _rj_invert_polygons_ = mode;
 }
 
-/****** Extern **********************************************************************/
+/****** Shading *********************************************************************************/
+void
+rjSetPolygonShading(RJ_SHADE mode)
+{
+    DX9_SetShadingMode( mode == RJ_SHADE_FLAT ? DX9_SHADE_FLAT : DX9_SHADE_GOURAUD );
+}
+
+void
+rjSetTextureShading(RJ_TEXSHADE mode)
+{
+    mode;
+}
+
+/****** Extern **********************************************************************************/
 void
 rjSetBlend2D(Int trans)
 {

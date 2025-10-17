@@ -141,7 +141,7 @@ rjCnkPolygonCulling(RJ_CULL cullmd)
         return;
     }
 
-    rjPolygonCulling(cullmd);
+    rjSetPolygonCulling(cullmd);
 
     _rj_cnk_context_.cull = cullmd;
 }
@@ -260,6 +260,6 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 void
 rjCnkEndPlist(void)
 {
-    rjPolygonCulling( RJ_CULL_NONE );
+    rjSetPolygonCulling( RJ_CULL_NONE );
     rjInvertPolygons( OFF );
 }
