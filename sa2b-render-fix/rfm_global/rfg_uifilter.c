@@ -48,7 +48,7 @@
 static void
 DrawTextureExWithPoint(const NJS_TEXTURE_VTX* polygon, Int flag)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     rjDrawTextureEx( polygon, 4, flag );
 
@@ -58,7 +58,7 @@ DrawTextureExWithPoint(const NJS_TEXTURE_VTX* polygon, Int flag)
 static void
 DrawTextureWithPoint(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     rjDrawTexture( polygon, count, tex, flag );
 
@@ -102,7 +102,7 @@ static mt_hookinfo HudDrawHookInfo[1];
 static void
 HudDrawHook(void)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( HudDrawHookInfo, HudDraw() );
 
@@ -114,7 +114,7 @@ static mt_hookinfo ActionWindowDispHookInfo[1];
 static void
 ActionWindowDispHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( ActionWindowDispHookInfo, ActionWindowDisp(tp) );
 
@@ -126,7 +126,7 @@ static mt_hookinfo DispTechniqueScoreDisplayerHookInfo[1];
 static void
 DispTechniqueScoreDisplayerHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( DispTechniqueScoreDisplayerHookInfo, DispTechniqueScoreDisplayer(tp) );
 
@@ -138,7 +138,7 @@ static mt_hookinfo DispWinnerAndContinueDispHookInfo[1];
 static void
 DispWinnerAndContinueDispHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( DispWinnerAndContinueDispHookInfo, DispWinnerAndContinueDisp(tp) );
 
@@ -149,7 +149,7 @@ static mt_hookinfo CalcTotalTimeDispHookInfo[1];
 static void
 CalcTotalTimeDispHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( CalcTotalTimeDispHookInfo, CalcTotalTimeDisp(tp) );
 
@@ -160,7 +160,7 @@ static mt_hookinfo CalcTotalScoreDispHookInfo[1];
 static void
 CalcTotalScoreDispHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( CalcTotalScoreDispHookInfo, CalcTotalScoreDisp(tp) );
 
@@ -171,7 +171,7 @@ static mt_hookinfo DisplayTotalRingsDispLateHookInfo[1];
 static void
 DisplayTotalRingsDispLateHook(task* tp)
 {
-    njTextureFilterMode( NJD_TEXTUREFILTER_POINT_SAMPLE );
+    njTextureFilterMode( NJD_TEXTUREFILTER_POINTSAMPLE );
 
     mtHookInfoCall( DisplayTotalRingsDispLateHookInfo, DisplayTotalRingsDispLate(tp) );
 

@@ -114,93 +114,7 @@ rjSetDepthQueue(Float near, Float far)
 static void
 SetTexForDraw(void)
 {
-    const NJS_TEXSURFACE* p_texsurface = _nj_curr_ctx_->texture;
-
-    if ( !p_texsurface )
-    {
-        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
-        const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
-
-        p_texsurface = &p_texsys->texsurface;
-    }
-
-    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
-
-    /** clamp/flip **/
-
-    if ( tspparam & NJD_TEXTURECLAMP_CLAMP_U )
-    {
-        TexInfoDraw.address_u = 0;
-    }
-    else if ( tspparam & NJD_TEXTUREFLIP_FLIP_U )
-    {
-        TexInfoDraw.address_u = 2;
-    }
-    else
-        TexInfoDraw.address_u = 1;
-
-    if ( tspparam & NJD_TEXTURECLAMP_CLAMP_V )
-    {
-        TexInfoDraw.address_v = 0;
-    }
-    else if ( tspparam & NJD_TEXTUREFLIP_FLIP_V )
-    {
-        TexInfoDraw.address_v = 2;
-    }
-    else
-        TexInfoDraw.address_v = 1;
-
-    /** filter mode **/
-
-    switch ( (tspparam & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
-    {
-        case 0: // point
-        {
-            TexInfoDraw.min_filter = 0;
-            TexInfoDraw.mag_filter = 0;
-            break;
-        }
-        case 1: // bilinear (default)
-        {
-            TexInfoDraw.min_filter = 1;
-            TexInfoDraw.mag_filter = 1;
-            break;
-        }
-        case 2: // trilinear A
-        {
-            TexInfoDraw.min_filter = 1;
-            TexInfoDraw.mag_filter = 1;
-            break;
-        }
-        case 3: // trilinear B
-        {
-            TexInfoDraw.min_filter = 1;
-            TexInfoDraw.mag_filter = 1;
-            break;
-        }
-    }
-
-    if ( SocTexOverrideFlags & (1<<0) )
-    {
-        TexInfoDraw.address_u = SocTexOverrideAddrU;
-    }
-
-    if ( SocTexOverrideFlags & (1<<1) )
-    {
-        TexInfoDraw.address_v = SocTexOverrideAddrV;
-    }
-
-    /** palette **/
-
-    const Uint32 sflag = p_texsurface->fSurfaceFlags;
-
-    TexInfoDraw.palette = (sflag & NJD_SURFACEFLAGS_PALETTIZED) ? _nj_curr_ctx_->bank : -1;
-
-    TexInfoDraw.mip_level = (sflag & NJD_SURFACEFLAGS_MIPMAPED) ? 1 : 0;
-
-    TexInfoDraw.surface = p_texsurface->pSurface;
-
-    RX_SetTexture(&TexInfoDraw, 0);
+    rjSetTexture2D( FALSE );
 }
 
 static void
@@ -357,19 +271,19 @@ RF_NinjaInit(void)
 
     /** Set default context **/
 
-    njTextureFilterMode(NJD_TEXTUREFILTER_BILINEAR);
+    njTextureFilterMode( NJD_TEXTUREFILTER_BILINEAR );
 
-    njTextureClampMode(NJD_TEXTURECLAMP_NOCLAMP);
+    njTextureClampMode( NJD_TEXTURECLAMP_OFF );
 
-    njTextureFlipMode(NJD_TEXTUREFLIP_NOFLIP);
+    njTextureFlipMode( NJD_TEXTUREFLIP_OFF );
 
-    njPolygonCullingMode(NJD_POLYGON_CULLINGSMALL);
+    njPolygonCullingMode( NJD_POLYGONCULL_SMALL );
 
-    njTextureShadingMode(NJD_TEX_SHADING_MODE_MODULATEALPHA);
+    njTextureShadingMode( NJD_TEXSHADING_MODULATEALPHA );
 
     njIgnoreTextureAlphaMode( OFF );
 
-    rjSetDepthQueue(-1800.f, -2000.f);
+    rjSetDepthQueue( -1800.f, -2000.f );
 
 //  njPolygonCullingSize(0.05f);
 

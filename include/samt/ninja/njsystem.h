@@ -25,17 +25,17 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 /*  Constants                   */
 /********************************/
 /****** Color Target ****************************************************************************/
-#define NJD_SOURCE_COLOR                        (0) /* new rasterized pixel color               */
-#define NJD_DESTINATION_COLOR                   (1) /* render target pixel color                */
+#define NJD_COLOR_SRC                           (0) /* new rasterized pixel color               */
+#define NJD_COLOR_DST                           (1) /* render target pixel color                */
 
 /****** Color Blending Mode *********************************************************************/
 #define NJD_COLOR_BLENDING_BOTHINVALPHA         ( 0) /* src = SA, dst = ISA; tgt param ignored  */
 #define NJD_COLOR_BLENDING_BOTHSRCALPHA         ( 1) /* src = ISA, dst = SA; tgt param ignored  */
 
-#define NJD_COLOR_BLENDING_DESTALPHA            ( 2) /* tgt * destination alpha                 */
-#define NJD_COLOR_BLENDING_DESTCOLOR            ( 3) /* tgt * destination color            [sc] */
-#define NJD_COLOR_BLENDING_INVDESTALPHA         ( 4) /* tgt * inverse destination alpha         */
-#define NJD_COLOR_BLENDING_INVDESTCOLOR         ( 5) /* tgt * inverse destination color   [isc] */
+#define NJD_COLOR_BLENDING_DSTALPHA             ( 2) /* tgt * destination alpha                 */
+#define NJD_COLOR_BLENDING_DSTCOLOR             ( 3) /* tgt * destination color            [sc] */
+#define NJD_COLOR_BLENDING_INVDSTALPHA          ( 4) /* tgt * inverse destination alpha         */
+#define NJD_COLOR_BLENDING_INVDSTCOLOR          ( 5) /* tgt * inverse destination color   [isc] */
 #define NJD_COLOR_BLENDING_INVSRCALPHA          ( 6) /* tgt * inverse source alpha              */
 #define NJD_COLOR_BLENDING_INVSRCCOLOR          ( 7) /* tgt * inverse source color              */
 #define NJD_COLOR_BLENDING_SRCALPHA             ( 8) /* tgt * source alpha                      */
@@ -44,10 +44,10 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 #define NJD_COLOR_BLENDING_ZERO                 (11) /* tgt * 0                                 */
 
 /****** Polygon Culling *************************************************************************/
-#define NJD_POLYGON_NOCULLING                   (0x00000000) /* no culling                      */
-#define NJD_POLYGON_CULLINGSMALL                (0x08000000) /* cull small polygons             */
-#define NJD_POLYGON_CULLINGACW                  (0x10000000) /* cull anti-clockwise polygons    */
-#define NJD_POLYGON_CULLINGCW                   (0x18000000) /* cull clockwise polygons         */
+#define NJD_POLYGONCULL_OFF                     (0x00000000) /* no culling                      */
+#define NJD_POLYGONCULL_SMALL                   (0x08000000) /* cull small polygons             */
+#define NJD_POLYGONCULL_ACW                     (0x10000000) /* cull anti-clockwise polygons    */
+#define NJD_POLYGONCULL_CW                      (0x18000000) /* cull clockwise polygons         */
 
 /****** Texture Shading Mode ********************************************************************/
 /*
@@ -57,28 +57,28 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 *
 *   pixel_color | pixel_alpha
 */
-#define NJD_TEX_SHADING_MODE_DECAL              (0x00000000) /*  RGBt + RGBo                         | At       */
-#define NJD_TEX_SHADING_MODE_MODULATE           (0x00000040) /* (RGBc * RGBt) + RGBo                 | Ac       */
-#define NJD_TEX_SHADING_MODE_DECALALPHA         (0x00000080) /* (RGBt * At) + (RGBc * (1-At)) + RGBo | Ac       */
-#define NJD_TEX_SHADING_MODE_MODULATEALPHA      (0x000000C0) /* (RGBc * RGBt) + RGBo                 | Ac * At  */
+#define NJD_TEXSHADING_DECAL                    (0x00000000) /*  RGBt + RGBo                         | At       */
+#define NJD_TEXSHADING_MODULATE                 (0x00000040) /* (RGBc * RGBt) + RGBo                 | Ac       */
+#define NJD_TEXSHADING_DECALALPHA               (0x00000080) /* (RGBt * At) + (RGBc * (1-At)) + RGBo | Ac       */
+#define NJD_TEXSHADING_MODULATEALPHA            (0x000000C0) /* (RGBc * RGBt) + RGBo                 | Ac * At  */
 
 /****** Texture Filtering ***********************************************************************/
-#define NJD_TEXTUREFILTER_POINT_SAMPLE          (0x00000000) /* point filtering (no filter)     */
+#define NJD_TEXTUREFILTER_POINTSAMPLE           (0x00000000) /* point filtering (no filter)     */
 #define NJD_TEXTUREFILTER_BILINEAR              (0x00002000) /* bilinear filtering              */
 #define NJD_TEXTUREFILTER_TRILINEAR_A           (0x00004000) /* trilinear filtering A (+Z)      */
 #define NJD_TEXTUREFILTER_TRILINEAR_B           (0x00006000) /* trilinear filtering B (+1-Z)    */
 
 /****** Texture Clamping ************************************************************************/
-#define NJD_TEXTURECLAMP_NOCLAMP                (0x00000000) /* no texture clamp                */
-#define NJD_TEXTURECLAMP_CLAMP_V                (0x00008000) /* texture clamp V                 */
-#define NJD_TEXTURECLAMP_CLAMP_U                (0x00010000) /* texture clamp U                 */
-#define NJD_TEXTURECLAMP_CLAMP_UV               (0x00018000) /* texture clamp both              */
+#define NJD_TEXTURECLAMP_OFF                    (0x00000000) /* no texture clamp                */
+#define NJD_TEXTURECLAMP_V                      (0x00008000) /* texture clamp V                 */
+#define NJD_TEXTURECLAMP_U                      (0x00010000) /* texture clamp U                 */
+#define NJD_TEXTURECLAMP_UV                     (0x00018000) /* texture clamp both              */
 
 /****** Texture Flipping ************************************************************************/
-#define NJD_TEXTUREFLIP_NOFLIP                  (0x00000000) /* no texture flip                 */
-#define NJD_TEXTUREFLIP_FLIP_V                  (0x00020000) /* texture flip V                  */
-#define NJD_TEXTUREFLIP_FLIP_U                  (0x00040000) /* texture flip U                  */
-#define NJD_TEXTUREFLIP_FLIP_UV                 (0x00060000) /* texture flip both               */
+#define NJD_TEXTUREFLIP_OFF                     (0x00000000) /* no texture flip                 */
+#define NJD_TEXTUREFLIP_V                       (0x00020000) /* texture flip V                  */
+#define NJD_TEXTUREFLIP_U                       (0x00040000) /* texture flip U                  */
+#define NJD_TEXTUREFLIP_UV                      (0x00060000) /* texture flip both               */
 
 /****** Modifier Mode ***************************************************************************/
 #define NJD_MODIFIER_INSIDE                     (0x20000000) /* shade inside polygons           */
@@ -290,7 +290,6 @@ void    njZWriteMode( Int mode );
 *
 *   Notes:
 *     - Behavior not implemented, no effect
-*     - Has no effect on model draw, set by model parameters
 *
 *   Parameters:
 *     - mode        : texture flip mode                              [NJD_TEX_SHADING_MODE_###]

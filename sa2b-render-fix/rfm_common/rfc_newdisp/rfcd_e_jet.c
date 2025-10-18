@@ -59,8 +59,8 @@ EnemyJetDisplayer_(task* tp)
 
     if (!ptp || ptp->ctp == tp || tp->last->disp != EnemyJetDisplayer)
     {
-        njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
-        njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_ONE);
+        njColorBlendingMode(NJD_COLOR_SRC, NJD_COLOR_BLENDING_SRCALPHA);
+        njColorBlendingMode(NJD_COLOR_DST, NJD_COLOR_BLENDING_ONE);
 
         njSetTexture(texlist_e_jet1);
         njFogDisable();
@@ -87,8 +87,7 @@ EnemyJetDisplayer_(task* tp)
 
     if (!ptp || ptp->ctp == tp->next || tp->next->disp != EnemyJetDisplayer)
     {
-        njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
-        njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
+        njColorBlendingMode(0, NJD_COLOR_BLENDING_BOTHSRCALPHA);
 
         njFogEnable();
     }

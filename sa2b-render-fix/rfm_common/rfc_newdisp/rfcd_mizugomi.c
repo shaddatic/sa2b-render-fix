@@ -47,8 +47,8 @@ MizugomiDisplayer_AM(task* tp)
 
     njFogDisable();
 
-    njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
-    njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_ONE);
+    njColorBlendingMode(NJD_COLOR_SRC, NJD_COLOR_BLENDING_SRCALPHA);
+    njColorBlendingMode(NJD_COLOR_DST, NJD_COLOR_BLENDING_ONE);
 
     njPushMatrixEx();
 
@@ -62,8 +62,7 @@ MizugomiDisplayer_AM(task* tp)
 
     njPopMatrixEx();
 
-    njColorBlendingMode(NJD_SOURCE_COLOR     , NJD_COLOR_BLENDING_SRCALPHA);
-    njColorBlendingMode(NJD_DESTINATION_COLOR, NJD_COLOR_BLENDING_INVSRCALPHA);
+    njColorBlendingMode(0, NJD_COLOR_BLENDING_BOTHSRCALPHA);
 
     njFogEnable();
 }

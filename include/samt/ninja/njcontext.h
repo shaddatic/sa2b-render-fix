@@ -37,10 +37,13 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 *   ISP Param
 */
 /****** Polygon Culling *************************************************************************/
-//      NJD_POLYGON_NOCULLING                   (0x00000000) /* no culling                      */
-//      NJD_POLYGON_CULLINGSMALL                (0x08000000) /* cull small polygons             */
-//      NJD_POLYGON_CULLINGACW                  (0x10000000) /* cull anti-clockwise polygons    */
-//      NJD_POLYGON_CULLINGCW                   (0x18000000) /* cull clockwise polygons         */
+#define NJD_POLYGONCULL_SHIFT                   (27)         /* polygon culling shift           */
+#define NJD_POLYGONCULL_MASK                    (0x18000000) /* polygon culling mask            */
+
+//      NJD_POLYGONCULL_OFF                     (0x00000000) /* no culling                      */
+//      NJD_POLYGONCULL_SMALL                   (0x08000000) /* cull small polygons             */
+//      NJD_POLYGONCULL_ACW                     (0x10000000) /* cull anti-clockwise polygons    */
+//      NJD_POLYGONCULL_CW                      (0x18000000) /* cull clockwise polygons         */
 
 /****** Z Buffer ********************************************************************************/
 #define NJD_ZBUFFER_ON                          (0xC0000000) /* z buffer enabled                */
@@ -54,35 +57,47 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 *   TSP Param
 */
 /****** Texture Shading Mode ********************************************************************/
-//      NJD_TEX_SHADING_MODE_DECAL              (0x00000000) /* decal                           */
-//      NJD_TEX_SHADING_MODE_MODULATE           (0x00000040) /* modulate                        */
-//      NJD_TEX_SHADING_MODE_DECALALPHA         (0x00000080) /* decal alpha                     */
-//      NJD_TEX_SHADING_MODE_MODULATEALPHA      (0x000000C0) /* modulate alpha                  */
+#define NJD_TEXSHADING_SHIFT                    (6)          /* texture shading shift           */
+#define NJD_TEXSHADING_MASK                     (0x000000C0) /* texture shading mask            */
+
+//      NJD_TEXSHADING_DECAL                    (0x00000000) /* decal                           */
+//      NJD_TEXSHADING_MODULATE                 (0x00000040) /* modulate                        */
+//      NJD_TEXSHADING_DECALALPHA               (0x00000080) /* decal alpha                     */
+//      NJD_TEXSHADING_MODULATEALPHA            (0x000000C0) /* modulate alpha                  */
 
 /****** Mipmap Adjust ***************************************************************************/
 #define NJD_MIPMAPADJUST_SHIFT                  (8)           /* mipmap adjust level shift      */
-#define NJD_MIPMAPADJUST_MASK                   (~0x00000F00) /* mipmap adjust level mask       */
+#define NJD_MIPMAPADJUST_MASK                   (0x00000F00)  /* mipmap adjust level mask       */
 
 /****** Super Sampling **************************************************************************/
 #define NJD_SUPERSAMPLE_ON                      (0x00001000) /* super sample enabled            */
 
 /****** Texture Filtering ***********************************************************************/
-//      NJD_TEXTUREFILTER_POINT_SAMPLE          (0x00000000) /* point filtering (no filter)     */
+#define NJD_TEXTUREFILTER_SHIFT                 (13)         /* texture filter shift            */
+#define NJD_TEXTUREFILTER_MASK                  (0x00006000) /* texture filter mask             */
+
+//      NJD_TEXTUREFILTER_POINTSAMPLE           (0x00000000) /* point filtering (no filter)     */
 //      NJD_TEXTUREFILTER_BILINEAR              (0x00002000) /* bilinear filtering              */
 //      NJD_TEXTUREFILTER_TRILINEAR_A           (0x00004000) /* trilinear filtering A (+Z)      */
 //      NJD_TEXTUREFILTER_TRILINEAR_B           (0x00006000) /* trilinear filtering B (+1-Z)    */
 
 /****** Texture Clamping ************************************************************************/
-//      NJD_TEXTURECLAMP_NOCLAMP                (0x00000000) /* no texture clamp                */
-//      NJD_TEXTURECLAMP_CLAMP_V                (0x00008000) /* texture clamp V                 */
-//      NJD_TEXTURECLAMP_CLAMP_U                (0x00010000) /* texture clamp U                 */
-//      NJD_TEXTURECLAMP_CLAMP_UV               (0x00018000) /* texture clamp both              */
+#define NJD_TEXTURECLAMP_SHIFT                  (15)         /* texture clamp shift             */
+#define NJD_TEXTURECLAMP_MASK                   (0x00018000) /* texture clamp mask              */
+
+//      NJD_TEXTURECLAMP_OFF                    (0x00000000) /* no texture clamp                */
+//      NJD_TEXTURECLAMP_V                      (0x00008000) /* texture clamp V                 */
+//      NJD_TEXTURECLAMP_U                      (0x00010000) /* texture clamp U                 */
+//      NJD_TEXTURECLAMP_UV                     (0x00018000) /* texture clamp both              */
 
 /****** Texture Flipping ************************************************************************/
-//      NJD_TEXTUREFLIP_NOFLIP                  (0x00000000) /* no texture flip                 */
-//      NJD_TEXTUREFLIP_FLIP_V                  (0x00020000) /* texture flip V                  */
-//      NJD_TEXTUREFLIP_FLIP_U                  (0x00040000) /* texture flip U                  */
-//      NJD_TEXTUREFLIP_FLIP_UV                 (0x00060000) /* texture flip both               */
+#define NJD_TEXTUREFLIP_SHIFT                   (17)         /* texture flip shift              */
+#define NJD_TEXTUREFLIP_MASK                    (0x00060000) /* texture flip mask               */
+
+//      NJD_TEXTUREFLIP_OFF                     (0x00000000) /* no texture flip                 */
+//      NJD_TEXTUREFLIP_V                       (0x00020000) /* texture flip V                  */
+//      NJD_TEXTUREFLIP_U                       (0x00040000) /* texture flip U                  */
+//      NJD_TEXTUREFLIP_UV                      (0x00060000) /* texture flip both               */
 
 /****** Ignore Texture Alpha ********************************************************************/
 #define NJD_IGNORETEXALPHA_ON                   (0x00080000) /* ignore tex alpha on flag        */
@@ -113,6 +128,9 @@ typedef struct njtexsurface         NJS_TEXSURFACE; /* texture surface          
 *   Modifier Param
 */
 /****** Modifier Mode ***************************************************************************/
+#define NJD_MODIFIER_SHIFT                      (29)         /* modifier flag shift             */
+#define NJD_MODIFIER_MASK                       (0xE0000000) /* modifier flag mask              */
+
 //      NJD_MODIFIER_INSIDE                     (0x20000000) /* shade inside polygons           */
 //      NJD_MODIFIER_OUTSIDE                    (0x40000000) /* shade outside polygons          */
 

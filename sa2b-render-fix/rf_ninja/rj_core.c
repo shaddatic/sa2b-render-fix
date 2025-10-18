@@ -243,7 +243,7 @@ rjSetTexture2D(Int clamp)
 
     /** texture filtering **/
 
-    switch ( (tspparam & NJD_TEXTUREFILTER_TRILINEAR_B) >> 13 )
+    switch ( (tspparam & NJD_TEXTUREFILTER_MASK) >> NJD_TEXTUREFILTER_SHIFT )
     {
         case 0: // point
         {
@@ -267,11 +267,11 @@ rjSetTexture2D(Int clamp)
     }
     else
     {
-        if ( tspparam & NJD_TEXTURECLAMP_CLAMP_U )
+        if ( tspparam & NJD_TEXTURECLAMP_U )
         {
             p_tinfo->address_u = 0;
         }
-        else if ( tspparam & NJD_TEXTUREFLIP_FLIP_U )
+        else if ( tspparam & NJD_TEXTUREFLIP_U )
         {
             p_tinfo->address_u = 2;
         }
@@ -280,11 +280,11 @@ rjSetTexture2D(Int clamp)
             p_tinfo->address_u = 1;
         }
 
-        if ( tspparam & NJD_TEXTURECLAMP_CLAMP_V )
+        if ( tspparam & NJD_TEXTURECLAMP_V )
         {
             p_tinfo->address_v = 0;
         }
-        else if ( tspparam & NJD_TEXTUREFLIP_FLIP_V )
+        else if ( tspparam & NJD_TEXTUREFLIP_V )
         {
             p_tinfo->address_v = 2;
         }
