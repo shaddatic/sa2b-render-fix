@@ -67,42 +67,28 @@ CompileError(const char* fpath)
 */
 /****** Float Constants *************************************************************************/
 void
-RF_ShaderSetConstant(SHC_REGISTER registr, f32 x, f32 y, f32 z, f32 w)
+RF_ShaderSetConstantF(RF_SCF_REGISTER registr, const dx9_float4* p, size nb)
 {
-    if ( registr > MAX_SHC )
+    if ( registr > RF_SCF_MAX )
     {
-        RF_MagicSetShaderConstantVec4( MAGIC_SHADER_PIXEL, registr - SHC_PXL_OFF, x, y, z, w );
+        DX9_SetPxlShaderConstantF( registr - RF_SCFP_OFFSET, p, nb );
     }
     else
     {
-        RF_MagicSetShaderConstantVec4( MAGIC_SHADER_VERTEX, registr - SHC_VTX_OFF, x, y, z, w );
+        DX9_SetVtxShaderConstantF( registr - RF_SCFV_OFFSET, p, nb );
     }
 }
 
 void
-RF_ShaderSetConstantF(SHC_REGISTER registr, f32 f)
+RF_ShaderSetConstantF4(RF_SCF_REGISTER registr, f32 x, f32 y, f32 z, f32 w)
 {
-    if ( registr > MAX_SHC )
-    {
-        RF_MagicSetShaderConstantFloat( MAGIC_SHADER_PIXEL, registr - SHC_PXL_OFF, f, 1 );
-    }
-    else
-    {
-        RF_MagicSetShaderConstantFloat( MAGIC_SHADER_VERTEX, registr - SHC_VTX_OFF, f, 1 );
-    }
+    RF_ShaderSetConstantF( registr, &(const dx9_float4){ x, y, z, w }, 1 );
 }
 
 void
-RF_ShaderSetConstantM(SHC_REGISTER registr, const f32* m)
+RF_ShaderSetConstantM(RF_SCF_REGISTER registr, const RFS_MATRIX* m)
 {
-    if ( registr > MAX_SHC )
-    {
-        RF_MagicSetShaderConstantMatrix( MAGIC_SHADER_PIXEL, registr - SHC_PXL_OFF, m );
-    }
-    else
-    {
-        RF_MagicSetShaderConstantMatrix( MAGIC_SHADER_VERTEX, registr - SHC_VTX_OFF, m );
-    }
+    RF_ShaderSetConstantF(registr, (const dx9_float4*)m, 4);
 }
 
 /************************************************************************************************/

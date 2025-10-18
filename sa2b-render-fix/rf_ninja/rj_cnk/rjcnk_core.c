@@ -155,7 +155,7 @@ rjCnkStartVertexNonTex(void)
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 0.f;
 
-    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
+    RF_ShaderSetConstantF4(RF_SCFV_NUMTEXGENS, smf, 0.f, 0.f, 0.f);
 }
 
 void
@@ -166,7 +166,7 @@ rjCnkStartVertexTex(void)
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 1.f;
 
-    RF_ShaderSetConstantF(SHC_VTX_NUMTEXGENS, smf);
+    RF_ShaderSetConstantF4(RF_SCFV_NUMTEXGENS, smf, 0.f, 0.f, 0.f);
 }
 
 void

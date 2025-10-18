@@ -71,16 +71,17 @@ SendScreenRatioToShader(float resW, float resH)
     const float res_w = DisplayResolutionX * adj_w;
     const float res_h = DisplayResolutionY * adj_h;
 
-    // x and y components are the inverse viewport resolution (Render Fix register)
-    const float inv_x = 1.f / DisplayResolutionX;
-    const float inv_y = 1.f / DisplayResolutionY;
-
     // z is idk, and w is the aspect ratio difference from 4:3
     const float asp_w = (res_w) / resW;
     const float asp_h = (res_h * adj_h) / resH / asp_w;
 
-    RF_ShaderSetConstant(SHC_VTX_DEVICEINFO, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
-    RF_ShaderSetConstant(SHC_VTX_SCREENINFO, inv_x, inv_y, 0.f, 0.f);
+    RF_ShaderSetConstantF4(RF_SCFV_DEVICEINFO, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
+
+    // x and y components are the inverse viewport resolution (Render Fix register)
+    const float inv_x = 1.f / DisplayResolutionX;
+    const float inv_y = 1.f / DisplayResolutionY;
+
+    RF_ShaderSetConstantF4(RF_SCFV_SCREENINFO, inv_x, inv_y, 0.f, 0.f);
 }
 
 #define GX_SetViewport      FUNC_PTR(void, __cdecl, (float, float, float, float, float, float), 0x00420210)
