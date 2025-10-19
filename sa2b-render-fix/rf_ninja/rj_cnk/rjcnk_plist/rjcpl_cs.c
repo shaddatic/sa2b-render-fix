@@ -29,7 +29,7 @@ UseSpecular(const RJS_CNK_STRIP* restrict pStrip)
 */
 /****** Normal **********************************************************************************/
 static void
-rjCnkStripDraw(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+rjCnkDrawStrip(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
 {
     RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
     RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
@@ -225,7 +225,7 @@ rjCnkStrip_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
         FST_IL:
             cfunc = RJE_CNK_VCOLFUNC_D8;
 
-            rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
         }
         else // use lighting
         {
@@ -236,7 +236,7 @@ rjCnkStrip_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
 
             cfunc = RJE_CNK_VCOLFUNC_LIGHTD8;
 
-            rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
         }
     }
 }
@@ -268,13 +268,13 @@ rjCnkStrip_VN(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restri
         {
             cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
 
-            rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
         }
         else // use lighting
         {
             cfunc = RJE_CNK_VCOLFUNC_LIGHT;
 
-            rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+            rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
         }
     }
 }
@@ -291,7 +291,7 @@ rjCnkStrip_D8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restri
     }
     else // non environment
     {
-        rjCnkStripDraw(pStrip->striph, vbuf, cfunc, sfunc);
+        rjCnkDrawStrip(pStrip->striph, vbuf, cfunc, sfunc);
     }
 }
 
@@ -313,7 +313,7 @@ rjCnkStrip_D8S8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
     }
     else // non environment
     {
-        rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+        rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
     }
 }
 
@@ -329,7 +329,7 @@ rjCnkStrip_CV(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restri
     }
     else // non environment
     {
-        rjCnkStripDraw( pStrip->striph, vbuf, cfunc, sfunc );
+        rjCnkDrawStrip( pStrip->striph, vbuf, cfunc, sfunc );
     }
 }
 
