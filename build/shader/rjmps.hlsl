@@ -1,11 +1,34 @@
-float4 g_ColorOut : register(c0);
+/********************************/
+/*  Constant Registers          */
+/********************************/
+/****** Floats **********************************************************************************/
+float4 c_ColShadow          : register(c0);   /* shadow color + shadow tex                      */
 
-struct VS_OUTPUT
+/********************************/
+/*  Constant Registers          */
+/********************************/
+/****** Pixel Input *****************************************************************************/
+struct PS_IN
 {
-	float4 pos : POSITION;
+    float4 pos              : POSITION;     /* vertex postion                                   */
 };
 
-float4 main(VS_OUTPUT input) : COLOR
+/****** Pixel Output ****************************************************************************/
+struct PS_OUT
 {
-	return g_ColorOut;
+    half4 col               : COLOR;        /* vertex postion                                   */
+};
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Main ************************************************************************************/
+PS_OUT
+main(PS_IN inpt)
+{
+    PS_OUT outp;
+
+    outp.col = c_ColShadow;
+
+    return outp;
 }

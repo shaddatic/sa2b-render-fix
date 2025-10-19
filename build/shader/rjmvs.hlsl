@@ -1,18 +1,34 @@
-float4x4 g_ProjMatrix : register(c8);
+/********************************/
+/*  Constant Registers          */
+/********************************/
+/****** Matrix **********************************************************************************/
+float4x4 c_MtxProjection    : register(c8);   /* projection matrix                              */
 
-struct VS_INPUT
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Vertex Input ****************************************************************************/
+struct VS_IN
 {
-	float3 pos : POSITION;
+    float3 pos              : POSITION;     /* vertex postion                                   */
 };
 
-struct VS_OUTPUT
+/****** Vertex Output ***************************************************************************/
+struct VS_OUT
 {
-	float4 pos : POSITION;
+    float4 pos              : POSITION;     /* vertex postion                                   */
 };
 
-VS_OUTPUT main(VS_INPUT input)
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Main ************************************************************************************/
+VS_OUT
+main(VS_IN inpt)
 {
-	VS_OUTPUT output = { mul(float4(input.pos, 1.0f), g_ProjMatrix) };
+    VS_OUT outp;
 
-	return output;
+    outp.pos = mul(float4(inpt.pos, 1.0f), c_MtxProjection);
+
+    return outp;
 }
