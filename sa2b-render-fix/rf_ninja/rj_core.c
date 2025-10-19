@@ -196,17 +196,6 @@ rjSetTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
     }
 }
 
-void
-rjSetTextureParamCtx(void)
-{
-    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
-
-    const RJ_TEXSHADE tsp = (tspparam & NJD_TEXSHADING_MASK) >> NJD_TEXSHADING_SHIFT;
-    const Bool        ita = (tspparam & NJD_IGNORETEXALPHA_ON);
-
-    rjSetTextureParam( tsp, ita );
-}
-
 /****** Extern **********************************************************************************/
 void
 rjSetBlend2D(Int trans)
@@ -229,8 +218,6 @@ rjSetBlend2D(Int trans)
         alphamd = RJ_ALPHA_OPAQUE;
     }
 
-    rjSetTextureParamCtx();
-
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
     const Sint32 src = (tspparam & NJD_COLORBLEND_MASK_SRC) >> NJD_COLORBLEND_SHIFT_SRC;
@@ -242,6 +229,8 @@ rjSetBlend2D(Int trans)
 void
 rjSetTexture2D(Int clamp)
 {
+    rjSetTextureParamCtx();
+
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
     const NJS_TEXSURFACE* p_texsrf = _nj_curr_ctx_->texture;
@@ -388,6 +377,48 @@ rjGetDepth2D(f32 pri)
     return ( pri > -1.f ) ? ( 1.f ) : ( -1.f / pri );
 }
 
+/****** Context *********************************************************************************/
+void
+rjSetPolygonCullingCtx(void)
+{
+    const Uint32 ispparam = _nj_curr_ctx_->ispparam;
+
+    RJ_CULL cull;
+
+    switch ( (ispparam & NJD_POLYGONCULL_MASK) >> NJD_POLYGONCULL_SHIFT )
+    {
+        case 0: case 1: default: // OFF, SMALL
+        {
+            cull = RJ_CULL_NONE;
+            break;
+        }
+        case 2: // ACW
+        {
+            cull = RJ_CULL_ACW;
+            break;
+        }
+        case 3: // CW
+        {
+            cull = RJ_CULL_CW;
+            break;
+        }
+    }
+
+    rjSetPolygonCulling( cull );
+}
+
+void
+rjSetTextureParamCtx(void)
+{
+    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
+
+    const RJ_TEXSHADE tsp = (tspparam & NJD_TEXSHADING_MASK) >> NJD_TEXSHADING_SHIFT;
+    const Bool        ita = (tspparam & NJD_IGNORETEXALPHA_ON);
+
+    rjSetTextureParam( tsp, ita );
+}
+
+/****** Draw ************************************************************************************/
 static void
 ___rjStartVertex(RJ_VERTEX_TYPE vtxdecl, Sint32 use3d)
 {

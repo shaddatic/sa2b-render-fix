@@ -138,6 +138,8 @@ rjDrawSprite2D(const NJS_SPRITE* restrict sp, Int n, Float pri, Uint32 attr)
         uv_clamp = FALSE;
     }
 
+    rjSetPolygonCullingCtx();
+
     njSetTexture( sp->tlist );
     njSetTextureNum( tap->texid );
 
@@ -209,6 +211,8 @@ rjDrawSprite2D(const NJS_SPRITE* restrict sp, Int n, Float pri, Uint32 attr)
     rjEndTriStrip(nbv);
 
     rjEndVertex();
+
+    rjSetPolygonCulling( RJ_CULL_NONE );
 }
 
 /****** Sprite 3D *******************************************************************************/
@@ -387,6 +391,8 @@ rjDrawSprite3D(const NJS_SPRITE* restrict sp, Int n, Uint32 attr)
         uv_clamp = FALSE;
     }
 
+    rjSetPolygonCullingCtx();
+
     njSetTexture( sp->tlist );
     njSetTextureNum( tap->texid );
 
@@ -458,6 +464,8 @@ rjDrawSprite3D(const NJS_SPRITE* restrict sp, Int n, Uint32 attr)
     rjEndTriStrip(nbv);
 
     rjEndVertex();
+
+    rjSetPolygonCulling( RJ_CULL_NONE );
 }
 
 /****** Assembly ********************************************************************************/

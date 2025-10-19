@@ -208,11 +208,6 @@ void    rjSetPolygonShading( RJ_SHADE mode );
 *     - igntexalpha : ignore texture alpha mode
 */
 void    rjSetTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
-/*
-*   Description:
-*     Set texture shading parameters via Ninja context automatically.
-*/
-void    rjSetTextureParamCtx( void );
 
 /****** Culling *********************************************************************************/
 /*
@@ -285,6 +280,18 @@ NJS_TEXSURFACE* rjGetTextureSurface( Int n );
 *     Texture surface; or 'nullptr' on failure.
 */
 NJS_TEXSURFACE* rjGetTextureSurfaceG( Int gbix );
+
+/****** Context *********************************************************************************/
+/*
+*   Description:
+*     Set polygon culling parameters via Ninja context automatically.
+*/
+void    rjSetPolygonCullingCtx( void );
+/*
+*   Description:
+*     Set texture shading parameters via Ninja context automatically.
+*/
+void    rjSetTextureParamCtx( void );
 
 /****** Start/End Vertex ************************************************************************/
 /*
