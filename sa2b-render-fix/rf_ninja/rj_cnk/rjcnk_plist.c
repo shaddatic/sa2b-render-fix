@@ -406,7 +406,7 @@ rjCnkStripStartShading(const RJS_CNK_STRIP* restrict strip)
 {
     rjSetPolygonShading( strip->flag & NJD_FST_FL ? RJ_SHADE_FLAT : RJ_SHADE_GOURAUD );
 
-    rjSetTextureShading( (_nj_curr_ctx_->tspparam >> 6) & 3 );
+    rjSetTextureParamCtx();
 }
 
 static void
@@ -534,7 +534,7 @@ rjCnkStripStartAlpha(const RJS_CNK_STRIP* restrict strip)
             {
                 alphamd = (strip->flag & NJD_FST_UA) ? RJ_ALPHA_ALPHATEST : RJ_ALPHA_TRANSLUCENT;
             }
-            else if ( (strip->flag & RJD_CSF_USETEX) && pTexSurface->Type == 14 )
+            else if ( (strip->flag & RJD_CSF_USETEX) && pTexSurface->Type == 14 && !(_nj_curr_ctx_->tspparam & NJD_IGNORETEXALPHA_ON) )
             {
                 alphamd = RJ_ALPHA_ALPHATEST;
             }

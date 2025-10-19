@@ -4,6 +4,7 @@
 /****** Floats **********************************************************************************/
 float4 c_FogParam           : register(c50);  /* mode, near, far, X                             */
 float4 c_FogColor           : register(c51);  /* r, g, b, a                                     */
+float4 c_TexParam           : register(c201); /* texshading, texalpha, X, X                     */
 
 /********************************/
 /*  Texture Samplers            */
@@ -16,6 +17,15 @@ sampler2D s_ShadowTex4      : register(s4);  /* shadow texture                  
 sampler2D s_ShadowTex0      : register(s5);  /* shadow texture                                  */
 sampler2D s_ShadowTex1      : register(s6);  /* shadow texture                                  */
 sampler2D s_ShadowTex2      : register(s7);  /* shadow texture                                  */
+
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Tex Shading *****************************************************************************/
+#define TEXSHADING_DECAL            (0) /* RGBt + RGBo                          | At            */
+#define TEXSHADING_MODULATE         (1) /* (RGBc * RGBt) + RGBo                 | Ac            */
+#define TEXSHADING_DECALALPHA       (2) /* (RGBt * At) + (RGBc * (1-At)) + RGBo | Ac            */
+#define TEXSHADING_MODULATEALPHA    (3) /* (RGBc * RGBt) + RGBo                 | Ac * At       */
 
 /********************************/
 /*  Structures                  */
@@ -143,16 +153,39 @@ GetShadowTexIntensity(const PS_IN inpt)
 PS_OUT
 main(const PS_IN inpt)
 {
+    const float texshading = c_TexParam.x; // texture shading mode
+    const float texalpha   = c_TexParam.y; // ignore texture alpha
+    
     PS_OUT outp;
 
     /****** Get Color ***********************************************************************/
     
 #ifdef PXL_TEX
-    
+
     half4 tex = GetTexture( inpt.uv );
 
-    outp.col.rgb = (tex.rgb * inpt.col.rgb) + inpt.off.rgb;
-    outp.col.a   = inpt.col.a * tex.a;
+    tex.a = saturate( tex.a + texalpha ); // ignore texture alpha
+
+	if ( texshading <= TEXSHADING_DECAL )
+	{
+        outp.col.rgb = tex.rgb + inpt.off.rgb;
+        outp.col.a   = tex.a;
+    }
+    else if ( texshading <= TEXSHADING_MODULATE )
+    {
+        outp.col.rgb = (inpt.col.rgb * tex.rgb) + inpt.off.rgb;
+        outp.col.a   = inpt.col.a;
+    }
+    else if ( texshading <= TEXSHADING_DECALALPHA )
+    {
+        outp.col.rgb = (tex.rgb * (tex.a)) + (inpt.col.rgb * (1.f - tex.a)) + inpt.off.rgb;
+        outp.col.a   = inpt.col.a;
+    }
+    else // ( texshading <= TEXSHADING_MODULATEALPHA )
+    {
+        outp.col.rgb = (tex.rgb * inpt.col.rgb) + inpt.off.rgb;
+        outp.col.a   = inpt.col.a * tex.a;
+    }
 
 #else // NONTEX
     

@@ -180,9 +180,31 @@ rjSetPolygonShading(RJ_SHADE mode)
 }
 
 void
-rjSetTextureShading(RJ_TEXSHADE mode)
+rjSetTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
 {
-    mode;
+    static dx9_float4 _rj_texparam_;
+
+    const Float tsm = (Float) shademd;
+    const Float ita = igntexalpha ? 1.f : 0.f;
+
+    if ( _rj_texparam_.x != tsm || _rj_texparam_.y != ita )
+    {
+        _rj_texparam_.x = tsm;
+        _rj_texparam_.y = ita;
+
+        RF_ShaderSetConstantF(RF_SCFP_TEXPARAM, &_rj_texparam_, 1);
+    }
+}
+
+void
+rjSetTextureParamCtx(void)
+{
+    const Uint32 tspparam = _nj_curr_ctx_->tspparam;
+
+    const RJ_TEXSHADE tsp = (tspparam & NJD_TEXSHADING_MASK) >> NJD_TEXSHADING_SHIFT;
+    const Bool        ita = (tspparam & NJD_IGNORETEXALPHA_ON);
+
+    rjSetTextureParam( tsp, ita );
 }
 
 /****** Extern **********************************************************************************/
@@ -206,6 +228,8 @@ rjSetBlend2D(Int trans)
     {
         alphamd = RJ_ALPHA_OPAQUE;
     }
+
+    rjSetTextureParamCtx();
 
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 

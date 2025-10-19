@@ -201,12 +201,18 @@ void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
 void    rjSetPolygonShading( RJ_SHADE mode );
 /*
 *   Description:
-*     Set texture shading mode.
+*     Set texture shading parameters.
 *
 *   Parameters:
-*     - mode        : texture shading mode
+*     - shade       : texture shading mode
+*     - igntexalpha : ignore texture alpha mode
 */
-void    rjSetTextureShading( RJ_TEXSHADE mode );
+void    rjSetTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
+/*
+*   Description:
+*     Set texture shading parameters via Ninja context automatically.
+*/
+void    rjSetTextureParamCtx( void );
 
 /****** Culling *********************************************************************************/
 /*
