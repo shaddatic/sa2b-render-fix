@@ -98,7 +98,7 @@ typedef enum rjcullmd
 {
     RJ_CULL_NONE,                   /* no culling                                               */
     RJ_CULL_CW,                     /* cull clock-wise polygons                                 */
-    RJ_CULL_ACW,                    /* cull counter clock-wise polygons                         */
+    RJ_CULL_ACW,                    /* cull anti-clock-wise polygons                            */
 }
 RJ_CULL;
 
