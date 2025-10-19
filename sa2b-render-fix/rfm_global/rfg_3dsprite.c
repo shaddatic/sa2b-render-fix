@@ -75,7 +75,7 @@ SendScreenRatioToShader(float resW, float resH)
     const float asp_w = (res_w) / resW;
     const float asp_h = (res_h * adj_h) / resH / asp_w;
 
-    RF_ShaderSetConstantF4(RF_SCFV_DEVICEINFO, res_w, res_h, asp_w / adj_h, asp_h / adj_w);
+    RF_ShaderSetConstantF4(RF_SCFV_DEVICEINFO, res_w, res_h, asp_w/adj_h, asp_h/adj_w);
 
     // x and y components are the inverse viewport resolution (Render Fix register)
     const float inv_x = 1.f / DisplayResolutionX;
