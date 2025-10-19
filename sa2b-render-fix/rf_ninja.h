@@ -31,16 +31,6 @@ EXTERN_START
 #define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                 */
 #define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
 
-/********************************/
-/*  Structures                  */
-/********************************/
-/****** Float Color *****************************************************************************/
-typedef struct rjrgba
-{
-    Float r, g, b, a;               /* color components                                         */
-}
-RJS_RGBA;
-
 /************************/
 /*  Functions           */
 /************************/

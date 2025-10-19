@@ -19,6 +19,7 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
+#include <rf_shader.h>              /* set shader constant                                      */
 
 /****** DX9 Control *****************************************************************************/
 #include <dx9ctrl/dx9ctrl.h>        /* renderstate                                              */
@@ -50,8 +51,8 @@
 static bool _rj_shadow_lock_;       /* draw lock for cheap shadow                               */
 
 /****** Static **********************************************************************************/
-static Bool     _rj_shadow_debug_;  /* cheap shadow debug draw                                  */
-static RJS_RGBA _rj_shadow_color_;  /* cheap shadow color (and shadow tex)                      */
+static Bool       _rj_shadow_debug_;  /* cheap shadow debug draw                                */
+static dx9_float4 _rj_shadow_color_;  /* cheap shadow color (and shadow tex)                    */
 
 /********************************/
 /*  Source                      */
@@ -83,7 +84,7 @@ ModifierOffShadow(void)
 
 /****** Modifier Draw ***************************************************************************/
 static void
-LerpModAndFogColor(RJS_RGBA* const pInOutColor, const NJS_COLOR pFogCol, const f32 density)
+LerpModAndFogColor(dx9_float4* const pInOutColor, const NJS_COLOR pFogCol, const f32 density)
 {
     const f32 inv_density = 1.f - density;
 
@@ -124,16 +125,16 @@ ModifierSetFogColor_Sub(Int mode, NJS_COLOR color, Float far, Float near)
             }
         }
 
-        RJS_RGBA col = _rj_shadow_color_;
+        dx9_float4 col = _rj_shadow_color_;
 
         LerpModAndFogColor(&col, color, density);
 
-        DX9_SetPxlShaderConstantF( 0, (dx9_float4*)&col, 1 );
+        RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &col, 1 );
         return true;
     }
 
 NO_FOG:
-    DX9_SetPxlShaderConstantF( 0, (dx9_float4*)&_rj_shadow_color_, 1 );
+    RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &_rj_shadow_color_, 1 );
     return true;
 }
 
@@ -181,7 +182,7 @@ ModSetShaderColor(void)
         return ModifierSetFogColor_Single();
     }
 
-    DX9_SetPxlShaderConstantF( 0, (dx9_float4*)&_rj_shadow_color_, 1 );
+    RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &_rj_shadow_color_, 1 );
     return true;
 }
 
@@ -254,7 +255,7 @@ ModifierDrawFast(void)
     );
 
     /** Z buffer **/
-    DX9_SetZEnable(false);
+    DX9_SetZFunc(DX9_CMP_GTR);
 
     /** Stencil ref **/
     DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
@@ -267,9 +268,12 @@ ModifierDrawFast(void)
     DX9_SetStencilFunc(DX9_CMP_LSS);
 
     /** Stencil ops **/
-    DX9_SetStencilFail(DX9_STCL_ZERO);
-    DX9_SetStencilZFail(DX9_STCL_ZERO);
+    DX9_SetStencilFail(DX9_STCL_KEEP);
+    DX9_SetStencilZFail(DX9_STCL_KEEP);
     DX9_SetStencilPass(DX9_STCL_ZERO);
+
+    // culling
+    DX9_SetFaceCulling(DX9_CULL_CCW);
 
     /****** Draw the Stencil Buffer ******/
     rjModifierDrawBuffer();
@@ -283,8 +287,11 @@ ModifierDrawFast(void)
     DX9_SetStencilZFail(DX9_STCL_KEEP);
     DX9_SetStencilPass(DX9_STCL_ZERO);
 
-    // restore Z state
-    DX9_SetZEnable(true);
+    // restore z compare
+    DX9_SetZFunc(DX9_CMP_LEQ);
+
+    // restore culling
+    DX9_SetFaceCulling(DX9_CULL_NONE);
 }
 
 static void
@@ -292,11 +299,11 @@ ModifierDrawDebug(void)
 {
     /****** Initial Setup ******/
 
-    RJS_RGBA color = _rj_shadow_color_;
+    dx9_float4 color = _rj_shadow_color_;
 
     color.a *= 0.25f;
 
-    DX9_SetPxlShaderConstantF( 0, (dx9_float4*)&color, 1 );
+    RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &color, 1 );
 
     /****** Prep Buffer Write ******/
     /** Z buffer **/
@@ -391,6 +398,8 @@ rjSetCheapShadowMode(Int mode)
     const Int mode_and = mode & 255;
 
     _rj_shadow_color_.a = 1.f - ( (Float)mode_and * (1.f/256.f) );
+
+    RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &_rj_shadow_color_, 1 );
 }
 
 void
@@ -399,6 +408,8 @@ rjSetCheapShadowColor(Float r, Float g, Float b)
     _rj_shadow_color_.r = r;
     _rj_shadow_color_.g = g;
     _rj_shadow_color_.b = b;
+
+    RF_ShaderSetConstantF( RF_SCFP_SHADOWCOLOR, &_rj_shadow_color_, 1 );
 }
 
 void

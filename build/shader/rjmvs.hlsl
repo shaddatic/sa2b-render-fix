@@ -16,7 +16,11 @@ struct VS_IN
 /****** Vertex Output ***************************************************************************/
 struct VS_OUT
 {
-    float4 pos              : POSITION;     /* vertex postion                                   */
+    float4 pos              : SV_POSITION;  /* vertex postion                                   */
+
+#ifdef MOD_FOG
+    float  w                : TEXCOORD0;    /* vertex w component                               */
+#endif/*MOD_FOG*/
 };
 
 /********************************/
@@ -29,6 +33,10 @@ main(VS_IN inpt)
     VS_OUT outp;
 
     outp.pos = mul(float4(inpt.pos, 1.0f), c_MtxProjection);
+    
+#ifdef MOD_FOG
+    outp.w   = outp.pos.w;
+#endif/*MOD_FOG*/
 
     return outp;
 }

@@ -4,6 +4,7 @@
 /****** Floats **********************************************************************************/
 float4 c_FogParam           : register(c50);  /* mode, near, far, X                             */
 float4 c_FogColor           : register(c51);  /* r, g, b, a                                     */
+float4 c_ColShadow          : register(c200); /* shadow color + shadow tex                      */
 float4 c_TexParam           : register(c201); /* texshading, texalpha, X, X                     */
 
 /********************************/
@@ -141,7 +142,7 @@ GetShadowTexIntensity(const PS_IN inpt)
     shadow *= GetShadow(s_ShadowTex3, inpt.stexuv4, inpt.stexnum, 4);
     shadow *= GetShadow(s_ShadowTex4, inpt.stexuv5, inpt.stexnum, 5);
 
-    return (shadow > 0.5f) ? 1.f : 0.3125f;
+    return (shadow > 0.5f) ? 1.f : (1.f - c_ColShadow.a);
 }
 
 #endif
