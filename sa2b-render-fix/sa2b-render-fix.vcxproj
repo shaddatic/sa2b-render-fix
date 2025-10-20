@@ -25,6 +25,7 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_blare.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_exec.c" />
+    <ClCompile Include="rf_module\rfm_global\rfg_drawfunc.c" />
     <ClCompile Include="rf_module\rfm_stg_amine.c" />
     <ClCompile Include="rf_module\rfm_stg_cgadget.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_landtable.c" />

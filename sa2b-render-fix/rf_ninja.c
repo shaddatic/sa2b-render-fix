@@ -117,56 +117,6 @@ SetTexForDraw(void)
     rjSetTexture2D( FALSE );
 }
 
-static void
-EasyDrawObject(NJS_CNK_OBJECT* object, void* fn)
-{
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    njCnkTransformObject(object, rjCnkDrawModel);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-}
-
-static void
-MenuScreenEffectFix(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
-{
-    const u32 nj3dflag = _nj_control_3d_flag_;
-
-    _nj_control_3d_flag_ = nj3dflag & ~NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL;
-
-    njCnkSimpleDrawMotion(object, motion, frame);
-
-    _nj_control_3d_flag_ = nj3dflag;
-}
-
-__declspec(naked)
-static void
-___MenuScreenEffectFix(void)
-{
-    __asm
-    {
-        push        [esp+8]  // frame
-        push        ecx      // motion
-        push        [esp+12] // object
-        call        MenuScreenEffectFix
-        add esp,    12
-        retn
-    }
-}
-
-__declspec(naked)
-static void
-___njCnkEasyDrawModel(void)
-{
-    __asm
-    {
-        push        eax
-        call        njCnkEasyDrawModel
-        add esp,    4
-        retn
-    }
-}
-
 __declspec(naked)
 static void
 ___SetScreenHook(void)
@@ -286,22 +236,6 @@ RF_NinjaInit(void)
     rjSetDepthQueue( -1800.f, -2000.f );
 
 //  njPolygonCullingSize(0.05f);
-
-    /** Fix draw function issues **/
-
-    WriteCall(0x00756A2E, EasyDrawObject);         // Jump Aura (bfc issue)
-    WriteCall(0x00756D77, EasyDrawObject);         // Other Aura
-    WriteCall(0x007561FF, EasyDrawObject);         // Spindash Aura
-
-    WriteCall(0x0066838C, ___MenuScreenEffectFix); // DC menu screen effect text too bright
-
-    WriteCall(0x0055D53E, EasyDrawObject);         // ALO ball
-
-    WriteCall(0x006D9F51, ___njCnkEasyDrawModel);  // Savepoint
-    WriteCall(0x006D9FFE, ___njCnkEasyDrawModel);
-    WriteCall(0x006DA08A, ___njCnkEasyDrawModel);
-
-    WriteCall(0x00656B3A, ___njCnkEasyDrawModel); // Sand Ocean: Moon
 
     /** Fix shader issues (mostly Chao world) **/
 

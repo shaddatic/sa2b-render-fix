@@ -19,6 +19,8 @@ void    RFG_NinjaBackColorInit( void );
 
 void    RFG_BackfaceCullingInit( void );
 
+void    RFG_DrawFunctionInit( void );
+
 void    RFG_ModelTintInit( void );
 
 void    RFG_EnvMapFlip( void );

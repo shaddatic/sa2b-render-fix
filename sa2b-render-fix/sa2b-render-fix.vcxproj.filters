@@ -423,6 +423,12 @@
     <ClCompile Include="rf_module.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_module\rfm_stg_chao.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_module\rfm_global\rfg_drawfunc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">

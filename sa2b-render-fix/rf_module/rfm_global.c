@@ -85,6 +85,7 @@ RFM_GlobalInit(void)
 {
     RFG_FrameSkipInit();
     RFG_UiFilterInit();
+    RFG_DrawFunctionInit();
 
     if (RF_ConfigGetInt(CNF_GLOBAL_IGBIX))
     {
