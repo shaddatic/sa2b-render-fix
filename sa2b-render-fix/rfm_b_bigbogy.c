@@ -14,14 +14,6 @@
 #include <rf_config.h>
 #include <rf_util.h>
 
-static LIGHT lights_bigbogy[] =
-{
-    { 0.0f, 0.707f, 0.707f, /**/ 1.0f, 0.5f, 1.0f, 1.0f, 1.0f },
-    { 0.0f, 0.707f, 0.707f, /**/ 0.3f, 0.6f, 1.0f, 1.0f, 1.0f },
-    { 0.0f, 0.707f, 0.707f, /**/ 0.5f, 0.8f, 1.0f, 1.0f, 1.0f },
-    { 0.0f, 0.707f, 0.707f, /**/ 0.0f, 1.0f, 1.0f, 0.5f, 0.5f }
-};
-
 static uint8_t GlowPulseParams[] = 
 { 
     0x32, 0xB4, 0x32, 0x0, 0xB4, 0x0, 0x0, 0x0 
@@ -41,6 +33,12 @@ GetMatAlphaPointer(NJS_CNK_OBJECT* pObject)
     return p + 7;
 }
 
+static void
+LoadBossBogyLightFile(void)
+{
+    LoadLightFile("stg63_light.bin");
+}
+
 void
 RFM_BossBogyInit(void)
 {
@@ -49,14 +47,13 @@ RFM_BossBogyInit(void)
         SwapTexFileTableIndex(0x0103622C, 2, 4);
     }
 
-    if (RF_ConfigGetInt(CNF_BBOGY_LIGHTS))
-    {
-        mtMemCopy((void*)0x01036738, lights_bigbogy, sizeof(lights_bigbogy));
-    }
-
     if (RF_ConfigGetInt(CNF_BBOGY_PULSE))
     {
         WriteJump(0x006190A0, GetMatAlphaPointer);
         mtMemCopy((void*)0x010024D4, GlowPulseParams, sizeof(GlowPulseParams));
     }
+
+    // load light file
+    WriteNOP( 0x0060A8E2, 0x0060A939);
+    WriteCall(0x0060A8E2, LoadBossBogyLightFile);
 }

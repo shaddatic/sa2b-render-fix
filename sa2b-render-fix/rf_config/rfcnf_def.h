@@ -261,7 +261,6 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** City Escape section **/
 #define CNF_BBOGY_PULSE             CNFO_INT(   CNFS_BBOGY          , "glowpulse"           , CNFE_BOOL_ENABLED                     )   /* Restore Pulsing Glow Effect */
-#define CNF_BBOGY_LIGHTS            CNFO_INT(   CNFS_BBOGY          , "lights"              , CNFE_BOOL_ENABLED                     )   /* Restore Lighting */
 #define CNF_BBOGY_SUNDOORS          CNFO_INT(   CNFS_BBOGY          , "sundoors"            , CNFE_BOOL_ENABLED                     )   /* Restore Sundoors */
 
 /** Cart section **/
