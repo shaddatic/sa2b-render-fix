@@ -90,6 +90,9 @@ RFG_DrawFunctionInit(void)
     WriteCall(0x00656B3A, ___njCnkEasyDrawModel); // Sand Ocean: Moon
     WriteCall(0x0051CFD6, ___njCnkEasyDrawModel); // ^ 2P
 
+    WriteCall(0x004BACCF, ___njCnkEasyDrawModel); // Eternal Engine 2P: Space
+    WriteCall(0x004BADBF, ___njCnkEasyDrawModel); // ^
+
     /****** Other ***************************************************************************/
 
     ___NOTE("This one is not technically a draw function issue...");
