@@ -26,16 +26,16 @@
 #include <rf_ninja.h>
 #include <rf_system.h>
 
-#define byte_0174AFFD           DATA_REF(int8_t  , 0x0174AFFD)
-#define SomeCountMax            DATA_REF(size_t  , 0x01A5A3D0)
+#define byte_0174AFFD               DATA_REF(int8_t  , 0x0174AFFD)
+#define SortCount                   DATA_REF(size_t  , 0x01A5A3CC)
+#define SortCountMax                DATA_REF(size_t  , 0x01A5A3D0)
 
-#define sub_00493A90            FUNC_PTR(void, __cdecl, (void), 0x493A90)
-#define njExecuteFade           FUNC_PTR(void, __cdecl, (void), 0x004785A0)
-#define DisplayGameHUD          FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
+#define DrawSortedDisplayerBuffer   FUNC_PTR(void, __cdecl, (void), 0x493A90)
+#define DisplayGameHUD              FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
 
-#define pExecute                DATA_REF(task_exec, 0x01A5A274)
+#define pExecute                    DATA_REF(task_exec, 0x01A5A274)
 
-#define SortDispSortList        FUNC_PTR(void, __cdecl, (task*, float), 0x00492F60)
+#define SortDispSortList            FUNC_PTR(void, __cdecl, (task*, float), 0x00492F60)
 
 static void
 TaskDisplayDisplayer(task* btpl)
@@ -122,7 +122,11 @@ TaskDisplayDispSort_Buffer(task* btpl)
         task* const nexttp = tp->next;
 
         if (tp->disp_sort && tp->twp)
-            SortDispSortList(tp, -1.0);
+        {
+            SortDispSortList(tp, -1.f);
+        }
+
+        TaskDisplayDispSort_Buffer(tp->ctp);
 
         tp = nexttp;
     }
@@ -424,7 +428,7 @@ TaskDisplayAll(void)
 
         DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
 
-        if (SomeCountMax)
+        if (SortCountMax) // if displayer sort buffer exists
         {
             if (!no_draw)
             {
@@ -434,7 +438,12 @@ TaskDisplayAll(void)
                 TaskDisplayDispSort_Buffer(btp[5]);
             }
 
-            sub_00493A90();
+            if ( SortCount >= SortCountMax )
+            {
+                RF_DbgWarn("Sorted displayer buffer maxed out (%i/%i)!", SortCount, SortCountMax);
+            }
+
+            DrawSortedDisplayerBuffer();
 
             DrawModBuffer(MOD_DRAW_DISP_SORT);
         }
@@ -537,10 +546,30 @@ TaskDisplayAll(void)
     SetShaderType( SHADER_TYPE_UI );
 }
 
+__declspec(naked)
+static void
+___CreateParticleCore_SortX4(void)
+{
+    __asm
+    {
+        mov eax, 4
+        mul ebx
+        mov ebx, eax
+        retn
+    }
+}
+
 void
 RFG_TaskDisplayInit(void)
 {
     WriteJump(0x00470010, TaskDisplayAll);
+
+    // sorted displayers
+    WriteNOP( 0x00492D03, 0x00492D0B);
+    WriteCall(0x00492D03, ___CreateParticleCore_SortX4); // increase sort count
+
+    WriteNOP(      0x00493CB9, 0x00493CBD); // stop calling task children, we buffer those seperately now
+    WriteShortJump(0x00493CBD, 0x00493C4B);
 
     /** Draw HUD **/
     KillCall(0x0043D134);
