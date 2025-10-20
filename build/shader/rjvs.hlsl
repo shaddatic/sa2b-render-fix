@@ -121,8 +121,5 @@ main(VS_IN inpt)
     outp.stexnum = c_NumTexGen;
 #endif
 
-    // DirectX 9 pixel offset issue
-    outp.pos.xy += c_ScreenInfo.xy * outp.pos.w;
-
     return outp;
 }

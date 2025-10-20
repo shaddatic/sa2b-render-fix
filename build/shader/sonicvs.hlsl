@@ -207,9 +207,6 @@ PS_IN main(VS_IN input)
     output.UV = input.TexCoord;
 
     output.Shadow5.z = g_NumTexGens;
-	
-	// DirectX 9 pixel offset issue
-    output.ScreenPosition.xy += g_ScreenInfo.xy * output.ScreenPosition.w;
 
     return output;
 }
