@@ -59,21 +59,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RFAPI_Init();
 
     /** RF Module Init **/
-    RFM_GlobalInit();
-    RFM_ShadowsInit();
-    RFM_CommonInit();
-    RFM_EmblemGetInit();
-    RFM_MenusInit();
-    RFM_WhiteJungleInit();
-    RFM_CityEscapeInit();
-    RFM_MissionStreetInit();
-    RFM_CrazyGadgetInit();
-    RFM_AquaticMineInit();
-    RFM_CannonsCoreInit();
-    RFM_BossBogyInit();
-    RFM_CartInit();
-    RFM_EventInit();
-    RFM_PlayerInit();
+    RF_ModuleInit();
 
     /** Check mod conflicts **/
     RF_ModCheckInit();

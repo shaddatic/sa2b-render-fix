@@ -24,16 +24,16 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_menus.c">
+    <ClCompile Include="rf_module\rfm_menus.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_mdltint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_b_bigbogy.c">
+    <ClCompile Include="rf_module\rfm_stg_bigbogy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_ccore.c">
+    <ClCompile Include="rf_module\rfm_stg_ccore.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_envmap.c">
@@ -42,19 +42,19 @@
     <ClCompile Include="rf_texture.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_cart.c">
+    <ClCompile Include="rf_module\rfm_stg_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_backcolor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_event.c">
+    <ClCompile Include="rf_module\rfm_event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_mizugomi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_wjungle.c">
+    <ClCompile Include="rf_module\rfm_stg_wjungle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_shadows\chs_player.c">
@@ -147,7 +147,7 @@
     <ClCompile Include="rfm_cescape\ce_o_ce_tree_shadows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_cescape.c">
+    <ClCompile Include="rf_module\rfm_stg_cescape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_bfacecull.c">
@@ -159,7 +159,7 @@
     <ClCompile Include="rf_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_amine.c">
+    <ClCompile Include="rf_module\rfm_stg_amine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_util.c">
@@ -168,10 +168,10 @@
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_e_explosion.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_common.c">
+    <ClCompile Include="rf_module\rfm_common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_eget.c">
+    <ClCompile Include="rf_module\rfm_eget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_renderstate.c">
@@ -180,13 +180,13 @@
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_itembox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_shadows.c">
+    <ClCompile Include="rf_module\rfm_shadows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_shadows\shd_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_global.c">
+    <ClCompile Include="rf_module\rfm_global.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_config.c">
@@ -195,13 +195,13 @@
     <ClCompile Include="rf_shader.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_mstreet.c">
+    <ClCompile Include="rf_module\rfm_stg_mstreet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_global\rfg_3dsprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_cgadget.c">
+    <ClCompile Include="rf_module\rfm_stg_cgadget.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_pr_siren.c">
@@ -318,7 +318,7 @@
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_spring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rfm_player.c">
+    <ClCompile Include="rf_module\rfm_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rfm_player\rfpl_mdlprs.c">
@@ -418,6 +418,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja\rj_mod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_module.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -552,6 +555,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_init.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_module\rfm_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

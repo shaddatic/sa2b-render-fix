@@ -25,8 +25,8 @@
     <ClCompile Include="rfm_event\ev_renderer\evr_blare.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_exec.c" />
-    <ClCompile Include="rfm_amine.c" />
-    <ClCompile Include="rfm_cgadget.c" />
+    <ClCompile Include="rf_module\rfm_stg_amine.c" />
+    <ClCompile Include="rf_module\rfm_stg_cgadget.c" />
     <ClCompile Include="rfm_common\rfc_landtable.c" />
     <ClCompile Include="rfm_common\rfc_newdisp.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_goalring.c" />
@@ -47,17 +47,17 @@
     <ClCompile Include="rfm_event\ev_renderer\evr_texanim.c" />
     <ClCompile Include="rfm_event\ev_renderer\evr_vsync.c" />
     <ClCompile Include="rfm_global\rfg_bfacecull.c" />
-    <ClCompile Include="rfm_b_bigbogy.c" />
-    <ClCompile Include="rfm_ccore.c" />
-    <ClCompile Include="rfm_cescape.c" />
-    <ClCompile Include="rfm_cart.c" />
-    <ClCompile Include="rfm_global.c" />
+    <ClCompile Include="rf_module\rfm_stg_bigbogy.c" />
+    <ClCompile Include="rf_module\rfm_stg_ccore.c" />
+    <ClCompile Include="rf_module\rfm_stg_cescape.c" />
+    <ClCompile Include="rf_module\rfm_stg_cart.c" />
+    <ClCompile Include="rf_module\rfm_global.c" />
     <ClCompile Include="rfm_global\rfg_3dsprite.c" />
     <ClCompile Include="rfm_global\rfg_drawline.c" />
     <ClCompile Include="rfm_global\rfg_frameskip.c" />
     <ClCompile Include="rfm_global\rfg_uifilter.c" />
-    <ClCompile Include="rfm_mstreet.c" />
-    <ClCompile Include="rfm_player.c" />
+    <ClCompile Include="rf_module\rfm_stg_mstreet.c" />
+    <ClCompile Include="rf_module\rfm_player.c" />
     <ClCompile Include="rfm_player\rfpl_chaos0.c" />
     <ClCompile Include="rfm_player\rfpl_mdlprs.c" />
     <ClCompile Include="rfm_shadows\chs_boss.c" />
@@ -86,9 +86,9 @@
     <ClCompile Include="rfm_cescape\ce_o_ce_tree_shadows.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_e_jet.c" />
     <ClCompile Include="rfm_global\rfg_envmap.c" />
-    <ClCompile Include="rfm_event.c" />
+    <ClCompile Include="rf_module\rfm_event.c" />
     <ClCompile Include="rfm_common\rfc_transparancy\rfct_e_explosion.c" />
-    <ClCompile Include="rfm_eget.c" />
+    <ClCompile Include="rf_module\rfm_eget.c" />
     <ClCompile Include="rfm_common\rfc_newdisp\rfcd_mizugomi.c" />
     <ClCompile Include="rf_api\rfapi_config.c" />
     <ClCompile Include="rf_api\rfapi_control.c" />
@@ -97,6 +97,7 @@
     <ClCompile Include="rf_api\rfapi_font.c" />
     <ClCompile Include="rf_api\rfapi_renderstate.c" />
     <ClCompile Include="rf_api\rfapi_shader.c" />
+    <ClCompile Include="rf_module.c" />
     <ClCompile Include="rf_ninja\rj_alphablend.c" />
     <ClCompile Include="rf_ninja\rj_cnk.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_core.c" />
@@ -135,7 +136,7 @@
     <ClCompile Include="rf_config.c" />
     <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="rfm_common.c" />
+    <ClCompile Include="rf_module\rfm_common.c" />
     <ClCompile Include="rf_api.c" />
     <ClCompile Include="rf_core.c" />
     <ClCompile Include="rf_renderstate.c" />
@@ -146,13 +147,13 @@
     <ClCompile Include="rf_system.c" />
     <ClCompile Include="rf_usermsg.c" />
     <ClCompile Include="rf_util.c" />
-    <ClCompile Include="rfm_shadows.c" />
+    <ClCompile Include="rf_module\rfm_shadows.c" />
     <ClCompile Include="rfm_shadows\shd_player.c" />
-    <ClCompile Include="rfm_menus.c" />
+    <ClCompile Include="rf_module\rfm_menus.c" />
     <ClCompile Include="rfm_global\rfg_taskdisp.c" />
     <ClCompile Include="rf_texture.c" />
     <ClCompile Include="rfm_global\rfg_mdltint.c" />
-    <ClCompile Include="rfm_wjungle.c" />
+    <ClCompile Include="rf_module\rfm_stg_wjungle.c" />
     <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
     <ClInclude Include="rf_init.h" />
+    <ClInclude Include="rf_module\rfm_internal.h" />
     <ClInclude Include="rf_ninja\rj_cnk\rjcnk_internal.h" />
     <ClInclude Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_internal.h" />
     <ClInclude Include="rf_ninja\rj_cnkmod\rfdmod_internal.h" />
