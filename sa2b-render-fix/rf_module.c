@@ -39,4 +39,5 @@ RF_ModuleInit(void)
     RFM_CannonsCoreInit();
     RFM_BossBogyInit();
     RFM_CartInit();
+    RFM_ChaoInit();
 }

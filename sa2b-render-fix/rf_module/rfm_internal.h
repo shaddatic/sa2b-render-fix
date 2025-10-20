@@ -90,6 +90,11 @@ void    RFM_BossBogyInit( void );
 *     Init the 'Cart Racing' feature module.
 */
 void    RFM_CartInit( void );
+/*
+*   Description:
+*     Init the 'Chao World' feature module.
+*/
+void    RFM_ChaoInit( void );
 
 EXTERN_END
 
