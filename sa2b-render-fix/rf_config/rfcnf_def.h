@@ -259,10 +259,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_CC_PITFALL              CNFO_INT(   CNFS_CC             , "pitfall"             , CNFE_BOOL_ENABLED                     )   /* Restore Pitfall */
 #define CNF_CC_KURUMA               CNFO_INT(   CNFS_CC             , "kuruma"              , CNFE_BOOL_ENABLED                     )   /* Restore Gears */
 
-/** City Escape section **/
-#define CNF_BBOGY_PULSE             CNFO_INT(   CNFS_BBOGY          , "glowpulse"           , CNFE_BOOL_ENABLED                     )   /* Restore Pulsing Glow Effect */
-#define CNF_BBOGY_SUNDOORS          CNFO_INT(   CNFS_BBOGY          , "sundoors"            , CNFE_BOOL_ENABLED                     )   /* Restore Sundoors */
-
 /** Cart section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */
 #define CNF_CART_CARTSPRITE         CNFO_INT(   CNFS_CART           , "cart_sprite"         , CNFE_CART_CARTSPRITE_ENABLED          )   /* DC Cart Height */

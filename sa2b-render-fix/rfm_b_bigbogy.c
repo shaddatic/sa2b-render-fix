@@ -42,16 +42,10 @@ LoadBossBogyLightFile(void)
 void
 RFM_BossBogyInit(void)
 {
-    if (RF_ConfigGetInt(CNF_BBOGY_SUNDOORS))
-    {
-        SwapTexFileTableIndex(0x0103622C, 2, 4);
-    }
+    SwapTexFileTableIndex(0x0103622C, 2, 4);
 
-    if (RF_ConfigGetInt(CNF_BBOGY_PULSE))
-    {
-        WriteJump(0x006190A0, GetMatAlphaPointer);
-        mtMemCopy((void*)0x010024D4, GlowPulseParams, sizeof(GlowPulseParams));
-    }
+    WriteJump(0x006190A0, GetMatAlphaPointer);
+    mtMemCopy((void*)0x010024D4, GlowPulseParams, sizeof(GlowPulseParams));
 
     // load light file
     WriteNOP( 0x0060A8E2, 0x0060A939);

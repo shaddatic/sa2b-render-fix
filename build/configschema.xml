@@ -148,14 +148,6 @@ Disabling this may cause player characters to look out of place in some situatio
         <HelpText>Restores the huge, rotating cogwheels in the middle of Sonic's section that's outright missing in the GameCube version.</HelpText>
       </Property>
     </Group>
-    <Group name="bossbogy" display="King Boom Boo Settings">
-      <Property name="glowpulse" display="Restore Pulsing Glow Effect" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores the pulsating glow effect on King Boom Boo from the Dreamcast version.</HelpText>
-      </Property>
-      <Property name="sundoors" display="Restore Sundoors" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores the sundoors to how they looked in the Dreamcast version.</HelpText>
-      </Property>
-    </Group>
     <Group name="cart" display="Cart Stages">
       <Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
         <HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
