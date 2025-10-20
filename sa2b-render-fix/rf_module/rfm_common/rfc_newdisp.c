@@ -3,29 +3,34 @@
 /************************/
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
-#include <samt/writemem.h>      /* writedata                                        */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config                                           */
 
 /****** Self ************************************************************************/
-#include <rf_module/rfm_event/ev_internal.h> /* children                            */
+#include <rf_module/rfm_common/rfc_internal.h>              /* parent & siblings    */
+#include <rf_module/rfm_common/rfc_newdisp/rfcd_internal.h> /* children             */
 
 /************************/
 /*  Source              */
 /************************/
 /****** Init ************************************************************************/
 void
-RFM_EventInit(void)
+RFC_NewDisplayerInit(void)
 {
-    EV_ByteSwapInit();
-    EV_FileInit();
+    RFCD_RingInit();
+    RFCD_SpringInit();
+    RFCD_GoalringInit();
+    RFCD_UDReelInit();
+    RFCD_MizugomiInit();
+    RFCD_ItemBoxInit();
+    RFCD_PrisonSirenInit();
+    RFCD_FinalChaseGravityCylinderInit();
+    RFCD_JungleObjectInit();
 
-    WriteData(0x00458A18, 350, s32); // force play E0350
+    EnemyDrawAllowDirect = TRUE;
 
-    if ( RF_ConfigGetInt(CNF_EVENT_RFDISP) )
-    {
-        EV_RendererInit();
-    }
+    RFCD_EnemyJetInit();
+    RFCD_EnemyKumiInit();
+    RFCD_EnemyBulletInit();
 }

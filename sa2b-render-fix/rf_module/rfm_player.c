@@ -36,7 +36,7 @@
 #include <rfu_file.h>           /* filereplace                                      */
 
 /****** Self ************************************************************************/
-#include <rfm_player/rfpl_internal.h> /* children                                   */
+#include <rf_module/rfm_player/rfpl_internal.h> /* children                         */
 
 /************************/
 /*  Game Functions      */

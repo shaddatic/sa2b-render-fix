@@ -33,7 +33,7 @@
 #include <rfu_float.h>              /* replacefloat                                             */
 
 /****** Self ************************************************************************************/
-#include <rfm_common/rfc_internal.h> /* children                                                */
+#include <rf_module/rfm_common/rfc_internal.h> /* children                                      */
 
 /********************************/
 /*  External Data               */

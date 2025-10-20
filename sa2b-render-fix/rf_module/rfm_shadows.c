@@ -21,7 +21,7 @@
 #include <rf_usermsg.h>         /* user message box                                 */
 
 /****** Self ************************************************************************/
-#include <rfm_shadows/shd_internal.h> /* children                                   */
+#include <rf_module/rfm_shadows/shd_internal.h> /* children                         */
 
 /************************/
 /*  External Functions  */
