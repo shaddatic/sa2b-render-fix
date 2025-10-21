@@ -275,11 +275,14 @@ EV_LoadEffectFiles(void)
 
     // add overlay delay
 
-    for ( int i = 0; i < ARYLEN(EvEffectInfo.overlays); ++i )
+    if ( EventNum != 360 && EventNum != 361 )
     {
-        if ( EvEffectInfo.overlays[i].type != 0 && EvEffectInfo.overlays[i].frame != 0 )
+        for ( int i = 0; i < ARYLEN(EvEffectInfo.overlays); ++i )
         {
-            EvEffectInfo.overlays[i].frame += 15; // + 30 frames
+            if ( EvEffectInfo.overlays[i].type != 0 && EvEffectInfo.overlays[i].frame != 0 )
+            {
+                EvEffectInfo.overlays[i].frame += 15; // + 30 frames
+            }
         }
     }
 
