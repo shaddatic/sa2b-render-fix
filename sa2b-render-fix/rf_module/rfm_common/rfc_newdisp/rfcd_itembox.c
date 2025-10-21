@@ -354,6 +354,12 @@ RFCD_ItemBoxInit(void)
     WriteJump(0x006C83B0, ObjectItemBoxDispSort_RF);
     WriteJump(0x006C8810, ObjectItemBoxGotDisp_RF);
 
+    /** Item Box, Ground 2B **/
+
+    WriteJump(0x006C8520, ObjectItemBoxDisp_RF);
+    WriteJump(0x006C86A0, ObjectItemBoxDispSort_RF);
+    WriteJump(0x006C88C0, ObjectItemBoxGotDisp_RF);
+
     /** Item Box, Air **/
 
     WriteJump(0x006C9500, ObjectItemBoxAirDispSort_RF);
