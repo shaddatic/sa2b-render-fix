@@ -106,6 +106,34 @@ Disabling this may cause player characters to look out of place in some situatio
         <HelpText>Restores enemy textures that were specific to some stages in the Dreamcast version.</HelpText>
       </Property>
     </Group>
+    <Group name="event" display="Events">
+      <Property name="rf_disp" display="Render Fix Event Renderer" type="eBOOL" defaultvalue="1">
+        <HelpText>Use Render Fix's powerful event renderer, which restores Dreamcast features and adds other advanced logic - such as transparency sorting.</HelpText>
+      </Property>
+      <Property name="vsync_mode" display="Framerate Mode" type="eEV_VSYNC" defaultvalue="1">
+        <HelpText>Change the framerate of Events. 
+
+On Dreamcast, the Event itself decided when 30FPS would be used. This feature removed for Battle, and all ran at 60FPS no matter what.
+
+If you're having trouble running the Events, setting them to always run at 30FPS might help.
+
+NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+      </Property>
+      <Property name="draw_equip" display="Draw Player Equipment" type="eBOOL" defaultvalue="1">
+        <HelpText>Draw player upgrades/equipment in events.
+
+NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+      </Property>
+      <Property name="43_mode" display="Force 4:3" type="eEV_43MD" defaultvalue="2">
+        <HelpText>Force the events into 4:3 by drawing pillar boxes. This covers up many issues that the player was never intended to see.
+
+Exclude Intro: Always use pillar boxes, excluding the Dreamcast intro.
+
+Overlays Only: Use pillar boxes when overlay movie issues are distracting.
+
+NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+      </Property>
+    </Group>
     <Group name="m_menus" display="Main Menus Settings">
       <Property name="fade_fix" display="Element Fading Fix" type="eBOOL" defaultvalue="1">
         <HelpText>Fixes many element fade issues with both the Dreamcast and Battle menus.</HelpText>
@@ -157,30 +185,6 @@ Disabling this may cause player characters to look out of place in some situatio
       </Property>
       <Property name="zanki" display="Zanki Icon Position Fix" type="eBOOL" defaultvalue="1">
         <HelpText>The zanki icon, the head sprite that appears next to your lives, is drawn too high in the HD versions. This option lowers it to its correct height, as seen on Dreamcast and GameCube.</HelpText>
-      </Property>
-    </Group>
-    <Group name="event" display="Events">
-      <Property name="rf_disp" display="Render Fix Event Renderer" type="eBOOL" defaultvalue="1">
-        <HelpText>Use Render Fix's powerful event renderer, which restores Dreamcast features and adds other advanced logic - such as transparency sorting.</HelpText>
-      </Property>
-      <Property name="vsync_mode" display="Framerate Mode" type="eEV_VSYNC" defaultvalue="1">
-        <HelpText>Change the framerate of Events. 
-
-On Dreamcast, the Event itself decided when 30FPS would be used. This feature removed for Battle, and all ran at 60FPS no matter what.
-
-If you're having trouble running the Events, setting them to always run at 30FPS might help.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
-      </Property>
-      <Property name="draw_equip" display="Draw Player Equipment" type="eBOOL" defaultvalue="1">
-        <HelpText>Draw player upgrades/equipment in events.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
-      </Property>
-      <Property name="enforce_43" display="Force 4:3 Aspect Ratio" type="eEV_43MD" defaultvalue="2">
-        <HelpText>Force the event into 4:3 by drawing black bars at the side of the screen. This covers up many issues that the player was never intended to see.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
     </Group>
     <Group name="misc" display="Miscellaneous">
@@ -330,8 +334,10 @@ Back - Display Event debug info.</HelpText>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
     <Enum name="eEV_43MD">
-      <EnumMember name="2" display="Enabled"></EnumMember>
-      <EnumMember name="0" display="Off/Disabled"></EnumMember>
+      <EnumMember name="3" display="Always"></EnumMember>
+      <EnumMember name="2" display="Exclude Intro"></EnumMember>
+      <EnumMember name="1" display="Overlays Only"></EnumMember>
+      <EnumMember name="0" display="Never"></EnumMember>
     </Enum>
     <Enum name="ePAUSE_FONT_COL">
       <EnumMember name="1" display="DC/GC"></EnumMember>

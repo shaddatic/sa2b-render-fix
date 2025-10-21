@@ -77,7 +77,8 @@ EV_ENTRY_TYPE;
 typedef enum
 {
     EV_43MD_NEVER,              /* never force 4:3                                  */
-    EV_43MD_VANILLA,            /* use 4:3 when vanilla would       (unimplimented) */
+    EV_43MD_MOVIE,              /* use 4:3 if a distracting movie is on screen      */
+    EV_43MD_NOINTRO,            /* don't force 4:3 for dreamcast intro              */
     EV_43MD_ALWAYS,             /* always force 4:3                                 */
 }
 RFE_EV_43MODE;
@@ -171,18 +172,6 @@ void    EventLightSwitchSingle( void );
 *     - attr        : event entry attributes
 */
 void    EventLightSwitchMulti( Uint32 attr );
-
-/****** Aspect Ratio ****************************************************************/
-/*
-*   Description:
-*     Check if wide aspect ratio is currently allowed.
-*/
-bool    EV_AllowsWideAspect( void );
-/*
-*   Description:
-*     Check if lag emulation should be used.
-*/
-bool    UseLagEmu( void );
 
 /****** Event Exec ******************************************************************/
 /*

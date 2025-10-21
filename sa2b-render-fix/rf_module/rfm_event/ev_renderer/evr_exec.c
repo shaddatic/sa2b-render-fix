@@ -113,20 +113,3 @@ EV_SceneExec(void)
         }
     }
 }
-
-bool
-UseLagEmu(void)
-{
-    if ( EventNum == 2 && EventSceneNum == 15 && SceneData->nbFrame == 2193 )
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool
-EV_AllowsWideAspect(void)
-{
-    return EventNum == 350;
-}

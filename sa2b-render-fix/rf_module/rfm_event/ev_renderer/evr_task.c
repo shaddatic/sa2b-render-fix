@@ -41,6 +41,64 @@
 /************************/
 /*  Source              */
 /************************/
+/****** Meta ************************************************************************/
+static bool
+UseLagEmu(void)
+{
+    if ( EventNum == 2 && EventSceneNum == 15 && SceneData->nbFrame == 2193 )
+    {
+        return true;
+    }
+
+    return false;
+}
+
+static const Sint16 Ev43List[] =
+{
+    100, 101,
+    205, 206, 211,
+    360, 361
+};
+
+static bool
+UsePillarBox(void)
+{
+    if ( GetDisplayRatio() <= 1.f )
+    {
+        return false;
+    }
+
+    switch ( EventEnforce43 )
+    {
+        case EV_43MD_ALWAYS:
+        {
+            return true;
+        }
+        case EV_43MD_NOINTRO: default:
+        {
+            return EventNum != 350;
+        }
+        case EV_43MD_MOVIE:
+        {
+            const int evnum = EventNum;
+
+            for ( int i = 0; i < ARYLEN(Ev43List); ++i )
+            {
+                if ( evnum == Ev43List[i] ) return true;
+            }
+
+            return false;
+        }
+        case EV_43MD_NEVER:
+        {
+            return EventNum == 211;
+        }
+    }
+
+    return false; // unreachable
+}
+
+
 /****** Task ************************************************************************/
 static bool
 EventDispRetn(void)
@@ -253,7 +311,7 @@ EventExecutor(task* tp)
     taskwk* restrict twp = tp->twp;
 
     // 4:3 bars
-    if ( EventEnforce43 == EV_43MD_ALWAYS && !EV_AllowsWideAspect() && GetDisplayRatio() > 1.f )
+    if ( UsePillarBox() )
     {
         RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
 

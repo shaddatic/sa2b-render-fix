@@ -147,8 +147,9 @@ CNFE_EVENT_VSYNC;
 /** Cart Sprite Fix **/
 typedef enum
 {
-    CNFE_EVENT_43MD_DISABLED,
-    CNFE_EVENT_43MD_VANILLA,
+    CNFE_EVENT_43MD_NEVER,
+    CNFE_EVENT_43MD_MOVIE,
+    CNFE_EVENT_43MD_NOINTRO,
     CNFE_EVENT_43MD_ALWAYS,
 }
 CNFE_EVENT_43MD;
@@ -268,7 +269,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_EVENT_RFDISP            CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Render Fix Renderer */
 #define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
-#define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "enforce_43"          , CNFE_EVENT_43MD_ALWAYS                )   /* Enforce 4:3 Mode */
+#define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
