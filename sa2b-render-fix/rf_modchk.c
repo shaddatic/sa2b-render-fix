@@ -139,6 +139,14 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'E0211 Fix' mod is obsolete! Render Fix has already fixed this oversight!\n\n"
                     "Please disable the 'e0211 Fix' mod!"
     },
+    // Knuckles Animation Fix, by Shaddatic
+    {
+        CHKMOD_NAMEANDAUTHOR("Knuckles' Animation Fix", "Shaddatic"),
+
+        .puHead   = "Conflict (Knuckles Anim Fix, by Shaddatic)",
+        .puBody   = "The 'Knuckles' Animation Fix' mod is obsolete! Render Fix restores the original player mtn files from GameCube!\n\n"
+                    "Please disable the 'Knuckles' Animation Fix' mod!"
+    },
     /*
     *   Enable Check
     */
