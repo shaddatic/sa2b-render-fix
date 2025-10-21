@@ -1,104 +1,204 @@
-#include <samt/core.h>
-#include <samt/modinfo.h>
-#include <samt/string.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/modinfo.h>           /* mod info                                                 */
+#include <samt/string.h>            /* string search                                            */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_config.h>
-#include <rf_feature.h>
-#include <rf_usermsg.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_usermsg.h>             /* rf alert                                                 */
 
-/** Macro **/
-#define RF_ModConflictEither(_mod, _rf_feature)             RF_Alert("Mod Conflict ("_mod")", \
-                                                                "The '" _mod "' mod is obsolete and is incompatible with Render Fix's '" _rf_feature "' feature!\n\n" \
-                                                                "Please disable either the '" _mod "' mod, or the '" _rf_feature "' setting!")
-
-#define RF_ModConflictStrict(_mod, _supersede_mods)         RF_Alert("Mod Conflict ("_mod")", \
-                                                                "The '"_mod"' mod is obsolete and has been superseded by "_supersede_mods"!\n\n" \
-                                                                "Please disable the '"_mod"' mod!")
-
-static bool
-CheckModByNameAndAuthor(const char* name, const char* author)
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Check Mod *******************************************************************************/
+typedef enum
 {
-    const ml_modinfo* mhp = miGetInfoByName(name);
+    RF_CHKMOD_ID,                   /* check mod by mod id (mod-id)                             */
+    RF_CHKMOD_DLL,                  /* check mod by dll name (name.dll)                         */
+    RF_CHKMOD_NAMEANDAUTHOR,        /* check mod by name and author (name, author)              */
+}
+RF_CHKTYPE;
 
-    return (mhp && mtStrMatch( mhp->puAuthor, author, STR_NOMAX ));
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Check Mod *******************************************************************************/
+#define CHKMOD_ID(id)                       .type = RF_CHKMOD_ID,            .puID   = id
+#define CHKMOD_DLL(dllname)                 .type = RF_CHKMOD_DLL,           .puDll  = dllname ".dll"
+#define CHKMOD_NAMEANDAUTHOR(name, author)  .type = RF_CHKMOD_NAMEANDAUTHOR, .puName = name, .puAuthor = author
+
+typedef struct
+{
+    RF_CHKTYPE type;                /* check type                                               */
+
+    union
+    {
+        const c8* puID;             /* mod id                                                   */
+        const c8* puDll;            /* mod dll name                                             */
+        const c8* puName;           /* mod name                                                 */
+    };
+    union
+    {
+        const c8* puAuthor;         /* mod author                                               */
+    };
+
+    const c8* puHead;               /* alert header                                             */
+    const c8* puBody;               /* alert body                                               */
+}
+RFS_CHKMOD;
+
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Check Mod List **************************************************************************/
+static const RFS_CHKMOD CheckModList[] =
+{
+    // Highest Quality Textures, by Speeps
+    {
+        CHKMOD_NAMEANDAUTHOR("High Quality Textures", "Speeps"),
+
+        .puHead   = "Mod Conflict (Highest Quality Textures, by Speeps)",
+        .puBody   = "The 'High Quality Textures' mod is obsolete and has been superseded by Render Fix!\n\n"
+                    "Please disable the 'High Quality Textures' mod!"
+    },
+    // Rendering Fixes, by End User
+    {
+        CHKMOD_NAMEANDAUTHOR("Rendering Fixes", "End User"),
+
+        .puHead   = "Mod Conflict (Rendering Fixes, by End User)",
+        .puBody   = "The 'Rendering Fixes' mod is obsolete and has been superseded by Render Fix!\n\n"
+                    "Please disable the 'Rendering Fixes' mod!"
+    },
+    // Enhanced Shadows by "The greatest programmer who ever lived" - Shaddatic, 2025
+    {
+        CHKMOD_DLL("enhanced-shadows"),
+
+        .puHead   = "Mod Conflict (Enhanced Shadows, by Shaddatic)",
+        .puBody   = "The 'Enhanced Shadows' mod is obsolete and has been superseded by Render Fix!\n\n"
+                    "Please disable the 'Enhanced Shadows' mod!"
+    },
+    // No Model Tinting, by Speeps
+    {
+        CHKMOD_DLL("NoTinting"),
+
+        .puHead   = "Mod Conflict (No Model Tinting, by Speeps)",
+        .puBody   = "The 'No Model Tinting' mod is obsolete and has been superseded by Render Fix!\n\n"
+                    "Please disable the 'No Model Tinting' mod!"
+    },
+    // Restored GUN Logos, by Speeps
+    {
+        CHKMOD_DLL("RestoredGUNLogos"),
+
+        .puHead   = "Mod Conflict (Restored GUN Logos, by Speeps)",
+        .puBody   = "The 'Restored GUN Logos' mod is obsolete and has been superseded by Render Fix!\n\n"
+                    "Please disable the 'Restored GUN Logos' mod!"
+    },
+    // Dreamcast Shadows, by Exant
+    {
+        CHKMOD_DLL("sa2-dc-lighting"),
+
+        .puHead   = "Mod Conflict (DC Shadows, by Exant)",
+        .puBody   = "The 'Dreamcast Shadows' mod is obsolete! Render Fix now has it's own version called 'Modifier Shadows'!\n\n"
+                    "Please disable the 'DC Shadows' mod!"
+    },
+    // Eggman Lighting Fix, by Exant
+    {
+        CHKMOD_DLL("NoLightingPatch"),
+
+        .puHead   = "Mod Conflict (Eggman Lighting Fix, by Exant)",
+        .puBody   = "The 'Eggman Lighting Fix' mod is obsolete! Render Fix now includes an improved version this fix - with the help of Exant!\n\n"
+                    "Please disable the 'Eggman Lighting Fix' mod!"
+    },
+};
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Check Mod *******************************************************************************/
+static bool
+___ChkByID(const c8* puID)
+{
+    return miGetInfoByID(puID) != nullptr;
 }
 
+static bool
+___ChkByDll(const c8* puDll)
+{
+    return miGetInfoByDllName(puDll) != nullptr;
+}
+
+static bool
+___ChkByNameAndAuthor(const c8* puName, const c8* puAuthor)
+{
+    const size nb_mod = miGetModCount();
+
+    for ( size i = 0; i < nb_mod; ++i )
+    {
+        const ml_modinfo* mhp = miGetInfoByIndex(i);
+
+        if ( mtStrSearch( mhp->puAuthor, puAuthor, STR_NOMAX ) != STR_NOINDEX
+        &&   mtStrSearch( mhp->puName  , puName  , STR_NOMAX ) != STR_NOINDEX )
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/****** Init ************************************************************************************/
 void
 RF_ModCheckInit(void)
 {
     /** Check Render Fix's mod-list position **/
-    {
-        const ml_modinfo* mhp = miGetInfoByIndex(0);
 
-        if ( !mtStrMatch(mhp->puID, "sa2-render-fix", STR_NOMAX) )
-        {
-            RF_Alert("Mod Position",
-                "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
-                "Please ensure Render Fix is placed first & is above all other mods.\n\n"
-                "Not doing this will likely cause game instability, incorrect behavior, & crashes depending on your other installed mods.\n\n"
-                "You can correct this issue using the arrow buttons on the right side of your mod list while having a mod selected."
-            );
-        }
+    const ml_modinfo* mhp = miGetInfoByIndex(0);
+
+    if ( !mtStrMatch(mhp->puID, "sa2-render-fix", STR_NOMAX) )
+    {
+        RF_Alert(
+            "Mod Position",
+
+            "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
+            "Please ensure Render Fix is placed first & is above all other mods.\n\n"
+            "Not doing this will likely cause game instability, incorrect behavior, & crashes depending on your other installed mods.\n\n"
+            "You can correct this issue using the arrow buttons on the right side of your mod list while having a mod selected."
+        );
     }
 
-    /** Check Highest Quality Textures by Speeps **/
+    /** Check external mod conflicts / obsolete notices **/
+
+    for ( int i = 0; i < ARYLEN(CheckModList); ++i )
     {
-        if ( CheckModByNameAndAuthor("High Quality Textures", "Speeps") )
+        const RFS_CHKMOD* p_chkmod = &CheckModList[i];
+
+        bool found = false;
+
+        switch ( p_chkmod->type )
         {
-            RF_ModConflictStrict("High Quality Textures", "Render Fix");
+            case RF_CHKMOD_ID:
+            {
+                found = ___ChkByID(p_chkmod->puID);
+                break;
+            }
+            case RF_CHKMOD_DLL:
+            {
+                found = ___ChkByDll(p_chkmod->puDll);
+                break;
+            }
+            case RF_CHKMOD_NAMEANDAUTHOR:
+            {
+                found = ___ChkByNameAndAuthor(p_chkmod->puName, p_chkmod->puAuthor);
+                break;
+            }
+        }
+
+        if ( found )
+        {
+            RF_Alert(p_chkmod->puHead, p_chkmod->puBody);
         }
     }
-
-    /** Check Rendering Fixes by End User **/
-    {
-        if ( CheckModByNameAndAuthor("Rendering Fixes", "End User") )
-        {
-            RF_ModConflictStrict("Rendering Fixes", "Render Fix & Cutscene Revamp");
-        }
-    }
-
-    /** Check Enhanced Shadows by Shaddatic **/
-    {
-        if ( miGetInfoByDllName("enhanced-shadows") )
-        {
-            RF_ModConflictStrict("Enhanced Shadows", "Render Fix");
-        }
-    }
-
-
-    /** Check No Model Tinting by Speeps **/
-    {
-        if ( miGetInfoByDllName("NoTinting") )
-        {
-            RF_ModConflictStrict("No Model Tinting", "Render Fix");
-        }
-    }
-
-
-    /** Check Restored GUN Logos by Speeps **/
-    {
-        if ( RF_ConfigGetInt(CNF_COMMON_EEMBLEM) && miGetInfoByDllName("RestoredGUNLogos") )
-        {
-            RF_ModConflictEither("Restored GUN Logos", "GUN Emblem Fix");
-        }
-    }
-
-    /** Check DC Shadows by Exant **/
-    {
-        if ( RFF_CheapShadow() && miGetInfoByDllName("sa2-dc-lighting") )
-        {
-            RF_ModConflictEither("DC Shadows", "Modifer Shadows");
-        }
-    }
-
-    /** Check Eggman Lighting Fix by Exant **/
-    {
-        if ( RFF_SpotLightFix() && miGetInfoByDllName("NoLightingPatch") )
-        {
-            RF_ModConflictEither("Eggman Lighting Fix", "Spot Light Fix");
-        }
-    }
-
 }
