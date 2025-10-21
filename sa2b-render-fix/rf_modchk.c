@@ -32,7 +32,8 @@ RF_CHKTYPE;
 
 typedef struct
 {
-    RF_CHKTYPE type;                /* check type                                               */
+    RF_CHKTYPE type     : 16;       /* check type                                               */
+    Bool       invchk   : 16;       /* invert check (alert when NOT found)                      */
 
     union
     {
@@ -60,7 +61,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_NAMEANDAUTHOR("High Quality Textures", "Speeps"),
 
-        .puHead   = "Mod Conflict (Highest Quality Textures, by Speeps)",
+        .puHead   = "Conflict (Highest Quality Textures, by Speeps)",
         .puBody   = "The 'High Quality Textures' mod is obsolete and has been superseded by Render Fix!\n\n"
                     "Please disable the 'High Quality Textures' mod!"
     },
@@ -68,7 +69,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_NAMEANDAUTHOR("Rendering Fixes", "End User"),
 
-        .puHead   = "Mod Conflict (Rendering Fixes, by End User)",
+        .puHead   = "Conflict (Rendering Fixes, by End User)",
         .puBody   = "The 'Rendering Fixes' mod is obsolete and has been superseded by Render Fix!\n\n"
                     "Please disable the 'Rendering Fixes' mod!"
     },
@@ -76,7 +77,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_DLL("enhanced-shadows"),
 
-        .puHead   = "Mod Conflict (Enhanced Shadows, by Shaddatic)",
+        .puHead   = "Conflict (Enhanced Shadows, by Shaddatic)",
         .puBody   = "The 'Enhanced Shadows' mod is obsolete and has been superseded by Render Fix!\n\n"
                     "Please disable the 'Enhanced Shadows' mod!"
     },
@@ -84,7 +85,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_DLL("NoTinting"),
 
-        .puHead   = "Mod Conflict (No Model Tinting, by Speeps)",
+        .puHead   = "Conflict (No Model Tinting, by Speeps)",
         .puBody   = "The 'No Model Tinting' mod is obsolete and has been superseded by Render Fix!\n\n"
                     "Please disable the 'No Model Tinting' mod!"
     },
@@ -92,7 +93,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_DLL("RestoredGUNLogos"),
 
-        .puHead   = "Mod Conflict (Restored GUN Logos, by Speeps)",
+        .puHead   = "Conflict (Restored GUN Logos, by Speeps)",
         .puBody   = "The 'Restored GUN Logos' mod is obsolete and has been superseded by Render Fix!\n\n"
                     "Please disable the 'Restored GUN Logos' mod!"
     },
@@ -100,7 +101,7 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_DLL("sa2-dc-lighting"),
 
-        .puHead   = "Mod Conflict (DC Shadows, by Exant)",
+        .puHead   = "Conflict (DC Shadows, by Exant)",
         .puBody   = "The 'Dreamcast Shadows' mod is obsolete! Render Fix now has it's own version called 'Modifier Shadows'!\n\n"
                     "Please disable the 'DC Shadows' mod!"
     },
@@ -108,9 +109,48 @@ static const RFS_CHKMOD CheckModList[] =
     {
         CHKMOD_DLL("NoLightingPatch"),
 
-        .puHead   = "Mod Conflict (Eggman Lighting Fix, by Exant)",
+        .puHead   = "Conflict (Eggman Lighting Fix, by Exant)",
         .puBody   = "The 'Eggman Lighting Fix' mod is obsolete! Render Fix now includes an improved version this fix - with the help of Exant!\n\n"
                     "Please disable the 'Eggman Lighting Fix' mod!"
+    },
+    // Cutscene Revamp, by Speeps
+    {
+        CHKMOD_NAMEANDAUTHOR("Cutscene Revamp", "Speeps/End User"),
+
+        .puHead   = "Conflict (Cutscene Revamp, by Speeps & End User)",
+        .puBody   = "The 'Cutscene Revamp' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is!\n\n"
+                    "Because of this, Cutscene Revamp is now non-functional and will likely crash! If you're only interested in the Dreamcast events, just use Render Fix!\n\n"
+                    "If you're looking for the other features of Cutscene Revamp, there are other mods including these features that use Render Fix's event port as a base.\n\n"
+                    "Please disable the 'Cutscene Revamp' mod!"
+    },
+    // Dreamcast Object Lighting, by Firebow59
+    {
+        CHKMOD_NAMEANDAUTHOR("DC Object Lighting", "Firebow59"),
+
+        .puHead   = "Conflict (DC Object Lighting, by Firebow59)",
+        .puBody   = "The 'DC Object Lighting' mod is obsolete! Render Fix already uses the Dreamcast lighting files!\n\n"
+                    "Please disable the 'DC Object Lighting' mod!"
+    },
+    // E0211 Fix, by Firebox59
+    {
+        CHKMOD_NAMEANDAUTHOR("e0211 Fix", "Firebow59"),
+
+        .puHead   = "Conflict (e0211 Fix, by Firebow59)",
+        .puBody   = "The 'E0211 Fix' mod is obsolete! Render Fix has already fixed this oversight!\n\n"
+                    "Please disable the 'e0211 Fix' mod!"
+    },
+    /*
+    *   Enable Check
+    */
+    // SA2 Input Controls
+    {
+        CHKMOD_ID("sa2-input-controls"),
+
+        .invchk   = true,
+
+        .puHead   = "Recommended (SA2 Input Controls)",
+        .puBody   = "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it, analog controls will feel odd and some buttons will not work!\n\n"
+                    "Please install and enable the 'SA2 Input Controls' mod!"
     },
 };
 
@@ -173,7 +213,7 @@ RF_ModCheckInit(void)
 
     for ( int i = 0; i < ARYLEN(CheckModList); ++i )
     {
-        const RFS_CHKMOD* p_chkmod = &CheckModList[i];
+        const RFS_CHKMOD* restrict p_chkmod = &CheckModList[i];
 
         bool found = false;
 
@@ -196,7 +236,7 @@ RF_ModCheckInit(void)
             }
         }
 
-        if ( found )
+        if ( found != p_chkmod->invchk )
         {
             RF_Alert(p_chkmod->puHead, p_chkmod->puBody);
         }
