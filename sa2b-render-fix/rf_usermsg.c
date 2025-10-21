@@ -21,7 +21,7 @@ RF_Alert(const c8* head, const c8* body)
 
     c8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix Alert : %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix : %s", head);
 
     mtMsgWarning(buf, body);
 }
@@ -31,7 +31,7 @@ RF_FatalError(const c8* head, const c8* body)
 {
     c8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix Error : %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix : %s", head);
 
     mtMsgError(buf, body);
 }
@@ -41,7 +41,7 @@ RF_Query(const c8* head, const c8* body)
 {
     c8 buf[64];
 
-    snprintf(buf, sizeof(buf), "Render Fix Query : %s", head);
+    snprintf(buf, sizeof(buf), "Render Fix : %s", head);
 
     return mtMsgQuery(buf, body) == MSGBOX_RETN_YES;
 }
