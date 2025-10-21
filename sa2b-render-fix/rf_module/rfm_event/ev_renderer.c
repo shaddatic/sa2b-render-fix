@@ -39,18 +39,19 @@ RFF_NewEventRenderer(void)
 void
 EV_RendererInit(void)
 {
-    EVR_TaskInit();
-    EVR_VsyncInit();
-
-    WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
-
-    SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
-
     EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
     EventEnforce43       = RF_ConfigGetInt(CNF_EVENT_43MD);
     EventVsyncMode       = RF_ConfigGetInt(CNF_EVENT_VSYNC);
 
     EventDebugFlag       = RF_ConfigGetInt(CNF_DEBUG_EVENT);
+
+    EVR_TaskInit();
+    EVR_VsyncInit();
+    EVR_MovieInit();
+
+    WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
+
+    SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 
     NewEventRenderer = true;
 }

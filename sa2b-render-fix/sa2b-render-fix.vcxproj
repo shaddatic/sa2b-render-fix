@@ -22,6 +22,7 @@
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
     <ClCompile Include="rf_module\rfm_event\ev_file.c" />
+    <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_movie.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_blare.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_exec.c" />

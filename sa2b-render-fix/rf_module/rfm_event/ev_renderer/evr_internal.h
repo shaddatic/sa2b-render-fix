@@ -77,7 +77,7 @@ EV_ENTRY_TYPE;
 typedef enum
 {
     EV_43MD_NEVER,              /* never force 4:3                                  */
-    EV_43MD_SPECIFIC,              /* use 4:3 if a distracting movie is on screen      */
+    EV_43MD_SPECIFIC,           /* use 4:3 if a distracting movie is on screen      */
     EV_43MD_NOINTRO,            /* don't force 4:3 for dreamcast intro              */
     EV_43MD_ALWAYS,             /* always force 4:3                                 */
 }
@@ -132,6 +132,11 @@ void    EVR_TaskInit( void );
 *     Init Vsync controller.
 */
 void    EVR_VsyncInit( void );
+/*
+*   Description:
+*     Init movie/overlay sub-module.
+*/
+void    EVR_MovieInit( void );
 
 /****** Entry Type ******************************************************************/
 /*

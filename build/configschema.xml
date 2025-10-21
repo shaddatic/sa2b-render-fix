@@ -125,11 +125,15 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
       <Property name="43_mode" display="Force 4:3" type="eEV_43MD" defaultvalue="2">
-        <HelpText>Force the events into 4:3 by drawing pillar boxes. This covers up many issues that the player was never intended to see.
+        <HelpText>Force the events into their intended aspect ratio, 4:3, covering up many issues that the player was never intended to see.
 
-Exclude Intro: Always use pillar boxes, excluding the Dreamcast intro.
+Always: Force all events/cutscenes into 4:3.
 
-Issues Only: Use pillar boxes when animation or overlay movie issues are distracting.
+Exclude Intro: Always, excluding the Dreamcast intro.
+
+Issues Only: Use pillar boxes only when animation or movie/overlay issues are distracting.
+
+Never: Allow any aspect ratio. Movie/overlays are stretched to fit the screen.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
