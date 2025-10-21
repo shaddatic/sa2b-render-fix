@@ -129,7 +129,7 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 
 Exclude Intro: Always use pillar boxes, excluding the Dreamcast intro.
 
-Overlays Only: Use pillar boxes when overlay movie issues are distracting.
+Issues Only: Use pillar boxes when animation or overlay movie issues are distracting.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
@@ -336,7 +336,7 @@ Back - Display Event debug info.</HelpText>
     <Enum name="eEV_43MD">
       <EnumMember name="3" display="Always"></EnumMember>
       <EnumMember name="2" display="Exclude Intro"></EnumMember>
-      <EnumMember name="1" display="Overlays Only"></EnumMember>
+      <EnumMember name="1" display="Issues Only"></EnumMember>
       <EnumMember name="0" display="Never"></EnumMember>
     </Enum>
     <Enum name="ePAUSE_FONT_COL">

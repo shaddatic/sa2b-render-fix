@@ -77,7 +77,7 @@ EV_ENTRY_TYPE;
 typedef enum
 {
     EV_43MD_NEVER,              /* never force 4:3                                  */
-    EV_43MD_MOVIE,              /* use 4:3 if a distracting movie is on screen      */
+    EV_43MD_SPECIFIC,              /* use 4:3 if a distracting movie is on screen      */
     EV_43MD_NOINTRO,            /* don't force 4:3 for dreamcast intro              */
     EV_43MD_ALWAYS,             /* always force 4:3                                 */
 }

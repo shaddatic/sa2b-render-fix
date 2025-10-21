@@ -55,7 +55,8 @@ UseLagEmu(void)
 
 static const Sint16 Ev43List[] =
 {
-    100, 101,
+     21,  24,
+    100, 101, 126,
     205, 206, 211,
     360, 361
 };
@@ -68,6 +69,12 @@ UsePillarBox(void)
         return false;
     }
 
+    // always force 4:3 for 211
+    if ( EventNum == 211 )
+    {
+        return true;
+    }
+
     switch ( EventEnforce43 )
     {
         case EV_43MD_ALWAYS:
@@ -78,7 +85,7 @@ UsePillarBox(void)
         {
             return EventNum != 350;
         }
-        case EV_43MD_MOVIE:
+        case EV_43MD_SPECIFIC:
         {
             const int evnum = EventNum;
 
@@ -91,7 +98,7 @@ UsePillarBox(void)
         }
         case EV_43MD_NEVER:
         {
-            return EventNum == 211;
+            return false;
         }
     }
 
@@ -313,7 +320,10 @@ EventExecutor(task* tp)
     // 4:3 bars
     if ( UsePillarBox() )
     {
-        RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
+        if ( EventNum != 211 )
+        {
+            RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
+        }
 
         RF_SysEasySetPillarAspect( RF_SYS_PBA_43 );
     }
