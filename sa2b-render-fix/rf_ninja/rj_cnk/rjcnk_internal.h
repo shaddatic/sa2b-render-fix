@@ -215,8 +215,9 @@ EXTERN RJS_UV _rj_cnk_env_scroll_;  /* u offset                                 
 EXTERN void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
 EXTERN void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
 
-/****** Texture Callback ************************************************************************/
+/****** Plist Callback **************************************************************************/
 EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback                      */
+EXTERN Uint32(__cdecl* _rj_cnk_material_callback_)(NJS_BGRA*, const NJS_BGRA*, Uint32);
 
 /****** Intensity Multiply, for Simple **********************************************************/
 EXTERN Float _rj_cnk_inten_multiply_;
@@ -263,59 +264,6 @@ void    rjCnkPList( const Sint16* restrict pPList, const RJS_VERTEX_BUF* restric
 *     - vbuf        : vertex buffer
 */
 int     CnkDrawShadow_Ext( const NJS_CNK_MODEL* model, const void* vbuf );
-
-/************************************************************************************************/
-/*
-*   Callback Functions
-*/
-/****** Vlist Calculations **********************************************************************/
-/*
-*   Description:
-*     Default Vlist callback functions.
-*
-*   Parameters:
-*     - dst         : output parameter
-*     - src         : input parameter
-*/
-void    rjCnkCalcVlistPosition( NJS_POINT3* dst, const NJS_POINT3* src );
-void    rjCnkCalcVlistNormal(   NJS_VECTOR* dst, const NJS_VECTOR* src );
-void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
-void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
-/*
-*   Description:
-*     Unit variant of the vertex normals Vlist callback function.
-*
-*   Parameters:
-*     - dst         : output parameter
-*     - src         : input parameter
-*/
-void    rjCnkCalcVlistNormalUnit( NJS_VECTOR* dst, const NJS_VECTOR* src );
-
-/****** Default Callbacks ***********************************************************************/
-/*
-*   Description:
-*     Default texture callback function.
-*
-*   Parameters:
-*     - texid       : input texture id
-*
-*   Returns:
-*     Input texture number, unchanged.
-*/
-Sint16  rjCnkGetTexture( Sint16 texid );
-/*
-*   Description:
-*     Default material callback function.
-*
-*   Parameters:
-*     - dst         : output materials
-*     - src         : input materials
-*     - flag        : material flags
-*
-*   Returns:
-*     Material flags, unchanged.
-*/
-Uint32  rjCnkGetMaterial( NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag );
 
 /************************************************************************************************/
 /*

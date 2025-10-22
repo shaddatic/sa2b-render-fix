@@ -266,63 +266,6 @@ rjCnkDrawShapeMotionLinkBE(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* 
     njDrawShapeLinkBE(object, motion_link, shape_link, rate, rjCnkDrawModel);
 }
 
-/****** Cnk Modify ******************************************************************/
-void
-rjCnkSetUvScroll(Float u, Float v)
-{
-    _rj_cnk_uv_scroll_.u = u;
-    _rj_cnk_uv_scroll_.v = v;
-}
-
-void
-rjCnkSetEnvUvScroll(Float u, Float v)
-{
-    _rj_cnk_env_scroll_.u = u;
-    _rj_cnk_env_scroll_.v = v;
-}
-
-void
-rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 texid))
-{
-    _rj_cnk_texture_callback_ = ( callback ) ? ( callback ) : ( rjCnkGetTexture );
-}
-
-void
-rjCnkSetObjectCallback(void(__cdecl* callback)(NJS_CNK_OBJECT* object))
-{
-    _rj_cnk_object_callback_ = callback;
-}
-
-void
-rjCnkSetModelCallback(void(__cdecl* callback)(NJS_CNK_MODEL* model))
-{
-    _rj_cnk_model_callback_ = callback;
-}
-
-void
-rjCnkSetVListPositionFunc(void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3* src))
-{
-    _rj_cnk_vlist_pfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistPosition );
-}
-
-void
-rjCnkSetVListNormalFunc(void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* src))
-{
-    _rj_cnk_vlist_nfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistNormal );
-}
-
-void
-rjCnkSetVListColorFunc(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
-{
-    _rj_cnk_vlist_cfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistColor );
-}
-
-void
-rjCnkSetVListSpecularFunc(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
-{
-    _rj_cnk_vlist_sfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistSpecular );
-}
-
 /****** Other Draws *****************************************************************/
 static Sint32
 CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
@@ -351,11 +294,11 @@ CnkDrawModel_ChDraw(const NJS_CNK_MODEL* model)
 {
     if ( !chAttrEnable )
     {
-        rjCnkSetVListColorFunc( CalcVlistColorCh );
+        rjCnkSetVListColCallback( CalcVlistColorCh );
 
         const Sint32 ret = rjCnkDrawModel( model );
 
-        rjCnkSetVListColorFunc( nullptr );
+        rjCnkSetVListColCallback( nullptr );
 
         return ret;
     }

@@ -123,11 +123,17 @@ rjCnkSetMaterial(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
 
     const CNK_MATERIAL_HEAD* restrict p_mat = (void*) plist;
 
+    NJS_BGRA mats[RJ_NB_CMC];
+
     int nb_mat = 0;
 
-    if ( p_mat->head & 1 ) pStrip->mats[RJ_CMC_DIFF] = p_mat->d[ nb_mat++ ];
-    if ( p_mat->head & 2 ) pStrip->mats[RJ_CMC_AMBI] = p_mat->d[ nb_mat++ ];
-    if ( p_mat->head & 4 ) pStrip->mats[RJ_CMC_SPEC] = p_mat->d[ nb_mat++ ];
+    if ( p_mat->head & RJD_CMF_DIFF ) mats[RJ_CMC_DIFF] = p_mat->d[ nb_mat++ ];
+    if ( p_mat->head & RJD_CMF_AMBI ) mats[RJ_CMC_AMBI] = p_mat->d[ nb_mat++ ];
+    if ( p_mat->head & RJD_CMF_SPEC ) mats[RJ_CMC_SPEC] = p_mat->d[ nb_mat++ ];
+
+    // call Chunk material callback with material colors
+
+    _rj_cnk_material_callback_( pStrip->mats, mats, p_mat->head );
 
     return p_mat->size + CNK_MATOFF_SIZE_ADD;
 }

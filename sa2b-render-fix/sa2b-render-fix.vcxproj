@@ -104,6 +104,7 @@
     <ClCompile Include="rf_module.c" />
     <ClCompile Include="rf_ninja\rj_alphablend.c" />
     <ClCompile Include="rf_ninja\rj_cnk.c" />
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_api.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_core.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_depthqueue.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_ext.c" />

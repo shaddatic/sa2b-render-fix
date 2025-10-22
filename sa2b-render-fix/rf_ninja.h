@@ -444,7 +444,8 @@ void    rjCnkSetEnvUvScroll( Float u, Float v );
 *     - Reset the callback to 'NULL' when drawing is complete.
 * 
 *   Parameters:
-*     - callback        : object callback function                               [opt: nullptr]
+*     - callback        : object callback function                               [opt: nullptr]\
+*       - object        : callback object pointer
 */
 void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
 /*
@@ -458,8 +459,11 @@ void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) 
 * 
 *   Parameters:
 *     - callback        : model callback function                                [opt: nullptr]
+*       - model         : callback model pointer
 */
 void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
+
+/****** Chunk Plist Callback ********************************************************************/
 /*
 *   Description:
 *     Set the texture ID callback function, for texture animation.
@@ -469,11 +473,55 @@ void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
 *     - The returned value will be used as the new texid.
 *     - Called for every 'tiny' chunk data in a drawn model.
 *     - Reset the callback to 'NULL' when drawing is complete.
+*     - See 'rjCnkGetTexture' for callback example
 *
 *   Parameters:
 *     - callback        : texture callback function                              [opt: nullptr]
+*       - texid         : input texture id
+*       + return        : new texture id
 */
 void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
+/*
+*   Description:
+*     Set the Chunk material callback function, for changing material colors at draw time.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - The returned flags determines what colors will be applied to the model
+*     - Called for every 'material' chunk data in a drawn model.
+*     - Reset the callback to 'NULL' when drawing is complete.
+*     - See 'rjCnkGetMaterial' for callback example
+*
+*   Parameters:
+*     - callback        : material callback function                             [opt: nullptr]
+*       - dst           : destination material color array                          [RJ_CMC_##]
+*       - src           : source material color array                               [RJ_CMC_##]
+*       - flag          : material color flags in this material chunk               [RJ_CMF_##]
+*       + return        : output material color flags, for adding material colors   [RJ_CMF_##]
+*/
+void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
+
+/****** Chunk Vlist Callback ********************************************************************/
+/*
+*   Description:
+*     Set the Chunk vlist attribute callback functions, for changing vertex parameters at draw
+*   time.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - Called for every vertex in the Chunk vlist.
+*     - Reset the callback to 'NULL' when drawing is complete.
+*     - See 'rjCnkCalcVlist__' functions for callback examples
+*
+*   Parameters:
+*     - callback        : material callback function                             [opt: nullptr]
+*       - dst           : destination attribute
+*       - src           : source attribute
+*/
+void    rjCnkSetVListPosCallback( void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3* src) );
+void    rjCnkSetVListNrmCallback( void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* src) );
+void    rjCnkSetVListColCallback( void(__cdecl* func)(NJS_ARGB*   dst, const NJS_ARGB*   src) );
+void    rjCnkSetVListSpcCallback( void(__cdecl* func)(NJS_ARGB*   dst, const NJS_ARGB*   src) );
 
 /****** Cheap Shadow ****************************************************************/
 /*
