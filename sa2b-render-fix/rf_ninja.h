@@ -432,6 +432,34 @@ void    rjCnkSetUvScroll( Float u, Float v );
 *     - u, v        : u and v scroll offset
 */
 void    rjCnkSetEnvUvScroll( Float u, Float v );
+
+/****** Chunk Callback **************************************************************************/
+/*
+*   Description:
+*     Set the Chunk object callback function.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - Called for every object drawn using 'CnkDrawObject'.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : object callback function                               [opt: nullptr]
+*/
+void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
+/*
+*   Description:
+*     Set the Chunk model callback function.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - Called for every NON-CLIPPED model drawn using any draw function.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : model callback function                                [opt: nullptr]
+*/
+void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
 /*
 *   Description:
 *     Set the texture ID callback function, for texture animation.
@@ -439,10 +467,11 @@ void    rjCnkSetEnvUvScroll( Float u, Float v );
 *   Notes:
 *     - This is a Render Fix extension, and is not part of base Ninja.
 *     - The returned value will be used as the new texid.
+*     - Called for every 'tiny' chunk data in a drawn model.
 *     - Reset the callback to 'NULL' when drawing is complete.
 *
 *   Parameters:
-*     - callback    : texture callback function
+*     - callback        : texture callback function                              [opt: nullptr]
 */
 void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
 

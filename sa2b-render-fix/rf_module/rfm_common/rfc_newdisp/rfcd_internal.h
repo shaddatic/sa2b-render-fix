@@ -82,6 +82,11 @@ void    RFCD_EnemyKumiInit( void );
 *     Enemy bullet init.
 */
 void    RFCD_EnemyBulletInit( void );
+/*
+*   Description:
+*     Sonic/Shadow trick ramps.
+*/
+void    RFCD_TrickJumpDaiInit( void );
 
 EXTERN_END
 

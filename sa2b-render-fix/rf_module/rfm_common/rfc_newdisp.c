@@ -27,6 +27,7 @@ RFC_NewDisplayerInit(void)
     RFCD_PrisonSirenInit();
     RFCD_FinalChaseGravityCylinderInit();
     RFCD_JungleObjectInit();
+    RFCD_TrickJumpDaiInit();
 
     EnemyDrawAllowDirect = TRUE;
 
