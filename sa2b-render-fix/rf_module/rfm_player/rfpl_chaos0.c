@@ -18,11 +18,10 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_config.h>          /* config                                           */
+#include <rf_ninja.h>           /* texture callback                                 */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_util.h>            /* change displayer                                 */
 #include <rf_renderstate.h>     /* render state                                     */
-
-void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
 
 /************************/
 /*  Constants           */
