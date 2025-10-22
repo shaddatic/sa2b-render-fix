@@ -147,6 +147,14 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'Knuckles' Animation Fix' mod is obsolete! Render Fix restores the original player mtn files from GameCube!\n\n"
                     "Please disable the 'Knuckles' Animation Fix' mod!"
     },
+    // Event Timescale Fix, by Luks_18
+    {
+        CHKMOD_NAMEANDAUTHOR("Event Timescale Fix", "Luks_18"),
+
+        .puHead   = "Conflict (Event Timescale Fix, by Luks_18)",
+        .puBody   = "The 'Event Timescale Fix' mod is obsolete! has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
+                    "Please disable the 'Event Timescale Fix' mod!"
+    },
     /*
     *   Enable Check
     */
