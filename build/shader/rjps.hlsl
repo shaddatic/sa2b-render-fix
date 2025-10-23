@@ -49,6 +49,10 @@ struct PS_IN
     float2 stexuv5          : TEXCOORD6;    /* shadow tex uvs                                   */
     float  stexnum          : TEXCOORD7;    /* shadow tex count                                 */
 #endif
+    /*
+    *   Generated parameters
+    */
+    float  face             : VFACE;        /* facing direction               [-1.f == forward] */
 };
 
 /****** Pixel Output ****************************************************************************/
