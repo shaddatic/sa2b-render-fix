@@ -444,10 +444,23 @@ void    rjCnkSetEnvUvScroll( Float u, Float v );
 *     - Reset the callback to 'NULL' when drawing is complete.
 * 
 *   Parameters:
-*     - callback        : object callback function                               [opt: nullptr]\
+*     - callback        : object callback function                               [opt: nullptr]
 *       - object        : callback object pointer
 */
 void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
+/*
+*   Description:
+*     Set the Chunk motion callback function.
+*
+*   Notes:
+*     - Called for every object drawn using 'CnkDrawMotion' or its variants.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : object callback function                               [opt: nullptr]
+*       - object        : callback object pointer
+*/
+void    rjCnkSetMotionCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
 /*
 *   Description:
 *     Set the Chunk model callback function.

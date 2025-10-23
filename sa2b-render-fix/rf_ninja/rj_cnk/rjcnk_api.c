@@ -116,6 +116,12 @@ rjCnkSetObjectCallback(void(__cdecl* callback)(NJS_CNK_OBJECT* object))
 }
 
 void
+rjCnkSetMotionCallback(void(__cdecl* callback)(NJS_CNK_OBJECT* object))
+{
+    _nj_cnk_motion_callback_ = callback;
+}
+
+void
 rjCnkSetModelCallback(void(__cdecl* callback)(NJS_CNK_MODEL* model))
 {
     _rj_cnk_model_callback_ = callback;
