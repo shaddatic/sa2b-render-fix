@@ -280,10 +280,6 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 static void
 ObjectItemBoxBalloonDisplayer_RF(task* tp)
 {
-    ___NOTE("When back-face culling is removed, this hack should be removed too");
-
-    RFRS_SetCullMode(RFRS_CULLMD_AUTO); // fix for people who still have back-face culling off.
-
     const taskwk* twp = tp->twp;
 
     njSetTexture(texlist_itemboxballoon);
@@ -340,8 +336,6 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
     {
         njFogEnable();
     }
-
-    RFRS_SetCullMode(RFRS_CULLMD_END);
 }
 
 /****** Init ************************************************************************************/

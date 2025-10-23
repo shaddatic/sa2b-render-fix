@@ -244,9 +244,6 @@ However, be warned that many models will actually break with this enabled, inclu
       <Property name="old_atest" display="Use Old Alpha Test Parameters" type="eBOOL" defaultvalue="0">
         <HelpText>Use pre-1.4 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.</HelpText>
       </Property>
-      <Property name="off_bfc" display="Disable Back-Face Culling" type="eBOOL" defaultvalue="0">
-        <HelpText>Disable default-on back-face culling, due to some older mods still having issues with back-face culling on their custom models.</HelpText>
-      </Property>
     </Group>
     <Group name="debug" display="Debug Settings">
       <Property name="frametime_info" display="Frametime Info" type="eBOOL" defaultvalue="0">

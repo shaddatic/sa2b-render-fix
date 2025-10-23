@@ -288,7 +288,6 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_COMPAT_PLCONSTTEXMAT    CNFO_INT(   CNFS_COMPAT         , "pl_consttexmat"      , CNFE_BOOL_DISABLED                    )   /* Character Model Diffuse Material */
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
-#define CNF_COMPAT_OFFBFC           CNFO_INT(   CNFS_COMPAT         , "off_bfc"             , CNFE_BOOL_DISABLED                    )   /* Disable Back-Face Culling */
 
 /** Debug section **/
 #define CNF_DEBUG_FRAMEINFO         CNFO_INT(   CNFS_DEBUG          , "frametime_info"      , CNFE_BOOL_DISABLED                    )   /* Debug framtime info */
