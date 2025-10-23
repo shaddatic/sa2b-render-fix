@@ -218,13 +218,11 @@ rjCnkSpecularEasy(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const Float ambi = _rj_cnk_light_ambient_.inten;
-
     const u32 lightsw = _rj_cnk_light_switch_;
 
     /** Start **/
 
-    Float spec = 0.f;
+    Float spec = _rj_cnk_light_ambient_.inten;
 
     for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
     {
@@ -235,7 +233,7 @@ rjCnkSpecularEasy(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        spec += (ambi + inten);
+        spec += inten;
     }
 
     spec -= 1.f;
