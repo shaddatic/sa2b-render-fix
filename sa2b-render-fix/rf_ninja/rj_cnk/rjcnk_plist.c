@@ -574,7 +574,7 @@ rjCnkStripStartVertex(const RJS_CNK_STRIP* restrict strip)
 static size
 rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
 {
-    const bool trans_only = (RFRS_GetCullMode() == RFRS_CULLMD_INVERSE);
+    const bool inv_only = (RFRS_GetCullMode() == RFRS_CULLMD_INVERSE);
 
     RJS_CNK_STRIP* restrict p_stentry = pOutStrips;
 
@@ -658,7 +658,7 @@ rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
             *   don't have to handle them during the build index or draw index stages. If you
             *   remove this, the result will be the same but it will be a bit slower.
             */
-            if ( trans_only && !(p_stentry->flag & NJD_FST_DB) )
+            if ( inv_only && !(p_stentry->flag & NJD_FST_DB) )
             {
                 continue;
             }
