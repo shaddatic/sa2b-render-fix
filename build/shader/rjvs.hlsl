@@ -34,7 +34,7 @@ struct VS_IN
 /****** Vertex Output ***************************************************************************/
 struct VS_OUT
 {
-    float4 pos              : SV_POSITION;  /* vertex screen postion                            */
+    float4 pos              : POSITION;     /* vertex screen postion                            */
     float  w                : TEXCOORD0;    /* vertex w component                               */
 
     float2 uv               : TEXCOORD1;    /* texture coordinate                               */
