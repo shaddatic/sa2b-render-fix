@@ -77,35 +77,20 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
         _rj_cnk_model_callback_( (NJS_CNK_MODEL*) model );
     }
 
-    /** Draw **/
-
-    if ( ShadowCnkDraw )
+    /** Depth queue **/
+    rjCnkBeginDepthQueue( model );
+    
+    if ( model->vlist )
     {
-        /** Draw model in 1 pass without texture or lighting for shadow texture. I
-            haven't implimented this, so it's still using the original code **/
-
-        if ( CnkDrawShadow_Ext(model, _nj_vertex_buf_) == -1 )
+        if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
         {
             return CNK_RETN_CLIP;
         }
     }
-    else // normal draw
+    
+    if ( model->plist )
     {
-        /** Depth queue **/
-        rjCnkBeginDepthQueue( model );
-
-        if ( model->vlist )
-        {
-            if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
-            {
-                return CNK_RETN_CLIP;
-            }
-        }
-
-        if ( model->plist )
-        {
-            rjCnkPList(model->plist, _nj_vertex_buf_);
-        }
+        rjCnkPList(model->plist, _nj_vertex_buf_);
     }
 
     /** Drawing completed successfully **/
