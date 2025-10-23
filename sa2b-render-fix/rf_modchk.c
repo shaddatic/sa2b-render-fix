@@ -152,7 +152,7 @@ static const RFS_CHKMOD CheckModList[] =
         CHKMOD_NAMEANDAUTHOR("Event Timescale Fix", "Luks_18"),
 
         .puHead   = "Conflict (Event Timescale Fix, by Luks_18)",
-        .puBody   = "The 'Event Timescale Fix' mod is obsolete! has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
+        .puBody   = "The 'Event Timescale Fix' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
                     "Please disable the 'Event Timescale Fix' mod!"
     },
     /*
