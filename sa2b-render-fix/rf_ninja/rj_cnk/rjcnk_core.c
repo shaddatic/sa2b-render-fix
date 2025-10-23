@@ -160,14 +160,11 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 
         if ( all_on || funcmd == RFRS_CNKFUNCMD_SIMPLE || funcmd == RFRS_CNKFUNCMD_SIMPLEMULTI )
         {
-            if ( RFRS_GetCullMode() != RFRS_CULLMD_NONE )
+            new_flag |= RJD_CXF_BACKFACECULL;
+            
+            if ( RFRS_GetTwoPassLightingMode() == RFRS_TWOPASSLIGHTMD_ENABLED )
             {
-                new_flag |= RJD_CXF_BACKFACECULL;
-
-                if ( RFRS_GetTwoPassLightingMode() == RFRS_TWOPASSLIGHTMD_ENABLED )
-                {
-                    new_flag |= RJD_CXF_TWOPASSLIGHT;
-                }
+                new_flag |= RJD_CXF_TWOPASSLIGHT;
             }
         }
 
