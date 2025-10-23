@@ -1,14 +1,11 @@
 /*
-*   SA2 Render Fix - '/rf_draw.h'
+*   SA2 Render Fix - '/rf_ninja.h'
 *
 *   Description:
-*     Render Fix custom draw functions.
-*
-*   Contributors:
-*     - Shaddatic
+*     Render Fix Ninja header.
 */
-#ifndef H_RF_DRAW
-#define H_RF_DRAW
+#ifndef H_RF_NINJA
+#define H_RF_NINJA
 
 /************************/
 /*  External Headers    */
@@ -593,4 +590,4 @@ void    rjModifierResetBuffer( void );
 
 EXTERN_END
 
-#endif/*H_RF_DRAW*/
+#endif/*H_RF_NINJA*/
