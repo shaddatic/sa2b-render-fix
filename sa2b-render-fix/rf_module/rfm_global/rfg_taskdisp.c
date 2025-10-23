@@ -430,13 +430,13 @@ TaskDisplayAll(void)
     {
         gjSetRenderMode(GJD_DRAW_TRANS);
 
-        TaskDisplayDispSort(btp[0]);
-        TaskDisplayDispSort_NoSort(btp[1]);
-
-        DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
-
-        if (SortCountMax) // if displayer sort buffer exists
+        if ( SortCountMax ) // if displayer sort buffer exists
         {
+            TaskDisplayDispSort(btp[0]);
+            TaskDisplayDispSort_Buffer(btp[1]);
+
+            DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
+
             if (!no_draw)
             {
                 TaskDisplayDispSort_Buffer(btp[2]);
@@ -454,8 +454,13 @@ TaskDisplayAll(void)
 
             DrawModBuffer(MOD_DRAW_DISP_SORT);
         }
-        else
+        else // no sorting buffer available
         {
+            TaskDisplayDispSort(btp[0]);
+            TaskDisplayDispSort(btp[1]);
+
+            DrawModBuffer(MOD_DRAW_DISP_SORT_EARLY);
+
             if (!no_draw)
             {
                 TaskDisplayDispSort(btp[2]);
