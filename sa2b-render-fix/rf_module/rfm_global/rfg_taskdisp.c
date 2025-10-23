@@ -121,9 +121,16 @@ TaskDisplayDispSort_Buffer(task* btpl)
     {
         task* const nexttp = tp->next;
 
-        if (tp->disp_sort && tp->twp)
+        if ( tp->disp_sort )
         {
-            SortDispSortList(tp, -1.f);
+            if ( tp->twp )
+            {
+                SortDispSortList(tp, -1.f);
+            }
+            else
+            {
+                tp->disp_sort(tp);
+            }
         }
 
         TaskDisplayDispSort_Buffer(tp->ctp);
