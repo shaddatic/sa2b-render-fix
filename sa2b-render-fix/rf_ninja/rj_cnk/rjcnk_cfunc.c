@@ -186,7 +186,7 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
 
     /** Start **/
 
-    NJS_ARGB argb = {0};
+    NJS_ARGB spec = { 0 };
 
     for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
     {
@@ -197,18 +197,18 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        const Float spec = njPow(inten, exp);
+        const Float spec_inten = njPow(inten, exp);
 
-        argb.r += (spec * _rj_cnk_light_[i].r);
-        argb.g += (spec * _rj_cnk_light_[i].g);
-        argb.b += (spec * _rj_cnk_light_[i].b);
+        spec.r += (spec_inten * _rj_cnk_light_[i].r);
+        spec.g += (spec_inten * _rj_cnk_light_[i].g);
+        spec.b += (spec_inten * _rj_cnk_light_[i].b);
     }
 
-    argb.r *= _rj_cnk_spec_material_.r;
-    argb.g *= _rj_cnk_spec_material_.g;
-    argb.b *= _rj_cnk_spec_material_.b;
+    spec.r *= _rj_cnk_spec_material_.r;
+    spec.g *= _rj_cnk_spec_material_.g;
+    spec.b *= _rj_cnk_spec_material_.b;
 
-    return SpecToUint(&argb);
+    return SpecToUint(&spec);
 }
 
 Uint32
@@ -282,7 +282,7 @@ rjCnkSpecularMulti(const RJS_VERTEX_BUF* restrict pVtx)
 
     /** Start **/
 
-    NJS_ARGB argb = { 0.f, _rj_cnk_ambi_material_.r, _rj_cnk_ambi_material_.g, _rj_cnk_ambi_material_.b };
+    NJS_ARGB spec = { 0.f, _rj_cnk_ambi_material_.r, _rj_cnk_ambi_material_.g, _rj_cnk_ambi_material_.b };
 
     for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
     {
@@ -293,14 +293,14 @@ rjCnkSpecularMulti(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        argb.r += (_rj_cnk_light_[i].r * inten);
-        argb.g += (_rj_cnk_light_[i].g * inten);
-        argb.b += (_rj_cnk_light_[i].b * inten);
+        spec.r += (_rj_cnk_light_[i].r * inten);
+        spec.g += (_rj_cnk_light_[i].g * inten);
+        spec.b += (_rj_cnk_light_[i].b * inten);
     }
 
-    argb.r -= 1.f;
-    argb.g -= 1.f;
-    argb.b -= 1.f;
+    spec.r -= 1.f;
+    spec.g -= 1.f;
+    spec.b -= 1.f;
 
-    return SpecToUint(&argb);
+    return SpecToUint(&spec);
 }
