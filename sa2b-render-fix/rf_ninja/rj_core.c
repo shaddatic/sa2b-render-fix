@@ -154,46 +154,9 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 /************************/
 /****** Culling *********************************************************************************/
 void
-rjSetPolygonCulling(RJ_CULL mode)
-{
-    GX_SetCullMode(mode);
-}
-
-void
 rjInvertPolygons(Bool mode)
 {
     _rj_invert_polygons_ = mode;
-}
-
-/****** Shading *********************************************************************************/
-void
-rjSetPolygonShading(RJ_SHADE mode)
-{
-    static RJ_SHADE _rj_polygon_shading_;
-
-    if ( mode != _rj_polygon_shading_ )
-    {
-        _rj_polygon_shading_ = mode;
-
-        DX9_SetShadingMode( mode == RJ_SHADE_FLAT ? DX9_SHADE_FLAT : DX9_SHADE_GOURAUD );
-    }
-}
-
-void
-rjSetTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
-{
-    static dx9_float4 _rj_texparam_;
-
-    const Float tsm = (Float) shademd;
-    const Float ita = igntexalpha ? 1.f : 0.f;
-
-    if ( _rj_texparam_.x != tsm || _rj_texparam_.y != ita )
-    {
-        _rj_texparam_.x = tsm;
-        _rj_texparam_.y = ita;
-
-        RF_ShaderSetConstantF(RF_SCFP_TEXPARAM, &_rj_texparam_, 1);
-    }
 }
 
 /****** Extern **********************************************************************************/
@@ -229,7 +192,7 @@ rjSetBlend2D(Int trans)
 void
 rjSetTexture2D(Int clamp)
 {
-    rjSetTextureParamCtx();
+    rjSetHwTextureParamCtx();
 
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
@@ -379,7 +342,7 @@ rjGetDepth2D(f32 pri)
 
 /****** Context *********************************************************************************/
 void
-rjSetPolygonCullingCtx(void)
+rjSetHwCullingCtx(void)
 {
     const Uint32 ispparam = _nj_curr_ctx_->ispparam;
 
@@ -404,18 +367,18 @@ rjSetPolygonCullingCtx(void)
         }
     }
 
-    rjSetPolygonCulling( cull );
+    rjSetHwCulling( cull );
 }
 
 void
-rjSetTextureParamCtx(void)
+rjSetHwTextureParamCtx(void)
 {
     const Uint32 tspparam = _nj_curr_ctx_->tspparam;
 
     const RJ_TEXSHADE tsp = (tspparam & NJD_TEXSHADING_MASK) >> NJD_TEXSHADING_SHIFT;
     const Bool        ita = (tspparam & NJD_IGNORETEXALPHA_ON);
 
-    rjSetTextureParam( tsp, ita );
+    rjSetHwTextureParam( tsp, ita );
 }
 
 /****** Draw ************************************************************************************/

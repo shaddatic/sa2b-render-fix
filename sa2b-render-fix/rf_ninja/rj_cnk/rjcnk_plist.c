@@ -410,9 +410,9 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 static void
 rjCnkStripStartShading(const RJS_CNK_STRIP* restrict strip)
 {
-    rjSetPolygonShading( strip->flag & NJD_FST_FL ? RJ_SHADE_FLAT : RJ_SHADE_GOURAUD );
+    rjSetHwPolygonShading( strip->flag & NJD_FST_FL ? RJ_SHADE_FLAT : RJ_SHADE_GOURAUD );
 
-    rjSetTextureParamCtx();
+    rjSetHwTextureParamCtx();
 }
 
 static void

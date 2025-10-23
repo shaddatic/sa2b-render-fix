@@ -117,6 +117,7 @@
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_plist\rjcpl_cs_uv_d8.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_cfunc.c" />
     <ClCompile Include="rf_ninja\rj_core.c" />
+    <ClCompile Include="rf_ninja\rj_hw.c" />
     <ClCompile Include="rf_ninja\rj_mod.c" />
     <ClCompile Include="rf_ninja\rj_polygon.c" />
     <ClCompile Include="rf_ninja\rj_shape.c" />

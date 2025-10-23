@@ -198,7 +198,7 @@ void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
 *   Parameters:
 *     - mode        : polygon shading mode
 */
-void    rjSetPolygonShading( RJ_SHADE mode );
+void    rjSetHwPolygonShading( RJ_SHADE mode );
 /*
 *   Description:
 *     Set texture shading parameters.
@@ -207,7 +207,7 @@ void    rjSetPolygonShading( RJ_SHADE mode );
 *     - shade       : texture shading mode
 *     - igntexalpha : ignore texture alpha mode
 */
-void    rjSetTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
+void    rjSetHwTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
 
 /****** Culling *********************************************************************************/
 /*
@@ -217,7 +217,7 @@ void    rjSetTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
 *   Parameters:
 *     - mode        : polygon culling mode
 */
-void    rjSetPolygonCulling( RJ_CULL mode );
+void    rjSetHwCulling( RJ_CULL mode );
 /*
 *   Description:
 *     Set the invert polygon mode. If this is enabled, CW polygons will be drawn as CCW
@@ -286,12 +286,12 @@ NJS_TEXSURFACE* rjGetTextureSurfaceG( Int gbix );
 *   Description:
 *     Set polygon culling parameters via Ninja context automatically.
 */
-void    rjSetPolygonCullingCtx( void );
+void    rjSetHwCullingCtx( void );
 /*
 *   Description:
 *     Set texture shading parameters via Ninja context automatically.
 */
-void    rjSetTextureParamCtx( void );
+void    rjSetHwTextureParamCtx( void );
 
 /****** Start/End Vertex ************************************************************************/
 /*
