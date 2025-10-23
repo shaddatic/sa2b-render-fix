@@ -24,7 +24,7 @@ void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
 void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
 
 /****** Plist Callback *************************************************************************/
-Sint16  rjCnkGetTexture( Sint16 texid );
+Sint16  rjCnkGetTextureNum( Sint16 n );
 Uint32  rjCnkGetMaterial( NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag );
 
 /********************************/
@@ -35,12 +35,12 @@ RJS_UV _rj_cnk_uv_scroll_;
 RJS_UV _rj_cnk_env_scroll_;
 
 /****** Obj/Mdl Callback ************************************************************************/
-void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
-void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
+RJF_CNK_OBJ* _rj_cnk_object_callback_;
+RJF_CNK_MDL* _rj_cnk_model_callback_;
 
 /****** Plist Callback **************************************************************************/
-Sint16 (__cdecl* _rj_cnk_texture_callback_)(Sint16)                              = rjCnkGetTexture;
-Uint32(__cdecl*  _rj_cnk_material_callback_)(NJS_BGRA*, const NJS_BGRA*, Uint32) = rjCnkGetMaterial;
+RJF_CNK_PLIST_TNUM* _rj_cnk_texture_callback_  = rjCnkGetTextureNum;
+RJF_CNK_PLIST_MCOL* _rj_cnk_material_callback_ = rjCnkGetMaterial;
 
 /****** Vlist Callback **************************************************************************/
 RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_ = rjCnkCalcVlistPosition;
@@ -78,9 +78,9 @@ rjCnkCalcVlistSpecular(NJS_ARGB* dst, const NJS_ARGB* src)
 
 /****** Default Plist Callbacks *****************************************************************/
 static Sint16
-rjCnkGetTexture(Sint16 texid)
+rjCnkGetTextureNum(Sint16 n)
 {
-    return texid;
+    return n;
 }
 
 static Uint32
@@ -154,9 +154,9 @@ rjCnkSetVListSpcCallback(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src)
 
 /****** Default Plist Callbacks *****************************************************************/
 void
-rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 texid))
+rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 n))
 {
-    _rj_cnk_texture_callback_ = ( callback ) ? ( callback ) : ( rjCnkGetTexture );
+    _rj_cnk_texture_callback_ = ( callback ) ? ( callback ) : ( rjCnkGetTextureNum );
 }
 
 void

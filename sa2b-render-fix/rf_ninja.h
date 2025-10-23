@@ -486,14 +486,14 @@ void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
 *     - The returned value will be used as the new texid.
 *     - Called for every 'tiny' chunk data in a drawn model.
 *     - Reset the callback to 'NULL' when drawing is complete.
-*     - See 'rjCnkGetTexture' for callback example
+*     - See 'rjCnkGetTextureNum' for callback example
 *
 *   Parameters:
 *     - callback        : texture callback function                              [opt: nullptr]
-*       - texid         : input texture id
-*       + return        : new texture id
+*       - n             : texture index
+*       + return        : new texture index
 */
-void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 texid) );
+void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 n) );
 /*
 *   Description:
 *     Set the Chunk material callback function, for changing material colors at draw time.

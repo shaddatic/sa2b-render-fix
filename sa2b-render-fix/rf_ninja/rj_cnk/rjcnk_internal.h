@@ -83,7 +83,15 @@ EXTERN_START
 typedef Uint32 (RJF_CNK_VCOLFUNC)(const RJS_VERTEX_BUF* restrict pVtx);
 typedef Uint32 (RJF_CNK_SPECFUNC)(const RJS_VERTEX_BUF* restrict pVtx);
 
-/****** Vlist Calculations **********************************************************************/
+/****** Obj/Mdl Callbacks ***********************************************************************/
+typedef void (RJF_CNK_OBJ)(NJS_CNK_OBJECT* object);
+typedef void (RJF_CNK_MDL)(NJS_CNK_MODEL*  model);
+
+/****** Plist Callbacks *************************************************************************/
+typedef Sint16 (RJF_CNK_PLIST_TNUM)(Sint16 n);
+typedef Uint32 (RJF_CNK_PLIST_MCOL)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag);
+
+/****** Vlist Callbacks *************************************************************************/
 typedef void (RJF_CNK_VLIST_POS)(NJS_POINT3* dst, const NJS_POINT3* src);
 typedef void (RJF_CNK_VLIST_NRM)(NJS_VECTOR* dst, const NJS_VECTOR* src);
 typedef void (RJF_CNK_VLIST_COL)(NJS_ARGB*   dst, const NJS_ARGB*   src);
@@ -212,12 +220,12 @@ EXTERN RJS_UV _rj_cnk_uv_scroll_;   /* u offset                                 
 EXTERN RJS_UV _rj_cnk_env_scroll_;  /* u offset                                                 */
 
 /****** Obj/Mdl Callback ************************************************************************/
-EXTERN void(*_rj_cnk_object_callback_)(NJS_CNK_OBJECT*);
-EXTERN void(*_rj_cnk_model_callback_)(NJS_CNK_MODEL*);
+EXTERN RJF_CNK_OBJ* _rj_cnk_object_callback_; /* draw object callback                           */
+EXTERN RJF_CNK_MDL* _rj_cnk_model_callback_;  /* model draw callback                            */
 
 /****** Plist Callback **************************************************************************/
-EXTERN Sint16(__cdecl* _rj_cnk_texture_callback_)(Sint16); /* tex callback                      */
-EXTERN Uint32(__cdecl* _rj_cnk_material_callback_)(NJS_BGRA*, const NJS_BGRA*, Uint32);
+EXTERN RJF_CNK_PLIST_TNUM* _rj_cnk_texture_callback_;  /* texture callback                      */
+EXTERN RJF_CNK_PLIST_MCOL* _rj_cnk_material_callback_; /* material color callback               */
 
 /****** Intensity Multiply, for Simple **********************************************************/
 EXTERN Float _rj_cnk_inten_multiply_;
