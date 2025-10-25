@@ -156,9 +156,9 @@ ObjectItemBoxDispSort_RF(task* tp)
     njSetTexture(texlist_itembox);
 
     rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
-    {
-        njCnkDirectDrawModel(obj_dome->model);
-    }
+
+    njCnkDirectDrawModel(obj_dome->model);
+
     rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     const int texid = ItemBoxInfoList[(int)tp->fwp].texid;
@@ -178,9 +178,10 @@ ObjectItemBoxDispSort_RF(task* tp)
 
     rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL , RJD_CNK_CTRL_NORMAL );
     rjCnkSetControl( RJD_CNK_CTRL_MASK_MODEL, RJD_CNK_CTRL_PLIST ); // disable vlist, fast!
-    {
-        njCnkDirectDrawModel(obj_dome->model);
-    }
+
+    njCnkDirectDrawModel(obj_dome->model);
+
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_MODEL );
     rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     if (DisableObjectFog)
@@ -264,7 +265,8 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     njCnkDirectDrawModel(obj_dome->model);
 
-    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK );
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_MODEL );
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     if (scaling)
     {
