@@ -748,6 +748,8 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
 {
     const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
 
+    const Uint16 vattr_and = (_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_MASK_VTX) >> RJD_CNK_CTRL_SHIFT_VTX;
+
     const Sint32* vlist = pVList;
 
     for ( ; ; )
@@ -777,7 +779,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             */
             case CVSW( NJD_CV_SH ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_P;
+                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -790,7 +792,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             }
             case CVSW( NJD_CV_VN_SH ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -806,7 +808,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             */
             case CVSW( NJD_CV ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_P;
+                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -819,7 +821,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             }
             case CVSW( NJD_CV_D8 ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PC;
+                _rj_cnk_context_.vattr = RJD_CVT_PC & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -832,7 +834,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             }
             case CVSW( NJD_CV_UF ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_P;
+                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -845,7 +847,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             }
             case CVSW( NJD_CV_NF ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_P;
+                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -863,28 +865,28 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             */
             case CVSW( NJD_CV_VN ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 rjCnkVertexVN(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_D8 ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PNC;
+                _rj_cnk_context_.vattr = RJD_CVT_PNC & vattr_and;
 
                 rjCnkVertexVND8(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_UF ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 rjCnkVertexVNUF(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VN_NF ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 nf = true;
 
@@ -896,21 +898,21 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             */
             case CVSW( NJD_CV_VNX ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 rjCnkVertexVNX(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VNX_D8 ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PNC;
+                _rj_cnk_context_.vattr = RJD_CVT_PNC & vattr_and;
 
                 rjCnkVertexVNXD8(p_vhead, p_vbuf);
                 break;
             }
             case CVSW( NJD_CV_VNX_UF ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PN;
+                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
 
                 rjCnkVertexVNXUF(p_vhead, p_vbuf);
                 break;
@@ -920,7 +922,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             */
             case CVSW( NJD_CV_D8_S8 ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PCS;
+                _rj_cnk_context_.vattr = RJD_CVT_PCS & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
@@ -933,7 +935,7 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             }
             case CVSW( NJD_CV_NF_D8 ):
             {
-                _rj_cnk_context_.vattr = RJD_CVT_PC;
+                _rj_cnk_context_.vattr = RJD_CVT_PC & vattr_and;
 
                 /** No normals, halt drawing if 'MultiDraw' **/
                 if ( multi )
