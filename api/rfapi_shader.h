@@ -21,8 +21,8 @@
 /*  Opaque Types                */
 /********************************/
 /****** Shaders *********************************************************************************/
-typedef struct rfs_vshader          RFS_VSHADER; /* 'IDirect3DVertexShader9'                    */
-typedef struct rfs_pshader          RFS_PSHADER; /* 'IDirect3DPixelShader9'                     */
+typedef struct rfshaderv            RFS_VSHADER; /* 'IDirect3DVertexShader9'                    */
+typedef struct rfshaderp            RFS_PSHADER; /* 'IDirect3DPixelShader9'                     */
 
 /********************************/
 /*  Enums                       */
