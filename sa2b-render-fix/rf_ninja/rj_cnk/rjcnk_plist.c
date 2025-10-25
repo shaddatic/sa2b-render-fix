@@ -61,7 +61,7 @@ CheckTrans(const RJS_CNK_STRIP* restrict strip)
     *     We check if either UA or NAT strip flag is enabled and/or if Punchthrough alpha mode
     *   will be used (as PT is just a cutout opaque draw and not really translucent)
     */
-    return (strip->flag & RJD_FST_TRANSLUCENT) && !(strip->ctrl3d & NJD_CONTROL_3D_USE_PUNCHTHROUGH);
+    return (strip->flag & RJD_FST_TRANSLUCENT) && !(_nj_control_3d_flag_ & NJD_CONTROL_3D_USE_PUNCHTHROUGH);
 }
 
 /****** Set Strip *******************************************************************************/
@@ -227,7 +227,6 @@ rjCnkSetStrip(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
         pStrip->flag |= ( sttype <= NJD_CS_UVH_VN ) ? RJD_CSF_HASNRM : RJD_CSF_HASCOL;
     }
 
-    pStrip->ctrl3d = _nj_control_3d_flag_;
     pStrip->striph = p_striph;
 
     return p_striph->size + CNK_STRIPOFF_SIZE_ADD;
@@ -420,7 +419,7 @@ rjCnkStripStartMaterial(const RJS_CNK_STRIP* restrict strip)
 {
     const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
 
-    const Uint32 nj3dflag = strip->ctrl3d;
+    const Uint32 nj3dflag = _nj_control_3d_flag_;
 
     /****** Diffuse Material ****************************************************************/
 
@@ -526,7 +525,7 @@ rjCnkStripStartAlpha(const RJS_CNK_STRIP* restrict strip)
 
     if ( strip->flag & RJD_FST_TRANSLUCENT )
     {
-        if ( strip->ctrl3d & NJD_CONTROL_3D_USE_PUNCHTHROUGH )
+        if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_USE_PUNCHTHROUGH )
         {
             alphamd = RJ_ALPHA_PUNCHTHROUGH;
         }
@@ -574,7 +573,7 @@ rjCnkStripStartVertex(const RJS_CNK_STRIP* restrict strip)
 static size
 rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
 {
-    const bool inv_only = (RFRS_GetCullMode() == RFRS_CULLMD_INVERSE);
+    const bool inv_only = !(_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_NORMAL);
 
     RJS_CNK_STRIP* restrict p_stentry = pOutStrips;
 
@@ -794,63 +793,28 @@ rjCnkStripDraw(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restri
 static void
 rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, const RJS_VERTEX_BUF* restrict vbuf)
 {
-#define STDRAW_OPAQUE       (1<<0)
-#define STDRAW_TRANS        (1<<1)
+    static const Uint16 CnkStripAndFlags[4] =
+    {
+        0,                                                  // no polygons
+        ~(RJD_CSD_INVERT|RJD_CSD_SKIPEND|RJD_CSD_SKIPMAT),  // normal polygons only
+        ~(RJD_CSD_NORMAL|RJD_CSD_SKIPEND|RJD_CSD_SKIPMAT),  // inverse polygons only
+        ~0,                                                 // all polygons
+    };
+
+    /****** Start ***************************************************************************/
+
+    const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
 
     /*
     *     To handle the configurable cull modes, we & away any flags we don't want to be used
     *   during the draw stage. This is simple for the CPU and simple for me to wrap my head
     *   around (I tried a lot of ideas before this).
     */
-    Uint32 csd_and;
-
-    switch ( RFRS_GetCullMode() )
-    {
-        case RFRS_CULLMD_AUTO: default:
-        case RFRS_CULLMD_NONE:
-        {
-            csd_and = ~0;
-            break;
-        }
-        case RFRS_CULLMD_NORMAL:
-        {
-            csd_and = ~(RJD_CSD_INVERT|RJD_CSD_SKIPEND|RJD_CSD_SKIPMAT);
-            break;
-        }
-        case RFRS_CULLMD_INVERSE:
-        {
-            csd_and = ~(RJD_CSD_NORMAL|RJD_CSD_SKIPEND|RJD_CSD_SKIPMAT);
-            break;
-        }
-    }
-    /*
-    *     To handle the configurable transparency modes, we handle the mode logic here and
-    *   check the flags during the different passes.
-    */
-    Uint32 drawattr;
-
-    switch ( RFRS_GetCnkDrawMode() )
-    {
-        case RFRS_CNKDRAWMD_ALL: default:
-        {
-            drawattr = (STDRAW_OPAQUE|STDRAW_TRANS);
-            break;
-        }
-        case RFRS_CNKDRAWMD_OPAQUE:
-        {
-            drawattr = (STDRAW_OPAQUE);
-            break;
-        }
-        case RFRS_CNKDRAWMD_TRANSPARENT:
-        {
-            drawattr = (STDRAW_TRANS);
-            break;
-        }
-    }
+    const Uint32 csd_and = CnkStripAndFlags[ (cnkctrl & RJD_CNK_CTRL_MASK_CULL) >> RJD_CNK_CTRL_SHIFT_CULL ];
 
     /****** Opaque **************************************************************************/
 
-    if ( drawattr & STDRAW_OPAQUE )
+    if ( cnkctrl & RJD_CNK_CTRL_OPAQUE )
     {
         const Uint32 ctxflg = _rj_cnk_context_.flag;
         const Sint16 vattr  = _rj_cnk_context_.vattr;
@@ -914,7 +878,7 @@ rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, con
     *   reverses the order we need to draw them in. The 'NJD_CONTROL_3D_MIRROR_MODEL' flag
     *   determines if the reverse order should be used.
     */
-    if ( drawattr & STDRAW_TRANS )
+    if ( cnkctrl & RJD_CNK_CTRL_TRANSLUCENT )
     {
         bool do_inv = !( _nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL );
 
@@ -937,9 +901,6 @@ rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, con
             do_inv = !do_inv;
         }
     }
-
-#undef STDRAW_OPAQUE
-#undef STDRAW_TRANS
 }
 
 /****** Extern **********************************************************************************/

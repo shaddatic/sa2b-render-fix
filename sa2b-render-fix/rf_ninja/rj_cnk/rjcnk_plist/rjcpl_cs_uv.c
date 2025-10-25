@@ -84,61 +84,6 @@ rjCnkDrawStripUV(const CNK_STRIP_HEAD* restrict striph, Sint32 uvh, const RJS_VE
     }
 }
 
-/****** Environment *****************************************************************************/
-static void
-rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
-{
-    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
-    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
-
-    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
-
-    const int nb_strip = striph->nbstrip;
-    const int ufo      = striph->ufo;
-
-    const CNK_STRIP_UV* p_st = (const CNK_STRIP_UV*) striph->d;
-
-    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
-    {
-        const int len = rjStartTriStrip( p_st->len );
-
-        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
-
-        // get strip array
-        const CNK_ST_UV* restrict p_polyvtx = p_st->d;
-
-        for (int i = 0; i < len; ++i)
-        {
-            const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
-
-            // set position
-            p_buf->pos = p_vtx->pos;
-
-            // set uv coords
-            p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + uv_off.u;
-            p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + uv_off.v;
-
-            // set color
-            p_buf->col = fn_color( p_vtx );
-
-            // set specular
-            p_buf->spc = fn_specu( p_vtx );
-
-            /** End set buffer **/
-
-            ++p_buf;
-
-            // next polygon vertex
-            p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, i, ufo);
-        }
-
-        rjEndTriStrip(len);
-
-        // next strip chunk starts at the end of the current one
-        p_st = (void*) p_polyvtx;
-    }
-}
-
 /****** Position Environment ********************************************************************/
 static void
 rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
@@ -172,6 +117,67 @@ rjCnkDrawStripUV_POS(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF
             // set uv coords
             p_buf->u = -p_vtx->pos.x + uv_off.u;
             p_buf->v = -p_vtx->pos.y + uv_off.v;
+
+            // set color
+            p_buf->col = fn_color( p_vtx );
+
+            // set specular
+            p_buf->spc = fn_specu( p_vtx );
+
+            /** End set buffer **/
+
+            ++p_buf;
+
+            // next polygon vertex
+            p_polyvtx = NEXT_STRIP_POLY(p_polyvtx, i, ufo);
+        }
+
+        rjEndTriStrip(len);
+
+        // next strip chunk starts at the end of the current one
+        p_st = (void*) p_polyvtx;
+    }
+}
+
+/****** Environment *****************************************************************************/
+static void
+rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* restrict vbuf, RJE_CNK_VCOLFUNC cfunc, RJE_CNK_SPECFUNC sfunc)
+{
+    if ( !(_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_ENVIRONMENT) )
+    {
+        rjCnkDrawStripUV_POS(striph, vbuf, cfunc, sfunc);
+        return;
+    }
+
+    RJF_CNK_VCOLFUNC* const fn_color = _rj_cnk_vcol_funcs_[cfunc];
+    RJF_CNK_SPECFUNC* const fn_specu = _rj_cnk_spec_funcs_[sfunc];
+
+    const RJS_UV uv_off = rjCnkGetEnvUvScroll();
+
+    const int nb_strip = striph->nbstrip;
+    const int ufo      = striph->ufo;
+
+    const CNK_STRIP_UV* p_st = (const CNK_STRIP_UV*) striph->d;
+
+    for (int ix_strip = 0; ix_strip < nb_strip; ++ix_strip)
+    {
+        const int len = rjStartTriStrip( p_st->len );
+
+        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
+
+        // get strip array
+        const CNK_ST_UV* restrict p_polyvtx = p_st->d;
+
+        for (int i = 0; i < len; ++i)
+        {
+            const RJS_VERTEX_BUF* restrict p_vtx = &vbuf[ p_polyvtx->i ];
+
+            // set position
+            p_buf->pos = p_vtx->pos;
+
+            // set uv coords
+            p_buf->u = (( p_vtx->nrm.x * 0.5f) + 0.5f) + uv_off.u;
+            p_buf->v = ((-p_vtx->nrm.y * 0.5f) + 0.5f) + uv_off.v;
 
             // set color
             p_buf->col = fn_color( p_vtx );

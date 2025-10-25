@@ -30,6 +30,9 @@ Uint32  rjCnkGetMaterial( NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC]
 /********************************/
 /*  Extern Data                 */
 /********************************/
+/****** Control Flags ***************************************************************************/
+Uint32 _rj_cnk_ctrl_flag_ = RJD_CNK_CTRL_MASK;
+
 /****** UV Offset *******************************************************************************/
 RJS_UV _rj_cnk_uv_scroll_;
 RJS_UV _rj_cnk_env_scroll_;
@@ -91,6 +94,19 @@ rjCnkGetMaterial(NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 
     if ( flag & RJD_CMF_SPEC ) dst[RJ_CMC_SPEC] = src[RJ_CMC_SPEC];
 
     return flag;
+}
+
+/****** Chunk Control ***************************************************************************/
+void
+rjCnkSetControl(Uint32 off_flag, Uint32 on_flag)
+{
+    _rj_cnk_ctrl_flag_ = (_rj_cnk_ctrl_flag_ & ~off_flag) | on_flag;
+}
+
+Uint32
+rjCnkGetControl(void)
+{
+    return _rj_cnk_ctrl_flag_;
 }
 
 /****** UV Scrolling ****************************************************************************/

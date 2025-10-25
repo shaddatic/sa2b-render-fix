@@ -13,6 +13,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
+#include <rf_ninja.h>           /* ninja                                            */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_util.h>            /* replace model                                    */
@@ -191,7 +192,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     /** inverse text faces **/
 
-    RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
     if (twp->btimer == 1)
     {
@@ -206,7 +207,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
         njCnkSimpleDrawModel(object_goalring_restart->model);
     }
 
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     /** goal ring **/
 
@@ -220,7 +221,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     /** normal text faces **/
 
-    RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
     if (twp->btimer == 1)
     {
@@ -235,7 +236,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
         njCnkSimpleDrawModel(object_goalring_restart->model);
     }
 
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     njPopMatrixEx();
 

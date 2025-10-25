@@ -12,8 +12,8 @@
 *     - v1.3.2.0        : Version 1, added 'SetModifierMode' & 'SetCnkDrawMode'
 *     - v1.4.0.0        : Version 2, added 'CnkFunc/PassMode' & 'Get' variants of all functions
 *     - v1.4.0.1        : Version 3, added 'SocTexHackMode' functions
-*     - v1.4.1.0        : Version 4, depricated 'SocTexHack', 'CnkPass', & 'ModifierMode', and
-*                         added 'CnkSpecMode' & 'TwoPassLightingMode'
+*     - v1.4.1.0        : Version 4, depricated 'CullMode', 'CnkDrawMode', 'SocTexHack',
+*                         'CnkPass', & 'ModifierMode', and added 'CnkSpecMode'
 * 
 *   Availablility:
 *     - RF_EarlyInit : Yes
@@ -143,15 +143,6 @@ typedef enum
 }
 RFRS_CNKSPECMD;
 
-typedef enum
-{
-    RFRS_TWOPASSLIGHTMD_END = -1,     /* end and reset to default                                 */
-
-    RFRS_TWOPASSLIGHTMD_DISABLED,     /* disable the two pass lighting system, always             */
-    RFRS_TWOPASSLIGHTMD_ENABLED,      /* enable two pass lighting where applicable      [default] */
-}
-RFRS_TWOPASSLIGHTMD;
-
 /********************************/
 /*  Constants                   */
 /********************************/
@@ -177,6 +168,13 @@ typedef struct
     */
     /********************************************************/
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : mostly functional ('NONE' maps to 'AUTO')
+    *     - reason          : Added Chunk control flags, which do this better
+    *     - alternative     : use 'rjCnkSetControl' with 'RJD_CNK_CTRL_NORMAL/INVERSE' flags
+    * 
     *   Description:
     *     Set triangle culling mode for Chunk draw.
     *
@@ -239,6 +237,13 @@ typedef struct
     */
     void(__cdecl* SetModifierMode)( RFRS_MODMD mode );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : functional
+    *     - reason          : Added Chunk control flags, which do this better
+    *     - alternative     : use 'rjCnkSetControl' with 'RJD_CNK_CTRL_OPAQUE/TRANSLUCENT' flags
+    * 
     *   Description:
     *     Set the draw mode of opaque/transparent Chunk strips, allowing for opaque
     *   and transparant strips to be drawn seperately for sorting reasons.
@@ -283,6 +288,13 @@ typedef struct
     */
     /********************************************************/
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    *
+    *   Deprication Info:
+    *     - state           : mostly functional (can't return state with no flags enabled, defaults to 'INVERSE')
+    *     - reason          : Added Chunk control flags, which do this better
+    *     - alternative     : use 'rjCnkGetControl' with 'RJD_CNK_CTRL_NORMAL/INVERSE' flags
+    *
     *   Description:
     *     Get the current triangle culling mode.
     */
@@ -315,6 +327,13 @@ typedef struct
     */
     RFRS_MODMD(__cdecl* GetModifierMode)( void );
     /*
+    *   [[ DEPRICATED : Version 4 ]]
+    *
+    *   Deprication Info:
+    *     - state           : mostly functional (can't return state with no flags enabled, defaults to 'TRANSLUCENT')
+    *     - reason          : Added Chunk control flags, which do this better
+    *     - alternative     : use 'rjCnkGetControl' with 'RJD_CNK_CTRL_OPAQUE/TRANSLUCENT' flags
+    *
     *   Description:
     *     Get the current Chunk Draw mode.
     */
@@ -389,28 +408,6 @@ typedef struct
     *     Get the current Chunk specular calculation mode.
     */
     RFRS_CNKSPECMD (__cdecl* GetCnkSpecMode)( void );
-
-    /**** Two Pass Lighting *********************************/
-    /*
-    *   Description:
-    *     Set the two pass lighting calculation mode. This enables two sided polygons to be lit
-    *   seperately - hence two-pass - when drawing Chunk models with 'SimpleDraw'. When
-    *   disabled, both sides of the polygon are lit the same; mimicking 'EasyDraw'.
-    *
-    *   Notes:
-    *     - There's no real reason to disable this, it was only created to support models with
-    *       broken triangle normals as this also then broke their lighting too. If you're using
-    *       this API, just fix your model.
-    *
-    *   Parameters:
-    *     - mode        : two pass lighting mode
-    */
-    void (__cdecl* SetTwoPassLightingMode)( RFRS_TWOPASSLIGHTMD mode );
-    /*
-    *   Description:
-    *     Get the current two pass lighting calculation mode.
-    */
-    RFRS_TWOPASSLIGHTMD (__cdecl* GetTwoPassLightingMode)( void );
 }
 RFAPI_RENDERSTATE;
 

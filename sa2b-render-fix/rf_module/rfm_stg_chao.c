@@ -16,6 +16,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_renderstate.h>         /* easysimpledirect                                         */
+#include <rf_ninja.h>               /* rf ninja                                                 */
 
 /****** Self ************************************************************************************/
 #include <rf_module/rfm_internal.h> /* parent & siblings                                        */
@@ -37,7 +38,8 @@ OdekakeMachineDisplayerHook(task* tp)
 {
     OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 
-    RFRS_SetTwoPassLightingMode( RFRS_TWOPASSLIGHTMD_DISABLED );
+    // double sided lighting, off
+    rjCnkSetControl( RJD_CNK_CTRL_DOUBLESIDEDLIGHT, 0 );
 
     SaveConstantAttr();
 
@@ -48,7 +50,8 @@ OdekakeMachineDisplayerHook(task* tp)
 
     LoadConstantAttr();
 
-    RFRS_SetTwoPassLightingMode( RFRS_TWOPASSLIGHTMD_END );
+    // double sided lighting, restore
+    rjCnkSetControl( 0, RJD_CNK_CTRL_DOUBLESIDEDLIGHT );
 
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }

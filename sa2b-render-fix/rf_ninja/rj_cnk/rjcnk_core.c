@@ -162,7 +162,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
         {
             new_flag |= RJD_CXF_BACKFACECULL;
             
-            if ( RFRS_GetTwoPassLightingMode() == RFRS_TWOPASSLIGHTMD_ENABLED )
+            if ( _rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_DOUBLESIDEDLIGHT )
             {
                 new_flag |= RJD_CXF_TWOPASSLIGHT;
             }

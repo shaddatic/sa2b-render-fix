@@ -176,24 +176,30 @@ EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
 }
 
 /****** Draw Chunk ******************************************************************/
+static bool
+IsTranclucentPass(void)
+{
+    return (rjCnkGetControl() & RJD_CNK_CTRL_MASK_DRAW) == RJD_CNK_CTRL_TRANSLUCENT;
+}
+
 static void
 EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
-    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    if ( IsTranclucentPass() )
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawObject(object);
 
-            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawObject(object);
 
-            RFRS_SetCullMode(RFRS_CULLMD_END);
+            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
@@ -251,19 +257,19 @@ EV_CnkDrawMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Floa
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
-    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    if ( IsTranclucentPass() )
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawMotion(object, motion, frame);
 
-            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawMotion(object, motion, frame);
 
-            RFRS_SetCullMode(RFRS_CULLMD_END);
+            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
@@ -321,19 +327,19 @@ EV_CnkDrawShapeMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
-    if ( RFRS_GetCnkDrawMode() == RFRS_CNKDRAWMD_TRANSPARENT )
+    if ( IsTranclucentPass() )
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawShapeMotionBE(object, motion, shape, frame);
 
-            RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawShapeMotionBE(object, motion, shape, frame);
 
-            RFRS_SetCullMode(RFRS_CULLMD_END);
+            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {

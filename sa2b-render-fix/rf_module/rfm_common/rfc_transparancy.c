@@ -20,6 +20,7 @@
 #include <rf_config.h>      /* RF_ConfigGet                                         */
 #include <rf_mdlutil.h>     /* cnkmatflag                                           */
 #include <rf_renderstate.h> /* renderstate                                          */
+#include <rf_ninja.h>       /* rf ninja                                             */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_common/rfc_transparancy/rfct_internal.h> /* self            */
@@ -56,15 +57,15 @@ ObjectMSCarDispHook(task* tp)
 static void
 TransformObjectWithSorting(const NJS_CNK_OBJECT* object, void* pFunc)
 {
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
     njCnkTransformObject(object, pFunc);
 
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
     njCnkTransformObject(object, pFunc);
 
-    RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
 }
 
 /****** Init ************************************************************************/

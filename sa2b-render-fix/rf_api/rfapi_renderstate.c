@@ -7,6 +7,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_renderstate.h>         /* render state                                             */
+#include <rf_ninja.h>               /* render fix ninja                                         */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
@@ -20,7 +21,106 @@
 /********************************/
 /*  Source                      */
 /********************************/
-/****** Null Funcs ******************************************************************************/
+/************************************************************************************************/
+/*
+*   Depricated Functions
+*/
+/****** Cull Mode *******************************************************************************/
+void
+RFRS_SetCullMode(RFRS_CULLMD mode)
+{
+    switch (mode)
+    {
+        case RFRS_CULLMD_END:
+        case RFRS_CULLMD_AUTO:
+        case RFRS_CULLMD_NONE:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_MASK_CULL );
+            break;
+        }
+        case RFRS_CULLMD_NORMAL:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+            break;
+        }
+        case RFRS_CULLMD_INVERSE:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+            break;
+        }
+    }
+}
+
+static RFRS_CULLMD
+RFRS_GetCullMode(void)
+{
+    const Uint32 cnkctrl = rjCnkGetControl();
+
+    if ( cnkctrl & RJD_CNK_CTRL_NORMAL )
+    {
+        if ( cnkctrl & RJD_CNK_CTRL_INVERSE )
+        {
+            return RFRS_CULLMD_AUTO;
+        }
+        else
+        {
+            return RFRS_CULLMD_NORMAL;
+        }
+    }
+    else
+    {
+        return RFRS_CULLMD_INVERSE;
+    }
+}
+
+/****** Cnk Draw Mode ***************************************************************************/
+void
+RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
+{
+    switch (mode)
+    {
+        case RFRS_CNKDRAWMD_END:
+        case RFRS_CNKDRAWMD_ALL:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_MASK_DRAW );
+            break;
+        }
+        case RFRS_CNKDRAWMD_OPAQUE:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+            break;
+        }
+        case RFRS_CNKDRAWMD_TRANSPARENT:
+        {
+            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+            break;
+        }
+    }
+}
+
+static RFRS_CNKDRAWMD
+RFRS_GetCnkDrawMode(void)
+{
+    const Uint32 cnkctrl = rjCnkGetControl();
+
+    if ( cnkctrl & RJD_CNK_CTRL_OPAQUE )
+    {
+        if ( cnkctrl & RJD_CNK_CTRL_TRANSLUCENT )
+        {
+            return RFRS_CNKDRAWMD_ALL;
+        }
+        else
+        {
+            return RFRS_CNKDRAWMD_OPAQUE;
+        }
+    }
+    else
+    {
+        return RFRS_CNKDRAWMD_TRANSPARENT;
+    }
+}
+
+/****** Modifier Mode ***************************************************************************/
 static void
 RFRS_SetModifierMode(RFRS_MODMD mode)
 {
@@ -40,6 +140,7 @@ RFRS_GetModifierMode(void)
     return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_MODMD_INVERSE : RFRS_MODMD_NORMAL;
 }
 
+/****** Cnk Pass Mode ***************************************************************************/
 static void
 RFRS_SetCnkPassMode(RFRS_CNKPASSMD mode)
 {
@@ -59,6 +160,11 @@ RFRS_GetCnkPassMode(void)
     return (_nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL) ? RFRS_CNKPASSMD_INVERSE : RFRS_CNKPASSMD_NORMAL;
 }
 
+/************************************************************************************************/
+/*
+*   Null Functions
+*/
+/****** Cnk Pass Mode ***************************************************************************/
 static void
 RFRS_SetSocTexHackMode(RFRS_SOCTEXHACKMD mode)
 {
@@ -109,7 +215,4 @@ const RFAPI_RENDERSTATE rfapi_rstate =
     /** Ver 4 **/
     .SetCnkSpecMode = RFRS_SetCnkSpecMode,
     .GetCnkSpecMode = RFRS_GetCnkSpecMode,
-
-    .SetTwoPassLightingMode = RFRS_SetTwoPassLightingMode,
-    .GetTwoPassLightingMode = RFRS_GetTwoPassLightingMode,
 };

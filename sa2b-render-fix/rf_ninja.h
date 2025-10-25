@@ -28,6 +28,29 @@ EXTERN_START
 #define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                 */
 #define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
 
+/****** Chunk Control Flags *********************************************************************/
+#define RJD_CNK_CTRL_OPAQUE             (1<< 0) /* draw opaque polygons                             */
+#define RJD_CNK_CTRL_TRANSLUCENT        (1<< 1) /* draw translucent polygons                        */
+#define RJD_CNK_CTRL_NORMAL             (1<< 2) /* draw normal polygon faces                        */
+#define RJD_CNK_CTRL_INVERSE            (1<< 3) /* draw inverse polygon faces                       */
+#define RJD_CNK_CTRL_VLIST              (1<< 4) /* execute vlist chunk data                         */
+#define RJD_CNK_CTRL_PLIST              (1<< 5) /* execute plist chunk data                         */
+
+#define RJD_CNK_CTRL_VNORM              (1<< 8) /* use vertex normal attributes                     */
+#define RJD_CNK_CTRL_VCOLR              (1<< 9) /* use vertex color attributes                      */
+#define RJD_CNK_CTRL_VSPEC              (1<<10) /* use vertex specular attributes                   */
+
+#define RJD_CNK_CTRL_ENVIRONMENT        (1<<12) /* use normal-based environment calculations        */
+#define RJD_CNK_CTRL_DOUBLESIDEDLIGHT   (1<<13) /* use double sided lighting when available         */
+
+#define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
+#define RJD_CNK_CTRL_MASK_CULL      (RJD_CNK_CTRL_NORMAL|RJD_CNK_CTRL_INVERSE)
+#define RJD_CNK_CTRL_MASK_MODEL     (RJD_CNK_CTRL_VLIST|RJD_CNK_CTRL_PLIST)
+#define RJD_CNK_CTRL_MASK_VTX       (RJD_CNK_CTRL_VNORM|RJD_CNK_CTRL_VCOLR|RJD_CNK_CTRL_VSPEC)
+#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DOUBLESIDEDLIGHT)
+
+#define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
+
 /************************/
 /*  Functions           */
 /************************/
@@ -301,6 +324,21 @@ void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float
 /*
 *   RF Chunk Draw
 */
+/****** Chunk Control ***************************************************************/
+/*
+*   Description:
+*     Set/unset Chunk draw control flags.
+*
+*   Parameters:
+*     - off_flag    : flags to be turned off/and'd
+*     - on_flag     : flags to be turned on/or'd
+*/
+void    rjCnkSetControl( Uint32 off_flag, Uint32 on_flag );
+/*
+*   Description:
+*     Get the current Chunk draw control flags.
+*/
+Uint32  rjCnkGetControl( void );
 
 /****** Chunk Draw ******************************************************************/
 /*

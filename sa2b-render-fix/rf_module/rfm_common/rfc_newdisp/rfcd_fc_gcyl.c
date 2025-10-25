@@ -55,11 +55,11 @@ GravityCylinderDisplayerSorted(task* tp)
     /** Main body (first/opaque pass) **/
     {
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_OPAQUE);
         njCnkSimpleDrawModel(object_gcyl->model);
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
+        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
     }
 
@@ -80,11 +80,11 @@ GravityCylinderDisplayerSorted(task* tp)
     /** Main body (second/transparent pass) **/
     {
         OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_TRANSPARENT);
         njCnkSimpleDrawModel(object_gcyl->model);
-        RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD_END);
 
+        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
         OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
     }
 

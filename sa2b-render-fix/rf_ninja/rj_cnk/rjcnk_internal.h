@@ -22,6 +22,13 @@ EXTERN_START
 /********************************/
 /*  Constants                   */
 /********************************/
+/****** Chunk Control Shifts ********************************************************************/
+#define RJD_CNK_CTRL_SHIFT_DRAW     ( 0)
+#define RJD_CNK_CTRL_SHIFT_CULL     ( 2)
+#define RJD_CNK_CTRL_SHIFT_MODEL    ( 4)
+#define RJD_CNK_CTRL_SHIFT_VTX      ( 8)
+#define RJD_CNK_CTRL_SHIFT_EFFECT   (12)
+
 /****** Chunk conteXt Flag **********************************************************************/
 #define RJD_CXF_BACKFACECULL        (1<<0) /* uses simple inverted polygon calcs                */
 #define RJD_CXF_AMBIMATERIAL        (1<<1) /* read ambient material color                       */
@@ -166,12 +173,12 @@ RJS_CNK_CTX;
 typedef struct rjcnkstrip
 {
     Uint32                flag;            /* strip flags                                       */
-    Uint32                ctrl3d;          /* control 3d context                                */
     Sint16                blend;           /* alpha blend mode                                  */
     Sint16                texid;           /* texture id                                        */
     CNK_TINY_HEAD         tiny;            /* texture material                                  */
     NJS_BGRA              mats[RJ_NB_CMC]; /* material colors                                   */
     const CNK_STRIP_HEAD* striph;          /* strip header pointer                              */
+    Uint32                pad32;
 }
 RJS_CNK_STRIP;
 
@@ -198,8 +205,11 @@ RJS_CNK_STRIP;
 /********************************/
 /*  Data                        */
 /********************************/
+/****** Chunk Control ***************************************************************************/
+EXTERN Uint32 _rj_cnk_ctrl_flag_;       /* control flags                                        */
+
 /****** Chunk Draw ******************************************************************************/
-EXTERN RJS_CNK_CTX _rj_cnk_context_;    /*  */
+EXTERN RJS_CNK_CTX _rj_cnk_context_;    /* chunk global context                                 */
 
 EXTERN NJS_ARGB _rj_cnk_diff_material_; /* diffuse material                                     */
 EXTERN NJS_ARGB _rj_cnk_ambi_material_; /* ambient material                                     */

@@ -62,6 +62,13 @@ rjCnkEndShadowTex(void)
 Sint32
 rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
+    const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
+
+    if ( !(cnkctrl & RJD_CNK_CTRL_MASK_MODEL) )
+    {
+        return CNK_RETN_OK;
+    }
+
     /** Model clip **/
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP )
     {
@@ -77,18 +84,17 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
         _rj_cnk_model_callback_( (NJS_CNK_MODEL*) model );
     }
 
-    /** Depth queue **/
-    rjCnkBeginDepthQueue( model );
-    
-    if ( model->vlist )
+    if ( model->vlist && (cnkctrl & RJD_CNK_CTRL_VLIST) )
     {
+        rjCnkBeginDepthQueue( model );
+
         if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
         {
             return CNK_RETN_CLIP;
         }
     }
     
-    if ( model->plist )
+    if ( model->plist && (cnkctrl & RJD_CNK_CTRL_PLIST) )
     {
         rjCnkPList(model->plist, _nj_vertex_buf_);
     }

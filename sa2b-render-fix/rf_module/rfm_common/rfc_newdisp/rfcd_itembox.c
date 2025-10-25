@@ -155,11 +155,11 @@ ObjectItemBoxDispSort_RF(task* tp)
 
     njSetTexture(texlist_itembox);
 
-    RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
     {
         njCnkDirectDrawModel(obj_dome->model);
     }
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     const int texid = ItemBoxInfoList[(int)tp->fwp].texid;
 
@@ -171,16 +171,17 @@ ObjectItemBoxDispSort_RF(task* tp)
             .z = 0.0f
         };
 
-        DrawItemBoxItemTexture(texid, &p3, (Angle)(twp->scl.y * 182.0444488525391f), 6.0f);
+        DrawItemBoxItemTexture(texid, &p3, NJM_DEG_ANG(twp->scl.y), 6.0f);
     }
 
     njSetTexture(texlist_itembox);
 
-    RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL , RJD_CNK_CTRL_NORMAL );
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_MODEL, RJD_CNK_CTRL_PLIST ); // disable vlist, fast!
     {
         njCnkDirectDrawModel(obj_dome->model);
     }
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
 
     if (DisableObjectFog)
         njFogEnable();
@@ -237,11 +238,11 @@ ObjectItemBoxAirDispSort_RF(task* tp)
     njCnkDirectDrawModel(obj_base->model);
     njCnkDirectDrawModel(obj_top->model);
 
-    RFRS_SetCullMode(RFRS_CULLMD_INVERSE);
-    {
-        njCnkDirectDrawModel(obj_dome->model);
-    }
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+
+    njCnkDirectDrawModel(obj_dome->model);
+
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK );
 
     const int texid = ItemBoxAirInfoList[twp->btimer].texid;
 
@@ -253,16 +254,17 @@ ObjectItemBoxAirDispSort_RF(task* tp)
             .z = 0.0f
         };
 
-        DrawItemBoxItemTexture(texid, &p3, (Angle)(twp->scl.y * 182.0444488525391f), 9.0f);
+        DrawItemBoxItemTexture(texid, &p3, NJM_DEG_ANG(twp->scl.y), 9.0f);
     }
 
     njSetTexture(texlist_itemboxair);
 
-    RFRS_SetCullMode(RFRS_CULLMD_NORMAL);
-    {
-        njCnkDirectDrawModel(obj_dome->model);
-    }
-    RFRS_SetCullMode(RFRS_CULLMD_END);
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL , RJD_CNK_CTRL_NORMAL );
+    rjCnkSetControl( RJD_CNK_CTRL_MASK_MODEL, RJD_CNK_CTRL_PLIST ); // disable vlist, fast!
+
+    njCnkDirectDrawModel(obj_dome->model);
+
+    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK );
 
     if (scaling)
     {
