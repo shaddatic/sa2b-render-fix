@@ -40,7 +40,7 @@ struct PS_IN
     float2 uv               : TEXCOORD1;    /* texture coordinate                               */
     float4 col              : COLOR0;       /* color                                            */
     float4 off              : COLOR1;       /* offset color/specular                            */
-    
+
 #ifdef PXL_SHTEX
     float2 stexuv1          : TEXCOORD2;    /* shadow tex uvs                                   */
     float2 stexuv2          : TEXCOORD3;    /* shadow tex uvs                                   */
@@ -162,7 +162,7 @@ main(const PS_IN inpt)
     const float texalpha   = c_TexParam.y; // ignore texture alpha
     
     PS_OUT outp;
-
+    
     /****** Get Color ***********************************************************************/
     
 #ifdef PXL_TEX
