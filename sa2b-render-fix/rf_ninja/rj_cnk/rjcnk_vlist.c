@@ -160,39 +160,6 @@ rjCnkVertexCalculateIntensity(RJS_VERTEX_BUF* restrict vbuf)
     }
 }
 
-/****** Vertex **********************************************************************/
-void
-rjCnkCalcVlistPosition(NJS_POINT3* dst, const NJS_POINT3* src)
-{
-    njCalcPoint(NULL, src, dst);
-}
-
-void
-rjCnkCalcVlistNormal(NJS_VECTOR* dst, const NJS_VECTOR* src)
-{
-    njCalcVector(NULL, src, dst);
-}
-
-void
-rjCnkCalcVlistColor(NJS_ARGB* dst, const NJS_ARGB* src)
-{
-    *dst = *src;
-}
-
-void
-rjCnkCalcVlistSpecular(NJS_ARGB* dst, const NJS_ARGB* src)
-{
-    *dst = *src;
-}
-
-void
-rjCnkCalcVlistNormalUnit(NJS_VECTOR* dst, const NJS_VECTOR* src)
-{
-    njCalcVector(NULL, src, dst);
-
-    njUnitVector(dst);
-}
-
 /************************************************************************************/
 /*
 *   Get Attribute
