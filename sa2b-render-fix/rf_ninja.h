@@ -40,14 +40,15 @@ EXTERN_START
 #define RJD_CNK_CTRL_VCOLR              (1<< 9) /* use vertex color attributes                      */
 #define RJD_CNK_CTRL_VSPEC              (1<<10) /* use vertex specular attributes                   */
 
-#define RJD_CNK_CTRL_ENVIRONMENT        (1<<12) /* use normal-based environment calculations        */
-#define RJD_CNK_CTRL_DOUBLESIDEDLIGHT   (1<<13) /* use double sided lighting when available         */
+#define RJD_CNK_CTRL_TEXTURE            (1<<12) /* use textures                                     */
+#define RJD_CNK_CTRL_ENVIRONMENT        (1<<13) /* use normal-based environment calculations        */
+#define RJD_CNK_CTRL_DOUBLESIDEDLIGHT   (1<<14) /* use double sided lighting when available         */
 
 #define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
 #define RJD_CNK_CTRL_MASK_CULL      (RJD_CNK_CTRL_NORMAL|RJD_CNK_CTRL_INVERSE)
 #define RJD_CNK_CTRL_MASK_MODEL     (RJD_CNK_CTRL_VLIST|RJD_CNK_CTRL_PLIST)
 #define RJD_CNK_CTRL_MASK_VTX       (RJD_CNK_CTRL_VNORM|RJD_CNK_CTRL_VCOLR|RJD_CNK_CTRL_VSPEC)
-#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DOUBLESIDEDLIGHT)
+#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DOUBLESIDEDLIGHT)
 
 #define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
 

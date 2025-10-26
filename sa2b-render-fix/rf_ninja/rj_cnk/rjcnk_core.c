@@ -128,6 +128,15 @@ rjCnkStartVertexNonTex(void)
 void
 rjCnkStartVertexTex(void)
 {
+    if ( _rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_TEXTURE )
+    {
+        rjSetPolyAttrMask( ON, ON, ON, ON );
+    }
+    else // texture off
+    {
+        rjSetPolyAttrMask( ON, OFF, ON, ON );
+    }
+
     rjStartVertex3D(RJ_VERTEX_PTCO); // pos,tex,col,spec
 
     /** Magic: Shadow Tex **/
@@ -227,4 +236,6 @@ rjCnkEndPlist(void)
     rjSetHwPolygonShading( RJ_SHADE_GOURAUD );
     rjSetHwCulling( RJ_CULL_NONE );
     rjInvertPolygons( OFF );
+
+    rjSetPolyAttrMask( ON, ON, ON, ON );
 }
