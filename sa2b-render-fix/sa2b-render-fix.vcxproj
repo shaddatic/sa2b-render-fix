@@ -134,7 +134,7 @@
     <ClCompile Include="rf_light\rfl_file.c" />
     <ClCompile Include="rf_light\rfl_setlight.c" />
     <ClCompile Include="rf_magic.cpp" />
-    <ClCompile Include="rf_modchk.c" />
+    <ClCompile Include="rf_chkmod.c" />
     <ClCompile Include="rf_model.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_backcolor.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_itembox.c" />

@@ -207,7 +207,7 @@
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_pr_siren.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_modchk.c">
+    <ClCompile Include="rf_chkmod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_api\rfapi_draw.c">
