@@ -163,13 +163,21 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'No Level-of-Detail Models' mod is obsolete! Render Fix has options for disabling player LOD models in the config settings menu!\n\n"
                     "Please disable the 'No Level-of-Detail Models' mod!"
     },
-    // Tails Cyclone Fix
+    // Tails Cyclone Fix, by Broly#4302 & Samuel555v
     {
         CHKMOD_DLL("TailsFix"),
 
         .puHead   = "Conflict (Tails Cyclone Fix, by Broly#4302 & Samuel555v)",
         .puBody   = "The 'Tails Cyclone Fix' mod is obsolete! Render Fix fixes all model tinting issues by restoring a rendering flag left out of Battle!\n\n"
                     "Please disable the 'Tails Cyclone Fix' mod!"
+    },
+    // E0129 Music Restoration, by HedgeWedge
+    {
+        CHKMOD_NAMEANDAUTHOR("E0129 Music Restoration", "HedgeWedge"),
+
+        .puHead   = "Conflict (E0129 Music Restoration, by HedgeWedge)",
+        .puBody   = "The 'E0129 Music Restoration' mod is obsolete and non-functional! Render Fix has ported the Dreamcast events as-is - including music and effect files!\n\n"
+                    "Please disable the 'E0129 Music Restoration' mod!"
     },
     /*
     *   Enable Check
