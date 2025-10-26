@@ -163,6 +163,14 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'No Level-of-Detail Models' mod is obsolete! Render Fix has options for disabling player LOD models in the config settings menu!\n\n"
                     "Please disable the 'No Level-of-Detail Models' mod!"
     },
+    // Tails Cyclone Fix
+    {
+        CHKMOD_DLL("TailsFix"),
+
+        .puHead   = "Conflict (Tails Cyclone Fix, by Broly#4302 & Samuel555v)",
+        .puBody   = "The 'Tails Cyclone Fix' mod is obsolete! Render Fix fixes all model tinting issues by restoring a rendering flag left out of Battle!\n\n"
+                    "Please disable the 'Tails Cyclone Fix' mod!"
+    },
     /*
     *   Enable Check
     */
