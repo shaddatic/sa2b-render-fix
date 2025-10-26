@@ -89,10 +89,7 @@
 typedef enum
 {
     RJE_PIXEL_N,                    /* no pixel effect                                          */
-
-    RJE_PIXEL_T,                    /* use texture                                              */
     RJE_PIXEL_F,                    /* use fog                                                  */
-    RJE_PIXEL_TF,                   /* use tex+fog                                              */
 
     NB_RJE_PIXEL,
 }
@@ -982,21 +979,10 @@ RFD_CoreInit(void)
 
             _rj_pxl_shaders_[RJE_PIXEL_N]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
 
-            p_setmacro[0] = SM_PXL_TEX;
-            p_setmacro[1] = SM_END;
-
-            _rj_pxl_shaders_[RJE_PIXEL_T]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
-
             p_setmacro[0] = SM_PXL_FOG;
             p_setmacro[1] = SM_END;
 
             _rj_pxl_shaders_[RJE_PIXEL_F]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
-
-            p_setmacro[0] = SM_PXL_TEX;
-            p_setmacro[1] = SM_PXL_FOG;
-            p_setmacro[2] = SM_END;
-
-            _rj_pxl_shaders_[RJE_PIXEL_TF]  = RF_CompilePShader(SHADER_NAME_PS, p_pmacro);
         }
 
         /** Modifier Shaders **/
