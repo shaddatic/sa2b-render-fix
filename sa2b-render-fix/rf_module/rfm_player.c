@@ -575,4 +575,25 @@ RFM_PlayerInit(void)
     {
         WriteJump(0x0071E460, ___CreatePlayerDrawLightDashWithAlphaReducing);
     }
+
+    switch ( RF_ConfigGetInt( CNF_PLAYER_LODMDL ) ) // Player LOD Models
+    {
+        case CNFE_PLAYER_LOD_ENABLED:
+        {
+            break;
+        }
+        case CNFE_PLAYER_LOD_DISABLED:
+        {
+            WriteNOP(0x00720603, 0x0072060A);
+            WriteShortJump(0x0072060A, 0x0072060E);
+
+//          [[fallthrough]];
+        }
+        case CNFE_PLAYER_LOD_2PONLY:
+        {
+            WriteNOP(0x0072055A, 0x00720561);
+            WriteShortJump(0x0072056D, 0x0072058A);
+            break;
+        }
+    }
 }

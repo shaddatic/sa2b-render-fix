@@ -155,6 +155,14 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'Event Timescale Fix' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
                     "Please disable the 'Event Timescale Fix' mod!"
     },
+    // No Level-of-Detail models, by SF94
+    {
+        CHKMOD_NAMEANDAUTHOR("No Level-of-Detail models", "SonicFreak94"), // explicitly don't check for DLL, in case another mod uses it
+    
+        .puHead   = "Conflict (No LOD Models, by SonicFreak94)",
+        .puBody   = "The 'No Level-of-Detail Models' mod is obsolete! Render Fix has options for disabling player LOD models in the config settings menu!\n\n"
+                    "Please disable the 'No Level-of-Detail Models' mod!"
+    },
     /*
     *   Enable Check
     */

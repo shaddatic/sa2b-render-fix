@@ -59,6 +59,9 @@ GameCube models have had a number of fixes applied, mostly incorrect material fl
 
 Dark Chao Walker is currently unaffected by this setting.</HelpText>
       </Property>
+      <Property name="lod_mdl" display="Model LODs" type="ePL_LOD" defaultvalue="2">
+        <HelpText>If the LOD (Level Of Detail) player models should be used, and when.</HelpText>
+      </Property>
       <Property name="chaos0_texanim" display="Chaos 0 Texture Animation" type="eBOOL" defaultvalue="1">
         <HelpText>If Chaos 0 should cycle through his water textures.
 
@@ -311,15 +314,20 @@ Back - Display Event debug info.</HelpText>
       <EnumMember name="1" display="Dreamcast"></EnumMember>
       <EnumMember name="0" display="GameCube"></EnumMember>
     </Enum>
-    <Enum name="eMOD_MODE">
+    <Enum name="ePL_LOD">
       <EnumMember name="2" display="Enabled"></EnumMember>
-      <EnumMember name="1" display="Performance"></EnumMember>
+      <EnumMember name="1" display="Only in 2P"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
     <Enum name="ePL_SHAD_MODE">
       <EnumMember name="2" display="Modifier (Dreamcast)"></EnumMember>
       <EnumMember name="1" display="Vanilla (Enhanced)"></EnumMember>
       <EnumMember name="0" display="Vanilla"></EnumMember>
+    </Enum>
+    <Enum name="eMOD_MODE">
+      <EnumMember name="2" display="Enabled"></EnumMember>
+      <EnumMember name="1" display="Performance"></EnumMember>
+      <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
     <Enum name="eSHAD_RES">
       <EnumMember name="5" display="8192 x 8192 - (Imperceivable)"></EnumMember>
@@ -340,14 +348,14 @@ Back - Display Event debug info.</HelpText>
       <EnumMember name="1" display="Issues Only"></EnumMember>
       <EnumMember name="0" display="Never"></EnumMember>
     </Enum>
-    <Enum name="ePAUSE_FONT_COL">
-      <EnumMember name="1" display="DC/GC"></EnumMember>
-      <EnumMember name="0" display="Vanilla"></EnumMember>
-    </Enum>
     <Enum name="eEV_VSYNC">
       <EnumMember name="2" display="Always 60FPS"></EnumMember>
       <EnumMember name="1" display="Let Event Decide"></EnumMember>
       <EnumMember name="0" display="Always 30FPS"></EnumMember>
+    </Enum>
+    <Enum name="ePAUSE_FONT_COL">
+      <EnumMember name="1" display="DC/GC"></EnumMember>
+      <EnumMember name="0" display="Vanilla"></EnumMember>
     </Enum>
     <Enum name="eDBG_GAMESPEED">
       <EnumMember name="15" display="16x Speed"></EnumMember>
