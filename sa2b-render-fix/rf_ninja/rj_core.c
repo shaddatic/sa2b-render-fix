@@ -73,15 +73,6 @@
 /****** Buffer Size *****************************************************************************/
 #define RJD_VBUF_SIZE               (0x1C000 * 4)
 
-/************************************************************************************************/
-/*
-*   Vertex Buffer
-*/
-/****** Buffer Size *****************************************************************************/
-#define RJD_SHADEREFF_TEX           (1)
-#define RJD_SHADEREFF_FOG           (2)
-#define RJD_SHADEREFF_PALLETE       (4)
-
 /********************************/
 /*  Enums                       */
 /********************************/
@@ -453,7 +444,7 @@ ___rjStartVertex(RJ_VERTEX vtxdecl, Sint32 use3d)
 
     if ( ShaderModelMode & SHADERMDL_FLAG_FOG )
     {
-        effect |= RJD_SHADEREFF_FOG;
+        effect = RJE_PIXEL_F;
     }
 
     _rj_curr_vtx_decl_   = _rj_vtx_decls_[vtxdecl];
