@@ -43,7 +43,7 @@ rjCnkDrawStrip(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* rest
     {
         const int len = rjStartTriStrip( p_st->len );
 
-        RJS_VERTEX_PCS* p_buf = rjGetVertexBuffer();
+        RJS_VERTEX_PCO* p_buf = rjGetVertexBuffer();
 
         // get strip array
         const CNK_ST* restrict p_polyvtx = p_st->d;
@@ -59,7 +59,7 @@ rjCnkDrawStrip(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* rest
             p_buf->col = fn_color( p_vtx );
 
             // set specular
-            p_buf->spc = fn_specu( p_vtx );
+            p_buf->off = fn_specu( p_vtx );
 
             /** End set buffer **/
 
@@ -94,7 +94,7 @@ rjCnkDrawStrip_POS(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* 
     {
         const int len = rjStartTriStrip( p_st->len );
 
-        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
+        RJS_VERTEX_PTCO* p_buf = rjGetVertexBuffer();
 
         // get strip array
         const CNK_ST* restrict p_polyvtx = p_st->d;
@@ -114,7 +114,7 @@ rjCnkDrawStrip_POS(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* 
             p_buf->col = fn_color( p_vtx );
 
             // set specular
-            p_buf->spc = fn_specu( p_vtx );
+            p_buf->off = fn_specu( p_vtx );
 
             /** End set buffer **/
 
@@ -155,7 +155,7 @@ rjCnkDrawStrip_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* 
     {
         const int len = rjStartTriStrip( p_st->len );
 
-        RJS_VERTEX_PTCS* p_buf = rjGetVertexBuffer();
+        RJS_VERTEX_PTCO* p_buf = rjGetVertexBuffer();
 
         // get strip array
         const CNK_ST* restrict p_polyvtx = p_st->d;
@@ -175,7 +175,7 @@ rjCnkDrawStrip_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF* 
             p_buf->col = fn_color( p_vtx );
 
             // set specular
-            p_buf->spc = fn_specu( p_vtx );
+            p_buf->off = fn_specu( p_vtx );
 
             /** End set buffer **/
 

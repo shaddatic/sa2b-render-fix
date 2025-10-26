@@ -285,7 +285,8 @@ typedef enum
     /*
     *   Render Fix Constants
     */
-    RF_SCFV_SCREENINFO = RF_SCFV_UNK_200,
+    RF_SCFV_POLYATTR   = RF_SCFV_UNK_200,
+    RF_SCFV_SCREENINFO = RF_SCFV_UNK_201,
 
     /****** Pixel Constants *****************************************************************/
     /*
@@ -498,8 +499,9 @@ typedef enum
     RF_SCFP_UNK_222,
     RF_SCFP_UNK_223,
 
-    RF_SCFP_SHADOWCOLOR = RF_SCFP_UNK_200,
+    RF_SCFP_POLYATTR    = RF_SCFP_UNK_200,
     RF_SCFP_TEXPARAM    = RF_SCFP_UNK_201, /* texshading, texalpha, ???, ???                    */
+    RF_SCFP_SHADOWCOLOR = RF_SCFP_UNK_202,
 }
 RF_SCF_REGISTER;
 

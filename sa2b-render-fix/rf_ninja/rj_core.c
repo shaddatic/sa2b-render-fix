@@ -125,7 +125,7 @@ static dx9_vtx_decl* _rj_vtx_decls_[RJ_NB_VERTEX];
 
 static dx9_vtx_buff* _rj_vertex_buffer_;
 
-static RFS_VSHADER* _rj_vtx_shaders_[RJ_NB_VERTEX][RJ_NB_DRAW];
+static RFS_VSHADER* _rj_vtx_shaders_[RJ_NB_DRAW];
 static RFS_PSHADER* _rj_pxl_shaders_[NB_RJE_PIXEL];
 
 static RFS_VSHADER* _rj_mvtx_shader_;
@@ -383,56 +383,76 @@ rjSetHwTextureParamCtx(void)
 
 /****** Draw ************************************************************************************/
 static void
-___rjStartVertex(RJ_VERTEX_TYPE vtxdecl, Sint32 use3d)
+___rjStartVertex(RJ_VERTEX vtxdecl, Sint32 use3d)
 {
     _rj_vertex_buffer_base_ = (byte*) _gx_vtx_buf_base_;
     _rj_vertex_buffer_top_  = _rj_vertex_buffer_base_;
 
     _rj_vertex_buffer_cpy_ = NULL;
 
-    bool tex = false;
+    bool tex, col, off;
 
     switch ( vtxdecl )
     {
-        case RJ_VERTEX_P:
+        case RJ_VERTEX_P: default:
         {
+            tex = false;
+            col = false;
+            off = false;
+
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_P);
             break;
         }
         case RJ_VERTEX_PT:
         {
             tex = true;
+            col = false;
+            off = false;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PT);
             break;
         }
         case RJ_VERTEX_PC:
         {
+            tex = false;
+            col = true;
+            off = false;
+
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PC);
             break;
         }
         case RJ_VERTEX_PTC:
         {
             tex = true;
+            col = true;
+            off = false;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTC);
             break;
         }
-        case RJ_VERTEX_PCS:
+        case RJ_VERTEX_PCO:
         {
-            _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PCS);
+            tex = false;
+            col = true;
+            off = true;
+
+            _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PCO);
             break;
         }
-        case RJ_VERTEX_PTCS:
+        case RJ_VERTEX_PTCO:
         {
             tex = true;
+            col = true;
+            off = true;
 
-            _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTCS);
+            _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTCO);
             break;
         }
     }
 
-    RJE_PIXEL effect = tex ? RJD_SHADEREFF_TEX : 0;
+    rjSetHwPolygonAttr( 0, tex, col, off );
+
+    RJE_PIXEL effect = 0;
 
     if ( ShaderModelMode & SHADERMDL_FLAG_FOG )
     {
@@ -440,18 +460,18 @@ ___rjStartVertex(RJ_VERTEX_TYPE vtxdecl, Sint32 use3d)
     }
 
     _rj_curr_vtx_decl_   = _rj_vtx_decls_[vtxdecl];
-    _rj_curr_vtx_shader_ = _rj_vtx_shaders_[vtxdecl][use3d];
+    _rj_curr_vtx_shader_ = _rj_vtx_shaders_[use3d];
     _rj_curr_pxl_shader_ = _rj_pxl_shaders_[effect];
 }
 
 void
-rjStartVertex2D(RJ_VERTEX_TYPE vtxdecl)
+rjStartVertex2D(RJ_VERTEX vtxdecl)
 {
     ___rjStartVertex(vtxdecl, RJ_DRAW_2D);
 }
 
 void
-rjStartVertex3D(RJ_VERTEX_TYPE vtxdecl)
+rjStartVertex3D(RJ_VERTEX vtxdecl)
 {
     ___rjStartVertex(vtxdecl, RJ_DRAW_3D);
 }
@@ -946,36 +966,8 @@ RFD_CoreInit(void)
 
             p_setmacro[0] = SM_END;
 
-            _rj_vtx_shaders_[RJ_VERTEX_P][RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJ_VERTEX_P][RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
-
-            p_setmacro[0] = SM_VTX_COL;
-            p_setmacro[1] = SM_END;
-
-            _rj_vtx_shaders_[RJ_VERTEX_PC][RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJ_VERTEX_PC][RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
-
-            p_setmacro[0] = SM_VTX_COL;
-            p_setmacro[1] = SM_VTX_OFF;
-            p_setmacro[2] = SM_END;
-
-            _rj_vtx_shaders_[RJ_VERTEX_PCS][RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJ_VERTEX_PCS][RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
-
-            p_setmacro[0] = SM_VTX_TEX;
-            p_setmacro[1] = SM_VTX_COL;
-            p_setmacro[2] = SM_END;
-
-            _rj_vtx_shaders_[RJ_VERTEX_PTC][RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJ_VERTEX_PTC][RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
-
-            p_setmacro[0] = SM_VTX_TEX;
-            p_setmacro[1] = SM_VTX_COL;
-            p_setmacro[2] = SM_VTX_OFF;
-            p_setmacro[3] = SM_END;
-
-            _rj_vtx_shaders_[RJ_VERTEX_PTCS][RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
-            _rj_vtx_shaders_[RJ_VERTEX_PTCS][RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
+            _rj_vtx_shaders_[RJ_DRAW_2D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_2d);
+            _rj_vtx_shaders_[RJ_DRAW_3D] = RF_CompileVShader(SHADER_NAME_VS, p_vmacro_3d);
         }
 
         /** Pixel Shaders **/
@@ -1046,7 +1038,7 @@ RFD_CoreInit(void)
 //  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
     vtx_elems[2] = (dx9_vtx_elem){ 0, 16, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
 
-    _rj_vtx_decls_[RJ_VERTEX_PCS] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJ_VERTEX_PCO] = DX9_CreateVtxDecl(vtx_elems);
 
     vtx_elems[2] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
@@ -1072,5 +1064,5 @@ RFD_CoreInit(void)
 //  vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
     vtx_elems[3] = (dx9_vtx_elem){ 0, 24, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
 
-    _rj_vtx_decls_[RJ_VERTEX_PTCS] = DX9_CreateVtxDecl(vtx_elems);
+    _rj_vtx_decls_[RJ_VERTEX_PTCO] = DX9_CreateVtxDecl(vtx_elems);
 }

@@ -117,7 +117,7 @@ rjCnkPolygonCulling(RJ_CULL cullmd)
 void
 rjCnkStartVertexNonTex(void)
 {
-    rjStartVertex3D(RJ_VERTEX_PCS); // pos,col,spec
+    rjStartVertex3D(RJ_VERTEX_PCO); // pos,col,spec
 
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 0.f;
@@ -128,7 +128,7 @@ rjCnkStartVertexNonTex(void)
 void
 rjCnkStartVertexTex(void)
 {
-    rjStartVertex3D(RJ_VERTEX_PTCS); // pos,tex,col,spec
+    rjStartVertex3D(RJ_VERTEX_PTCO); // pos,tex,col,spec
 
     /** Magic: Shadow Tex **/
     const f32 smf = _rj_cnk_shadow_tex_ ? (f32)_rj_cnk_shadow_tex_ : 1.f;

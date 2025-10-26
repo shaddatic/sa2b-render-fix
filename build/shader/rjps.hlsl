@@ -4,8 +4,9 @@
 /****** Floats **********************************************************************************/
 float4 c_FogParam           : register(c50);  /* mode, near, far, X                             */
 float4 c_FogColor           : register(c51);  /* r, g, b, a                                     */
-float4 c_ColShadow          : register(c200); /* shadow color + shadow tex                      */
+float4 c_PolyAttr           : register(c200); /* normals, texture, color, offset color          */
 float4 c_TexParam           : register(c201); /* texshading, texalpha, X, X                     */
+float4 c_ColShadow          : register(c202); /* shadow color + shadow tex                      */
 
 /********************************/
 /*  Texture Samplers            */
@@ -65,26 +66,22 @@ struct PS_OUT
 /*  Shader Functions            */
 /********************************/
 /****** Get Texture *****************************************************************************/
-#if (PXL_TEX == 2)    // palette
-
+#if 0
 half4
-GetTexture(const float2 uv)
+GetPalette(const float2 uv)
 {
     const half   plt_index = (half)tex2D( s_DiffuseTex, uv ).w * totalPaletteIndices + paletteOffset;
     const float2 plt_uv    = float2(plt_index / indexDiv, 0);
 
     return tex2D(s_PaletteTex, plt_uv);
 }
-
-#elif (PXL_TEX == 1)  // diffuse
+#endif
 
 half4
 GetTexture(const float2 uv)
 {
     return tex2D(s_DiffuseTex, uv);
 }
-
-#endif
 
 /****** Fog *************************************************************************************/
 #if (PXL_FOG == 1)
@@ -158,46 +155,47 @@ GetShadowTexIntensity(const PS_IN inpt)
 PS_OUT
 main(const PS_IN inpt)
 {
+    const bool polytex = c_PolyAttr.y > 0.f;
+
     const float texshading = c_TexParam.x; // texture shading mode
     const float texalpha   = c_TexParam.y; // ignore texture alpha
     
     PS_OUT outp;
     
     /****** Get Color ***********************************************************************/
-    
-#ifdef PXL_TEX
 
-    half4 tex = GetTexture( inpt.uv );
-
-    tex.a = saturate( tex.a + texalpha ); // ignore texture alpha
-
-	if ( texshading <= TEXSHADING_DECAL )
-	{
-        outp.col.rgb = tex.rgb + inpt.off.rgb;
-        outp.col.a   = tex.a;
-    }
-    else if ( texshading <= TEXSHADING_MODULATE )
+    if ( polytex )
     {
-        outp.col.rgb = (inpt.col.rgb * tex.rgb) + inpt.off.rgb;
+        half4 tex = GetTexture( inpt.uv );
+
+        tex.a = saturate( tex.a + texalpha ); // ignore texture alpha
+
+	    if ( texshading <= TEXSHADING_DECAL )
+	    {
+            outp.col.rgb = tex.rgb + inpt.off.rgb;
+            outp.col.a   = tex.a;
+        }
+        else if ( texshading <= TEXSHADING_MODULATE )
+        {
+            outp.col.rgb = (inpt.col.rgb * tex.rgb) + inpt.off.rgb;
+            outp.col.a   = inpt.col.a;
+        }
+        else if ( texshading <= TEXSHADING_DECALALPHA )
+        {
+            outp.col.rgb = (tex.rgb * (tex.a)) + (inpt.col.rgb * (1.f - tex.a)) + inpt.off.rgb;
+            outp.col.a   = inpt.col.a;
+        }
+        else // ( texshading <= TEXSHADING_MODULATEALPHA )
+        {
+            outp.col.rgb = (tex.rgb * inpt.col.rgb) + inpt.off.rgb;
+            outp.col.a   = inpt.col.a * tex.a;
+        }
+    }
+    else // nontex
+    {
+        outp.col.rgb = inpt.col.rgb + inpt.off.rgb;
         outp.col.a   = inpt.col.a;
     }
-    else if ( texshading <= TEXSHADING_DECALALPHA )
-    {
-        outp.col.rgb = (tex.rgb * (tex.a)) + (inpt.col.rgb * (1.f - tex.a)) + inpt.off.rgb;
-        outp.col.a   = inpt.col.a;
-    }
-    else // ( texshading <= TEXSHADING_MODULATEALPHA )
-    {
-        outp.col.rgb = (tex.rgb * inpt.col.rgb) + inpt.off.rgb;
-        outp.col.a   = inpt.col.a * tex.a;
-    }
-
-#else // NONTEX
-    
-    outp.col.rgb = inpt.col.rgb + inpt.off.rgb;
-    outp.col.a   = inpt.col.a;
-    
-#endif
 
     outp.col = saturate( outp.col ); // clamp color
 

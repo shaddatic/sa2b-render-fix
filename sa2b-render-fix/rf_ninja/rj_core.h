@@ -35,14 +35,14 @@ typedef enum rjvtxtype
     RJ_VERTEX_PT,                   /* pos + texture (uv)                                       */
     RJ_VERTEX_PC,                   /* pos + color                                              */
     RJ_VERTEX_PTC,                  /* pos + tex + color                                        */
-    RJ_VERTEX_PCS,                  /* pos + color + specular                                   */
-    RJ_VERTEX_PTCS,                 /* pos + tex + color + spec                                 */
+    RJ_VERTEX_PCO,                  /* pos + color + offset                                     */
+    RJ_VERTEX_PTCO,                 /* pos + tex + color + off                                  */
 
     RJ_NB_VERTEX,                   /* vertex number                                            */
 
     RJ_VERTEX_M = RJ_VERTEX_P,      /* modifier vertex                                          */
 }
-RJ_VERTEX_TYPE;
+RJ_VERTEX;
 
 /****** Alpha Blend Mode ************************************************************************/
 typedef enum rjblend
@@ -138,18 +138,18 @@ typedef struct rjvtxpcs
 {
     NJS_POINT3  pos;                /* position                                                 */
     Uint32      col;                /* diffuse color                                     [BGRA] */
-    Uint32      spc;                /* specular color                                    [BGR_] */
+    Uint32      off;                /* offset/specular color                             [BGR_] */
 }
-RJS_VERTEX_PCS;
+RJS_VERTEX_PCO;
 
 typedef struct rjvtxptcs
 {
     NJS_POINT3  pos;                /* position                                                 */
     Float       u,v;                /* texture coordinates                                      */
     Uint32      col;                /* diffuse color                                     [BGRA] */
-    Uint32      spc;                /* specular color                                    [BGR_] */
+    Uint32      off;                /* offset/specular color                             [BGR_] */
 }
-RJS_VERTEX_PTCS;
+RJS_VERTEX_PTCO;
 
 /****** Texture UV ******************************************************************************/
 typedef struct rjuv
@@ -179,6 +179,19 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                        
 /*
 *   Draw Core
 */
+/****** Set Polygon Attributes ******************************************************************/
+/*
+*   Description:
+*     Set vertex/polygon attributes for drawing.
+*
+*   Parameters:
+*     - nrm         : has/use normals
+*     - tex         : has/use uvs, 2 means palette texture
+*     - col         : has/use colors
+*     - off         : has/use offset/specular color
+*/
+void    rjSetHwPolygonAttr( Int nrm, Int tex, Int col, Int off );
+
 /****** Set Alpha Blend *************************************************************************/
 /*
 *   Description:
@@ -301,7 +314,7 @@ void    rjSetHwTextureParamCtx( void );
 *   Parameters:
 *     - vtype       : vertex type
 */
-void    rjStartVertex2D( RJ_VERTEX_TYPE vtype );
+void    rjStartVertex2D( RJ_VERTEX vtype );
 /*
 *   Description:
 *     Start 3D draw state and vertex buffer for specific vertex type.
@@ -309,7 +322,7 @@ void    rjStartVertex2D( RJ_VERTEX_TYPE vtype );
 *   Parameters:
 *     - vtype       : vertex type
 */
-void    rjStartVertex3D( RJ_VERTEX_TYPE vtype );
+void    rjStartVertex3D( RJ_VERTEX vtype );
 /*
 *   Description:
 *     End vertex, and draw vertex buffer.

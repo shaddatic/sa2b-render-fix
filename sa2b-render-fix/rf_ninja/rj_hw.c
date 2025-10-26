@@ -36,7 +36,8 @@
 static RJ_SHADE _rj_polygon_shading_;
 
 /****** Shader Constants ************************************************************************/
-static dx9_float4 _rj_texparam_;
+static dx9_float4 _rj_hw_polyattr_;
+static dx9_float4 _rj_hw_texparam_;
 
 /********************************/
 /*  Source                      */
@@ -46,6 +47,24 @@ void
 rjSetHwCulling(RJ_CULL mode)
 {
     GX_SetCullMode(mode);
+}
+
+/****** Polygon Attr ****************************************************************************/
+void
+rjSetHwPolygonAttr(Int nrm, Int tex, Int col, Int off)
+{
+    const dx9_float4 attr = (dx9_float4){ (f32)nrm, (f32)tex, (f32)col, (f32)off };
+
+    if ( _rj_hw_polyattr_.x != attr.x
+    ||   _rj_hw_polyattr_.y != attr.y
+    ||   _rj_hw_polyattr_.z != attr.z
+    ||   _rj_hw_polyattr_.w != attr.w )
+    {
+        _rj_hw_polyattr_ = attr;
+
+        RF_ShaderSetConstantF(RF_SCFV_POLYATTR, &attr, 1);
+        RF_ShaderSetConstantF(RF_SCFP_POLYATTR, &attr, 1);
+    }
 }
 
 /****** Color ***********************************************************************************/
@@ -86,12 +105,12 @@ rjSetHwTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
     const Float tsm = (Float) shademd;
     const Float ita = igntexalpha ? 1.f : 0.f;
 
-    if ( _rj_texparam_.x != tsm || _rj_texparam_.y != ita )
+    if ( _rj_hw_texparam_.x != tsm || _rj_hw_texparam_.y != ita )
     {
-        _rj_texparam_.x = tsm;
-        _rj_texparam_.y = ita;
+        _rj_hw_texparam_.x = tsm;
+        _rj_hw_texparam_.y = ita;
 
-        RF_ShaderSetConstantF(RF_SCFP_TEXPARAM, &_rj_texparam_, 1);
+        RF_ShaderSetConstantF(RF_SCFP_TEXPARAM, &_rj_hw_texparam_, 1);
     }
 }
 

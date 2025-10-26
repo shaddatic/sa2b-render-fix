@@ -4,7 +4,8 @@
 /****** Floats **********************************************************************************/
 float4 c_DeviceInfo         : register(c104); /* adj w_res, adj h_res, ???, 4:3 stretch         */
 float  c_NumTexGen          : register(c155); /* tex generation count                           */
-float4 c_ScreenInfo         : register(c200); /* 1/w_res, 1/h_res, X, X                         */
+float4 c_PolyAttr           : register(c200); /* normals, texture, color, offset color          */
+float4 c_ScreenInfo         : register(c201); /* 1/w_res, 1/h_res, X, X                         */
 
 /****** Matrix **********************************************************************************/
 float4x4 c_MtxProjection    : register(c8);   /* projection matrix                              */
@@ -19,16 +20,9 @@ float4x4 c_MtxTexGen[10]    : register(c160); /* texture gen matrix(s)          
 struct VS_IN
 {
     float3 pos              : POSITION0;    /* vertex position                                  */
-
-#ifdef VTX_TEX
     float2 uv               : TEXCOORD0;    /* texture coordinate                               */
-#endif
-#ifdef VTX_COL
     float4 col              : COLOR0;       /* color                                            */
-#endif
-#ifdef VTX_OFF
     float4 off              : COLOR1;       /* offset color/specular                            */
-#endif
 };
 
 /****** Vertex Output ***************************************************************************/
@@ -58,6 +52,11 @@ struct VS_OUT
 VS_OUT
 main(VS_IN inpt)
 {
+    const bool vnrm = c_PolyAttr.x > 0.f;
+    const bool vtex = c_PolyAttr.y > 0.f;
+    const bool vcol = c_PolyAttr.z > 0.f;
+    const bool voff = c_PolyAttr.w > 0.f;
+
     VS_OUT outp;
 
 #ifdef VTX_3D
@@ -71,23 +70,9 @@ main(VS_IN inpt)
 
     outp.w = outp.pos.z;
     
-#ifdef VTX_TEX
-    outp.uv     = inpt.uv;
-#else
-    outp.uv     = float2(0.f, 0.f);
-#endif
-
-#ifdef VTX_COL
-    outp.col    = inpt.col;
-#else
-    outp.col    = float4(1.f, 1.f, 1.f, 1.f);
-#endif
-
-#ifdef VTX_OFF
-    outp.off    = inpt.off;
-#else
-    outp.off    = float4(0.f, 0.f, 0.f, 0.f);
-#endif
+    outp.uv  = vtex ? inpt.uv  : float2(0.f, 0.f);
+    outp.col = vcol ? inpt.col : float4(1.f, 1.f, 1.f, 1.f);
+    outp.off = voff ? inpt.off : float4(0.f, 0.f, 0.f, 0.f);
 
 #ifdef VTX_SHTEX
     const float3 vtx_pos = mul( float4(inpt.pos, 1.f), c_MtxWorldView );

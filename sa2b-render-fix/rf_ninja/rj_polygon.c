@@ -145,11 +145,11 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
     rjSetBlend2D(trans);
     rjSetTexture2D(uv_clamp);
 
-    rjStartVertex2D(RJ_VERTEX_PTCS);
+    rjStartVertex2D(RJ_VERTEX_PTCO);
 
     const Sint32 nbv = rjStartTriStrip(count);
 
-    RJS_VERTEX_PTCS* restrict p_buf = rjGetVertexBuffer();
+    RJS_VERTEX_PTCO* restrict p_buf = rjGetVertexBuffer();
 
     for ( int i = 0; i < count; ++i )
     {
@@ -159,7 +159,7 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
         p_buf[i].u     = polygon[i].u;
         p_buf[i].v     = polygon[i].v;
         p_buf[i].col   = polygon[i].bcol;
-        p_buf[i].spc   = polygon[i].ocol;
+        p_buf[i].off   = polygon[i].ocol;
     }
 
     rjEndTriStrip(nbv);

@@ -4,7 +4,7 @@
 /****** Floats **********************************************************************************/
 float4 c_FogParam           : register(c50);  /* mode, near, far, X                             */
 float4 c_FogColor           : register(c51);  /* r, g, b, a                                     */
-float4 c_ColShadow          : register(c200); /* shadow color + shadow tex                      */
+float4 c_ColShadow          : register(c202); /* shadow color + shadow tex                      */
 
 /********************************/
 /*  Constant Registers          */
