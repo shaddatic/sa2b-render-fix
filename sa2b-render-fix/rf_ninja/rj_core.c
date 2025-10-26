@@ -105,6 +105,9 @@ RJE_DRAW;
 /********************************/
 /*  Data                        */
 /********************************/
+/****** Polygon Attr Mask ***********************************************************************/
+static Uint16 _rj_polyattr_mask_[4];
+
 /****** Invert Polygons *************************************************************************/
 static Sint32 _rj_invert_polygons_;
 
@@ -140,6 +143,16 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 /************************/
 /*  Source              */
 /************************/
+/****** Polyattr Mask ***************************************************************************/
+void
+rjSetPolyAttrMask(Int nrm, Int tex, Int col, Int off)
+{
+    _rj_polyattr_mask_[0] = nrm ? 0 : ~0;
+    _rj_polyattr_mask_[1] = tex ? 0 : ~0;
+    _rj_polyattr_mask_[2] = col ? 0 : ~0;
+    _rj_polyattr_mask_[3] = off ? 0 : ~0;
+}
+
 /****** Culling *********************************************************************************/
 void
 rjInvertPolygons(Bool mode)
@@ -378,67 +391,78 @@ ___rjStartVertex(RJ_VERTEX vtxdecl, Sint32 use3d)
 
     _rj_vertex_buffer_cpy_ = NULL;
 
-    bool tex, col, off;
+    Sint16 nrm, tex, col, off;
 
     switch ( vtxdecl )
     {
         case RJ_VERTEX_P: default:
         {
-            tex = false;
-            col = false;
-            off = false;
+            nrm = FALSE;
+            tex = FALSE;
+            col = FALSE;
+            off = FALSE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_P);
             break;
         }
         case RJ_VERTEX_PT:
         {
-            tex = true;
-            col = false;
-            off = false;
+            nrm = FALSE;
+            tex = TRUE;
+            col = FALSE;
+            off = FALSE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PT);
             break;
         }
         case RJ_VERTEX_PC:
         {
-            tex = false;
-            col = true;
-            off = false;
+            nrm = FALSE;
+            tex = FALSE;
+            col = TRUE;
+            off = FALSE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PC);
             break;
         }
         case RJ_VERTEX_PTC:
         {
-            tex = true;
-            col = true;
-            off = false;
+            nrm = FALSE;
+            tex = TRUE;
+            col = TRUE;
+            off = FALSE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTC);
             break;
         }
         case RJ_VERTEX_PCO:
         {
-            tex = false;
-            col = true;
-            off = true;
+            nrm = FALSE;
+            tex = FALSE;
+            col = TRUE;
+            off = TRUE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PCO);
             break;
         }
         case RJ_VERTEX_PTCO:
         {
-            tex = true;
-            col = true;
-            off = true;
+            nrm = FALSE;
+            tex = TRUE;
+            col = TRUE;
+            off = TRUE;
 
             _rj_vertex_buffer_stride_ = sizeof(RJS_VERTEX_PTCO);
             break;
         }
     }
 
-    rjSetHwPolygonAttr( 0, tex, col, off );
+    nrm &= ~_rj_polyattr_mask_[0];
+    tex &= ~_rj_polyattr_mask_[1];
+    col &= ~_rj_polyattr_mask_[2];
+    off &= ~_rj_polyattr_mask_[3];
+
+    rjSetHwPolygonAttr( nrm, tex, col, off );
 
     RJE_PIXEL effect = 0;
 

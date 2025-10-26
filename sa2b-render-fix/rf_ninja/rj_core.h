@@ -192,6 +192,19 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                        
 */
 void    rjSetHwPolygonAttr( Int nrm, Int tex, Int col, Int off );
 
+/****** Set Polyattr Mask ***********************************************************************/
+/*
+*   Description:
+*     Turn polygon attributes on/off, without changing the vertex declaration.
+*
+*   Parameters:
+*     - nrm         : use normals                                                      [ON/OFF]
+*     - tex         : use uvs                                                          [ON/OFF]
+*     - col         : use colors                                                       [ON/OFF]
+*     - off         : use offset/specular color                                        [ON/OFF]
+*/
+void    rjSetPolyAttrMask( Int nrm, Int tex, Int col, Int off );
+
 /****** Set Alpha Blend *************************************************************************/
 /*
 *   Description:
