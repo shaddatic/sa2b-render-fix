@@ -124,12 +124,12 @@ typedef struct
 CART_EXTRA_PARAM;
 
 /********************************/
-/*  Data                        */
+/*  DataDLL Defs                */
 /********************************/
 /****** DataDll *********************************************************************************/
-#define player00                    ( (CAR_INFO(*)[2][6])    GetDataDllProcAddr("player00")     )
-#define specialInfo                 ( (CAR_MODEL_INFO(*)[9]) GetDataDllProcAddr("specialInfo")  )
-#define exModels                    ( (NJS_CNK_OBJECT(*)[6]) GetDataDllProcAddr("exModels")     )
+#define datadll_player00            ( (CAR_INFO(*)[2][6])    GetDataDllProcAddr("player00")     )
+#define datadll_specialInfo         ( (CAR_MODEL_INFO(*)[9]) GetDataDllProcAddr("specialInfo")  )
+#define datadll_exModels            ( (NJS_CNK_OBJECT(*)[6]) GetDataDllProcAddr("exModels")     )
 
 EXTERN_END
 
