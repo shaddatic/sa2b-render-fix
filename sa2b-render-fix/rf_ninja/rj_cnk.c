@@ -64,15 +64,6 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
     if ( ShadowCnkDraw ) return CnkDrawShadow_Ext(model, _nj_vertex_buf_);
 
-    /** Begin chunk draw **/
-
-    const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
-
-    if ( !(cnkctrl & RJD_CNK_CTRL_MASK_MODEL) )
-    {
-        return CNK_RETN_OK;
-    }
-
     /** Model clip **/
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP )
     {
@@ -87,6 +78,8 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
     {
         _rj_cnk_model_callback_( (NJS_CNK_MODEL*) model );
     }
+
+    const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
 
     if ( model->vlist && (cnkctrl & RJD_CNK_CTRL_VLIST) )
     {
