@@ -55,9 +55,9 @@ rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf)
     }
     else // no color attr
     {
-        if ( _rj_cnk_context_.depthq != RJ_CNK_DQ_ON )
+        if ( _rj_cnk_context_.depthq == RJ_CNK_DQ_NEAR )
         {
-            return; // if not 'NEAR' stop, alpha is 100% already
+            return; // stop, alpha is 100% already
         }
 
         _rj_cnk_context_.vattr |= RJD_CVF_COLOR;
@@ -72,7 +72,7 @@ rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf)
 
     const Float dq_diff = dq_far - dq_near;
 
-    const Float dq_mul = 1.f / (dq_diff * 2.f); // we need the range to be 0.0 ~ 0.5
+    const Float dq_mul = 1.f / dq_diff;
 
     /** Set "depth queue" **/
 
@@ -82,20 +82,17 @@ rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf)
 
     for (int i = 0; i < nb_vtx; ++i)
     {
-        if ( p_buf->pos.z < dq_near )
-        {
-            if ( p_buf->pos.z <= dq_far )
-            {
-                p_buf->col.a = 0.f;
-            }
-            else
-            {
-                p_buf->col.a = ( dq_diff - (p_buf->pos.z - dq_near) ) * dq_mul;
-            }
-        }
-        else
+        if ( p_buf->pos.z >= dq_near ) // behind near
         {
             p_buf->col.a = 1.f;
+        }
+        else if ( p_buf->pos.z <= dq_far ) // past far
+        {
+            p_buf->col.a = 0.f;
+        }
+        else // somewhere between
+        {
+            p_buf->col.a = ( dq_diff - (p_buf->pos.z - dq_near) ) * dq_mul;
         }
 
         if ( !has_color )
