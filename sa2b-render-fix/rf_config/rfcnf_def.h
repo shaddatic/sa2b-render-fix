@@ -112,6 +112,17 @@ typedef enum
 }
 CNFE_PLAYER_MODEL;
 
+/** Player Model Mode **/
+typedef enum
+{
+    CNFE_PLAYER_LOD_DISABLED,
+    CNFE_PLAYER_LOD_2PONLY,
+    CNFE_PLAYER_LOD_ENABLED,
+
+    NB_CNFE_PLAYER_LOD,
+}
+CNFE_PLAYER_MODEL;
+
 /****** Shadows Section *****************************************************/
 /** Shadow map resolution **/
 typedef enum
@@ -225,6 +236,7 @@ CNFE_MISC_PAUSEFONTCOL;
 
 /** Player section **/
 #define CNF_PLAYER_MODEL            CNFO_INT(   CNFS_PLAYER         , "model"               , CNFE_PLAYER_MODEL_GAMECUBE            )   /* Player model mode */
+#define CNF_PLAYER_LODMDL           CNFO_INT(   CNFS_PLAYER         , "lod_mdl"             , CNFE_PLAYER_LOD_ENABLED               )   /* Lod Models */
 #define CNF_PLAYER_CHAOS0ANIM       CNFO_INT(   CNFS_PLAYER         , "chaos0_texanim"      , CNFE_BOOL_ENABLED                     )   /* Use Chaos0 texture animation */
 #define CNF_PLAYER_SHADLITEDASH     CNFO_INT(   CNFS_PLAYER         , "shadow_lightdash"    , CNFE_BOOL_ENABLED                     )   /* Shadow's Lightdash Effect */
 #define CNF_PLAYER_MILESTAILMOD     CNFO_INT(   CNFS_PLAYER         , "miles_tailmod"       , CNFE_BOOL_ENABLED                     )   /* Draw Tails' Tail Modifier Shadows */
