@@ -19,6 +19,9 @@
 /****** Game ************************************************************************/
 #include <samt/sonic/motion.h>  /* MOTION_CTRL                                      */
 
+/****** Render Fix ******************************************************************/
+#include <rf_njcnk.h>           /* easy, simple, etc                                */
+
 EXTERN_START
 
 /************************/
@@ -51,6 +54,9 @@ EXTERN_START
 #define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DOUBLESIDEDLIGHT)
 
 #define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
+
+/****** Chunk Strip flags ***********************************************************************/
+#define RJD_FST_EUA                 (NJD_FST_NAT)            /* extended use alpha              */
 
 /************************/
 /*  Functions           */
