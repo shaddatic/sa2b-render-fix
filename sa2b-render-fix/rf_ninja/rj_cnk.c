@@ -62,6 +62,10 @@ rjCnkEndShadowTex(void)
 Sint32
 rjCnkDrawModel(const NJS_CNK_MODEL* model)
 {
+    if ( ShadowCnkDraw ) return CnkDrawShadow_Ext(model, _nj_vertex_buf_);
+
+    /** Begin chunk draw **/
+
     const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
 
     if ( !(cnkctrl & RJD_CNK_CTRL_MASK_MODEL) )
