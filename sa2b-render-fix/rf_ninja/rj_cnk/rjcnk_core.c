@@ -156,9 +156,9 @@ void
 rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 {
     // set default strip materials
-    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 1, 1, 1,  1 };
-    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 1, 1, 1,  1 };
-    basest->mats[RJ_CMC_SPEC] = (NJS_BGRA){ 0, 0, 0, 16 };
+    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 255, 255, 255, 255 };
+    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 255, 255, 255, 255 };
+    basest->mats[RJ_CMC_SPEC] = (NJS_BGRA){ 255, 255, 255, 16  };
 
     // set context control flags
     {
