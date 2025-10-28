@@ -63,7 +63,7 @@ CnkDrawShadow_Ext(const NJS_CNK_MODEL* model, const void* vbuf)
     {
         if ( CnkVListShadow_Ext(model->vlist, _nj_vertex_buf_, true) == -1 )
         {
-            return -1;
+            return CNK_RETN_CLIP;
         }
     }
 
@@ -72,5 +72,5 @@ CnkDrawShadow_Ext(const NJS_CNK_MODEL* model, const void* vbuf)
         CnkPListShadow_Ext(model->plist, _nj_vertex_buf_);
     }
 
-    return 0;
+    return CNK_RETN_OK;
 }
