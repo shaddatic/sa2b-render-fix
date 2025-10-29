@@ -98,9 +98,9 @@ rjCnkGetMaterial(NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 
 
 /****** Chunk Control ***************************************************************************/
 void
-rjCnkSetControl(Uint32 off_flag, Uint32 on_flag)
+rjCnkSetControl(Uint32 and_flag, Uint32 or_flag)
 {
-    _rj_cnk_ctrl_flag_ = (_rj_cnk_ctrl_flag_ & ~off_flag) | on_flag;
+    _rj_cnk_ctrl_flag_ = (_rj_cnk_ctrl_flag_ & and_flag) | or_flag;
 }
 
 Uint32

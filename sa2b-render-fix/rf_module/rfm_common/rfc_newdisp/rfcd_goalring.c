@@ -192,7 +192,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     /** inverse text faces **/
 
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
     if (twp->btimer == 1)
     {
@@ -207,7 +207,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
         njCnkSimpleDrawModel(object_goalring_restart->model);
     }
 
-    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
 
     /** goal ring **/
 
@@ -221,7 +221,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     /** normal text faces **/
 
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
     if (twp->btimer == 1)
     {
@@ -236,7 +236,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
         njCnkSimpleDrawModel(object_goalring_restart->model);
     }
 
-    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
 
     njPopMatrixEx();
 

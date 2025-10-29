@@ -154,7 +154,7 @@ EventDisplayerSort(task* tp)
     {
         _gj_render_mode_ = GJD_DRAW_TRANS;
 
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
         for (int i = 1; i <= 8; ++i)
         {
@@ -162,7 +162,7 @@ EventDisplayerSort(task* tp)
             EventSceneDraw(EventSceneNum   , i);
         }
 
-        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
 
         _gj_render_mode_ = old_rmode;
     }
@@ -200,7 +200,7 @@ EventDisplayerDelayed(task* tp)
     {
         _gj_render_mode_ = GJD_DRAW_TRANS;
 
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
         for (int i = 9; i <= 16; ++i)
         {
@@ -208,7 +208,7 @@ EventDisplayerDelayed(task* tp)
             EventSceneDraw(EventSceneNum   , i);
         }
 
-        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
 
         _gj_render_mode_ = old_rmode;
     }
@@ -260,7 +260,7 @@ EventDisplayer(task* tp)
 
         _gj_render_mode_ = GJD_DRAW_SOLID;
 
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
         EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
         EventSceneDraw(EventSceneNum   , EV_ALL_LAYERS);
@@ -276,7 +276,7 @@ EventDisplayer(task* tp)
 
         _gj_render_mode_ = GJD_DRAW_TRANS;
 
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
         EventSceneDraw(EVENT_BASE_SCENE, 0);
         EventSceneDraw(EventSceneNum   , 0);
@@ -288,7 +288,7 @@ EventDisplayer(task* tp)
             EventEquipmentDraw();
         }
 
-        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
 
         _gj_render_mode_ = old_rmode;
     }

@@ -191,15 +191,15 @@ EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawObject(object);
 
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawObject(object);
 
-            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
+            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
@@ -261,15 +261,15 @@ EV_CnkDrawMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Floa
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawMotion(object, motion, frame);
 
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawMotion(object, motion, frame);
 
-            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
+            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
@@ -331,15 +331,15 @@ EV_CnkDrawShapeMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
     {
         if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
             rjCnkDrawShapeMotionBE(object, motion, shape, frame);
 
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
             rjCnkDrawShapeMotionBE(object, motion, shape, frame);
 
-            rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_CULL );
+            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {

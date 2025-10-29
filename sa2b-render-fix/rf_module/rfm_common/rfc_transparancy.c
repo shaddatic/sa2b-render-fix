@@ -57,15 +57,15 @@ ObjectMSCarDispHook(task* tp)
 static void
 TransformObjectWithSorting(const NJS_CNK_OBJECT* object, void* pFunc)
 {
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
     njCnkTransformObject(object, pFunc);
 
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
     njCnkTransformObject(object, pFunc);
 
-    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
 }
 
 /****** Init ************************************************************************/

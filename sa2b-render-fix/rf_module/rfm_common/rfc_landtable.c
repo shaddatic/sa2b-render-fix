@@ -149,13 +149,13 @@ LandDisplayer_RF(task* tp)
 
     if ( boolLandDisplay == true )
     {
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
         ListGroundForDrawing();
         DrawLandtable();
         DrawMotLandEntry();
 
-        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
     }
 
     LoadConstantAttr();
@@ -173,13 +173,13 @@ LandDisplayerSort_RF(task* tp)
 
     if ( boolLandDisplay == true )
     {
-        rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
 //      ListGroundForDrawing();
         DrawLandtable();
         DrawMotLandEntry();
 
-        rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
     }
 
     LoadConstantAttr();

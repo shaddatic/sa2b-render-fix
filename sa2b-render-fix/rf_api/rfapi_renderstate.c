@@ -35,17 +35,17 @@ RFRS_SetCullMode(RFRS_CULLMD mode)
         case RFRS_CULLMD_AUTO:
         case RFRS_CULLMD_NONE:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_MASK_CULL );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_MASK_CULL );
             break;
         }
         case RFRS_CULLMD_NORMAL:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
             break;
         }
         case RFRS_CULLMD_INVERSE:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
             break;
         }
     }
@@ -82,17 +82,17 @@ RFRS_SetCnkDrawMode(RFRS_CNKDRAWMD mode)
         case RFRS_CNKDRAWMD_END:
         case RFRS_CNKDRAWMD_ALL:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_MASK_DRAW );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_MASK_DRAW );
             break;
         }
         case RFRS_CNKDRAWMD_OPAQUE:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
             break;
         }
         case RFRS_CNKDRAWMD_TRANSPARENT:
         {
-            rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
             break;
         }
     }

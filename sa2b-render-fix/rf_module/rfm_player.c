@@ -126,15 +126,15 @@ ___FixRougeInitCrash(void)
 static void
 DrawMotionWithSorting(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, float frame)
 {
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
 
     njCnkDrawMotion(object, motion, frame);
 
-    rjCnkSetControl( RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
 
     njCnkDrawMotion(object, motion, frame);
 
-    rjCnkSetControl( 0, RJD_CNK_CTRL_MASK_DRAW );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
 }
 
 __declspec(naked)
@@ -235,7 +235,7 @@ BrokenModelCompatStart(int pno)
     OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 
     // double sided lighting, off
-    rjCnkSetControl( RJD_CNK_CTRL_DOUBLESIDEDLIGHT, 0 );
+    rjCnkSetControl( ~RJD_CNK_CTRL_DOUBLESIDEDLIGHT, 0 );
 
     _nj_constant_attr_and_ = ~(NJD_FST_IA|NJD_FST_FL);
     _nj_constant_attr_or_  =  (NJD_FST_IS|NJD_FST_DB);
@@ -248,7 +248,7 @@ BrokenModelCompatEnd(int pno)
     _nj_constant_attr_or_  = ~NJD_FST_MASK;
 
     // double sided lighting, restore
-    rjCnkSetControl( 0, RJD_CNK_CTRL_DOUBLESIDEDLIGHT );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_DOUBLESIDEDLIGHT );
 
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }
