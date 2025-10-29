@@ -16,12 +16,6 @@
 EXTERN_START
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** Light Flags *****************************************************************************/
-#define LIGHTGC_ONFLAG              (1<<0) /* use GC light over regular light                   */
-
-/********************************/
 /*  Structures                  */
 /********************************/
 /****** Light Struct ****************************************************************************/
@@ -40,7 +34,7 @@ typedef struct lightgc
     f32         x,y,z;              /* light vector                                             */
     f32         lr,lg,lb;           /* light color, rgb                                         */
     f32         ar,ag,ab;           /* ambient color, rgb                                       */
-    u32         flag;               /* light flag                                     [LIGHTGC] */
+    u32         flag;               /* light flag                                               */
 
     u32         pad[2];             /* padding                                                  */
 }
@@ -107,14 +101,100 @@ void    SetPlayerLight( s32 pno, int light );
 /****** Set Light Data **************************************************************************/
 /*
 *   Description:
-*     Manually change the light info at a specific index for either index set.
+*     Set a light index to a given light structure.
 *
 *   Parameters:
-*     - light       : light index
-*     - pLight      : light data to set
+*     - n           : light index
+*     - light       : light structure
 */
-void    SetLightInfo(   s32 light, const LIGHT*    pLight );
-void    SetLightInfoGC( s32 light, const LIGHT_GC* pLight );
+void    SetLightStruct( s32 n, const LIGHT*    light );
+/*
+*   Description:
+*     Set light vector for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - x,y,z       : light vector
+*/
+void    SetLightVector( s32 n, f32 x, f32 y, f32 z );
+
+/*
+*   Description:
+*     Set light intensity for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - inten       : light intensity
+*/
+void    SetLightIntensity( s32 n, f32 inten );
+/*
+*   Description:
+*     Set light ambient intensity for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - ambient     : light ambient intensity
+*/
+void    SetLightAmbient( s32 n, f32 ambient );
+/*
+*   Description:
+*     Set light color for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - r,g,b       : light color
+*/
+void    SetLightColor( s32 n, f32 r, f32 g, f32 b );
+
+/****** Set Light Data (GC) *********************************************************************/
+/*
+*   Description:
+*     Set a light index to a given light structure.
+*
+*   Parameters:
+*     - n           : light index
+*     - light       : light structure
+*/
+void    SetLightStructGC( s32 n, const LIGHT_GC* light );
+/*
+*   Description:
+*     Set light vector for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - x,y,z       : light vector
+*/
+void    SetLightVectorGC( s32 n, f32 x, f32 y, f32 z );
+/*
+*   Description:
+*     Set light color for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - r,g,b       : light color
+*/
+void    SetLightColorGC( s32 n, f32 r, f32 g, f32 b );
+/*
+*   Description:
+*     Set light ambient intensity for given light index.
+*
+*   Parameters:
+*     - n           : light index
+*     - r,g,b       : light ambient color
+*/
+void    SetLightAmbientGC( s32 n, f32 r, f32 g, f32 b );
+/*
+*   Description:
+*     Set light on state for given light index.
+*
+*   Notes:
+*     - if set to 'OFF', the underlying 'LIGHT' struct will be used.
+*
+*   Parameters:
+*     - n           : light index
+*     - sw          : light switch state                                               [ON/OFF]
+*/
+void    SetLightSwitchGC( s32 n, b32 sw );
 
 /****** Set Default Light Index *****************************************************************/
 /*
