@@ -18,9 +18,6 @@
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_jet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_model.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_global\rfg_envmap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_texture.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_cart.c">
@@ -444,6 +438,9 @@
     <ClCompile Include="rf_module\rfm_menus\rfmenu_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_nja.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -542,7 +539,7 @@
     <ClInclude Include="rf_gx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_texture\rf_texerr.tls">
+    <ClInclude Include="rf_nja\tls\rf_texerr.tls">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h">
@@ -599,22 +596,22 @@
     <None Include="models\e_shouko_wing_port.nja" />
     <None Include="models\e_shouko_wing_starboard.nja" />
     <None Include="models\e_t_emi_emblem.nja" />
-    <None Include="rf_model\ce_truck_hood.nja" />
-    <None Include="rf_model\e_a_emi_emblem.nja" />
-    <None Include="rf_model\e_b_kumi_emblem.nja" />
-    <None Include="rf_model\e_b_pathkumi_emblem.nja" />
-    <None Include="rf_model\e_g_kumi_emblem.nja" />
-    <None Include="rf_model\e_g_pathkumi_emblem.nja" />
-    <None Include="rf_model\e_gold_emblem.nja" />
-    <None Include="rf_model\e_kumi_emblem.nja" />
-    <None Include="rf_model\e_kyoko_emblem.nja" />
-    <None Include="rf_model\e_shouko_aft.nja" />
-    <None Include="rf_model\e_shouko_wing_port.nja" />
-    <None Include="rf_model\e_shouko_wing_starboard.nja" />
-    <None Include="rf_model\e_t_emi_emblem.nja" />
-    <None Include="rf_model\minemizu.nja" />
-    <None Include="rf_texture\jo_tree.tls" />
-    <None Include="rf_model\e_s_ai_shield.nja" />
+    <None Include="rf_nja\nja\ce_truck_hood.nja" />
+    <None Include="rf_nja\nja\e_a_emi_emblem.nja" />
+    <None Include="rf_nja\nja\e_b_kumi_emblem.nja" />
+    <None Include="rf_nja\nja\e_b_pathkumi_emblem.nja" />
+    <None Include="rf_nja\nja\e_g_kumi_emblem.nja" />
+    <None Include="rf_nja\nja\e_g_pathkumi_emblem.nja" />
+    <None Include="rf_nja\nja\e_gold_emblem.nja" />
+    <None Include="rf_nja\nja\e_kumi_emblem.nja" />
+    <None Include="rf_nja\nja\e_kyoko_emblem.nja" />
+    <None Include="rf_nja\nja\e_shouko_aft.nja" />
+    <None Include="rf_nja\nja\e_shouko_wing_port.nja" />
+    <None Include="rf_nja\nja\e_shouko_wing_starboard.nja" />
+    <None Include="rf_nja\nja\e_t_emi_emblem.nja" />
+    <None Include="rf_nja\nja\minemizu.nja" />
+    <None Include="rf_nja\tls\jo_tree.tls" />
+    <None Include="rf_nja\nja\e_s_ai_shield.nja" />
     <None Include=".editorconfig" />
   </ItemGroup>
 </Project>
