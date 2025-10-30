@@ -17,7 +17,7 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_ninja.h>               /* rf ninja                                                 */
 #include <rf_njcnk.h>               /* emulated njcnk draw functions                            */
-#include <rf_file.h>                /* load model                                               */
+#include <rf_samdl.h>               /* load model                                               */
 
 /****** Self ************************************************************************************/
 #include <rf_module/rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings                */
@@ -117,8 +117,8 @@ RFCD_TrickJumpDaiInit(void)
     WriteJump(0x005EB140, ObjectTrickJumpDaiDisp_CE_CNK);
     WriteJump(0x004E3830, ObjectTrickJumpDaiDisp_RH_CNK);
 
-    object_tjumpdai_ce = RF_ChunkLoadObjectFile("stage/13_cescape/tjumpdai");
-    object_tjumpdai_rh = RF_ChunkLoadObjectFile("stage/14_highway/tjumpdai");
+    object_tjumpdai_ce = RF_GetCnkObject("stage/13_cescape/tjumpdai.sa2mdl");
+    object_tjumpdai_rh = RF_GetCnkObject("stage/14_highway/tjumpdai.sa2mdl");
 
     TrickJumpModelUvChange = object_tjumpdai_rh->child->model;
 }

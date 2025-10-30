@@ -1,6 +1,5 @@
 #include <samt/core.h>
 #include <samt/model.h>
-#include <samt/samdl.h>
 
 /** Game **/
 #include <samt/sonic/landtable.h>
@@ -12,6 +11,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_config.h>
+#include <rf_samdl.h>
 
 /** Self **/
 
@@ -24,13 +24,7 @@ RFM_CannonsCoreInit(void)
     {
         OBJ_LANDTABLE* land = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0037");
 
-        char buf[260];
-
-        snprintf(buf, sizeof(buf), "%s/model/stg37_land0032.sa2bmdl", mtGetModPath());
-
-        GJS_OBJECT* object = mtSAModelLoad(buf, SAMDL_GINJA)->pGinja;
-
-        ReplaceLandObject(land, 32, object);
+        ReplaceLandObject(land, 32, RF_GetGjsObject("stg37_land0032.sa2bmdl"));
     }
 
     if (RF_ConfigGetInt(CNF_CC_KURUMA))

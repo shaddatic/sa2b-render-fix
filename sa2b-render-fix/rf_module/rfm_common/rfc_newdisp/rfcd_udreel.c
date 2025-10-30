@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_njcnk.h>
 
 #define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)
@@ -147,5 +147,5 @@ RFCD_UDReelInit(void)
     WriteJump(0x006E6170, ObjectUDReelCnkDisplayer);
     WriteJump(0x004BC210, ObjectUDReelGolemCnkDisplayer); // Golem
 
-    object_udreel = RF_ChunkLoadObjectFile("object/udreel");
+    object_udreel = RF_GetCnkObject("object/udreel.sa2mdl");
 }

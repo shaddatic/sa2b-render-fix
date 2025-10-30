@@ -11,7 +11,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_ninja.h>
 
 #define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
@@ -220,5 +220,5 @@ CHS_BoardInit(void)
     WriteJump(0x005EBFC0, ObjectBoardCEDisplayerMod);
     WriteJump(0x006F7AC0, ObjectBoardMHHook);
 
-    object_o_board_mod = RF_ChunkLoadObjectFile("object/board_mod");
+    object_o_board_mod = RF_GetCnkObject("object/board_mod.sa2mdl");
 }

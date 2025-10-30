@@ -40,7 +40,7 @@
 #include <rf_core.h>
 #include <rf_config.h>
 #include <rf_ninja.h>
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_util.h>
 
 #define SHAPE_FLG_SHADOW    (0b0000'0000'0000'1000)
@@ -937,5 +937,5 @@ CHS_ChaoWorldInit(void)
     WriteCallToMovDwordPtr(0x0055CC2E, ALO_TVCreateMovHook);
 
     /** shadow model **/
-    model_al_mod = RF_ChunkLoadModelFile("chao/al_mod");
+    model_al_mod = RF_GetCnkModel("chao/al_mod.sa2mdl");
 }

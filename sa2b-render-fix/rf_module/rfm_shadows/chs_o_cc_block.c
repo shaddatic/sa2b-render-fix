@@ -10,7 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_ninja.h>
 
 static NJS_CNK_OBJECT* object_o_cc_block_mod;
@@ -90,5 +90,5 @@ CHS_CCBlockInit(void)
     FuncHook(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
     FuncHook(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
 
-    object_o_cc_block_mod = RF_ChunkLoadObjectFile("object/cc_block_mod");
+    object_o_cc_block_mod = RF_GetCnkObject("object/cc_block_mod.sa2mdl");
 }

@@ -12,7 +12,7 @@
 
 /** Render Fix **/
 #include <rf_ninja.h>
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_enemywk.h>
 #include <rf_renderstate.h>
 
@@ -570,5 +570,5 @@ CHS_EnemyInit(void)
     WriteCall(0x004FC750, EnemyKyokoInitHook);              // Kyoko
     WriteCall(0x004F9F46, __EnemyShoukoInitHook);           // Shouko (Jets)
 
-    object_e_shouko_mod = RF_ChunkLoadObjectFile("enemy/shouko_mod");
+    object_e_shouko_mod = RF_GetCnkObject("enemy/shouko_mod.sa2mdl");
 }

@@ -15,7 +15,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_ninja.h>
 #include <rf_mdlutil.h>
 
@@ -158,6 +158,8 @@ courseDisplayDisplayerHook(task* tp)
 
 void* CreateNoStencilTexture(void);
 
+#define ARY_X2(a, b)         ((a*2)+b)
+
 void
 CHS_CartInit(void)
 {
@@ -166,71 +168,62 @@ CHS_CartInit(void)
 
     FuncHook(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
 
-    LOAD_SAMDL_LIST mdl_list[8][2] =
+    RFS_SAMDL mdl_list[8 * 2] =
     {
-        {
-            { .puPath = "cart/cart_tails_big_mod" },
-            { .puPath = nullptr },
-        },
-        {
-            { .puPath = "cart/cart_rouge_big_mod" },
-            { .puPath = nullptr },
-        },
-        {
-            { .puPath = "cart/cart_sonic_mod" },
-            { .puPath = "cart/cart_sonic_alt_mod" },
-        },
-        {
-            { .puPath = "cart/cart_knuckles_mod" },
-            { .puPath = "cart/cart_knuckles_alt_mod" },
-        },
-        {
-            { .puPath = "cart/cart_tails_mod" },
-            { .puPath = "cart/cart_chao_mod" },
-        },
-        {
-            { .puPath = "cart/cart_eggman_mod" },
-            { .puPath = "cart/cart_eggman_alt_mod" },
-        },
-        {
-            { .puPath = "cart/cart_shadow_mod" },
-            { .puPath = "cart/cart_shadow_alt_mod" },
-        },
-        {
-            { .puPath = "cart/cart_rouge_mod" },
-            { .puPath = "cart/cart_eggrobo_mod" },
-        },
+        { .puInPath = "cart/cart_tails_big_mod.sa2mdl" },
+        { .puInPath = nullptr },
+
+        { .puInPath = "cart/cart_rouge_big_mod.sa2mdl" },
+        { .puInPath = nullptr },
+
+        { .puInPath = "cart/cart_sonic_mod.sa2mdl" },
+        { .puInPath = "cart/cart_sonic_alt_mod.sa2mdl" },
+
+        { .puInPath = "cart/cart_knuckles_mod.sa2mdl" },
+        { .puInPath = "cart/cart_knuckles_alt_mod.sa2mdl" },
+
+        { .puInPath = "cart/cart_tails_mod.sa2mdl" },
+        { .puInPath = "cart/cart_chao_mod.sa2mdl" },
+
+        { .puInPath = "cart/cart_eggman_mod.sa2mdl" },
+        { .puInPath = "cart/cart_eggman_alt_mod.sa2mdl" },
+
+        { .puInPath = "cart/cart_shadow_mod.sa2mdl" },
+        { .puInPath = "cart/cart_shadow_alt_mod.sa2mdl" },
+
+        { .puInPath = "cart/cart_rouge_mod.sa2mdl" },
+        { .puInPath = "cart/cart_eggrobo_mod.sa2mdl" },
     };
 
-    RF_LoadChunkObjectList( (LOAD_SAMDL_LIST*) mdl_list, 8 * 2);
+    RF_GetSAModelList( mdl_list, ARYLEN(mdl_list), SAMDL_CHUNK );
 
 #pragma warning(push)
 #pragma warning(disable : 6011) // annoying warning
 
     /** Models **/
-    CartObjectList[0][0] = mdl_list[0][0].pSamdl->pChunk;
-//  CartObjectList[0][1] = mdl_list[0][1].pSamdl->pChunk;
+    CartObjectList[0][0] = mdl_list[ARY_X2(0, 0)].pOutSamdl->pChunk;
+//  CartObjectList[0][1] = mdl_list[ARY_X2(0, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[1][0] = mdl_list[1][0].pSamdl->pChunk;
-//  CartObjectList[1][1] = mdl_list[1][1].pSamdl->pChunk;
+    CartObjectList[1][0] = mdl_list[ARY_X2(1, 0)].pOutSamdl->pChunk;
+//  CartObjectList[1][1] = mdl_list[ARY_X2(1, 0)].pOutSamdl->pChunk;
 
-    CartObjectList[2][0] = mdl_list[2][0].pSamdl->pChunk;
-    CartObjectList[2][1] = mdl_list[2][1].pSamdl->pChunk;
+    CartObjectList[2][0] = mdl_list[ARY_X2(2, 0)].pOutSamdl->pChunk;
+    CartObjectList[2][1] = mdl_list[ARY_X2(2, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[3][0] = mdl_list[3][0].pSamdl->pChunk;
-    CartObjectList[3][1] = mdl_list[3][1].pSamdl->pChunk;
+    CartObjectList[3][0] = mdl_list[ARY_X2(3, 0)].pOutSamdl->pChunk;
+    CartObjectList[3][1] = mdl_list[ARY_X2(3, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[4][0] = mdl_list[4][0].pSamdl->pChunk;
-    CartObjectList[4][1] = mdl_list[4][1].pSamdl->pChunk;
+    CartObjectList[4][0] = mdl_list[ARY_X2(4, 0)].pOutSamdl->pChunk;
+    CartObjectList[4][1] = mdl_list[ARY_X2(4, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[5][0] = mdl_list[5][0].pSamdl->pChunk;
-    CartObjectList[5][1] = mdl_list[5][1].pSamdl->pChunk;
+    CartObjectList[5][0] = mdl_list[ARY_X2(5, 0)].pOutSamdl->pChunk;
+    CartObjectList[5][1] = mdl_list[ARY_X2(5, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[6][0] = mdl_list[6][0].pSamdl->pChunk;
-    CartObjectList[6][1] = mdl_list[6][1].pSamdl->pChunk;
+    CartObjectList[6][0] = mdl_list[ARY_X2(6, 0)].pOutSamdl->pChunk;
+    CartObjectList[6][1] = mdl_list[ARY_X2(6, 1)].pOutSamdl->pChunk;
 
-    CartObjectList[7][0] = mdl_list[7][0].pSamdl->pChunk;
-    CartObjectList[7][1] = mdl_list[7][1].pSamdl->pChunk;
+    CartObjectList[7][0] = mdl_list[ARY_X2(7, 0)].pOutSamdl->pChunk;
+    CartObjectList[7][1] = mdl_list[ARY_X2(7, 1)].pOutSamdl->pChunk;
 
 #pragma warning(pop)
 }

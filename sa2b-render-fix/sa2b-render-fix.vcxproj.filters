@@ -54,9 +54,6 @@
     <ClCompile Include="rf_module\rfm_shadows\chs_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_file.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_global\rfg_taskdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -441,12 +438,12 @@
     <ClCompile Include="rf_nja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_samdl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_ninja.h">
@@ -579,6 +576,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_module\rfm_menus\rfmenu_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_samdl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

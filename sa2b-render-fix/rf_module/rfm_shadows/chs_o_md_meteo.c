@@ -11,7 +11,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_ninja.h>
 
 static NJS_CNK_OBJECT* object_o_md_meteo_mod;
@@ -63,5 +63,5 @@ CHS_MeteoBigInit(void)
     WriteJump(0x005C5120, ObjectMeteoBigDisplayerMod);
     KillCall(0x005C4E04); // Kill SetStencilInfo
 
-    object_o_md_meteo_mod = RF_ChunkLoadObjectFile("object/md_meteo_mod");
+    object_o_md_meteo_mod = RF_GetCnkObject("object/md_meteo_mod.sa2mdl");
 }

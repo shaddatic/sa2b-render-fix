@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="rf_samdl.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_tjumpdai.c" />
@@ -148,7 +149,6 @@
     <ClCompile Include="rf_core.c" />
     <ClCompile Include="rf_renderstate.c" />
     <ClCompile Include="rf_ninja.c" />
-    <ClCompile Include="rf_file.c" />
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_shader.c" />
     <ClCompile Include="rf_system.c" />
@@ -163,6 +163,7 @@
     <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="rf_samdl.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rf_module\rfm_event\ev_renderer\evr_internal.h" />
@@ -200,7 +201,6 @@
     <ClInclude Include="rf_feature.h" />
     <ClInclude Include="rf_ninja.h" />
     <ClInclude Include="rf_eventinfo.h" />
-    <ClInclude Include="rf_file.h" />
     <ClInclude Include="rf_mdlutil.h" />
     <ClInclude Include="rf_shader.h" />
     <ClInclude Include="rf_system.h" />

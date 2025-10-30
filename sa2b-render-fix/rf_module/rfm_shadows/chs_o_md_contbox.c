@@ -10,7 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_file.h>
+#include <rf_samdl.h>
 #include <rf_ninja.h>
 
 static NJS_CNK_OBJECT* object_o_md_contbox_mod;
@@ -47,5 +47,5 @@ CHS_MDContainerBoxInit(void)
 {
     FuncHook(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
 
-    object_o_md_contbox_mod = RF_ChunkLoadObjectFile("object/md_contbox_mod");
+    object_o_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod.sa2mdl");
 }
