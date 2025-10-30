@@ -43,11 +43,7 @@ struct PS_IN
     float4 off              : COLOR1;       /* offset color/specular                            */
 
 #ifdef PXL_SHTEX
-    float2 stexuv1          : TEXCOORD2;    /* shadow tex uvs                                   */
-    float2 stexuv2          : TEXCOORD3;    /* shadow tex uvs                                   */
-    float2 stexuv3          : TEXCOORD4;    /* shadow tex uvs                                   */
-    float2 stexuv4          : TEXCOORD5;    /* shadow tex uvs                                   */
-    float2 stexuv5          : TEXCOORD6;    /* shadow tex uvs                                   */
+    float4 stexuvs          : TEXCOORD6;    /* shadow tex uvs (xy + zw)                         */
     float  stexnum          : TEXCOORD7;    /* shadow tex count                                 */
 #endif
     /*
@@ -128,7 +124,7 @@ HasTex(float texGenCount, int check)
 float
 GetShadow(sampler2D tex, float2 uv, float texGenCount, int check)
 {
-    half v = tex2D(tex, uv).x;
+    half v = tex2D(tex, uv).r;
     return HasTex(texGenCount, check) ? (1.0f - v) : 1;
 }
 
@@ -137,11 +133,8 @@ GetShadowTexIntensity(const PS_IN inpt)
 {
     half shadow = 1;
 
-    shadow *= GetShadow(s_ShadowTex0, inpt.stexuv1, inpt.stexnum, 1);
-    shadow *= GetShadow(s_ShadowTex1, inpt.stexuv2, inpt.stexnum, 2);
-    shadow *= GetShadow(s_ShadowTex2, inpt.stexuv3, inpt.stexnum, 3);
-    shadow *= GetShadow(s_ShadowTex3, inpt.stexuv4, inpt.stexnum, 4);
-    shadow *= GetShadow(s_ShadowTex4, inpt.stexuv5, inpt.stexnum, 5);
+    shadow *= GetShadow(s_ShadowTex0, inpt.stexuvs.xy, inpt.stexnum, 1);
+    shadow *= GetShadow(s_ShadowTex1, inpt.stexuvs.zw, inpt.stexnum, 2);
 
     return (shadow > 0.5f) ? 1.f : (1.f - c_ColShadow.a);
 }
@@ -202,7 +195,7 @@ main(const PS_IN inpt)
     /****** Shadow Tex **********************************************************************/
 
 #ifdef PXL_SHTEX
-
+    
     outp.col.rgb *= GetShadowTexIntensity(inpt);
     
 #endif

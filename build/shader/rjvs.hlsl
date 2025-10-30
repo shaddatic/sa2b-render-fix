@@ -36,11 +36,7 @@ struct VS_OUT
     float4 off              : COLOR1;       /* offset color/specular                            */
     
 #ifdef VTX_SHTEX
-    float2 stexuv1          : TEXCOORD2;    /* shadow tex uvs                                   */
-    float2 stexuv2          : TEXCOORD3;    /* shadow tex uvs                                   */
-    float2 stexuv3          : TEXCOORD4;    /* shadow tex uvs                                   */
-    float2 stexuv4          : TEXCOORD5;    /* shadow tex uvs                                   */
-    float2 stexuv5          : TEXCOORD6;    /* shadow tex uvs                                   */
+    float4 stexuvs          : TEXCOORD6;    /* shadow tex uvs (xy + zw)                         */
     float  stexnum          : TEXCOORD7;    /* shadow tex count                                 */
 #endif
 };
@@ -60,7 +56,7 @@ main(VS_IN inpt)
     VS_OUT outp;
 
 #ifdef VTX_3D
-    outp.pos = mul( float4(inpt.pos, 1.0f), c_MtxProjection );
+    outp.pos = mul( float4(inpt.pos, 1.f), c_MtxProjection );
 #else
     outp.pos.x =  inpt.pos.x * c_DeviceInfo.w;
     outp.pos.y = -inpt.pos.y;
@@ -75,33 +71,13 @@ main(VS_IN inpt)
     outp.off = voff ? inpt.off : float4(0.f, 0.f, 0.f, 0.f);
 
 #ifdef VTX_SHTEX
-    const float3 vtx_pos = mul( float4(inpt.pos, 1.f), c_MtxWorldView );
+    const float4 vtx_pos = float4( mul(float4(inpt.pos, 1.f), c_MtxWorldView).xyz, 1.f );
     
-    {
-        const float3 stx_pos = mul( float4(vtx_pos, 1), c_MtxTexGen[1] ).xyz;
-        
-        outp.stexuv1.xy = stx_pos.xy / stx_pos.z;
-    }
-    {
-        const float3 stx_pos = mul( float4(vtx_pos, 1), c_MtxTexGen[2] ).xyz;
-        
-        outp.stexuv2.xy = stx_pos.xy / stx_pos.z;
-    }
-    {
-        const float3 stx_pos = mul( float4(vtx_pos, 1), c_MtxTexGen[3] ).xyz;
-        
-        outp.stexuv3.xy = stx_pos.xy / stx_pos.z;
-    }
-    {
-        const float3 stx_pos = mul( float4(vtx_pos, 1), c_MtxTexGen[4] ).xyz;
-        
-        outp.stexuv4.xy = stx_pos.xy / stx_pos.z;
-    }
-    {
-        const float3 stx_pos = mul( float4(vtx_pos, 1), c_MtxTexGen[5] ).xyz;
-        
-        outp.stexuv5.xy = stx_pos.xy / stx_pos.z;
-    }
+    const float3 stx_p1 = mul( vtx_pos, c_MtxTexGen[1] ).xyz;
+    outp.stexuvs.xy     = stx_p1.xy / stx_p1.z;
+
+    const float3 stx_p2 = mul( vtx_pos, c_MtxTexGen[2] ).xyz;
+    outp.stexuvs.zw     = stx_p2.xy / stx_p2.z;
     
     outp.stexnum = c_NumTexGen;
 #endif
