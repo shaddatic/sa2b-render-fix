@@ -28,6 +28,7 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_exec.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_drawfunc.c" />
+    <ClCompile Include="rf_module\rfm_menus\rfmenu_cart.c" />
     <ClCompile Include="rf_module\rfm_stg_amine.c" />
     <ClCompile Include="rf_module\rfm_stg_cgadget.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_landtable.c" />
@@ -167,6 +168,7 @@
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rf_module\rfm_event\ev_renderer\evr_internal.h" />
     <ClInclude Include="rf_module\rfm_global\rfg_internal.h" />
+    <ClInclude Include="rf_module\rfm_menus\rfmenu_internal.h" />
     <ClInclude Include="rf_module\rfm_player\rfpl_internal.h" />
     <ClInclude Include="rf_module\rfm_shadows\chs_internal.h" />
     <ClInclude Include="rf_module\rfm_stg_cescape\ce_internal.h" />

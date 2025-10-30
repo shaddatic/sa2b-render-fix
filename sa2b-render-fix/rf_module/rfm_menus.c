@@ -17,6 +17,9 @@
 #include <rf_config.h>
 #include <rf_ninja.h>
 
+// self
+#include <rf_module/rfm_menus/rfmenu_internal.h>
+
 /** Variables **/
 static bool MenuFadeFixEnabled;
 
@@ -241,6 +244,8 @@ DrawMapPurpleFill(void)
 void
 RFM_MenusInit(void)
 {
+    RFM_MenuCartInit();
+
     if (RF_ConfigGetInt(CNF_MENUS_FADEFIX))
     {
         WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
