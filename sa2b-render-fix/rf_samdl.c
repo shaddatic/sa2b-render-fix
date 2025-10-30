@@ -18,8 +18,14 @@
 /****** Self ************************************************************************************/
 #include <rf_samdl.h>               /* self                                                     */
 
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Paths ***********************************************************************************/
+#define LOCAL_PATH                  "model"
 #define RFMDL_PATH                  "resource/gd_PC/RFMDL"
 
+/****** Str Buffer ******************************************************************************/
 #define BUF_LEN                     (256)
 
 /********************************/
@@ -38,7 +44,7 @@ FileError(c8* buf, const c8* fpath)
 mt_samdl*
 RF_GetSAModel(const c8* puPath, s32 flag)
 {
-    c8 buf[256];
+    c8 buf[BUF_LEN];
 
     mtStrFormat(buf, ARYLEN(buf), "%s/model/%s", mtGetModPath(), puPath);
 
