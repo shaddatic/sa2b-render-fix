@@ -64,6 +64,13 @@ void    RF_MsgError( const c8* puHeader, const c8* puBodyF, ... );
 */
 bool    RF_MsgQuery( const c8* puTitle, const c8* puBodyF, ... );
 
+/****** Dbg Common ******************************************************************************/
+/*
+*   Description:
+*     If Render Fix should print extra information to the console.
+*/
+bool    RF_DbgUseExtraInfo( void );
+
 /********************************/
 /*  Function Macros             */
 /********************************/
@@ -71,6 +78,11 @@ bool    RF_MsgQuery( const c8* puTitle, const c8* puBodyF, ... );
 #define RF_DbgInfo(...)             ___OutputDebugString("RF INFO: "                     __VA_ARGS__)
 #define RF_DbgWarn(...)             ___OutputDebugString("RF WARN: [" __FUNCTION__ "] "  __VA_ARGS__)
 #define RF_DbgError(...)            ___OutputDebugString("RF ERROR: [" __FUNCTION__ "] " __VA_ARGS__)
+/*
+*   Description:
+*     Print extra operational info.
+*/
+#define RF_DbgExtraInfo(...)        if ( RF_DbgUseExtraInfo() ) RF_DbgInfo(__VA_ARGS__)
 
 EXTERN_END
 

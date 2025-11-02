@@ -191,7 +191,7 @@ LoadLightFile_RF(const char* pcFileName)
 
 //  if ( pu_light_dc ) // will always be a valid pointer
     {
-        OutputFormat("RF INFO: Reading light file: %s", pu_light_dc);
+        RF_DbgInfo("Reading light file: %s", pu_light_dc);
 
         LIGHT* p_lights = (void*) &GlobalBuffer[0x400];
 
@@ -207,7 +207,7 @@ LoadLightFile_RF(const char* pcFileName)
 
     if ( pu_light_gc )
     {
-        OutputFormat("RF INFO: Reading light file: %s", pu_light_gc);
+        RF_DbgInfo("Reading light file: %s", pu_light_gc);
 
         LIGHT_GC* p_lights = (void*) &GlobalBuffer[0x400];
 

@@ -27,7 +27,7 @@ EXPORT_DLL
 void __cdecl
 Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
 {
-    RF_DbgInfo("Start Init");
+    RF_DbgExtraInfo("Start Init");
 
     // samt init
     mtSystemInit(puPath, pHelpFuncs, ixMod);
@@ -69,7 +69,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RFAPI_End();
     RF_ConfigEnd();
 
-    RF_DbgInfo("End Init");
+    RF_DbgExtraInfo("End Init");
 }
 
 /****** On Scene X ******************************************************************************/

@@ -23,6 +23,7 @@ static c8*  MsgBuffer;
 static size MsgBufferLen;
 
 /****** Settings ********************************************************************************/
+static bool DbgExtraInfo;
 static bool MsgWarnSuppress;
 
 /********************************/
@@ -150,8 +151,16 @@ RF_MsgError(const c8* puTitle, const c8* puBodyF, ...)
 }
 
 /****** Init ************************************************************************************/
+bool
+RF_DbgUseExtraInfo(void)
+{
+    return DbgExtraInfo;
+}
+
+/****** Init ************************************************************************************/
 void
 RF_MsgInit(void)
 {
+    DbgExtraInfo    = RF_ConfigGetInt(CNF_DEBUG_EXTRAINFO);
     MsgWarnSuppress = RF_ConfigGetInt(CNF_DEBUG_DISABLE_ALERT);
 }

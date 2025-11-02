@@ -307,6 +307,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_DEBUG_EVENT             CNFO_INT(   CNFS_DEBUG          , "event"               , CNFE_BOOL_DISABLED                    )   /* Event debug features */
 #define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
+#define CNF_DEBUG_EXTRAINFO         CNFO_INT(   CNFS_DEBUG          , "extra_info"          , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 
 /** Hidden section **/
 #define CNF_HIDDEN_DXVK_CHK         CNFO_INT(   CNFS_HIDDEN         , "dxvk_chk"            , false                                 )   /* If the user has been asked about DXVK */

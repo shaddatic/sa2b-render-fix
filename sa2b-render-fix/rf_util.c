@@ -220,7 +220,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 
     /** Replace File **/
 
-    RF_DbgInfo("Replaced file '%s' with '/%s/%s'", pcGdPath, pcOptiFolder, pcGdPath);
+    RF_DbgExtraInfo("Replaced file '%s' with '/%s/%s'", pcGdPath, pcOptiFolder, pcGdPath);
 
     ReplaceFile(pc_path_src, pc_path_dst);
 
@@ -243,7 +243,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgInfo("Texture file '%s.PRS' is not owned by the Game or RF", pcTexName);
+            RF_DbgExtraInfo("Texture file '%s.PRS' is not owned by the Game or RF", pcTexName);
             return false;
         }
     }
@@ -273,7 +273,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
     /** Replace File **/
 
-    RF_DbgInfo("Replaced texture '%s.PRS' with '/%s/PRS/%s.pak'", pcTexName, pcOptiFolder, pcTexName);
+    RF_DbgExtraInfo("Replaced texture '%s.PRS' with '/%s/PRS/%s.pak'", pcTexName, pcOptiFolder, pcTexName);
 
     ReplaceFile(pc_src, pc_dst);
 
@@ -299,7 +299,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
+            RF_DbgExtraInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
             return false;
         }
     }
@@ -311,7 +311,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
+            RF_DbgExtraInfo("Texture file '%s' is not owned by the Game or RF", pc_src);
             return false;
         }
     }
@@ -335,7 +335,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
     /** Replace File **/
 
-    RF_DbgInfo("Replaced texture '%s.GVR' with '/%s/PRS/%s.pak'", pcPvrName, pcOptiFolder, pcPvrName);
+    RF_DbgExtraInfo("Replaced texture '%s.GVR' with '/%s/PRS/%s.pak'", pcPvrName, pcOptiFolder, pcPvrName);
 
     ReplaceFile(pc_src, pc_dst);
 
@@ -358,7 +358,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
+            RF_DbgExtraInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
         }
     }
@@ -370,7 +370,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
+            RF_DbgExtraInfo("Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
         }
     }
@@ -379,7 +379,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
     /** Replace File **/
 
-    RF_DbgInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
+    RF_DbgExtraInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
 
     ReplaceFile(pc_src, pc_dst);
 
@@ -604,7 +604,7 @@ RFU_ReplaceFloat(pint pOpcode, f64 val)
         }
         default:
         {
-            OutputFormat("Invalid float opcode %i", cmp);
+            RF_DbgWarn("Invalid float opcode %02H", cmp);
             return false;
         }
     }

@@ -278,6 +278,9 @@ Back - Display Event debug info.</HelpText>
       <Property name="no_alerts" display="Disable Message Box Alerts" type="eBOOL" defaultvalue="0">
         <HelpText>Disable Render Fix alert/warning message boxes, such as mod position and conflict warnings.</HelpText>
       </Property>
+      <Property name="extra_info" display="Extra Debug Info" type="eBOOL" defaultvalue="0">
+        <HelpText>Print additional debug info into the game console. This is useful for getting very in-depth information on what Render Fix is doing internally.</HelpText>
+      </Property>
     </Group>
   </Groups>
   <Enums>
