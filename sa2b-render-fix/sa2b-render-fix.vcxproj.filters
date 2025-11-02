@@ -126,9 +126,6 @@
     <ClCompile Include="rf_module\rfm_shadows\chs_boss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_usermsg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_shadows\chs_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -456,9 +453,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_eventinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_usermsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_module\rfm_shadows\chs_internal.h">

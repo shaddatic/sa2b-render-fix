@@ -15,7 +15,6 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_usermsg.h>             /* alert                                                    */
 #include <rf_magic.h>               /* magic                                                    */
 
 /****** Dx9ctrl *********************************************************************************/
@@ -54,7 +53,7 @@ RF_ShaderError(const char* fpath)
 
     mtStrFormat(buf, sizeof(buf), "Failed to load shader %s", fpath);
 
-    RF_Alert("Shader Error", buf);
+    RF_MsgWarn("Shader Error", buf);
 }
 
 static void
@@ -64,7 +63,7 @@ CompileError(const char* fpath)
 
     mtStrFormat(buf, sizeof(buf), "Failed to compile shader %s", fpath);
 
-    RF_Alert("Shader Error", buf);
+    RF_MsgWarn("Shader Error", buf);
 }
 
 /************************************************************************************************/

@@ -28,7 +28,7 @@ void    RF_ConfigEnd(  void );
 *   Description:
 *     Init the user message(box) system.
 */
-void    RF_UserMessageInit( void );
+void    RF_MsgInit( void );
 /*
 *   Description:
 *     Init the 'Renderstate' system.

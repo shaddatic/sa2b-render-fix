@@ -12,7 +12,6 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_usermsg.h>             /* msgbox                                                   */
 #include <rf_mdlutil.h>             /* chunk compare                                            */
 
 /****** Self ************************************************************************************/
@@ -33,11 +32,11 @@
 /********************************/
 /****** Error Out *******************************************************************************/
 static void
-FileError(c8* buf, const c8* fpath)
+FileError(c8* buf, const c8* puPath)
 {
-    mtStrFormat(buf, BUF_LEN, "Failed to load SAModel file 'RFMDL/%s'", fpath);
+    mtStrFormat(buf, BUF_LEN, "Failed to load SAModel file 'RFMDL/%s'", puPath);
 
-    RF_Alert("File Error", buf);
+    RF_MsgWarn("File Error", buf);
 }
 
 /****** Get Object ******************************************************************************/

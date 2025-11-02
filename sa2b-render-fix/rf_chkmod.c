@@ -8,7 +8,6 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_usermsg.h>             /* rf alert                                                 */
 
 /********************************/
 /*  Enums                       */
@@ -239,7 +238,7 @@ RF_ModCheckInit(void)
 
     if ( !mtStrMatch(mhp->puID, "sa2-render-fix", STR_NOMAX) )
     {
-        RF_Alert(
+        RF_MsgWarn(
             "Mod Position",
 
             "SA2 Render Fix is incorrectly placed in your mod list.\n\n"
@@ -278,7 +277,7 @@ RF_ModCheckInit(void)
 
         if ( found != p_chkmod->invchk )
         {
-            RF_Alert(p_chkmod->puHead, p_chkmod->puBody);
+            RF_MsgWarn(p_chkmod->puHead, p_chkmod->puBody);
         }
     }
 }

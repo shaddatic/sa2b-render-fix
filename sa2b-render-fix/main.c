@@ -36,7 +36,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     /** Mod Loader Check **/
     if ( mlGetVersion() < MLVER_MIN )
     {
-        RF_FatalError("Mod Loader Version",
+        RF_MsgError("Mod Loader Version",
             "Render Fix can't operate safely on the currently installed version of the SA2 Mod Loader.\n"
             "Please update the Mod Loader to a newer version!\n\n"
             "Render Fix will now abort the init process."
@@ -47,7 +47,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
 
     /** Render Fix init **/
     RF_ConfigInit();
-    RF_UserMessageInit();
+    RF_MsgInit();
     RF_RenderStateInit();
     RF_NinjaInit();
     RF_FontInit();

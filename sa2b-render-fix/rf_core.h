@@ -35,48 +35,34 @@ EXTERN_START
 #define RFD_FUNCINFO                __FUNCTION__ " (ln " __LINE__ ")"
 
 /********************************/
-/*  Enums                       */
-/********************************/
-/****** Message Box *****************************************************************************/
-typedef enum
-{
-    MSGINPUT_OK,                        /* ok                                                   */
-    MSGINPUT_OKCANCEL,                  /* ok, cancel                                           */
-    MSGINPUT_ABORTRETRYIGNORE,          /* abort, retry, ignore                                 */
-    MSGINPUT_YESNOCANCEL,               /* yes, no, cancel                                      */
-    MSGINPUT_YESNO,                     /* yes, no                                              */
-    MSGINPUT_RETRYCANCEL,               /* retry, cancel                                        */
-    MSGINPUT_CANCELTRYCONT,             /* cancel, try again, continue                          */
-}
-eRF_MSGINPUT;
-
-typedef enum
-{
-    MSGICON_ERROR,                      /* red circle with 'x'                                  */
-    MSGICON_QUESTION,                   /* blue circle with '?'                                 */
-    MSGICON_WARNING,                    /* yellow triangle with '!'                             */
-    MSGICON_INFO,                       /* blue circle with 'i'                                 */
-}
-eRF_MSGICON;
-
-/********************************/
 /*  Prototypes                  */
 /********************************/
-/****** Message Box *****************************************************************************/
+/****** Msg Common ******************************************************************************/
 /*
 *   Description:
-*     Display a message box with a set header, body, input options, and icon.
+*     Post an informational/warning/error message box with a header title and formatted body.
 *
 *   Parameters:
-*     - puHeader    : message window title
-*     - puBody      : body text
-*     - input       : input options
-*     - icon        : icon
+*     - puHeader    : message header
+*     - puBodyF     : message body with format tokens
+*     - ...         : format parameters
+*/
+void    RF_MsgInfo(  const c8* puHeader, const c8* puBodyF, ... );
+void    RF_MsgWarn(  const c8* puHeader, const c8* puBodyF, ... );
+void    RF_MsgError( const c8* puHeader, const c8* puBodyF, ... );
+/*
+*   Description:
+*     Post a question message box with header title and formatted body.
+*
+*   Parameters:
+*     - puHeader    : message header
+*     - puBodyF     : message body with format tokens
+*     - ...         : format parameters
 *
 *   Returns:
-*     'true' if the user response was positive (OK/YES); or 'false' if it wasn't (NO/ABORT).
+*     'true' if the user selects 'YES'; or 'false' if `NO`.
 */
-bool    RF_MessageOut( const c8* puHeader, const c8* puBody, eRF_MSGINPUT input, eRF_MSGICON icon );
+bool    RF_MsgQuery( const c8* puTitle, const c8* puBodyF, ... );
 
 /********************************/
 /*  Function Macros             */
@@ -85,11 +71,6 @@ bool    RF_MessageOut( const c8* puHeader, const c8* puBody, eRF_MSGINPUT input,
 #define RF_DbgInfo(...)             ___OutputDebugString("RF INFO: "                     __VA_ARGS__)
 #define RF_DbgWarn(...)             ___OutputDebugString("RF WARN: [" __FUNCTION__ "] "  __VA_ARGS__)
 #define RF_DbgError(...)            ___OutputDebugString("RF ERROR: [" __FUNCTION__ "] " __VA_ARGS__)
-
-/****** Message Box *****************************************************************************/
-#define RF_MsgInfo(h, b)            RF_MessageOut("Render Fix : " h, b, MSGINPUT_OK, MSGICON_INFO)
-#define RF_MsgWarn(h, b)            RF_MessageOut("Render Fix : " h, b, MSGINPUT_OK, MSGICON_WARNING)
-#define RF_MsgError(h, b)           RF_MessageOut("Render Fix : " h, b, MSGINPUT_OK, MSGICON_ERROR)
 
 EXTERN_END
 

@@ -3,7 +3,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_usermsg.h>
 
 /** Self **/
 #include <rf_config.h>
