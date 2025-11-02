@@ -58,17 +58,18 @@ DrawCartModel(int index, int player, int special)
     SaveConstantAttr();
     SaveControl3D();
 
-    OnControl3D(NJD_CONTROL_3D_CONSTANT_MATERIAL|NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
+    OnControl3D(NJD_CONTROL_3D_CNK_CONSTANT_ATTR);
 
     if ( CartModelFade < 1.0f )
     {
+        const f32 fade = 0.f - (1.f - CartModelFade);
+
         njSetConstantAttr(~NJD_FST_IS, NJD_FST_UA|RJD_FST_EUA);
-        SetConstantMaterial(CartModelFade, CartModelFade, CartModelFade, CartModelFade);
+        SetConstantMaterial(fade, fade, fade, fade);
     }
     else
     {
         njSetConstantAttr(~NJD_FST_IS, 0);
-        SetConstantMaterial(1.f, 1.f, 1.f, 1.f);
     }
 
     Float x_shft;
