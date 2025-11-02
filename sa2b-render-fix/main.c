@@ -9,7 +9,6 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_init.h>                /* module inits                                             */
-#include <rf_usermsg.h>             /* fatal error                                              */
 
 /****** DX9 Control *****************************************************************************/
 #include <dx9ctrl/dx9ctrl.h>        /* directx control                                          */
@@ -28,6 +27,8 @@ EXPORT_DLL
 void __cdecl
 Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
 {
+    RF_DbgInfo("Start Init");
+
     // samt init
     mtSystemInit(puPath, pHelpFuncs, ixMod);
 
@@ -67,6 +68,8 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     /** End **/
     RFAPI_End();
     RF_ConfigEnd();
+
+    RF_DbgInfo("End Init");
 }
 
 /****** On Scene X ******************************************************************************/
