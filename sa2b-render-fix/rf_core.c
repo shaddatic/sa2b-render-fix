@@ -97,7 +97,7 @@ RF_MsgBox(const c8* puTitle, const c8* puBody, mt_msgbox_input input, mt_msgbox_
 static inline mt_msgbox_retn
 MsgBoxFmt(const c8* puTitle, const c8* puFmt, va_list vaFmt, mt_msgbox_input input, mt_msgbox_icon icon)
 {
-    return RF_MsgBox(puTitle, MsgGetFormatStr(puFmt, vaFmt), MSGBOX_INPUT_OK, MSGBOX_ICON_INFO);
+    return RF_MsgBox(puTitle, MsgGetFormatStr(puFmt, vaFmt), input, icon);
 }
 
 /****** Msg Common ******************************************************************************/
