@@ -6,7 +6,8 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
+
+#include <cnf.h>
 
 EXTERN Sint32 vertex_minemizu[];
 
@@ -19,7 +20,7 @@ MurkyWaterRestore(void)
 void
 RFM_AquaticMineInit(void)
 {
-    if (RF_ConfigGetInt(CNF_AM_MURKY))
+    if ( CNF_GetInt(CNF_AM_MURKY) )
     {
         MurkyWaterRestore();
     }

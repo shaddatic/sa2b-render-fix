@@ -11,9 +11,11 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_util.h>
 #include <rf_renderstate.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 #define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x007986A0)
 
@@ -31,13 +33,13 @@ getEmblemDisplayerHook(task* const tp)
 void
 RFM_EmblemGetInit(void)
 {
-    if (RF_ConfigGetInt(CNF_EGET_PTCLFIX))
+    if ( CNF_GetInt(CNF_EGET_PTCLFIX) )
     {
         SwitchDisplayer(0x0079860F, DISP);
         FuncHook(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
     }
 
-    if (RF_ConfigGetInt(CNF_EGET_FADEIN))
+    if ( CNF_GetInt(CNF_EGET_FADEIN) )
     {
         WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
     }

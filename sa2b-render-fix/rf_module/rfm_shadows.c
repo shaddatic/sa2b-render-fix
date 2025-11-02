@@ -15,9 +15,11 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config                                           */
 #include <rf_ninja.h>           /* set cheap shadow intensity                       */
 #include <rf_samdl.h>           /* file load                                        */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_shadows/shd_internal.h> /* children                         */
@@ -143,17 +145,17 @@ RFF_ShadowOpacityChao(void)
 void
 RFM_ShadowsInit(void)
 {
-    if ( RF_ConfigGetInt(CNF_MISC_NOSHADOWS) )
+    if ( CNF_GetInt(CNF_MISC_NOSHADOWS) )
     {
         WriteRetn(0x0046FBC0); // Disable all shadows
         return;
     }
 
-    const CNFE_GLOBAL_CHSMD chs_mode = RF_ConfigGetInt(CNF_GLOBAL_CHSMD);
+    const CNFE_GLOBAL_CHSMD chs_mode = CNF_GetInt(CNF_GLOBAL_CHSMD);
 
     /****** Global Shadow Mode ******/
 
-    switch ( RF_ConfigGetInt(CNF_PLAYER_SHADOWMD) )
+    switch ( CNF_GetInt(CNF_PLAYER_SHADOWMD) )
     {
         case CNFE_PLAYER_SHADOWMD_MODIFIER:
         {
@@ -177,10 +179,12 @@ RFM_ShadowsInit(void)
         }
     }
 
-    const CNFE_SHADOW_RES sm_resolution = RF_ConfigGetInt(CNF_MISC_SHADOWRES);
+    const CNFE_MISC_SHDWRES shdwres = CNF_GetInt(CNF_MISC_SHADOWRES);
 
-    if (sm_resolution != CNFE_SHADOW_RES_LOW)
-        WriteData(0x0041F810, ResolutionList[sm_resolution], u32);
+    if ( shdwres != CNFE_MISC_SHDWRES_LOW )
+    {
+        WriteData(0x0041F810, ResolutionList[shdwres], u32);
+    }
 
     /** Init cheap shadows **/
 
@@ -193,7 +197,7 @@ RFM_ShadowsInit(void)
     // get basic shadow model
     model_basic_shadow = RF_GetCnkModel("common/basic_mod.sa2mdl");
 
-    if ( RF_ConfigGetInt(CNF_DEBUG_MODIFIER) )
+    if ( CNF_GetInt(CNF_DEBUG_MODIFIER) )
     {
         rjCheapShadowDebug( ON );
     }

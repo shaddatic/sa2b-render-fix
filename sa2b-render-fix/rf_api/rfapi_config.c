@@ -9,7 +9,9 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_config.h>              /* getconfig                                                */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
@@ -29,8 +31,8 @@ const RFAPI_CONFIG rfapi_config =
 {
     .version = CNFG_API_VER,
 
-    .ConfigGetInt    = RF_ConfigDirectGetInt,
-    .ConfigGetBool   = RF_ConfigDirectGetBool,
-    .ConfigGetFloat  = RF_ConfigDirectGetFloat,
-    .ConfigGetString = RF_ConfigDirectGetString,
+    .ConfigGetInt    = CNF_DirectGetInt,
+    .ConfigGetBool   = CNF_DirectGetBool,
+    .ConfigGetFloat  = CNF_DirectGetFloat,
+    .ConfigGetString = CNF_DirectGetString,
 };

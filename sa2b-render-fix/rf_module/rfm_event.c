@@ -7,7 +7,9 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config                                           */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_event/ev_internal.h> /* children                            */
@@ -24,7 +26,7 @@ RFM_EventInit(void)
 
     WriteData(0x00458A18, 350, s32); // force play E0350
 
-    if ( RF_ConfigGetInt(CNF_EVENT_RFDISP) )
+    if ( CNF_GetInt(CNF_EVENT_RFDISP) )
     {
         EV_RendererInit();
     }

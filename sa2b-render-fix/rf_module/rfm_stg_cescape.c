@@ -11,7 +11,9 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /** Self **/
 #include <rf_module/rfm_stg_cescape/ce_internal.h>
@@ -30,7 +32,7 @@ LightModRestore(void)
 void
 RFM_CityEscapeInit(void)
 {
-    if (RF_ConfigGetInt(CNF_CE_LITEMOD))
+    if ( CNF_GetInt(CNF_CE_LITEMOD) )
     {
         LightModRestore();
     }

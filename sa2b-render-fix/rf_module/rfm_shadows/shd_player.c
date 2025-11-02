@@ -23,7 +23,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 
 /** Self **/
 #include <rf_module/rfm_shadows/shd_internal.h>

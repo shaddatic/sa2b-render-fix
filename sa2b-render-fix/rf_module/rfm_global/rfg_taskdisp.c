@@ -21,10 +21,12 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_feature.h>
 #include <rf_ninja.h>
 #include <rf_system.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 #define byte_0174AFFD               DATA_REF(int8_t  , 0x0174AFFD)
 #define SortCount                   DATA_REF(size_t  , 0x01A5A3CC)
@@ -599,7 +601,7 @@ RFG_TaskDisplayInit(void)
                                                                 effected stuff, so disable it entirely */
     }
 
-    if ( RF_ConfigGetInt(CNF_DEBUG_MODIFIER) )
+    if ( CNF_GetInt(CNF_DEBUG_MODIFIER) )
     {
         /** Disable all but one draw to stop the modifiers drawing too dark **/
         ModShadowDrawList[MOD_DRAW_DISP_BASE_EARLY] = false;

@@ -22,8 +22,8 @@ EXTERN_START
 *     Config Init, for opening RF's config file, and End, for saving and freeing the config
 *   file, functions.
 */
-void    RF_ConfigInit( void );
-void    RF_ConfigEnd(  void );
+void    CNF_Init( void );
+void    CNF_End( void );
 /*
 *   Description:
 *     Init the user message(box) system.

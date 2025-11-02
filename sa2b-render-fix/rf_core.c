@@ -9,7 +9,9 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core/self                                                */
-#include <rf_config.h>              /* config                                                   */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** Std *************************************************************************************/
 #include <stdio.h>                  /* std i/o                                                  */
@@ -161,6 +163,6 @@ RF_DbgUseExtraInfo(void)
 void
 RF_MsgInit(void)
 {
-    DbgExtraInfo    = RF_ConfigGetInt(CNF_DEBUG_EXTRAINFO);
-    MsgWarnSuppress = RF_ConfigGetInt(CNF_DEBUG_DISABLE_ALERT);
+    DbgExtraInfo    = CNF_GetInt(CNF_DEBUG_EXTRAINFO);
+    MsgWarnSuppress = CNF_GetInt(CNF_DEBUG_DISABLE_ALERT);
 }

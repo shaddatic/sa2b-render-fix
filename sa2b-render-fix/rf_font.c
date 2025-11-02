@@ -21,7 +21,9 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* RF_ConfigGet                                     */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_font.h>           /* self                                              */
@@ -472,20 +474,21 @@ RF_FontInit(void)
 
     /****** Load Settings ******/
     /** Character width **/
-    FontPadding = RF_ConfigGetInt(CNF_FONT_WIDTH);
+    FontPadding = CNF_GetInt(CNF_FONT_WIDTH);
 
     /** Space width **/
-    SpacePadding = SpaceWidths[ RF_ConfigGetInt(CNF_FONT_SPACE) ];
+    SpacePadding = SpaceWidths[ CNF_GetInt(CNF_FONT_SPACE) ];
 
     /****** Load Fonts ******/
     RFS_FONT* p_kanji;      // Japanese Font
     RFS_FONT* p_ascii;      // Latin Font
     RFS_FONT* p_ascii_j;    // Japanese ASCII font
 
-    const int font_opt_kanji = RF_ConfigGetInt(CNF_FONT_KANJI);
-    const int font_opt_ascii = RF_ConfigGetInt(CNF_FONT_ASCII);
+    const int font_opt_kanji = CNF_GetInt(CNF_FONT_KANJI);
+    const int font_opt_ascii = CNF_GetInt(CNF_FONT_ASCII);
 
-    switch (font_opt_kanji) {
+    switch (font_opt_kanji)
+    {
     case CNFE_FONT_KANJI_VANILLA: default:
         /** Load the vanilla font, or custom font if it's been replaced **/
         p_kanji = LoadReplaceableFont("./resource/gd_PC/EFMSGFONT_KANJI24.BIN", FONT_FTYPE_RGBA_KANJI);
@@ -535,8 +538,10 @@ RF_FontInit(void)
     RF_FontChaoReplace(FONT_TYPE_KANJI, p_kanji);
     RF_FontChaoReplace(FONT_TYPE_ASCII, p_ascii);
 
+    ___TODO("Remove this! Input Controls handles it");
+
     /** Disable keyboard messages **/
-    if (RF_ConfigGetInt(CNF_FONT_NOKEY))
+    if ( CNF_GetInt(CNF_FONT_NOKEY) )
     {
         ga_InputWay[0] = 1;
         ga_InputWay[1] = 1;
@@ -545,7 +550,7 @@ RF_FontInit(void)
     }
 
     /** Pause Color **/
-    if (RF_ConfigGetInt(CNF_MISC_PAUSEFONTCOL))
+    if ( CNF_GetInt(CNF_MISC_PAUSEFONTCOL) )
     {
         PauseTexVtxOff[0].col = 0xFF98C0F0;
         PauseTexVtxOff[1].col = 0xFF98C0F0;

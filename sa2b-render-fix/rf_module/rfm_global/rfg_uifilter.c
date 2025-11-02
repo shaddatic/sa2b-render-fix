@@ -13,8 +13,10 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_config.h>              /* RF_ConfigGet                                             */
 #include <rf_ninja.h>               /* drawtexture                                              */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** RF Util *********************************************************************************/
 #include <rfu_file.h>               /* core                                                     */
@@ -184,7 +186,7 @@ RFG_UiFilterInit(void)
 {
     const bool force_enable = ( 480.f >= DisplayResolutionY );
 
-    if ( RF_ConfigGetInt( CNF_FONT_PTFILTER ) || force_enable ) // text filtering
+    if ( CNF_GetInt( CNF_FONT_PTFILTER ) || force_enable ) // text filtering
     {
         WriteCall(0x006B5EF7, ___DrawTextureExWithPoint);
         WriteCall(0x006B6004, ___DrawTextureExWithPoint);
@@ -204,7 +206,7 @@ RFG_UiFilterInit(void)
         WriteData(0x00543A7D, 0, u32);
     }
 
-    if ( RF_ConfigGetInt( CNF_EXP_UIFILTER ) ) // if ( force_enable ) // Hud filtering
+    if ( CNF_GetInt( CNF_EXP_UIFILTER ) ) // if ( force_enable ) // Hud filtering
     {
         mtHookFunc( HudDrawHookInfo                    , HudDraw_p                    , HudDrawHook );
         mtHookFunc( ActionWindowDispHookInfo           , ActionWindowDisp_p           , ActionWindowDispHook );

@@ -28,9 +28,11 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /** Self (?) **/
 
@@ -1463,7 +1465,7 @@ CHS_PlayerInit(void)
     WriteRetn(0x00750C40);
     WriteJump(0x0074FF20, MilesDisplayerShadowHook);
 
-    MilesTailModifiers = RF_ConfigGetInt(CNF_PLAYER_MILESTAILMOD);
+    MilesTailModifiers = CNF_GetInt(CNF_PLAYER_MILESTAILMOD);
 
     /** Eggman **/
     object_eggman_head_mod = RF_GetCnkObject("figure/eggman_head_mod.sa2mdl");
@@ -1496,7 +1498,7 @@ CHS_PlayerInit(void)
     WriteRetn(0x00745310);
     WriteJump(0x00745910, EggWalkerDisplayerShadowHook);
 
-    TornadoFootFix = RF_ConfigGetInt(CNF_PLAYER_TWALKFOOTMOD);
+    TornadoFootFix = CNF_GetInt(CNF_PLAYER_TWALKFOOTMOD);
 
     /** PInitialize **/
     WriteCall(0x00459D53, CreateNoStencilTexture);

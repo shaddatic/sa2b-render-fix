@@ -11,7 +11,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_util.h>
 
 static uint8_t GlowPulseParams[] = 

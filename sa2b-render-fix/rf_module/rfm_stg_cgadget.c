@@ -9,7 +9,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 
 static mt_hookinfo BgDispCGHookInfo[1];
 

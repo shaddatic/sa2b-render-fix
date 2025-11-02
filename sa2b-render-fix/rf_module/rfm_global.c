@@ -20,9 +20,11 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_config.h>              /* getconfig                                                */
 #include <rf_renderstate.h>         /* setdefaultcullmode                                       */
 #include <rf_magic.h>               /* setpointsize                                             */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** RF Utility ******************************************************************************/
 #include <rfu_float.h>              /* replaceflaot                                             */
@@ -87,20 +89,20 @@ RFM_GlobalInit(void)
     RFG_UiFilterInit();
     RFG_DrawFunctionInit();
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_IGBIX))
+    if ( CNF_GetInt(CNF_GLOBAL_IGBIX) )
     {
         WriteJump(0x0042FAD0, njSearchTexMemList_);
     }
 
     RFG_BackfaceCullingInit();
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_BACKCOLOR))
+    if ( CNF_GetInt(CNF_GLOBAL_BACKCOLOR) )
     {
         RfgBackColor = true;
         RFG_NinjaBackColorInit();
     }
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_PTCLSCALE))
+    if ( CNF_GetInt(CNF_GLOBAL_PTCLSCALE) )
     {
         const double ptcldbl00 = 1.5;
         const double ptcldbl01 = 2.0;
@@ -141,7 +143,7 @@ RFM_GlobalInit(void)
         WriteNOP(0x00492506, 0x0049250C); // ptcl * 0.5
 
         /** PtclPolygon **/
-        double ptclpolyscl = RF_ConfigGetFloat(CNF_MISC_PTCLPOLYSCL);
+        double ptclpolyscl = CNF_GetFloat(CNF_MISC_PTCLPOLYSCL);
 
         RFU_ReplaceFloat(0x007801A6, ptclpolyscl);
         WriteJump(GX_SetPointSize_p, __SetPointSize);
@@ -157,7 +159,7 @@ RFM_GlobalInit(void)
 
     RFG_TaskDisplayInit();
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_SPRITE))
+    if ( CNF_GetInt(CNF_GLOBAL_SPRITE) )
     {
         RFG_3DSpriteInit();
     }
@@ -176,7 +178,9 @@ RFM_GlobalInit(void)
         */
     }
 
-    if (RF_ConfigGetInt(CNF_GLOBAL_LINE))
+    ___TODO("Remove this setting!");
+
+    if ( CNF_GetInt(CNF_GLOBAL_LINE) )
     {
         RFG_DrawLineInit();
     }

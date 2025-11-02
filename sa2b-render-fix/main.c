@@ -46,8 +46,10 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
         return;
     }
 
+    // config file init
+    CNF_Init();
+
     /** Render Fix init **/
-    RF_ConfigInit();
     RF_MsgInit();
     RF_RenderStateInit();
     RF_NinjaInit();
@@ -67,7 +69,9 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
 
     /** End **/
     RFAPI_End();
-    RF_ConfigEnd();
+
+    // config file close
+    CNF_End();
 
     RF_DbgExtraInfo("End Init");
 }

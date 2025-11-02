@@ -14,8 +14,10 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_ninja.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 // self
 #include <rf_module/rfm_menus/rfmenu_internal.h>
@@ -246,7 +248,7 @@ RFM_MenusInit(void)
 {
     RFM_MenuCartInit();
 
-    if (RF_ConfigGetInt(CNF_MENUS_FADEFIX))
+    if ( CNF_GetInt(CNF_MENUS_FADEFIX) )
     {
         WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
 
@@ -261,7 +263,7 @@ RFM_MenusInit(void)
         WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
         WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
 
-        if (RF_ConfigGetInt(CNF_EXP_DCMENUFADE))
+        if ( CNF_GetInt(CNF_EXP_DCMENUFADE) )
         {
             WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
         }
@@ -273,12 +275,12 @@ RFM_MenusInit(void)
         MenuFadeFixEnabled = true;
     }
 
-    if (RF_ConfigGetInt(CNF_MENUS_MAP_TEXTBAR))
+    if ( CNF_GetInt(CNF_MENUS_MAP_TEXTBAR) )
     {
         WriteJump(0x00675D50, DrawMapTextBackdrop);
     }
 
-    if (RF_ConfigGetInt(CNF_MENUS_MAP_STRETCH))
+    if ( CNF_GetInt(CNF_MENUS_MAP_STRETCH) )
     {
         static const float posshift = -108.0f;
 

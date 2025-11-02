@@ -10,7 +10,9 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 #define byte_174AFFD                DATA_REF(uint8_t, 0x174AFFD)
 
@@ -70,7 +72,7 @@ BgDispSort(task* tp)
 void
 RFM_WhiteJungleInit(void)
 {
-    if (RF_ConfigGetInt(CNF_FG_WATERFOG))
+    if ( CNF_GetInt(CNF_FG_WATERFOG) )
     {
         WriteJump(0x0062F220, BgDispSort);
     }

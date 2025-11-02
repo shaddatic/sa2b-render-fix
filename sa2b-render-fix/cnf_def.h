@@ -1,37 +1,32 @@
 /*
-*   SA2 Render Fix - '/rf_config/rfcnf_def.h'
+*   Common Utils - '/cnf_def.h'
 *
 *   Description:
-*       Render Fix config setting definitions and macros.
-*
-*   Contributors:
-*   -   Shaddatic
+*     Config options definitons for use with common config module.
 */
-#ifndef _RF_CONFIG_DEF_H_
-#define _RF_CONFIG_DEF_H_
+#ifndef H_CMN_CONFIG_DEF
+#define H_CMN_CONFIG_DEF
 
-/************************/
-/*  Macro               */
-/************************/
-/** Config option macros **/
-#define CNFO_INT(   _section, _key, _default)       &(const RFS_CNF_INT   ) { .sect = _section, .key = _key, .def = _default }
-#define CNFO_BOOL(  _section, _key, _default)       &(const RFS_CNF_BOOL  ) { .sect = _section, .key = _key, .def = _default }
-#define CNFO_FLOAT( _section, _key, _default)       &(const RFS_CNF_FLOAT ) { .sect = _section, .key = _key, .def = _default }
-#define CNFO_STRING(_section, _key, _default)       &(const RFS_CNF_STRING) { .sect = _section, .key = _key, .def = _default }
-
-/************************/
-/*  Enums               */
-/************************/
-/****** Basic Bool **********************************************************/
+/********************************/
+/*  Enums                       */
+/********************************/
+/************************************************************************************************/
+/*
+*   Basic Types
+*/
+/****** Basic Bool ******************************************************************************/
 typedef enum
 {
-    CNFE_BOOL_DISABLED,
-    CNFE_BOOL_ENABLED
+    CNFE_BOOL_DISABLED,             /* off/disabled                                             */
+    CNFE_BOOL_ENABLED               /* enabled                                                  */
 }
 CNFE_BOOL;
 
-/****** Global Section ******************************************************/
-/** Cheap Shadow mode **/
+/************************************************************************************************/
+/*
+*   Global
+*/
+/****** Cheap Shadow Mode ***********************************************************************/
 typedef enum
 {
     CNFE_GLOBAL_CHSMD_DISABLED,
@@ -40,18 +35,11 @@ typedef enum
 }
 CNFE_GLOBAL_CHSMD;
 
-/** Model tint fix mode **/
-typedef enum
-{
-    CNFE_GLOBAL_MDLTINT_DISABLED,
-    CNFE_GLOBAL_MDLTINT_DREAMCAST,
-    CNFE_GLOBAL_MDLTINT_ENABLED,
-    CNFE_GLOBAL_MDLTINT_EXTENDED,
-}
-CNFE_GLOBAL_MDLTINT;
-
-/****** Font Section ********************************************************/
-/** Japanese script **/
+/************************************************************************************************/
+/*
+*   Font
+*/
+/****** Japanese Typeface ***********************************************************************/
 typedef enum
 {
     CNFE_FONT_KANJI_VANILLA,
@@ -59,7 +47,7 @@ typedef enum
 }
 CNFE_FONT_KANJI;
 
-/** Latin script **/
+/****** Latin Typeface **************************************************************************/
 typedef enum
 {
     CNFE_FONT_ASCII_VANILLA,
@@ -68,7 +56,7 @@ typedef enum
 }
 CNFE_FONT_ASCII;
 
-/** Character spacing **/
+/****** Character Spacing ***********************************************************************/
 typedef enum
 {
     CNFE_FONT_WIDTH_TOUCHING,
@@ -79,7 +67,7 @@ typedef enum
 }
 CNFE_FONT_WIDTH;
 
-/** Space Character Width **/
+/****** Space Width *****************************************************************************/
 typedef enum
 {
     CNFE_FONT_SPACE_NONE,
@@ -92,8 +80,11 @@ typedef enum
 }
 CNFE_FONT_SPACE;
 
-/****** Player Section ******************************************************/
-/** Player Shadow Mode **/
+/************************************************************************************************/
+/*
+*   Players
+*/
+/****** Player Shadow Mode **********************************************************************/
 typedef enum
 {
     CNFE_PLAYER_SHADOWMD_VANILLA,
@@ -102,7 +93,7 @@ typedef enum
 }
 CNFE_PLAYER_SHADOWMD;
 
-/** Player Model Mode **/
+/****** Model Mode ******************************************************************************/
 typedef enum
 {
     CNFE_PLAYER_MODEL_GAMECUBE,
@@ -112,7 +103,7 @@ typedef enum
 }
 CNFE_PLAYER_MODEL;
 
-/** Player Model Mode **/
+/****** LOD Model Mode **************************************************************************/
 typedef enum
 {
     CNFE_PLAYER_LOD_DISABLED,
@@ -121,23 +112,13 @@ typedef enum
 
     NB_CNFE_PLAYER_LOD,
 }
-CNFE_PLAYER_MODEL;
+CNFE_PLAYER_LOD;
 
-/****** Shadows Section *****************************************************/
-/** Shadow map resolution **/
-typedef enum
-{
-    CNFE_SHADOW_RES_VERY_LOW,
-    CNFE_SHADOW_RES_LOW,
-    CNFE_SHADOW_RES_MEDIUM,
-    CNFE_SHADOW_RES_HIGH,
-    CNFE_SHADOW_RES_ULTRA,
-    CNFE_SHADOW_RES_IMPERCEIVABLE
-}
-CNFE_SHADOW_RES;
-
-/****** Cart Section ********************************************************/
-/** Cart Sprite Fix **/
+/************************************************************************************************/
+/*
+*   Cart
+*/
+/****** Cart Sprites ****************************************************************************/
 typedef enum
 {
     CNFE_CART_CARTSPRITE_DISABLED,
@@ -146,8 +127,12 @@ typedef enum
 }
 CNFE_CART_CARTSPRITE;
 
-/****** Event Section *******************************************************/
-typedef enum // vsync mode
+/************************************************************************************************/
+/*
+*   Event
+*/
+/****** Vsync Mode ******************************************************************************/
+typedef enum
 {
     CNFE_EVENT_VSYNC_60,
     CNFE_EVENT_VSYNC_EVSET,
@@ -155,7 +140,7 @@ typedef enum // vsync mode
 }
 CNFE_EVENT_VSYNC;
 
-/** Cart Sprite Fix **/
+/****** 4:3 Mode ********************************************************************************/
 typedef enum
 {
     CNFE_EVENT_43MD_NEVER,
@@ -165,8 +150,11 @@ typedef enum
 }
 CNFE_EVENT_43MD;
 
-/****** Misc Section ********************************************************/
-/** Cart Sprite Fix **/
+/************************************************************************************************/
+/*
+*   Misc
+*/
+/****** Pause Font Color ************************************************************************/
 typedef enum
 {
     CNFE_MISC_PAUSEFONTCOL_DARKER,
@@ -174,49 +162,65 @@ typedef enum
 }
 CNFE_MISC_PAUSEFONTCOL;
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Config sections *****************************************************/
-/** Main **/
+/****** Shadow Texture Resolution ***************************************************************/
+typedef enum
+{
+    CNFE_MISC_SHDWRES_VERYLOW,
+    CNFE_MISC_SHDWRES_LOW,
+    CNFE_MISC_SHDWRES_MEDIUM,
+    CNFE_MISC_SHDWRES_HIGH,
+    CNFE_MISC_SHDWRES_ULTRA,
+    CNFE_MISC_SHDWRES_IMPERCEIVABLE
+}
+CNFE_MISC_SHDWRES;
+
+/********************************/
+/*  Constants                   */
+/********************************/
+/************************************************************************************************/
+/*
+*   Config Sections
+*/
+/****** Main ************************************************************************************/
 #define CNFS_GLOBAL         "main"
 #define CNFS_FONT           "font"
 #define CNFS_PLAYER         "player"
 #define CNFS_COMMON         "common"
 
-/** Menus **/
+/****** Menus ***********************************************************************************/
 #define CNFS_MENUS          "m_menus"
 #define CNFS_EGET           "eget"
 
-/** Stages **/
+/****** Stages **********************************************************************************/
 #define CNFS_FG             "w_jungle"
 #define CNFS_CE             "c_escape"
 #define CNFS_AM             "a_mine"
 #define CNFS_CC             "c_core"
 
-/** Bosses **/
+/****** Bosses **********************************************************************************/
 #define CNFS_BBOGY          "bossbogy"
 
-/** Other **/
+/****** Others **********************************************************************************/
 #define CNFS_CART           "cart"
 #define CNFS_EVENT          "event"
 
-/** Miscellaneous **/
+/****** Miscellaneous ***************************************************************************/
 #define CNFS_MISC           "misc"
 
-/** Experimental **/
+/****** Experimental ****************************************************************************/
 #define CNFS_EXP            "experimental"
 
-/** Compatibility **/
+/****** Compatibility ***************************************************************************/
 #define CNFS_COMPAT         "compatibility"
 
-/** Debug **/
+/****** Debug ***********************************************************************************/
 #define CNFS_DEBUG          "debug"
 
-/** Hidden **/
-#define CNFS_HIDDEN         "internal"
-
-/****** Config options ******************************************************************************************************************/
+/************************************************************************************************/
+/*
+*   Config Options
+*/
+/****************************************************************************************************************************************/
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
@@ -288,7 +292,7 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
 #define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
 #define CNF_MISC_DCRING             CNFO_INT(   CNFS_MISC           , "dc_ring"             , CNFE_BOOL_ENABLED                     )   /* DC Ring Shadows */
-#define CNF_MISC_SHADOWRES          CNFO_INT(   CNFS_MISC           , "shadow_res"          , CNFE_SHADOW_RES_LOW                   )   /* Shadow Map Resolution */
+#define CNF_MISC_SHADOWRES          CNFO_INT(   CNFS_MISC           , "shadow_res"          , CNFE_MISC_SHDWRES_LOW                 )   /* Shadow Map Resolution */
 #define CNF_MISC_NOSHADOWS          CNFO_INT(   CNFS_MISC           , "no_shadows"          , CNFE_BOOL_DISABLED                    )   /* Disable Shadows */
 
 /** Experimental section **/
@@ -309,7 +313,4 @@ CNFE_MISC_PAUSEFONTCOL;
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 #define CNF_DEBUG_EXTRAINFO         CNFO_INT(   CNFS_DEBUG          , "extra_info"          , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */
 
-/** Hidden section **/
-#define CNF_HIDDEN_DXVK_CHK         CNFO_INT(   CNFS_HIDDEN         , "dxvk_chk"            , false                                 )   /* If the user has been asked about DXVK */
-
-#endif/*_RF_CONFIG_DEF_H_*/
+#endif/*H_CMN_CONFIG_DEF*/

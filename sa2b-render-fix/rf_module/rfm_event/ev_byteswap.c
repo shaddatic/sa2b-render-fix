@@ -16,7 +16,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_ninja.h>
 #include <rf_eventinfo.h>
 

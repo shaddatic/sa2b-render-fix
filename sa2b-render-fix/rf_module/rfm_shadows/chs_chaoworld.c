@@ -38,10 +38,12 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_ninja.h>
 #include <rf_samdl.h>
 #include <rf_util.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 #define SHAPE_FLG_SHADOW    (0b0000'0000'0000'1000)
 
@@ -904,8 +906,10 @@ RFCTRL_CheapShadowChaoWorldDisable(void)
 void
 CHS_ChaoWorldInit(void)
 {
-    if (CheapShadowNoChaoWorld || RF_ConfigGetInt(CNF_COMPAT_NOCHMOD))
+    if (CheapShadowNoChaoWorld || CNF_GetInt(CNF_COMPAT_NOCHMOD))
+    {
         return;
+    }
 
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex
 
@@ -916,8 +920,10 @@ CHS_ChaoWorldInit(void)
     /** Grow Tree **/
     FuncHook(HookInfoALO_GrowTreeCreate, ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
 
-    if (RF_ConfigGetInt(CNF_MISC_RACETREEMOD))
+    if ( CNF_GetInt(CNF_MISC_RACETREEMOD) )
+    {
         FuncHook(HookInfoALO_RaceTree, ALO_RaceTree, ALO_RaceTreeHook);
+    }
 
     /** AL Objects **/
     FuncHook(HookInfoCreateEgg           , CreateEgg_p           , CreateEggHook);

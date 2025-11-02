@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cnf.c" />
     <ClCompile Include="rf_samdl.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
@@ -140,7 +141,6 @@
     <ClCompile Include="rf_module\rfm_global\rfg_backcolor.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_itembox.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_udreel.c" />
-    <ClCompile Include="rf_config.c" />
     <ClCompile Include="rf_nja.c" />
     <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="main.c" />
@@ -162,6 +162,7 @@
     <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cnf.h" />
     <ClInclude Include="rf_samdl.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
@@ -175,8 +176,7 @@
     <ClInclude Include="rfu_file.h" />
     <ClInclude Include="rfu_model.h" />
     <ClInclude Include="rf_api\rfapi_internal.h" />
-    <ClInclude Include="rf_config.h" />
-    <ClInclude Include="rf_config\rfcnf_def.h" />
+    <ClInclude Include="cnf_def.h" />
     <ClInclude Include="rf_core.h" />
     <ClInclude Include="rf_ctrl.h" />
     <ClInclude Include="rf_init.h" />

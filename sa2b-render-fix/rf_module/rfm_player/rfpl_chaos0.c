@@ -17,11 +17,13 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config                                           */
 #include <rf_ninja.h>           /* texture callback                                 */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_util.h>            /* change displayer                                 */
 #include <rf_renderstate.h>     /* render state                                     */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /************************/
 /*  Constants           */
@@ -146,5 +148,5 @@ RFPL_Chaos0Init(void)
     WriteNOP(0x00731F01, 0x00731FAA); // kill chaos0 tex anim code
     WriteNOP(0x0073257F, 0x0073261A); // ^ dely
 
-    Chaos0TexAnim = RF_ConfigGetInt(CNF_PLAYER_CHAOS0ANIM) == CNFE_BOOL_ENABLED;
+    Chaos0TexAnim = CNF_GetInt(CNF_PLAYER_CHAOS0ANIM) == CNFE_BOOL_ENABLED;
 }

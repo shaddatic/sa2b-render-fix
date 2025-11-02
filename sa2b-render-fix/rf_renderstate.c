@@ -15,7 +15,9 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config core                                      */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_renderstate.h>               /* self                                   */
@@ -217,7 +219,7 @@ RFRS_SetDefaultCnkSpecMode(RFRS_CNKSPECMD mode)
 void
 RF_RenderStateInit(void)
 {
-    if ( RF_ConfigGetInt(CNF_COMPAT_OLDATEST) )
+    if ( CNF_GetInt(CNF_COMPAT_OLDATEST) )
     {
         RFRS_SetDefaultAlphaTestFunc(RFRS_CMPMD_GTR);
         RFRS_SetDefaultAlphaTestRef(64);

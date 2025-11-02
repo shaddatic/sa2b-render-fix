@@ -17,10 +17,12 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>        /* core                                                 */
 #include <rf_util.h>        /* ReplaceFloat, SwitchDisplayer                        */
-#include <rf_config.h>      /* RF_ConfigGet                                         */
 #include <rf_mdlutil.h>     /* cnkmatflag                                           */
 #include <rf_renderstate.h> /* renderstate                                          */
 #include <rf_ninja.h>       /* rf ninja                                             */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_common/rfc_transparancy/rfct_internal.h> /* self            */
@@ -72,8 +74,10 @@ TransformObjectWithSorting(const NJS_CNK_OBJECT* object, void* pFunc)
 void
 RFC_TransparancyInit(void)
 {
-    if (!RF_ConfigGetInt(CNF_COMMON_TR_SORT))
+    if ( !CNF_GetInt(CNF_COMMON_TR_SORT) )
+    {
         return;
+    }
 
     /** enemy light particles **/
     SwitchDisplayer(0x00510E55, DISP_DELY);

@@ -15,7 +15,9 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_mdlutil.h>         /* change strip flag                                */
-#include <rf_config.h>          /* config                                           */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings    */
@@ -143,7 +145,7 @@ RFCD_RingInit(void)
 
     WriteJump(0x006BD500, CNK_DrawRingShadow);
 
-    if ( RF_ConfigGetInt(CNF_MISC_DCRING) )
+    if ( CNF_GetInt(CNF_MISC_DCRING) )
     {
         RF_CnkModelMaterialDiffuse(object_ringshadow->model, -1, 0xFF, 0xFF, 0xFF, 0xFF);
     }

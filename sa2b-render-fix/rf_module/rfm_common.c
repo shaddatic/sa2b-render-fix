@@ -24,9 +24,11 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_config.h>              /* getconfig                                                */
 #include <rf_mdlutil.h>             /* materialflag                                             */
 #include <rf_njcnk.h>               /* easysimpledirect                                         */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** RF Utility ******************************************************************************/
 #include <rfu_float.h>              /* replacefloat                                             */
@@ -150,7 +152,7 @@ RFM_CommonInit(void)
     /** Restore Big the Cat in Wild Canyon **/
     DATA_ARY(OBJ_ITEMENTRY, 0x00BD7440, [100])[82] = DATA_ARY(OBJ_ITEMENTRY, 0x0109E830, [100])[85];
 
-    if (RF_ConfigGetInt(CNF_COMMON_EEMBLEM))
+    if ( CNF_GetInt(CNF_COMMON_EEMBLEM) )
     {
         ReplaceObjectModel(0x014AB36C, model_e_kumi_emblem);
         ReplaceObjectModel(0x014ACF5C, model_e_g_kumi_emblem);
@@ -174,12 +176,12 @@ RFM_CommonInit(void)
         mtMemCopy((void*)0x109B2CC, model_ce_truck_hood, sizeof(NJS_CNK_MODEL));
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_AISHEILD))
+    if ( CNF_GetInt(CNF_COMMON_AISHEILD) )
     {
         ReplaceObjectModel(0x014BC1A4, model_e_s_ai_shield);
     }
 
-    if (RF_ConfigGetInt(CNF_COMMON_ESTGTEX))
+    if ( CNF_GetInt(CNF_COMMON_ESTGTEX) )
     {
         WriteCall(0x004FE3E6, EnemyLoadTextureStage);
     }

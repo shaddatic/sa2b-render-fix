@@ -11,9 +11,10 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_config.h>              /* config                                                   */
 #include <rf_util.h>                /* replacefloat                                             */
-#include <rf_config.h>              /* config get                                               */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** RF Utility ******************************************************************************/
 #include <rfu_float.h>              /* replaceflaot                                             */
@@ -329,10 +330,10 @@ RFG_FrameSkipInit(void)
 
     /** End **/
 
-    DebugFrameInfo = RF_ConfigGetInt( CNF_DEBUG_FRAMEINFO );
+    DebugFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO );
 
     // set wait vsync count
-    const int game_speed = RF_ConfigGetInt( CNF_DEBUG_GAMESPEED );
+    const int game_speed = CNF_GetInt( CNF_DEBUG_GAMESPEED );
 
     rjSetWaitVsyncCount( 0 - game_speed );
 }

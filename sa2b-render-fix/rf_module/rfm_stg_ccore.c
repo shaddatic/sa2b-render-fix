@@ -10,8 +10,10 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_config.h>
 #include <rf_samdl.h>
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /** Self **/
 
@@ -20,14 +22,14 @@
 void
 RFM_CannonsCoreInit(void)
 {
-    if (RF_ConfigGetInt(CNF_CC_PITFALL))
+    if ( CNF_GetInt(CNF_CC_PITFALL) )
     {
         OBJ_LANDTABLE* land = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0037");
 
         ReplaceLandObject(land, 32, RF_GetGjsObject("stg37_land0032.sa2bmdl"));
     }
 
-    if (RF_ConfigGetInt(CNF_CC_KURUMA))
+    if ( CNF_GetInt(CNF_CC_KURUMA) )
     {
         NJS_CNK_OBJECT* object_kuruma = GetDataDllAddr(NJS_CNK_OBJECT, "object_lsonic_un4_kuruma_BK040506__un4_kuruma_BK040506_");
 

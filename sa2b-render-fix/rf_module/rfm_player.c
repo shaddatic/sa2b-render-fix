@@ -26,7 +26,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config                                           */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_util.h>            /* change displayer                                 */
 #include <rf_renderstate.h>     /* render state                                     */
@@ -34,6 +33,9 @@
 
 /****** RF Utility ******************************************************************/
 #include <rfu_file.h>           /* filereplace                                      */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_player/rfpl_internal.h> /* children                         */
@@ -474,14 +476,14 @@ RFM_PlayerInit(void)
     RFPL_ModelPrsInit();
     RFPL_Chaos0Init();
 
-    if ( RF_ConfigGetInt( CNF_COMPAT_PLBROKENFIX ) )
+    if ( CNF_GetInt( CNF_COMPAT_PLBROKENFIX ) )
     {
         PlayerModelCompatHook();
 
         BrokenModelFix = true;
     }
 
-    if ( RF_ConfigGetInt( CNF_COMPAT_PLCONSTTEXMAT ) )
+    if ( CNF_GetInt( CNF_COMPAT_PLCONSTTEXMAT ) )
     {
         PlayerModelCompatHook();
 
@@ -511,7 +513,7 @@ RFM_PlayerInit(void)
     WriteCall(0x00744842, ___DrawMotionWithSorting); // egg walker 1
     WriteCall(0x007448BB, ___DrawMotionWithSorting); // egg walker 2
 
-    if ( RF_ConfigGetInt( CNF_PLAYER_MODEL ) == CNFE_PLAYER_MODEL_DREAMCAST )
+    if ( CNF_GetInt( CNF_PLAYER_MODEL ) == CNFE_PLAYER_MODEL_DREAMCAST )
     {
         DreamcastPlayerModels[PLNO_SONIC]    = RFU_ReplacePlayerPrs("SONICMDL" , "plmdl_dc");
         DreamcastPlayerModels[PLNO_SHADOW]   = RFU_ReplacePlayerPrs("TERIOSMDL", "plmdl_dc");
@@ -553,7 +555,7 @@ RFM_PlayerInit(void)
         }
     }
 
-    if ( RF_ConfigGetInt( CNF_PLAYER_MDLSHADOW ) == CNFE_BOOL_DISABLED )
+    if ( CNF_GetInt( CNF_PLAYER_MDLSHADOW ) == CNFE_BOOL_DISABLED )
     {
         DisablePlayerShadowing = true;
 
@@ -571,12 +573,12 @@ RFM_PlayerInit(void)
         WriteData(0x0073EF67+6, 0x00, u32); // Eggman
     }
 
-    if ( RF_ConfigGetInt( CNF_PLAYER_SHADLITEDASH ) )
+    if ( CNF_GetInt( CNF_PLAYER_SHADLITEDASH ) )
     {
         WriteJump(0x0071E460, ___CreatePlayerDrawLightDashWithAlphaReducing);
     }
 
-    switch ( RF_ConfigGetInt( CNF_PLAYER_LODMDL ) ) // Player LOD Models
+    switch ( CNF_GetInt( CNF_PLAYER_LODMDL ) ) // Player LOD Models
     {
         case CNFE_PLAYER_LOD_ENABLED:
         {

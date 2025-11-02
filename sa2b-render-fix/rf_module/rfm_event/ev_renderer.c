@@ -7,8 +7,10 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_config.h>          /* config get                                       */
 #include <rf_util.h>            /* switch displayer                                 */
+
+/****** Config **********************************************************************/
+#include <cnf.h>                /* config get                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_event/ev_renderer/evr_internal.h> /* children               */
@@ -39,11 +41,11 @@ RFF_NewEventRenderer(void)
 void
 EV_RendererInit(void)
 {
-    EventEquipmentEnable = RF_ConfigGetInt(CNF_EVENT_DRAWEQUIP);
-    EventEnforce43       = RF_ConfigGetInt(CNF_EVENT_43MD);
-    EventVsyncMode       = RF_ConfigGetInt(CNF_EVENT_VSYNC);
+    EventEquipmentEnable = CNF_GetInt(CNF_EVENT_DRAWEQUIP);
+    EventEnforce43       = CNF_GetInt(CNF_EVENT_43MD);
+    EventVsyncMode       = CNF_GetInt(CNF_EVENT_VSYNC);
 
-    EventDebugFlag       = RF_ConfigGetInt(CNF_DEBUG_EVENT);
+    EventDebugFlag       = CNF_GetInt(CNF_DEBUG_EVENT);
 
     EVR_TaskInit();
     EVR_VsyncInit();
