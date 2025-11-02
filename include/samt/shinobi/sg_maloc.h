@@ -20,8 +20,8 @@
 /** Internal function pointers **/
 typedef struct
 {
-    Void* (*malloc )(Uint32 nbytes, char*, Int);
-    Void  (*free   )(Void* ap, char*, Int);
+    Void* (*malloc )(Uint32 nbytes);
+    Void  (*free   )(Void* ap);
     Void* (*calloc )(Uint32 nobj, Uint32 size);
     Void* (*realloc)(Void* ap, Uint32 nbytes);
 }
