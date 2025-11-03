@@ -53,14 +53,6 @@ UseLagEmu(void)
     return false;
 }
 
-static const Sint16 Ev43List[] =
-{
-     21,  24,
-    100, 101, 126,
-    205, 206, 211,
-    360, 361
-};
-
 static bool
 UsePillarBox(void)
 {
@@ -69,40 +61,7 @@ UsePillarBox(void)
         return false;
     }
 
-    // always force 4:3 for 211
-    if ( EventNum == 211 )
-    {
-        return true;
-    }
-
-    switch ( EventEnforce43 )
-    {
-        case EV_43MD_ALWAYS:
-        {
-            return true;
-        }
-        case EV_43MD_NOINTRO: default:
-        {
-            return EventNum != 350;
-        }
-        case EV_43MD_SPECIFIC:
-        {
-            const int evnum = EventNum;
-
-            for ( int i = 0; i < ARYLEN(Ev43List); ++i )
-            {
-                if ( evnum == Ev43List[i] ) return true;
-            }
-
-            return false;
-        }
-        case EV_43MD_NEVER:
-        {
-            return false;
-        }
-    }
-
-    return false; // unreachable
+    return EV_GetPillarbox(EventNum);
 }
 
 

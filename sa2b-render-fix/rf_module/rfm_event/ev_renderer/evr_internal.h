@@ -73,16 +73,6 @@ typedef enum
 }
 EV_ENTRY_TYPE;
 
-/****** 4:3 Mode ********************************************************************/
-typedef enum
-{
-    EV_43MD_NEVER,              /* never force 4:3                                  */
-    EV_43MD_SPECIFIC,           /* use 4:3 if a distracting movie is on screen      */
-    EV_43MD_NOINTRO,            /* don't force 4:3 for dreamcast intro              */
-    EV_43MD_ALWAYS,             /* always force 4:3                                 */
-}
-RFE_EV_43MODE;
-
 /****** WaitVsync Mode **************************************************************/
 typedef enum
 {
@@ -111,7 +101,6 @@ RFE_DBG_DRAWPASS;
 /************************/
 /****** Settings ********************************************************************/
 EXTERN bool             EventEquipmentEnable;
-EXTERN RFE_EV_43MODE    EventEnforce43;
 EXTERN RFE_EV_VSYNC     EventVsyncMode;
 EXTERN bool             EventDebugFlag;
 
@@ -266,6 +255,18 @@ void    EV_DebugDisp( task* tp );
 *     Execute debug camera.
 */
 void    EV_DebugCameraExec( task* tp );
+
+/****** Pillarbox *******************************************************************/
+/*
+*   Description:
+*     Get the pillarbox mode for an event.
+*/
+bool    EV_GetPillarbox( int evnum );
+/*
+*   Description:
+*     Set the pillarbox mode for an event.
+*/
+void    EV_SetPillarbox( int evnum, b32 sw );
 
 EXTERN_END
 

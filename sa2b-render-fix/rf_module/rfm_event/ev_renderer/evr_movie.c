@@ -98,7 +98,14 @@ DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE 
 static void
 DrawMovieEffect(int x, int y, int w, int h, float z, u32 color)
 {
-    DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
+    if ( EV_GetPillarbox(EventNum) )
+    {
+        DrawMovie_Fill(x, y, w, h, z, color, CNFE_EVENT_MOVIE_FIT);
+    }
+    else
+    {
+        DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
+    }
 }
 
 static void
@@ -111,11 +118,6 @@ DrawMovieFMV(int x, int y, int w, int h, float z, u32 color)
 void
 EVR_MovieInit(void)
 {
-    if ( EventEnforce43 != EV_43MD_NEVER )
-    {
-        return;
-    }
-
     WriteCall(0x005FF311, DrawMovieEffect);
     WriteCall(0x0060190E, DrawMovieFMV);
 
