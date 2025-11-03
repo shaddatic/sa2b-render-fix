@@ -51,6 +51,7 @@ DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE 
         case CNFE_EVENT_MOVIE_FIT: default:
         {
             DrawMovie(x, y, w, h, z, color);
+            break;
         }
         case CNFE_EVENT_MOVIE_STRETCH:
         {
