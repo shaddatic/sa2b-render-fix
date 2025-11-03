@@ -127,16 +127,13 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="43_mode" display="Force 4:3" type="eEV_43MD" defaultvalue="2">
-        <HelpText>Force the events into their intended aspect ratio, 4:3, covering up many issues that the player was never intended to see.
+      <Property name="43_mode" display="Force Original Aspect Ratio" type="eEV_43MD" defaultvalue="2">
+        <HelpText>Force the events into their original aspect ratio - covering up many issues that the player was never intended to see.
 
-Always: Force all events/cutscenes into 4:3.
-
-Exclude Intro: Always, excluding the Dreamcast intro.
-
-Issues Only: Use pillar boxes only when animation or movie/overlay issues are distracting.
-
-Never: Allow any aspect ratio. Movie/overlays are stretched to fit the screen.
+Always: Use pillar boxes on all events/cutscenes.
+Exclude Intro: 'Always', but excluding the Dreamcast intro.
+Conservative: Use pillar boxes only when absolutely necessary to hide issues.
+Never: No events will use pillar boxes, issues or not.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
@@ -149,7 +146,7 @@ Clamp: Stretch only outer video pixels to fill the screen.
 Mirror: Mirror video on each side.
 Crop: Crop the upper and lower sections of the video.
 
-NOTE: This has no effect when Event is forced into 4:3.</HelpText>
+Note: Has no effect when Event is forced into 4:3.</HelpText>
       </Property>
       <Property name="movie_fit" display="Movie Fill Mode" type="eEV_MOVIEFIT" defaultvalue="0">
         <HelpText>How the FMV/Movie videos will be fit to the screen.
@@ -368,7 +365,7 @@ Back - Display Event debug info.</HelpText>
     <Enum name="eEV_43MD">
       <EnumMember name="3" display="Always"></EnumMember>
       <EnumMember name="2" display="Exclude Intro"></EnumMember>
-      <EnumMember name="1" display="Issues Only"></EnumMember>
+      <EnumMember name="1" display="Conservative"></EnumMember>
       <EnumMember name="0" display="Never"></EnumMember>
     </Enum>
     <Enum name="eEV_VSYNC">
