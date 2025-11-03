@@ -173,8 +173,7 @@ RFC_TransparancyInit(void)
     }
 
     /** Carts **/
-    WriteCall(0x0061CB2F, TransformObjectWithSorting);
-    WriteCall(0x0068B837, TransformObjectWithSorting); // menu
+    WriteCall(0x0061CB2F, TransformObjectWithSorting); // game
 
     /** Chaos Drives **/
     WriteCall(0x0054531F, TransformObjectWithSorting); // chao
