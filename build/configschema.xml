@@ -140,7 +140,7 @@ Never: Allow any aspect ratio. Movie/overlays are stretched to fit the screen.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="overlay_mode" display="Overlay Fit Mode" type="eEV_OVERFIT" defaultvalue="1">
+      <Property name="overlay_fit" display="Overlay Fill Mode" type="eEV_OVERFIT" defaultvalue="1">
         <HelpText>When using the 'NEVER' 4:3 setting, this is how overlay video effects will be fit to the screen.
 
 Fit: Keep the video in 4:3, do nothing.
