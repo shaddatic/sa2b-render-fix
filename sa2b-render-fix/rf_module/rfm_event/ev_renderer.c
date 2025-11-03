@@ -8,6 +8,7 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_util.h>            /* switch displayer                                 */
+#include <rf_system.h>          /* pillarbox                                        */
 
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
@@ -16,10 +17,16 @@
 #include <rf_module/rfm_event/ev_renderer/evr_internal.h> /* children               */
 
 /************************/
+/*  Game Defs           */
+/************************/
+/****** Tails Plain *****************************************************************/
+#define DrawTailsPlain          FUNC_PTR(void, __cdecl, (void), 0x00601600)
+
+/************************/
 /*  Data                */
 /************************/
 /****** Pillarbox Settings **********************************************************/
-static u32 Event43Mode[400 / BITSIN(u32)];
+static u32 Event43Mode[(EV_PILLARBOX_MAX / BITSIN(u32)) + 1];
 
 /****** Event Settings **************************************************************/
 bool            EventEquipmentEnable;
@@ -43,6 +50,11 @@ RFF_NewEventRenderer(void)
 bool
 EV_GetPillarbox(int evnum)
 {
+    if ( evnum > EV_PILLARBOX_MAX )
+    {
+        return false;
+    }
+
     const int num_ary = evnum / BITSIN(u32);
     const int num_bit = evnum % BITSIN(u32);
 
@@ -70,7 +82,7 @@ EV_SetPillarbox(int evnum, b32 sw)
 {
     if ( evnum <= -1 )
     {
-        for ( int i = 0; i < 400; ++i )
+        for ( int i = 0; i < EV_PILLARBOX_NB; ++i )
         {
             SetPillarboxSub(i, sw);
         }
@@ -79,6 +91,16 @@ EV_SetPillarbox(int evnum, b32 sw)
     }
 
     SetPillarboxSub(evnum, sw);
+}
+
+/****** Static **********************************************************************/
+static void
+DrawTailsPlainWithPillar(void)
+{
+    DrawTailsPlain();
+
+    RF_SysCtrlDrawPillar(true);
+    RF_SysCtrlResetPillar();
 }
 
 /****** Init ************************************************************************/
@@ -126,6 +148,9 @@ EV_RendererInit(void)
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
     WriteJump(0x00601938, 0x00601A0A); // ^^ movies
+
+    // task loop does exec during movies, so hook this so pillars can still appear if needed
+    WriteCall(0x00601A18, DrawTailsPlainWithPillar);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 

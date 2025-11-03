@@ -40,7 +40,7 @@ DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE 
 {
     const float ratio = (DisplayResolutionX / (f32)w) / (DisplayResolutionY / (f32)h);
 
-    if ( ratio <= 1.f )
+    if ( ratio <= 1.f || EV_GetPillarbox(EventNum) )
     {
         DrawMovie(x, y, w, h, z, color);
         return;
@@ -99,14 +99,7 @@ DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE 
 static void
 DrawMovieEffect(int x, int y, int w, int h, float z, u32 color)
 {
-    if ( EV_GetPillarbox(EventNum) )
-    {
-        DrawMovie_Fill(x, y, w, h, z, color, CNFE_EVENT_MOVIE_FIT);
-    }
-    else
-    {
-        DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
-    }
+    DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
 }
 
 static void
@@ -124,4 +117,12 @@ EVR_MovieInit(void)
 
     MovieEffectFit = CNF_GetInt(CNF_EVENT_OVERLAYFIT);
     MovieFmvFit    = CNF_GetInt(CNF_EVENT_MOVIEFIT);
+
+    if ( MovieFmvFit == CNFE_EVENT_MOVIE_FIT )
+    {
+        for ( int i = 400; i < EV_PILLARBOX_NB; ++i )
+        {
+            EV_SetPillarbox(i, ON);
+        }
+    }
 }

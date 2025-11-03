@@ -264,6 +264,19 @@ EventDestructor(task* tp)
 static void
 EventExecutor(task* tp)
 {
+    // 4:3 bars
+    if ( UsePillarBox() )
+    {
+        if ( EventNum < 400 && EventNum != 211 )
+        {
+            RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
+        }
+
+        RF_SysEasySetPillarAspect( RF_SYS_PBA_43 );
+    }
+
+    // core exec
+
     if ( DisableCutsceneRendering || DisableCutscene || CutsceneMode == EVENTMD_UNK_7 || CutsceneMode == EVENTMD_UNK_8 || CutsceneMode == EVENTMD_TIMECARD )
     {
         return;
@@ -275,17 +288,6 @@ EventExecutor(task* tp)
     }
 
     taskwk* restrict twp = tp->twp;
-
-    // 4:3 bars
-    if ( UsePillarBox() )
-    {
-        if ( EventNum != 211 )
-        {
-            RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
-        }
-
-        RF_SysEasySetPillarAspect( RF_SYS_PBA_43 );
-    }
 
     // update last frame, may be changed inside of 'DebugExec'
     EventLastFrame = EventFrame;
