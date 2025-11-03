@@ -150,6 +150,17 @@ typedef enum
 }
 CNFE_EVENT_43MD;
 
+/****** Overlay Fit *****************************************************************************/
+typedef enum
+{
+    CNFE_EVENT_OVERFIT_FIT,
+    CNFE_EVENT_OVERFIT_STRETCH,
+    CNFE_EVENT_OVERFIT_CLAMP,
+    CNFE_EVENT_OVERFIT_MIRROR,
+    CNFE_EVENT_OVERFIT_CROP,
+}
+CNFE_EVENT_OVERFIT;
+
 /************************************************************************************************/
 /*
 *   Misc
@@ -286,6 +297,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
+#define CNF_EVENT_OVERFIT           CNFO_INT(   CNFS_EVENT          , "overlay_fit"         , CNFE_EVENT_OVERFIT_STRETCH            )   /* Overlay Fill Mode */
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */

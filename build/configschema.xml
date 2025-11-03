@@ -140,6 +140,15 @@ Never: Allow any aspect ratio. Movie/overlays are stretched to fit the screen.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
+      <Property name="overlay_mode" display="Overlay Fit Mode" type="eEV_OVERFIT" defaultvalue="1">
+        <HelpText>When using the 'NEVER' 4:3 setting, this is how overlay video effects will be fit to the screen.
+
+Fit: Keep the video in 4:3, do nothing.
+Stretch: Stretch video to fill the screen.
+Clamp: Stretch only outer video pixels to fill the screen.
+Mirror: Mirror video on each side.
+Crop: Crop the upper and lower sections of the video.</HelpText>
+      </Property>
     </Group>
     <Group name="m_menus" display="Main Menus Settings">
       <Property name="fade_fix" display="Element Fading Fix" type="eBOOL" defaultvalue="1">
@@ -355,6 +364,13 @@ Back - Display Event debug info.</HelpText>
       <EnumMember name="2" display="Always 60FPS"></EnumMember>
       <EnumMember name="1" display="Let Event Decide"></EnumMember>
       <EnumMember name="0" display="Always 30FPS"></EnumMember>
+    </Enum>
+    <Enum name="eEV_OVERFIT">
+      <EnumMember name="0" display="Fit"></EnumMember>
+      <EnumMember name="1" display="Stretch"></EnumMember>
+      <EnumMember name="2" display="Clamp"></EnumMember>
+      <EnumMember name="3" display="Mirror"></EnumMember>
+      <EnumMember name="4" display="Crop/Fill"></EnumMember>
     </Enum>
     <Enum name="ePAUSE_FONT_COL">
       <EnumMember name="1" display="DC/GC"></EnumMember>
