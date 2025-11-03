@@ -225,33 +225,4 @@ RFM_CommonInit(void)
             if (data[i].extra)      RF_CnkObjectMaterialFlagOff(data[i].extra     , NJD_FST_IA);
         }
     }
-
-    // race carts
-    {
-        typedef struct
-        {
-            char data0[4];
-            NJS_CNK_OBJECT* object;
-            NJS_CNK_OBJECT* object2;
-            NJS_TEXLIST* pTexlist;
-            char data1[8];
-            short shrt0;
-        }
-        SPECIAL_INFO;
-
-        SPECIAL_INFO* data = GetDataDllAddr(SPECIAL_INFO, "specialInfo");
-
-        for (int i = 0; i < 8; ++i)
-        {
-            if (data[i].object)  RF_CnkObjectMaterialFlagOff(data[i].object , NJD_FST_IA);
-            if (data[i].object2) RF_CnkObjectMaterialFlagOff(data[i].object2, NJD_FST_IA);
-        }
-
-        NJS_CNK_OBJECT** p_obj = GetDataDllAddr(NJS_CNK_OBJECT*, "exModels");
-
-        for (int i = 0; i < 6; ++i)
-        {
-            RF_CnkObjectMaterialFlagOff(p_obj[i], NJD_FST_IA);
-        }
-    }
 }
