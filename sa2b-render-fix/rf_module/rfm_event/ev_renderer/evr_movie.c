@@ -22,85 +22,89 @@
 /*  Game Defs                   */
 /********************************/
 /****** Draw Movie ******************************************************************************/
-#define DrawMovie                   FUNC_PTR(void, __cdecl, (int, int, int, int, float, int), 0x005F8D90)
+#define DrawMovie                   FUNC_PTR(void, __cdecl, (int, int, int, int, float, u32), 0x005F8D90)
+
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Settings ********************************************************************************/
+static CNFE_EVENT_MOVIE MovieEffectFit;
+static CNFE_EVENT_MOVIE MovieFmvFit;
 
 /********************************/
 /*  Source                      */
 /********************************/
 /****** Draw Movie ******************************************************************************/
 static void
-DrawMovieHook_Stretch(int posX, int posY, int sclX, int sclY, float depth, int unk)
+DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE mode)
 {
-    const float ratio = GetDisplayRatio();
+    const float ratio = (DisplayResolutionX / (f32)w) / (DisplayResolutionY / (f32)h);
 
     if ( ratio <= 1.f )
     {
-        DrawMovie(posX, posY, sclX, sclY, depth, unk);
+        DrawMovie(x, y, w, h, z, color);
         return;
     }
 
-    const float pos_adj = ((640.f * ratio) - 640.f) * 0.5f;
+    switch ( mode )
+    {
+        case CNFE_EVENT_MOVIE_FIT: default:
+        {
+            DrawMovie(x, y, w, h, z, color);
+        }
+        case CNFE_EVENT_MOVIE_STRETCH:
+        {
+            const float pos_adj = ((640.f * ratio) - 640.f) * 0.5f;
 
-    const int new_xpos = (int)floorf((float)posX - pos_adj);
-    const int new_xscl = (int)ceilf( (float)sclX * ratio);
+            const int new_x = (int)floorf((float)x - pos_adj);
+            const int new_w = (int)ceilf( (float)w * ratio);
 
-    DrawMovie(new_xpos, posY, new_xscl, sclY, depth, unk);
+            DrawMovie(new_x, y, new_w, h, z, color);
+            break;
+        }
+        case CNFE_EVENT_MOVIE_CLAMP:
+        {
+            const int scl = w * 100;
+
+            DrawMovie(x      , y, w   , h, z, color);
+            DrawMovie(x      , y, -scl, h, z, color);
+            DrawMovie(x+w+scl, y, -scl, h, z, color);
+            break;
+        }
+        case CNFE_EVENT_MOVIE_MIRROR:
+        {
+            DrawMovie(x    , y,  w, h, z, color);
+            DrawMovie(x    , y, -w, h, z, color);
+            DrawMovie(x+w+w, y, -w, h, z, color);
+            break;
+        }
+        case CNFE_EVENT_MOVIE_CROP:
+        {
+            const float pos_adj = ((640.f * ratio) - 640.f) * 0.5f;
+
+            const int new_x = (int)floorf( (f32)x - pos_adj );
+            const int new_y = (int)floorf( (f32)y - pos_adj );
+
+            const int new_w = (int)ceilf( (f32)w * ratio );
+            const int new_h = (int)ceilf( (f32)h * ratio );
+
+            DrawMovie(new_x, new_y, new_w, new_h, z, color);
+            break;
+        }
+    }
+}
+
+/****** Hook Movie ******************************************************************************/
+static void
+DrawMovieEffect(int x, int y, int w, int h, float z, u32 color)
+{
+    DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
 }
 
 static void
-DrawMovieHook_Clamp(int posX, int posY, int sclX, int sclY, float depth, int unk)
+DrawMovieFMV(int x, int y, int w, int h, float z, u32 color)
 {
-    const float ratio = GetDisplayRatio();
-
-    if ( ratio <= 1.f )
-    {
-        DrawMovie(posX, posY, sclX, sclY, depth, unk);
-        return;
-    }
-
-    const int scl = sclX * 100;
-
-    DrawMovie(posX      , posY, sclX, sclY, depth, unk);
-    DrawMovie(posX      , posY, -scl, sclY, depth, unk);
-    DrawMovie(sclX+(scl), posY, -scl, sclY, depth, unk);
-}
-
-static void
-DrawMovieHook_Mirror(int posX, int posY, int sclX, int sclY, float depth, int unk)
-{
-    const float ratio = GetDisplayRatio();
-
-    if ( ratio <= 1.f )
-    {
-        DrawMovie(posX, posY, sclX, sclY, depth, unk);
-        return;
-    }
-
-    DrawMovie(posX       , posY,  sclX, sclY, depth, unk);
-    DrawMovie(posX       , posY, -sclX, sclY, depth, unk);
-    DrawMovie(sclX+(sclX), posY, -sclX, sclY, depth, unk);
-}
-
-static void
-DrawMovieHook_Crop(int posX, int posY, int sclX, int sclY, float depth, int unk)
-{
-    const float ratio = GetDisplayRatio();
-
-    if ( ratio <= 1.f )
-    {
-        DrawMovie(posX, posY, sclX, sclY, depth, unk);
-        return;
-    }
-
-    const float pos_adj = ((640.f * ratio) - 640.f) * 0.5f;
-
-    const int new_xpos = (int)floorf((float)posX - pos_adj);
-    const int new_ypos = (int)floorf((float)posX - pos_adj);
-
-    const int new_xscl = (int)ceilf((float)sclX * ratio);
-    const int new_yscl = (int)ceilf((float)sclY * ratio);
-
-    DrawMovie(new_xpos, new_ypos, new_xscl, new_yscl, depth, unk);
+    DrawMovie_Fill(x, y, w, h, z, color, MovieFmvFit);
 }
 
 /****** Init ************************************************************************************/
@@ -112,31 +116,9 @@ EVR_MovieInit(void)
         return;
     }
 
-    switch ( CNF_GetInt(CNF_EVENT_OVERFIT) )
-    {
-        case CNFE_EVENT_OVERFIT_FIT: default:
-        {
-            break;
-        }
-        case CNFE_EVENT_OVERFIT_STRETCH:
-        {
-            WriteCall(0x005FF311, DrawMovieHook_Stretch);
-            break;
-        }
-        case CNFE_EVENT_OVERFIT_CLAMP:
-        {
-            WriteCall(0x005FF311, DrawMovieHook_Clamp);
-            break;
-        }
-        case CNFE_EVENT_OVERFIT_MIRROR:
-        {
-            WriteCall(0x005FF311, DrawMovieHook_Mirror);
-            break;
-        }
-        case CNFE_EVENT_OVERFIT_CROP:
-        {
-            WriteCall(0x005FF311, DrawMovieHook_Crop);
-            break;
-        }
-    }
+    WriteCall(0x005FF311, DrawMovieEffect);
+    WriteCall(0x0060190E, DrawMovieFMV);
+
+    MovieEffectFit = CNF_GetInt(CNF_EVENT_OVERLAYFIT);
+    MovieFmvFit    = CNF_GetInt(CNF_EVENT_MOVIEFIT);
 }

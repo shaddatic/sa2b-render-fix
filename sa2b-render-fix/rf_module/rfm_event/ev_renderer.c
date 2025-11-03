@@ -52,6 +52,7 @@ EV_RendererInit(void)
     EVR_MovieInit();
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
+    WriteJump(0x00601938, 0x00601A0A); // ^^ movies
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 
