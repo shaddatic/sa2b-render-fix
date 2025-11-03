@@ -40,7 +40,6 @@ __FlipEnv2(void)
 void
 RFG_EnvMapFlip(void)
 {
-    WriteCall(0x0042D4B0, __FlipEnv2); // Chunk
     WriteCall(0x0042B6A4, __FlipEnv2); // Ginja
     WriteCall(0x0056DEEB, __FlipEnv2); // chDraw
 }
