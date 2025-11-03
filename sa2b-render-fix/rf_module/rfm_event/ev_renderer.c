@@ -106,10 +106,6 @@ EV_RendererInit(void)
         case CNFE_EVENT_43MD_SPECIFIC:
         {
             EV_SetPillarbox( 21, ON);
-            EV_SetPillarbox( 24, ON);
-            EV_SetPillarbox(100, ON);
-            EV_SetPillarbox(101, ON);
-            EV_SetPillarbox(126, ON);
             EV_SetPillarbox(205, ON);
             EV_SetPillarbox(206, ON);
             EV_SetPillarbox(360, ON);
