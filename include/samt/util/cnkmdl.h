@@ -711,6 +711,23 @@ CNK_STRIP_UV_D8;
 
 /************************************************************************************/
 /*
+*   Get Tiny Data Mipmap 'D' Adjust
+*/
+/****** Get Tiny Data Mipmap 'D' Adjust *********************************************/
+/*
+*   Description:
+*     Convert integer mipmap adjust value to float (eg. 2 -> 0.5f).
+*
+*   Parameters:
+*     - dadj        : integer mipmap adjust value
+* 
+*   Returns:
+*     Float mipmap adjust value.
+*/
+#define CNK_GET_MIPADJUST(dadj)     ((Float)(dadj)*0.25f)
+
+/************************************************************************************/
+/*
 *   Get Strip Data
 */
 /****** UV Coordinates **************************************************************/

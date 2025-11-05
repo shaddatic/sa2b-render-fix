@@ -63,7 +63,7 @@ DrawCartModel(int index, int player, int special)
     if ( CartModelFade < 1.0f )
     {
         const f32 fade = 0.f - (1.f - CartModelFade);
-
+    
         njSetConstantAttr(~NJD_FST_IS, NJD_FST_UA|RJD_FST_EUA);
         SetConstantMaterial(fade, fade, fade, fade);
     }
@@ -72,25 +72,11 @@ DrawCartModel(int index, int player, int special)
         njSetConstantAttr(~NJD_FST_IS, 0);
     }
 
-    Float x_shft;
+    Float xpos = 0.f;
 
-    switch ( index )
+    if ( index != 0 )
     {
-        case 0: default:
-        {
-            x_shft = 0.f;
-            break;
-        }
-        case 1:
-        {
-            x_shft = -19.f * 3.f;
-            break;
-        }
-        case 2:
-        {
-            x_shft = +19.f * 3.f;
-            break;
-        }
+        xpos = (index == 1) ? -19.f : +19.f;
     }
 
     SetLightSwitchGC(0, OFF); // disable GC light
@@ -100,7 +86,7 @@ DrawCartModel(int index, int player, int special)
 
     njPushMatrixEx();
     {
-        njTranslate( NULL, x_shft, -3.f, 0.f          );
+        njTranslate( NULL, xpos, -3.f, 0.f            );
         njRotateY(   NULL, NJM_DEG_ANG(GetGameTime()) );
 
         njSetTexture( texlist_kartrace );
