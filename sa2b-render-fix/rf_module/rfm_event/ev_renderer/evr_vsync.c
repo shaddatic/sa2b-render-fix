@@ -48,9 +48,11 @@ EV_SetWaitVsyncCount(void)
         }
         case EV_VSYNCMD_EVENT:
         {
-            const int wait_vsync = EventEffData.sound[0].WaitVsyncCount;
+            const int wait_vsync = MAX( 1, EventEffData.sound[0].WaitVsyncCount );
 
-            rjSetWaitVsyncCount( MAX( 1, wait_vsync ) );
+            RF_DbgExtraInfo("Setting Event vsync to '%i'...", wait_vsync);
+
+            rjSetWaitVsyncCount( wait_vsync );
             break;
         }
         case EV_VSYNCMD_60:
