@@ -213,10 +213,12 @@ LandTableIsGinja(const OBJ_LANDTABLE* pLand)
 
         if (p_obj->model && p_obj->model->plist)
         {
+            RF_DbgExtraInfo("Chunk LandTable detected, setting format flag...");
             return false;
         }
     }
 
+    RF_DbgExtraInfo("Ginja LandTable detected, setting format flag...");
     return true;
 }
 
