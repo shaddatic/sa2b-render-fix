@@ -140,7 +140,7 @@ EV_LoadEffectFiles(void)
         {
             use_new_logic = false;
 
-            RF_DbgInfo("Event file '%s' not found, falling back to 'e%04i_0.prs' and vanilla logic", c_buf, EventNum);
+            RF_DbgInfo("Core Event file (_c) not found, falling back to vanilla logic");
 
             mtStrFormat(c_buf, sz_buf, "e%04i_0.prs", EventNum);
 
@@ -220,7 +220,7 @@ EV_LoadEffectFiles(void)
             }
             else // error
             {
-                RF_DbgInfo("Event file '%s' not found, falling back to core file", c_buf);
+                RF_DbgInfo("Music Event file (_m) not found, using core file data");
 
                 p_src = p_core_buf;
             }
@@ -261,7 +261,7 @@ EV_LoadEffectFiles(void)
         }
         else // error
         {
-            RF_DbgInfo("Event file '%s' not found, falling back to core file", c_buf);
+            RF_DbgInfo("Light Event file (_l) not found, using core file data");
         }
     }
     // end sound info
