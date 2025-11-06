@@ -273,19 +273,6 @@ EV_LoadEffectFiles(void)
         EvEffectInfo.sound[i] = (EV_EFF_SOUND){ DEF_SOUND_STRUC };
     }
 
-    // add overlay delay
-
-    if ( EventNum != 360 && EventNum != 361 )
-    {
-        for ( int i = 0; i < ARYLEN(EvEffectInfo.overlays); ++i )
-        {
-            if ( EvEffectInfo.overlays[i].type != 0 && EvEffectInfo.overlays[i].frame != 0 )
-            {
-                EvEffectInfo.overlays[i].frame += 15; // + 30 frames
-            }
-        }
-    }
-
     EvEffectInfo.sound[0].WaitVsyncCount = wait_vsync_val;
 }
 
