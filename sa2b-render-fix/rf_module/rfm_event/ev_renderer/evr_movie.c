@@ -5,8 +5,10 @@
 #include <samt/core.h>              /* core                                                     */
 #include <samt/writeop.h>           /* write call                                               */
 #include <samt/writemem.h>          /* write data                                               */
+#include <samt/funchook.h>          /* function hook                                            */
 
 /****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
 #include <samt/sonic/display.h>     /* display                                                  */
 
 /****** Render Fix ******************************************************************************/
@@ -105,7 +107,68 @@ DrawMovieEffect(int x, int y, int w, int h, float z, u32 color)
 static void
 DrawMovieFMV(int x, int y, int w, int h, float z, u32 color)
 {
+    // make an exception for geralds diary, as it's not supposed to fit the screen
+    if ( EventNum == 203 )
+    {
+        DrawMovie_Fill(x, y, w, h, z, color, CNFE_EVENT_MOVIE_FIT);
+        return;
+    }
+
     DrawMovie_Fill(x, y, w, h, z, color, MovieFmvFit);
+}
+
+/****** Hook Task *******************************************************************************/
+static void
+TextureMovieDestroyTask(task* tp)
+{
+    // only textureMovie uses this displayer
+    // effectMovie uses a later one
+    if ( !tp->disp ) 
+    {
+        DestroyTask(tp);
+    }
+    else // textureMovie, freeze!
+    {
+        tp->exec = nullptr;
+    }
+}
+
+#define TextureMovieTask        DATA_REF(task*, 0x01AEDE0C)
+#define EffectMovieTask         DATA_REF(task*, 0x01AEDE10)
+
+static void
+FreeMovieTasks(void)
+{
+    if ( TextureMovieTask )
+    {
+        DestroyTask(TextureMovieTask);
+    }
+
+    if ( EffectMovieTask )
+    {
+        DestroyTask(EffectMovieTask);
+    }
+}
+
+#define TextureMovieCreate      FUNC_PTR(void, __cdecl, (char*, int), 0x005FADD0)
+#define EffectMovieCreate       FUNC_PTR(void, __cdecl, (void*)     , 0x005FAFB0)
+
+static mt_hookinfo TextureMovieHookInfo[1];
+static void
+TextureMovieHook(char* fname, int texnum)
+{
+    FreeMovieTasks();
+
+    mtHookInfoCall( TextureMovieHookInfo, TextureMovieCreate(fname, texnum) );
+}
+
+static mt_hookinfo EffectMovieHookInfo[1];
+static void
+EffectMovieHook(void* moviewk)
+{
+    FreeMovieTasks();
+
+    mtHookInfoCall( EffectMovieHookInfo, EffectMovieCreate(moviewk) );
 }
 
 /****** Init ************************************************************************************/
@@ -114,6 +177,11 @@ EVR_MovieInit(void)
 {
     WriteCall(0x005FF311, DrawMovieEffect);
     WriteCall(0x0060190E, DrawMovieFMV);
+
+    WriteJump(0x005FAEF7, TextureMovieDestroyTask);
+
+    mtHookFunc(TextureMovieHookInfo, TextureMovieCreate, TextureMovieHook);
+    mtHookFunc(EffectMovieHookInfo , EffectMovieCreate , EffectMovieHook);
 
     MovieEffectFit = CNF_GetInt(CNF_EVENT_OVERLAYFIT);
     MovieFmvFit    = CNF_GetInt(CNF_EVENT_MOVIEFIT);
