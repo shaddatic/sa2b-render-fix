@@ -156,8 +156,8 @@ void
 rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 {
     // set default strip materials
-    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 255, 255, 255, 255 };
-    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 255, 255, 255, 255 };
+    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 178, 178, 178, 255 };
+    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 127, 127, 127, 255 };
     basest->mats[RJ_CMC_SPEC] = (NJS_BGRA){ 255, 255, 255, 16  };
 
     // set context control flags
@@ -183,7 +183,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
         }
 
         ___TODO("This will be a setting to allow specular on non-textured polygons");
-        if ( all_on || true ) 
+        if ( all_on ) 
         {
             new_flag |= RJD_CXF_NONTEXSPEC;
         }
