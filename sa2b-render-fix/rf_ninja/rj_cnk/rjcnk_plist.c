@@ -161,7 +161,9 @@ rjCnkSetStrip(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
         fst = (fst & _nj_constant_attr_and_) | _nj_constant_attr_or_;
     }
 
-    switch ( RFRS_GetCnkFuncMode() )
+    RFRS_CNKFUNCMD func = RFRS_GetCnkFuncMode();
+
+    switch ( func )
     {
         case RFRS_CNKFUNCMD_NORMAL:
         case RFRS_CNKFUNCMD_SIMPLE:
@@ -215,11 +217,17 @@ rjCnkSetStrip(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
 
     if ( (sttype - NJD_STRIPOFF) % 3 ) // UVN/UVH
     {
-        pStrip->flag |= (RJD_CSF_USETEX|RJD_CSF_HASUVS);
+        pStrip->flag |= (RJD_CSF_USETEX|RJD_CSF_USEOFF|RJD_CSF_HASUVS);
     }
     else if ( fst & NJD_FST_ENV )
     {
         pStrip->flag |= RJD_CSF_USETEX;
+
+        // this basically means only 'SimpleDraw' or 'Normal'
+        if ( !(func & RFRS_CNKFUNCMD_MULTIBIT) )
+        {
+            pStrip->flag |= RJD_CSF_USEOFF;
+        }
     }
 
     if ( sttype >= NJD_CS_VN )
