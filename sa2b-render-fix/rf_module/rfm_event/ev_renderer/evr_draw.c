@@ -55,11 +55,6 @@ EV_GetCnkAttr(const Sint16* pPList)
 {
     s32 attr = 0;
 
-    if ( (RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT) && _nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE )
-    {
-        attr |= CHUNK_ATTR_TRANSPARENT;
-    }
-
     const Sint16* plist = pPList;
 
     for ( ; ; )
