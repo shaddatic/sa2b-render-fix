@@ -118,11 +118,15 @@ rjCnkVertexColorLights(const RJS_VERTEX_BUF* restrict pVtx)
         argb.b += (_rj_cnk_light_[i].b * inten);
     }
 
+    argb.r = fminf(argb.r, 1.f);
+    argb.g = fminf(argb.g, 1.f);
+    argb.b = fminf(argb.b, 1.f);
+
     argb.r *= _rj_cnk_diff_material_.r;
     argb.g *= _rj_cnk_diff_material_.g;
     argb.b *= _rj_cnk_diff_material_.b;
 
-    return ArgbToUint(&argb);
+    return ArgbToUintEx(&argb);
 }
 
 Uint32
