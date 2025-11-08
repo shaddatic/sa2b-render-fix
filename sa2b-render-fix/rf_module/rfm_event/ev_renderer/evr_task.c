@@ -45,9 +45,19 @@
 static bool
 UseLagEmu(void)
 {
+    // final scene of Sonic meeting Shadow (hero)
     if ( EventNum == 2 && EventSceneNum == 15 && SceneData->nbFrame == 2193 )
     {
         return true;
+    }
+
+    // Knuckles stopping the chaos emeralds (spinny master emerald)
+    if ( EventNum == 206 && EventSceneNum == 6 && SceneData->nbFrame == 2759 )
+    {
+        if ( EventSceneFrame > 75.f && EventSceneFrame < 130.f )
+        {
+            return true;
+        }
     }
 
     return false;
