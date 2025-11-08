@@ -108,9 +108,9 @@ ___rjCnkSetLightVector(Int light, Float vx, Float vy, Float vz)
 
     p_lite->type = RJD_CNK_LIGHTMD_DIR;
 
-    p_lite->v.x = -vx;
-    p_lite->v.y = -vy;
-    p_lite->v.z = -vz;
+    p_lite->v.x = vx;
+    p_lite->v.y = vy;
+    p_lite->v.z = vz;
 }
 
 static void
@@ -135,7 +135,7 @@ ___rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
     p_lite->g = lg;
     p_lite->b = lb;
 
-    p_lite->inten = 1.f;
+    p_lite->inten = -1.f;
 }
 
 static void
@@ -143,7 +143,7 @@ ___rjCnkSetLightIntensity(Int light, Float inten, Float ambient)
 {
     RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
 
-    p_lite->inten = CLAMP(inten, 0.f, 1.f);
+    p_lite->inten = -inten;
 
     if (ambient >= 0.f)
     {
