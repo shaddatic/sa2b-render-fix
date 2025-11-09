@@ -16,7 +16,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_gx.h>              /* rf gx                                            */
+#include <rf_shader.h>          /* shader constant                                  */
 
 /****** Self ************************************************************************/
 #include <rf_light.h>              /* self                                          */
@@ -409,7 +409,7 @@ rjCnkPushLightToGX(Int light)
 void
 rjCnkPushAmbientToGX(void)
 {
-    RX_SetChanAmbColor_Direct(_rj_cnk_light_ambient_.r, _rj_cnk_light_ambient_.g, _rj_cnk_light_ambient_.b);
+    RF_ShaderSetConstantF4( RF_SCFV_AMBIENTREG_0, _rj_cnk_light_ambient_.r, _rj_cnk_light_ambient_.g, _rj_cnk_light_ambient_.b, 1.f );
 }
 
 /****** Hooks ***********************************************************************/
@@ -431,7 +431,7 @@ gjSetAmbient_Hook(Float ar, Float ag, Float ab)
 
     _rj_cnk_light_ambient_.inten = MAX( MAX( ar, ag ), ab );
 
-    RX_SetChanAmbColor_Direct(ar, ag, ab);
+    RF_ShaderSetConstantF4( RF_SCFV_AMBIENTREG_0, ar, ag, ab, 1.f );
 }
 
 static void
