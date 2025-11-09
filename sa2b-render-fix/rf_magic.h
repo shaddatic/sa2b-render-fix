@@ -36,6 +36,17 @@ RFE_MAGIC_SHADER;
 /************************/
 /*  Structures          */
 /************************/
+/****** Magic Texture ***************************************************************/
+typedef struct
+{
+    void* vtbl;
+    int restype;
+    int respool;
+    void* texture;  // dx9_texture
+    int resmask;
+}
+RF_MAGICTEXTURE;
+
 /****** Magic Sampler Data **********************************************************/
 typedef struct
 {
