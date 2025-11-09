@@ -234,9 +234,9 @@ ___rjCnkPushLightToGX(Int light)
 
         RX_LIGHT_ATTR* const p_gx_lite = _gj_light_list_[light].pAttr;
 
-        p_gx_lite->color.r = p_lite->r * p_lite->inten;
-        p_gx_lite->color.g = p_lite->g * p_lite->inten;
-        p_gx_lite->color.b = p_lite->b * p_lite->inten;
+        p_gx_lite->color.r = p_lite->r * -p_lite->inten;
+        p_gx_lite->color.g = p_lite->g * -p_lite->inten;
+        p_gx_lite->color.b = p_lite->b * -p_lite->inten;
 
         p_gx_lite->angle_const  = 0.f;
         p_gx_lite->angle_linear = 0.f;
@@ -247,9 +247,9 @@ ___rjCnkPushLightToGX(Int light)
         p_gx_lite->atten_linear =  0.f;
         p_gx_lite->atten_quad   = -3.f;
 
-        p_gx_lite->pos.x = p_lite->v.x * 100000.f;
-        p_gx_lite->pos.y = p_lite->v.y * 100000.f;
-        p_gx_lite->pos.z = p_lite->v.z * 100000.f;
+        p_gx_lite->pos.x = -p_lite->v.x * 100000.f;
+        p_gx_lite->pos.y = -p_lite->v.y * 100000.f;
+        p_gx_lite->pos.z = -p_lite->v.z * 100000.f;
 
         p_gx_lite->vec = (NJS_VECTOR){ 0 };
 
