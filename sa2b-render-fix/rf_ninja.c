@@ -221,16 +221,14 @@ RF_NinjaInit(void)
 
     /** Set default context **/
 
-    njTextureFilterMode( NJD_TEXTUREFILTER_BILINEAR );
-
-    njTextureClampMode( NJD_TEXTURECLAMP_OFF );
-
-    njTextureFlipMode( NJD_TEXTUREFLIP_OFF );
-
+    njTextureFilterMode(  NJD_TEXTUREFILTER_BILINEAR );
+    njTextureClampMode(   NJD_TEXTURECLAMP_OFF );
+    njTextureFlipMode(    NJD_TEXTUREFLIP_OFF );
     njPolygonCullingMode( NJD_POLYGONCULL_SMALL );
-
     njTextureShadingMode( NJD_TEXSHADING_MODULATEALPHA );
 
+    njMipmapAdjust( 4 );
+    njSuperSampleMode( OFF );
     njIgnoreTextureAlphaMode( OFF );
 
     rjSetDepthQueue( -1800.f, -2000.f );
