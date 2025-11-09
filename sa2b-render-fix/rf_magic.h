@@ -102,7 +102,9 @@ typedef struct
     void* vbufs[4];
     void* ixbuf;
     void* vstexs[4];
+    RF_MAGICSAMPLER vssampler[4];
     void* pstexs[16];
+    RF_MAGICSAMPLER pssampler[16];
 }
 RF_MAGIC_STATECACHE;
 
