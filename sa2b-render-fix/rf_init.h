@@ -46,9 +46,9 @@ void    RF_NinjaInit( void );
 void    RF_FontInit( void );
 /*
 *   Description:
-*     Init the 'Render Fix GX' system.
+*     Init the Graphics system.
 */
-void    RF_GxInit( void );
+void    RFGX_Init( void );
 /*
 *   Description:
 *     Init the 'Render Fix Ninja Light' system.

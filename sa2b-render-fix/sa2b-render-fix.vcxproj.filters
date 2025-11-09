@@ -285,9 +285,6 @@
     <ClCompile Include="rf_magic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_gx.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -438,6 +435,9 @@
     <ClCompile Include="cnf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_graphics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -524,9 +524,6 @@
     <ClInclude Include="rf_njcnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_gx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_nja\tls\rf_texerr.tls">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -573,6 +570,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cnf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

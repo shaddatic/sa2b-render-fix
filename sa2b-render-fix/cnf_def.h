@@ -24,6 +24,37 @@ CNFE_BOOL;
 
 /************************************************************************************************/
 /*
+*   Graphics
+*/
+/****** Anisotropic Filtering *******************************************************************/
+typedef enum
+{
+    CNFE_GFX_ANISOTROPIC_AUTO        = -1,
+}
+CNFE_GFX_ANISOTROPIC;
+
+/****** Texture Filtering ***********************************************************************/
+typedef enum
+{
+    CNFE_GFX_TEXFILTER_AUTO        = -1,
+
+    CNFE_GFX_TEXFILTER_POINT,
+    CNFE_GFX_TEXFILTER_BILINEAR,
+    CNFE_GFX_TEXFILTER_TRILINEAR,
+}
+CNFE_GFX_TEXFILTER;
+
+/****** Mipmap 'D' Adjust ***********************************************************************/
+typedef enum
+{
+    CNFE_GFX_MIPDADJ_AUTO        = -1,
+    CNFE_GFX_MIPDADJ_CLAMPPOS    = -2,
+    CNFE_GFX_MIPDADJ_CLAMPNEG    = -3,
+}
+CNFE_GFX_MIPDADJ;
+
+/************************************************************************************************/
+/*
 *   Global
 */
 /****** Cheap Shadow Mode ***********************************************************************/
@@ -193,6 +224,7 @@ CNFE_MISC_SHDWRES;
 *   Config Sections
 */
 /****** Main ************************************************************************************/
+#define CNFS_GFX            "graphics"
 #define CNFS_GLOBAL         "main"
 #define CNFS_FONT           "font"
 #define CNFS_PLAYER         "player"
@@ -233,6 +265,12 @@ CNFE_MISC_SHDWRES;
 */
 /****************************************************************************************************************************************/
 /**                               | Type      | Section             | Key                   | Default                                  **/
+/** Graphics section **/
+#define CNF_GFX_ANISOTROPIC         CNFO_INT(   CNFS_GFX            , "anisotropic"         , CNFE_GFX_ANISOTROPIC_AUTO             )   /* Anisotropic Filtering */
+#define CNF_GFX_TEXFILTER           CNFO_INT(   CNFS_GFX            , "texfilter"           , CNFE_GFX_TEXFILTER_AUTO               )   /* Texture Filtering */
+#define CNF_GFX_MIPDADJ             CNFO_INT(   CNFS_GFX            , "mipdadj"             , CNFE_GFX_MIPDADJ_AUTO                 )   /* Mipmap Depth Adjust */
+#define CNF_GFX_MIPMAPS             CNFO_INT(   CNFS_GFX            , "mipmaps"             , CNFE_BOOL_ENABLED                     )   /* Use Mipmaps */
+
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */

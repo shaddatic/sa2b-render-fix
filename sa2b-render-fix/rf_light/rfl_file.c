@@ -26,7 +26,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_gx.h>              /* rf gx                                            */
 
 /****** Self ************************************************************************/
 #include <rf_light/rfl_internal.h> /* parent & siblings                             */

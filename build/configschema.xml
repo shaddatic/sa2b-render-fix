@@ -1,6 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
   <Groups>
+    <Group name="graphics" display="Graphics Settings">
+      <Property name="anisotropic" display="Anisotropic Filtering" type="GFX_ANISOTROPIC" defaultvalue="-1">
+        <HelpText>Sharpens the appearance of textures at acute/sharp viewing angles. Dreamcast called this 'Supersampling'.
+
+Auto: Allow the game itself to define when anisotropic filtering is used, matching Dreamcast.
+x## : Force a specific level of anisotropic filtering on all textures.</HelpText>
+      </Property>
+      <Property name="texfilter" display="Texture Filtering" type="GFX_TEXFILTER" defaultvalue="-1">
+        <HelpText>How textures should be upscaled/downscaled on the screen.
+
+Auto: Allow the game itself to define what filtering is used, matching Dreamcast.
+
+Point: Force point sampling, this is also called 'Nearest Neighbor'.
+
+Bilinear: Force bilinear filtering, which is smooth/blurry.
+
+Trilinear: Force trilinear filtering, which is the same as bilinear but also filters mipmap levels.</HelpText>
+      </Property>
+      <Property name="mipdadj" display="Mipmap Depth Adjust" type="GFX_MIPDADJUST" defaultvalue="-1">
+        <HelpText>Adjusts when texture mipmap levels are used. Lower values give the game a sharper look, while higher values give the game a softer look.
+
+Clamp: Force mipmap adjust value to within (min~max)
+
+Auto: Allow the game itself to define what mipmap adjust is used, matching Dreamcast.
+
+0.50: Mipmaps are 2x further away.
+1.00: Mipmaps are used normally.
+2.00: Mipmaps are 2x closer.
+Etc...</HelpText>
+      </Property>
+      <Property name="mipmaps" display="Use Mipmaps" type="eBOOL" defaultvalue="1">
+        <HelpText>If texture mipmaps should be used. 
+
+Mipmaps are lower resolution duplicates of a texture that are used at further distances. Disabling this gives the game a very sharp look at the cost of being very harsh on the eyes.
+
+Only recommended for very specific reasons or with the use of antialiasing, like supersampling.</HelpText>
+      </Property>
+    </Group>
     <Group name="main" display="Global Render Settings">
       <Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
         <HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
@@ -276,10 +314,8 @@ TGT: Target being aimed for.
 FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.</HelpText>
       </Property>
-      <Property name="game_speed" display="Game Speed" type="eDBG_GAMESPEED" defaultvalue="0">
-        <HelpText>Changes the game speed by always forcing a set number of skipped frames. This setting has no effect on most menu elements.
-
-This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only called 60x per second.</HelpText>
+      <Property name="extra_info" display="Extra Debug Info" type="eBOOL" defaultvalue="0">
+        <HelpText>Print additional debug info into the game console. This is useful for getting very in-depth information on what Render Fix is doing internally.</HelpText>
       </Property>
       <Property name="event" display="Event Debug Controls" type="eBOOL" defaultvalue="0">
         <HelpText>Enable Render Fix's Event debug functions: 
@@ -292,11 +328,22 @@ Back - Display Event debug info.</HelpText>
       <Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
         <HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
       </Property>
-      <Property name="no_alerts" display="Disable Message Box Alerts" type="eBOOL" defaultvalue="0">
-        <HelpText>Disable Render Fix alert/warning message boxes, such as mod position and conflict warnings.</HelpText>
+      <Property name="maxmiplev" display="Maximum Mipmap Level" type="int" defaultvalue="0">
+        <HelpText>Restrict the texture mipmaps to a maximum mip level; with '0' meaning the full texture, '1' meaning the first mipmap, etc. 
+
+If a mipmap of the selected level isn't available, the next highest mipmap is used (eg. setting is '9' and there's only '7' mip levels, '7' is used).
+
+This can be used to view and test your mipmaps without needing to pull out a magnifying glass.</HelpText>
       </Property>
-      <Property name="extra_info" display="Extra Debug Info" type="eBOOL" defaultvalue="0">
-        <HelpText>Print additional debug info into the game console. This is useful for getting very in-depth information on what Render Fix is doing internally.</HelpText>
+      <Property name="no_alerts" display="Disable Message Box Alerts" type="eBOOL" defaultvalue="0">
+        <HelpText>Disable Render Fix alert/warning message boxes, such as mod position and conflict warnings.
+
+This is at your own risk, these warnings exist for a reason!</HelpText>
+      </Property>
+      <Property name="game_speed" display="Game Speed" type="eDBG_GAMESPEED" defaultvalue="0">
+        <HelpText>Changes the game speed by always forcing a set number of skipped frames. This setting has no effect on most menu elements.
+
+This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only called 60x per second.</HelpText>
       </Property>
     </Group>
   </Groups>
@@ -304,6 +351,34 @@ Back - Display Event debug info.</HelpText>
     <Enum name="eBOOL">
       <EnumMember name="1" display="Enabled"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
+    </Enum>
+    <Enum name="GFX_ANISOTROPIC">
+      <EnumMember name="-1" display="Auto"></EnumMember>
+      <EnumMember name="0" display="None"></EnumMember>
+      <EnumMember name="2" display="x2"></EnumMember>
+      <EnumMember name="4" display="x4"></EnumMember>
+      <EnumMember name="8" display="x8"></EnumMember>
+      <EnumMember name="16" display="x16"></EnumMember>
+    </Enum>
+    <Enum name="GFX_TEXFILTER">
+      <EnumMember name="-1" display="Auto"></EnumMember>
+      <EnumMember name="0" display="Point Sampling"></EnumMember>
+      <EnumMember name="1" display="Bilinear"></EnumMember>
+      <EnumMember name="2" display="Trilinear"></EnumMember>
+    </Enum>
+    <Enum name="GFX_MIPDADJUST">
+      <EnumMember name="-3" display="Clamp (1.00~3.75)"></EnumMember>
+      <EnumMember name="-2" display="Clamp (0.25~1.00)"></EnumMember>
+      <EnumMember name="-1" display="Auto"></EnumMember>
+      <EnumMember name="1" display="0.25"></EnumMember>
+      <EnumMember name="2" display="0.50"></EnumMember>
+      <EnumMember name="3" display="0.75"></EnumMember>
+      <EnumMember name="4" display="1.00"></EnumMember>
+      <EnumMember name="6" display="1.50"></EnumMember>
+      <EnumMember name="8" display="2.00"></EnumMember>
+      <EnumMember name="10" display="2.50"></EnumMember>
+      <EnumMember name="12" display="3.00"></EnumMember>
+      <EnumMember name="15" display="3.75"></EnumMember>
     </Enum>
     <Enum name="eFONT_KANJI">
       <EnumMember name="1" display="SA1/SA2 (Classic)"></EnumMember>

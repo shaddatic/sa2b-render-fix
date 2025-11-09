@@ -18,7 +18,6 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_gx.h>                  /* rfgx                                                     */
 #include <rf_shader.h>              /* shader                                                   */
 #include <rf_magic.h>               /* magiccache                                               */
 
@@ -201,9 +200,9 @@ rjSetTexture2D(Int clamp)
 
     /** texture info start **/
 
-    TEXTURE_INFO* p_tinfo = &TexInfo2D;
+    RJS_HW_TEXTURE tinfo;
 
-    p_tinfo->surface = p_texsrf->pSurface;
+    tinfo.surface = p_texsrf->pSurface;
 
     /** texture pointer and palette **/
 
@@ -211,73 +210,60 @@ rjSetTexture2D(Int clamp)
 
     if ( sflag & NJD_SURFACEFLAGS_PALETTIZED )
     {
-        p_tinfo->palette = _nj_curr_ctx_->bank;
+        tinfo.palette = _nj_curr_ctx_->bank;
     }
     else
     {
-        p_tinfo->palette = -1;
+        tinfo.palette = -1;
     }
 
     /** texture filtering **/
 
-    switch ( (tspparam & NJD_TEXTUREFILTER_MASK) >> NJD_TEXTUREFILTER_SHIFT )
-    {
-        case 0: // point
-        {
-            p_tinfo->min_filter = 0;
-            p_tinfo->mag_filter = 0;
-            break;
-        }
-        case 1: case 2: case 3: // bilinear (default) // trilinear B // trilinear A
-        {
-            p_tinfo->min_filter = 1;
-            p_tinfo->mag_filter = 1;
-            break;
-        }
-    }
+    tinfo.filter = ((tspparam & NJD_TEXTUREFILTER_MASK) >> NJD_TEXTUREFILTER_SHIFT);
 
     /** texture wrapping **/
 
     if ( clamp )
     {
-        p_tinfo->address_u = p_tinfo->address_v = 0;
+        tinfo.uaddr = tinfo.vaddr = RJ_HW_TEXADDR_CLAMP;
     }
     else
     {
         if ( tspparam & NJD_TEXTURECLAMP_U )
         {
-            p_tinfo->address_u = 0;
+            tinfo.uaddr = RJ_HW_TEXADDR_CLAMP;
         }
         else if ( tspparam & NJD_TEXTUREFLIP_U )
         {
-            p_tinfo->address_u = 2;
+            tinfo.uaddr = RJ_HW_TEXADDR_FLIP;
         }
         else // repeat
         {
-            p_tinfo->address_u = 1;
+            tinfo.uaddr = RJ_HW_TEXADDR_REPEAT;
         }
 
         if ( tspparam & NJD_TEXTURECLAMP_V )
         {
-            p_tinfo->address_v = 0;
+            tinfo.vaddr = RJ_HW_TEXADDR_CLAMP;
         }
         else if ( tspparam & NJD_TEXTUREFLIP_V )
         {
-            p_tinfo->address_v = 2;
+            tinfo.vaddr = RJ_HW_TEXADDR_FLIP;
         }
         else // repeat
         {
-            p_tinfo->address_u = 1;
+            tinfo.vaddr = RJ_HW_TEXADDR_REPEAT;
         }
     }
 
-    /** tes5 **/
+    /** other parameters **/
 
-    p_tinfo->mip_level = (bool)( sflag & NJD_SURFACEFLAGS_MIPMAPED );
+    tinfo.mipdadjust  = (tspparam & NJD_MIPMAPADJUST_MASK) >> NJD_MIPMAPADJUST_SHIFT;
+    tinfo.supersample = (tspparam & NJD_SUPERSAMPLE_ON);
 
     /** set texture **/
 
-    RX_SetTexture(p_tinfo, 0);
+    rjSetHwTexture( 0, &tinfo );
 }
 
 static NJS_TEXSURFACE*

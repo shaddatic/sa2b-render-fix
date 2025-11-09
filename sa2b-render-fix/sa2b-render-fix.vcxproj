@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cnf.c" />
+    <ClCompile Include="rf_graphics.c" />
     <ClCompile Include="rf_samdl.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
@@ -132,7 +133,6 @@
     <ClCompile Include="rf_ninja\rj_sprite.c" />
     <ClCompile Include="rf_ninja\rj_texerr.c" />
     <ClCompile Include="rf_font.c" />
-    <ClCompile Include="rf_gx.c" />
     <ClCompile Include="rf_light.c" />
     <ClCompile Include="rf_light\rfl_file.c" />
     <ClCompile Include="rf_light\rfl_setlight.c" />
@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cnf.h" />
+    <ClInclude Include="rf_graphics.h" />
     <ClInclude Include="rf_samdl.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
@@ -188,7 +189,6 @@
     <ClInclude Include="rf_ninja\rj_core.h" />
     <ClInclude Include="rf_ninja\rj_internal.h" />
     <ClInclude Include="rf_font.h" />
-    <ClInclude Include="rf_gx.h" />
     <ClInclude Include="rf_light.h" />
     <ClInclude Include="rf_light\rfl_internal.h" />
     <ClInclude Include="rf_magic.h" />

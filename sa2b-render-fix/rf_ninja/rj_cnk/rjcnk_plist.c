@@ -11,7 +11,6 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_renderstate.h>         /* render state                                             */
 #include <rf_light.h>               /* lights                                                   */
-#include <rf_gx.h>                  /* set texture                                              */
 
 /****** Self ************************************************************************************/
 #include <rf_ninja/rj_cnk/rjcnk_internal.h>             /* parent & siblings                    */
@@ -258,50 +257,34 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
     /** get texture **/
 
-    const s16 texid = strip->texid;
+    NJS_TEXMANAGE* p_texman;
+    NJS_TEXSYSTEM* p_texsys;
 
     const NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-    if ( !p_tls || texid >= (s16)p_tls->nbTexture )
+    if ( !p_tls || strip->texid >= (s16)p_tls->nbTexture )
     {
     TEX_ERR:
-        const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
-        const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+        p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
 
-        const bool flg_tes5 = (bool)( p_texsys->texsurface.fSurfaceFlags & NJD_SURFACEFLAGS_MIPMAPED );
-
-        pTexSurface = &p_texsys->texsurface;
-
-        TEXTURE_INFO* p_tinfo = &CnkSetTextureList[0];
-
-        p_tinfo->surface    = p_texsys->texsurface.pSurface;
-        p_tinfo->min_filter = 0;
-        p_tinfo->mag_filter = 0;
-        p_tinfo->address_u = 1;
-        p_tinfo->address_v = 1;
-        p_tinfo->palette = -1;
-
-        p_tinfo->mip_level = flg_tes5 != 0;
-
-        RX_SetTexture(p_tinfo, 0);
-
-        _rj_cnk_context_.tiny = (CNK_TINY_HEAD){ 0 };
-        return;
+        p_texsys = p_texman->texsys;
     }
+    else
+    {
+        p_texman = (NJS_TEXMANAGE*) p_tls->textures[strip->texid].texaddr;
 
-    const NJS_TEXMANAGE* p_texman = (NJS_TEXMANAGE*) p_tls->textures[texid].texaddr;
+        if (!p_texman) goto TEX_ERR;
 
-    if (!p_texman) goto TEX_ERR;
+        p_texsys = p_texman->texsys;
 
-    const NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
-
-    if (!p_texsys) goto TEX_ERR;
+        if (!p_texsys) goto TEX_ERR;
+    }
 
     pTexSurface = &p_texsys->texsurface;
 
     /** texture info start **/
 
-    TEXTURE_INFO* p_tinfo = &CnkSetTextureList[0];
+    RJS_HW_TEXTURE tinfo;
 
     /** texture pointer and palette **/
 
@@ -309,43 +292,13 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
     if ( sflag & NJD_SURFACEFLAGS_PALETTIZED )
     {
-        p_tinfo->surface = p_texsys->texsurface.pSurface;
-        p_tinfo->palette = p_texman->bank;
+        tinfo.surface = p_texsys->texsurface.pSurface;
+        tinfo.palette = p_texman->bank;
     }
     else
     {
-        p_tinfo->surface = p_texsys->texsurface.pSurface;
-        p_tinfo->palette = -1;
-    }
-
-    /** texture filtering **/
-
-    switch ( strip->tiny.filter )
-    {
-        case CNK_FILTER_POINTSAMPLE:
-        {
-            p_tinfo->min_filter = 0;
-            p_tinfo->mag_filter = 0;
-            break;
-        }
-        case CNK_FILTER_BILINEAR:
-        {
-            p_tinfo->min_filter = 1;
-            p_tinfo->mag_filter = 1;
-            break;
-        }
-        case CNK_FILTER_TRILINEAR_A:
-        {
-            p_tinfo->min_filter = 1;
-            p_tinfo->mag_filter = 1;
-            break;
-        }
-        case CNK_FILTER_TRILINEAR_B:
-        {
-            p_tinfo->min_filter = 1;
-            p_tinfo->mag_filter = 1;
-            break;
-        }
+        tinfo.surface = p_texsys->texsurface.pSurface;
+        tinfo.palette = -1;
     }
 
     /** texture wrapping **/
@@ -354,26 +307,26 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
     {
         case CNK_FLIP_NONE:
         {
-            p_tinfo->address_u = 1; // repeat
-            p_tinfo->address_v = 1; // repeat
+            tinfo.uaddr = RJ_HW_TEXADDR_REPEAT;
+            tinfo.vaddr = RJ_HW_TEXADDR_REPEAT;
             break;
         }
         case CNK_FLIP_V:
         {
-            p_tinfo->address_u = 1; // repeat
-            p_tinfo->address_v = 2; // flip
+            tinfo.uaddr = RJ_HW_TEXADDR_REPEAT;
+            tinfo.vaddr = RJ_HW_TEXADDR_FLIP;
             break;
         }
         case CNK_FLIP_U:
         {
-            p_tinfo->address_u = 2; // flip
-            p_tinfo->address_v = 1; // repeat
+            tinfo.uaddr = RJ_HW_TEXADDR_FLIP;
+            tinfo.vaddr = RJ_HW_TEXADDR_REPEAT;
             break;
         }
         case CNK_FLIP_UV:
         {
-            p_tinfo->address_u = 2; // flip
-            p_tinfo->address_v = 2; // flip
+            tinfo.uaddr = RJ_HW_TEXADDR_FLIP;
+            tinfo.vaddr = RJ_HW_TEXADDR_FLIP;
             break;
         }
     }
@@ -386,29 +339,34 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
         }
         case CNK_CLAMP_V:
         {
-            p_tinfo->address_v = 0;
+            tinfo.vaddr = RJ_HW_TEXADDR_CLAMP;
             break;
         }
         case CNK_CLAMP_U:
         {
-            p_tinfo->address_u = 0;
+            tinfo.uaddr = RJ_HW_TEXADDR_CLAMP;
             break;
         }
         case CNK_CLAMP_UV:
         {
-            p_tinfo->address_u = 0;
-            p_tinfo->address_v = 0;
+            tinfo.uaddr = RJ_HW_TEXADDR_CLAMP;
+            tinfo.vaddr = RJ_HW_TEXADDR_CLAMP;
             break;
         }
     }
 
-    /** tes5 **/
+    /** texture filtering **/
 
-    p_tinfo->mip_level = (bool)( sflag & NJD_SURFACEFLAGS_MIPMAPED );
+    tinfo.filter = strip->tiny.filter;
+
+    /** other parameters **/
+
+    tinfo.mipdadjust  = strip->tiny.mipmap;
+    tinfo.supersample = strip->tiny.ssample;
 
     /** set texture **/
 
-    RX_SetTexture( p_tinfo, 0 );
+    rjSetHwTexture( 0, &tinfo );
 
     _rj_cnk_context_.texid = strip->texid;
     _rj_cnk_context_.tiny  = strip->tiny;

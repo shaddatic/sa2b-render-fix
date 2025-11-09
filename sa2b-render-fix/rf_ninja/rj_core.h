@@ -28,6 +28,26 @@ typedef struct rjvtxbuf             RJS_VERTEX_BUF; /* polygon vertex buffer    
 /********************************/
 /*  Enums                       */
 /********************************/
+/****** Texture Address Mode ********************************************************************/
+typedef enum rjhwtexaddr
+{
+    RJ_HW_TEXADDR_REPEAT,           /* repeat texture outside 0~1 range                         */
+    RJ_HW_TEXADDR_FLIP,             /* flip texture outside 0~1 range                           */
+    RJ_HW_TEXADDR_CLAMP,            /* clamp texture to 0~1 range                               */
+    RJ_HW_TEXADDR_CLIP,             /* clip textire outside 0~1 range                           */
+}
+RJ_HW_TEXADDR;
+
+/****** Texture Filter Mode *********************************************************************/
+typedef enum rjhwfilter
+{
+    RJ_HW_FILTER_POINTSAMPLE,       /* point sampling                                           */
+    RJ_HW_FILTER_BILINEAR,          /* bilinear filtering                                       */
+    RJ_HW_FILTER_TRILINEAR_A,       /* trilinear filtering A                                    */
+    RJ_HW_FILTER_TRILINEAR_B        /* trilinear filtering B                                    */
+}
+RJ_HW_FILTER;
+
 /****** Vertex Type *****************************************************************************/
 typedef enum rjvtxtype
 {
@@ -105,6 +125,20 @@ RJ_CULL;
 /********************************/
 /*  Structures                  */
 /********************************/
+/****** Texture *********************************************************************************/
+typedef struct rjhwtex
+{
+    void*   surface;                /* magic texture surface                                    */
+
+    Sint16  palette;                /* palette bank                                             */
+    Sint16  uaddr;                  /* u address mode                                           */
+    Sint16  vaddr;                  /* v address mode                                           */
+    Sint16  filter;                 /* texture filter mode                                      */
+    Sint16  mipdadjust;             /* mipmap 'd' adjust                                        */
+    Sint16  supersample;            /* anisotropic filtering flag                               */
+}
+RJS_HW_TEXTURE;
+
 /****** Vertex Type *****************************************************************************/
 typedef struct rjvtxp
 {
@@ -215,6 +249,17 @@ void    rjSetPolyAttrMask( Int nrm, Int tex, Int col, Int off );
 *     - mode        : alpha mode
 */
 void    rjSetAlphaMode( RJ_BLEND src, RJ_BLEND dst, RJ_ALPHA mode );
+
+/****** Set Texture *****************************************************************************/
+/*
+*   Description:
+*     Set a texture and its parameters.
+*
+*   Parameters:
+*     - index       : texture index
+*     - tex         : texture parameters
+*/
+void    rjSetHwTexture( Int index, const RJS_HW_TEXTURE* tex );
 
 /****** Shading Mode ****************************************************************************/
 /*

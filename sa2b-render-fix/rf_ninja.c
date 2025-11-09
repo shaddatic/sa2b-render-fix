@@ -23,7 +23,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_gx.h>              /* render fix gx                                    */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* ninja chunk draw                                 */
 
