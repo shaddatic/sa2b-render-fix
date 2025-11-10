@@ -44,6 +44,17 @@ typedef struct
     int respool;
     void* texture;  // dx9_texture
     int resmask;
+    byte cppstrs[56];
+    int type;
+    int size;
+    int flags;
+    int width;
+    int height;
+    int depth;
+    int format;
+    int usage;
+    int mipmaplevels;
+    bool locked;
 }
 RF_MAGICTEXTURE;
 
