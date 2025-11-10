@@ -39,6 +39,12 @@ static_assert(RJ_HW_TEXADDR_CLAMP+1  == DX9_TEXADDR_CLAMP , "RJ and DX9 texaddr 
 static_assert(RJ_HW_TEXADDR_CLIP+1   == DX9_TEXADDR_BORDER, "RJ and DX9 texaddr enum don't line up!");
 
 /********************************/
+/*  Game Defs                   */
+/********************************/
+/****** Palette *********************************************************************************/
+#define _nj_palette_surfaces_       DATA_REF(RF_MAGICTEXTURE**, 0x01A55790)
+
+/********************************/
 /*  Data                        */
 /********************************/
 /****** Hw Param ********************************************************************************/
@@ -56,6 +62,16 @@ void
 rjSetHwCulling(RJ_CULL mode)
 {
     GX_SetCullMode(mode);
+}
+
+/****** Texture *********************************************************************************/
+void
+rjSetHwPalette(Int bank)
+{
+    if ( bank < 0 )
+    {
+        return;
+    }
 }
 
 void
@@ -117,6 +133,8 @@ rjSetHwTexture(Int index, const RJS_HW_TEXTURE* tex)
     RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , mipfilter);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MIPMAPLODBIAS, miplodbias);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MAXANISOTROPY, 4);
+
+    rjSetHwPalette(tex->palette);
 }
 
 /****** Polygon Attr ****************************************************************************/
