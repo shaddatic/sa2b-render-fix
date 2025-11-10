@@ -142,10 +142,10 @@ RF_FrameSkipSceneEnd(void)
         mlDebugSetScale( 8 );
         mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF0000 : 0xFFFFFFFF );
 
-        mlDebugPrintC( NJM_LOCATION(11,1), "IMM /      AVG /    TGT");
+        mlDebugPrintC( NJM_LOCATION(11,1), "IMM /      AVG /    TGT" );
 
-        mlDebugPrint(NJM_LOCATION(1,3), "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms);
-        mlDebugPrint(NJM_LOCATION(1,4), "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms);
+        mlDebugPrint(  NJM_LOCATION(1,3), "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
+        mlDebugPrint(  NJM_LOCATION(1,4), "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
 
         s_avg_ms = avg_ms;
     }
