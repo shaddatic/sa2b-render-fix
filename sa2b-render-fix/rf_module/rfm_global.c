@@ -177,11 +177,4 @@ RFM_GlobalInit(void)
         ReplaceFloat(0x00675E09, &new_asp_test); // Stage Map
         */
     }
-
-    ___TODO("Remove this setting!");
-
-    if ( CNF_GetInt(CNF_GLOBAL_LINE) )
-    {
-        RFG_DrawLineInit();
-    }
 }

@@ -57,9 +57,6 @@ Only recommended for very specific reasons or with the use of antialiasing, like
       <Property name="sprite" display="Fix 3D Sprites" type="eBOOL" defaultvalue="1">
         <HelpText>Fixes many sprite positioning errors by changing the calculation used to move the sprite closer to the camera.</HelpText>
       </Property>
-      <Property name="line" display="Fix Line Draw" type="eBOOL" defaultvalue="1">
-        <HelpText>Fixes the size of line primitives. In the vanilla game, they are always 1 pixel wide. This makes them hard to see at high resolutions. This setting uses Render Fix's own line drawing function, and sets the size to 2 pixels (scaling from 480p) to match the width on the Dreamcast version.</HelpText>
-      </Property>
     </Group>
     <Group name="font" display="Text and Font Settings">
       <Property name="kanji" display="Japanese Script Font" type="eFONT_KANJI" defaultvalue="0">

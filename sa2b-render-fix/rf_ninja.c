@@ -183,6 +183,7 @@ RF_NinjaInit(void)
     RFD_SpriteInit();
     RFD_AlphaBlendInit();
     RJ_ModifierInit();
+    RJ_LineInit();
 
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);

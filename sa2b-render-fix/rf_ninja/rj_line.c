@@ -254,3 +254,59 @@ rjDrawLineList2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Coun
     rjDrawLine2DExSetList(vtx, ooz, Count);
     rjDrawLineExEnd();
 }
+
+/****** Game Hooks ******************************************************************/
+static void
+DrawLineExStart(const Uint32 BaseColor, const Sint32 Trans)
+{
+    rjDrawLineExStart(2.f, BaseColor, Trans);
+}
+
+__declspec(naked)
+static void
+___DrawLineExStart(void)
+{
+    __asm
+    {
+        push [esp+4]
+        push eax
+
+        call DrawLineExStart
+
+        pop eax
+        add esp, 4
+        retn
+    }
+}
+
+static void
+DrawLine3D(const NJS_POINT3* const vtx, const int Count)
+{
+    rjDrawLine3DExSetList(vtx, Count);
+    rjDrawLineExEnd();
+}
+
+__declspec(naked)
+static void
+___DrawLine3D(void)
+{
+    __asm
+    {
+        push eax
+        push [esp+8]
+
+        call DrawLine3D
+
+        add esp, 4
+        pop eax
+        retn
+    }
+}
+
+/****** Init ************************************************************************/
+void
+RJ_LineInit(void)
+{
+    WriteJump(0x0077FE50, ___DrawLineExStart);
+    WriteJump(0x0077FF90, ___DrawLine3D);
+}

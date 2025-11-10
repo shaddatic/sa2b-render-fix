@@ -277,7 +277,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_GLOBAL_BACKCOLOR        CNFO_INT(   CNFS_GLOBAL         , "backcolor"           , CNFE_BOOL_ENABLED                     )   /* Draw Back-Color */
 #define CNF_GLOBAL_PTCLSCALE        CNFO_INT(   CNFS_GLOBAL         , "ptcl_scl"            , CNFE_BOOL_ENABLED                     )   /* Fix Particle Scale */
 #define CNF_GLOBAL_SPRITE           CNFO_INT(   CNFS_GLOBAL         , "sprite"              , CNFE_BOOL_ENABLED                     )   /* Fix 3D Sprites */
-#define CNF_GLOBAL_LINE             CNFO_INT(   CNFS_GLOBAL         , "line"                , CNFE_BOOL_ENABLED                     )   /* Fix line scale */
 
 /** Font section **/
 #define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */

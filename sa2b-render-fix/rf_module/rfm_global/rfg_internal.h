@@ -29,8 +29,6 @@ void    RFG_TaskDisplayInit( void );
 
 void    RFG_3DSpriteInit( void );
 
-void    RFG_DrawLineInit( void );
-
 void    RFG_FrameSkipInit( void );
 
 void    RFG_UiFilterInit( void );

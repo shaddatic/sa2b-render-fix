@@ -60,7 +60,6 @@
     <ClCompile Include="rf_module\rfm_stg_cart.c" />
     <ClCompile Include="rf_module\rfm_global.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_3dsprite.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_drawline.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_frameskip.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_uifilter.c" />
     <ClCompile Include="rf_module\rfm_stg_chao.c" />

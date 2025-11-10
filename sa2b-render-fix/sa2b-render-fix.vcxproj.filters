@@ -228,9 +228,6 @@
     <ClCompile Include="rf_api\rfapi_font.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_drawline.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_ninja\rj_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>

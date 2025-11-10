@@ -58,6 +58,11 @@ void    RFD_AlphaBlendInit( void );
 *     Init modifier volume/cheap shadow.
 */
 void    RJ_ModifierInit( void );
+/*
+*   Description:
+*     Init line draw.
+*/
+void    RJ_LineInit( void );
 
 /****** Cnk Shape *******************************************************************************/
 /*
