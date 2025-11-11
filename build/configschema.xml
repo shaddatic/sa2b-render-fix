@@ -31,7 +31,7 @@ Auto: Allow the game itself to define what mipmap adjust is used, matching Dream
 2.00: Mipmaps are 2x closer.
 Etc...</HelpText>
       </Property>
-      <Property name="mipmaps" display="Use Mipmaps" type="eBOOL" defaultvalue="1">
+      <Property name="mipmaps" display="Use Mipmaps" type="BINT" defaultvalue="1">
         <HelpText>If texture mipmaps should be used. 
 
 Mipmaps are lower resolution duplicates of a texture that are used at further distances. Disabling this gives the game a very sharp look at the cost of being very harsh on the eyes.
@@ -40,49 +40,49 @@ Only recommended for very specific reasons or with the use of antialiasing, like
       </Property>
     </Group>
     <Group name="main" display="Global Render Settings">
-      <Property name="gidx_ignore" display="Ignore Global Texture Index" type="eBOOL" defaultvalue="1">
+      <Property name="gidx_ignore" display="Ignore Global Texture Index" type="BINT" defaultvalue="1">
         <HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
       </Property>
-      <Property name="mod_shadow" display="Modifier Shadows" type="eMOD_MODE" defaultvalue="2">
+      <Property name="mod_shadow" display="Modifier Shadows" type="MOD_MODE" defaultvalue="2">
         <HelpText>Modifier shadows, also known as Dreamcast shadows, use volume models for shadowing instead of textures. This also restores many shadows that were lost after the Dreamcast version.
 
 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
       </Property>
-      <Property name="backcolor" display="Draw Back-Color" type="eBOOL" defaultvalue="1">
+      <Property name="backcolor" display="Draw Back-Color" type="BINT" defaultvalue="1">
         <HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
       </Property>
-      <Property name="ptcl_scl" display="Fix Particle Scale" type="eBOOL" defaultvalue="1">
+      <Property name="ptcl_scl" display="Fix Particle Scale" type="BINT" defaultvalue="1">
         <HelpText>Locks the polygon-particle's scale to the game world instead of screen resolution, and fixes the sprite-particle's scale being halved since Dreamcast.</HelpText>
       </Property>
-      <Property name="sprite" display="Fix 3D Sprites" type="eBOOL" defaultvalue="1">
+      <Property name="sprite" display="Fix 3D Sprites" type="BINT" defaultvalue="1">
         <HelpText>Fixes many sprite positioning errors by changing the calculation used to move the sprite closer to the camera.</HelpText>
       </Property>
     </Group>
     <Group name="font" display="Text and Font Settings">
-      <Property name="kanji" display="Japanese Script Font" type="eFONT_KANJI" defaultvalue="0">
+      <Property name="kanji" display="Japanese Script Font" type="FONT_KANJI" defaultvalue="0">
         <HelpText>Font to be used when displaying Japanese text, such as: Kanji (漢字), Hiragana (ひらがな), and Katakana (カタカナ).</HelpText>
       </Property>
-      <Property name="ascii" display="Latin Script Font" type="eFONT_ASCII" defaultvalue="0">
+      <Property name="ascii" display="Latin Script Font" type="FONT_ASCII" defaultvalue="0">
         <HelpText>Font to be used when displaying Latin text, such as: English, German, French, Spanish, and Italian.</HelpText>
       </Property>
-      <Property name="width" display="Character Spacing" type="eFONT_WIDTH" defaultvalue="2">
+      <Property name="width" display="Character Spacing" type="FONT_WIDTH" defaultvalue="2">
         <HelpText>Change the spacing between each character. Custom fonts can override this option if they wish.
 
 The original games used 'Comfy'.</HelpText>
       </Property>
-      <Property name="space" display="Space Width" type="eFONT_SPACE" defaultvalue="2">
+      <Property name="space" display="Space Width" type="FONT_SPACE" defaultvalue="2">
         <HelpText>Change the width of the space character. Custom fonts can override this option if they wish.
 
 The original games used 'Half Width'.</HelpText>
       </Property>
-      <Property name="ptfilter" display="Font Point Filter" type="eBOOL" defaultvalue="0">
+      <Property name="ptfilter" display="Font Point Filter" type="BINT" defaultvalue="0">
         <HelpText>Use point sampling on the font textures, same as the Dreamcast version.
 
 NOTE: This is enabled automatically when playing in 480p resolution.</HelpText>
       </Property>
     </Group>
     <Group name="player" display="Player Settings">
-      <Property name="model" display="Character Model Type" type="ePL_MDL" defaultvalue="0">
+      <Property name="model" display="Character Model Type" type="PL_MDL" defaultvalue="0">
         <HelpText>If the player characters should use their original Dreamcast models, or their Battle models.
 
 Dreamcast models have been ported as-is with no changes, excluding Chaos 0 who had his inner and outer layers seperated.
@@ -91,28 +91,28 @@ GameCube models have had a number of fixes applied, mostly incorrect material fl
 
 Dark Chao Walker is currently unaffected by this setting.</HelpText>
       </Property>
-      <Property name="lod_mdl" display="Model LODs" type="ePL_LOD" defaultvalue="2">
+      <Property name="lod_mdl" display="Model LODs" type="PL_LOD" defaultvalue="2">
         <HelpText>If the LOD (Level Of Detail) player models should be used, and when.</HelpText>
       </Property>
-      <Property name="chaos0_texanim" display="Chaos 0 Texture Animation" type="eBOOL" defaultvalue="1">
+      <Property name="chaos0_texanim" display="Chaos 0 Texture Animation" type="BINT" defaultvalue="1">
         <HelpText>If Chaos 0 should cycle through his water textures.
 
 This animation was not present in the Dreamcast version, but Render Fix *does* support using the it on the Dreamcast model. If this is enabled, however, he will use the GameCube textures instead of his original Dreamcast ones.</HelpText>
       </Property>
-      <Property name="shadow_lightdash" display="Shadow's Lightdash Effect" type="eBOOL" defaultvalue="1">
+      <Property name="shadow_lightdash" display="Shadow's Lightdash Effect" type="BINT" defaultvalue="1">
         <HelpText>Unlike Sonic, Shadow lacks a lightdash after-image effect in all release versions. This restores the unused effect by adding logic to handle Shadow, which the devs forgot.</HelpText>
       </Property>
-      <Property name="miles_tailmod" display="Tails' Tail Shadows" type="eBOOL" defaultvalue="1">
+      <Property name="miles_tailmod" display="Tails' Tail Shadows" type="BINT" defaultvalue="1">
         <HelpText>Draw modifier shadows for Tails' Tails, that otherwise lack them.
 
 This is a Render Fix exclusive enhancement, and was not present on the original Dreamcast version.</HelpText>
       </Property>
-      <Property name="twalk_footmod" display="Fix Tornado's Foot Shadows" type="eBOOL" defaultvalue="1">
+      <Property name="twalk_footmod" display="Fix Tornado's Foot Shadows" type="BINT" defaultvalue="1">
         <HelpText>Fix the Tornado Walker's foot shadows drawing underground when stood still. This simply raises the shadows slightly to avoid the issue.
 
 This is a Render Fix exclusive fix, and the bug was present on the original Dreamcast version.</HelpText>
       </Property>
-      <Property name="shadow_md" display="Player Shadow Mode" type="ePL_SHAD_MODE" defaultvalue="2">
+      <Property name="shadow_md" display="Player Shadow Mode" type="PL_SHAD_MODE" defaultvalue="2">
         <HelpText>Which shadow type is cast by the player character.
 
 'Modifier' is the Dreamcast shadow system, and the recommended setting.
@@ -121,31 +121,31 @@ This is a Render Fix exclusive fix, and the bug was present on the original Drea
 
 Active development and support for the vanilla shadow system has ended, and it may be removed in the future.</HelpText>
       </Property>
-      <Property name="mdl_shadow" display="Character Model Shadowing" type="eBOOL" defaultvalue="1">
+      <Property name="mdl_shadow" display="Character Model Shadowing" type="BINT" defaultvalue="1">
         <HelpText>Enable/Disable modifier shadows displaying on character models. On Dreamcast, this is a feature but here you can disable it if it's not for your taste.
 
 Disabling this may cause player characters to look out of place in some situations.</HelpText>
       </Property>
     </Group>
     <Group name="common" display="Common Settings">
-      <Property name="trans_sorting" display="Transparancy Fixes and Restorations" type="eBOOL" defaultvalue="1">
+      <Property name="trans_sorting" display="Transparancy Fixes and Restorations" type="BINT" defaultvalue="1">
         <HelpText>Fixes and restores many common missing transparancy effects and transparancy sorting issues found throughout the game.</HelpText>
       </Property>
-      <Property name="e_emblem" display="GUN Emblems" type="eBOOL" defaultvalue="1">
+      <Property name="e_emblem" display="GUN Emblems" type="BINT" defaultvalue="1">
         <HelpText>Fixes the draw order of GUN enemies so their emblems render correctly.</HelpText>
       </Property>
-      <Property name="e_ai_shield" display="DC GUN Hunter Shield" type="eBOOL" defaultvalue="1">
+      <Property name="e_ai_shield" display="DC GUN Hunter Shield" type="BINT" defaultvalue="1">
         <HelpText>Restores the Dreamcast's version of the Hunter's Shield, which looks noticeably less broken.</HelpText>
       </Property>
-      <Property name="e_stg_tex" display="Stage Specific Enemy Textures" type="eBOOL" defaultvalue="1">
+      <Property name="e_stg_tex" display="Stage Specific Enemy Textures" type="BINT" defaultvalue="1">
         <HelpText>Restores enemy textures that were specific to some stages in the Dreamcast version.</HelpText>
       </Property>
     </Group>
     <Group name="event" display="Events">
-      <Property name="rf_disp" display="Render Fix Event Renderer" type="eBOOL" defaultvalue="1">
+      <Property name="rf_disp" display="Render Fix Event Renderer" type="BINT" defaultvalue="1">
         <HelpText>Use Render Fix's powerful event renderer, which restores Dreamcast features and adds other advanced logic - such as transparency sorting.</HelpText>
       </Property>
-      <Property name="vsync_mode" display="Framerate Mode" type="eEV_VSYNC" defaultvalue="1">
+      <Property name="vsync_mode" display="Framerate Mode" type="EV_VSYNC" defaultvalue="1">
         <HelpText>Change the framerate of Events. 
 
 On Dreamcast, the Event itself decided when 30FPS would be used. This feature removed for Battle, and all ran at 60FPS no matter what.
@@ -154,12 +154,12 @@ If you're having trouble running the Events, setting them to always run at 30FPS
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="draw_equip" display="Draw Player Equipment" type="eBOOL" defaultvalue="1">
+      <Property name="draw_equip" display="Draw Player Equipment" type="BINT" defaultvalue="1">
         <HelpText>Draw player upgrades/equipment in events.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="43_mode" display="Force Original Aspect Ratio" type="eEV_43MD" defaultvalue="2">
+      <Property name="43_mode" display="Force Original Aspect Ratio" type="EV_43MD" defaultvalue="2">
         <HelpText>Force the events into their original aspect ratio - covering up many issues that the player was never intended to see.
 
 Always: Use pillar boxes on all events/cutscenes.
@@ -169,7 +169,7 @@ Never: No events will use pillar boxes, issues or not.
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="overlay_fit" display="Overlay Fill Mode" type="eEV_MOVIEFIT" defaultvalue="1">
+      <Property name="overlay_fit" display="Overlay Fill Mode" type="EV_MOVIEFIT" defaultvalue="1">
         <HelpText>How the overlay video effects will be fit to the screen.
 
 Fit: Keep the video in 4:3, do nothing.
@@ -180,7 +180,7 @@ Crop: Crop the upper and lower sections of the video.
 
 Note: Has no effect when Event is forced into 4:3.</HelpText>
       </Property>
-      <Property name="movie_fit" display="Movie Fill Mode" type="eEV_MOVIEFIT" defaultvalue="0">
+      <Property name="movie_fit" display="Movie Fill Mode" type="EV_MOVIEFIT" defaultvalue="0">
         <HelpText>How the FMV/Movie videos will be fit to the screen.
 
 Fit: Keep the video in 4:3, do nothing.
@@ -191,37 +191,37 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
       </Property>
     </Group>
     <Group name="m_menus" display="Main Menus Settings">
-      <Property name="fade_fix" display="Element Fading Fix" type="eBOOL" defaultvalue="1">
+      <Property name="fade_fix" display="Element Fading Fix" type="BINT" defaultvalue="1">
         <HelpText>Fixes many element fade issues with both the Dreamcast and Battle menus.</HelpText>
       </Property>
-      <Property name="map_stretch" display="Stage Select: Stretch Fix" type="eBOOL" defaultvalue="1">
+      <Property name="map_stretch" display="Stage Select: Stretch Fix" type="BINT" defaultvalue="1">
         <HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
       </Property>
-      <Property name="map_textbar" display="Stage Select: Restore Text Bar" type="eBOOL" defaultvalue="1">
+      <Property name="map_textbar" display="Stage Select: Restore Text Bar" type="BINT" defaultvalue="1">
         <HelpText>Restores the blue text bar in the Stage Select menu from the Dreamcast version.</HelpText>
       </Property>
     </Group>
     <Group name="eget" display="Emblem Get Settings">
-      <Property name="fadein" display="Fade Restore" type="eBOOL" defaultvalue="1">
+      <Property name="fadein" display="Fade Restore" type="BINT" defaultvalue="1">
         <HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
       </Property>
-      <Property name="sparkle" display="Fix Particles" type="eBOOL" defaultvalue="1">
+      <Property name="sparkle" display="Fix Particles" type="BINT" defaultvalue="1">
         <HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
       </Property>
     </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
-      <Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
+      <Property name="murky" display="Restore Murky Water Effect" type="BINT" defaultvalue="1">
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
       </Property>
     </Group>
     <Group name="cart" display="Cart Stages">
-      <Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
+      <Property name="kanban" display="Restore Posters" type="BINT" defaultvalue="1">
         <HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>
       </Property>
-      <Property name="cart_sprite" display="Cart Sprite/Height Fix" type="eCART_SPRITE" defaultvalue="2">
+      <Property name="cart_sprite" display="Cart Sprite/Height Fix" type="CART_SPRITE" defaultvalue="2">
         <HelpText>The cart models were lowered for Battle, but the cart headlight sprites were not. This lowers the sprites to fix the visual desync. The 'Dreamcast' option instead raises the cart to the sprites to match the Dreamcast version.</HelpText>
       </Property>
-      <Property name="zanki" display="Zanki Icon Position Fix" type="eBOOL" defaultvalue="1">
+      <Property name="zanki" display="Zanki Icon Position Fix" type="BINT" defaultvalue="1">
         <HelpText>The zanki icon, the head sprite that appears next to your lives, is drawn too high in the HD versions. This option lowers it to its correct height, as seen on Dreamcast and GameCube.</HelpText>
       </Property>
     </Group>
@@ -229,38 +229,38 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
       <Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
         <HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
       </Property>
-      <Property name="race_tree_mod" display="Chao Race Tree Shadows" type="eBOOL" defaultvalue="1">
+      <Property name="race_tree_mod" display="Chao Race Tree Shadows" type="BINT" defaultvalue="1">
         <HelpText>Adds modifier shadows for Chao Race Trees which normally don't have any, even on Dreamcast.</HelpText>
       </Property>
-      <Property name="pause_font_col" display="Pause Font Colors" type="ePAUSE_FONT_COL" defaultvalue="1">
+      <Property name="pause_font_col" display="Pause Font Colors" type="PAUSE_FONT_COL" defaultvalue="1">
         <HelpText>Which colors should be used for the pause menu text.</HelpText>
       </Property>
-      <Property name="dc_ring" display="DC Ring Shadows" type="eBOOL" defaultvalue="1">
+      <Property name="dc_ring" display="DC Ring Shadows" type="BINT" defaultvalue="1">
         <HelpText>Enable the black ring shadows from the Dreamcast version.
 
 The black shadows were a deliberate choice made to make the rings easier to see, but the code was lost when porting to Battle.</HelpText>
       </Property>
-      <Property name="shadow_res" display="Shadow Map Resolution" type="eSHAD_RES" defaultvalue="1">
+      <Property name="shadow_res" display="Shadow Map Resolution" type="SHAD_RES" defaultvalue="1">
         <HelpText>Changes the resolution of the texture used by shadow maps.
 
 Higher values lead to less pixelated shadow maps at the cost of memory and performance, lower values the opposite.
 
 Shadow maps are no longer actively supported, and may be removed in the future.</HelpText>
       </Property>
-      <Property name="no_shadows" display="Disable Shadows" type="eBOOL" defaultvalue="0">
+      <Property name="no_shadows" display="Disable Shadows" type="BINT" defaultvalue="0">
         <HelpText>Disable all game shadows, modifier or shadow map.</HelpText>
       </Property>
     </Group>
     <Group name="experimental" display="Experimental Settings">
-      <Property name="uifilter" display="Dreamcast UI Filtering" type="eBOOL" defaultvalue="0">
+      <Property name="uifilter" display="Dreamcast UI Filtering" type="BINT" defaultvalue="0">
         <HelpText>Use point sampling on some UI textures, such as the in-game HUD, to match the Dreamcast version.</HelpText>
       </Property>
-      <Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="eBOOL" defaultvalue="0">
+      <Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="BINT" defaultvalue="0">
         <HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
       </Property>
     </Group>
     <Group name="compatibility" display="Compatibility Settings">
-      <Property name="pl_brokenfix" display="Broken Character Models" type="BOOL_WARN" defaultvalue="0">
+      <Property name="pl_brokenfix" display="Broken Character Models" type="BWARN" defaultvalue="0">
         <HelpText>Disables new rendering features for player models to hide issues such as broken surface normals and incorrectly set material flags; causing holes, extremely dark lighting, etc. 
 
 Older mods were unaware they had these issues, so couldn't fix them. This should mostly restore the vanilla environment.
@@ -268,19 +268,19 @@ Older mods were unaware they had these issues, so couldn't fix them. This should
 [ WARNING! ]
 Don't enable this for no reason! Many newer mods require these features and won't work correctly without them!</HelpText>
       </Property>
-      <Property name="pl_texmat" display="Character Diffuse Material" type="BOOL_WARN" defaultvalue="0">
+      <Property name="pl_texmat" display="Character Diffuse Material" type="BWARN" defaultvalue="0">
         <HelpText>Reenables diffuse material color on player character models as some mods - but not many - require it to work correctly.
 
 [ WARNING! ]
 Don't enable this for no reason! Many models will actually break with this enabled, including RF's 'Dreamcast Character Models'!</HelpText>
       </Property>
-      <Property name="chw_mod" display="Custom Chao World Shadows" type="BOOL_WARN" defaultvalue="0">
+      <Property name="chw_mod" display="Custom Chao World Shadows" type="BWARN" defaultvalue="0">
         <HelpText>Disables RF's Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods should enable this for you when needed.
 
 [ WARNING! ]
 Don't enable this for no reason! Only enable if another mod will actually apply a new shadow system to Chao World!</HelpText>
       </Property>
-      <Property name="old_atest" display="Use Old Alpha Test Parameters" type="BOOL_WARN" defaultvalue="0">
+      <Property name="old_atest" display="Use Old Alpha Test Parameters" type="BWARN" defaultvalue="0">
         <HelpText>Use pre-1.4 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.
 
 [ WARNING! ]
@@ -288,7 +288,7 @@ Don't enable this for no reason!</HelpText>
       </Property>
     </Group>
     <Group name="debug" display="Debug Settings">
-      <Property name="frametime_info" display="Frametime Info" type="eBOOL" defaultvalue="0">
+      <Property name="frametime_info" display="Frametime Info" type="BINT" defaultvalue="0">
         <HelpText>Display frametime information on-screen to easily track game performance.
 
 IMM: Value from *this* frame.
@@ -298,10 +298,10 @@ TGT: Target being aimed for.
 FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.</HelpText>
       </Property>
-      <Property name="extra_info" display="Extra Debug Info" type="eBOOL" defaultvalue="0">
+      <Property name="extra_info" display="Extra Debug Info" type="BINT" defaultvalue="0">
         <HelpText>Print additional debug info into the game console. This is useful for getting very in-depth information on what Render Fix is doing internally.</HelpText>
       </Property>
-      <Property name="event" display="Event Debug Controls" type="eBOOL" defaultvalue="0">
+      <Property name="event" display="Event Debug Controls" type="BINT" defaultvalue="0">
         <HelpText>Enable Render Fix's Event debug functions: 
 X - Free-Cam - Analog sticks to move &amp; look, up/down dpad to zoom in/out, left/right dpad to roll.
 Y - Scrubbing - The triggers are fine controls, the shoulders skip scenes.
@@ -309,7 +309,7 @@ B - Layer Viewer - Pressing B multiple times will switch draw layers.
 
 Back - Display Event debug info.</HelpText>
       </Property>
-      <Property name="modifier" display="Draw Modifier Models" type="eBOOL" defaultvalue="0">
+      <Property name="modifier" display="Draw Modifier Models" type="BINT" defaultvalue="0">
         <HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
       </Property>
       <Property name="maxmiplev" display="Maximum Mipmap Level" type="int" defaultvalue="0">
@@ -319,12 +319,12 @@ If a mipmap of the selected level isn't available, the next highest mipmap is us
 
 This can be used to view and test your mipmaps without needing to pull out a magnifying glass.</HelpText>
       </Property>
-      <Property name="no_alerts" display="Disable Message Box Alerts" type="eBOOL" defaultvalue="0">
+      <Property name="no_alerts" display="Disable Message Box Alerts" type="BINT" defaultvalue="0">
         <HelpText>Disable Render Fix alert/warning message boxes, such as mod position and conflict warnings.
 
 This is at your own risk, these warnings exist for a reason!</HelpText>
       </Property>
-      <Property name="game_speed" display="Game Speed" type="eDBG_GAMESPEED" defaultvalue="0">
+      <Property name="game_speed" display="Game Speed" type="DBG_GAMESPEED" defaultvalue="0">
         <HelpText>Changes the game speed by always forcing a set number of skipped frames. This setting has no effect on most menu elements.
 
 This is useful for modders who wish to stress test their code over long periods, but be aware that display code is still only called 60x per second.</HelpText>
@@ -332,11 +332,11 @@ This is useful for modders who wish to stress test their code over long periods,
     </Group>
   </Groups>
   <Enums>
-    <Enum name="eBOOL">
+    <Enum name="BINT">
       <EnumMember name="1" display="Enabled"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
-    <Enum name="BOOL_WARN">
+    <Enum name="BWARN">
       <EnumMember name="1" display="Enabled (WARNING!)"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
@@ -368,16 +368,16 @@ This is useful for modders who wish to stress test their code over long periods,
       <EnumMember name="12" display="3.00"></EnumMember>
       <EnumMember name="15" display="3.75"></EnumMember>
     </Enum>
-    <Enum name="eFONT_KANJI">
+    <Enum name="FONT_KANJI">
       <EnumMember name="1" display="SA1/SA2 (Classic)"></EnumMember>
       <EnumMember name="0" display="Vanilla/Custom"></EnumMember>
     </Enum>
-    <Enum name="eFONT_ASCII">
+    <Enum name="FONT_ASCII">
       <EnumMember name="2" display="SA2 (Comic Sans)"></EnumMember>
       <EnumMember name="1" display="SA1 (Impress)"></EnumMember>
       <EnumMember name="0" display="Vanilla/Custom"></EnumMember>
     </Enum>
-    <Enum name="eFONT_WIDTH">
+    <Enum name="FONT_WIDTH">
       <EnumMember name="6" display="Planetary"></EnumMember>
       <EnumMember name="5" display="Very Distant"></EnumMember>
       <EnumMember name="4" display="Distant"></EnumMember>
@@ -386,33 +386,33 @@ This is useful for modders who wish to stress test their code over long periods,
       <EnumMember name="1" display="Squished"></EnumMember>
       <EnumMember name="0" display="Touching"></EnumMember>
     </Enum>
-    <Enum name="eFONT_SPACE">
+    <Enum name="FONT_SPACE">
       <EnumMember name="4" display="Full Width"></EnumMember>
       <EnumMember name="3" display="Half Width"></EnumMember>
       <EnumMember name="2" display="Third Width"></EnumMember>
       <EnumMember name="1" display="Quater Width"></EnumMember>
       <EnumMember name="0" display="No Width"></EnumMember>
     </Enum>
-    <Enum name="ePL_MDL">
+    <Enum name="PL_MDL">
       <EnumMember name="1" display="Dreamcast"></EnumMember>
       <EnumMember name="0" display="GameCube"></EnumMember>
     </Enum>
-    <Enum name="ePL_LOD">
+    <Enum name="PL_LOD">
       <EnumMember name="2" display="Enabled"></EnumMember>
       <EnumMember name="1" display="Only in 2P"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
-    <Enum name="ePL_SHAD_MODE">
+    <Enum name="PL_SHAD_MODE">
       <EnumMember name="2" display="Modifier (Dreamcast)"></EnumMember>
       <EnumMember name="1" display="Vanilla (Enhanced)"></EnumMember>
       <EnumMember name="0" display="Vanilla"></EnumMember>
     </Enum>
-    <Enum name="eMOD_MODE">
+    <Enum name="MOD_MODE">
       <EnumMember name="2" display="Enabled"></EnumMember>
       <EnumMember name="1" display="Performance"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
-    <Enum name="eSHAD_RES">
+    <Enum name="SHAD_RES">
       <EnumMember name="5" display="8192 x 8192 - (Imperceivable)"></EnumMember>
       <EnumMember name="4" display="4096 x 4096 - (Ultra)"></EnumMember>
       <EnumMember name="3" display="2048 x 2048 - (High)"></EnumMember>
@@ -420,34 +420,34 @@ This is useful for modders who wish to stress test their code over long periods,
       <EnumMember name="1" display="512 x 512 --- (Low/Vanilla)"></EnumMember>
       <EnumMember name="0" display="256 x 256 --- (Very Low)"></EnumMember>
     </Enum>
-    <Enum name="eCART_SPRITE">
+    <Enum name="CART_SPRITE">
       <EnumMember name="2" display="Enabled"></EnumMember>
       <EnumMember name="1" display="Dreamcast"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
-    <Enum name="eEV_43MD">
+    <Enum name="EV_43MD">
       <EnumMember name="3" display="Always"></EnumMember>
       <EnumMember name="2" display="Exclude Intro"></EnumMember>
       <EnumMember name="1" display="Conservative"></EnumMember>
       <EnumMember name="0" display="Never"></EnumMember>
     </Enum>
-    <Enum name="eEV_VSYNC">
+    <Enum name="EV_VSYNC">
       <EnumMember name="2" display="Always 60FPS"></EnumMember>
       <EnumMember name="1" display="Let Event Decide"></EnumMember>
       <EnumMember name="0" display="Always 30FPS"></EnumMember>
     </Enum>
-    <Enum name="eEV_MOVIEFIT">
+    <Enum name="EV_MOVIEFIT">
       <EnumMember name="0" display="Fit"></EnumMember>
       <EnumMember name="1" display="Stretch"></EnumMember>
       <EnumMember name="2" display="Clamp"></EnumMember>
       <EnumMember name="3" display="Mirror"></EnumMember>
       <EnumMember name="4" display="Crop/Fill"></EnumMember>
     </Enum>
-    <Enum name="ePAUSE_FONT_COL">
+    <Enum name="PAUSE_FONT_COL">
       <EnumMember name="1" display="DC/GC"></EnumMember>
       <EnumMember name="0" display="Vanilla"></EnumMember>
     </Enum>
-    <Enum name="eDBG_GAMESPEED">
+    <Enum name="DBG_GAMESPEED">
       <EnumMember name="15" display="16x Speed"></EnumMember>
       <EnumMember name="13" display="14x Speed"></EnumMember>
       <EnumMember name="11" display="12x Speed"></EnumMember>
