@@ -236,7 +236,6 @@ CNFE_MISC_SHDWRES;
 
 /****** Stages **********************************************************************************/
 #define CNFS_AM             "a_mine"
-#define CNFS_CC             "c_core"
 
 /****** Bosses **********************************************************************************/
 #define CNFS_BBOGY          "bossbogy"
@@ -310,10 +309,6 @@ CNFE_MISC_SHDWRES;
 
 /** Aquatic Mine section **/
 #define CNF_AM_MURKY                CNFO_INT(   CNFS_AM             , "murky"               , CNFE_BOOL_ENABLED                     )   /* Restore Murky Water Effect */
-
-/** Cannons Core section **/
-#define CNF_CC_PITFALL              CNFO_INT(   CNFS_CC             , "pitfall"             , CNFE_BOOL_ENABLED                     )   /* Restore Pitfall */
-#define CNF_CC_KURUMA               CNFO_INT(   CNFS_CC             , "kuruma"              , CNFE_BOOL_ENABLED                     )   /* Restore Gears */
 
 /** Cart section **/
 #define CNF_CART_KANBAN             CNFO_INT(   CNFS_CART           , "kanban"              , CNFE_BOOL_ENABLED                     )   /* Restore Posters */

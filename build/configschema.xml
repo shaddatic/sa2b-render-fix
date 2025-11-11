@@ -214,14 +214,6 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
       </Property>
     </Group>
-    <Group name="c_core" display="Cannon's Core Settings">
-      <Property name="pitfall" display="Restore Pitfall" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores a large pit in Rouge's section that was replaced with an ugly black plane in the GameCube version.</HelpText>
-      </Property>
-      <Property name="kuruma" display="Restore Large Cogwheels" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores the huge, rotating cogwheels in the middle of Sonic's section that's outright missing in the GameCube version.</HelpText>
-      </Property>
-    </Group>
     <Group name="cart" display="Cart Stages">
       <Property name="kanban" display="Restore Posters" type="eBOOL" defaultvalue="1">
         <HelpText>Restores the roadside posters from the Dreamcast and GameCube versions.</HelpText>

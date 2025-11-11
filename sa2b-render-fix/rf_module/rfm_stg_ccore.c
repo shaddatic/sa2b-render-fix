@@ -22,33 +22,28 @@
 void
 RFM_CannonsCoreInit(void)
 {
-    if ( CNF_GetInt(CNF_CC_PITFALL) )
-    {
-        OBJ_LANDTABLE* land = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0037");
+    // pitfall fix
+    OBJ_LANDTABLE* land = GetDataDllAddr(OBJ_LANDTABLE, "objLandTable0037");
+    ReplaceLandObject(land, 32, RF_GetGjsObject("stg37_land0032.sa2bmdl"));
 
-        ReplaceLandObject(land, 32, RF_GetGjsObject("stg37_land0032.sa2bmdl"));
-    }
+    // cogwheels fix
+    NJS_CNK_OBJECT* object_kuruma = GetDataDllAddr(NJS_CNK_OBJECT, "object_lsonic_un4_kuruma_BK040506__un4_kuruma_BK040506_");
 
-    if ( CNF_GetInt(CNF_CC_KURUMA) )
-    {
-        NJS_CNK_OBJECT* object_kuruma = GetDataDllAddr(NJS_CNK_OBJECT, "object_lsonic_un4_kuruma_BK040506__un4_kuruma_BK040506_");
+    object_kuruma = object_kuruma->child;
 
-        object_kuruma = object_kuruma->child;
+    object_kuruma->pos[0] = -450.0f;
+    object_kuruma->pos[1] = -365.0f;
+    object_kuruma->pos[2] = -2325.0f;
 
-        object_kuruma->pos[0] = -450.0f;
-        object_kuruma->pos[1] = -365.0f;
-        object_kuruma->pos[2] = -2325.0f;
+    object_kuruma = object_kuruma->sibling;
 
-        object_kuruma = object_kuruma->sibling;
+    object_kuruma->pos[0] = -510.0f;
+    object_kuruma->pos[1] = -365.0f;
+    object_kuruma->pos[2] = -2325.0f;
 
-        object_kuruma->pos[0] = -510.0f;
-        object_kuruma->pos[1] = -365.0f;
-        object_kuruma->pos[2] = -2325.0f;
+    object_kuruma = object_kuruma->sibling;
 
-        object_kuruma = object_kuruma->sibling;
-
-        object_kuruma->pos[0] = -570.0f;
-        object_kuruma->pos[1] = -365.0f;
-        object_kuruma->pos[2] = -2325.0f;
-    }
+    object_kuruma->pos[0] = -570.0f;
+    object_kuruma->pos[1] = -365.0f;
+    object_kuruma->pos[2] = -2325.0f;
 }
