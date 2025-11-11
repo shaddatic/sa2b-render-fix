@@ -313,9 +313,9 @@ RFGX_Init(void)
         }
     }
 
-    const int aniso = CNF_GetInt( CNF_GFX_ANISOTROPIC );
+    const int aniso = CNF_GetInt( CNF_GFX_ANISOTROPY );
 
-    if ( aniso != CNFE_GFX_ANISOTROPIC_AUTO )
+    if ( aniso != CNFE_GFX_ANISOTROPY_AUTO )
     {
         SamplerOverride[DX9_SAMPLER_MINFILTER]     = DX9_TEXFILTER_ANISOTROPIC;
         SamplerOverride[DX9_SAMPLER_MAXANISOTROPY] = aniso;

@@ -29,14 +29,14 @@ CNFE_BOOL;
 /****** Anisotropic Filtering *******************************************************************/
 typedef enum
 {
-    CNFE_GFX_ANISOTROPIC_AUTO        = -1,
+    CNFE_GFX_ANISOTROPY_AUTO        = -1,
 }
 CNFE_GFX_ANISOTROPIC;
 
 /****** Texture Filtering ***********************************************************************/
 typedef enum
 {
-    CNFE_GFX_TEXFILTER_AUTO        = -1,
+    CNFE_GFX_TEXFILTER_AUTO         = -1,
 
     CNFE_GFX_TEXFILTER_POINT,
     CNFE_GFX_TEXFILTER_BILINEAR,
@@ -47,9 +47,9 @@ CNFE_GFX_TEXFILTER;
 /****** Mipmap 'D' Adjust ***********************************************************************/
 typedef enum
 {
-    CNFE_GFX_MIPDADJ_AUTO        = -1,
-    CNFE_GFX_MIPDADJ_CLAMPPOS    = -2,
-    CNFE_GFX_MIPDADJ_CLAMPNEG    = -3,
+    CNFE_GFX_MIPDADJ_AUTO           = -1,
+    CNFE_GFX_MIPDADJ_CLAMPPOS       = -2,
+    CNFE_GFX_MIPDADJ_CLAMPNEG       = -3,
 }
 CNFE_GFX_MIPDADJ;
 
@@ -266,7 +266,7 @@ CNFE_MISC_SHDWRES;
 /****************************************************************************************************************************************/
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Graphics section **/
-#define CNF_GFX_ANISOTROPIC         CNFO_INT(   CNFS_GFX            , "anisotropic"         , CNFE_GFX_ANISOTROPIC_AUTO             )   /* Anisotropic Filtering */
+#define CNF_GFX_ANISOTROPY          CNFO_INT(   CNFS_GFX            , "anisotropy"          , CNFE_GFX_ANISOTROPY_AUTO              )   /* Anisotropic Filtering */
 #define CNF_GFX_TEXFILTER           CNFO_INT(   CNFS_GFX            , "texfilter"           , CNFE_GFX_TEXFILTER_AUTO               )   /* Texture Filtering */
 #define CNF_GFX_MIPDADJ             CNFO_INT(   CNFS_GFX            , "mipdadj"             , CNFE_GFX_MIPDADJ_AUTO                 )   /* Mipmap Depth Adjust */
 #define CNF_GFX_MIPMAPS             CNFO_INT(   CNFS_GFX            , "mipmaps"             , CNFE_BOOL_ENABLED                     )   /* Use Mipmaps */
