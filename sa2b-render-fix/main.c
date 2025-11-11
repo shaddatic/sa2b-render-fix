@@ -57,6 +57,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RFGX_Init();
     RF_LightInit();
     RF_ShaderInit();
+    RF_SysInit();
 
     /** API **/
     RFAPI_Init();
@@ -81,7 +82,7 @@ EXPORT_DLL
 void __cdecl
 OnRenderSceneStart(void)
 {
-    RF_FrameSkipSceneStart();
+    RF_SysVsyncSceneStart();
 }
 
 EXPORT_DLL
@@ -90,5 +91,5 @@ OnRenderSceneEnd(void)
 {
     RF_SysCtrlIdleFade();
 
-    RF_FrameSkipSceneEnd();
+    RF_SysVsyncSceneEnd();
 }

@@ -2,6 +2,11 @@
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
   <Groups>
     <Group name="graphics" display="Graphics Settings">
+      <Property name="vsync" display="Framerate" type="GFX_VSYNC" defaultvalue="1">
+        <HelpText>The target framerate the game should aim for. Lower values will be easier to run and more stable on lower-end hardware, at the cost of a smoother gameplay experience.
+
+Certain animations, such as those in menus, are tied to the framerate and will play at a slower speed at lower fps values.</HelpText>
+      </Property>
       <Property name="anisotropy" display="Anisotropic Filtering" type="GFX_ANISOTROPY" defaultvalue="-1">
         <HelpText>Sharpens the appearance of textures at acute/sharp viewing angles. Dreamcast called this 'Supersampling'.
 
@@ -314,6 +319,11 @@ This is useful for modders who wish to stress test their code over long periods,
     <Enum name="BWARN">
       <EnumMember name="1" display="Enabled (WARNING!)"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
+    </Enum>
+    <Enum name="GFX_VSYNC">
+      <EnumMember name="1" display="60 fps"></EnumMember>
+      <EnumMember name="2" display="30 fps"></EnumMember>
+      <EnumMember name="4" display="15 fps"></EnumMember>
     </Enum>
     <Enum name="GFX_ANISOTROPY">
       <EnumMember name="-1" display="Auto"></EnumMember>

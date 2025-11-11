@@ -17,7 +17,8 @@
 #include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
 
 /****** Self ************************************************************************************/
-#include <rf_system.h>              /* self                                                     */
+#include <rf_system.h>                /* self                                                   */
+#include <rf_system/rfsys_internal.h> /* children                                               */
 
 /********************************/
 /*  Constants                   */
@@ -383,4 +384,10 @@ RF_SysCtrlResetPillar(void)
 
     PbColorInnr.color = 0xFF000000;
     PbColorEdge.color = 0xFF000000;
+}
+
+void
+RF_SysInit(void)
+{
+    RF_SysVsyncInit();
 }

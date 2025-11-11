@@ -85,7 +85,6 @@ RFF_SpotLightFix(void)
 void
 RFM_GlobalInit(void)
 {
-    RFG_FrameSkipInit();
     RFG_UiFilterInit();
     RFG_DrawFunctionInit();
 

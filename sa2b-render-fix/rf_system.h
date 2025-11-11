@@ -109,6 +109,25 @@ void    RF_SysCtrlDrawPillar( bool passFinal );
 */
 void    RF_SysCtrlResetPillar( void );
 
+/************************************************************************************************/
+/*
+*   Vsync Control
+*/
+/****** Vsync Wait Count ************************************************************************/
+/*
+*   Description:
+*     Set the number of vsync frames to wait before starting a new frame.
+*
+*   Parameters:
+*     - count       : vsync wait frames (1 = 60fps, 2 = 30fps, etc)
+*/
+void    RF_SysSetWaitVsyncCount( s32 count );
+/*
+*   Description:
+*     Get the current vsync wait count.
+*/
+s32     RF_SysGetWaitVsyncCount( void );
+
 EXTERN_END
 
 #endif/*H_RF_SYSTEM*/

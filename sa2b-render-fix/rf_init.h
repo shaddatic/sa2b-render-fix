@@ -64,6 +64,11 @@ void    RF_ShaderInit( void );
 *     Init the module manager system.
 */
 void    RF_ModuleInit( void );
+/*
+*   Description:
+*     Init Render Fix system controls.
+*/
+void    RF_SysInit( void );
 
 /****** Mod Compat Checker **********************************************************************/
 /*
@@ -92,7 +97,7 @@ void    RFAPI_End(  void );
 *   Description:
 *     Frameskip 'OnRenderSceneStart' function.
 */
-void    RF_FrameSkipSceneStart( void );
+void    RF_SysVsyncSceneStart( void );
 
 /************************************************************************************************/
 /*
@@ -103,7 +108,7 @@ void    RF_FrameSkipSceneStart( void );
 *   Description:
 *     Frameskip 'OnRenderSceneEnd' function.
 */
-void    RF_FrameSkipSceneEnd( void );
+void    RF_SysVsyncSceneEnd( void );
 /*
 *   Description:
 *     Draw idle screen saver fade.

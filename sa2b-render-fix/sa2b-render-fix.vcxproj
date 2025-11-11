@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="cnf.c" />
     <ClCompile Include="rf_graphics.c" />
+    <ClCompile Include="rf_ninja\rj_vsync.c" />
     <ClCompile Include="rf_samdl.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
@@ -60,7 +61,6 @@
     <ClCompile Include="rf_module\rfm_stg_cart.c" />
     <ClCompile Include="rf_module\rfm_global.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_3dsprite.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_frameskip.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_uifilter.c" />
     <ClCompile Include="rf_module\rfm_stg_chao.c" />
     <ClCompile Include="rf_module\rfm_stg_mstreet.c" />
@@ -150,6 +150,7 @@
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_shader.c" />
     <ClCompile Include="rf_system.c" />
+    <ClCompile Include="rf_system\rfsys_vsync.c" />
     <ClCompile Include="rf_util.c" />
     <ClCompile Include="rf_module\rfm_shadows.c" />
     <ClCompile Include="rf_module\rfm_shadows\shd_player.c" />
@@ -201,6 +202,7 @@
     <ClInclude Include="rf_shader.h" />
     <ClInclude Include="rf_system.h" />
     <ClInclude Include="rf_nja\tls\rf_texerr.tls" />
+    <ClInclude Include="rf_system\rfsys_internal.h" />
     <ClInclude Include="rf_util.h" />
     <ClInclude Include="rf_module\rfm_shadows\shd_internal.h" />
     <ClInclude Include="rfu_float.h" />

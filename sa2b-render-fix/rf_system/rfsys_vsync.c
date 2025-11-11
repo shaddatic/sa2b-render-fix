@@ -23,7 +23,7 @@
 #include <math.h>                   /* fmax                                                     */
 
 /****** Self ************************************************************************************/
-#include <rf_module/rfm_global/rfg_internal.h> /* parent & siblings                             */
+#include <rf_system/rfsys_internal.h> /* parent & siblings                             */
 
 /********************************/
 /*  Constants                   */
@@ -48,6 +48,7 @@
 /********************************/
 /****** Target Vsync Mode ***********************************************************************/
 static s32 WaitVsyncCount;          /* target vsync wait count                                  */
+static s32 MinWaitVsync;            /* minimum wait vsync count                                 */
 
 /****** Clock ***********************************************************************************/
 static s64 ClockStart;              /* total frame clock start                      (for vsync) */
@@ -92,7 +93,7 @@ GetVsyncFrameskip(void)
 
 /****** Extern **********************************************************************************/
 void
-RF_FrameSkipSceneStart(void)
+RF_SysVsyncSceneStart(void)
 {
     static s32 LastFrameskip = 0;
 
@@ -122,7 +123,7 @@ RF_FrameSkipSceneStart(void)
 }
 
 void
-RF_FrameSkipSceneEnd(void)
+RF_SysVsyncSceneEnd(void)
 {
     const s64 freq = osHighResolutionFrequency();
 
@@ -188,12 +189,39 @@ RF_FrameSkipSceneEnd(void)
     ClockStart = GetClock();
 }
 
-/****** Extern **********************************************************************************/
-___TODO("These will be moved to a seperate module eventually");
+/****** Hook ************************************************************************************/
+static void
+ResetWaitVsyncCount(void)
+{
+    RF_SysSetWaitVsyncCount(1);
+}
+
+static f64
+GetFrameTimeMidi(void)
+{
+    // Give the game the actual frametime in ms, it will then do 'ft - 0.f' because we set the
+    // start time to 0 and continue on as normal with the correct frametime info
+    return FrameTimeTotal;
+}
 
 static void
-SetWaitVsyncCount(Sint32 count)
+SetMidiPerformanceCounter(void)
 {
+    // set the sequence start and last tick values to 0, so we can just return the actual
+    // frametime value a bit later
+    DATA_ARY(u64, 0x01934B08, [1000])[4] = 0;
+    DATA_ARY(u64, 0x01934B08, [1000])[5] = 0;
+}
+
+/****** Set Wait Count **************************************************************************/
+static void
+SetWaitVsyncCount(s32 count)
+{
+    if ( count > 0 )
+    {
+        count = MAX(MinWaitVsync, count);
+    }
+
     WaitVsyncCount = count;
 
     TaskExecLoop1 = ABS(count);
@@ -206,7 +234,7 @@ SetWaitVsyncCount(Sint32 count)
 }
 
 void
-rjSetWaitVsyncCount(Sint32 count)
+RF_SysSetWaitVsyncCount(s32 count)
 {
     // if 0, force reset count back to 1
     if ( count == 0 )
@@ -231,38 +259,14 @@ rjSetWaitVsyncCount(Sint32 count)
 }
 
 s32
-rjGetWaitVsyncCount(void)
+RF_SysGetWaitVsyncCount(void)
 {
     return WaitVsyncCount;
 }
 
-/****** Hook ************************************************************************************/
-static void
-ResetWaitVsyncCount(void)
-{
-    rjSetWaitVsyncCount(1);
-}
-
-static f64
-GetFrameTimeMidi(void)
-{
-    // Give the game the actual frametime in ms, it will then do 'ft - 0.f' because we set the
-    // start time to 0 and continue on as normal with the correct frametime info
-    return FrameTimeTotal;
-}
-
-static void
-SetMidiPerformanceCounter(void)
-{
-    // set the sequence start and last tick values to 0, so we can just return the actual
-    // frametime value a bit later
-    DATA_ARY(u64, 0x01934B08, [1000])[4] = 0;
-    DATA_ARY(u64, 0x01934B08, [1000])[5] = 0;
-}
-
 /****** Init ************************************************************************************/
 void
-RFG_FrameSkipInit(void)
+RF_SysVsyncInit(void)
 {
     WriteNOP(      0x0043CEE7, 0x0043CEED); // stop setting the exec loop count
     WriteShortJump(0x0043CEF3, 0x0043CF16); // skip over the PAL50 code stuff
@@ -275,40 +279,40 @@ RFG_FrameSkipInit(void)
     WriteNOP( 0x0043CB51, 0x0043CB5B);
     WriteNOP( 0x0043CB5C, 0x0043CB6B);
     WriteCall(0x0043CB51, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x0051909E, 0x005190B2);
     WriteCall(0x0051909E, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x005F71EB, 0x005F71F5);
     WriteNOP( 0x005F71FD, 0x005F7209);
     WriteCall(0x005F71EB, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x005F8EE5, 0x005F8EF9); // event: end of time card
     WriteCall(0x005F8EE5, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x005FB986, 0x005FB98B);
     WriteNOP( 0x005FB998, 0x005FB99D);
     WriteNOP( 0x005FB9AB, 0x005FB9B0);
     WriteNOP( 0x005FB9B6, 0x005FB9BB);
     WriteNOP( 0x005FB9C1, 0x005FB9C6);
     WriteCall(0x005FB986, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x0051909E, 0x005190B8);
     WriteCall(0x0051909E, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x00602B5C, 0x00602B72); // event: start
     WriteCall(0x00602B5C, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x005F71EB, 0x005F71F5);
     WriteNOP( 0x005F71FD, 0x005F720F);
     WriteCall(0x005F71EB, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x00670670, 0x00670689);
     WriteCall(0x00670670, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x00791EAE, 0x00791EC8);
     WriteCall(0x00791EAE, ResetWaitVsyncCount);
-    
+
     WriteNOP( 0x0079318B, 0x007931A7);
     WriteCall(0x0079318B, ResetWaitVsyncCount);
 
@@ -332,8 +336,10 @@ RFG_FrameSkipInit(void)
 
     DebugFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO );
 
+    MinWaitVsync = CNF_GetInt( CNF_GFX_VSYNC );
+
     // set wait vsync count
     const int game_speed = CNF_GetInt( CNF_DEBUG_GAMESPEED );
 
-    rjSetWaitVsyncCount( 0 - game_speed );
+    RF_SysSetWaitVsyncCount( 0 - game_speed );
 }

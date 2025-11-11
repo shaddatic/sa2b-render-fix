@@ -345,9 +345,6 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_frameskip.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_event\ev_renderer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,6 +427,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_graphics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_vsync.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_system\rfsys_vsync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -564,6 +567,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_system\rfsys_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
