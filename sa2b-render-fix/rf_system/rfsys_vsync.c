@@ -268,6 +268,20 @@ RF_SysGetWaitVsyncCount(void)
 void
 RF_SysVsyncInit(void)
 {
+    const ml_settings* p_mlset = mlGetUserSettings();
+
+    if ( p_mlset->limitfps )
+    {
+        RF_MsgWarn(
+            "Limit Framerate",
+
+            "It is recommeneded that you disable the 'Limit Framerate' Mod Loader patch, as "
+            "it can conflict with Render Fix's own vsync and frameskipping systems.\n\n"
+
+            "It can be found in the Mod Manager at: Game Config > Patches > Limit Framerate."
+        );
+    }
+
     WriteNOP(      0x0043CEE7, 0x0043CEED); // stop setting the exec loop count
     WriteShortJump(0x0043CEF3, 0x0043CF16); // skip over the PAL50 code stuff
 
