@@ -132,9 +132,6 @@
     <ClCompile Include="rf_module\rfm_shadows\chs_chaoworld.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_stg_cescape\ce_o_ce_tree_shadows.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_cescape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -453,9 +450,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_module\rfm_shadows\chs_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_module\rfm_stg_cescape\ce_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_mdlutil.h">

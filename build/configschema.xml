@@ -214,11 +214,6 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
         <HelpText>Fixes the draw order of the water and fog surfaces.</HelpText>
       </Property>
     </Group>
-    <Group name="c_escape" display="City Escape Settings">
-      <Property name="lightmod" display="Restore Lighting Modifiers" type="eBOOL" defaultvalue="1">
-        <HelpText>Restores the objects that effect character lighting that were turned off in the GameCube version.</HelpText>
-      </Property>
-    </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>

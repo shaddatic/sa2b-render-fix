@@ -236,7 +236,6 @@ CNFE_MISC_SHDWRES;
 
 /****** Stages **********************************************************************************/
 #define CNFS_FG             "w_jungle"
-#define CNFS_CE             "c_escape"
 #define CNFS_AM             "a_mine"
 #define CNFS_CC             "c_core"
 
@@ -312,9 +311,6 @@ CNFE_MISC_SHDWRES;
 
 /** White Jungle section **/
 #define CNF_FG_WATERFOG             CNFO_INT(   CNFS_FG             , "water_fog"           , CNFE_BOOL_ENABLED                     )   /* Fix water/fog draw order */
-
-/** City Escape section **/
-#define CNF_CE_LITEMOD              CNFO_INT(   CNFS_CE             , "lightmod"            , CNFE_BOOL_ENABLED                     )   /* Restore Lighting Modifiers */
 
 /** Aquatic Mine section **/
 #define CNF_AM_MURKY                CNFO_INT(   CNFS_AM             , "murky"               , CNFE_BOOL_ENABLED                     )   /* Restore Murky Water Effect */
