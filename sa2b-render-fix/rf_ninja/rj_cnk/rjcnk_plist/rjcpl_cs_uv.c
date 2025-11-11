@@ -20,7 +20,7 @@
 static inline bool
 UseSpecular(const RJS_CNK_STRIP* restrict pStrip)
 {
-    return ( !(pStrip->flag & NJD_FST_IS) );
+    return ( !(pStrip->flag & NJD_FST_IS) && (pStrip->flag & RJD_CSF_USEOFF) );
 }
 
 /************************************************************************************************/

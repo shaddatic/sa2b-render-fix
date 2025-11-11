@@ -62,7 +62,7 @@ EXTERN_START
 *   Strip Context Flags
 */
 #define RJD_CSF_USETEX              (1<<(RJD_CSF_SHIFT_CTX+0)) /* strip will use a texture      */
-#define RJD_CSF_USEOFF              (1<<(RJD_CSF_SHIFT_CTX+1)) /* use spec with non-uv strips   */
+#define RJD_CSF_USEOFF              (1<<(RJD_CSF_SHIFT_CTX+1)) /* use offset color              */
 #define RJD_CSF_HASUVS              (1<<(RJD_CSF_SHIFT_CTX+2)) /* strip has uv 'UVN/UVH' data   */
 #define RJD_CSF_HASNRM              (1<<(RJD_CSF_SHIFT_CTX+3)) /* strip has normal 'VN' data    */
 #define RJD_CSF_HASCOL              (1<<(RJD_CSF_SHIFT_CTX+4)) /* strip has color 'D8' data     */
