@@ -167,7 +167,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 
         Uint32 new_flag = 0;
 
-        if ( all_on || funcmd == RFRS_CNKFUNCMD_SIMPLE || funcmd == RFRS_CNKFUNCMD_SIMPLEMULTI )
+        if ( all_on || (funcmd & RFRS_CNKFUNCMD_SIMPLEBIT) )
         {
             new_flag |= RJD_CXF_BACKFACECULL;
             
@@ -177,12 +177,11 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
             }
         }
 
-        if ( all_on || funcmd & RFRS_CNKFUNCMD_MULTIBIT )
+        if ( all_on || (funcmd & RFRS_CNKFUNCMD_MULTIBIT) )
         {
             new_flag |= (RJD_CXF_AMBIMATERIAL|RJD_CXF_VND8);
         }
 
-        ___TODO("This will be a setting to allow specular on non-textured polygons");
         if ( all_on ) 
         {
             new_flag |= RJD_CXF_NONTEXSPEC;
