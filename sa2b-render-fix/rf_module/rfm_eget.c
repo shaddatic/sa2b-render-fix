@@ -33,14 +33,10 @@ getEmblemDisplayerHook(task* const tp)
 void
 RFM_EmblemGetInit(void)
 {
-    if ( CNF_GetInt(CNF_EGET_PTCLFIX) )
-    {
-        SwitchDisplayer(0x0079860F, DISP);
-        FuncHook(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
-    }
+    // fix kiran
+    SwitchDisplayer(0x0079860F, DISP);
+    FuncHook(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
 
-    if ( CNF_GetInt(CNF_EGET_FADEIN) )
-    {
-        WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
-    }
+    // allow fade-in
+    WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */
 }

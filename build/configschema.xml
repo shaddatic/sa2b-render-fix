@@ -201,14 +201,6 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
         <HelpText>Restores the blue text bar in the Stage Select menu from the Dreamcast version.</HelpText>
       </Property>
     </Group>
-    <Group name="eget" display="Emblem Get Settings">
-      <Property name="fadein" display="Fade Restore" type="BINT" defaultvalue="1">
-        <HelpText>Restores the fade in effect that was removed in the GameCube version.</HelpText>
-      </Property>
-      <Property name="sparkle" display="Fix Particles" type="BINT" defaultvalue="1">
-        <HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
-      </Property>
-    </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="BINT" defaultvalue="1">
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>

@@ -232,7 +232,6 @@ CNFE_MISC_SHDWRES;
 
 /****** Menus ***********************************************************************************/
 #define CNFS_MENUS          "m_menus"
-#define CNFS_EGET           "eget"
 
 /****** Stages **********************************************************************************/
 #define CNFS_AM             "a_mine"
@@ -302,10 +301,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_MENUS_FADEFIX           CNFO_INT(   CNFS_MENUS          , "fade_fix"            , CNFE_BOOL_ENABLED                     )   /* 16:9 Fade Fix */
 #define CNF_MENUS_MAP_STRETCH       CNFO_INT(   CNFS_MENUS          , "map_stretch"         , CNFE_BOOL_ENABLED                     )   /* Stage Select: Stretch Fix */
 #define CNF_MENUS_MAP_TEXTBAR       CNFO_INT(   CNFS_MENUS          , "map_textbar"         , CNFE_BOOL_ENABLED                     )   /* Stage Select: Restore Text Bar */
-
-/** Emblem Get section **/
-#define CNF_EGET_FADEIN             CNFO_INT(   CNFS_EGET           , "fade_in"             , CNFE_BOOL_ENABLED                     )   /* Fade Restore */
-#define CNF_EGET_PTCLFIX            CNFO_INT(   CNFS_EGET           , "sparkle"             , CNFE_BOOL_ENABLED                     )   /* Fix Particles */
 
 /** Aquatic Mine section **/
 #define CNF_AM_MURKY                CNFO_INT(   CNFS_AM             , "murky"               , CNFE_BOOL_ENABLED                     )   /* Restore Murky Water Effect */
