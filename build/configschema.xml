@@ -75,9 +75,6 @@ The original games used 'Comfy'.</HelpText>
 
 The original games used 'Half Width'.</HelpText>
       </Property>
-      <Property name="nokey" display="Use Original Text Dialogs" type="eBOOL" defaultvalue="1">
-        <HelpText>Force the game into using the gamepad, and therefore original Dreamcast and GameCube, text dialogs. This increases compatibility with custom fonts, as the HD port replaced some characters with keyboard icons for use with keyboard text dialogs.</HelpText>
-      </Property>
       <Property name="ptfilter" display="Font Point Filter" type="eBOOL" defaultvalue="0">
         <HelpText>Use point sampling on the font textures, same as the Dreamcast version.
 

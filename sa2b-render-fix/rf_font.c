@@ -538,17 +538,6 @@ RF_FontInit(void)
     RF_FontChaoReplace(FONT_TYPE_KANJI, p_kanji);
     RF_FontChaoReplace(FONT_TYPE_ASCII, p_ascii);
 
-    ___TODO("Remove this! Input Controls handles it");
-
-    /** Disable keyboard messages **/
-    if ( CNF_GetInt(CNF_FONT_NOKEY) )
-    {
-        ga_InputWay[0] = 1;
-        ga_InputWay[1] = 1;
-        ga_InputWay[2] = 1;
-        ga_InputWay[3] = 1;
-    }
-
     /** Pause Color **/
     if ( CNF_GetInt(CNF_MISC_PAUSEFONTCOL) )
     {

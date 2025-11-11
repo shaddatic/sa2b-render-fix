@@ -283,7 +283,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_FONT_ASCII              CNFO_INT(   CNFS_FONT           , "ascii"               , CNFE_FONT_ASCII_VANILLA               )   /* Latin Script Font */
 #define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_COMPACT               )   /* Character Spacing */
 #define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_THIRD                 )   /* Space Character Width */
-#define CNF_FONT_NOKEY              CNFO_INT(   CNFS_FONT           , "nokey"               , CNFE_BOOL_ENABLED                     )   /* Use Original Text Dialogs */
 #define CNF_FONT_PTFILTER           CNFO_INT(   CNFS_FONT           , "ptfilter"            , CNFE_BOOL_DISABLED                    )   /* Use point filtering */
 
 /** Player section **/

@@ -188,7 +188,7 @@ static const RFS_CHKMOD CheckModList[] =
         .invchk   = true,
 
         .puHead   = "Recommended (SA2 Input Controls)",
-        .puBody   = "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it, analog controls will feel odd and some buttons will not work!\n\n"
+        .puBody   = "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
                     "Please install and enable the 'SA2 Input Controls' mod!"
     },
 };
