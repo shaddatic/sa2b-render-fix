@@ -32,10 +32,6 @@
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
-
-___TODO("Add and use actual header for this");
-void rjSetWaitVsyncCount( Sint32 count );
-
 static void
 EV_SetWaitVsyncCount(void)
 {

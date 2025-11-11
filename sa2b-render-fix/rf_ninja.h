@@ -633,6 +633,21 @@ void    rjDrawCheapShadow( void );
 */
 void    rjModifierResetBuffer( void );
 
+/****** Wait Vsync Count ************************************************************************/
+/*
+*   Description:
+*     Set the number of vsync frames to wait before starting a new frame.
+*
+*   Parameters:
+*     - count       : vsync wait frames (1 = 60fps, 2 = 30fps, etc)
+*/
+void    rjSetWaitVsyncCount( Sint32 count );
+/*
+*   Description:
+*     Get the current vsync wait count.
+*/
+Sint32  rjGetWaitVsyncCount( void );
+
 EXTERN_END
 
 #endif/*H_RF_NINJA*/
