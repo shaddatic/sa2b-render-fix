@@ -209,11 +209,6 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
         <HelpText>Fixes the particles always rendering behind the emblem.</HelpText>
       </Property>
     </Group>
-    <Group name="w_jungle" display="White Jungle Settings">
-      <Property name="water_fog" display="Water Transparancy Fix" type="eBOOL" defaultvalue="1">
-        <HelpText>Fixes the draw order of the water and fog surfaces.</HelpText>
-      </Property>
-    </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="eBOOL" defaultvalue="1">
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>

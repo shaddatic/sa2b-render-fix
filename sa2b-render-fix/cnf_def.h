@@ -235,7 +235,6 @@ CNFE_MISC_SHDWRES;
 #define CNFS_EGET           "eget"
 
 /****** Stages **********************************************************************************/
-#define CNFS_FG             "w_jungle"
 #define CNFS_AM             "a_mine"
 #define CNFS_CC             "c_core"
 
@@ -308,9 +307,6 @@ CNFE_MISC_SHDWRES;
 /** Emblem Get section **/
 #define CNF_EGET_FADEIN             CNFO_INT(   CNFS_EGET           , "fade_in"             , CNFE_BOOL_ENABLED                     )   /* Fade Restore */
 #define CNF_EGET_PTCLFIX            CNFO_INT(   CNFS_EGET           , "sparkle"             , CNFE_BOOL_ENABLED                     )   /* Fix Particles */
-
-/** White Jungle section **/
-#define CNF_FG_WATERFOG             CNFO_INT(   CNFS_FG             , "water_fog"           , CNFE_BOOL_ENABLED                     )   /* Fix water/fog draw order */
 
 /** Aquatic Mine section **/
 #define CNF_AM_MURKY                CNFO_INT(   CNFS_AM             , "murky"               , CNFE_BOOL_ENABLED                     )   /* Restore Murky Water Effect */

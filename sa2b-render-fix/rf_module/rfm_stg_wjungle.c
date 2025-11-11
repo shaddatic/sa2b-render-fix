@@ -72,8 +72,5 @@ BgDispSort(task* tp)
 void
 RFM_WhiteJungleInit(void)
 {
-    if ( CNF_GetInt(CNF_FG_WATERFOG) )
-    {
-        WriteJump(0x0062F220, BgDispSort);
-    }
+    WriteJump(0x0062F220, BgDispSort);
 }
