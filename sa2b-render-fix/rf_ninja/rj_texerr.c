@@ -4,12 +4,8 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 
-#define SAMT_INCL_INTERNAL
-
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
-
-#undef SAMT_INCL_INTERNAL
 
 /****** Game ************************************************************************/
 #include <samt/sonic/texture.h> /* texload                                          */
