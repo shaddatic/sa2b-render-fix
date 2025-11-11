@@ -48,15 +48,6 @@ Only recommended for very specific reasons or with the use of antialiasing, like
 
 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
       </Property>
-      <Property name="backcolor" display="Draw Back-Color" type="BINT" defaultvalue="1">
-        <HelpText>The Dreamcast supported drawing a gradient color as the background, but HD broke this feature so usually just draws black. This fixes the bug, and restores the original Dreamcast gradient back-color.</HelpText>
-      </Property>
-      <Property name="ptcl_scl" display="Fix Particle Scale" type="BINT" defaultvalue="1">
-        <HelpText>Locks the polygon-particle's scale to the game world instead of screen resolution, and fixes the sprite-particle's scale being halved since Dreamcast.</HelpText>
-      </Property>
-      <Property name="sprite" display="Fix 3D Sprites" type="BINT" defaultvalue="1">
-        <HelpText>Fixes many sprite positioning errors by changing the calculation used to move the sprite closer to the camera.</HelpText>
-      </Property>
     </Group>
     <Group name="font" display="Text and Font Settings">
       <Property name="kanji" display="Japanese Script Font" type="FONT_KANJI" defaultvalue="0">

@@ -96,23 +96,19 @@ RFM_GlobalInit(void)
 
     RFG_BackfaceCullingInit();
 
-    if ( CNF_GetInt(CNF_GLOBAL_BACKCOLOR) )
+    RfgBackColor = true;
+    RFG_NinjaBackColorInit();
+
     {
-        RfgBackColor = true;
-        RFG_NinjaBackColorInit();
-    }
+        constexpr double ptcldbl00 = 1.5;
+        constexpr double ptcldbl01 = 2.0;
 
-    if ( CNF_GetInt(CNF_GLOBAL_PTCLSCALE) )
-    {
-        const double ptcldbl00 = 1.5;
-        const double ptcldbl01 = 2.0;
+        constexpr double ptcldbl02 = 1.0;
 
-        const double ptcldbl02 = 1.0;
+        constexpr double ptcldbl03 = 30.0;
+        constexpr double ptcldbl04 = 32.5;
 
-        const double ptcldbl03 = 30.0;
-        const double ptcldbl04 = 32.5;
-
-        const double ptcldbl05 = 0.0000457763671875;
+        constexpr double ptcldbl05 = 0.0000457763671875;
 
         /** Some particles were made 2x as big to counteract
             the halvaning, this reverts that **/
@@ -151,18 +147,11 @@ RFM_GlobalInit(void)
 
     RFG_ModelTintInit();
 
-    if ( true ) // this used to be a setting, but is now always on
-    {
-//      RfgEnvMapFlip = true;
-        RFG_EnvMapFlip();
-    }
+    RFG_EnvMapFlip();
 
     RFG_TaskDisplayInit();
 
-    if ( CNF_GetInt(CNF_GLOBAL_SPRITE) )
-    {
-        RFG_3DSpriteInit();
-    }
+    RFG_3DSpriteInit();
 
     if (true) // Aspect test
     {
