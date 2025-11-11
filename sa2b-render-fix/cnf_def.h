@@ -230,14 +230,8 @@ CNFE_MISC_SHDWRES;
 #define CNFS_PLAYER         "player"
 #define CNFS_COMMON         "common"
 
-/****** Menus ***********************************************************************************/
-#define CNFS_MENUS          "m_menus"
-
 /****** Stages **********************************************************************************/
 #define CNFS_AM             "a_mine"
-
-/****** Bosses **********************************************************************************/
-#define CNFS_BBOGY          "bossbogy"
 
 /****** Others **********************************************************************************/
 #define CNFS_CART           "cart"
@@ -296,11 +290,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_COMMON_EEMBLEM          CNFO_INT(   CNFS_COMMON         , "e_emblem"            , CNFE_BOOL_ENABLED                     )   /* GUN Emblems */
 #define CNF_COMMON_AISHEILD         CNFO_INT(   CNFS_COMMON         , "e_ai_shield"         , CNFE_BOOL_ENABLED                     )   /* DC GUN Hunter Shield */
 #define CNF_COMMON_ESTGTEX          CNFO_INT(   CNFS_COMMON         , "e_stg_tex"           , CNFE_BOOL_ENABLED                     )   /* Stage Specific Enemy Textures */
-
-/** Main Menus section **/
-#define CNF_MENUS_FADEFIX           CNFO_INT(   CNFS_MENUS          , "fade_fix"            , CNFE_BOOL_ENABLED                     )   /* 16:9 Fade Fix */
-#define CNF_MENUS_MAP_STRETCH       CNFO_INT(   CNFS_MENUS          , "map_stretch"         , CNFE_BOOL_ENABLED                     )   /* Stage Select: Stretch Fix */
-#define CNF_MENUS_MAP_TEXTBAR       CNFO_INT(   CNFS_MENUS          , "map_textbar"         , CNFE_BOOL_ENABLED                     )   /* Stage Select: Restore Text Bar */
 
 /** Aquatic Mine section **/
 #define CNF_AM_MURKY                CNFO_INT(   CNFS_AM             , "murky"               , CNFE_BOOL_ENABLED                     )   /* Restore Murky Water Effect */

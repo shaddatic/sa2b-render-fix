@@ -22,9 +22,6 @@
 // self
 #include <rf_module/rfm_menus/rfmenu_internal.h>
 
-/** Variables **/
-static bool MenuFadeFixEnabled;
-
 /****/
 static const int SOCDisplaySprite_p = 0x0041DC80;
 static void
@@ -214,12 +211,9 @@ DrawMapPurpleFill(void)
 
     NJS_COLOR col = { .color = 0xFF210C29 };
 
-    if (MenuFadeFixEnabled)
-    {
-        col.argb.r = (Uint8)((f32)col.argb.r * _nj_constant_material_.r);
-        col.argb.g = (Uint8)((f32)col.argb.g * _nj_constant_material_.g);
-        col.argb.b = (Uint8)((f32)col.argb.b * _nj_constant_material_.b);
-    }
+    col.argb.r = (Uint8)roundf((f32)col.argb.r * _nj_constant_material_.r);
+    col.argb.g = (Uint8)roundf((f32)col.argb.g * _nj_constant_material_.g);
+    col.argb.b = (Uint8)roundf((f32)col.argb.b * _nj_constant_material_.b);
 
     colors[0].color = col.color;
     colors[1].color = col.color;
@@ -248,46 +242,38 @@ RFM_MenusInit(void)
 {
     RFM_MenuCartInit();
 
-    if ( CNF_GetInt(CNF_MENUS_FADEFIX) )
+    // menu fading fix
+    WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
+
+    FuncHook(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
+    FuncHook(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
+
+    WriteCall(0x00675EA8, __SOCDrawSpriteWithConstMat); // Stage Map
+    WriteCall(0x00675F58, __SOCDrawSpriteWithConstMat); // ^
+    WriteCall(0x00676080, __SOCDrawSpriteWithConstMat); // ^
+    WriteCall(0x0067619F, __SOCDrawSpriteWithConstMat); // ^
+
+    WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
+    WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
+
+    if ( CNF_GetInt(CNF_EXP_DCMENUFADE) )
     {
-        WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
-
-        FuncHook(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
-        FuncHook(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
-
-        WriteCall(0x00675EA8, __SOCDrawSpriteWithConstMat); // Stage Map
-        WriteCall(0x00675F58, __SOCDrawSpriteWithConstMat); // ^
-        WriteCall(0x00676080, __SOCDrawSpriteWithConstMat); // ^
-        WriteCall(0x0067619F, __SOCDrawSpriteWithConstMat); // ^
-
-        WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
-        WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
-
-        if ( CNF_GetInt(CNF_EXP_DCMENUFADE) )
-        {
-            WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
-        }
-
-        WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
-
-        WriteCall(0x00668222, __SOCDrawSpriteWithConstMat); // BTL Custom Backgrounds
-
-        MenuFadeFixEnabled = true;
+        WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
     }
 
-    if ( CNF_GetInt(CNF_MENUS_MAP_TEXTBAR) )
-    {
-        WriteJump(0x00675D50, DrawMapTextBackdrop);
-    }
+    WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
 
-    if ( CNF_GetInt(CNF_MENUS_MAP_STRETCH) )
-    {
-        static const float posshift = -108.0f;
+    WriteCall(0x00668222, __SOCDrawSpriteWithConstMat); // BTL Custom Backgrounds
 
-        WritePointer(0x006763BB, &posshift);            /* Move icons left  */
-        WritePointer(0x00676046, 0x00907420);           /* stop stretch     */
+    // text bar
+    WriteJump(0x00675D50, DrawMapTextBackdrop);
 
-        WriteNOP(0x00676094, 0x0067609E);               // fill blank space
-        WriteCall(0x00676094, DrawMapPurpleFill);
-    }
+    // space stretching
+    static const float posshift = -108.0f;
+
+    WritePointer(0x006763BB, &posshift);            /* Move icons left  */
+    WritePointer(0x00676046, 0x00907420);           /* stop stretch     */
+
+    WriteNOP(0x00676094, 0x0067609E);               // fill blank space
+    WriteCall(0x00676094, DrawMapPurpleFill);
 }

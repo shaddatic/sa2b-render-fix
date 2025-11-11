@@ -190,17 +190,6 @@ Mirror: Mirror video on each side.
 Crop: Crop the upper and lower sections of the video.</HelpText>
       </Property>
     </Group>
-    <Group name="m_menus" display="Main Menus Settings">
-      <Property name="fade_fix" display="Element Fading Fix" type="BINT" defaultvalue="1">
-        <HelpText>Fixes many element fade issues with both the Dreamcast and Battle menus.</HelpText>
-      </Property>
-      <Property name="map_stretch" display="Stage Select: Stretch Fix" type="BINT" defaultvalue="1">
-        <HelpText>Fixes the last section of the Stage Select menu stretching due to the larger aspect ratio by implementing the same fix as the Xbox 360 version.</HelpText>
-      </Property>
-      <Property name="map_textbar" display="Stage Select: Restore Text Bar" type="BINT" defaultvalue="1">
-        <HelpText>Restores the blue text bar in the Stage Select menu from the Dreamcast version.</HelpText>
-      </Property>
-    </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="BINT" defaultvalue="1">
         <HelpText>Restores the murky water effect that was massively toned down in the GameCube version.</HelpText>
