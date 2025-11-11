@@ -264,6 +264,7 @@ CNFE_MISC_SHDWRES;
 /** Global section **/
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */
+#define CNF_GLOBAL_CNKSPEC          CNFO_INT(   CNFS_GLOBAL         , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
 
 /** Font section **/
 #define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */
