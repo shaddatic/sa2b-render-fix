@@ -260,23 +260,31 @@ Shadow maps are no longer actively supported, and may be removed in the future.<
       </Property>
     </Group>
     <Group name="compatibility" display="Compatibility Settings">
-      <Property name="pl_brokenfix" display="Broken Character Model Fix" type="eBOOL" defaultvalue="0">
-        <HelpText>Disables advanced rendering features for player character models to hide issues such as broken triangle normals and incorrectly set material flags. 
+      <Property name="pl_brokenfix" display="Broken Character Models" type="BOOL_WARN" defaultvalue="0">
+        <HelpText>Disables new rendering features for player models to hide issues such as broken surface normals and incorrectly set material flags; causing holes, extremely dark lighting, etc. 
 
-Older player mods made before RF were unaware of these issues due to the Vanilla renderer being unable to display them, this should mostly restore that environment to make them look how they were intended. 
+Older mods were unaware they had these issues, so couldn't fix them. This should mostly restore the vanilla environment.
 
-However, be warned that some mods require these rendering features and won't work correctly without them.</HelpText>
+[ WARNING! ]
+Don't enable this for no reason! Many newer mods require these features and won't work correctly without them!</HelpText>
       </Property>
-      <Property name="pl_consttexmat" display="Character Model Diffuse Material" type="eBOOL" defaultvalue="0">
-        <HelpText>Reenables diffuse material color on player character models as some mods, but not many, require it to work correctly.
+      <Property name="pl_texmat" display="Character Diffuse Material" type="BOOL_WARN" defaultvalue="0">
+        <HelpText>Reenables diffuse material color on player character models as some mods - but not many - require it to work correctly.
 
-However, be warned that many models will actually break with this enabled, including RF's 'Dreamcast Character Models'.</HelpText>
+[ WARNING! ]
+Don't enable this for no reason! Many models will actually break with this enabled, including RF's 'Dreamcast Character Models'!</HelpText>
       </Property>
-      <Property name="chw_mod" display="Disable Modifiers in Chao World" type="eBOOL" defaultvalue="0">
-        <HelpText>Disables the Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods may enable this for you when needed.</HelpText>
+      <Property name="chw_mod" display="Custom Chao World Shadows" type="BOOL_WARN" defaultvalue="0">
+        <HelpText>Disables RF's Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods should enable this for you when needed.
+
+[ WARNING! ]
+Don't enable this for no reason! Only enable if another mod will actually apply a new shadow system to Chao World!</HelpText>
       </Property>
-      <Property name="old_atest" display="Use Old Alpha Test Parameters" type="eBOOL" defaultvalue="0">
-        <HelpText>Use pre-1.4 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.</HelpText>
+      <Property name="old_atest" display="Use Old Alpha Test Parameters" type="BOOL_WARN" defaultvalue="0">
+        <HelpText>Use pre-1.4 alpha test parameters, which may fix some graphical oddities with transparent objects while re-introducing vanilla ones.
+
+[ WARNING! ]
+Don't enable this for no reason!</HelpText>
       </Property>
     </Group>
     <Group name="debug" display="Debug Settings">
@@ -326,6 +334,10 @@ This is useful for modders who wish to stress test their code over long periods,
   <Enums>
     <Enum name="eBOOL">
       <EnumMember name="1" display="Enabled"></EnumMember>
+      <EnumMember name="0" display="Off/Disabled"></EnumMember>
+    </Enum>
+    <Enum name="BOOL_WARN">
+      <EnumMember name="1" display="Enabled (WARNING!)"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
     </Enum>
     <Enum name="GFX_ANISOTROPY">

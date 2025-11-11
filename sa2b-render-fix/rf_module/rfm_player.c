@@ -483,7 +483,7 @@ RFM_PlayerInit(void)
         BrokenModelFix = true;
     }
 
-    if ( CNF_GetInt( CNF_COMPAT_PLCONSTTEXMAT ) )
+    if ( CNF_GetInt( CNF_COMPAT_PLTEXMAT ) )
     {
         PlayerModelCompatHook();
 
