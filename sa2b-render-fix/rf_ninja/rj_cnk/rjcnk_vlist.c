@@ -745,13 +745,13 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     [ NJD_CV_SH - NJD_VERTOFF ] = 
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex1,
     },
     [ NJD_CV_VN_SH - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVNSH,
     },
     /*
@@ -760,43 +760,43 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     [ NJD_CV - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex,
     },
     [ NJD_CV_D8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PC,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexD8,
     },
     [ NJD_CV_UF - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex1,
     },
     [ NJD_CV_NF - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = TRUE,
+        .njflag  = TRUE,
         .fnVlist = rjCnkVertexNF,
     },
     [ NJD_CV_S5 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex1,
     },
     [ NJD_CV_S4 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex1,
     },
     [ NJD_CV_IN - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertex1,
     },
     /*
@@ -805,43 +805,43 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     [ NJD_CV_VN - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVN,
     },
     [ NJD_CV_VN_D8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PNC,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVND8,
     },
     [ NJD_CV_VN_UF - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVN1,
     },
     [ NJD_CV_VN_NF - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = TRUE,
+        .njflag  = TRUE,
         .fnVlist = rjCnkVertexVNNF,
     },
     [ NJD_CV_VN_S5 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVN1,
     },
     [ NJD_CV_VN_S4 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVN1,
     },
     [ NJD_CV_VN_IN - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVN1,
     },
     /*
@@ -850,19 +850,19 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     [ NJD_CV_VNX - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVNX,
     },
     [ NJD_CV_VNX_D8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PNC,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVNXD8,
     },
     [ NJD_CV_VNX_UF - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexVNX1,
     },
     /*
@@ -871,13 +871,13 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     [ NJD_CV_D8_S8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PCS,
-        .njflag   = FALSE,
+        .njflag  = FALSE,
         .fnVlist = rjCnkVertexD8S8,
     },
     [ NJD_CV_NF_D8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PC,
-        .njflag   = TRUE,
+        .njflag  = TRUE,
         .fnVlist = rjCnkVertexNFD8,
     },
 };
