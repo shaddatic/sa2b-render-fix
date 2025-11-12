@@ -505,7 +505,7 @@ RFU_ReplaceChunkObject(NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile)
     return result;
 }
 
-/****** Replace File ****************************************************************************/
+/****** Replace Float ***************************************************************************/
 void
 RFU_DirectReplaceFloat(pint pOpcode, const void* pFlt)
 {
