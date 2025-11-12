@@ -739,6 +739,9 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 /****** Functions *******************************************************************/
 static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
 {
+    /*
+    *   SH4 Optimized
+    */
     [ NJD_CV_SH - NJD_VERTOFF ] = 
     {
         .vattr   = RJD_CVT_P,
@@ -751,7 +754,9 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
         .njflag   = FALSE,
         .fnVlist = rjCnkVertexVNSH,
     },
-
+    /*
+    *   Chunk Vertex
+    */
     [ NJD_CV - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_P,
@@ -794,7 +799,9 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
         .njflag   = FALSE,
         .fnVlist = rjCnkVertex1,
     },
-
+    /*
+    *   Chunk Vertex Normals
+    */
     [ NJD_CV_VN - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
@@ -836,8 +843,10 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
         .vattr   = RJD_CVT_PN,
         .njflag   = FALSE,
         .fnVlist = rjCnkVertexVN1,
-},
-
+    },
+    /*
+    *   Chunk Vertex Normals32 (VNX)
+    */
     [ NJD_CV_VNX - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PN,
@@ -856,7 +865,9 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
         .njflag   = FALSE,
         .fnVlist = rjCnkVertexVNX1,
     },
-
+    /*
+    *   Chunk Vertex Ninja2
+    */
     [ NJD_CV_D8_S8 - NJD_VERTOFF ] =
     {
         .vattr   = RJD_CVT_PCS,
