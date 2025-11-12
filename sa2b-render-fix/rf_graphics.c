@@ -180,24 +180,27 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
 
     RF_MAGICTEXTURE* p_mtex = pTex->surface;
 
-    RF_MAGIC_STATECACHE* p_mcache = RF_MagicGetStateCache();
-
-    if ( p_mcache->pstexs[index] != p_mtex->texture )
+    if ( p_mtex )
     {
-        DX9_SetTexture(index, p_mtex->texture);
+        RF_MAGIC_STATECACHE* p_mcache = RF_MagicGetStateCache();
 
-        p_mcache->pstexs[index] = p_mtex->texture;
+        if ( p_mcache->pstexs[index] != p_mtex->texture )
+        {
+            DX9_SetTexture(index, p_mtex->texture);
+
+            p_mcache->pstexs[index] = p_mtex->texture;
+        }
+
+        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU     , s_GxToDxAddr[pTex->address_u]);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV     , s_GxToDxAddr[pTex->address_v]);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSW     , DX9_TEXADDR_CLAMP);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_BORDERCOLOR  , 0x00000000);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_MAGFILTER    , s_GxToDxFilter[pTex->mag_filter]);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_MINFILTER    , s_GxToDxFilter[pTex->min_filter]);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , DX9_TEXFILTER_POINT);
+        RFGX_SetSamplerState(index, DX9_SAMPLER_MIPMAPLODBIAS, TO_UINT(0.f));
+        RFGX_SetSamplerState(index, DX9_SAMPLER_MAXANISOTROPY, 4);
     }
-
-    RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU     , s_GxToDxAddr[pTex->address_u]);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV     , s_GxToDxAddr[pTex->address_v]);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSW     , DX9_TEXADDR_CLAMP);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_BORDERCOLOR  , 0x00000000);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MAGFILTER    , s_GxToDxFilter[pTex->mag_filter]);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MINFILTER    , s_GxToDxFilter[pTex->min_filter]);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , DX9_TEXFILTER_POINT);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MIPMAPLODBIAS, TO_UINT(0.f));
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MAXANISOTROPY, 4);
 
     /** update struc thing **/
 
@@ -216,7 +219,7 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
         /** CWE replaces this but doesn't check for a 'nullptr', so
         we must remove shader flag manually **/
 
-        //      SetPaletteShader( nullptr );
+//      SetPaletteShader( nullptr );
 
         const int shdrmd = ShaderModelMode;
 
