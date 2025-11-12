@@ -26,8 +26,5 @@ RFM_EventInit(void)
 
     WriteData(0x00458A18, 350, s32); // force play E0350
 
-    if ( CNF_GetInt(CNF_EVENT_RFDISP) )
-    {
-        EV_RendererInit();
-    }
+    EV_RendererInit();
 }

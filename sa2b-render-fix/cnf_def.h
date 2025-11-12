@@ -308,7 +308,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
-#define CNF_EVENT_RFDISP            CNFO_INT(   CNFS_EVENT          , "rf_disp"             , CNFE_BOOL_ENABLED                     )   /* Render Fix Renderer */
 #define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
 #define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
