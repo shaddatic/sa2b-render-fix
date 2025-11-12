@@ -68,6 +68,7 @@ EXTERN_START
 */
 /****** Vertex Offset Size **********************************************************/
 #define CNK_VERTOFF_SIZE_HEAD   (2) /* size of header                               */
+#define CNK_VERTOFF_SIZE_ADD    (1) /* additional step count after reading 'size'   */
 
 /************************************************************************************/
 /*

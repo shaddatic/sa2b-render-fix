@@ -298,14 +298,14 @@ int     CnkDrawShadow_Ext( const NJS_CNK_MODEL* model, const void* vbuf );
 void    rjCnkBeginDepthQueue( const NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Calculate depth queue colors on the current vertex chunk head, with weighted variant.
+*     Calculate depth queue colors on the current vertex chunk head.
 * 
 *   Parameters:
 *     - vhead       : vertex chunk head
 *     - vbuf        : vertex buffer
+*     - njflag      : ninja flag (weights)
 */
-void    rjCnkCalculateDepthQueue(   const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf );
-void    rjCnkCalculateDepthQueueNF( const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf );
+void    rjCnkCalculateDepthQueue( const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf, bool njflag );
 
 /****** Vertex Color ****************************************************************************/
 /*

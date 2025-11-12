@@ -23,6 +23,19 @@
 #define SQR(x)                  ((x) * (x))
 
 /************************/
+/*  Structures          */
+/************************/
+/****** Vlist Function **************************************************************/
+typedef struct
+{
+    Uint16 vattr;
+    Uint16 njflag;
+
+    void (*fnVlist)( const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf );
+}
+RJS_VLIST_ENTRY;
+
+/************************/
 /*  Source              */
 /************************/
 /****** Lights **********************************************************************/
@@ -257,14 +270,14 @@ rjCnkGetVlistSI(NJS_ARGB* dst, const Uint16* src)
 */
 /****** Static **********************************************************************/
 static void
-rjCnkVertexSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+rjCnkVertex1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
 
     /** Read vertex header **/
     const int           nb_vertex = vhead->nbindeces;
-    const CNK_VERTEX_SH* p_vertex = (void*) vhead->d;
+    const CNK_VERTEX_UF* p_vertex = (void*) vhead->d;
 
     /** Populate vertex buffer **/
     RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
@@ -363,25 +376,6 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
         fn_nfunc(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
-    }
-}
-
-static void
-rjCnkVertexUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
-{
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-
-    /** Read vertex header **/
-    const int           nb_vertex = vhead->nbindeces;
-    const CNK_VERTEX_UF* p_vertex = (void*) vhead->d;
-
-    /** Populate vertex buffer **/
-    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
-
-    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
-    {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
     }
 }
 
@@ -509,7 +503,7 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict
 }
 
 static void
-rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+rjCnkVertexVNX1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -537,7 +531,7 @@ rjCnkVertexVNXUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict
 }
 
 static void
-rjCnkVertexVNUF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
     /** Get function constants **/
     RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
@@ -740,6 +734,145 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
 /************************************************************************************/
 /*
+*   VList Functions List
+*/
+/****** Functions *******************************************************************/
+static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
+{
+    [ NJD_CV_SH - NJD_VERTOFF ] = 
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex1,
+    },
+    [ NJD_CV_VN_SH - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVNSH,
+    },
+
+    [ NJD_CV - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex,
+    },
+    [ NJD_CV_D8 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PC,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexD8,
+    },
+    [ NJD_CV_UF - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex1,
+    },
+    [ NJD_CV_NF - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = TRUE,
+        .fnVlist = rjCnkVertexNF,
+    },
+    [ NJD_CV_S5 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex1,
+    },
+    [ NJD_CV_S4 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex1,
+    },
+    [ NJD_CV_IN - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_P,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertex1,
+    },
+
+    [ NJD_CV_VN - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVN,
+    },
+    [ NJD_CV_VN_D8 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PNC,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVND8,
+    },
+    [ NJD_CV_VN_UF - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVN1,
+    },
+    [ NJD_CV_VN_NF - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = TRUE,
+        .fnVlist = rjCnkVertexVNNF,
+    },
+    [ NJD_CV_VN_S5 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVN1,
+    },
+    [ NJD_CV_VN_S4 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVN1,
+    },
+    [ NJD_CV_VN_IN - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVN1,
+},
+
+    [ NJD_CV_VNX - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVNX,
+    },
+    [ NJD_CV_VNX_D8 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PNC,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVNXD8,
+    },
+    [ NJD_CV_VNX_UF - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PN,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexVNX1,
+    },
+
+    [ NJD_CV_D8_S8 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PCS,
+        .njflag   = FALSE,
+        .fnVlist = rjCnkVertexD8S8,
+    },
+    [ NJD_CV_NF_D8 - NJD_VERTOFF ] =
+    {
+        .vattr   = RJD_CVT_PC,
+        .njflag   = TRUE,
+        .fnVlist = rjCnkVertexNFD8,
+    },
+};
+
+/************************************************************************************/
+/*
 *   Calculate VList
 */
 /****** Extern **********************************************************************/
@@ -748,224 +881,49 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
 {
     const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
 
+    // Get Chunk Control vertex attribute flags
     const Uint16 vattr_and = (_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_MASK_VTX) >> RJD_CNK_CTRL_SHIFT_VTX;
 
+    // Start Vlist
     const Sint32* vlist = pVList;
 
     for ( ; ; )
     {
-        bool nf = false; // has weights
-
         const CNK_VERTEX_HEAD* restrict p_vhead = (void*)vlist;
 
-        /** Get vertex chunk type **/
-        const Sint32 type = p_vhead->head;
-
-        if ( type == NJD_ENDOFF )
+        // If end offset, stop
+        if ( p_vhead->head == NJD_ENDOFF )
         {
-            /** NJD_ENDOFF **/
             break;
         }
 
-        /** Get the vertex buffer offset for this vertex list. Verteces are copied from the
-            'vlist' sequentially (excluding weights) into the vertex buffer starting from this
-            offset. The vertex buffer struct is fixed as mixed vertex chunk types are possible. **/
-        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vhead->indexoffset ];
+        // Get function for this vlist chunk
+        const RJS_VLIST_ENTRY* restrict p_vfunc = &_rj_vlist_funcs_[p_vhead->head - NJD_VERTOFF];
 
-        switch ( CVSW(type) )
+        // Multi draw variants don't support vertex types with no normals, so clip them
+        if ( multi && !(p_vfunc->vattr & RJD_CVF_NORMAL) )
         {
-            /*
-            *   SH4 Optimized
-            */
-            case CVSW( NJD_CV_SH ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertexSH(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VN_SH ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertexVNSH(p_vhead, p_vbuf);
-                break;
-            }
-            /*
-            *   Chunk Vertex
-            */
-            case CVSW( NJD_CV ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertex(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_D8 ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PC & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertexD8(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_UF ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertexUF(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_NF ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_P & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                nf = true;
-
-                rjCnkVertexNF(p_vhead, p_vbuf);
-                break;
-            }
-            /*
-            *   Chunk Vertex Normals
-            */
-            case CVSW( NJD_CV_VN ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                rjCnkVertexVN(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VN_D8 ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PNC & vattr_and;
-
-                rjCnkVertexVND8(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VN_UF ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                rjCnkVertexVNUF(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VN_NF ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                nf = true;
-
-                rjCnkVertexVNNF(p_vhead, p_vbuf);
-                break;
-            }
-            /*
-            *   Chunk Vertex Normals32
-            */
-            case CVSW( NJD_CV_VNX ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                rjCnkVertexVNX(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VNX_D8 ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PNC & vattr_and;
-
-                rjCnkVertexVNXD8(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_VNX_UF ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PN & vattr_and;
-
-                rjCnkVertexVNXUF(p_vhead, p_vbuf);
-                break;
-            }
-            /*
-            *   Chunk Ninja2 Vertex
-            */
-            case CVSW( NJD_CV_D8_S8 ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PCS & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                rjCnkVertexD8S8(p_vhead, p_vbuf);
-                break;
-            }
-            case CVSW( NJD_CV_NF_D8 ):
-            {
-                _rj_cnk_context_.vattr = RJD_CVT_PC & vattr_and;
-
-                /** No normals, halt drawing if 'MultiDraw' **/
-                if ( multi )
-                {
-                    return CNK_RETN_CLIP;
-                }
-
-                nf = true;
-
-                rjCnkVertexNFD8(p_vhead, p_vbuf);
-                break;
-            }
-            /*
-            *   End
-            */
-            default:
-            {
-                /** Unhandled vertex type, halt draw. **/
-                return CNK_RETN_CLIP;
-            }
+            return CNK_RETN_CLIP;
         }
 
-        /** Calculate depth queue **/
+        // Verteces are calculated sequentially (excluding weights, which can do arbitrary
+        // vertices per vlist index) into the vertex buffer starting from this offset.
 
-        nf ? rjCnkCalculateDepthQueueNF(p_vhead, p_vbuf) :
-             rjCnkCalculateDepthQueue(  p_vhead, p_vbuf);
+        // Get the vertex buffer offset for this vlist.
+        RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vhead->indexoffset ];
 
-        /** Next data chunk **/
-        vlist += p_vhead->size + 1;
+        // Set vertex attrs and buffer
+        _rj_cnk_context_.vattr = (p_vfunc->vattr & vattr_and);
+
+        p_vfunc->fnVlist(p_vhead, p_vbuf);
+
+        // Calculate the depth queue (fading at distance)
+        rjCnkCalculateDepthQueue(p_vhead, p_vbuf, p_vfunc->njflag);
+
+        // next vertex chunk
+        vlist += p_vhead->size + CNK_VERTOFF_SIZE_ADD;
     }
 
+    // End Vlist, OK!
     return CNK_RETN_OK;
 }
