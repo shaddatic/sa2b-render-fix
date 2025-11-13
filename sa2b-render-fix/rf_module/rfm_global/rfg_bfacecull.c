@@ -104,19 +104,9 @@ BGDisp_CCSFix(task* tp)
 #define BatModelList            DATA_ARY(NJS_CNK_MODEL* , 0x00B6AD04, [6])
 #define CCRBgWaterList          DATA_ARY(NJS_CNK_MODEL* , 0x01612CF8, [20])
 
-static bool CullEnabled;
-
-bool
-RFF_BackFaceCulling(void)
-{
-    return CullEnabled;
-}
-
 void
 RFG_BackfaceCullingInit(void)
 {
-    CullEnabled = true;
-
     /*
     *   Model Fixes
     */

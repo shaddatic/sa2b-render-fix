@@ -49,10 +49,6 @@ EXTERN void     RFG_ForceShadowMaps( void );
 /****** Shadow Map Resolution *******************************************************/
 static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
-/****** Settings ********************************************************************/
-static int  CheapShadowMode;
-static bool CheapShadowPlayer;
-
 /****** Mod Shadow ******************************************************************/
 static NJS_CNK_MODEL* model_basic_shadow;
 
@@ -110,37 +106,6 @@ AL_DestructorHook(task* tp)
     rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
 }
 
-/****** Feature Check ***************************************************************/
-bool
-RFF_CheapShadow(void)
-{
-    return CheapShadowMode != CNFE_GLOBAL_CHSMD_DISABLED;
-}
-
-bool
-RFF_CheapShadowPerformance(void)
-{
-    return CheapShadowMode == CNFE_GLOBAL_CHSMD_PERFORMANCE;
-}
-
-bool
-RFF_CheapShadowPlayer(void)
-{
-    return CheapShadowPlayer;
-}
-
-f32
-RFF_ShadowOpacityGlobal(void)
-{
-    return CHEAPSHDWMD_TO_FLOAT( CHEAPSHDWMD_NORMAL );
-}
-
-f32
-RFF_ShadowOpacityChao(void)
-{
-    return CHEAPSHDWMD_TO_FLOAT( CHEAPSHDWMD_CHAO );
-}
-
 /****** Init ************************************************************************/
 void
 RFM_ShadowsInit(void)
@@ -163,7 +128,6 @@ RFM_ShadowsInit(void)
                 break;
 
             CHS_PlayerInit();
-            CheapShadowPlayer = true;
             break;
         }
         case CNFE_PLAYER_SHADOWMD_ENHANCED:
@@ -227,9 +191,6 @@ RFM_ShadowsInit(void)
     CHS_ObjectBurstInit();
     CHS_ObjectMSMadBox();
     CHS_ObjectMDContWood();
-
-    // save setting
-    CheapShadowMode = chs_mode;
 
     /** Set default intensity **/
     rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);

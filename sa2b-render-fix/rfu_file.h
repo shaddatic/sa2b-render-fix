@@ -104,12 +104,16 @@ bool    RFU_ReplacePvr( const c7* pcPvrName, const c7* pcOptiFolder );
 *     Replace player model/motion file with a variant stored in an 'optional' mod folder with
 *   mod order and ownership tests.
 *
+*   Notes:
+*     - If the OptiFolder string is 'nullptr', no replacement will be made but the function
+*       will still check if the replacement is possible and return a value.
+*
 *   Parameters:
 *     - pcPrsName   : player file name, eg. 'SONICMDL'
-*     - pcPrsName   : optional directory, eg. 'plmdl_dc'
+*     - pcPrsName   : optional directory, eg. 'plmdl_dc'                         [opt: nullptr]
 *
 *   Returns:
-*     'true' if the replacement was successful; or 'false' if it wasn't possible.
+*     'true' if the replacement was successful/possible; or 'false' if it wasn't possible.
 */
 bool    RFU_ReplacePlayerPrs( const c7* pcPrsName, const c7* pcOptiFolder );
 

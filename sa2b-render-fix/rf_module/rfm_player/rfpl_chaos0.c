@@ -122,13 +122,6 @@ Chaos0DispDelyHook(task* tp)
     rjCnkSetTextureCallback( NULL );
 }
 
-/****** Feature *********************************************************************/
-bool
-RFF_Chaos0TexAnim(void)
-{
-    return Chaos0TexAnim;
-}
-
 /****** Init ************************************************************************/
 void
 RFPL_Chaos0Init(void)

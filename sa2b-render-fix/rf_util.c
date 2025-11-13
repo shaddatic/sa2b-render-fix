@@ -375,13 +375,16 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
         }
     }
 
-    mtStrFormat(pc_dst, sz_path, "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
+    if ( pcOptiFolder )
+    {
+        mtStrFormat(pc_dst, sz_path, "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
 
-    /** Replace File **/
+        /** Replace File **/
 
-    RF_DbgExtraInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
+        RF_DbgExtraInfo("Replaced player file '%s.PRS' with '/%s/%s.PRS'", pcPrsName, pcOptiFolder, pcPrsName);
 
-    ReplaceFile(pc_src, pc_dst);
+        ReplaceFile(pc_src, pc_dst);
+    }
 
     return true;
 }

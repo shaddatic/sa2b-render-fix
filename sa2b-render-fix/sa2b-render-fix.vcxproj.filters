@@ -435,6 +435,9 @@
     <ClCompile Include="rf_system\rfsys_vsync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_feature.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -570,6 +573,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_system\rfsys_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

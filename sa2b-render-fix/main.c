@@ -9,6 +9,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_init.h>                /* module inits                                             */
+#include <rf_api.h>                 /* call api functions                                       */
 
 /****** DX9 Control *****************************************************************************/
 #include <dx9ctrl/dx9ctrl.h>        /* directx control                                          */
@@ -59,7 +60,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_ShaderInit();
     RF_SysInit();
 
-    /** API **/
+    RFF_Init();
     RFAPI_Init();
 
     /** RF Module Init **/

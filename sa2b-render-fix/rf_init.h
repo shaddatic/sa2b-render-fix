@@ -69,6 +69,11 @@ void    RF_ModuleInit( void );
 *     Init Render Fix system controls.
 */
 void    RF_SysInit( void );
+/*
+*   Description:
+*     Init Render Fix feature check system.
+*/
+void    RFF_Init( void );
 
 /****** Mod Compat Checker **********************************************************************/
 /*

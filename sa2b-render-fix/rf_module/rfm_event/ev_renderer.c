@@ -33,19 +33,9 @@ bool            EventEquipmentEnable;
 RFE_EV_VSYNC    EventVsyncMode;
 bool            EventDebugFlag;
 
-/****** Feature *********************************************************************/
-static bool     NewEventRenderer;
-
 /************************/
 /*  Source              */
 /************************/
-/****** Feature *********************************************************************/
-bool
-RFF_NewEventRenderer(void)
-{
-    return NewEventRenderer;
-}
-
 /****** 4:3 Mode ********************************************************************/
 bool
 EV_GetPillarbox(int evnum)
@@ -153,6 +143,4 @@ EV_RendererInit(void)
     WriteCall(0x00601A18, DrawTailsPlainWithPillar);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
-
-    NewEventRenderer = true;
 }

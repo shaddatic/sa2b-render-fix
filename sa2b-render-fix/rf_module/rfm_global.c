@@ -33,13 +33,6 @@
 #include <rf_module/rfm_global/rfg_internal.h> /* children                                      */
 
 /********************************/
-/*  Data                        */
-/********************************/
-/****** Feature *********************************************************************************/
-static bool RfgBackColor;           /* backcolor setting                                        */
-static bool RfgSpotLight;           /* spotlight fix                                            */
-
-/********************************/
 /*  Prototypes                  */
 /********************************/
 /****** Static **********************************************************************************/
@@ -68,19 +61,6 @@ __SetPointSize(void)
     }
 }
 
-/****** Feature *********************************************************************************/
-bool
-RFF_BackColorDraw(void)
-{
-    return RfgBackColor;
-}
-
-bool
-RFF_SpotLightFix(void)
-{
-    return true;
-}
-
 /****** Init ************************************************************************************/
 void
 RFM_GlobalInit(void)
@@ -94,8 +74,6 @@ RFM_GlobalInit(void)
     }
 
     RFG_BackfaceCullingInit();
-
-    RfgBackColor = true;
     RFG_NinjaBackColorInit();
 
     {
