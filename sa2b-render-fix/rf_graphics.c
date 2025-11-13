@@ -28,10 +28,10 @@
 #define NB_SAMPLER                  (DX9_SAMPLER_DMAPOFFSET+1)
 
 /****** Float To Uint ***************************************************************************/
-#define TO_UINT(f)       *(dx9_uint*)(&(dx9_float){f})
+#define TO_UINT(f)                  *(dx9_uint*)(&(dx9_float){f})
 
 /****** SoC Render Device ***********************************************************************/
-#define STRUC_36_DATA(type, offset)     ( *((type*) &(*(char** const)(0x01A557BC))[offset]) )
+#define STRUC_36_DATA(type, offset) (*((type*)&(*(byte**const)(0x01A557BC))[offset]))
 
 /********************************/
 /*  Game Defs                   */
