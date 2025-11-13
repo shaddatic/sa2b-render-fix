@@ -12,8 +12,8 @@
 *     - v1.3.0.0        : Version 0, initial release
 * 
 *   Availability:
-*     - RF_EarlyInit    : Yes
-*     - RF_Init         : Yes
+*     - Before Init     : No
+*     - At Init         : Yes
 *     - After Init      : No
 */
 #ifndef H_RFAPI_CONFIG

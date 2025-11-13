@@ -11,8 +11,8 @@
 *     - v1.4.0.0        : Version 1, added 'EventApplyModelDiffuse'
 * 
 *   Availability:
-*     - RF_EarlyInit    : Yes
-*     - RF_Init         : No
+*     - Before Init     : Yes
+*     - At Init         : Yes
 *     - After Init      : No
 */
 #ifndef H_RFAPI_CONTROL

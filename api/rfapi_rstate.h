@@ -12,13 +12,13 @@
 *     - v1.3.2.0        : Version 1, added 'SetModifierMode' & 'SetCnkDrawMode'
 *     - v1.4.0.0        : Version 2, added 'CnkFunc/PassMode' & 'Get' variants of all functions
 *     - v1.4.0.1        : Version 3, added 'SocTexHackMode' functions
-*     - v1.4.1.0        : Version 4, depricated 'CullMode', 'CnkDrawMode', 'SocTexHack',
+*     - v1.5.0.0        : Version 4, depricated 'CullMode', 'CnkDrawMode', 'SocTexHack',
 *                         'CnkPass', & 'ModifierMode', and added 'CnkSpecMode'
 * 
-*   Availablility:
-*     - RF_EarlyInit : Yes
-*     - RF_Init      : Yes
-*     - After Init   : Yes
+*   Availability:
+*     - Before Init     : No
+*     - At Init         : Yes
+*     - After Init      : Yes
 */
 #ifndef H_RFAPI_RENDERSTATE
 #define H_RFAPI_RENDERSTATE

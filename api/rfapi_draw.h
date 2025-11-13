@@ -12,8 +12,8 @@
 *     - v1.4.0.1        : Version 4, added 'SetCheapShadowColor'
 * 
 *   Availability:
-*     - RF_EarlyInit    : No
-*     - RF_Init         : Yes
+*     - Before Init     : No
+*     - At Init         : Yes
 *     - After Init      : Yes
 */
 #ifndef H_RFAPI_DRAW

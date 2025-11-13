@@ -9,7 +9,7 @@
 *   Version History:
 *     - v1.3.0.0        : Version 0, initial release
 *     - v1.3.1.0        : Version 1, added Font API module
-*     - v1.4.1.0        : Version 2, ???
+*     - v1.5.0.0        : Version 2, ???
 */
 #ifndef H_RFAPI_CORE
 #define H_RFAPI_CORE
@@ -17,16 +17,6 @@
 /********************************/
 /*  API Structures              */
 /********************************/
-/****** Mod Version *****************************************************************************/
-typedef struct
-{
-    uint8_t release;                /* release version part           (eg. the '1' in v1.2.3.4) */
-    uint8_t major;                  /* major version part             (eg. the '2' in v1.2.3.4) */
-    uint8_t semimajor;              /* semi-major version part        (eg. the '3' in v1.2.3.4) */
-    uint8_t minor;                  /* minor version part             (eg. the '4' in v1.2.3.4) */
-}
-RF_VERSION;
-
 /****** Core API ********************************************************************************/
 typedef struct
 {
@@ -36,7 +26,14 @@ typedef struct
 
     /**** Mod Version ***************************************/
 
-    RF_VERSION modver;                          /* current render fix version                   */
+    struct
+    {
+        uint8_t release;            /* release version part           (eg. the '1' in v1.2.3.4) */
+        uint8_t major;              /* major version part             (eg. the '2' in v1.2.3.4) */
+        uint8_t semimajor;          /* semi-major version part        (eg. the '3' in v1.2.3.4) */
+        uint8_t minor;              /* minor version part             (eg. the '4' in v1.2.3.4) */
+    }
+    modver;
 
     /**** API Modules ***************************************/
 
@@ -50,6 +47,6 @@ typedef struct
     /****** Version >= 1 ************************************************************************/
     const RFAPI_FONT*        pApiFont;          /* Font API                                     */
 }
-RFAPI_CORE;
+RFAPI, RFAPI_CORE;
 
 #endif/*H_RFAPI_CORE*/

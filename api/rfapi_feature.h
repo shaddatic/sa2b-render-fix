@@ -9,8 +9,8 @@
 *     - v1.4.0.0        : Version 1, added 'NewEventRenderer' and other player related functions
 * 
 *   Availability:
-*     - RF_EarlyInit    : No
-*     - RF_Init         : Yes
+*     - Before Init     : No
+*     - At Init         : Yes
 *     - After Init      : Yes
 */
 #ifndef H_RFAPI_FEATURE

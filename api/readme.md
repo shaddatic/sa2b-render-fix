@@ -1,271 +1,206 @@
 # How to Use the Render Fix API
 ## Rundown
-If you've used the SA2 Input Controls API, the process for Render Fix is exactly the same. If not, continue reading!
+This file goes over the basics of using the Render Fix API. If you've used the Input Controls API or the SASDL API, then the process here is almost exactly the same. If not, continue reading!
 
-The Render Fix API is the user interface for Render Fix and its features. Using it, you can control how the mod functions by turning on and off features or use tools and utilities that otherwise only Render Fix would have access to.
+To start, it's recommended that you have at least a basic understanding of C/C++ before using the API - this readme assumes you already have knowledge on the foundations of the language.
 
-There are a lot of uses for the API so, to make it easier, they're seperated into smaller API modules that all surround a single use. For example, the 'Font' API is all about custom fonts; on the other hand, the 'Draw' API is for drawing things to the screen.
+The SA2 Render Fix API - aka the RF API, or just RFAPI - is the user interface to the mod and it's features. It allows you to use and check for Render Fix features that would otherwise be locked to the mod itself, giving you more control of how your mod looks.
 
-Each API module is accessed through a single structure, called the 'Core' API. It's this that you will be getting from Render Fix to gain access to the API as a whole.
+The "API" itself is a set of structures, individually called "modules", which contain basic version info and function pointers that give you direct access to the internal functions of the mod. You can get the API in a few ways, but the main way is allowing Render Fix to call a special, exported functionm in your mod; this functions is called `RFAPI_Init`. There are other exported functions too - `RFAPI_Early` and `RFAPI_Late` - that have more specific use cases involving *when* they're called. For this we'll only go over the standard `RFAPI_Init`, but we'll briefly touch on the others too.
 
-How these functions are used is up to you, but *when* they're used is more fixed. Certain functions need to be ran before certain times for RF to have the oportunity to act on them. For most functions it doesn't matter, but it's always important to check when functions are available before using them.
+This may sound complicated, but the process is actually pretty simple and I'll walk you through it step by step. It is recommended that you have the API headers open while you read this, to give additional context as I explain things.
 
-But it's not just when they can be used, it's also when they were added. The Render Fix API is always growing, so it's important to make sure functions are available in the RF version currently installed. This check is easy, but it can also be easy to forget so always double check.
+## Step by Step
+### The API Headers
+First, you need to import the API headers into your project. This can be done any way you like, including just copying them. The headers are important as they define the API structures and types; without them, you and your code will be blind.
 
-It may sound complicated, but I promise it's simpler than it looks and I'm going to walk you through it in this readme. It is also recommended that you have the API header open while you read through this, that way you have additional context as I explain things.
+Once it's in your project, make sure to `#include` it in any source files that will be using the API directly. It's recommended to make a seperate source file specifically to handle the API, essentially making "wrapper" functions for your own mod, although it's not necessary.
 
-So, let's start.
+Not all API modules/structures can be used at the same time, some might only have a small window of availablity. These times are clearly labled at the top of headers, and look like this.
 
-## The API Header
-First, you need to import the API header into your project. This can be done any way you like, including just copying it. The header is important as it defines the API structures and types, and without them you're not calling anything.
+```
+*   Availability:
+*     - Before Init     : No
+*     - At Init         : Partial, X will be null
+*     - After Init      : Yes
+```
 
-Once it's in your project, make sure to include it in any source files that will be using the API directly.
+Each entry is defined as:
 
-Now, you need to actually get the API from Render Fix. This is pretty easy, so let's go through it.
+- `Before Init`: Any time before or during `RFAPI_Early`
+- `At Init    `: Only during `RFAPI_Init`
+- `After Init `: Any time during or after `RFAPI_Late`, which includes in-game
 
-## Getting the API
-In order to call any API functions, you will first have to get the `RFAPI_CORE` structure pointer. This can be done in 1 of 2 ways;
-              
-1. Using one of the Render Fix user-exported functions.             (Recommended)
-2. Directly getting the exported `rfapi_core` from Render Fix's DLL (At your own risk)
+In this example case, the API module can be used in `RFAPI_Late` and in-game, but it's only partially available during `RFAPI_Init` and not available at all in `RFAPI_Early` (as most things aren't, as the mod hasn't started the init process yet). Attempting to use an API outside of it's availablity window is usually undefined behavior, so make sure to double check this before using anything.
 
-Method '2' should be avoided as method '1' is significantly simpler and better supported. The option is only there for a potential rainy day, if it ever arrives.
+Every callable function also has a description to help you use them as intended. For example:
 
-"User-exported functions" sounds a lot more fancy than it is. So let's go through what they are and how you make them.
+```c
+/*
+*   Description:
+*     Takes a list of things, and does stuff to them.
+* 
+*   Parameters:
+*     - pThings     : pointer to things
+*     - nbThings    : number of things
+*/
+void (__cdecl* example_v0)( thing* pThings, int nbThings );
+```
 
-## User-Exported Functions
-Render Fix is capable of calling a set of functions in your mod directly, these are called "user-exported functions". These functions are `RF_EarlyInit` & `RF_Init`, & both are called at different times during Render Fix's boot process:
+It's normally more descriptive than this example, but you can see the function explaining how to use it and what each parameters does. Follow these carefully.
 
-- `RF_EarlyInit`
-  - Called just before RF begins to init its own features, this makes it useful for controling RF or other time sensitive actions, such as replacing files that haven't been loaded yet. However, because RF isn't done booting, its use cases are limited.
-- `RF_Init`
-  - Called at the end of RF's boot process. Since RF is done booting, almost all of the API features are available. However, actions such as replacing files will have no effect at this stage, since all features are done loading.
+Over time, the API will be expanded to support new features. When this happens the structure `version` - a struct member located directly at the top - will be increased, it looks like this:
 
-If you are unsure which to use, you should use `RF_Init`.
+```c
+typedef struct
+{
+    uint32_t version;                   /* structure version                                    */
+    
+    /****** Version >= 0 ************************************************************************/
+    /*
+    *   ...
+    */
+    void (__cdecl* example_v0)( ... );  /* member example, v0                                   */
+    
+    /****** Version >= 1 ************************************************************************/
+    /*
+    *   ...
+    */
+    void (__cdecl* example_v1)( ... );  /* member example, v1                                   */
+...
+```
 
-### How to Make Them
-In order for Render Fix to find your exported functions, you need give them the correct name, parameters and order of parameters, mark them as exported, and finally ensure they are marked as `extern "C"`. I'll go through each of the steps then show you some examples:
+You can also see here the large span comments seperating what each version supports. These versions start at `0`, indicating no changes since release. In this case, a `version` of `1` indicates `example_v0` and `example_v1` are available, but a `version` of `0` means only `example_v0` is available and that attempting to use `example_v1` will likely crash. It's important you refer to the version variable when calling API functions, as the user may have an older version that doesn't include the function you wish to call yet.
 
-1. Name: You already know their names (`RF_Init`/`RF_EarlyInit`).
+With this, you can also enforce a minimum API version that your mod will work with. Try not to just set this to the latest version though, take a second to see what the lowest version you can use is so as many people as possible can enjoy your mod!
 
-2. Parameters: The params from left to right are:
-    1. `const RFAPI_CORE*`, this is a pointer to RF's Core API
-    2. `const char*`, this is a string path to _your_ mod's folder
-    3. `const HelperFunctions&`, this is a reference/pointer to the modloader's HelperFunctions.
+Now that you have the headers and structures, you need to actually get the API. This is pretty easy, so let's go through it.
 
-3. Marking as exported: By adding `__declspec(dllexport)` to your function definition, you tell Visual Studio to make that function exported. This will allow Render Fix to search and find your function. This is the same as a mod's regular `Init` function.
+### Getting the API
+In order to use the API, you need to actually get it somehow. This can be done in 1 of 2 ways:
 
-4. Marking as `extern "C"`: You can do this by either adding `extern "C"` to your function definition, or placing the function in an `extern "C"` block using `{` & `}` symbols. This is the same as a mod's regular `Init` function.
+1. Creating a user-exported function - eg. `RFAPI_Init` - for the API to call your mod. (Recommended)
+2. Directly getting the API from Render Fix's DLL handle.
 
-### Examples
-With those points layed out, here's examples of both functions:
+Method '2' should be avoided, and it's only an option for power-users who have some specific use case the regular method doesn't fill. We will be using method '1' going forward.
+
+With that out of the way, what is a "user-exported function" and how do we make one?
+
+### User-Exported Functions
+The API is capable of calling a special set of functions in your mod directly, these are named "user-exported functions". They are very similar to the normal `Init` functions DLL mods have to make; if you've made one of those, this part will be a breeze.
+
+For Render Fix, the main user-exported function is called `RFAPI_Init`. There are also two others named `RFAPI_Early` and `RFAPI_Late`, which are called before and after Render Fix's own `Init` process - these have a narrow use case though so we'll focus on `RFAPI_Init`, but they are otherwise all the same excluding the call time. There's also the legacy `RF_Init` and `RF_EarlyInit`, but these shouldn't be used and are only there for older mods pre-1.5; they may be removed in a later update.
+
+Here's a crude example of `RFAPI_Init` for us to dissect:
 
 ```cpp
-extern "C" __declspec(dllexport) // Mark as extern "C" and as exported
-void
-RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
+extern "C" __declspec(dllexport)
+int32_t RFAPI_Init(const RFAPI* pApi, const char* puPath, const HelperFunctions* pHelpFuncs, size_t ixMod)
 {
-    // Ran after Render Fix has init'd features
-    // Your code here
+    // return value must be 0
+    return 0;
 }
-
-extern "C" __declspec(dllexport) // Mark as extern "C" and as exported
-void
-RF_EarlyInit(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
-{
-    // Ran just before Render Fix starts to init features
-    // Your code here
-}
 ```
 
-The examples marked each function individually as `extern "C"`, but placing them in a `extern "C"` block with `{` & `}` symbols would work the same.
+Now, a lot is going on there, but let's break it down:            
+1. `extern "C"`:   
+    This makes the function name fixed, it's otherwise random* - this is only needed when using C++. You can also place the function in an `extern "C"` block using `{` & `}`, either way works.
+2. `__declspec(dllexport)`: 
+    This marks the function to be exported from your DLL file. This will allow the API to search for and find your function using its name.
+3. Return Type/Value (`int32_t`): 
+    This is the return type of the function. The function must `return 0` once it's done. The return value currently isn't used but may be in the future, so it's important all current mods return the same, standard value.
+4. Parameters: 
+    The params from left to right are:
+    1. `const RFAPI*`           : this is a pointer to the core API structure        
+    2. `const char*`            : this is a string path to *your* mod's folder (in UTF-8 if you were curious)
+    3. `const HelperFunctions*` : this is a pointer to the Mod Loader's Helper Functions    
+    4. `size_t`                 : this is a mod position index of *your* mod, if you wish to use it
 
-So now you have the API, but there's a few more things you need to do before you're ready to use it.
+\*It's not actually random, there is method to the madness. But it's a lot harder to work with and would restrict the API to C++ only.
 
-## Using the API
-Once you have the Core API pointer, you can access the other API modules through it. Before we can start using it though, there are a few extra steps to take.
+All user-exported functions are ran during the Render Fix's own `Init` function, these means you can't guarantee when your user-exported function will run compared to your own `Init` function. Because of this, it's not recommended to access the API inside of your `Init` function and to either restrict it to your exported API function, or just wait until the game is actually running - after all `Init`s have been called. This *also* means you can't use the user-exported API function to check if the API is installed, that should be done seperately with the `ModInfo` stuff given by the Mod Loader.
 
-### API Module Availability
+Now that you have the API, it's time to make use of it.
 
-It's important you check the availability of the API modules before getting them, as some are only available at certain times.
+### Using the API
+Once you have the API pointer, it's up to you how you use it! It's recommeneded you save any pointers you want to use for later - either by saving only the main pointer, saving each module pointer, or by saving each individual function pointer as needed. The pointers are constant for the lifetime of the program and none of the structures will be changed or free'd after you're given them.
 
-All the info of what's available when is written in the API header, and can be seen in the comment above API module structures. Here's quick a rundown:
-
-```
-RF_EarlyInit    : Control, Config, Renderstate, Shader, Font
-RF_Init         : Config, Feature Check, Draw, Renderstate, Shader, Font
-After Init      : Feature Check, Draw, Renderstate, Shader, Font
-```
-
-`RF_EarlyInit` refers to the user-exported function of the same name. API modules in this group can be called during this function.
-`RF_Init` same as above ^ .
-`After Init` refers to any time after Render Fix, and by extension all other mods, have finished booting entirely; in other words, when the user is in-game.
-
-Always take the time to double check when a API module is available. Most of the time nothing will happen if you access one when it isn't available, but it's totally undefined and things could get serious very fast.
-
-Now that you know when the module you're after is available, let's actually *use* it!
-
-### Structure Versions
-
-Some API modules and functions may only be available in later versions of Render Fix than the one the user has installed. In a perfect world, everyone would be running the latest version of everything; but that isn't the case and it needs to be accounted for. 
-
-Luckily, it's easy! Each API module has a structure member called `version`; this is a number that increases whenever a new function is added to that API module. We can use this number to know what functions are currently available via large comments in the structures themselves.
-
-So, first, we need to make sure the API module is available in the installed Render Fix version. In the header, it looks like:
-```cpp
-typedef struct // RFAPI_CORE example
-{
-    /****** Version >= 0 ************************************************************/
-    uint32_t version;                           /* structure version                */
-
-    /**** Mod version ****/
-    RF_VERSION modver;                          /* current Render Fix version       */
-...
-    /****** Version >= 1 ************************************************************/
-    const RFAPI_EXAMPLE*     pApiExample;       /* Example API                      */
-...
-```
-This tells us that the 'Example' API requires version 1 of 'Core' or above. In your code, the check would look like:
-```cpp
-...
-    if (pApiCore->version >= 1) // Core API 'version' check
-    {
-        const RFAPI_EXAMPLE* rf_example = pApiCore->pApiExample;
-
-        ...
-    }
-...
-```
-If the user has an old version of Render Fix, this check will fail. That sounds bad, but the alternative is a crash because the module you're trying to access doesn't exist. Not working is *always* better than a crash.
-
-If the API is vital to your mod though, now is the perfect time to throw a warning and let the user know they've made a mistake. Assuming all is good though, let's move onto the module itself.
-
-Now we've got the API module, we need to do another version check for its individual functions. Luckily, the process is exactly the same:
-```cpp
-    ...
-        const RFAPI_EXAMPLE* rf_example = pApiCore->pApiExample;
-
-        /** Assume the function needs version 2 or higher **/
-
-        if (rf_example->version >= 2) // RFAPI_EXAMPLE 'version' check
-        {
-            rf_example->func();
-        }
-    ...
-```
-Again, if the Render Fix version is old, this will stop anything bad from happening. It might seem clunky to do this every time, but it's very important and the API wouldn't be possible without it. Also remember that you can check functions in groups; if the user has version 2, then version 1 functions are also available.
-
-But, checking each individually is a bit cumbersome. Very thorough, but cumbersome. Luckily, there is a faster way! It's a little heavy handed, but sometimes heavy handed is perfect for the job.
-
-Instead of checking each module individually, you can instead do a blanket check on Render Fix's mod version. Render Fix defines a macro for this purpose, `RFD_CHECKVER`.
-
-Using it is simple. It returns `true` if the current mod version is equal to or above the set version. For Example:
-```cpp
-...
-    if ( RFD_CHECKVER(pApiCore, 1,2,1,0) )
-    {
-        // Use API here
-    }
-...
-```
-Is checking if the installed Render Fix version is above or equal to version `1.2.1`. It's much less precise than checking each structure version individually, and offers you less oportunity to compromise on older Render Fix versions. But what you lose in precision, you gain in speed.
-
-Just be warned, you shouldn't just blindly set this to the latest Render Fix version. There *will* be users on older versions, and your mod will likely work exactly the same on these versions. So, take a second to use the lowest version number possible, so as many people can enjoy your mod as possible.
-
-### That's It
-And with that, you're done! You can now access every API module and function using those simple steps. There's some additional, complete examples below if you need them. Additional info and comments about each API and their functions can be found in the API header.
+Now, let's do some full examples!
 
 ## Complete Examples
-Checking each API structure version individually
-```cpp
+Checking each API structure version individually:
+```c
 extern "C" __declspec(dllexport)
-void
-RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
+int32_t RFAPI_Init(const RFAPI* pApi, const char* puPath, const HelperFunctions* pHelpFuncs, size_t ixMod)
 {
-    /** Assume 'Example' API is version 1 of 'Core' **/
-
-    if (pApiCore->version >= 1)
+    if ( pApi->version >= 1 )                            // core module 'version' Check
     {
-        const RFAPI_EXAMPLE* rf_exam = pApiCore->pApiExample;
+        const RFAPI_MODULE* p_module = pApi->pModuleApi; // module available in 'core' version 1
 
-        /** Assume the function examples need versions 1 & 2 **/
-
-        if (rf_exam->version >= 2)
+        if ( p_module->version >= 1 )                    // module 'version' check
         {
-            rf_exam->func1(); // Needs version >= 1
-            rf_exam->func2(); // Needs version >= 2
+            p_module->example_v0( ... );                 // function available in version 0
+            p_module->example_v1( ... );                 // function available in version 1
         }
     }
+
+    // return value must be 0
+    return 0;
 }
 ```
 
-Checking the Render Fix mod version
-```cpp
+Checking the Render Fix mod version:
+```c
 extern "C" __declspec(dllexport)
-void
-RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
+int32_t RFAPI_Init(const RFAPI* pApi, const char* puPath, const HelperFunctions* pHelpFuncs, size_t ixMod)
 {
-    /** Assume version requirements are the same as above, and Render Fix version
-        1.3.2 is the minimum version for those requirements to be met **/
-
-    if ( RFD_CHECKVER(pApiCore, 1,3,2,0) )
+    if ( RFAPI_CHECKVER( pApi, 1,5,0,0 ) ) // equal or higher than v1.5.0.0
     {
-        const RFAPI_EXAMPLE* rf_exam = pApiCore->pApiExample;
+        const RFAPI_MODULE* p_module = pApi->pModuleApi;
+            
+        p_module->example_v0( ... );    // function available in version 0, part of v1.3.0
+        p_module->example_v1( ... );    // function available in version 1, part of v1.5.0
+    }
 
-        rf_exam->func1(); // Needs version >= 1
-        rf_exam->func2(); // Needs version >= 2
-    }
-    else
-    {
-        // Mod version too low, handle error
-    }
+    // return value must be 0
+    return 0;
 }
 ```
 
 Using API after Init:
-```cpp
-const RFAPI_EXAMPLE* ExampleApi;
+```c
+const RFAPI_MODULE* ModuleApi;
 
-const EXAMPLE_FUNC* ExampleApi_Func1;
-
-void
-FunctionThatRunsLater(int mode)
+void FunctionThatRunsLater(void)
 {
-    if ( mode == CALL_FUNC2 )
+    if ( ModuleApi )
     {
-        ExampleApi->func2( argument ); // call from API pointer
-    }
-    else
-    {
-        ExampleApi_Func1( argument ); // call function pointer
+        ModuleApi->example_v0( ... );
+        ModuleApi->example_v1( ... );
     }
 }
 
-/** Render Fix Init **/
-
 extern "C" __declspec(dllexport)
-void
-RF_Init(const RFAPI_CORE* pApiCore, const char* path, const HelperFunctions& helperFunctions)
+int32_t RFAPI_Init(const RFAPI* pApi, const char* puPath, const HelperFunctions* pHelpFuncs, size_t ixMod)
 {
-    /** Assume version requirements are the same as above, and Render Fix version
-        1.3.2 is the minimum version for those requirements to be met **/
-
-    if ( RFD_CHECKVER(pApiCore, 1,3,2,0) )
+    if ( pApi->version >= 1 )                            // core module 'version' Check
     {
-        const RFAPI_EXAMPLE* rf_exam = pApiCore->pApiExample;
+        const RFAPI_MODULE* p_module = pApi->pModuleApi; // module available in 'core' version 1
 
-        ExampleApi       = rf_exam;         // store API pointer
-        ExampleApi_Func1 = rf_exam->func1;  // store individual function
+        if ( p_module->version >= 1 )                    // module 'version' check
+        {
+            ModuleApi = p_module;
+        }
     }
+
+    // return value must be 0
+    return 0;
 }
 ```
 
 ## Additional Notes
+The API will never have breaking changes. Names may change, but your old code will always continue work. Sometimes functions are depricated, but continued suppport of old mods is a top priority. At worst, a function will just do nothing past a point, but that is always a last resort when all else has failed.
 
-The API and its pointers are constant, you can store them in local variables and use them later rather than going through the entire API tree every time.
+The examples used a `const HelperFunctions*` for user-exported function parameters, this is exactly the same as a `const HelperFunctions&` just used a bit differently - the compiled code underneath is exactly the same. So, either is fine.
 
-The API will never have breaking changes. Header names may change, but your old code will always continue work. Sometimes functions are depricated, but continued suppport of old mods is a top priority. At worst, a function will just do nothing past a point, but that is always a last resort when all else has failed.
-
-The examples used a `const HelperFunctions&` for user-exported function parameters; this is exactly the same as a `const HelperFunctions*`, although they're accessed differently, the compiled code is actually exactly the same. If you prefer pointers, you can use them.
-
-These examples were in C++, as that's most commonly used for modding, but it works the same in C. If you're using C, I'm sure you can figure out what you need to change on your own.
+These examples were in C++, as that's most commonly used by modders, but it all works the same in C. If you're using C, I'm sure you can figure out what you need to change on your own.

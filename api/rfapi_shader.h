@@ -10,8 +10,8 @@
 *     - v1.4.1.0        : Version 1, added 'GetGame#Shader' & 'Compile#Shader' functions.
 * 
 *   Availability:
-*     - RF_EarlyInit    : Yes
-*     - RF_Init         : Yes
+*     - Before Init     : No
+*     - At Init         : Yes
 *     - After Init      : Yes
 */
 #ifndef H_RFAPI_SHADER
