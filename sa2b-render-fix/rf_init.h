@@ -85,14 +85,6 @@ void    RFF_Init( void );
 */
 void    RF_ModCheckInit( void );
 
-/****** Render Fix API **************************************************************************/
-/*
-*   Description:
-*     Render Fix API 'Init' and 'End' functions.
-*/
-void    RFAPI_Init( void );
-void    RFAPI_End(  void );
-
 /************************************************************************************************/
 /*
 *   On Scene Start

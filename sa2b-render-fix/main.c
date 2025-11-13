@@ -47,6 +47,8 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
         return;
     }
 
+    RFAPI_CallFuncs( RF_APIFUNC_EARLY );
+
     // config file init
     CNF_Init();
 
@@ -61,7 +63,9 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_SysInit();
 
     RFF_Init();
-    RFAPI_Init();
+
+    RFAPI_CallFuncs( RF_APIFUNC_INIT );
+    RFAPI_CallFuncs( RF_APIFUNC_OLD_EARLY );
 
     /** RF Module Init **/
     RF_ModuleInit();
@@ -69,11 +73,12 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     /** Check mod conflicts **/
     RF_ModCheckInit();
 
-    /** End **/
-    RFAPI_End();
+    RFAPI_CallFuncs( RF_APIFUNC_OLD_INIT );
 
     // config file close
     CNF_End();
+
+    RFAPI_CallFuncs( RF_APIFUNC_LATE );
 
     RF_DbgExtraInfo("End Init");
 }
