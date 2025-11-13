@@ -85,7 +85,7 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
     {
         rjCnkBeginDepthQueue( model );
 
-        if ( rjCnkVList(model->vlist, _nj_vertex_buf_) == -1 )
+        if ( rjCnkVList(model->vlist, _nj_vertex_buf_) )
         {
             return CNK_RETN_CLIP;
         }
