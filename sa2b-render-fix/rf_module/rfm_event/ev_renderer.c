@@ -25,7 +25,6 @@
 /************************/
 /****** Tails Plain *****************************************************************/
 #define DrawTailsPlain          FUNC_PTR(void, __cdecl   , (void)                     , 0x00601600)
-#define LoadTexPrs_WithExt      FUNC_PTR(void, __fastcall, (const char*, NJS_TEXLIST*), 0x0044C410)
 
 /************************/
 /*  Data                */
@@ -101,21 +100,55 @@ DrawTailsPlainWithPillar(void)
     RF_SysCtrlResetPillar();
 }
 
-static void __fastcall
-LoadEventTextures(const char* filename, NJS_TEXLIST* ptlo)
+static void
+LoadTexPrs_WithExt(char* filename, NJS_TEXLIST* ptlo, void* buffer)
 {
-    LoadTexPrs_WithExt(filename, ptlo);
+    const void* const fptr = (void*) 0x0044C410;
 
+    __asm
+    {
+        push [buffer]
+        mov edx, [ptlo]
+        mov ecx, [filename]
+
+        call fptr
+
+        add esp, 4
+    }
+}
+
+static void __cdecl
+LoadEventTextures(char* filename, NJS_TEXLIST* ptlo, void* buffer)
+{
+    LoadTexPrs_WithExt(filename, ptlo, buffer);
+    
     c7 buf[16];
     mtStrFormat(buf, ARYLEN(buf), "e%04ibigtex", EventNum);
-
+    
     EvBigTexture = texCreateTexlist(buf);
-
+    
     if ( EvBigTexture && !EvBigTexture->nbTexture )
     {
         texFreeTexlist(EvBigTexture);
-
+    
         EvBigTexture = nullptr;
+    }
+}
+
+__declspec(naked)
+static void
+___LoadEventTextures(void)
+{
+    __asm
+    {
+        push [esp+4]
+        push edx
+        push ecx
+
+        call LoadEventTextures
+
+        add esp, 12
+        retn
     }
 }
 
@@ -169,7 +202,7 @@ EV_RendererInit(void)
     WriteCall(0x00601A18, DrawTailsPlainWithPillar);
 
     // Load bigtex
-    WriteCall(0x005FFE34, LoadEventTextures);
+    WriteCall(0x005FFE34, ___LoadEventTextures);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 }
