@@ -26,6 +26,8 @@
 #include <rfu_float.h>          /* self, float                                      */
 #include <rfu_file.h>           /* self, file                                       */
 
+#define OPTI_DIR                "opti"
+
 /************************/
 /*  Source              */
 /************************/
@@ -185,7 +187,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgWarn("File '%s' is not owned by the Game or RF", pcGdPath);
+            RF_DbgExtraInfo("File '%s' is not owned by the Game or RF", pcGdPath);
             return false;
         }
     }
@@ -209,7 +211,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_path_dst, sz_path, "%s/optional/%s/%s", mtGetModPath(), pcOptiFolder, pcGdPath);
+        const size sz_fmt = mtStrFormat(pc_path_dst, sz_path, "%s/" OPTI_DIR "/%s/%s", mtGetModPath(), pcOptiFolder, pcGdPath);
 
         if ( sz_fmt >= sz_path )
         {
@@ -262,7 +264,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
+        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -324,7 +326,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/optional/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
+        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -377,7 +379,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
     if ( pcOptiFolder )
     {
-        mtStrFormat(pc_dst, sz_path, "%s/optional/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
+        mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/%s.PRS", mtGetModPath(), pcOptiFolder, pcPrsName);
 
         /** Replace File **/
 
