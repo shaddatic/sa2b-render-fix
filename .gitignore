@@ -372,8 +372,7 @@ build/mod.manifest
 build/mod.version
 
 # SA2 Render Fix Specific
-build/gd_PC/PRS/
-build/install/
-build/optional/plmdl_dc/PRS/
-build/gd_PC/EVENT/
-build/gd_PC/*.sfd
+build/font/
+build/gd_PC/
+build/opti/
+build/model/
