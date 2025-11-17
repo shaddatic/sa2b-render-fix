@@ -26,6 +26,9 @@ typedef struct njtexlist            NJS_TEXLIST;
 typedef struct njmot                NJS_MOTION;
 typedef struct njmotlink            NJS_MOTION_LINK;
 
+/****** Camera **********************************************************************************/
+typedef struct njcamera             NJS_CAMERA;
+
 /****** Action **********************************************************************************/
 typedef struct njact                NJS_ACTION;
 typedef struct njactlink            NJS_ACTION_LINK;

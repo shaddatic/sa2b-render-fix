@@ -29,7 +29,7 @@ EXTERN_START
 /*  Structures          */
 /************************/
 /****** Camera **********************************************************************/
-typedef struct
+typedef struct njcamera
 {
     Float px, py, pz;           /* position                                         */
     Float vx, vy, vz;           /* look vector                                      */

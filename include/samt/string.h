@@ -450,18 +450,19 @@ size_t  mtStrCopy32To16( c16* puDst, size_t lnDstMax, const c32* puSrc, size_t l
 *   Parameters:
 *     - puStr       : string to duplicate
 *     - lnMax       : maximum length of the string                             [opt: STR_NOMAX]
+*     - plnOut      : length of new, duplicate string                            [opt: nullptr]
 *
 *   Returns:
 *     A duplicate of the given string, allocated by 'mtMemAlloc', in the new format.
 */
-c16*    mtStrDupeTo16( const c8* puStr, size_t lnMax );
-c32*    mtStrDupeTo32( const c8* puStr, size_t lnMax );
+c16*    mtStrDupeTo16( const c8* puStr, size_t lnMax, size* plnOut );
+c32*    mtStrDupeTo32( const c8* puStr, size_t lnMax, size* plnOut );
 //
-c8*     mtStrDupe16To8(  const c16* puStr, size_t lnMax );
-c32*    mtStrDupe16To32( const c16* puStr, size_t lnMax );
+c8*     mtStrDupe16To8(  const c16* puStr, size_t lnMax, size* plnOut );
+c32*    mtStrDupe16To32( const c16* puStr, size_t lnMax, size* plnOut );
 //
-c8*     mtStrDupe32To8(  const c32* puStr, size_t lnMax );
-c16*    mtStrDupe32To16( const c32* puStr, size_t lnMax );
+c8*     mtStrDupe32To8(  const c32* puStr, size_t lnMax, size* plnOut );
+c16*    mtStrDupe32To16( const c32* puStr, size_t lnMax, size* plnOut );
 
 /************************************************************************************************/
 /*
