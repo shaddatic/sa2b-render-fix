@@ -718,7 +718,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
         {
             NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-            if ( EvBigTexture && EvBigTexture->nbTexture )
+            if ( EvBigTexture )
             {
                 njSetTexture(EvBigTexture);
             }

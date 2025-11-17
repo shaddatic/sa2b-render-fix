@@ -110,6 +110,13 @@ LoadEventTextures(const char* filename, NJS_TEXLIST* ptlo)
     mtStrFormat(buf, ARYLEN(buf), "e%04ibigtex", EventNum);
 
     EvBigTexture = texCreateTexlist(buf);
+
+    if ( EvBigTexture && !EvBigTexture->nbTexture )
+    {
+        texFreeTexlist(EvBigTexture);
+
+        EvBigTexture = nullptr;
+    }
 }
 
 /****** Init ************************************************************************/
