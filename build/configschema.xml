@@ -141,6 +141,15 @@ Disabling this may cause player characters to look out of place in some situatio
       </Property>
     </Group>
     <Group name="event" display="Events">
+      <Property name="IncludeDir0" display="Event Type" type="EV_TYPE" defaultvalue="optional/ev_rf">
+        <HelpText>Which version of the Events should be used.
+
+Render Fix Enhanced:
+Enhanced versions of the original Dreamcast events, fixing oversights, timing issues, and backporting a few improvements Battle made.
+
+Dreamcast:
+Pure ports of the Dreamcast events, as they originally appeared in 2001.</HelpText>
+      </Property>
       <Property name="vsync_mode" display="Framerate Mode" type="EV_VSYNC" defaultvalue="1">
         <HelpText>Change the framerate of Events. 
 
@@ -406,6 +415,10 @@ This is useful for modders who wish to stress test their code over long periods,
       <EnumMember name="2" display="Enabled"></EnumMember>
       <EnumMember name="1" display="Dreamcast"></EnumMember>
       <EnumMember name="0" display="Off/Disabled"></EnumMember>
+    </Enum>
+    <Enum name="EV_TYPE">
+      <EnumMember name="opti/ev_rf" display="Render Fix Enhanced"></EnumMember>
+      <EnumMember name="opti/null" display="Dreamcast"></EnumMember>
     </Enum>
     <Enum name="EV_43MD">
       <EnumMember name="3" display="Always"></EnumMember>
