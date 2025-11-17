@@ -16,6 +16,7 @@
 #include <samt/sonic/task.h>    /* task                                             */
 #include <samt/sonic/njctrl.h>  /* ninja control                                    */
 #include <samt/sonic/display.h> /* screen display                                   */
+#include <samt/sonic/texture.h> /* texfreetexture                                   */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -269,6 +270,13 @@ EventDestructor(task* tp)
     taskwk* restrict twp = tp->twp;
 
     NearClip = twp->scl.z; // reset the near plane to 1.f
+
+    if ( EvBigTexture )
+    {
+        texFreeTexlist(EvBigTexture);
+
+        EvBigTexture = nullptr;
+    }
 }
 
 static void

@@ -716,6 +716,13 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
         if ( p_big->nbScene )
         {
+            NJS_TEXLIST* p_tls = njGetCurrentTexList();
+
+            if ( EvBigTexture && EvBigTexture->nbTexture )
+            {
+                njSetTexture(EvBigTexture);
+            }
+
             njPushMatrixEx();
 
             const EVENT_BIG_MOTION* const p_mot = &p_big->motions[EventBigScene];
@@ -730,6 +737,8 @@ EventSceneDraw(const int nbScene, const int nbLayer)
             }
 
             njPopMatrixEx();
+
+            njSetTexture(p_tls);
         }
     }
 

@@ -4,6 +4,10 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 #include <samt/writeop.h>       /* writejump                                        */
+#include <samt/string.h>        /* strformat                                        */
+
+/****** Game ************************************************************************/
+#include <samt/sonic/texture.h> /* texcreatetexture                                 */
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
@@ -20,7 +24,8 @@
 /*  Game Defs           */
 /************************/
 /****** Tails Plain *****************************************************************/
-#define DrawTailsPlain          FUNC_PTR(void, __cdecl, (void), 0x00601600)
+#define DrawTailsPlain          FUNC_PTR(void, __cdecl   , (void)                     , 0x00601600)
+#define LoadTexPrs_WithExt      FUNC_PTR(void, __fastcall, (const char*, NJS_TEXLIST*), 0x0044C410)
 
 /************************/
 /*  Data                */
@@ -32,6 +37,9 @@ static u32 Event43Mode[(EV_PILLARBOX_MAX / BITSIN(u32)) + 1];
 bool            EventEquipmentEnable;
 RFE_EV_VSYNC    EventVsyncMode;
 bool            EventDebugFlag;
+
+/****** Big Tex *********************************************************************/
+NJS_TEXLIST*    EvBigTexture;
 
 /************************/
 /*  Source              */
@@ -93,6 +101,17 @@ DrawTailsPlainWithPillar(void)
     RF_SysCtrlResetPillar();
 }
 
+static void __fastcall
+LoadEventTextures(const char* filename, NJS_TEXLIST* ptlo)
+{
+    LoadTexPrs_WithExt(filename, ptlo);
+
+    c7 buf[16];
+    mtStrFormat(buf, ARYLEN(buf), "e%04ibigtex", EventNum);
+
+    EvBigTexture = texCreateTexlist(buf);
+}
+
 /****** Init ************************************************************************/
 void
 EV_RendererInit(void)
@@ -141,6 +160,9 @@ EV_RendererInit(void)
 
     // task loop does exec during movies, so hook this so pillars can still appear if needed
     WriteCall(0x00601A18, DrawTailsPlainWithPillar);
+
+    // Load bigtex
+    WriteCall(0x005FFE34, LoadEventTextures);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 }
