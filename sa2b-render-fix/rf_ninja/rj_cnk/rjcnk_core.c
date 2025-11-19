@@ -187,8 +187,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
             new_flag |= RJD_CXF_NONTEXSPEC;
         }
 
-        // support VND8 by default, even if Ninja Easy/Simple didn't originally
-        _rj_cnk_context_.flag = new_flag | RJD_CXF_VND8;
+        _rj_cnk_context_.flag = new_flag;
     }
 
     _rj_cnk_context_.cull  = -1;
