@@ -126,13 +126,10 @@ rjSetHwTexture(Int index, const RJS_HW_TEXTURE* tex)
 
     RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU     , tex->uaddr + 1);
     RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV     , tex->vaddr + 1);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSW     , DX9_TEXADDR_CLAMP);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_BORDERCOLOR  , 0x00000000);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MAGFILTER    , magfilter);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MINFILTER    , minfilter);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , mipfilter);
     RFGX_SetSamplerState(index, DX9_SAMPLER_MIPMAPLODBIAS, miplodbias);
-    RFGX_SetSamplerState(index, DX9_SAMPLER_MAXANISOTROPY, 4);
 
     rjSetHwPalette(tex->palette);
 }

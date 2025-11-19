@@ -193,13 +193,10 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
 
         RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU     , s_GxToDxAddr[pTex->address_u]);
         RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV     , s_GxToDxAddr[pTex->address_v]);
-        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSW     , DX9_TEXADDR_CLAMP);
-        RFGX_SetSamplerState(index, DX9_SAMPLER_BORDERCOLOR  , 0x00000000);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MAGFILTER    , s_GxToDxFilter[pTex->mag_filter]);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MINFILTER    , s_GxToDxFilter[pTex->min_filter]);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , DX9_TEXFILTER_POINT);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MIPMAPLODBIAS, TO_UINT(0.f));
-        RFGX_SetSamplerState(index, DX9_SAMPLER_MAXANISOTROPY, 4);
     }
 
     /** update struc thing **/
@@ -327,5 +324,15 @@ RFGX_Init(void)
     if ( CNF_GetInt( CNF_GFX_MIPMAPS ) != CNFE_BOOL_ENABLED )
     {
         SamplerOverride[DX9_SAMPLER_MIPFILTER] = DX9_TEXFILTER_NONE;
+    }
+
+    const int maxmiplev = CNF_GetInt( CNF_DEBUG_MAXMIPLEV );
+
+    for ( int i = 0; i < DX9_TSP_REGISTER_MAX+1; ++i )
+    {
+        DX9_SetSamplerState(i, DX9_SAMPLER_ADDRESSW     , DX9_TEXADDR_CLAMP);
+        DX9_SetSamplerState(i, DX9_SAMPLER_BORDERCOLOR  , 0x00000000);
+        DX9_SetSamplerState(i, DX9_SAMPLER_MAXMIPLEVEL  , maxmiplev);
+        DX9_SetSamplerState(i, DX9_SAMPLER_MAXANISOTROPY, 4);
     }
 }
