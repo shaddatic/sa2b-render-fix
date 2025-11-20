@@ -285,7 +285,7 @@ EventExecutor(task* tp)
     // 4:3 bars
     if ( UsePillarBox() )
     {
-        if ( EventNum < 400 && EventNum != 211 )
+        if ( EventNum < 400 && EventNum != 211 && CutsceneMode != 2 )
         {
             RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
         }
