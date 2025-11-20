@@ -53,10 +53,10 @@ static Float        PbAspect    = 255.f;
 /********************************/
 /****** Pillar Box Modes ************************************************************************/
 static inline void
-SysDrawPillar_NonTex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
+SysDrawPillar_NonTex(f32 tgt_shft, f32 dsp_shft, Int trans)
 {
-    constexpr NJS_COLOR col_innr = PbColorInnr;
-    constexpr NJS_COLOR col_edge = PbColorEdge;
+    const NJS_COLOR col_innr = PbColorInnr;
+    const NJS_COLOR col_edge = PbColorEdge;
 
     NJS_POLYGON_VTX poly[4];
 
@@ -76,12 +76,9 @@ SysDrawPillar_NonTex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
         poly[3].col = col_innr.color;
     }
 
-    const f32 res_shft = (dsp_ratio - 1.f) * (320.0f) + 1.f;
-    const f32 tgt_shft = (tgt_ratio - 1.f) * (320.0f) + 1.f;
-
     // left bar
     {
-        const f32 edge_pos = 0.f - res_shft;
+        const f32 edge_pos = 0.f - dsp_shft;
         const f32 trgt_pos = 0.f - tgt_shft;
 
         poly[0].x = edge_pos;
@@ -94,7 +91,7 @@ SysDrawPillar_NonTex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
 
     // right bar
     {
-        const f32 edge_pos = 640.f + res_shft;
+        const f32 edge_pos = 640.f + dsp_shft;
         const f32 trgt_pos = 640.f + tgt_shft;
 
         poly[0].x = edge_pos;
@@ -107,7 +104,7 @@ SysDrawPillar_NonTex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
 }
 
 static inline void
-SysDrawPillar_Tex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
+SysDrawPillar_Tex(f32 tgt_shft, f32 dsp_shft, Int trans)
 {
     const NJS_COLOR col_innr = PbColorInnr;
     const NJS_COLOR col_edge = PbColorEdge;
@@ -135,14 +132,11 @@ SysDrawPillar_Tex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
         poly[3].v = 1.0f;
     }
 
-    const f32 res_shft = (dsp_ratio - 1.f) * (320.0f) + 1.f;
-    const f32 tgt_shft = (tgt_ratio - 1.f) * (320.0f) + 1.f;
-
-    const f32 bar_aspect = (res_shft - tgt_shft) / 480.f;
+    const f32 bar_aspect = (dsp_shft - tgt_shft) / 480.f;
 
     // left bar
     {
-        const f32 edge_pos = 0.f - res_shft;
+        const f32 edge_pos = 0.f - dsp_shft;
         const f32 trgt_pos = 0.f - tgt_shft;
 
         poly[0].x = edge_pos;
@@ -160,7 +154,7 @@ SysDrawPillar_Tex(f32 tgt_ratio, f32 dsp_ratio, Int trans)
 
     // right bar
     {
-        const f32 edge_pos = 640.f + res_shft;
+        const f32 edge_pos = 640.f + dsp_shft;
         const f32 trgt_pos = 640.f + tgt_shft;
 
         poly[0].x = edge_pos;
@@ -360,16 +354,19 @@ RF_SysCtrlDrawPillar(bool passFinal)
         return;
     }
 
+    const f32 dsp_shft = njCeil( (dsp_ratio - 1.f) * (320.0f) ); // to nearest pixel to be safe
+    const f32 tgt_shft =       ( (tgt_ratio - 1.f) * (320.0f) );
+
     if ( PbTexlist )
     {
         njSetTexture(PbTexlist);
         njSetTextureNum(PbTexnum);
 
-        SysDrawPillar_Tex(tgt_ratio, dsp_ratio, trans);
+        SysDrawPillar_Tex(tgt_shft, dsp_shft, trans);
     }
     else
     {
-        SysDrawPillar_NonTex(tgt_ratio, dsp_ratio, trans);
+        SysDrawPillar_NonTex(tgt_shft, dsp_shft, trans);
     }
 }
 
