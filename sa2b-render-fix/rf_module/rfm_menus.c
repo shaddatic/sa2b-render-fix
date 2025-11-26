@@ -276,4 +276,16 @@ RFM_MenusInit(void)
 
     WriteNOP(0x00676094, 0x0067609E);               // fill blank space
     WriteCall(0x00676094, DrawMapPurpleFill);
+
+    // Fix 2p menu sprites, add scale and vflip
+    WriteData(0x0067EDE7, NJD_SPRITE_SCALE|                 NJD_SPRITE_ANGLE|NJD_SPRITE_COLOR|NJD_SPRITE_ALPHA, u8);
+    WriteData(0x0068054D, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR|NJD_SPRITE_ALPHA, u8);
+
+    // and removing alpha to fix sorting issue, except the last one that didn't have it already
+    WriteData(0x00680467, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
+    WriteData(0x00680471, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
+    WriteData(0x0068047B, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
+    WriteData(0x00680485, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
+    WriteData(0x0068048F, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
+    WriteData(0x0068051A, NJD_SPRITE_SCALE|NJD_SPRITE_VFLIP|NJD_SPRITE_COLOR, u8);
 }
