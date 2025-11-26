@@ -127,11 +127,11 @@ CNF_Init(void)
 void
 CNF_End(void)
 {
-    mtConfigClose(ConfigP);
+    mtConfigFree( ConfigP );
 }
 
 void
 CNF_Save(void)
 {
-    mtConfigSave(ConfigP);
+    mtConfigSave2( ConfigP, mtGetModPath(), "config.ini" );
 }

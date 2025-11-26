@@ -134,7 +134,7 @@ typedef struct gjobj                GJS_OBJECT;
 /********************************/
 /*  Basic Types                 */
 /********************************/
-/****** Bits ************************************************************************************/
+/****** Angles **********************************************************************************/
 typedef Sint32                      NJS_ANGLE , Angle;
 typedef Sint16                      NJS_SANGLE, Sangle;
 
@@ -144,7 +144,7 @@ typedef Sint16                      NJS_SANGLE, Sangle;
 /****** Angle ***********************************************************************************/
 typedef struct njang3
 {
-    NJS_ANGLE   x, y, z;            /* position/vector components                               */
+    NJS_ANGLE   x, y, z;            /* angle components                                         */
 }
 NJS_ANGLE3, Angle3;
 

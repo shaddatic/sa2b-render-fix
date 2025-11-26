@@ -618,7 +618,7 @@ EnhancedPlayerShadowsInit(void)
         DrawEggmanJetEngine =   !mtConfigGetBool(pupgradeconf, "Eggman", "DisableJetEngine", true);
         DrawEggmanExtraShield = !mtConfigGetBool(pupgradeconf, "Eggman", "DisableProtectiveArmor", true);
 
-        mtConfigClose(pupgradeconf);
+        mtConfigFree(pupgradeconf);
     }
     else
     {

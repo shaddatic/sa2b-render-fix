@@ -34,12 +34,14 @@ EXTERN_START
 #define STR_NOINDEX             (0xFFFFFFFF) /* no string index                                 */
 
 /****** Escape Flags ****************************************************************************/
-#define STR_ESC_ESCAPE          (1<<0)  /* \ -> \\  OR  \\ -> \                                 */
-#define STR_ESC_DBLQUOTE        (1<<1)  /* " -> \"  OR  \" -> "                                 */
-#define STR_ESC_SGLQUOTE        (1<<2)  /* ' -> \'  OR  \' -> '                                 */
+#define STR_ESC_ESCAPE          (1<<0)  /* \ <-> \\                                             */
+#define STR_ESC_DBLQUOTE        (1<<1)  /* " <-> \"                                             */
+#define STR_ESC_SGLQUOTE        (1<<2)  /* ' <-> \'                                             */
+#define STR_ESC_SEMICOLON       (1<<3)  /* ; <-> \;                                             */
+#define STR_ESC_HASH            (1<<4)  /* # <-> \#                                             */
 
 #define STR_ESC_NOFLAG          (0)
-#define STR_ESC_ALL             (STR_ESC_ESCAPE|STR_ESC_DBLQUOTE|STR_ESC_SGLQUOTE)
+#define STR_ESC_ALL             (STR_ESC_ESCAPE|STR_ESC_DBLQUOTE|STR_ESC_SGLQUOTE|STR_ESC_SEMICOLON|STR_ESC_HASH)
 
 /********************************/
 /*  Prototypes                  */
