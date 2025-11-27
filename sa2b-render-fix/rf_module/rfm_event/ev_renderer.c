@@ -156,7 +156,7 @@ ___LoadEventTextures(void)
 void
 EV_RendererInit(void)
 {
-    EventEquipmentEnable = CNF_GetInt(CNF_EVENT_DRAWEQUIP);
+    EventEquipmentEnable = CNF_GetInt(CNF_MISC_EVEQUIPMENT);
     EventVsyncMode       = CNF_GetInt(CNF_EVENT_VSYNC);
 
     EventDebugFlag       = CNF_GetInt(CNF_DEBUG_EVENT);

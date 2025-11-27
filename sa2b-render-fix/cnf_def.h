@@ -313,13 +313,13 @@ CNFE_MISC_SHDWRES;
 
 /** Event section **/
 #define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
-#define CNF_EVENT_DRAWEQUIP         CNFO_INT(   CNFS_EVENT          , "draw_equip"          , CNFE_BOOL_ENABLED                     )   /* Draw Player Equipment */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
 #define CNF_EVENT_OVERLAYFIT        CNFO_INT(   CNFS_EVENT          , "overlay_fit"         , CNFE_EVENT_MOVIE_STRETCH              )   /* Overlay Fill Mode */
 #define CNF_EVENT_MOVIEFIT          CNFO_INT(   CNFS_EVENT          , "movie_fit"           , CNFE_EVENT_MOVIE_FIT                  )   /* FMV Fill Mode */
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
+#define CNF_MISC_EVEQUIPMENT        CNFO_INT(   CNFS_MISC           , "ev_equip"            , CNFE_BOOL_ENABLED                     )   /* Player Equipment in Events */
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */
 #define CNF_MISC_PAUSEFONTCOL       CNFO_INT(   CNFS_MISC           , "pause_font_col"      , CNFE_MISC_PAUSEFONTCOL_LIGHTER        )   /* Pause Font Color */
 #define CNF_MISC_DCRING             CNFO_INT(   CNFS_MISC           , "dc_ring"             , CNFE_BOOL_ENABLED                     )   /* DC Ring Shadows */

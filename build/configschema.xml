@@ -163,11 +163,6 @@ If you're having trouble running the Events, setting them to always run at 30FPS
 
 NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
       </Property>
-      <Property name="draw_equip" display="Draw Player Equipment" type="BINT" defaultvalue="1">
-        <HelpText>Draw player upgrades/equipment in events.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
-      </Property>
       <Property name="43_mode" display="Force Original Aspect Ratio" type="EV_43MD" defaultvalue="2">
         <HelpText>Force the events into their original aspect ratio - covering up many issues that the player was never intended to see.
 
@@ -218,6 +213,9 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
     <Group name="misc" display="Miscellaneous">
       <Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
         <HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
+      </Property>
+      <Property name="ev_equip" display="Player Equipment in Events" type="BINT" defaultvalue="1">
+        <HelpText>Draw player upgrades/equipment in events/cutscenes.</HelpText>
       </Property>
       <Property name="race_tree_mod" display="Chao Race Tree Shadows" type="BINT" defaultvalue="1">
         <HelpText>Adds modifier shadows for Chao Race Trees which normally don't have any, even on Dreamcast.</HelpText>
