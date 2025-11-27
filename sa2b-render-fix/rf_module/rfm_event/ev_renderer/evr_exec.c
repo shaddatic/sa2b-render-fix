@@ -75,19 +75,19 @@ EV_SceneExec(void)
 
     /** Execute Big **/
 
-    int ix_big_scene;
+    int ix_big_motion;
 
     if ( EvBigLastScene == ix_scene ) // ie, we've not switched scenes
     {
-        ix_big_scene = EventBigScene;
+        ix_big_motion = EventBigMotion;
     }
     else // new scene, reset
     {
-        ix_big_scene = 0;
+        ix_big_motion = 0;
 
         EventBigFrame = 0.f;
         EvBigActive = 0;
-        EventBigScene = 0;
+        EventBigMotion = 0;
     }
 
     EvBigLastScene = ix_scene;
@@ -98,17 +98,17 @@ EV_SceneExec(void)
 
         EVENT_BIG* p_big = SceneData[ix_scene].pBig;
 
-        const f32 nb_mframe = (f32) p_big->motions[ix_big_scene].motion->nbFrame;
+        const f32 nb_mframe = (f32) p_big->pMotions[ix_big_motion].pMotion->nbFrame;
 
         if ( EventBigFrame >= nb_mframe )
         {
             EventBigFrame = 0.f;
             EvBigActive = 0;
-            EventBigScene = ix_big_scene + 1;
+            EventBigMotion = ix_big_motion + 1;
 
-            if ( p_big->nbScene <= EventBigScene )
+            if ( p_big->nbMotion <= EventBigMotion )
             {
-                EventBigScene = (p_big->Unknown != 0) - 1;
+                EventBigMotion = p_big->bLoopMotion ? 0 : -1;
             }
         }
     }

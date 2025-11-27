@@ -738,7 +738,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
     {
         const EVENT_BIG* const p_big = p_scene->pBig;
 
-        if ( p_big->nbScene )
+        if ( p_big->nbMotion )
         {
             NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
@@ -749,16 +749,9 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
             njPushMatrixEx();
 
-            const EVENT_BIG_MOTION* const p_mot = &p_big->motions[EventBigScene];
+            const EVENT_BIG_MOTION* const p_mot = &p_big->pMotions[EventBigMotion];
 
-            if (!p_mot->shape)
-            {
-                njCnkSimpleDrawMotion(p_big->object, p_mot->motion, EventBigFrame);
-            }
-            else
-            {
-                njCnkSimpleDrawShapeMotion(p_big->object, p_mot->motion, p_mot->shape, EventBigFrame);
-            }
+            njCnkSimpleDrawShapeMotion(p_big->pObject, p_mot->pMotion, p_mot->pShape, EventBigFrame);
 
             njPopMatrixEx();
 

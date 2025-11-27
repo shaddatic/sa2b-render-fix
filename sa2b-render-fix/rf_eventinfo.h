@@ -78,17 +78,17 @@ EVENT_ENTRY_DC;
 
 typedef struct
 {
-    NJS_MOTION* motion;
-    NJS_MOTION* shape;
+    NJS_MOTION* pMotion;
+    NJS_MOTION* pShape;
 }
 EVENT_BIG_MOTION;
 
 typedef struct
 {
-    NJS_CNK_OBJECT*   object;
-    EVENT_BIG_MOTION* motions;
-    int               nbScene;
-    int Unknown;
+    NJS_CNK_OBJECT*   pObject;
+    EVENT_BIG_MOTION* pMotions;
+    int               nbMotion;
+    Bool           bLoopMotion;
 }
 EVENT_BIG;
 
@@ -360,7 +360,7 @@ enum
 
 #define EventEffData            DATA_REF(EV_EFF_INFO , 0x01FEFE20)
 
-#define EventBigScene           DATA_REF(s32         , 0x01DB0FBC)
+#define EventBigMotion          DATA_REF(s32         , 0x01DB0FBC)
 #define EventBigFrame           DATA_REF(f32         , 0x01DB0F90)
 #define EvBigActive             DATA_REF(b32         , 0x01DB0FD8)
 #define EvBigLastScene          DATA_REF(s32         , 0x01DB0FDC)
