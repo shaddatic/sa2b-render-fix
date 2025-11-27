@@ -49,6 +49,13 @@ static bool ApplyModelDiffuse;
 /************************/
 /*  Source              */
 /************************/
+/****** Common **********************************************************************/
+static bool
+IsTranclucentPass(void)
+{
+    return (rjCnkGetControl() & RJD_CNK_CTRL_MASK_DRAW) == RJD_CNK_CTRL_TRANSLUCENT;
+}
+
 /****** Get Chunk *******************************************************************/
 static s32
 EV_GetCnkAttr(const Sint16* pPList)
@@ -135,6 +142,21 @@ EV_GetCnkAttr(const Sint16* pPList)
 }
 
 static s32
+EV_IsDepthQueue(const NJS_CNK_MODEL* model)
+{
+    if ( (_nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE) && (RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT) )
+    {
+        NJS_POINT3 pt;
+        njCalcPoint(NULL, &model->center, &pt);
+
+        // hardcoded 
+        return ( (pt.z - model->r) < _rj_depth_queue_near_ ) ? CHUNK_ATTR_TRANSPARENT : 0;
+    }
+
+    return 0;
+}
+
+static s32
 EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
 {
     s32 attr = 0;
@@ -143,13 +165,21 @@ EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
 
     do
     {
-        if ( p_obj->model && p_obj->model->plist )
+        if ( p_obj->model )
         {
-            attr |= EV_GetCnkAttr(p_obj->model->plist);
-
-            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+            if ( p_obj->model->plist )
             {
-                return attr;
+                attr |= EV_GetCnkAttr(p_obj->model->plist);
+
+                if ( !(attr & CHUNK_ATTR_TRANSPARENT) && IsTranclucentPass() )
+                {
+                    attr |= EV_IsDepthQueue(p_obj->model);
+                }
+
+                if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+                {
+                    return attr;
+                }
             }
         }
 
@@ -171,12 +201,6 @@ EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
 }
 
 /****** Draw Chunk ******************************************************************/
-static bool
-IsTranclucentPass(void)
-{
-    return (rjCnkGetControl() & RJD_CNK_CTRL_MASK_DRAW) == RJD_CNK_CTRL_TRANSLUCENT;
-}
-
 static void
 EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
 {

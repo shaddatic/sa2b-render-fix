@@ -195,10 +195,6 @@ RJS_UV;
 /********************************/
 /*  Extern Data                 */
 /********************************/
-/****** Depth Queue *****************************************************************************/
-EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
-EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
-
 /****** Texture Error ***************************************************************************/
 EXTERN NJS_TEXNAME texture_rf_texerr[]; /* error texname                                        */
 EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                                        */

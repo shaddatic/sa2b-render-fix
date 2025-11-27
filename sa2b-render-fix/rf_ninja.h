@@ -59,6 +59,13 @@ EXTERN_START
 #define RJD_FST_EUA                 (NJD_FST_NAT)            /* extended use alpha              */
 
 /************************/
+/*  Extern Data         */
+/************************/
+/****** Depth Queue *****************************************************************************/
+EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
+EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
+
+/************************/
 /*  Functions           */
 /************************/
 /****** Null Draw *******************************************************************/
