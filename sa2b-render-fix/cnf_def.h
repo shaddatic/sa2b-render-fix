@@ -99,6 +99,8 @@ CNFE_FONT_ASCII;
 /****** Character Spacing ***********************************************************************/
 typedef enum
 {
+    CNFE_FONT_WIDTH_AUTO        = -1,
+
     CNFE_FONT_WIDTH_TOUCHING,
     CNFE_FONT_WIDTH_SQUISHED,
     CNFE_FONT_WIDTH_COMPACT,
@@ -110,6 +112,8 @@ CNFE_FONT_WIDTH;
 /****** Space Width *****************************************************************************/
 typedef enum
 {
+    CNFE_FONT_SPACE_AUTO        = -1,
+
     CNFE_FONT_SPACE_NONE,
     CNFE_FONT_SPACE_QUATER,
     CNFE_FONT_SPACE_THIRD,
@@ -279,8 +283,8 @@ CNFE_MISC_SHDWRES;
 /** Font section **/
 #define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */
 #define CNF_FONT_ASCII              CNFO_INT(   CNFS_FONT           , "ascii"               , CNFE_FONT_ASCII_VANILLA               )   /* Latin Script Font */
-#define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_COMPACT               )   /* Character Spacing */
-#define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_THIRD                 )   /* Space Character Width */
+#define CNF_FONT_WIDTH              CNFO_INT(   CNFS_FONT           , "width"               , CNFE_FONT_WIDTH_AUTO                  )   /* Character Spacing */
+#define CNF_FONT_SPACE              CNFO_INT(   CNFS_FONT           , "space"               , CNFE_FONT_SPACE_AUTO                  )   /* Space Character Width */
 #define CNF_FONT_PTFILTER           CNFO_INT(   CNFS_FONT           , "ptfilter"            , CNFE_BOOL_DISABLED                    )   /* Use point filtering */
 
 /** Player section **/

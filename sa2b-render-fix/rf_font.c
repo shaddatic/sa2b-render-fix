@@ -144,8 +144,11 @@ RFS_FONT;
 static const size_t SpaceWidths[NB_CNFE_FONT_SPACE]  = { 0, 6, 9, 12, 24 };
 
 /****** User-set Padding ************************************************************/
-static int FontPadding;
-static int SpacePadding;
+static int FontWidthPaddingAscii;
+static int FontSpacePaddingAscii;
+
+static int FontWidthPaddingKanji;
+static int FontSpacePaddingKanji;
 
 /****** Font 'Get' Containers *******************************************************/
 static RFS_FONT* CurrentFonts[NB_FONT_LANG][NB_FONT_TYPE];
@@ -158,10 +161,12 @@ static uint8_t*
 CalculateFontLeft(FONT_CHAR* pFont, RFE_FONT_TYPE type)
 {
     const size_t left_size = (type == FONT_TYPE_KANJI) ? KANJI_SYM_COUNT : ASCIIS_SYM_COUNT;
+    const int    width_pad = (type == FONT_TYPE_KANJI) ? FontWidthPaddingKanji : FontWidthPaddingAscii;
+    const int    space_pad = (type == FONT_TYPE_KANJI) ? FontSpacePaddingKanji : FontSpacePaddingAscii;
 
     uint8_t* const leftp = mtCalloc(uint8_t, left_size);
 
-    leftp[0] = SpacePadding; // Spacing
+    leftp[0] = space_pad; // Spacing
 
     for (size_t i = 1; i < left_size; ++i)
     {
@@ -181,7 +186,7 @@ CalculateFontLeft(FONT_CHAR* pFont, RFE_FONT_TYPE type)
         }
 
         /** Only add padding if the left value is non-zero **/
-        leftp[i] = (uint8_t)(left_new ? (left_new + FontPadding) : 0);
+        leftp[i] = (uint8_t)(left_new ? (left_new + width_pad) : 0);
     }
 
     return leftp;
@@ -472,13 +477,6 @@ RF_FontInit(void)
     syFree(FontBuffers[FONT_LANG_JAP].Kanji.pBuff); // KANJI24
     syFree(FontBuffers[FONT_LANG_ENG].Ascii.pBuff); // ASCII24S
 
-    /****** Load Settings ******/
-    /** Character width **/
-    FontPadding = CNF_GetInt(CNF_FONT_WIDTH);
-
-    /** Space width **/
-    SpacePadding = SpaceWidths[ CNF_GetInt(CNF_FONT_SPACE) ];
-
     /****** Load Fonts ******/
     RFS_FONT* p_kanji;      // Japanese Font
     RFS_FONT* p_ascii;      // Latin Font
@@ -486,6 +484,36 @@ RF_FontInit(void)
 
     const int font_opt_kanji = CNF_GetInt(CNF_FONT_KANJI);
     const int font_opt_ascii = CNF_GetInt(CNF_FONT_ASCII);
+
+    /** Character width **/
+    {
+        CNFE_FONT_WIDTH width_ascii = CNF_GetInt(CNF_FONT_WIDTH);
+        CNFE_FONT_WIDTH width_kanji = width_ascii;
+
+        if ( width_ascii == CNFE_FONT_WIDTH_AUTO )
+        {
+            width_ascii = (font_opt_ascii != CNFE_FONT_ASCII_VANILLA) ? CNFE_FONT_WIDTH_COMFY : CNFE_FONT_WIDTH_SQUISHED;
+            width_kanji = (font_opt_kanji != CNFE_FONT_KANJI_VANILLA) ? CNFE_FONT_WIDTH_COMFY : CNFE_FONT_WIDTH_SQUISHED;
+        }
+
+        FontWidthPaddingAscii = width_ascii;
+        FontWidthPaddingKanji = width_kanji;
+    }
+
+    /** Space width **/
+    {
+        CNFE_FONT_SPACE space_ascii = CNF_GetInt(CNF_FONT_SPACE);
+        CNFE_FONT_SPACE space_kanji = space_ascii;
+
+        if ( space_ascii == CNFE_FONT_SPACE_AUTO )
+        {
+            space_ascii = (font_opt_ascii != CNFE_FONT_ASCII_VANILLA) ? CNFE_FONT_SPACE_HALF : CNFE_FONT_SPACE_THIRD;
+            space_kanji = (font_opt_kanji != CNFE_FONT_KANJI_VANILLA) ? CNFE_FONT_SPACE_HALF : CNFE_FONT_SPACE_THIRD;
+        }
+
+        FontSpacePaddingAscii = SpaceWidths[ space_ascii ];
+        FontSpacePaddingKanji = SpaceWidths[ space_kanji ];
+    }
 
     switch (font_opt_kanji)
     {
