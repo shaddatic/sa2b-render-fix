@@ -24,7 +24,7 @@ float g_LightMask[16]           : register(c70);
 float g_TexGenSrc_0             : register(c140);
 float g_NumTexGens              : register(c155);
 float4x4 g_TexMatrix[10]        : register(c160);
-float4	 g_ScreenInfo            	: register(c200); // RF
+float4	 g_ScreenInfo           : register(c201); // RF
 
 /********************************/
 /*  Structures                  */
@@ -65,6 +65,10 @@ PS_IN main(VS_IN input)
     
     float4 worldPos = mul(float4(input.Position, 1.0f), g_WorldMatrix);
     output.ScreenPosition = mul(worldPos, g_ProjMatrix);
+    
+    // DirectX 9 pixel offset issue
+    output.ScreenPosition.x -= ( g_ScreenInfo.x * output.ScreenPosition.w );
+    output.ScreenPosition.y += ( g_ScreenInfo.y * output.ScreenPosition.w );
 
     float3 normal = normalize(mul(float4(normalize(input.Normal), 0), g_WorldViewITMatrix).xyz);
 

@@ -184,9 +184,7 @@ DisplayTotalRingsDispLateHook(task* tp)
 void
 RFG_UiFilterInit(void)
 {
-    const bool force_enable = ( 480.f >= DisplayResolutionY );
-
-    if ( CNF_GetInt( CNF_FONT_PTFILTER ) || force_enable ) // text filtering
+    if ( CNF_GetInt( CNF_FONT_PTFILTER ) ) // text filtering
     {
         WriteCall(0x006B5EF7, ___DrawTextureExWithPoint);
         WriteCall(0x006B6004, ___DrawTextureExWithPoint);

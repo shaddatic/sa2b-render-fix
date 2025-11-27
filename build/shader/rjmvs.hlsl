@@ -1,6 +1,9 @@
 /********************************/
 /*  Constant Registers          */
 /********************************/
+/****** Floats **********************************************************************************/
+float4 c_ScreenInfo         : register(c201); /* 1/w_res, 1/h_res, X, X                         */
+
 /****** Matrix **********************************************************************************/
 float4x4 c_MtxProjection    : register(c8);   /* projection matrix                              */
 
@@ -37,6 +40,10 @@ main(VS_IN inpt)
 #ifdef MOD_FOG
     outp.w   = outp.pos.w;
 #endif/*MOD_FOG*/
+
+    // DirectX 9 pixel offset issue
+    outp.pos.x -= ( c_ScreenInfo.x * outp.pos.w );
+    outp.pos.y += ( c_ScreenInfo.y * outp.pos.w );
 
     return outp;
 }
