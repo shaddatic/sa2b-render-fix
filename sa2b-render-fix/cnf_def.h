@@ -316,6 +316,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
 #define CNF_EVENT_OVERLAYFIT        CNFO_INT(   CNFS_EVENT          , "overlay_fit"         , CNFE_EVENT_MOVIE_STRETCH              )   /* Overlay Fill Mode */
 #define CNF_EVENT_MOVIEFIT          CNFO_INT(   CNFS_EVENT          , "movie_fit"           , CNFE_EVENT_MOVIE_FIT                  )   /* FMV Fill Mode */
+#define CNF_EVENT_SUBTITLE          CNFO_INT(   CNFS_EVENT          , "subtitle"            , CNFE_BOOL_ENABLED                     )   /* Use Subtitles */
 
 /** Miscellaneous section **/
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */

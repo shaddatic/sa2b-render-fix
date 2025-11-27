@@ -205,4 +205,9 @@ EV_RendererInit(void)
     WriteCall(0x005FFE34, ___LoadEventTextures);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
+
+    if ( !CNF_GetInt(CNF_EVENT_SUBTITLE) )
+    {
+        WriteJump(0x0060221D, 0x00602299);
+    }
 }

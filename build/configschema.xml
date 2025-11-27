@@ -193,6 +193,9 @@ Clamp: Stretch only outer video pixels to fill the screen.
 Mirror: Mirror video on each side.
 Crop: Crop the upper and lower sections of the video.</HelpText>
       </Property>
+      <Property name="subtitle" display="Use Subtitles" type="BINT" defaultvalue="1">
+        <HelpText>Display dialog subtitles during events. Does not affect the title cards.</HelpText>
+      </Property>
     </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="BINT" defaultvalue="1">
