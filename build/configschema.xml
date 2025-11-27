@@ -54,7 +54,7 @@ Only recommended for very specific reasons or with the use of antialiasing, like
 'Performance' reduces the number of draw calls at the cost of some accuracy.</HelpText>
       </Property>
       <Property name="cnk_spec" display="Specular Highlights" type="BINT" defaultvalue="1">
-        <HelpText>Specular highlights are the bright spots on models where lighting is most direct/intense, giving those areas a shiny look. This is a rendering feature that was lost in the Battle version of the game.</HelpText>
+        <HelpText>Specular highlights are the bright spots on models where lighting is most direct/intense, giving those areas a shiny look. This was used heavily in the Dreamcast version but was lost in the Battle ports of the game.</HelpText>
       </Property>
     </Group>
     <Group name="font" display="Text and Font Settings">
