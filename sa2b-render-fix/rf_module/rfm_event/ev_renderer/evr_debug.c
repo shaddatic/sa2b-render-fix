@@ -108,24 +108,24 @@ EV_DebugCameraExec(task* tp)
 
     // pos
 
-    f32 x_adj = -GET_ANLOG(p_peri->x1);
+    f32 x_adj = -GET_ANLOG(p_peri->x1) * 2.f;
     f32 y_adj = 0.f;
     f32 z_adj = 0.f;
 
     if ( (p_peri->on & (BTN_L|BTN_R)) == (BTN_L|BTN_R) )
     {
-        y_adj = -GET_ANLOG(p_peri->y1);
+        y_adj = -GET_ANLOG(p_peri->y1) * 2.f;
     }
     else
     {
-        z_adj = -GET_ANLOG(p_peri->y1);
+        z_adj = -GET_ANLOG(p_peri->y1) * 2.f;
     }
 
     if ( twp->flag & DBG_FLAG_CAMERAFAST )
     {
-        x_adj *= 10.f;
-        y_adj *= 10.f;
-        z_adj *= 10.f;
+        x_adj *= 5.f;
+        y_adj *= 5.f;
+        z_adj *= 5.f;
     }
 
     // calc
@@ -174,19 +174,22 @@ EV_DebugExec(task* tp)
             twp->btimer = 255;
         }
 
+        if ( p_peri->on & BTN_X )
+        {
+            twp->flag |= DBG_FLAG_CAMERAFAST;
+        }
+        else
+        {
+            twp->flag &= ~DBG_FLAG_CAMERAFAST;
+        }
+
         if ( p_peri->press & BTN_X )
         {
-            if ( twp->flag & DBG_FLAG_CAMERAFAST )
+            if ( twp->flag & DBG_FLAG_CAMERA )
             {
-                twp->flag &= ~(DBG_FLAG_CAMERA|DBG_FLAG_CAMERAINIT|DBG_FLAG_CAMERAFAST);
+                twp->flag &= ~DBG_FLAG_CAMERA;
 
                 mtStrCopy(s_DebugTextBuffer, "DEBUG CAMERA : OFF", STR_NOMAX);
-            }
-            else if ( twp->flag & DBG_FLAG_CAMERA )
-            {
-                twp->flag |= DBG_FLAG_CAMERAFAST;
-
-                mtStrCopy(s_DebugTextBuffer, "DEBUG CAMERA : FAST", STR_NOMAX);
             }
             else
             {
