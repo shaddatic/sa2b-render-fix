@@ -159,9 +159,7 @@ Pure ports of the Dreamcast events, as they originally appeared in 2001.</HelpTe
 
 On Dreamcast, the Event itself decided when 30FPS would be used. This feature removed for Battle, and all ran at 60FPS no matter what.
 
-If you're having trouble running the Events, setting them to always run at 30FPS might help.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+If you're having trouble running the Events, setting them to always run at 30FPS might help.</HelpText>
       </Property>
       <Property name="43_mode" display="Force Original Aspect Ratio" type="EV_43MD" defaultvalue="2">
         <HelpText>Force the events into their original aspect ratio - covering up many issues that the player was never intended to see.
@@ -169,9 +167,7 @@ NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
 Always: Use pillar boxes on all events/cutscenes.
 Exclude Intro: 'Always', but excluding the Dreamcast intro.
 Conservative: Use pillar boxes only when absolutely necessary to hide issues.
-Never: No events will use pillar boxes, issues or not.
-
-NOTE: Requires 'RF's Event Renderer' to take effect.</HelpText>
+Never: No events will use pillar boxes, issues or not.</HelpText>
       </Property>
       <Property name="overlay_fit" display="Overlay Fill Mode" type="EV_MOVIEFIT" defaultvalue="1">
         <HelpText>How the overlay video effects will be fit to the screen.
