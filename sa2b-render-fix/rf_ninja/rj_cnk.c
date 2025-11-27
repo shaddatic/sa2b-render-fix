@@ -268,7 +268,7 @@ CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
 #define chAttrEnable                    DATA_REF(Bool, 0x01AED2CC)
 
 static void
-CalcVlistColorCh(NJS_ARGB* dst, const NJS_ARGB* src)
+CalcVlistColorCh(NJS_BGRA* dst, const NJS_BGRA* src)
 {
     // RGBA (Chao) -> ARGB (Cnk)
     dst->a = src->b;

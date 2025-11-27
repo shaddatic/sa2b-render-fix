@@ -77,7 +77,7 @@ rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf, boo
 
     const Float dq_diff = dq_far - dq_near;
 
-    const Float dq_mul = 1.f / dq_diff;
+    const Float dq_mul = ( 1.f / dq_diff ) * 128.f;
 
     /** Set "depth queue" **/
 
@@ -89,25 +89,24 @@ rjCnkCalculateDepthQueue(const CNK_VERTEX_HEAD* vhead, RJS_VERTEX_BUF* vbuf, boo
     {
         if ( p_buf->pos.z >= dq_near ) // behind near
         {
-            p_buf->col.a = 1.f;
+            p_buf->col.a = 0x80;
         }
         else if ( p_buf->pos.z <= dq_far ) // past far
         {
-            p_buf->col.a = 0.f;
+            p_buf->col.a = 0x00;
         }
         else // somewhere between
         {
-            p_buf->col.a = ( dq_diff - (p_buf->pos.z - dq_near) ) * dq_mul;
+            p_buf->col.a = (Uint8)( ( dq_diff - (p_buf->pos.z - dq_near) ) * dq_mul );
         }
 
         if ( !has_color )
         {
-            p_buf->col.r = 1.f;
-            p_buf->col.g = 1.f;
-            p_buf->col.b = 1.f;
+            p_buf->col.r = 0x80;
+            p_buf->col.g = 0x80;
+            p_buf->col.b = 0x80;
         }
 
         ++p_buf;
     }
 }
-

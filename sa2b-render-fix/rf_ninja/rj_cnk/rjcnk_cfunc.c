@@ -17,8 +17,11 @@
 /********************************/
 /*  Macros                      */
 /********************************/
-/****** Static **********************************************************************************/
+/****** Light Flags *****************************************************************************/
 #define LIGHT_ON(_flag, _ix)        ((_flag)&(RJD_CNK_LIGHTSW_1<<(_ix)))
+
+/****** As Int **********************************************************************************/
+#define AS_UINT(a)                  *(Uint32*)(&(a))
 
 /********************************/
 /*  Source                      */
@@ -88,7 +91,7 @@ rjCnkVertexColorMaterial(const RJS_VERTEX_BUF* restrict pVtx)
 Uint32
 rjCnkVertexColorD8(const RJS_VERTEX_BUF* restrict pVtx)
 {
-    return ArgbToUint( &pVtx->col );
+    return AS_UINT(pVtx->col);
 }
 
 Uint32
@@ -156,10 +159,10 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
         argb.b += (_rj_cnk_light_[i].b * inten);
     }
 
-    argb.a *= pVtx->col.a;
-    argb.r *= pVtx->col.r * _rj_cnk_diff_material_.r;
-    argb.g *= pVtx->col.g * _rj_cnk_diff_material_.g;
-    argb.b *= pVtx->col.b * _rj_cnk_diff_material_.b;
+    argb.a *= ( (Float)pVtx->col.a / 128.f );
+    argb.r *= ( (Float)pVtx->col.r / 128.f ) * _rj_cnk_diff_material_.r;
+    argb.g *= ( (Float)pVtx->col.g / 128.f ) * _rj_cnk_diff_material_.g;
+    argb.b *= ( (Float)pVtx->col.b / 128.f ) * _rj_cnk_diff_material_.b;
 
     return ArgbToUint(&argb);
 }
@@ -168,7 +171,7 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
 Uint32
 rjCnkSpecularS8(const RJS_VERTEX_BUF* restrict pVtx)
 {
-    return SpecToUint( &pVtx->spc );
+    return AS_UINT(pVtx->spc);
 }
 
 Uint32

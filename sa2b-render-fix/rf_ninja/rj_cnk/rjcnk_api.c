@@ -20,8 +20,8 @@
 /****** Vlist Callback *************************************************************************/
 void    rjCnkCalcVlistPosition( NJS_POINT3* dst, const NJS_POINT3* src );
 void    rjCnkCalcVlistNormal(   NJS_VECTOR* dst, const NJS_VECTOR* src );
-void    rjCnkCalcVlistColor(    NJS_ARGB*   dst, const NJS_ARGB*   src );
-void    rjCnkCalcVlistSpecular( NJS_ARGB*   dst, const NJS_ARGB*   src );
+void    rjCnkCalcVlistColor(    NJS_BGRA*   dst, const NJS_BGRA*   src );
+void    rjCnkCalcVlistSpecular( NJS_BGRA*   dst, const NJS_BGRA*   src );
 
 /****** Plist Callback *************************************************************************/
 Sint16  rjCnkGetTextureNum( Sint16 n );
@@ -68,13 +68,13 @@ rjCnkCalcVlistNormal(NJS_VECTOR* dst, const NJS_VECTOR* src)
 }
 
 static void
-rjCnkCalcVlistColor(NJS_ARGB* dst, const NJS_ARGB* src)
+rjCnkCalcVlistColor(NJS_BGRA* dst, const NJS_BGRA* src)
 {
     *dst = *src;
 }
 
 static void
-rjCnkCalcVlistSpecular(NJS_ARGB* dst, const NJS_ARGB* src)
+rjCnkCalcVlistSpecular(NJS_BGRA* dst, const NJS_BGRA* src)
 {
     *dst = *src;
 }
@@ -157,13 +157,13 @@ rjCnkSetVListNrmCallback(void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* 
 }
 
 void
-rjCnkSetVListColCallback(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
+rjCnkSetVListColCallback(void(__cdecl* func)(NJS_BGRA* dst, const NJS_BGRA* src))
 {
     _rj_cnk_vlist_cfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistColor );
 }
 
 void
-rjCnkSetVListSpcCallback(void(__cdecl* func)(NJS_ARGB* dst, const NJS_ARGB* src))
+rjCnkSetVListSpcCallback(void(__cdecl* func)(NJS_BGRA* dst, const NJS_BGRA* src))
 {
     _rj_cnk_vlist_sfunc_ = ( func ) ? ( func ) : ( rjCnkCalcVlistSpecular );
 }

@@ -101,8 +101,8 @@ typedef Uint32 (RJF_CNK_PLIST_MCOL)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 f
 /****** Vlist Callbacks *************************************************************************/
 typedef void (RJF_CNK_VLIST_POS)(NJS_POINT3* dst, const NJS_POINT3* src);
 typedef void (RJF_CNK_VLIST_NRM)(NJS_VECTOR* dst, const NJS_VECTOR* src);
-typedef void (RJF_CNK_VLIST_COL)(NJS_ARGB*   dst, const NJS_ARGB*   src);
-typedef void (RJF_CNK_VLIST_SPC)(NJS_ARGB*   dst, const NJS_ARGB*   src);
+typedef void (RJF_CNK_VLIST_COL)(NJS_BGRA*   dst, const NJS_BGRA*   src);
+typedef void (RJF_CNK_VLIST_SPC)(NJS_BGRA*   dst, const NJS_BGRA*   src);
 
 /********************************/
 /*  Enums                       */

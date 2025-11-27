@@ -575,8 +575,8 @@ void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const
 */
 void    rjCnkSetVListPosCallback( void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3* src) );
 void    rjCnkSetVListNrmCallback( void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* src) );
-void    rjCnkSetVListColCallback( void(__cdecl* func)(NJS_ARGB*   dst, const NJS_ARGB*   src) );
-void    rjCnkSetVListSpcCallback( void(__cdecl* func)(NJS_ARGB*   dst, const NJS_ARGB*   src) );
+void    rjCnkSetVListColCallback( void(__cdecl* func)(NJS_BGRA*   dst, const NJS_BGRA*   src) );
+void    rjCnkSetVListSpcCallback( void(__cdecl* func)(NJS_BGRA*   dst, const NJS_BGRA*   src) );
 
 /****** Cheap Shadow ****************************************************************/
 /*

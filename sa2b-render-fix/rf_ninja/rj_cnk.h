@@ -113,12 +113,11 @@ typedef struct rjvtxbuf
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    NJS_ARGB   col;             /* color                                            */
+    NJS_BGRA   col;             /* color                                            */
+    NJS_BGRA   spc;             /* specular                                         */
+    Float      inten[6];        /* light intensities                                */
 
-    union {
-        NJS_ARGB   spc;         /* specular                                         */
-        Float      inten[6];    /* light intensities                                */
-    };
+    Uint32     pad[2];
 }
 RJS_VERTEX_BUF;
 
