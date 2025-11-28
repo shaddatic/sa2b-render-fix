@@ -29,7 +29,7 @@
 /*  Constants                   */
 /********************************/
 /****** Basic Constants *************************************************************************/
-#define SLEEP_GRACE_MS              (1)               /* sleep call grace time                  */
+#define SLEEP_GRACE_MS              (0.25)            /* sleep call grace time                  */
 #define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
 #define TARGET_MS                   (MS_PER_SEC/60.0) /* target performance                     */
 
@@ -46,6 +46,10 @@
 /********************************/
 /*  Data                        */
 /********************************/
+/****** User Settings ***************************************************************************/
+static bool UseVsync;               /* enable/disable vsync calculations                        */
+static bool FastVsync;              /* use fast but unnacurate vsync calcs                      */
+
 /****** Target Vsync Mode ***********************************************************************/
 static s32 WaitVsyncCount;          /* target vsync wait count                                  */
 static s32 MinWaitVsync;            /* minimum wait vsync count                                 */
@@ -134,21 +138,26 @@ RF_SysVsyncSceneEnd(void)
     // frametime debug
     if ( DebugFrameInfo )
     {
-        static f64 s_avg_ms;
+        constexpr int x_offset = 46;
+        static    f64 s_avg_ms;
 
         const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
 
         const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / vsync_wait_count) );
 
-        mlDebugSetScale( 8 );
-        mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF0000 : 0xFFFFFFFF );
-
-        mlDebugPrintC( NJM_LOCATION(11,1), "IMM /      AVG /    TGT" );
-
-        mlDebugPrint(  NJM_LOCATION(1,3), "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
-        mlDebugPrint(  NJM_LOCATION(1,4), "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
-
         s_avg_ms = avg_ms;
+
+        const f64 total_ms = GetMilliseconds(GetClock() - ClockStart, freq);
+        const f64 frameskip = 1.0 + (frame_ms / TARGET_MS);
+
+        mlDebugSetScale( 8 );
+        mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
+
+        mlDebugPrintC( NJM_LOCATION( 10+x_offset, 1),   "IMM /      AVG /    TGT" );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 4),   "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
+        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 6), "VSYNC:%9.02f", total_ms - frame_ms );
+        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 7), "FSKIP:%9.02f", frameskip );
     }
 
     // vsync
@@ -159,26 +168,54 @@ RF_SysVsyncSceneEnd(void)
 
         f64 wait_ms = 0.f;
 
-        // if the frame was too fast, wait a bit
-        if ( vsync_ms > delta_ms )
+        if ( UseVsync )
         {
-            wait_ms = (vsync_ms - delta_ms);
+            // if the frame was too fast, wait a bit
+            if ( vsync_ms > delta_ms )
+            {
+                wait_ms = (vsync_ms - delta_ms);
+            }
+            // if the frame was too slow, wait for next open vsync window
+            else if ( vsync_ms < delta_ms )
+            {
+                wait_ms = TARGET_MS - fmod(delta_ms, TARGET_MS);
+            }
         }
-        // if the frame was too slow, wait for next open vsync window
-        else if ( vsync_ms < delta_ms )
+
+        if ( wait_ms > 0.f )
         {
-            wait_ms = TARGET_MS - fmod(delta_ms, TARGET_MS);
-        }
+            if ( FastVsync )
+            {
+                u32 sleep_ms = (u32)floor(wait_ms);
 
-        if ( wait_ms != 0.f )
-        {
-            const u32 sleep_ms = (u32)floor(wait_ms);
+                if ( sleep_ms >= 1 )
+                {
+                    // if we're moving too far into the frame, wait an extra millisecond
+                    const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
 
-            // sleep most of the time first to save CPU time
-            if ( sleep_ms > SLEEP_GRACE_MS ) osSleep( sleep_ms - SLEEP_GRACE_MS );
+                    if ( (delta_ms - frame_ms) > (1.0 + SLEEP_GRACE_MS) )
+                    {
+                        sleep_ms++;
+                    }
 
-            // wait for the remaining time
-            while ( wait_ms > GetFrameTime(start_clock, freq) );
+                    // sleep most of the time first to release CPU cycles
+                    osSleep( sleep_ms );
+                }
+            }
+            else // accurate
+            {
+                const f64 first_ms = fmod(wait_ms+SLEEP_GRACE_MS, SLEEP_GRACE_MS*2);
+                const u32 sleep_ms = (u32)floor((wait_ms - first_ms) + 0.01);
+
+                // wait for a short amount of time first
+                while ( first_ms > GetFrameTime(start_clock, freq) );
+
+                // sleep most of the time first to release CPU cycles
+                if ( sleep_ms ) osSleep( sleep_ms );
+
+                // wait for the remaining time
+                while ( wait_ms > GetFrameTime(start_clock, freq) );
+            }
         }
 
         FrameTime      = delta_ms;
@@ -270,18 +307,6 @@ RF_SysVsyncInit(void)
 {
     const ml_settings* p_mlset = mlGetUserSettings();
 
-    if ( p_mlset->limitfps )
-    {
-        RF_MsgWarn(
-            "Limit Framerate",
-
-            "It is recommeneded that you disable the 'Limit Framerate' Mod Loader patch, as "
-            "it can conflict with Render Fix's own vsync and frameskipping systems.\n\n"
-
-            "It can be found in the Mod Manager at: Game Config > Patches > Limit Framerate."
-        );
-    }
-
     WriteNOP(      0x0043CEE7, 0x0043CEED); // stop setting the exec loop count
     WriteShortJump(0x0043CEF3, 0x0043CF16); // skip over the PAL50 code stuff
 
@@ -350,10 +375,42 @@ RF_SysVsyncInit(void)
 
     DebugFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO );
 
-    MinWaitVsync = CNF_GetInt( CNF_GFX_VSYNC );
+    MinWaitVsync = CNF_GetInt( CNF_GFX_VSYNCWAIT );
 
     // set wait vsync count
     const int game_speed = CNF_GetInt( CNF_DEBUG_GAMESPEED );
 
     RF_SysSetWaitVsyncCount( 0 - game_speed );
+
+    const int frame_limit = CNF_GetInt( CNF_GFX_VSYNC );
+
+    switch ( frame_limit )
+    {
+        case CNFE_GFX_VSYNC_DISABLED:
+        {
+            break;
+        }
+        case CNFE_GFX_VSYNC_FAST:
+        {
+            FastVsync = true;
+//          [[fallthrough]];
+        }
+        case CNFE_GFX_VSYNC_ENABLED:
+        {
+            UseVsync = true;
+            break;
+        }
+    }
+
+    if ( frame_limit != CNFE_GFX_VSYNC_DISABLED && p_mlset->limitfps )
+    {
+        RF_MsgWarn(
+            "Limit Framerate",
+
+            "It is recommeneded that you disable the 'Limit Framerate' Mod Loader patch, as "
+            "it can conflict with Render Fix's own vsync and frameskipping systems.\n\n"
+
+            "It can be found in the Mod Manager at: Game Config > Patches > Limit Framerate."
+        );
+    }
 }

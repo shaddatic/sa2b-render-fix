@@ -26,12 +26,21 @@ CNFE_BOOL;
 /*
 *   Graphics
 */
+/****** Vsync Wait ******************************************************************************/
+typedef enum
+{
+    CNFE_GFX_VSYNCWAIT_60               = 1,
+    CNFE_GFX_VSYNCWAIT_30               = 2,
+    CNFE_GFX_VSYNCWAIT_15               = 4,
+}
+CNFE_GFX_VSYNCWAIT;
+
 /****** Vsync ***********************************************************************************/
 typedef enum
 {
-    CNFE_GFX_VSYNC_60               = 1,
-    CNFE_GFX_VSYNC_30               = 2,
-    CNFE_GFX_VSYNC_15               = 4,
+    CNFE_GFX_VSYNC_DISABLED,
+    CNFE_GFX_VSYNC_FAST,
+    CNFE_GFX_VSYNC_ENABLED,
 }
 CNFE_GFX_VSYNC;
 
@@ -269,7 +278,8 @@ CNFE_MISC_SHDWRES;
 /****************************************************************************************************************************************/
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Graphics section **/
-#define CNF_GFX_VSYNC               CNFO_INT(   CNFS_GFX            , "vsync"               , CNFE_GFX_VSYNC_60                     )   /* Framerate */
+#define CNF_GFX_VSYNCWAIT           CNFO_INT(   CNFS_GFX            , "vsync_wait"          , CNFE_GFX_VSYNCWAIT_60                 )   /* Framerate */
+#define CNF_GFX_VSYNC               CNFO_INT(   CNFS_GFX            , "vsync_calc"          , CNFE_GFX_VSYNC_ENABLED                )   /* Frame Limiter */
 #define CNF_GFX_ANISOTROPY          CNFO_INT(   CNFS_GFX            , "anisotropy"          , CNFE_GFX_ANISOTROPY_AUTO              )   /* Anisotropic Filtering */
 #define CNF_GFX_TEXFILTER           CNFO_INT(   CNFS_GFX            , "texfilter"           , CNFE_GFX_TEXFILTER_AUTO               )   /* Texture Filtering */
 #define CNF_GFX_MIPDADJ             CNFO_INT(   CNFS_GFX            , "mipdadj"             , CNFE_GFX_MIPDADJ_AUTO                 )   /* Mipmap Depth Adjust */
