@@ -98,12 +98,6 @@ typedef void (RJF_CNK_MDL)(NJS_CNK_MODEL*  model);
 typedef Sint16 (RJF_CNK_PLIST_TNUM)(Sint16 n);
 typedef Uint32 (RJF_CNK_PLIST_MCOL)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag);
 
-/****** Vlist Callbacks *************************************************************************/
-typedef void (RJF_CNK_VLIST_POS)(NJS_POINT3* dst, const NJS_POINT3* src);
-typedef void (RJF_CNK_VLIST_NRM)(NJS_VECTOR* dst, const NJS_VECTOR* src);
-typedef void (RJF_CNK_VLIST_COL)(NJS_BGRA*   dst, const NJS_BGRA*   src);
-typedef void (RJF_CNK_VLIST_SPC)(NJS_BGRA*   dst, const NJS_BGRA*   src);
-
 /********************************/
 /*  Enums                       */
 /********************************/
@@ -219,11 +213,6 @@ EXTERN Sint32   _rj_cnk_shadow_tex_;    /* shadow tex count                     
 
 EXTERN RJF_CNK_VCOLFUNC* _rj_cnk_vcol_funcs_[NB_RJE_CNK_VCOLFUNC]; /* vcol funcs                */
 EXTERN RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC]; /* spec funcs                */
-
-EXTERN RJF_CNK_VLIST_POS* _rj_cnk_vlist_pfunc_; /* vertex position function                     */
-EXTERN RJF_CNK_VLIST_NRM* _rj_cnk_vlist_nfunc_; /* vertex normal function                       */
-EXTERN RJF_CNK_VLIST_COL* _rj_cnk_vlist_cfunc_; /* vertex color function                        */
-EXTERN RJF_CNK_VLIST_SPC* _rj_cnk_vlist_sfunc_; /* vertex specular function                     */
 
 /****** UV Scroll *******************************************************************************/
 EXTERN RJS_UV _rj_cnk_uv_scroll_;   /* u offset                                                 */

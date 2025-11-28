@@ -265,6 +265,8 @@ CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
     return rjCnkDrawModel( &mdl );
 }
 
+#if 0
+
 #define chAttrEnable                    DATA_REF(Bool, 0x01AED2CC)
 
 static void
@@ -295,6 +297,8 @@ CnkDrawModel_ChDraw(const NJS_CNK_MODEL* model)
         return CNK_RETN_OK;
     }
 }
+
+#endif
 
 /****** Cnk Init ********************************************************************/
 void

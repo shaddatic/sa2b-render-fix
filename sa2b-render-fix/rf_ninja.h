@@ -563,28 +563,6 @@ void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 n) );
 */
 void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
 
-/****** Chunk Vlist Callback ********************************************************************/
-/*
-*   Description:
-*     Set the Chunk vlist attribute callback functions, for changing vertex parameters at draw
-*   time.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - Called for every vertex in the Chunk vlist.
-*     - Reset the callback to 'NULL' when drawing is complete.
-*     - See 'rjCnkCalcVlist__' functions for callback examples
-*
-*   Parameters:
-*     - callback        : material callback function                             [opt: nullptr]
-*       - dst           : destination attribute
-*       - src           : source attribute
-*/
-void    rjCnkSetVListPosCallback( void(__cdecl* func)(NJS_POINT3* dst, const NJS_POINT3* src) );
-void    rjCnkSetVListNrmCallback( void(__cdecl* func)(NJS_VECTOR* dst, const NJS_VECTOR* src) );
-void    rjCnkSetVListColCallback( void(__cdecl* func)(NJS_BGRA*   dst, const NJS_BGRA*   src) );
-void    rjCnkSetVListSpcCallback( void(__cdecl* func)(NJS_BGRA*   dst, const NJS_BGRA*   src) );
-
 /****** Cheap Shadow ****************************************************************/
 /*
 *   Description:

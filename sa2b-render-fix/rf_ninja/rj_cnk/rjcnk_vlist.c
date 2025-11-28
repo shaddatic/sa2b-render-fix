@@ -38,6 +38,31 @@ RJS_VLIST_ENTRY;
 /************************/
 /*  Source              */
 /************************/
+/****** Transform *******************************************************************/
+static inline void
+rjCnkCalcVlistPos(NJS_POINT3* dst, const NJS_POINT3* src)
+{
+    njCalcPoint(NULL, src, dst);
+}
+
+static inline void
+rjCnkCalcVlistNrm(NJS_VECTOR* dst, const NJS_VECTOR* src)
+{
+    njCalcVector(NULL, src, dst);
+}
+
+static inline void
+rjCnkCalcVlistCol(NJS_BGRA* dst, const NJS_BGRA* src)
+{
+    *dst = *src;
+}
+
+static inline void
+rjCnkCalcVlistSpc(NJS_BGRA* dst, const NJS_BGRA* src)
+{
+    *dst = *src;
+}
+
 /****** Lights **********************************************************************/
 static Float
 rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
@@ -232,9 +257,6 @@ rjCnkGetVlistSI(NJS_ARGB* dst, const Uint16* src)
 static void
 rjCnkVertex1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-
     /** Read vertex header **/
     const int           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_UF* p_vertex = (void*) vhead->d;
@@ -244,17 +266,13 @@ rjCnkVertex1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbu
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
     }
 }
 
 static void
 rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const int              nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN_SH* p_vertex = (void*) vhead->d;
@@ -264,8 +282,8 @@ rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -274,9 +292,6 @@ rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 static void
 rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-
     /** Read vertex header **/
     const int        nb_vertex = vhead->nbindeces;
     const CNK_VERTEX* p_vertex = (void*) vhead->d;
@@ -286,17 +301,13 @@ rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
     }
 }
 
 static void
 rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_COL* const fn_cfunc = _rj_cnk_vlist_cfunc_;
-
     /** Read vertex header **/
     const int           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_D8* p_vertex = (void*) vhead->d;
@@ -306,18 +317,14 @@ rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_cfunc(&p_vbuf->col, &p_vertex->col);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
     }
 }
 
 static void
 rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const int           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN* p_vertex = (void*) vhead->d;
@@ -327,8 +334,8 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -337,11 +344,6 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 static void
 rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-    RJF_CNK_VLIST_COL* const fn_cfunc = _rj_cnk_vlist_cfunc_;
-
     /** Read vertex header **/
     const int              nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN_D8* p_vertex = (void*) vhead->d;
@@ -351,9 +353,9 @@ rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &p_vertex->nrm);
-        fn_cfunc(&p_vbuf->col, &p_vertex->col);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -362,11 +364,6 @@ rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 static void
 rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_COL* const fn_cfunc = _rj_cnk_vlist_cfunc_;
-    RJF_CNK_VLIST_SPC* const fn_sfunc = _rj_cnk_vlist_sfunc_;
-
     /** Read vertex header **/
     const int              nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_D8_S8* p_vertex = (void*) vhead->d;
@@ -376,19 +373,15 @@ rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_cfunc(&p_vbuf->col, &p_vertex->col);
-        fn_sfunc(&p_vbuf->spc, &p_vertex->spc);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
+        rjCnkCalcVlistSpc(&p_vbuf->spc, &p_vertex->spc);
     }
 }
 
 static void
 rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const int            nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VNX* p_vertex = (void*) vhead->d;
@@ -402,8 +395,8 @@ rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &vect);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -412,11 +405,6 @@ rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 static void
 rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-    RJF_CNK_VLIST_COL* const fn_cfunc = _rj_cnk_vlist_cfunc_;
-
     /** Read vertex header **/
     const int               nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VNX_D8* p_vertex = (void*) vhead->d;
@@ -430,9 +418,9 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &vect);
-        fn_cfunc(&p_vbuf->col, &p_vertex->col);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
+        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -441,10 +429,6 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict
 static void
 rjCnkVertexVNX1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const int               nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VNX_UF* p_vertex = (void*) vhead->d;
@@ -458,8 +442,8 @@ rjCnkVertexVNX1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &vect);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -468,10 +452,6 @@ rjCnkVertexVNX1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 static void
 rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const int              nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN_UF* p_vertex = (void*) vhead->d;
@@ -481,8 +461,8 @@ rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        fn_pfunc(&p_vbuf->pos, &p_vertex->pos);
-        fn_nfunc(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -491,9 +471,6 @@ rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 static void
 rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-
     /** Read vertex header **/
     const Sint32        nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_NF* p_vertex = (void*) vhead->d;
@@ -504,8 +481,7 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex)
     {
         NJS_POINT3 pos;
-
-        fn_pfunc(&pos, &p_vertex->pos);
+        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
@@ -537,10 +513,6 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 static void
 rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_NRM* const fn_nfunc = _rj_cnk_vlist_nfunc_;
-
     /** Read vertex header **/
     const Sint32           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN_NF* p_vertex = (void*) vhead->d;
@@ -552,10 +524,8 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
     {
         NJS_POINT3 pos;
         NJS_VECTOR nrm;
-
-        /** Calculate vertex attributes **/
-        fn_pfunc(&pos, &p_vertex->pos);
-        fn_nfunc(&nrm, &p_vertex->nrm);
+        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
+        rjCnkCalcVlistNrm(&nrm, &p_vertex->nrm);
 
         /** Apply weights **/
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
@@ -609,10 +579,6 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 static void
 rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
-    /** Get function constants **/
-    RJF_CNK_VLIST_POS* const fn_pfunc = _rj_cnk_vlist_pfunc_;
-    RJF_CNK_VLIST_COL* const fn_cfunc = _rj_cnk_vlist_cfunc_;
-
     /** Read vertex header **/
     const Sint32           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_NF_D8* p_vertex = (void*) vhead->d;
@@ -623,8 +589,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
     for (int i = 0; i < nb_vertex; ++i)
     {
         NJS_POINT3 pos;
-
-        fn_pfunc(&pos, &p_vertex->pos);
+        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
@@ -654,7 +619,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
                 p_vbuf->pos.y += pos.y;
                 p_vbuf->pos.z += pos.z;
 
-                fn_cfunc(&p_vbuf->col, &p_vertex->col); // read color only for end verteces
+                rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col); // read color only for end verteces
                 break;
             }
         }
