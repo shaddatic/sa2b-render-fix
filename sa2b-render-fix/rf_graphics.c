@@ -129,19 +129,6 @@ RFGX_GetMipmapDepthAdjust(int mipdadjust)
     return *(dx9_uint*)(&MipDAdjList[mipdadjust]);
 }
 
-/****** Usercall ********************************************************************************/
-static void
-SetPaletteShader(void* pTex)
-{
-    static const uintptr_t fptr = 0x004243F0;
-
-    __asm
-    {
-        mov edx, [pTex]
-        call fptr
-    }
-}
-
 /****** Texture Info ****************************************************************/
 typedef struct
 {
@@ -156,6 +143,19 @@ typedef struct
 }
 TEXTURE_INFO;
 
+/****** Usercall ********************************************************************************/
+static void
+SetPaletteShader(void* pTex, const TEXTURE_INFO* pTexInfo/* CWE only param */)
+{
+    static const uintptr_t fptr = 0x004243F0;
+
+    __asm
+    {
+        mov edx, [pTex]
+        mov edi, [pTexInfo]
+        call fptr
+    }
+}
 
 /****** Extern **********************************************************************/
 static void
@@ -209,7 +209,7 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
 
     if (palette_id != -1 && PaletteTexMemory)
     {
-        SetPaletteShader( PaletteTexMemory[palette_id] );
+        SetPaletteShader( PaletteTexMemory[palette_id], pTex );
     }
     else
     {
