@@ -277,6 +277,8 @@ EventDestructor(task* tp)
 
         EvBigTexture = nullptr;
     }
+
+    EVR_EndReplaceAttr();
 }
 
 static void

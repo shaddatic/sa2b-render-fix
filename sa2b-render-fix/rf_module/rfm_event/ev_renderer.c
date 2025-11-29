@@ -194,6 +194,7 @@ EV_RendererInit(void)
     EVR_TaskInit();
     EVR_VsyncInit();
     EVR_MovieInit();
+    EVR_ReplaceInit();
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
     WriteJump(0x00601938, 0x00601A0A); // ^^ movies

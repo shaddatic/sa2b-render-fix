@@ -133,6 +133,18 @@ void    EVR_VsyncInit( void );
 *     Init movie/overlay sub-module.
 */
 void    EVR_MovieInit( void );
+/*
+*   Description:
+*     Init model/anim replacement system.
+*/
+void    EVR_ReplaceInit( void );
+
+/****** End Replace *****************************************************************/
+/*
+*   Description:
+*     Free all event replace memory.
+*/
+void    EVR_EndReplaceAttr( void );
 
 /****** Entry Type ******************************************************************/
 /*
