@@ -129,6 +129,10 @@ RF_SysVsyncSceneStart(void)
 void
 RF_SysVsyncSceneEnd(void)
 {
+#if 0
+    osSleep(13);
+#endif
+
     const s64 freq = osHighResolutionFrequency();
 
     const f64 vsync_wait_count = ( WaitVsyncCount >= 0 ) ? (f64)WaitVsyncCount : 1.0;
@@ -204,17 +208,15 @@ RF_SysVsyncSceneEnd(void)
             }
             else // accurate
             {
-                const f64 first_ms = fmod(wait_ms+SLEEP_GRACE_MS, SLEEP_GRACE_MS*2);
-                const u32 sleep_ms = (u32)floor((wait_ms - first_ms) + 0.01);
-
-                // wait for a short amount of time first
-                while ( first_ms > GetFrameTime(start_clock, freq) );
+                const s32 sleep_ms = (s32)floor(wait_ms - SLEEP_GRACE_MS);
 
                 // sleep most of the time first to release CPU cycles
-                if ( sleep_ms ) osSleep( sleep_ms );
+                if ( sleep_ms > 0 ) osSleep( (u32) sleep_ms );
+
+                const f64 loop_ms = wait_ms - 0.01;
 
                 // wait for the remaining time
-                while ( wait_ms > GetFrameTime(start_clock, freq) );
+                while ( loop_ms > GetFrameTime(start_clock, freq) );
             }
         }
 
