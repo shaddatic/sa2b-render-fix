@@ -17,7 +17,9 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_ninja.h>
-#include <rf_eventinfo.h>
+
+/****** Self ************************************************************************/
+#include <rf_module/rfm_event/ev_renderer/evr_internal.h> /* parent & siblings      */
 
 #define PTR_OFFSET      (0x7F210040)
 

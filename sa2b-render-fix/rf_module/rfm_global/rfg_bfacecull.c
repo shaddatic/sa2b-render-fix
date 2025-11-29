@@ -19,7 +19,6 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_mdlutil.h>
-#include <rf_eventinfo.h>
 #include <rf_renderstate.h>
 
 static void

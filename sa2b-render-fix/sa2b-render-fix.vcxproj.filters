@@ -455,9 +455,6 @@
     <ClInclude Include="rf_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_eventinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_module\rfm_shadows\chs_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>

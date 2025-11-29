@@ -192,7 +192,6 @@
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h" />
     <ClInclude Include="rf_feature.h" />
     <ClInclude Include="rf_ninja.h" />
-    <ClInclude Include="rf_eventinfo.h" />
     <ClInclude Include="rf_mdlutil.h" />
     <ClInclude Include="rf_shader.h" />
     <ClInclude Include="rf_system.h" />

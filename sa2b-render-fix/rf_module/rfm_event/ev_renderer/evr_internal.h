@@ -7,9 +7,11 @@
 #ifndef H_RF_EVENT_RENDERER_INTERNAL
 #define H_RF_EVENT_RENDERER_INTERNAL
 
-___TODO("Inline the eventinfo header into this one");
-
-#include <rf_eventinfo.h>
+/************************/
+/*  Includes            */
+/************************/
+/****** Frame Constants *************************************************************/
+#include <rf_module/rfm_event/ev_internal.h>
 
 EXTERN_START
 

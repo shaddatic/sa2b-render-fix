@@ -15,7 +15,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_eventinfo.h>       /* event data                                       */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_light.h>           /* render fix light                                 */
 

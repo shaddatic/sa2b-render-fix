@@ -15,7 +15,6 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
-#include <rf_eventinfo.h>       /* event data                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_event/ev_renderer/evr_internal.h> /* parent & siblings      */
