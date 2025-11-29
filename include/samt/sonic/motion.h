@@ -94,10 +94,10 @@ void        SetMotionNum( MOTION_CTRL* pMtnCtrl, int32_t MtnNum );
 
 void        SetMotionNext( MOTION_CTRL* pMtnCtrl );
 
-s32         GetMotionNum( const MOTION_CTRL* pMtnCtrl );
+i32         GetMotionNum( const MOTION_CTRL* pMtnCtrl );
 
 f32         GetMotionFrame(   const MOTION_CTRL* pMtnCtrl );
-s32         GetMotionPosture( const MOTION_CTRL* pMtnCtrl );
+i32         GetMotionPosture( const MOTION_CTRL* pMtnCtrl );
 
 void        SetMotionChange( MOTION_CTRL* pMtnCtrl, int32_t MtnNum );
 void        SetMotionSkip(   MOTION_CTRL* pMtnCtrl, int32_t MtnNum );

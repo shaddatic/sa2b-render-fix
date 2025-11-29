@@ -35,9 +35,9 @@ typedef struct
 
     NJS_OBJECT* pObject;        /* object                                           */
 
-    s32         blockbit;       /* draw model bitmask, 0 ignores it                 */
+    i32         blockbit;       /* draw model bitmask, 0 ignores it                 */
 
-    s32         slAttribute;    /* land attributes                                  */
+    i32         slAttribute;    /* land attributes                                  */
 }
 SA1_LANDENTRY;
 
@@ -57,12 +57,12 @@ SA1_MOTLANDENTRY;
 /****** Land Table ******************************************************************/
 typedef struct
 {
-    s16               ssCount;          /* land entry count                         */
+    i16               ssCount;          /* land entry count                         */
 
-    s16               ssMotCount;       /* motion entry count                       */
+    i16               ssMotCount;       /* motion entry count                       */
 
-    s16               ssAttribute;      /* attribute                                */
-    s16               ssLoadFlag;       /* is loaded                                */
+    i16               ssAttribute;      /* attribute                                */
+    i16               ssLoadFlag;       /* is loaded                                */
 
     f32               fFarClipping;     /* clip distance                            */
 

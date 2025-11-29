@@ -57,14 +57,14 @@ typedef struct
 {
     void(__cdecl* subprgprolog)(void);  /* sub-program init function                */
     void(__cdecl* subprgepilog)(void);  /* sub-program exit function                */
-    s32 (__cdecl* subprgmanager)(void); /* sub-program game control function        */
+    i32 (__cdecl* subprgmanager)(void); /* sub-program game control function        */
 }
 SUBPRG_CTRL;
 
 typedef struct
 {
     char subprgname[8];     /* sub-program name, padded with spaces                 */
-    s32  subprgtype;        /* sub-program type: '0' uses 'exec'; '> 0' uses 'ctrl' */
+    i32  subprgtype;        /* sub-program type: '0' uses 'exec'; '> 0' uses 'ctrl' */
     union {
         SUBPRG_EXEC exec;   /* task exec type                                       */
         SUBPRG_CTRL ctrl;   /* game control type, handles task exec and draw        */

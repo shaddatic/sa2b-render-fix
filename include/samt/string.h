@@ -13,8 +13,8 @@
         - 'ln' refers to length in code units
 *
 *   Disambiguations:
-*     - Size            : size of something in bytes                 (s32[5] == 20)
-*     - Length          : length of something in 'units'             (s32[5] ==  5)
+*     - Size            : size of something in bytes                 (i32[5] == 20)
+*     - Length          : length of something in 'units'             (i32[5] ==  5)
 *     - Code point      : a variably sized, actionable character     ('漢字' ==  2) ('nj' == 2)
 *     - Code unit       : a fixed sized chunk of a whole code point  ('漢字' ==  8) ('nj' == 2)
 */
@@ -33,15 +33,30 @@ EXTERN_START
 /****** Return Values ***************************************************************************/
 #define STR_NOINDEX             (0xFFFFFFFF) /* no string index                                 */
 
-/****** Escape Flags ****************************************************************************/
-#define STR_ESC_ESCAPE          (1<<0)  /* \ <-> \\                                             */
-#define STR_ESC_DBLQUOTE        (1<<1)  /* " <-> \"                                             */
-#define STR_ESC_SGLQUOTE        (1<<2)  /* ' <-> \'                                             */
-#define STR_ESC_SEMICOLON       (1<<3)  /* ; <-> \;                                             */
-#define STR_ESC_HASH            (1<<4)  /* # <-> \#                                             */
-
-#define STR_ESC_NOFLAG          (0)
-#define STR_ESC_ALL             (STR_ESC_ESCAPE|STR_ESC_DBLQUOTE|STR_ESC_SGLQUOTE|STR_ESC_SEMICOLON|STR_ESC_HASH)
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Escape Sequence *************************************************************************/
+/*
+const mt_stresc example[] =
+{
+    { 'a',  '\a' },                 // default codes
+    { 'b',  '\b' },                 // ^^^
+    { 't',  '\t' },                 // ^^^
+    { 'n',  '\n' },                 // ^^^
+    { 'v',  '\v' },                 // ^^^
+    { 'f',  '\f' },                 // ^^^
+    { 'r',  '\r' },                 // ^^^
+    { '\\', '\\' },                 // ^^^
+    { 0 },                          // end list
+};
+*/
+typedef struct mt_stresc
+{
+    c8 key;                         /* key in escape sequence, eg. 'r'                          */
+    c8 val;                         /* actual character value, eg. '\r'                         */
+}
+mt_stresc;
 
 /********************************/
 /*  Prototypes                  */
@@ -293,82 +308,38 @@ size_t  mtStrToLower( c8* RESTRICT puDst, const c8* RESTRICT puOptSrc, size_t le
 /****** String Escape ***************************************************************************/
 /*
 *   Description:
-*     Get the length of a string after inserting escape characters.
-*
-*   Parameters:
-*     - puStr       : string to get the escaped length of
-*     - lnMax       : maximum length of 'puStr'                                [opt: STR_NOMAX]
-*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
-*
-*   Returns:
-*     Calculated length of string after inserting escape characters.
-*/
-size_t  mtStrEscapeLength( const c8* puStr, const size_t lnMax, s32 flag );
-/*
-*   Description:
-*     Get the length of a string after resolving escape characters.
-*
-*   Parameters:
-*     - puStr       : string to get the length
-*     - lnMax       : maximum length of 'puStr'                                [opt: STR_NOMAX]
-*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
-*
-*   Returns:
-*     Calculated length of string after resolving escape characters.
-*/
-size_t  mtStrUnescapeLength( const c8* puStr, const size_t lnMax, s32 flag );
-/*
-*   Description:
-*     Insert literal escape sequences into a string.
+*     Insert escape sequences into a string.
 *
 *   Notes:
-*     - '\a' -> { '\\', 'a' }
-*     - '\b' -> { '\\', 'b' }
-*     - '\t' -> { '\\', 't' }
-*     - '\n' -> { '\\', 'n' }
-*     - '\v' -> { '\\', 'v' }
-*     - '\f' -> { '\\', 'f' }
-*     - '\r' -> { '\\', 'r' }
-*     - '\"' -> { '\\', '\"' } // optional
-*     - '\'' -> { '\\', '\'' } // optional
-*     - '\\' -> { '\\', '\\' } // optional
+*     - if the destination string isn't given, only the size is calculated
 *
 *   Parameters:
-*     - puDst       : destination buffer
+*     - puOptDst    : destination buffer                                         [opt: nullptr]
 *     - puSrc       : source string
 *     - lnMax       : maximum length of 'puDst'                                [opt: STR_NOMAX]
-*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
+*     - pEscList    : escape sequence keys, null-terminated
 *
 *   Returns:
-*     Length of 'puDst' after inserting escape sequences.
+*     Length of string after inserting escape sequences.
 */
-size_t  mtStrEscape( c8* puDst, const c8* puSrc, const size_t lnMax, s32 flag );
+size    mtStrEscape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
 /*
 *   Description:
-*     Resolve literal escape sequences from a string.
+*     Resolve escape sequences in a string.
 *
 *   Notes:
-*     - { '\\', 'a' }  -> '\a' 
-*     - { '\\', 'b' }  -> '\b' 
-*     - { '\\', 't' }  -> '\t' 
-*     - { '\\', 'n' }  -> '\n' 
-*     - { '\\', 'v' }  -> '\v' 
-*     - { '\\', 'f' }  -> '\f' 
-*     - { '\\', 'r' }  -> '\r' 
-*     - { '\\', '\"' } -> '\"'  // optional
-*     - { '\\', '\'' } -> '\''  // optional
-*     - { '\\', '\\' } -> '\\'  // optional
+*     - if the destination string isn't given, only the size is calculated
 *
 *   Parameters:
-*     - puDst       : destination buffer
+*     - puOptDst    : destination buffer                                         [opt: nullptr]
 *     - puSrc       : source string
 *     - lnMax       : maximum length of 'puDst'                                [opt: STR_NOMAX]
-*     - flag        : additional escape sequence flags                    [opt: STR_ESC_NOFLAG]
+*     - pEscList    : escape sequence keys, null-terminated
 *
 *   Returns:
-*     Length of 'puDst' after resolving escape sequences.
+*     Length of string after resolving escape sequences.
 */
-size_t  mtStrUnescape( c8* puDst, const c8* puSrc, const size_t lnMax, s32 flag );
+size    mtStrUnescape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
 
 /************************************************************************************************/
 /*

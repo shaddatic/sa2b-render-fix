@@ -58,12 +58,12 @@ enum
 /****** Sound Bank Entries **********************************************************************/
 typedef struct _SE_TBL
 {
-    s8          bank;               /* memory bank                                              */
-    s8          list;               /* sound list                                               */
-    s8          pri;                /* priority                                                 */
-    s8          attr;               /* attribute flags                                          */
-    s16         timer;              /* timer                                                    */
-    s16         range;              /* sound range                                              */
+    i8          bank;               /* memory bank                                              */
+    i8          list;               /* sound list                                               */
+    i8          pri;                /* priority                                                 */
+    i8          attr;               /* attribute flags                                          */
+    i16         timer;              /* timer                                                    */
+    i16         range;              /* sound range                                              */
 }
 SE_TBL; // _SE_TBL
 
@@ -113,22 +113,22 @@ SEENTRY;
 
 typedef struct
 {
-    s8          fxflag;
-    s8          fxlev_stop;         /* reverb level when paused          [-127~127] */
-    s8          fxlev_game;         /* reverb level when playing         [-127~127] */
+    i8          fxflag;
+    i8          fxlev_stop;         /* reverb level when paused          [-127~127] */
+    i8          fxlev_game;         /* reverb level when playing         [-127~127] */
 
-    s8          next_snd;           /* next sound buffer entry               [0~38] */
-    s8          next_seq;           /* next seq buffer entry                [39~42] */
+    i8          next_snd;           /* next sound buffer entry               [0~38] */
+    i8          next_seq;           /* next seq buffer entry                [39~42] */
 
-    s8          unk1[3];
+    i8          unk1[3];
 
-    s32         unkBankVal;         /* unknown, always -1                           */
+    i32         unkBankVal;         /* unknown, always -1                           */
 
-    s8           unk2[4];
+    i8           unk2[4];
 
     SEENTRY    sebuf[43];           /* sound call buffer                            */
 
-    s8          unk3[32];
+    i8          unk3[32];
 
     SE_ENTRY*   bank[8];            /* bank lists                                   */
 }
@@ -145,7 +145,7 @@ SEWORK;
 #define sework                  DATA_REF(SEWORK*, 0x01A55874)
 
 /****** Sound Flag ******************************************************************/
-#define snd_pause               DATA_REF(s8,      0x0174AFD9)
+#define snd_pause               DATA_REF(i8,      0x0174AFD9)
 
 #endif/*SAMT_INCL_INTERNAL*/
 
@@ -164,7 +164,7 @@ SEWORK;
 *   Returns:
 *     Sound number value, or 'tone'.
 */
-#define TONE(bnk, no)           (s32)((((bnk)<<12)&0xF000)+(no))
+#define TONE(bnk, no)           (i32)((((bnk)<<12)&0xF000)+(no))
 
 /****** Sound Play ******************************************************************/
 /*
@@ -180,8 +180,8 @@ SEWORK;
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call(   s32 tone, const void* id, s32 pri, s32 volofs );
-s8      SE_CallV2( s32 tone, const void* id, s32 pri, s32 volofs, const NJS_POINT3* pPos );
+i8      SE_Call(   i32 tone, const void* id, i32 pri, i32 volofs );
+i8      SE_CallV2( i32 tone, const void* id, i32 pri, i32 volofs, const NJS_POINT3* pPos );
 /*
 *   Description:
 *     Call an infinitely looped sound effect. To stop the sound, call an 'SE_Stop'
@@ -196,8 +196,8 @@ s8      SE_CallV2( s32 tone, const void* id, s32 pri, s32 volofs, const NJS_POIN
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call_Loop(   s32 tone, const void* id, s32 volofs );
-s8      SE_CallV2_Loop( s32 tone, const void* id, s32 volofs, const NJS_POINT3* pPos );
+i8      SE_Call_Loop(   i32 tone, const void* id, i32 volofs );
+i8      SE_CallV2_Loop( i32 tone, const void* id, i32 volofs, const NJS_POINT3* pPos );
 /*
 *   Description:
 *     Call a sound effect to play for set amount of frames.
@@ -216,8 +216,8 @@ s8      SE_CallV2_Loop( s32 tone, const void* id, s32 volofs, const NJS_POINT3* 
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call_Timer(   s32 tone, const void* id, s32 pri, s32 volofs, s32 timer );
-s8      SE_CallV2_Timer( s32 tone, const void* id, s32 pri, s32 volofs, s32 timer, const NJS_POINT3* pPos );
+i8      SE_Call_Timer(   i32 tone, const void* id, i32 pri, i32 volofs, i32 timer );
+i8      SE_CallV2_Timer( i32 tone, const void* id, i32 pri, i32 volofs, i32 timer, const NJS_POINT3* pPos );
 /*
 *   Description:
 *     Call a sound effect with sctimer parameters. It isn't currently known what
@@ -237,8 +237,8 @@ s8      SE_CallV2_Timer( s32 tone, const void* id, s32 pri, s32 volofs, s32 time
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call_SCLoop(   s32 tone, const void* id, s32 pri, s32 volofs, s32 sctimer );
-s8      SE_CallV2_SCLoop( s32 tone, const void* id, s32 pri, s32 volofs, s32 sctimer, const NJS_POINT3* pPos );
+i8      SE_Call_SCLoop(   i32 tone, const void* id, i32 pri, i32 volofs, i32 sctimer );
+i8      SE_CallV2_SCLoop( i32 tone, const void* id, i32 pri, i32 volofs, i32 sctimer, const NJS_POINT3* pPos );
 
 /****** Sound Control ***************************************************************/
 /*
@@ -248,7 +248,7 @@ s8      SE_CallV2_SCLoop( s32 tone, const void* id, s32 pri, s32 volofs, s32 sct
 *   Parameters:
 *     - tone        : sound effect number
 */
-void    SE_Stop_Num( s32 tone );
+void    SE_Stop_Num( i32 tone );
 /*
 *   Description:
 *     Stop all sound effects of a set ID.
@@ -265,7 +265,7 @@ void    SE_Stop_ID( const void* id );
 *     - tone        : sound effect number
 *     - id          : sound source id pointer
 */
-void    SE_Stop( s32 tone, const void* id );
+void    SE_Stop( i32 tone, const void* id );
 /*
 *   Description:
 *     Stop all sound effects.
@@ -285,7 +285,7 @@ void    SE_Stop_All( void );
 *     - id          : sound source id pointer
 *     - volofs      : volume offset                                       [-127~127]
 */
-void    SE_Change_Volume( s32 tone, const void* id, s32 volofs );
+void    SE_Change_Volume( i32 tone, const void* id, i32 volofs );
 /*
 *   Description:
 *     Change sound panning of a specific sound, or all sounds with a set ID.
@@ -298,7 +298,7 @@ void    SE_Change_Volume( s32 tone, const void* id, s32 volofs );
 *     - id          : sound source id pointer
 *     - pan         : panning offset, L to R                              [-127~127]
 */
-void    SE_Change_Pan( s32 tone, const void* id, s32 pan );
+void    SE_Change_Pan( i32 tone, const void* id, i32 pan );
 /*
 *   Description:
 *     Change pitch offset of a specific sound, or all sounds with a set ID.
@@ -312,7 +312,7 @@ void    SE_Change_Pan( s32 tone, const void* id, s32 pan );
 *     - id          : sound source id pointer
 *     - pitch       : pitch offset                                  [-0x4000~0x4000]
 */
-void    SE_Change_Pitch( s32 tone, const void* id, s32 pitch );
+void    SE_Change_Pitch( i32 tone, const void* id, i32 pitch );
 
 /****** Set Calculate ***************************************************************/
 /*
@@ -323,7 +323,7 @@ void    SE_Change_Pitch( s32 tone, const void* id, s32 pitch );
 *     - tone        : sound effect number
 *     - id          : sound source id pointer
 */
-void    SE_Calc_Pan( s32 tone, const void* id );
+void    SE_Calc_Pan( i32 tone, const void* id );
 /*
 *   Description:
 *     Flag a sound for automatic doppler shift calculations.
@@ -337,7 +337,7 @@ void    SE_Calc_Pan( s32 tone, const void* id );
 *     - id          : sound source id pointer
 *     - pPos        : sound position                                      [optional]
 */
-void    SE_Calc_Pitch( s32 tone, const void* id, NJS_POINT3* pPos );
+void    SE_Calc_Pitch( i32 tone, const void* id, NJS_POINT3* pPos );
 
 /****** Other Sound *****************************************************************/
 /*
@@ -350,7 +350,7 @@ void    SE_Calc_Pitch( s32 tone, const void* id, NJS_POINT3* pPos );
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call_Event( s32 tone );
+i8      SE_Call_Event( i32 tone );
 /*
 *   Description:
 *     Ring collect sound effect for specified player. Sound panning is decided
@@ -362,7 +362,7 @@ s8      SE_Call_Event( s32 tone );
 *   Returns:
 *     Sound effect buffer index; or -1 on failure.
 */
-s8      SE_Call_Ring( s8 pno );
+i8      SE_Call_Ring( i8 pno );
 
 /************************/
 /*  Function Ptrs       */
@@ -371,7 +371,7 @@ s8      SE_Call_Ring( s8 pno );
 
 /****** Standard ********************************************************************/
 #define SE_Stop_All_p           FUNC_PTR(void, __cdecl, (void), 0x00437E90)
-#define SE_Call_Ring_p          FUNC_PTR(s8  , __cdecl, (s8)  , 0x004377D0)
+#define SE_Call_Ring_p          FUNC_PTR(i8  , __cdecl, (i8)  , 0x004377D0)
 
 /****** Usercall ********************************************************************/
 #define SE_Call_p               ((void*)0x00437260) /*  AL(ESI, STK, STK, STK)      */

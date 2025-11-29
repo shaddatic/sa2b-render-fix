@@ -60,7 +60,7 @@ void    mtOpWriteShortJump( void* pDst, const void* pTgt );
 *     - pDst        : address to write the retn instruction to
 *     - nbPop       : number of bytes to pop from the stack
 */
-void    mtOpWriteRetn( void* pDst, s16 nbPop );
+void    mtOpWriteRetn( void* pDst, i16 nbPop );
 /*
 *   Description:
 *     Write a NOP instruction recursively.
@@ -69,7 +69,7 @@ void    mtOpWriteRetn( void* pDst, s16 nbPop );
 *     - pDst        : address to write the retn instruction to
 *     - nb          : number of NOP instructions to write
 */
-void    mtOpWriteNop( void* pDst, size_t nb );
+void    mtOpWriteNop( void* pDst, usize nb );
 /*
 *   Description:
 *     Write a two-byte NOP instruction recursively.
@@ -78,7 +78,7 @@ void    mtOpWriteNop( void* pDst, size_t nb );
 *     - pDst        : address to write the retn instruction to
 *     - nb          : number of two-byte NOP instructions to write
 */
-void    mtOpWriteShortNop( void* pDst, size_t nb );
+void    mtOpWriteShortNop( void* pDst, usize nb );
 
 /********************************/
 /*  Function Macros             */

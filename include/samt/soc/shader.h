@@ -79,10 +79,10 @@ SHADER_INDEX;
 /********************************/
 /****** Shader Type *****************************************************************************/
 #define ShaderTypeLock              DATA_REF(bool, 0x01A55709)
-#define ShaderTypeLast              DATA_REF(s32 , 0x01A5579C)
+#define ShaderTypeLast              DATA_REF(i32 , 0x01A5579C)
 
 /****** Model Modes *****************************************************************************/
-#define ShaderModelMode             DATA_REF(s32, 0x01AF1960)
+#define ShaderModelMode             DATA_REF(i32, 0x01AF1960)
 
 /********************************/
 /*  Prototypes                  */
@@ -111,7 +111,7 @@ void    SetShaderIndex( SHADER_INDEX index );
 /*  Function Ptrs       */
 /************************/
 /****** Function Ptrs ***************************************************************************/
-#define SetShaderIndex_p         FUNC_PTR(void, __stdcall, (int32_t), 0x00424050)
+#define SetShaderIndex_p         FUNC_PTR(void, __stdcall, (i32), 0x00424050)
 
 /****** User-Function Ptrs **********************************************************************/
 #define SetShaderType_p          ((void*)0x0041B1F0)

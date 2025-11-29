@@ -75,9 +75,9 @@ typedef struct task
     u32                id;      /* Task ID    (unused & unfinished) */
 
     union {
-        s8      b[4];
-        s16     w[2];
-        s32     l;
+        i8      b[4];
+        i16     w[2];
+        i32     l;
         f32     f;
         void*   ptr;
     } thp;                      /* Needs more research              */
@@ -126,7 +126,7 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** Function ptr **/
-#   define CreateChildTask_p        FUNC_PTR(task*, __cdecl, (s16, task_exec, task*), 0x00470C00)
+#   define CreateChildTask_p        FUNC_PTR(task*, __cdecl, (i16, task_exec, task*), 0x00470C00)
 #   define DestroyTask_p            FUNC_PTR(void , __cdecl, (task*)                , 0x0046F720)
 
 /** User-Function ptr **/

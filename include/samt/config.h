@@ -137,9 +137,9 @@ const c8* mtConfigGetString( const mt_config* pHead, const c8* puSect, const c8*
 *   Returns:
 *     Integer value of the config entry; or 'def' if the entry does not exist.
 */
-s32     mtConfigGetInt( const mt_config* pHead, const c8* puSect, const c8* puKey, s32 def );
+i32     mtConfigGetInt( const mt_config* pHead, const c8* puSect, const c8* puKey, i32 def );
 u32     mtConfigGetHex( const mt_config* pHead, const c8* puSect, const c8* puKey, u32 def );
-s32     mtConfigGetOct( const mt_config* pHead, const c8* puSect, const c8* puKey, s32 def );
+i32     mtConfigGetOct( const mt_config* pHead, const c8* puSect, const c8* puKey, i32 def );
 /*
 *   Description:
 *     Get the interpreted floating point value from a config entry.
@@ -202,9 +202,9 @@ void    mtConfigSetString( mt_config* pHead, const c8* puSect, const c8* puKey, 
 *     - puKey       : config item key
 *     - set         : string to set
 */
-void    mtConfigSetInt( mt_config* pHead, const c8* puSect, const c8* puKey, s32 set );
+void    mtConfigSetInt( mt_config* pHead, const c8* puSect, const c8* puKey, i32 set );
 void    mtConfigSetHex( mt_config* pHead, const c8* puSect, const c8* puKey, u32 set );
-void    mtConfigSetOct( mt_config* pHead, const c8* puSect, const c8* puKey, s32 set );
+void    mtConfigSetOct( mt_config* pHead, const c8* puSect, const c8* puKey, i32 set );
 /*
 *   Description:
 *     Set a config entry's value, as a float.

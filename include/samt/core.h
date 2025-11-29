@@ -132,22 +132,28 @@ EXTERN_START
 /*
 *   Short-Hand Types
 */
-/****** Integer types ***************************************************************************/
+/****** Integer *********************************************************************************/
 typedef uint8_t             u8;     /* unsigned 1 byte integer                                  */
-typedef int8_t              s8;     /* signed 1 byte integer                                    */
+typedef int8_t              i8;     /* signed 1 byte integer                                    */
 typedef uint16_t            u16;    /* unsigned 2 byte integer                                  */
-typedef int16_t             s16;    /* signed 2 byte integer                                    */
+typedef int16_t             i16;    /* signed 2 byte integer                                    */
 typedef uint32_t            u32;    /* unsigned 4 byte integer                                  */
-typedef int32_t             s32;    /* signed 4 byte integer                                    */
+typedef int32_t             i32;    /* signed 4 byte integer                                    */
 typedef uint64_t            u64;    /* unsigned 8 byte integer                                  */
-typedef int64_t             s64;    /* signed 8 byte integer                                    */
+typedef int64_t             i64;    /* signed 8 byte integer                                    */
 
-/****** Real number types ***********************************************************************/
+/****** Real Number *****************************************************************************/
 typedef float               f32;    /* 4 byte real number                                       */
 typedef double              f64;    /* 8 byte real number                                       */
 
 /****** Boolean *********************************************************************************/
 typedef int32_t             b32;    /* 4 byte boolean                                           */
+
+/****** Old Integer *****************************************************************************/
+typedef int8_t              s8;     /* signed 1 byte integer                                    */
+typedef int16_t             s16;    /* signed 2 byte integer                                    */
+typedef int32_t             s32;    /* signed 4 byte integer                                    */
+typedef int64_t             s64;    /* signed 8 byte integer                                    */
 
 /************************************************************************************************/
 /*

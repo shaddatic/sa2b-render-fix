@@ -37,16 +37,16 @@ typedef void(__cdecl* EDIT_FUNC)(task*);
 typedef union _UNION_STATUS
 {
     f32             fRangeOut;
-    s32             pObjSleepCondition;
+    i32             pObjSleepCondition;
 }
 UNION_STATUS;
 
 typedef struct _OBJ_EDITENTRY
 {
     u16             usID;
-    s16             rotx;
-    s16             roty;
-    s16             rotz;
+    i16             rotx;
+    i16             roty;
+    i16             rotz;
     f32             xpos;
     f32             ypos;
     f32             zpos;
@@ -68,7 +68,7 @@ typedef struct _OBJ_CONDITION
 {
     u8              scCount;
     u8              scUserFlag;
-    s16             ssCondition;
+    i16             ssCondition;
     task*           ptask;
     OBJ_EDITENTRY*  pObjEditEntry;
     UNION_STATUS    unionStatus;
@@ -79,7 +79,7 @@ typedef struct _OBJ_ITEMENTRY
 {
     u8              ucInitMode;
     u8              ucLevel;
-    s16             ssAttribute;
+    i16             ssAttribute;
     f32             fRange;
     EDIT_FUNC       fnExec;
     char*           strObjName;
@@ -88,7 +88,7 @@ OBJ_ITEMENTRY;
 
 typedef struct _OBJ_ITEMTABLE
 {
-    s32             slCount;
+    i32             slCount;
     OBJ_ITEMENTRY*  pObjItemEntry;
 }
 OBJ_ITEMTABLE;

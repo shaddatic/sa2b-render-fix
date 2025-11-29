@@ -35,7 +35,7 @@ enum
 /****** Fog Data ********************************************************************/
 typedef struct
 {
-    s32       mode;             /* fog mode                                         */
+    i32       mode;             /* fog mode                                         */
     NJS_COLOR color;            /* fog color                                        */
     f32       far;              /* far plane                                        */
     f32       near;             /* near plane                                       */
@@ -49,7 +49,7 @@ typedef struct
     FOG_DATA* pFogA;            /* fog data, a                                      */
     FOG_DATA* pFogB;            /* fog data, b                                      */
     f32       ratio;            /* ratio a~b                                        */
-    s32       lock;             /* fog logic lock                                   */
+    b32       lock;             /* fog logic lock                                   */
 }
 FOG_WORK;
 
@@ -107,7 +107,7 @@ void    FreeFogManager( void );
 *   Returns:
 *     '1' on success; or '0' on failure.
 */
-s32     LoadFogFile( const char* fname, FOG_DATA* pFog );
+b32     LoadFogFile( const char* fname, FOG_DATA* pFog );
 
 /****** Set Fog *********************************************************************/
 /*

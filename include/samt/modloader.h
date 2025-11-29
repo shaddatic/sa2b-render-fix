@@ -79,7 +79,7 @@ ml_screenmode;
 /****** Mod Loader User Settings ****************************************************************/
 typedef struct ml_scrnres
 {
-    s32 x, y;
+    i32 x, y;
 }
 ml_scrnres;
 
@@ -98,7 +98,7 @@ typedef struct ml_settings
 
     bool           pausefocusloss;      /* pause game when window is not in focus           */
     bool             noexitprompt;      /* don't prompt when closing window                 */
-    s32                 screennum;      /* display number                                   */
+    i32                 screennum;      /* display number                                   */
     bool               borderless;      /* use borderless window                            */
     bool               fullscreen;      /* use fullscreen                                   */
     bool                skipintro;      /* skip game intro                                  */
@@ -108,8 +108,8 @@ typedef struct ml_settings
     // language settings
     struct
     {
-        s32                speech;      /* set speech language                              */
-        s32                  text;      /* set text language                                */
+        i32                speech;      /* set speech language                              */
+        i32                  text;      /* set text language                                */
     }
     Language;
 
@@ -123,16 +123,16 @@ typedef struct ml_settings
     // test spawn settings
     struct
     {
-        s32           stagenum;         /* stage number to spawn into                       */
-        s32             plnum1;         /* player 1 character                               */
-        s32             plnum2;         /* player 2 character                               */
+        i32           stagenum;         /* stage number to spawn into                       */
+        i32             plnum1;         /* player 1 character                               */
+        i32             plnum2;         /* player 2 character                               */
 
         bool         setposflag;        /* use custom spawn pos                             */
-        s32          px, py, pz;        /* custom spawn position, xyz                       */
+        i32          px, py, pz;        /* custom spawn position, xyz                       */
         Angle        ay;                /* custom spawn angle, Y                            */
 
-        s32            eventnum;        /* event number                                     */
-        s32             savenum;        /* save number                                      */
+        i32            eventnum;        /* event number                                     */
+        i32             savenum;        /* save number                                      */
     }
     TestSpawn;
 
@@ -172,7 +172,7 @@ const HelperFunctions* mtGetHelperFunctions( void );
 *   Description:
 *     Get the current Mod Loader version number.
 */
-s32     mlGetVersion( void );
+i32     mlGetVersion( void );
 
 /****** Version >= 4 ****************************************************************************/
 /*
@@ -257,7 +257,7 @@ void    mlDebugSetColor( u32 color );
 *     - loc         : position of the string on screen                           [NJM_LOCATION]
 *     - s           : string to print
 */
-void    mlDebugPrint( s32 loc, const c7* fmt, ... );
+void    mlDebugPrint( i32 loc, const c7* fmt, ... );
 /*
 *   Description:
 *     Register a debug string to be drawn at the end of the current frame.
@@ -269,7 +269,7 @@ void    mlDebugPrint( s32 loc, const c7* fmt, ... );
 *     - loc         : position of the string on screen                           [NJM_LOCATION]
 *     - s           : string to print
 */
-void    mlDebugPrintC( s32 loc, const c7* s );
+void    mlDebugPrintC( i32 loc, const c7* s );
 /*
 *   Description:
 *     Register a debug integer to be drawn at the end of the current frame.
@@ -279,7 +279,7 @@ void    mlDebugPrintC( s32 loc, const c7* s );
 *     - val         : integer value
 *     - digit       : number of digits
 */
-void    mlDebugPrintD( s32 loc, s32 val, s32 digit );
+void    mlDebugPrintD( i32 loc, i32 val, i32 digit );
 /*
 *   Description:
 *     Register a debug binary sequence to be drawn at the end of the current frame.
@@ -289,7 +289,7 @@ void    mlDebugPrintD( s32 loc, s32 val, s32 digit );
 *     - val         : binary value
 *     - digit       : number of digits
 */
-void    mlDebugPrintB( s32 loc, u32 val, s32 digit );
+void    mlDebugPrintB( i32 loc, u32 val, i32 digit );
 /*
 *   Description:
 *     Register a debug hexadecimal integer to be drawn at the end of the current frame.
@@ -299,7 +299,7 @@ void    mlDebugPrintB( s32 loc, u32 val, s32 digit );
 *     - val         : integer value
 *     - digit       : number of digits
 */
-void    mlDebugPrintH( s32 loc, u32 val, s32 digit );
+void    mlDebugPrintH( i32 loc, u32 val, i32 digit );
 /*
 *   Description:
 *     Register a debug float to be drawn at the end of the current frame.
@@ -309,7 +309,7 @@ void    mlDebugPrintH( s32 loc, u32 val, s32 digit );
 *     - val         : float value
 *     - digit       : number of digits
 */
-void    mlDebugPrintF( s32 loc, f32 val, s32 digit );
+void    mlDebugPrintF( i32 loc, f32 val, i32 digit );
 /*
 *   Description:
 *     Directly set the scale of the debug text in window surface pixels - which is different than
@@ -421,7 +421,7 @@ size    mlGetExLibPath( c8* puOutPath, usize szOutPath );
 *   Returns:
 *     Mod with "ownership" of the replaced file; or '-1' if the file hasn't been replaced.
 */
-s32     mlGetFileModIndex( const c7* pcSrcPath );
+i32     mlGetFileModIndex( const c7* pcSrcPath );
 /*
 *   Description:
 *     Replace a file at a
@@ -434,7 +434,7 @@ s32     mlGetFileModIndex( const c7* pcSrcPath );
 *     - pcDstPath   : new, replacement file path
 *     - index       : mod index to replace as
 */
-void    mlReplaceFileAtIndex( const c7* pcSrcPath, const c7* pcDstPath, s32 index );
+void    mlReplaceFileAtIndex( const c7* pcSrcPath, const c7* pcDstPath, i32 index );
 
 EXTERN_END
 

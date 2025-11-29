@@ -220,7 +220,7 @@ typedef struct
     Uint8       : 2;
     Uint8  src  : 3;            /* source blend mode                                */
     Uint8  dst  : 3;            /* destination blend mode                           */
-    Uint16 size;                /* chunk size        (in s16 steps, from this byte) */
+    Uint16 size;                /* chunk size        (in i16 steps, from this byte) */
 
     NJS_BGRA d[];               /* data          [ambi: 'a' = nul, spec: 'a' = exp] */
 }
@@ -258,7 +258,7 @@ typedef struct
     Uint8         : 4;
     Uint8  cshape : 1;          /* compact shape flag                 [ninja2 flag] */
     Uint8  vcalc  : 1;          /* vertex calculation continue    [ninja flag only] */
-    Uint16 size;                /* chunk size        [in s16 steps, from this byte] */
+    Uint16 size;                /* chunk size        [in i16 steps, from this byte] */
     Uint16 indexoffset;         /* vertex buffer offset                             */
     Uint16 nbindeces;           /* vertex count                                     */
 
@@ -487,7 +487,7 @@ typedef struct
     Uint8  head;                /* chunk type                                       */
 
     Uint8  flag;                /* strip flags                                      */
-    Uint16 size;                /* chunk size        (in s16 steps, from next byte) */
+    Uint16 size;                /* chunk size        (in i16 steps, from next byte) */
     Uint16 nbpoly  : 14;        /* poly/strip count                                 */
     Uint16 ufo     : 2;         /* user flag offset                                 */
 
@@ -552,7 +552,7 @@ typedef struct
     Uint8  head;                /* chunk type                                       */
 
     Uint8  flag;                /* strip flags                                      */
-    Uint16 size;                /* chunk size        (in s16 steps, from next byte) */
+    Uint16 size;                /* chunk size        (in i16 steps, from next byte) */
     Uint16 nbstrip  : 14;       /* strip count                                      */
     Uint16 ufo      : 2;        /* user flag offset                                 */
 

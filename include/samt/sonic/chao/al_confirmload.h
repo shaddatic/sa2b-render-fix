@@ -19,8 +19,8 @@ EXTERN_START
 /*  Game Data           */
 /************************/
 /****** Load State ******************************************************************/
-#define gChaoLoadBusy           DATA_REF(s32, 0x019F6440)
-#define gChaoLoadLoaded         DATA_REF(s32, 0x019F6444)
+#define gChaoLoadBusy           DATA_REF(i32, 0x019F6440)
+#define gChaoLoadLoaded         DATA_REF(i32, 0x019F6444)
 
 /************************/
 /*  Prototypes          */
@@ -41,7 +41,7 @@ void    AL_ConfirmLoadStart( void );
 *   Returns:
 *     '1' if the save file is being loaded, '0' if not.
 */
-s32     AL_ConfirmLoadIsBusy( void );
+i32     AL_ConfirmLoadIsBusy( void );
 /*
 *   Description:
 *     Get 'Loaded' state of the Chao Save loading task.
@@ -49,7 +49,7 @@ s32     AL_ConfirmLoadIsBusy( void );
 *   Returns:
 *     '1' if the save file is loaded, '0' if not.
 */
-s32     AL_ConfirmLoadIsLoaded( void );
+i32     AL_ConfirmLoadIsLoaded( void );
 
 /************************/
 /*  Internal Protos     */

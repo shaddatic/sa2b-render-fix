@@ -32,10 +32,10 @@ EXTERN_START
 /*  Constants                   */
 /********************************/
 /****** Structure Sizes *************************************************************************/
-#define SIZEOF_SAMDL                (sizeof(s32)*3) /* sizeof(mt_samdl)                         */
-#define SIZEOF_SALVL                (sizeof(s32)*3) /* sizeof(mt_salvl)                         */
-#define SIZEOF_SAANIM               (sizeof(s32)*4) /* sizeof(mt_saanim)                        */
-#define SIZEOF_SALABEL              (sizeof(s32)*4) /* sizeof(mt_salabel)                       */
+#define SIZEOF_SAMDL                (sizeof(i32)*3) /* sizeof(mt_samdl)                         */
+#define SIZEOF_SALVL                (sizeof(i32)*3) /* sizeof(mt_salvl)                         */
+#define SIZEOF_SAANIM               (sizeof(i32)*4) /* sizeof(mt_saanim)                        */
+#define SIZEOF_SALABEL              (sizeof(i32)*4) /* sizeof(mt_salabel)                       */
 
 /****** SAModel Flags ***************************************************************************/
 #define SAMDL_NOFLAG                (0)     /* no flags                                         */
@@ -204,7 +204,7 @@ mt_saanim;
 *     A new samodel structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an samdl structure with an error code in the 'type' member.
 */
-mt_samdl* mtSAModelLoad( const c8* pcPath, const s32 flag );
+mt_samdl* mtSAModelLoad( const c8* pcPath, const u32 flag );
 /*
 *   Description:
 *     Free a samodel structure, and its labels if any were loaded.
@@ -229,7 +229,7 @@ void    mtSAModelFree( mt_samdl* pSamdl );
 *     A new salevel structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an salvl structure with an error code in the 'type' member.
 */
-mt_salvl* mtSALevelLoad( const c8* pcPath, const s32 flag );
+mt_salvl* mtSALevelLoad( const c8* pcPath, const u32 flag );
 /*
 *   Description:
 *     Free a salevel structure, and its labels if any were loaded.
@@ -254,7 +254,7 @@ void    mtSALevelFree( mt_salvl* pSalvl);
 *     A new saanim structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an saanim structure with an error code in the 'type' member.
 */
-mt_saanim* mtSAAnimLoad( const c8* pcPath, const s32 flag );
+mt_saanim* mtSAAnimLoad( const c8* pcPath, const u32 flag );
 /*
 *   Description:
 *     Free a saanim structure, and its labels if any were loaded.
@@ -284,7 +284,7 @@ void    mtSAAnimFree( mt_saanim* pSaanim );
 *     A new samodel structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an samodel structure with an error code in the 'type' member.
 */
-mt_samdl* mtSAModelMem( void* pMem, const s32 flag );
+mt_samdl* mtSAModelMem( void* pMem, const u32 flag );
 
 /****** SALevel File ****************************************************************************/
 /*
@@ -305,7 +305,7 @@ mt_samdl* mtSAModelMem( void* pMem, const s32 flag );
 *     A new salevel structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an salevel structure with an error code in the 'type' member.
 */
-mt_salvl* mtSALevelMem( void* pMem, const s32 flag );
+mt_salvl* mtSALevelMem( void* pMem, const u32 flag );
 
 /****** SAAnimation File ************************************************************************/
 /*
@@ -322,7 +322,7 @@ mt_salvl* mtSALevelMem( void* pMem, const s32 flag );
 *     A new saanim structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
 *   flag is set, an saanim structure with an error code in the 'type' member.
 */
-mt_saanim* mtSAAnimMem( void* pMem, const s32 flag );
+mt_saanim* mtSAAnimMem( void* pMem, const u32 flag );
 
 EXTERN_END
 

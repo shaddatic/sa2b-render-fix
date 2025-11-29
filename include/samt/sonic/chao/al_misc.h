@@ -327,7 +327,7 @@ void    AL_Brake( task* tp, f32 brake );
 *     task pointer to hit task; or 'nullptr' if no collision of that type has
 *   occured.
 */
-task*   AL_IsHitKindWithNum( task* tp, s32 info_num, u8 kind );
+task*   AL_IsHitKindWithNum( task* tp, i32 info_num, u8 kind );
 
 /****** Water Action ****************************************************************/
 /*

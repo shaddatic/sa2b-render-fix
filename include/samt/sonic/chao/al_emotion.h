@@ -104,7 +104,7 @@ enum
 *     - EmotionNum  : emotion enum value
 *     - add         : value to add, result will be clamped to ranges defined in enum
 */
-void    AL_EmotionAdd( task* tp, u32 EmotionNum, s32 add );
+void    AL_EmotionAdd( task* tp, u32 EmotionNum, i32 add );
 
 /****** Emotion Set *****************************************************************/
 /*
@@ -116,7 +116,7 @@ void    AL_EmotionAdd( task* tp, u32 EmotionNum, s32 add );
 *     - EmotionNum  : emotion enum value
 *     - value       : value to set, will be clamped to ranges defined in enum
 */
-void    AL_EmotionSetValue( task* tp, u32 EmotionNum, s32 value );
+void    AL_EmotionSetValue( task* tp, u32 EmotionNum, i32 value );
 
 /****** Emotion Get *****************************************************************/
 /*
@@ -130,7 +130,7 @@ void    AL_EmotionSetValue( task* tp, u32 EmotionNum, s32 value );
 *   Returns:
 *     The given emotion value of the Chao; or, '-1' if 'EmotionNum' is invalid.
 */
-s32     AL_EmotionGetValue( const task* tp, u32 EmotionNum );
+i32     AL_EmotionGetValue( const task* tp, u32 EmotionNum );
 /*
 *   Description:
 *     Get an emotion value from a Chao via a Chao param.
@@ -142,7 +142,7 @@ s32     AL_EmotionGetValue( const task* tp, u32 EmotionNum );
 *   Returns:
 *     The given emotion value of the Chao; or, '-1' if 'EmotionNum' is invalid.
 */
-s32     AL_EmotionGetValue2( const CHAO_PARAM_GC* pParam, u32 EmotionNum );
+i32     AL_EmotionGetValue2( const CHAO_PARAM_GC* pParam, u32 EmotionNum );
 
 EXTERN_END
 

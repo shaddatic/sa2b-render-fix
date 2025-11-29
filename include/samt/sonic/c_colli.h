@@ -96,8 +96,8 @@ enum
 /****** Colli Hit Info **************************************************************/
 typedef struct c_colli_hit_info
 {
-    s8      my_num;             /* my hit colli info index                          */
-    s8      hit_num;            /* their hit colli info index                       */
+    i8      my_num;             /* my hit colli info index                          */
+    i8      hit_num;            /* their hit colli info index                       */
     u16     flag;               /* their flags                                      */
     task*   hit_tp;             /* their task pointer                               */
 }
@@ -107,7 +107,7 @@ CCL_HIT_INFO;
 typedef struct colliwk
 {
     u16             id;           /* colli id                                       */
-    s16             nbHit;        /* colli hit number                               */
+    i16             nbHit;        /* colli hit number                               */
     u16             flag;         /* colli flags                                    */
     u16             nbInfo;       /* colli info count                               */
     f32             colli_range;  /* colli range                                    */
@@ -115,8 +115,8 @@ typedef struct colliwk
     CCL_HIT_INFO    hit_info[16]; /* colli hit info list                            */
     NJS_POINT3      normal;       /* colli normal                                   */
     task*           mytask;       /* task pointer to this task                      */
-    s16             my_num;       /* my colli info index                            */
-    s16             hit_num;      /* hit colli info index                           */
+    i16             my_num;       /* my colli info index                            */
+    i16             hit_num;      /* hit colli info index                           */
     struct colliwk* hit_cwp;      /* hit colli work                                 */
 }
 colliwk;
@@ -128,8 +128,8 @@ typedef struct
 {
     task*   pTask;              /* last search task                                 */
     void*   FuncAddr;           /* last search function                             */
-    s32     CurrNum;            /* current hit info number                          */
-    s32     Kind;               /* last search colli type                           */
+    i32     CurrNum;            /* current hit info number                          */
+    i32     Kind;               /* last search colli type                           */
 }
 CCL_SEARCH;
 
@@ -160,7 +160,7 @@ CCL_SEARCH;
 *   Returns:
 *     Always '0'.
 */
-s32     CCL_Analyze( void );
+i32     CCL_Analyze( void );
 
 /****** Colli Search ****************************************************************/
 /*
@@ -183,7 +183,7 @@ void    CCL_ClearSearch( void );
 *   Returns:
 *     'TRUE' on success; or 'FALSE' on failure.
 */
-b32     CCL_Init( task* tp, CCL_INFO* info, s32 nbInfo, u8 id );
+b32     CCL_Init( task* tp, CCL_INFO* info, i32 nbInfo, u8 id );
 
 /****** Register ********************************************************************/
 /*
@@ -222,7 +222,7 @@ void    CCL_ClearInfo( task* tp );
 *     - tp          : task pointer
 *     - info_num    : 'CCL_INFO' index number
 */
-void    CCL_Enable( task* tp, s32 info_num );
+void    CCL_Enable( task* tp, i32 info_num );
 /*
 *   Description:
 *     Disable a collision info entry on a Task.
@@ -231,7 +231,7 @@ void    CCL_Enable( task* tp, s32 info_num );
 *     - tp          : task pointer
 *     - info_num    : 'CCL_INFO' index number
 */
-void    CCL_Disable( task* tp, s32 info_num );
+void    CCL_Disable( task* tp, i32 info_num );
 
 /****** Get Hit *********************************************************************/
 /*
@@ -298,7 +298,7 @@ b32     CCL_IsPushed( const task* tp );
 #ifdef SAMT_INCL_FUNCPTRS
 
 /****** Standard ********************************************************************/
-#define CCL_Analyze_p           FUNC_PTR(s32          , __cdecl, (void)     , 0x00486190)
+#define CCL_Analyze_p           FUNC_PTR(i32          , __cdecl, (void)     , 0x00486190)
 #define CCL_IsHitKindEx_p       FUNC_PTR(CCL_HIT_INFO*, __cdecl, (task*, u8), 0x00486760)
 
 /****** Usercall ********************************************************************/

@@ -42,7 +42,7 @@ void    osSleep( u32 ms );
 *   Returns:
 *     Clock value in variable units < 1us.
 */
-s64     osHighResolutionClock( void );
+i64     osHighResolutionClock( void );
 /*
 *   Description:
 *     Get the number of 'clocks' per second for the above function.
@@ -50,7 +50,7 @@ s64     osHighResolutionClock( void );
 *   Returns:
 *     Clock frequency per second.
 */
-s64     osHighResolutionFrequency( void );
+i64     osHighResolutionFrequency( void );
 
 /****** Terminal ********************************************************************************/
 /*

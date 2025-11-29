@@ -92,10 +92,10 @@ enum
 /****** Grow Param ******************************************************************************/
 typedef struct
 {
-    s16 mood;                       /* mood change, GBA                                [unused] */
-    s16 belly;                      /* belly change, GBA                               [unused] */
+    i16 mood;                       /* mood change, GBA                                [unused] */
+    i16 belly;                      /* belly change, GBA                               [unused] */
 
-    s16 addexp[8];                  /* chao stat experience add                                 */
+    i16 addexp[8];                  /* chao stat experience add                                 */
 }
 GROW_PARAM;
 
@@ -110,7 +110,7 @@ typedef struct al_entry_work
 
     void*           pSaveInfo;      /* save info pointer, optional, '-1' when entry not active  */
 
-    s32             CommuID;        /* communication/attention id                               */
+    i32             CommuID;        /* communication/attention id                               */
 
     NJS_POINT3      pos;
     Angle3          ang;
@@ -119,10 +119,10 @@ typedef struct al_entry_work
 
     f32             CamDist;        /* distance from camera                                     */
 
-    s16             command;        /* command id                                  [ALW_CMD_##] */
-    s16             command_value;  /* command value                                            */
+    i16             command;        /* command id                                  [ALW_CMD_##] */
+    i16             command_value;  /* command value                                            */
 
-    s16             state;
+    i16             state;
 
     task*           tp;             /* entry task pointer                                       */
 
@@ -144,7 +144,7 @@ ALW_ENTRY_WORK;
 
 /****** ALW Entry *******************************************************************************/
 #define WorldEntryList          DATA_ARY(ALW_ENTRY_WORK             , 0x01DC0FC0, [11][64])
-#define nbWorldEntry            DATA_ARY(s32                        , 0x01DC0F80, [11])
+#define nbWorldEntry            DATA_ARY(i32                        , 0x01DC0F80, [11])
 #define nbMaxEntry              DATA_ARY(u32                        , 0x008AB838, [11])
 
 /****** Grow Param ******************************************************************************/
@@ -152,7 +152,7 @@ ALW_ENTRY_WORK;
 #define MinimalGrowParam        DATA_ARY(GROW_PARAM                 , 0x008A6240, [26])
 
 /****** Work ************************************************************************************/
-#define Clock                   DATA_REF(s32                        , 0x01DBED74)
+#define Clock                   DATA_REF(i32                        , 0x01DBED74)
 #define gCommuID                DATA_REF(u16                        , 0x01A5B5EC)
 
 /********************************/
@@ -184,8 +184,8 @@ void    ALW_ClearEntry( void );
 *   Returns:
 *     '1' on success; or '0' on failure.
 */
-s32     ALW_Entry(  u16 category, task* tp, u16 kind );
-s32     ALW_Entry2( u16 category, task* tp, u16 kind, void* pSaveInfo );
+i32     ALW_Entry(  u16 category, task* tp, u16 kind );
+i32     ALW_Entry2( u16 category, task* tp, u16 kind, void* pSaveInfo );
 /*
 *   Description:
 *     Release an ALW entry.
@@ -196,7 +196,7 @@ s32     ALW_Entry2( u16 category, task* tp, u16 kind, void* pSaveInfo );
 *   Returns:
 *     '1' on success.
 */
-s32     ALW_CancelEntry( task* tp );
+i32     ALW_CancelEntry( task* tp );
 
 /****** World Query *****************************************************************************/
 /*
@@ -209,7 +209,7 @@ s32     ALW_CancelEntry( task* tp );
 *   Returns:
 *     Entry count in that category.
 */
-s32     ALW_CountEntry( s32 category );
+i32     ALW_CountEntry( i32 category );
 /*
 *   Description:
 *     Get entry task via category and direct index.
@@ -221,7 +221,7 @@ s32     ALW_CountEntry( s32 category );
 *   Returns:
 *     Task pointer to entry; or 'nullptr' if no entry.
 */
-task*   ALW_GetTask( s32 category, u16 num );
+task*   ALW_GetTask( i32 category, u16 num );
 /*
 *   Description:
 *     Get entry task via category and count index. This function ensures no 'nullptr' until
@@ -234,7 +234,7 @@ task*   ALW_GetTask( s32 category, u16 num );
 *   Returns:
 *     Task pointer to entry; or 'nullptr' if total entry count reached.
 */
-task*   ALW_GetTaskCount( s32 category, u16 count );
+task*   ALW_GetTaskCount( i32 category, u16 count );
 /*
 *   Description:
 *     Get category of world entry task.
@@ -245,7 +245,7 @@ task*   ALW_GetTaskCount( s32 category, u16 count );
 *   Returns:
 *     World category value; or '-1' if not a world entry.
 */
-s32     ALW_GetCategory( const task* tp );
+i32     ALW_GetCategory( const task* tp );
 
 /****** Attention *******************************************************************************/
 /*
@@ -270,7 +270,7 @@ ALW_ENTRY_WORK* ALW_IsAttention( const task* tp );
 *   Returns:
 *     'TRUE' on success; or 'FALSE' if either task is not a world entry.
 */
-s32     ALW_AttentionOn( task* tp1, const task* tp2 );
+i32     ALW_AttentionOn( task* tp1, const task* tp2 );
 /*
 *   Description:
 *     Stop and clear attention (one-way communication) of a world entry.
@@ -281,7 +281,7 @@ s32     ALW_AttentionOn( task* tp1, const task* tp2 );
 *   Returns:
 *     'TRUE' on success; or 'FALSE' if task is not a world entry.
 */
-s32     ALW_AttentionOff( task* tp );
+i32     ALW_AttentionOff( task* tp );
 
 /****** Communication ***************************************************************************/
 /*
@@ -319,7 +319,7 @@ ALW_ENTRY_WORK* ALW_IsCommunicationEx( task* tp, u16 category );
 *   Returns:
 *     'TRUE' on success; or 'FALSE' if either task is not a world entry.
 */
-s32     ALW_CommunicationOn( task* tp1, task* tp2 );
+i32     ALW_CommunicationOn( task* tp1, task* tp2 );
 /*
 *   Description:
 *     Stop and clear communication link between task entry and its communication partner.
@@ -334,7 +334,7 @@ s32     ALW_CommunicationOn( task* tp1, task* tp2 );
 *   Returns:
 *     'TRUE' on success.
 */
-s32     ALW_CommunicationOff( task* tp ); /* Communication off */
+i32     ALW_CommunicationOff( task* tp ); /* Communication off */
 
 /****** Commu/Atten Command *********************************************************************/
 /*
@@ -347,7 +347,7 @@ s32     ALW_CommunicationOff( task* tp ); /* Communication off */
 *   Returns:
 *     Current command id; or 'ALW_CMD_NONE' if no command, or not a world entry.
 */
-s32     ALW_RecieveCommand( task* tp );
+i32     ALW_RecieveCommand( task* tp );
 
 /****** Chao Attention **************************************************************************/
 /*
@@ -363,7 +363,7 @@ s32     ALW_RecieveCommand( task* tp );
 *     'TRUE' if she *does* have attention on another entry; or 'FALSE' if she is not an entry,
 *   has no attention, or her attention is on me.
 */
-s32     ALW_IsSheAttentionOtherOne( const task* pMyTask, const task* pHerTask );
+b32     ALW_IsSheAttentionOtherOne( const task* pMyTask, const task* pHerTask );
 
 /****** SAMT Additions **************************************************************************/
 /*
@@ -376,7 +376,7 @@ s32     ALW_IsSheAttentionOtherOne( const task* pMyTask, const task* pHerTask );
 *   Returns:
 *     Max number of entries for that category.
 */
-s32     ALW_GetMaxEntry( u16 category );
+i32     ALW_GetMaxEntry( u16 category );
 /*
 *   Description:
 *     Get kind of ALW entry toy.

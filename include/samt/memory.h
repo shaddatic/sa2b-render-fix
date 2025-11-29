@@ -126,7 +126,7 @@ void    mtMemRecalloc( void** pp, size_t szPre, size_t szNew );
 *
 *   Examples:
 *     - MemSet(  ary, 0, sizeof(ary));
-*     - MemSet32(ary, 0, ARYLEN(ary)); // assume 'ary' is 's32[]'
+*     - MemSet32(ary, 0, ARYLEN(ary)); // assume 'ary' is 'i32[]'
 *
 *   Parameters:
 *     - pd          : set destination
@@ -311,7 +311,7 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 *   calculations.
 *
 *   Examples:
-*     - mtCopy(pd, ps, s32, 8); // copy 8 integers
+*     - mtCopy(pd, ps, i32, 8); // copy 8 integers
 *
 *   Parameters:
 *     - pd          : copy destination
@@ -328,7 +328,7 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 *   the two regions to overlap with type parameter for size calculations.
 *
 *   Examples:
-*     - mtMove(pd, ps, s32, 8); // copy 8 integers
+*     - mtMove(pd, ps, i32, 8); // copy 8 integers
 *
 *   Parameters:
 *     - pd          : copy destination
@@ -345,7 +345,7 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 *   safety.
 *
 *   Examples:
-*     - pd = mtDupe(ps, s32, 8); // duplicate 8 integers
+*     - pd = mtDupe(ps, i32, 8); // duplicate 8 integers
 *
 *   Parameters:
 *     - ps          : duplicate source

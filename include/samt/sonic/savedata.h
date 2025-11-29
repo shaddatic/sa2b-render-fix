@@ -22,22 +22,22 @@ enum
 
 typedef struct
 {
-    s8      m, s, f;        /* minute, second, millisecond                          */
+    i8      m, s, f;        /* minute, second, millisecond                          */
 }
 CLEAR_TIME;
 
 typedef struct
 {
-    s32        ring;        /* ring count                                           */
-    s32        score;       /* points score                                         */
+    i32        ring;        /* ring count                                           */
+    i32        score;       /* points score                                         */
     CLEAR_TIME time;        /* time                                                 */
 }
 STAGE_BEST;
 
 typedef struct
 {
-    s8         rank[5];     /* stage rank for each mission                          */
-    s16        playno[5];   /* play count for each mission                          */
+    i8         rank[5];     /* stage rank for each mission                          */
+    i16        playno[5];   /* play count for each mission                          */
     STAGE_BEST best[5][3];  /* last 3 best data for each mission, '[0]' is newest   */
 }
 STAGE_DATA;
@@ -45,13 +45,13 @@ STAGE_DATA;
 typedef struct
 {
     CLEAR_TIME time;        /* time across all 3 laps                               */
-    s8         plno;        /* cart character number                                */
+    i8         plno;        /* cart character number                                */
 }
 CART_BEST;
 
 typedef struct
 {
-    s8        win;          /* race has been won                                    */
+    i8        win;          /* race has been won                                    */
     CART_BEST best[3];      /* 3 best records                                       */
 }
 CART_DATA;

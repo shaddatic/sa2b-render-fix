@@ -19,9 +19,9 @@ EXTERN_START
 /*  Game Data           */
 /************************/
 /****** Load State ******************************************************************/
-#define gChaoSaveBusy           DATA_REF(s32, 0x019F645C)
-#define gChaoSaveSaved          DATA_REF(s32, 0x01A0F940)
-#define gChaoSaveAnother        DATA_REF(s32, 0x01A0F948)
+#define gChaoSaveBusy           DATA_REF(i32, 0x019F645C)
+#define gChaoSaveSaved          DATA_REF(i32, 0x01A0F940)
+#define gChaoSaveAnother        DATA_REF(i32, 0x01A0F948)
 
 /************************/
 /*  Prototypes          */
@@ -42,7 +42,7 @@ void    AL_ConfirmSaveStart( void );
 *   Returns:
 *     '1' if the save file is being loaded, '0' if not.
 */
-s32     AL_ConfirmSaveIsBusy( void );
+i32     AL_ConfirmSaveIsBusy( void );
 
 /************************/
 /*  Internal Protos     */

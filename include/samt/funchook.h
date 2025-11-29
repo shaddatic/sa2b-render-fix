@@ -45,7 +45,7 @@ mt_hookinfo;
 *     - pHookInfo   : hook info
 *     - state       : hook state to set                                                [ON/OFF]
 */
-void    mtHookInfoSwitch( const mt_hookinfo* pHookInfo, s32 state );
+void    mtHookInfoSwitch( const mt_hookinfo* pHookInfo, i32 state );
 /*
 *   Description:
 *     Get hook info type.

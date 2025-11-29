@@ -75,7 +75,7 @@ LIGHT_GC;
 *   Parameters:
 *     - pcFileName  : light file name, including extension
 */
-s32     LoadLightFile( const c7* pcFileName );
+i32     LoadLightFile( const c7* pcFileName );
 
 /****** Set Draw Light **************************************************************************/
 /*
@@ -85,7 +85,7 @@ s32     LoadLightFile( const c7* pcFileName );
 *   Parameters:
 *     - light       : light index
 */
-void    SetLight( s32 light );
+void    SetLight( i32 light );
 
 /****** Set Player Draw Light *******************************************************************/
 /*
@@ -96,7 +96,7 @@ void    SetLight( s32 light );
 *     - pno         : player number
 *     - light       : light index
 */
-void    SetPlayerLight( s32 pno, int light );
+void    SetPlayerLight( i32 pno, int light );
 
 /****** Set Light Data **************************************************************************/
 /*
@@ -107,7 +107,7 @@ void    SetPlayerLight( s32 pno, int light );
 *     - n           : light index
 *     - light       : light structure
 */
-void    SetLightStruct( s32 n, const LIGHT*    light );
+void    SetLightStruct( i32 n, const LIGHT* light );
 /*
 *   Description:
 *     Set light vector for given light index.
@@ -116,7 +116,7 @@ void    SetLightStruct( s32 n, const LIGHT*    light );
 *     - n           : light index
 *     - x,y,z       : light vector
 */
-void    SetLightVector( s32 n, f32 x, f32 y, f32 z );
+void    SetLightVector( i32 n, f32 x, f32 y, f32 z );
 
 /*
 *   Description:
@@ -126,7 +126,7 @@ void    SetLightVector( s32 n, f32 x, f32 y, f32 z );
 *     - n           : light index
 *     - inten       : light intensity
 */
-void    SetLightIntensity( s32 n, f32 inten );
+void    SetLightIntensity( i32 n, f32 inten );
 /*
 *   Description:
 *     Set light ambient intensity for given light index.
@@ -135,7 +135,7 @@ void    SetLightIntensity( s32 n, f32 inten );
 *     - n           : light index
 *     - ambient     : light ambient intensity
 */
-void    SetLightAmbient( s32 n, f32 ambient );
+void    SetLightAmbient( i32 n, f32 ambient );
 /*
 *   Description:
 *     Set light color for given light index.
@@ -144,7 +144,7 @@ void    SetLightAmbient( s32 n, f32 ambient );
 *     - n           : light index
 *     - r,g,b       : light color
 */
-void    SetLightColor( s32 n, f32 r, f32 g, f32 b );
+void    SetLightColor( i32 n, f32 r, f32 g, f32 b );
 
 /****** Set Light Data (GC) *********************************************************************/
 /*
@@ -155,7 +155,7 @@ void    SetLightColor( s32 n, f32 r, f32 g, f32 b );
 *     - n           : light index
 *     - light       : light structure
 */
-void    SetLightStructGC( s32 n, const LIGHT_GC* light );
+void    SetLightStructGC( i32 n, const LIGHT_GC* light );
 /*
 *   Description:
 *     Set light vector for given light index.
@@ -164,7 +164,7 @@ void    SetLightStructGC( s32 n, const LIGHT_GC* light );
 *     - n           : light index
 *     - x,y,z       : light vector
 */
-void    SetLightVectorGC( s32 n, f32 x, f32 y, f32 z );
+void    SetLightVectorGC( i32 n, f32 x, f32 y, f32 z );
 /*
 *   Description:
 *     Set light color for given light index.
@@ -173,7 +173,7 @@ void    SetLightVectorGC( s32 n, f32 x, f32 y, f32 z );
 *     - n           : light index
 *     - r,g,b       : light color
 */
-void    SetLightColorGC( s32 n, f32 r, f32 g, f32 b );
+void    SetLightColorGC( i32 n, f32 r, f32 g, f32 b );
 /*
 *   Description:
 *     Set light ambient intensity for given light index.
@@ -182,7 +182,7 @@ void    SetLightColorGC( s32 n, f32 r, f32 g, f32 b );
 *     - n           : light index
 *     - r,g,b       : light ambient color
 */
-void    SetLightAmbientGC( s32 n, f32 r, f32 g, f32 b );
+void    SetLightAmbientGC( i32 n, f32 r, f32 g, f32 b );
 /*
 *   Description:
 *     Set light on state for given light index.
@@ -194,7 +194,7 @@ void    SetLightAmbientGC( s32 n, f32 r, f32 g, f32 b );
 *     - n           : light index
 *     - sw          : light switch state                                               [ON/OFF]
 */
-void    SetLightSwitchGC( s32 n, b32 sw );
+void    SetLightSwitchGC( i32 n, b32 sw );
 
 /****** Set Default Light Index *****************************************************************/
 /*
@@ -204,7 +204,7 @@ void    SetLightSwitchGC( s32 n, b32 sw );
 *   Parameters:
 *     - light       : light index
 */
-void    SetDefaultLight( s32 light );
+void    SetDefaultLight( i32 n );
 /*
 *   Description:
 *     Set default player light index, some objects use this too.
@@ -212,7 +212,7 @@ void    SetDefaultLight( s32 light );
 *   Parameters:
 *     - light       : light index
 */
-void    SetDefaultPlayerLight( s32 light );
+void    SetDefaultPlayerLight( i32 n );
 
 #ifdef SAMT_INCL_FUNCPTRS
 
@@ -220,7 +220,7 @@ void    SetDefaultPlayerLight( s32 light );
 /*  Function Pointers           */
 /********************************/
 /****** Function Pointers ***********************************************************************/
-#define LoadLightFile_p             FUNC_PTR(int32_t, __fastcall, (const char*), 0x006C3AE0)
+#define LoadLightFile_p             FUNC_PTR(i32, __fastcall, (const char*), 0x006C3AE0)
 
 /****** Usercall Pointers ***********************************************************************/
 #define SetLightIndex_p             ((void*)0x00487060) /* ###(EAX)                             */

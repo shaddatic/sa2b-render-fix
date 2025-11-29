@@ -24,18 +24,18 @@ typedef struct task        task;
 
 typedef struct // AnyWk
 {
-    s32     ButtonState;
-    s32     CoverMode;
+    i32     ButtonState;
+    i32     CoverMode;
     f32     CoverFrame;
     f32     ButtonPos;
     task*   pChaotask;
-    s32     FileFlag;
-    s32     BuyoFlag;
-    s32     BuyoPhase;
-    s32     MonitorMode;
-    s32     MonitorCount;
-    s32     MonitorTimer;
-    s32     ring;
+    i32     FileFlag;
+    i32     BuyoFlag;
+    i32     BuyoPhase;
+    i32     MonitorMode;
+    i32     MonitorCount;
+    i32     MonitorTimer;
+    i32     ring;
 }
 ODEKAKE_WORK;
 

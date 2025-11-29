@@ -129,7 +129,7 @@ GJS_ARRAY;
 typedef struct
 {
     Uint16          type;           /* vlist type                                   [GJD_VLIST] */
-    Uint16          size;           /* total size of vertex+weights, in s32's                   */
+    Uint16          size;           /* total size of vertex+weights, in i32's                   */
     Uint16          offset;         /* vlist start offset                                       */
     Uint16          num;            /* number of vertex/weight entries                          */
     /*

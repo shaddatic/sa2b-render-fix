@@ -90,35 +90,35 @@ enum
 /****** Cart Info *******************************************************************************/
 typedef struct
 {
-    s32             player;         /* player index                                             */
-    s32             tex;            /* sprite tex index                                         */
+    i32             player;         /* player index                                             */
+    i32             tex;            /* sprite tex index                                         */
     NJS_CNK_OBJECT* obj;            /* object                                                   */
-    s8              spd;            /* speed stat                                               */
-    s8              acl;            /* acceleration stat                                        */
-    s8              brk;            /* break stat                                               */
-    s8              grp;            /* grip stat                                                */
+    i8              spd;            /* speed stat                                               */
+    i8              acl;            /* acceleration stat                                        */
+    i8              brk;            /* break stat                                               */
+    i8              grp;            /* grip stat                                                */
 }
 CAR_INFO; // unnamed
 
 typedef struct
 {
-    s32             modelNumber;    /* model number                                             */
+    i32             modelNumber;    /* model number                                             */
     NJS_CNK_OBJECT* carObj;         /* cart model                                               */
     NJS_CNK_OBJECT* carFarObj;      /* cart lod model                                           */
     NJS_TEXLIST*    carTls;         /* cart texlist                                             */
     void*           mdlAddress;     /* model address                         [unused in battle] */
     void*           tlsAddress;     /* texlist address                       [unused in battle] */
-    s32             effectFlag;     /* effect flags                                             */
+    i32             effectFlag;     /* effect flags                                             */
 }
 CAR_MODEL_INFO;
 
 typedef struct
 {
-    s32             engineSe;       /* engine se index                                          */
-    s32             breakSe;        /* break se index                                           */
-    s32             goalAdx;        /* goal serif number                                        */
-    s32             first5;         /* first place serif number                                 */
-    s32             sixth5;         /* last place serif number                                  */
+    i32             engineSe;       /* engine se index                                          */
+    i32             breakSe;        /* break se index                                           */
+    i32             goalAdx;        /* goal serif number                                        */
+    i32             first5;         /* first place serif number                                 */
+    i32             sixth5;         /* last place serif number                                  */
     NJS_CNK_OBJECT* kageObject;     /* shadow object                                            */
 }
 CART_EXTRA_PARAM;

@@ -29,12 +29,12 @@ EXTERN_START
 
 #define TASKWK                                                                         \
 struct {                                                                               \
-    s8              mode;       /* task mode                                        */ \
-    s8              smode;      /* task secondary mode                              */ \
-    s8              id;         /* task id                                          */ \
-    s8              btimer;     /* byte timer                                       */ \
-    s16             flag;       /* task flags                                       */ \
-    s16             wtimer;     /* word timer                                       */ \
+    i8              mode;       /* task mode                                        */ \
+    i8              smode;      /* task secondary mode                              */ \
+    u8              id;         /* task id                                          */ \
+    u8              btimer;     /* byte timer                                       */ \
+    i16             flag;       /* task flags                                       */ \
+    u16             wtimer;     /* word timer                                       */ \
     Angle3          ang;        /* task angle                                       */ \
     NJS_POINT3      pos;        /* task position                                    */ \
     NJS_VECTOR      scl;        /* task scale                                       */ \

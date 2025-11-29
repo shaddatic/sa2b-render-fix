@@ -202,7 +202,7 @@ void    AL_CreateMinimalCreateManager( void );
 *   Returns:
 *     Task pointer to created minimal; or 'nullptr' on failure.
 */
-task*   AL_MinimalCreate( s8 num, const NJS_POINT3* pPos, Angle AngY, const NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
+task*   AL_MinimalCreate( i8 num, const NJS_POINT3* pPos, Angle AngY, const NJS_VECTOR* pVelo, ITEM_SAVE_INFO* pSaveInfo );
 
 #ifndef SAMT_EXCL_INTLFUNC
 
@@ -273,7 +273,7 @@ void    AL_MinimalDestructor( task* tp );
 #define AL_CreateMinimalCreateManager_p     FUNC_PTR(void , __cdecl, (void), 0x00549490)
 
 /****** Create Minimal **************************************************************/
-#define AL_MinimalCreate_p          FUNC_PTR(task*, __cdecl, (s8, const NJS_POINT3*, Angle, const NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00548D30)
+#define AL_MinimalCreate_p          FUNC_PTR(task*, __cdecl, (i8, const NJS_POINT3*, Angle, const NJS_VECTOR*, ITEM_SAVE_INFO*), 0x00548D30)
 
 /****** Exec Functions **************************************************************/
 #define ALM_FuncWalk_p              FUNC_PTR(void , __cdecl, (task*), 0x0057BD40)

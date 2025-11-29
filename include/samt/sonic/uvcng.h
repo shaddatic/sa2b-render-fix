@@ -21,16 +21,16 @@ EXTERN_START
 /****** SAMT Structs ****************************************************************************/
 typedef struct // SAMT Addition
 {
-    s16             plistoff;       /* chunk plist offset for strip                             */
-    s16             adduvnum;       /* add uv number                                            */
+    i16             plistoff;       /* chunk plist offset for strip                             */
+    i16             adduvnum;       /* add uv number                                            */
     NJS_TEX         adduvs;         /* add uv value list                                        */
 }
 UVCHANGESTRIP;
 
 typedef struct // SAMT Addition
 {
-    s16             stripnum;       /* strip count                                              */
-    s16             stride;         /* strip stride in shorts, excluding uvs        [usually 1] */
+    i16             stripnum;       /* strip count                                              */
+    i16             stride;         /* strip stride in shorts, excluding uvs        [usually 1] */
     UVCHANGESTRIP   strips;         /* strip list                                               */
 }
 UVCHANGEATTR;
@@ -42,12 +42,12 @@ typedef struct
     u32             framecycle;         /* frame range                                          */
     u32             framepitch;         /* frame division value                                 */
     f32*            frameordertop;      /* frame order list                                     */
-    s16*            ppattrnlisttop;     /* uv change attribute list              [UVCHANGEATTR] */
-    s16*            ptexpattrnlisttop;  /* tex pointer attribute list                           */
-    s16*            ptexanimlisttop;    /* tex animation list                                   */
+    i16*            ppattrnlisttop;     /* uv change attribute list              [UVCHANGEATTR] */
+    i16*            ptexpattrnlisttop;  /* tex pointer attribute list                           */
+    i16*            ptexanimlisttop;    /* tex animation list                                   */
     NJS_CNK_MODEL*  plastusedmodel;     /* last model pointer                                   */
-    s16             lastaddu;           /* last u value                                         */
-    s16             lastaddv;           /* last v value                                         */
+    i16             lastaddu;           /* last u value                                         */
+    i16             lastaddv;           /* last v value                                         */
 }
 UVCHANGEINFO;
 
@@ -64,7 +64,7 @@ UVCHANGEINFO;
 *     - pUvcInfo    : uv change info
 *     - frame       : animation frame
 */
-void    UvChangeCnk( NJS_CNK_MODEL* pModel, UVCHANGEINFO* pUvcInfo, s32 frame );
+void    UvChangeCnk( NJS_CNK_MODEL* pModel, UVCHANGEINFO* pUvcInfo, i32 frame );
 
 #ifdef SAMT_INCL_FUNCPTRS
 

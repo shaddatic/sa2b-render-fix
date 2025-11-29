@@ -93,7 +93,7 @@ EXTERN_END
 *
     EXPORT_DLL
     void __cdecl
-    OnExit(u32 code, s32 a1, s32 a2)
+    OnExit(u32 code, i32 a1, i32 a2)
     {
         
     }

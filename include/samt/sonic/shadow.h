@@ -36,10 +36,10 @@ shadowwk;
 
 typedef struct
 {
-    s32         findflag;
-    s32         objatt;
-    s32         angx;
-    s32         angz;
+    i32         findflag;
+    i32         objatt;
+    Angle       angx;
+    Angle       angz;
     f32         onpos;
     NJS_POINT3  normal;
 }

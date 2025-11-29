@@ -126,7 +126,7 @@ void    AL_ChangeStage( eCHAO_STAGE_NUMBER NextStage );
 *   Returns:
 *     Chao count in the given stage
 */
-s32     AL_GetLocalChaoCount( eCHAO_STAGE_NUMBER stage );
+i32     AL_GetLocalChaoCount( eCHAO_STAGE_NUMBER stage );
 /*
 *   Description:
 *     Get the number of Chao saved in the current Chao stage.
@@ -137,7 +137,7 @@ s32     AL_GetLocalChaoCount( eCHAO_STAGE_NUMBER stage );
 *   Returns:
 *     Chao count in the current stage
 */
-s32     AL_GetCurrGardenChaoCount( void );
+i32     AL_GetCurrGardenChaoCount( void );
 
 /************************/
 /*  Internal Protos     */

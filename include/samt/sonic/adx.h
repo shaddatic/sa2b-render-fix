@@ -34,11 +34,11 @@ enum
 /************************/
 typedef struct
 {
-    s8      mode;
-    s8      pri;
-    s32     num;
-    s32     gap0[1];
-    s32     status;
+    i8      mode;
+    i8      pri;
+    i32     num;
+    i32     gap0[1];
+    i32     status;
     void*   pAdxt;
     void*   pBuffer;
     void*   pOtherBuf;
@@ -47,16 +47,16 @@ SERIF_WORK;
 
 typedef struct
 {
-    s8      bgm_mode;
-    s8      FadeInOut;
-    s16     once_mode;
-    s32     bgm_next;           /* next mode                                        */
-    s32     volume;
-    s32     status;
-    s32     bgm_ready;
-    s8*     bgm_name;
-    s8*     once_next;          /* next once file name                              */
-    s8*     once_name;          /* current once file name                           */
+    i8      bgm_mode;
+    i8      FadeInOut;
+    i16     once_mode;
+    i32     bgm_next;           /* next mode                                        */
+    i32     volume;
+    i32     status;
+    i32     bgm_ready;
+    i8*     bgm_name;
+    i8*     once_next;          /* next once file name                              */
+    i8*     once_name;          /* current once file name                           */
     void*   pBuffer;
     SERIF_WORK serif[3];
 }
@@ -70,8 +70,8 @@ ADX_WORK;
 #define ADXworkP            DATA_REF(ADX_WORK*, 0x01A55998)
 
 /****** Voice Constants *************************************************************/
-#define VOICE_COUNT         DATA_REF(s32, 0x01A5599C) /* max 3                       */
-#define VOICE_VOLUME        DATA_REF(s32, 0x01A55990)
+#define VOICE_COUNT         DATA_REF(i32, 0x01A5599C) /* max 3                      */
+#define VOICE_VOLUME        DATA_REF(i32, 0x01A55990)
 
 /************************/
 /*  Functions           */
@@ -118,7 +118,7 @@ void    BGM_FadeIn( void );
 *   Parameters:
 *     - vol         : volume of the background music from '0' to '-999'
 */
-void    BGM_Volume( s32 vol );
+void    BGM_Volume( i32 vol );
 /*
 *   Description:
 *     Set an ADX file to the current active BGM file. Requires a call to
@@ -165,7 +165,7 @@ void    Jingle_Stop( void );
 *   Returns:
 *     The voice slot number used (0~2), or '-1' indicates no serif slots are available
 */
-s32     Serif_Play( s32 no );
+i32     Serif_Play( i32 no );
 /*
 *   Description:
 *     Play a voice line, せりふ, using index 'no' at a set priority. A maximum of 3
@@ -182,7 +182,7 @@ s32     Serif_Play( s32 no );
 *   Returns:
 *     The voice slot number used (0~2), or '-1' indicates no serif slots are available
 */
-s32     Serif_PlayPri( s32 pri, s32 no );
+i32     Serif_PlayPri( i32 pri, i32 no );
 /*
 *   Description:
 *     Stop all voice lines
@@ -195,7 +195,7 @@ void    Serif_Stop( void );
 *   Parameters:
 *     - num     : slot to stop, as returned by 'Serif_Play' and 'Serif_PlayPri'
 */
-void    Serif_StopNum( s32 num );
+void    Serif_StopNum( i32 num );
 
 /****** ADX *************************************************************************/
 /*
@@ -205,7 +205,7 @@ void    Serif_StopNum( s32 num );
 *   Returns:
 *     1 on success, 0 on error
 */
-s32     ADX_TaskInit( void );
+i32     ADX_TaskInit( void );
 /*
 *   Description:
 *     Close the ADX_TaskLoop Task
@@ -222,7 +222,7 @@ void    ADX_Close( void );
 #   define BGM_FadeOut_p            FUNC_PTR(void, __cdecl, (void), 0x00443090)
 #   define Jingle_Stop_p            FUNC_PTR(void, __cdecl, (void), 0x004432D0)
 #   define Serif_Stop_p             FUNC_PTR(void, __cdecl, (void), 0x004431B0)
-#   define ADX_TaskInit_p           FUNC_PTR(s32 , __cdecl, (void), 0x00442490)
+#   define ADX_TaskInit_p           FUNC_PTR(i32 , __cdecl, (void), 0x00442490)
 
 /****** Usercall Pointers ***********************************************************/
 #   define BGM_Volume_p             ((void*)0x00443030)/* ###(EAX)                  */

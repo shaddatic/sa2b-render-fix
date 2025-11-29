@@ -84,9 +84,9 @@ typedef struct _OBJ_LANDENTRY
     ANY_OBJECT*      pObject;       /* object: basic, chunk, or ginja                           */
     NJS_DIRECT_HEAD* pDirectObject; /* direct compiled object                                   */
 
-    s32              blockbit;      /* draw model bitmask, 0 ignores it                         */
+    i32              blockbit;      /* draw model bitmask, 0 ignores it                         */
                      
-    s32              slAttribute;   /* land attributes                                          */
+    i32              slAttribute;   /* land attributes                                          */
 }
 OBJ_LANDENTRY;
 
@@ -105,15 +105,15 @@ OBJ_MOTLANDENTRY;
 /****** Land Table ******************************************************************************/
 typedef struct _OBJ_LANDTABLE
 {
-    s16                 ssCount;           /* total land entry count                            */
+    i16                 ssCount;           /* total land entry count                            */
 
-    s16                 ssDispCount;       /* Chunk/Ginja land entry count           [optional] */
-    s16                 ssDirectDispCount; /* direct land entry count                 [dc only] */
+    i16                 ssDispCount;       /* Chunk/Ginja land entry count           [optional] */
+    i16                 ssDirectDispCount; /* direct land entry count                 [dc only] */
 
-    s16                 ssMotCount;        /* motion entry count                                */
+    i16                 ssMotCount;        /* motion entry count                                */
 
-    s16                 ssAttribute;       /* attribute                                         */
-    s16                 ssLoadFlag;        /* is loaded                                         */
+    i16                 ssAttribute;       /* attribute                                         */
+    i16                 ssLoadFlag;        /* is loaded                                         */
 
     f32                 fFarClipping;      /* clip distance                                     */
 
@@ -128,7 +128,7 @@ OBJ_LANDTABLE;
 /****** Land Collision **************************************************************************/
 typedef struct _OBJ_LANDCOLL
 {
-    s32                 slAttribute; /* attributes                                              */
+    i32                 slAttribute; /* attributes                                              */
     NJS_OBJECT*         pObject;     /* collision object                                        */
     task*               ptask;       /* task pointer                                 [optional] */
 }
@@ -153,7 +153,7 @@ OBJ_LANDCOLL;
 
 /****** Land Entries ****************************************************************************/
 #define  pObjLandEntry          DATA_REF(OBJ_LANDENTRY**, 0x01A5A2E4)
-#define nbObjLandEntry          DATA_REF(s16            , 0x01945A00)
+#define nbObjLandEntry          DATA_REF(i16            , 0x01945A00)
 
 /****** Land Mobile Entries *********************************************************************/
 #define MobileEntry             DATA_REF(OBJ_LANDCOLL* , 0x01A5A2E0)
@@ -242,7 +242,7 @@ b32     CL_ColPolCheckZxShadow( zxsdwstr* zssp, NJS_OBJECT* obp );
 /********************************/
 /****** Function Pointers ***********************************************************************/
 #define ListGroundForCollision_p        FUNC_PTR(void, __cdecl, (f32, f32, f32, f32), 0x0047CD60)
-#define LandChangeLandTable_p           FUNC_PTR(s32 , __cdecl, (OBJ_LANDTABLE*)    , 0x0047BD30)
+#define LandChangeLandTable_p           FUNC_PTR(i32 , __cdecl, (OBJ_LANDTABLE*)    , 0x0047BD30)
 
 /****** Usercall Pointers ***********************************************************************/
 #define LandChangeGinjaLandTable_p      ((void*)0x0047BE10) /* EAX(EAX)                         */

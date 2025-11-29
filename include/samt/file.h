@@ -168,7 +168,7 @@ size_t  mtFileWriteMulti( FILE* f, const void* pSrc, size_t sz, size_t nb );
 *   Returns:
 *     'true' on success; or 'false' on failure.
 */
-bool    mtFileSeekSet( FILE* f, s32 offset );
+bool    mtFileSeekSet( FILE* f, i32 offset );
 /*
 *   Description:
 *     Move the seek offset relative to its current position
@@ -180,7 +180,7 @@ bool    mtFileSeekSet( FILE* f, s32 offset );
 *   Returns:
 *     'true' on success; or 'false' on failure.
 */
-bool    mtFileSeekAdvance( FILE* f, s32 offset );
+bool    mtFileSeekAdvance( FILE* f, i32 offset );
 /*
 *   Description:
 *     Get the current seek offset
@@ -191,7 +191,7 @@ bool    mtFileSeekAdvance( FILE* f, s32 offset );
 *   Returns:
 *     The current seek offset of the file stream.
 */
-s32     mtFileSeekGet( FILE* f );
+i32     mtFileSeekGet( FILE* f );
 /*
 *   Description:
 *     Set seek offset to the start of the file
