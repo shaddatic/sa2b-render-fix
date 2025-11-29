@@ -20,10 +20,20 @@
 EXTERN_START
 
 /********************************/
-/*  Opaque Types                */
+/*  Structures                  */
 /********************************/
-/****** Cnk Draw ********************************************************************************/
-typedef struct rjvtxbuf             RJS_VERTEX_BUF; /* polygon vertex buffer                    */
+/****** Vertex Buffer ***************************************************************************/
+typedef struct rjvtxbuf
+{
+    NJS_POINT3 pos;                 /* position                                                 */
+    NJS_VECTOR nrm;                 /* normal                                                   */
+    NJS_BGRA   col;                 /* color                                                    */
+    NJS_BGRA   spc;                 /* specular                                                 */
+    Float      inten[6];            /* light intensities                                        */
+
+    Uint32     pad[2];
+}
+RJS_VERTEX_BUF;
 
 /********************************/
 /*  Enums                       */

@@ -7,6 +7,9 @@
 #include <samt/writeop.h>       /* WriteJump, WriteCall                             */
 #include <samt/funchook.h>      /* hookinfo                                         */
 
+/****** System **********************************************************************************/
+#include <samt/shinobi/sg_maloc.h>  /* symalloc                                                 */
+
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/ninja.h>       /* ninja                                                    */
 #include <samt/ninja/njcontext.h>   /* ninja context                                            */
@@ -242,4 +245,16 @@ RF_NinjaInit(void)
 
     mtHookFunc( ChaoUIElemStartHookInfo , ChaoUIElemStart_p , ChaoUIElemStartHook );
     mtHookFunc( ChaoUIElemStart2HookInfo, ChaoUIElemStart2_p, ChaoUIElemStart2Hook );
+
+    // vertex buffer size
+
+    if ( _nj_vertex_buf_num_ != 0x1000 )
+    {
+        syFree( _nj_vertex_buf_ );
+    }
+
+    static_assert( sizeof(RJS_VERTEX_BUF) == 64, "Vertex buffer hack no longer needed!" );
+
+    _nj_vertex_buf_     = syMalloc(sizeof(NJS_VERTEX_BUF) * 0x8000);
+    _nj_vertex_buf_num_ = 0x8000;
 }

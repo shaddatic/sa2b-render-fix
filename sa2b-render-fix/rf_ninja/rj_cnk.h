@@ -106,22 +106,6 @@ EXTERN_START
 #define NEXT_STRIP_POLY(strip, ix, ufo)          CNK_NEXT_POLY((strip), ((ix) >= 2) ? (ufo) : 0)
 
 /************************/
-/*  Structures          */
-/************************/
-/****** Vertex Buffer ***************************************************************/
-typedef struct rjvtxbuf
-{
-    NJS_POINT3 pos;             /* position                                         */
-    NJS_VECTOR nrm;             /* normal                                           */
-    NJS_BGRA   col;             /* color                                            */
-    NJS_BGRA   spc;             /* specular                                         */
-    Float      inten[6];        /* light intensities                                */
-
-    Uint32     pad[2];
-}
-RJS_VERTEX_BUF;
-
-/************************/
 /*  Prototypes          */
 /************************/
 /****** Transform Object ************************************************************/
