@@ -313,11 +313,9 @@ EventExecutor(task* tp)
 
     EV_DebugExec(tp);
 
-    ___TODO("This should check a user setting in future");
-
     const f32 add_frame = UseLagEmu() ? ( EventSpeed * 0.5f ) : ( EventSpeed );
 
-    if ( true ) // psudo-frameskip
+    if ( EventVsyncMode != EV_VSYNCMD_60 || EventDebugFlag ) // psudo-frameskip
     {
         twp->scl.x += add_frame;
 
