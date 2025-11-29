@@ -354,6 +354,14 @@ void    rjCnkSetControl( Uint32 off_flag, Uint32 on_flag );
 */
 Uint32  rjCnkGetControl( void );
 
+/****** Chunk Shadow Texure *********************************************************/
+/*
+*   Description:
+*     Start/end Chunk shadow texture.
+*/
+void    rjCnkBeginShadowTex( void );
+void    rjCnkEndShadowTex( void );
+
 /****** Chunk Draw ******************************************************************/
 /*
 *   Description:

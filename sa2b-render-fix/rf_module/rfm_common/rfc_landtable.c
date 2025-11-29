@@ -40,10 +40,6 @@
 /****** Camera Cull *****************************************************************/
 bool    GetCurrCameraCullState( void );
 
-___TODO("Make actual header definitions for these");
-void    rjCnkBeginShadowTex(void);
-void    rjCnkEndShadowTex(void);
-
 /************************/
 /*  Source              */
 /************************/
