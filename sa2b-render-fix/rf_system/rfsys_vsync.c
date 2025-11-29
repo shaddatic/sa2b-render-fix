@@ -213,10 +213,8 @@ RF_SysVsyncSceneEnd(void)
                 // sleep most of the time first to release CPU cycles
                 if ( sleep_ms > 0 ) osSleep( (u32) sleep_ms );
 
-                const f64 loop_ms = wait_ms - 0.01;
-
                 // wait for the remaining time
-                while ( loop_ms > GetFrameTime(start_clock, freq) );
+                while ( wait_ms > GetFrameTime(start_clock, freq) );
             }
         }
 
