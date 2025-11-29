@@ -201,6 +201,11 @@ Crop: Crop the upper and lower sections of the video.</HelpText>
       <Property name="subtitle" display="Use Subtitles" type="BINT" defaultvalue="1">
         <HelpText>Display dialog subtitles during events. Does not affect the title cards.</HelpText>
       </Property>
+      <Property name="IncludeDir1" display="Japanese Music Layout" type="EV_JPMUSIC" defaultvalue="opti/null">
+        <HelpText>The Japanese releases of SA2 use slightly different music data in two events, likely from an earlier stage of development: 
+E0107: music cuts off early
+E0113: there's no music at all</HelpText>
+      </Property>
     </Group>
     <Group name="a_mine" display="Aquatic Mine Settings">
       <Property name="murky" display="Restore Murky Water Effect" type="BINT" defaultvalue="1">
@@ -460,6 +465,10 @@ This is useful for modders who wish to stress test their code over long periods,
     <Enum name="PAUSE_FONT_COL">
       <EnumMember name="1" display="DC/GC"></EnumMember>
       <EnumMember name="0" display="Vanilla"></EnumMember>
+    </Enum>
+    <Enum name="EV_JPMUSIC">
+      <EnumMember name="opti/ev_jp" display="Enabled"></EnumMember>
+      <EnumMember name="opti/null" display="Off/Disabled"></EnumMember>
     </Enum>
     <Enum name="DBG_GAMESPEED">
       <EnumMember name="15" display="16x Speed"></EnumMember>
