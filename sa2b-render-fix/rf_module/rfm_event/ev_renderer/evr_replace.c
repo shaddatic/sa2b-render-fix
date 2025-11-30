@@ -363,6 +363,8 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
                 p_scene->pCameraMotions[i] = GetReplaceMotion( pu_motion );
             }
         }
+
+        p_scene->nbCameraMotion = nb_motion;
     }
 
     /** End Config **/
