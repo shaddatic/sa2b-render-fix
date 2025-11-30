@@ -792,8 +792,8 @@ EventEquipmentDraw(void)
         {
             EVENT_EQUIPMENT* const p_equip = &EventData.pEquipment[i];
 
-            NJS_CNK_OBJECT* const p_object1 = p_equip->pObject1;
-            NJS_CNK_OBJECT* const p_object2 = p_equip->pObject2;
+            NJS_CNK_OBJECT* const p_object1 = p_equip->Equipment[0].pObject;
+            NJS_CNK_OBJECT* const p_object2 = p_equip->Equipment[1].pObject;
 
             if (EventEquipmentFlags[j+0] && p_object1)
             {

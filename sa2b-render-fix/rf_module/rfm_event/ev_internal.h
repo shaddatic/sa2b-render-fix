@@ -142,11 +142,15 @@ EVENT_REFLECTION;
 
 typedef struct
 {
-    NJS_CNK_OBJECT *pRoot;
-    NJS_CNK_OBJECT *pAttach1;
-    NJS_CNK_OBJECT *pObject1;
-    NJS_CNK_OBJECT *pAttach2;
-    NJS_CNK_OBJECT *pObject2;
+    NJS_CNK_OBJECT *pAttach;
+    NJS_CNK_OBJECT *pObject;
+}
+EVENT_EQUIP_OBJ;
+
+typedef struct
+{
+    NJS_CNK_OBJECT* pAttachRoot;
+    EVENT_EQUIP_OBJ Equipment[2];
 }
 EVENT_EQUIPMENT;
 
