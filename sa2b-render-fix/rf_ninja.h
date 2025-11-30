@@ -32,26 +32,26 @@ EXTERN_START
 #define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
 
 /****** Chunk Control Flags *********************************************************************/
-#define RJD_CNK_CTRL_OPAQUE             (1<< 0) /* draw opaque polygons                             */
-#define RJD_CNK_CTRL_TRANSLUCENT        (1<< 1) /* draw translucent polygons                        */
-#define RJD_CNK_CTRL_NORMAL             (1<< 2) /* draw normal polygon faces                        */
-#define RJD_CNK_CTRL_INVERSE            (1<< 3) /* draw inverse polygon faces                       */
-#define RJD_CNK_CTRL_VLIST              (1<< 4) /* execute vlist chunk data                         */
-#define RJD_CNK_CTRL_PLIST              (1<< 5) /* execute plist chunk data                         */
+#define RJD_CNK_CTRL_OPAQUE         (1<< 0) /* draw opaque polygons                             */
+#define RJD_CNK_CTRL_TRANSLUCENT    (1<< 1) /* draw translucent polygons                        */
+#define RJD_CNK_CTRL_NORMAL         (1<< 2) /* draw normal polygon faces                        */
+#define RJD_CNK_CTRL_INVERSE        (1<< 3) /* draw inverse polygon faces                       */
+#define RJD_CNK_CTRL_VLIST          (1<< 4) /* execute vlist chunk data                         */
+#define RJD_CNK_CTRL_PLIST          (1<< 5) /* execute plist chunk data                         */
 
-#define RJD_CNK_CTRL_VNORM              (1<< 8) /* use vertex normal attributes                     */
-#define RJD_CNK_CTRL_VCOLR              (1<< 9) /* use vertex color attributes                      */
-#define RJD_CNK_CTRL_VSPEC              (1<<10) /* use vertex specular attributes                   */
+#define RJD_CNK_CTRL_VNORM          (1<< 8) /* use vertex normal attributes                     */
+#define RJD_CNK_CTRL_VCOLR          (1<< 9) /* use vertex color attributes                      */
+#define RJD_CNK_CTRL_VSPEC          (1<<10) /* use vertex specular attributes                   */
 
-#define RJD_CNK_CTRL_TEXTURE            (1<<12) /* use textures                                     */
-#define RJD_CNK_CTRL_ENVIRONMENT        (1<<13) /* use normal-based environment calculations        */
-#define RJD_CNK_CTRL_DOUBLESIDEDLIGHT   (1<<14) /* use double sided lighting when available         */
+#define RJD_CNK_CTRL_TEXTURE        (1<<12) /* use textures                                     */
+#define RJD_CNK_CTRL_ENVIRONMENT    (1<<13) /* use normal-based environment calculations        */
+#define RJD_CNK_CTRL_DBLIGHT        (1<<14) /* use double sided lighting when available         */
 
 #define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
 #define RJD_CNK_CTRL_MASK_CULL      (RJD_CNK_CTRL_NORMAL|RJD_CNK_CTRL_INVERSE)
 #define RJD_CNK_CTRL_MASK_MODEL     (RJD_CNK_CTRL_VLIST|RJD_CNK_CTRL_PLIST)
 #define RJD_CNK_CTRL_MASK_VTX       (RJD_CNK_CTRL_VNORM|RJD_CNK_CTRL_VCOLR|RJD_CNK_CTRL_VSPEC)
-#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DOUBLESIDEDLIGHT)
+#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DBLIGHT)
 
 #define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
 
@@ -482,8 +482,6 @@ void    rjCnkSetUvScroll( Float u, Float v );
 *     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality is
 *     otherwise the same.
 *     - Reset these values to '0.f' when drawing is complete.
-*     - Currently only applies to normal-less environment maps, as they aren't
-*     calculated in-shader.
 *
 *   Parameters:
 *     - u, v        : u and v scroll offset

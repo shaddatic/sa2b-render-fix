@@ -39,7 +39,7 @@ OdekakeMachineDisplayerHook(task* tp)
     OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 
     // double sided lighting, off
-    rjCnkSetControl( ~RJD_CNK_CTRL_DOUBLESIDEDLIGHT, 0 );
+    rjCnkSetControl( ~RJD_CNK_CTRL_DBLIGHT, 0 );
 
     SaveConstantAttr();
 
@@ -51,7 +51,7 @@ OdekakeMachineDisplayerHook(task* tp)
     LoadConstantAttr();
 
     // double sided lighting, restore
-    rjCnkSetControl( ~0, RJD_CNK_CTRL_DOUBLESIDEDLIGHT );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_DBLIGHT );
 
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }

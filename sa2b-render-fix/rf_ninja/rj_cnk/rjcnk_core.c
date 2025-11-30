@@ -171,7 +171,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
         {
             new_flag |= RJD_CXF_BACKFACECULL;
             
-            if ( _rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_DOUBLESIDEDLIGHT )
+            if ( _rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_DBLIGHT )
             {
                 new_flag |= RJD_CXF_TWOPASSLIGHT;
             }

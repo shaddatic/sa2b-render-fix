@@ -233,7 +233,7 @@ BrokenModelCompatStart(int pno)
     OnControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 
     // double sided lighting, off
-    rjCnkSetControl( ~RJD_CNK_CTRL_DOUBLESIDEDLIGHT, 0 );
+    rjCnkSetControl( ~RJD_CNK_CTRL_DBLIGHT, 0 );
 
     _nj_constant_attr_and_ = ~(NJD_FST_IA|NJD_FST_FL);
     _nj_constant_attr_or_  =  (NJD_FST_IS|NJD_FST_DB);
@@ -246,7 +246,7 @@ BrokenModelCompatEnd(int pno)
     _nj_constant_attr_or_  = ~NJD_FST_MASK;
 
     // double sided lighting, restore
-    rjCnkSetControl( ~0, RJD_CNK_CTRL_DOUBLESIDEDLIGHT );
+    rjCnkSetControl( ~0, RJD_CNK_CTRL_DBLIGHT );
 
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }
