@@ -9,6 +9,7 @@
 #include <samt/config.h>            /* config                                                   */
 #include <samt/memory.h>            /* memory                                                   */
 #include <samt/writeop.h>           /* write jump                                               */
+#include <samt/model.h>             /* get node                                                 */
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
@@ -372,6 +373,81 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
     mtConfigFree(p_cnf);
 }
 
+static void
+ReplaceEventEquipment(size ixEvent)
+{
+    mtStrFormat(PathBuffer, BUF_SIZE, "resource/gd_PC/EVENT/e%04i_rf/equipment.ini", ixEvent);
+
+    mt_config* const p_cnf = StartReplaceIni(PathBuffer);
+
+    if ( !p_cnf )
+    {
+        return;
+    }
+
+    RF_DbgExtraInfo("Reading ini '/e%04i_rf/equipment.ini'", ixEvent);
+
+    EVENT_EQUIPMENT* p_equip = EventData.pEquipment;
+
+    const size nb_equip = mtConfigGetInt(p_cnf, NULL, "equipment_num", -1);
+
+    if ( nb_equip != -1 )
+    {
+        c8 buf[16];
+
+        for ( size i = 0; i < nb_equip; ++i )
+        {
+            mtStrFormat(buf, 16, "equipment%03i", i);
+
+            /** Motion **/
+
+            const c8* pu_attach = mtConfigGetString(p_cnf, buf, "attach_object", nullptr);
+
+            if ( pu_attach )
+            {
+                mt_samdl* p_samdl = ReplaceCacheFind( pu_attach );
+
+                if ( p_samdl )
+                {
+                    NJS_CNK_OBJECT* p_obj = p_samdl->pChunk;
+
+                    p_equip[i].pAttachRoot = p_obj;
+
+                    const i32 node0 = mtConfigGetInt(p_cnf, buf, "attach_node0", -1);
+                    const i32 node1 = mtConfigGetInt(p_cnf, buf, "attach_node1", -1);
+
+                    if ( node0 > 0 )
+                    {
+                        p_equip[i].Equipment[0].pAttach = mtCnkGetNode(p_obj, node0);
+                    }
+
+                    if ( node1 > 0 )
+                    {
+                        p_equip[i].Equipment[1].pAttach = mtCnkGetNode(p_obj, node1);
+                    }
+                }
+            }
+
+            const c8* pu_object0 = mtConfigGetString(p_cnf, buf, "object0", nullptr);
+            const c8* pu_object1 = mtConfigGetString(p_cnf, buf, "object1", nullptr);
+
+            if ( pu_object0 )
+            {
+                p_equip[i].Equipment[0].pObject = GetReplaceObject( pu_object0 );
+            }
+
+            if ( pu_object1 )
+            {
+                p_equip[i].Equipment[1].pObject = GetReplaceObject( pu_object1 );
+            }
+        }
+    }
+
+    /** End Config **/
+
+    mtConfigFree(p_cnf);
+}
+
 /****** Start/End *******************************************************************************/
 void
 EVR_EndReplaceAttr(void)
@@ -423,6 +499,8 @@ EVR_StartReplaceAttr(void)
             ReplaceEventSceneEntry(ix_event, ix_scene, ix_entry);
         }
     }
+
+    ReplaceEventEquipment(ix_event);
 
     mtFree(mem_buffer);
 
