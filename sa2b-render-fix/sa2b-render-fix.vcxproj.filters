@@ -441,6 +441,12 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
