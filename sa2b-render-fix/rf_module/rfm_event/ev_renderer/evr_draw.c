@@ -156,7 +156,7 @@ EV_IsDepthQueue(const NJS_CNK_MODEL* model)
 }
 
 static s32
-EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
+EV_GetCnkAttrObject(NJS_CNK_OBJECT* object)
 {
     s32 attr = 0;
 
@@ -201,7 +201,7 @@ EV_GetCnkAttrObject(const NJS_CNK_OBJECT* object)
 
 /****** Draw Chunk ******************************************************************/
 static void
-EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
+EV_CnkDrawObjectSub(NJS_CNK_OBJECT* object, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
@@ -211,67 +211,51 @@ EV_CnkDrawObjectSub(const NJS_CNK_OBJECT* object)
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkDrawObject(object);
+            rjCnkTransformObject(object, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkDrawObject(object);
+            rjCnkTransformObject(object, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
-            rjCnkDrawObject(object);
+            rjCnkTransformObject(object, drawfn);
         }
     }
     else if ( attr & CHUNK_ATTR_OPAQUE )
     {
-        rjCnkDrawObject(object);
+        rjCnkTransformObject(object, drawfn);
     }
 }
 
 static void
-EV_CnkEasyDrawObject(const NJS_CNK_OBJECT* object)
+EV_CnkEasyDrawObject(NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    EV_CnkDrawObjectSub(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawObjectSub(object, njCnkEasyDrawModel);
 }
 
 static void
-EV_CnkSimpleDrawObject(const NJS_CNK_OBJECT* object)
+EV_CnkSimpleDrawObject(NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
-
-    EV_CnkDrawObjectSub(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawObjectSub(object, njCnkSimpleDrawModel);
 }
 
 static void
-EV_CnkEasyMultiDrawObject(const NJS_CNK_OBJECT* object)
+EV_CnkEasyMultiDrawObject(NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
-
-    EV_CnkDrawObjectSub(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawObjectSub(object, njCnkEasyMultiDrawModel);
 }
 
 static void
-EV_CnkSimpleMultiDrawObject(const NJS_CNK_OBJECT* object)
+EV_CnkSimpleMultiDrawObject(NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
-
-    EV_CnkDrawObjectSub(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawObjectSub(object, njCnkSimpleMultiDrawModel);
 }
 
 static void
-EV_CnkDrawMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+EV_CnkDrawMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
@@ -281,67 +265,51 @@ EV_CnkDrawMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Floa
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkDrawMotion(object, motion, frame);
+            rjCnkDrawMotion(object, motion, frame, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkDrawMotion(object, motion, frame);
+            rjCnkDrawMotion(object, motion, frame, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
-            rjCnkDrawMotion(object, motion, frame);
+            rjCnkDrawMotion(object, motion, frame, drawfn);
         }
     }
     else if ( attr & CHUNK_ATTR_OPAQUE )
     {
-        rjCnkDrawMotion(object, motion, frame);
+        rjCnkDrawMotion(object, motion, frame, drawfn);
     }
 }
 
 static void
-EV_CnkEasyDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+EV_CnkEasyDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    EV_CnkDrawMotionSub(object, motion, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawMotionSub(object, motion, frame, njCnkEasyDrawModel);
 }
 
 static void
-EV_CnkSimpleDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+EV_CnkSimpleDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
-
-    EV_CnkDrawMotionSub(object, motion, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawMotionSub(object, motion, frame, njCnkSimpleDrawModel);
 }
 
 static void
-EV_CnkEasyMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+EV_CnkEasyMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
-
-    EV_CnkDrawMotionSub(object, motion, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawMotionSub(object, motion, frame, njCnkEasyMultiDrawModel);
 }
 
 static void
-EV_CnkSimpleMultiDrawMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
+EV_CnkSimpleMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
-
-    EV_CnkDrawMotionSub(object, motion, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawMotionSub(object, motion, frame, njCnkSimpleMultiDrawModel);
 }
 
 static void
-EV_CnkDrawShapeMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+EV_CnkDrawShapeMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     const s32 attr = EV_GetCnkAttrObject( object );
 
@@ -351,63 +319,47 @@ EV_CnkDrawShapeMotionSub(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
         }
         else if ( attr & CHUNK_ATTR_TRANSPARENT )
         {
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
         }
     }
     else if ( attr & CHUNK_ATTR_OPAQUE )
     {
-        rjCnkDrawShapeMotionBE(object, motion, shape, frame);
+        rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
     }
 }
 
 static void
-EV_CnkEasyDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+EV_CnkEasyDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkEasyDrawModel);
 }
 
 static void
-EV_CnkSimpleDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+EV_CnkSimpleDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
-
-    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkSimpleDrawModel);
 }
 
 static void
-EV_CnkEasyMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+EV_CnkEasyMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
-
-    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkEasyMultiDrawModel);
 }
 
 static void
-EV_CnkSimpleMultiDrawShapeMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame)
+EV_CnkSimpleMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
-
-    EV_CnkDrawShapeMotionSub(object, motion, shape, frame);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkSimpleMultiDrawModel);
 }
 
 /****** Static **********************************************************************/

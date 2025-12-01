@@ -56,7 +56,7 @@ EXTERN_START
 #define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
 
 /****** Chunk Strip flags ***********************************************************************/
-#define RJD_FST_EUA                 (NJD_FST_NAT)            /* extended use alpha              */
+#define RJD_FST_EUA                 (0x80<<NJD_FST_SHIFT)    /* extended use alpha              */
 
 /************************/
 /*  Extern Data         */
@@ -120,100 +120,6 @@ void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_L
 *     - pMtnCtrl : a motion control pointer
 */
 void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
-
-/************************************************************************************/
-/*
-*   Chunk Modifier Volume
-*
-*   Notes:
-*     - Modifiers should only be drawn inside the 'disp_shad' (offset 0x2C) task
-*       displayer function.
-*/
-
-/****** Modifier Volume *************************************************************/
-/*
-*   Description:
-*     Draw a Chunk modifier volume model.
-*
-*   Parameters:
-*     - model       : chunk modifier volume model
-*
-*   Returns:
-*     '0' if drawn, or '-1' if the model was clipped.
-*/
-Sint32  njCnkModDrawModel( const NJS_CNK_MODEL* model );
-/*
-*   Description:
-*     Draw a modifier volume object tree.
-*
-*   Parameters:
-*     - object      : chunk modifier volume object
-*/
-void    njCnkModDrawObject( const NJS_CNK_OBJECT* object );
-/*
-*   Description:
-*     Draw a Chunk modifier volume motion.
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - frame       : frame of animation
-*/
-void    njCnkModDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
-/*
-*   Description:
-*     Interpolate and draw two Chunk modifier volume motions.
-*
-*   Parameters:
-*     - object      : chunk modifier volume object to animate
-*     - motion_link : motion link data and motion datas for 'object'
-*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
-*/
-void    njCnkModDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame );
-/*
-*   Description:
-*     Draw a Chunk modifier volume motion.
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - shape       : shape data for 'object'   (optional)
-*     - frame       : frame of animation/shape
-*/
-void    rjCnkModDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
-/*
-*   Description:
-*     Interpolate and draw two Chunk modifier volume motions.
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion_link : motion data for 'object'
-*     - shape_link  : shape data for 'object'   (optional)
-*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
-*/
-void    rjCnkModDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
-/*
-*   Description:
-*     Draw a Chunk modifier volume motion.
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - shape       : shape data for 'object'   (optional)
-*     - frame       : frame of animation/shape
-*/
-void    rjCnkModDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
-/*
-*   Description:
-*     Interpolate and draw two Chunk modifier volume motions.
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion_link : motion data for 'object'
-*     - shape_link  : shape data for 'object'   (optional)
-*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
-*/
-void    rjCnkModDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
 /****** Generic Shadows *************************************************************/
 /*
@@ -467,7 +373,7 @@ void    rjCnkSetEnvUvScroll( Float u, Float v );
 /****** Chunk Draw ******************************************************************************/
 /*
 *   Description:
-*     Draw a Chunk model with no explicit 
+*     Draw a Chunk model with the draw function pulled from the renderstate.
 *
 *   Parameters:
 *     - model       : chunk model pointer
@@ -478,70 +384,94 @@ void    rjCnkSetEnvUvScroll( Float u, Float v );
 Sint32  rjCnkDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model normally, using all model parameters and features as expected.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja; although Ninja had a
+*       type of 'Normal' draw, it wasn't referenced for this function.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  rjCnkNormalDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model with 'Easy' emulation, which is the fastest but most limited
+*   draw function. It lacks support for many Chunk features.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  njCnkEasyDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model with 'Simple' emulation, which is the least limited draw
+*   function.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  njCnkSimpleDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model with 'EasyMulti' emulation, which is the multi-light variant of
+*   the 'Easy' draw function.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  njCnkEasyMultiDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model with 'SimpleMulti' emulation, which is the multi-light variant of
+*   the 'Simple' draw function.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  njCnkSimpleMultiDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
-*     Draw a Chunk model.
+*     Draw a Chunk model as if it was compiled with 'njCnkDirectObjectCompile' and then
+*   drawn with 'njDirectDrawObject'.
+* 
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja; although the
+*   behavior it emulates is.
 *
 *   Parameters:
-*     - model       : chunk model pointer
-*
+*     - model       : chunk model
+* 
 *   Returns:
-*     '0' if drawn; or '-1' if the model was clipped.
+*     '0' on success; or '-1' if the model was clipped.
 */
 Sint32  njCnkDirectDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model as a modifier volume, usually for shadows.
+*
+*   Parameters:
+*     - model       : chunk model
+* 
+*   Returns:
+*     '0' on success; or '-1' if the model was clipped.
+*/
+Sint32  njCnkModDrawModel( NJS_CNK_MODEL* model );
 
 /****** Transform Object ************************************************************/
 /*
@@ -553,14 +483,6 @@ Sint32  njCnkDirectDrawModel( NJS_CNK_MODEL* model );
 *     - callback    : model draw function
 */
 void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
-/*
-*   Description:
-*     Draw a Chunk object tree.
-*
-*   Parameters:
-*     - object      : chunk object
-*/
-void    rjCnkDrawObject( const NJS_CNK_OBJECT* object );
 
 /****** Chunk Draw Motion ***********************************************************/
 /*
@@ -572,7 +494,7 @@ void    rjCnkDrawObject( const NJS_CNK_OBJECT* object );
 *     - motion      : motion data for 'object'
 *     - frame       : frame of animation
 */
-void    rjCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+void    rjCnkDrawMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two Chunk motions.
@@ -582,7 +504,7 @@ void    rjCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
 *     - motion_link : motion link data and motion datas for 'object'
 *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
 */
-void    rjCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
+void    rjCnkDrawMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
 /****** Chunk Draw Shape ***********************************************************/
 /*
@@ -595,7 +517,7 @@ void    rjCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK
 *     - shape       : shape data for 'object'   (optional)
 *     - frame       : frame of animation/shape
 */
-void    rjCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+void    rjCnkDrawShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two Chunk shape motions.
@@ -606,7 +528,7 @@ void    rjCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* mo
 *     - shape_link  : shape data for 'object'   (optional)
 *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
-void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+void    rjCnkDrawShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
 /****** Chunk Draw Shape BE *********************************************************/
 /*
@@ -614,7 +536,7 @@ void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION
 *     Draw a big endian Chunk shape motion.
 *
 *   Notes:
-*     - The 'motion' data is still little endian
+*     - Only the shape vertex data is big endian
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -622,13 +544,13 @@ void    rjCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION
 *     - shape       : shape data for 'object'   (optional)
 *     - frame       : frame of animation/shape
 */
-void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+void    rjCnkDrawShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two big endian Chunk shape motions.
 *
 *   Notes:
-*     - The 'motion_link' data is still little endian
+*     - Only the shape vertex data is big endian
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -636,7 +558,7 @@ void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 *     - shape_link  : shape data for 'object'   (optional)
 *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
-void    rjCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+void    rjCnkDrawShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
 /****** Chunk Shadow Texure *********************************************************/
 /*

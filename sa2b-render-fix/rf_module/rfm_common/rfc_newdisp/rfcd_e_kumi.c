@@ -72,7 +72,7 @@ static void
 EnemyKumiDisp_RF(task* tp)
 {
     const taskwk*  restrict twp = tp->twp;
-    const enemywk* restrict ewp = GET_ENEMYWK(tp);
+    enemywk*       restrict ewp = GET_ENEMYWK(tp);
 
     if ( CheckViewV( &twp->pos, 40.f ) || twp->mode == 2 )
     {

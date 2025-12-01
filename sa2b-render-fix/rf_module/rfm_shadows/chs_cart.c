@@ -113,7 +113,7 @@ cartDisplayerMod(task* tp)
     njRotateX(NULL, cwp->ang2.x + cwp->ang3.x);
     njRotateY(NULL, cwp->ang2.y + cwp->ang3.y);
 
-    const NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
+    NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
 
     switch (cwp->character)
     {
