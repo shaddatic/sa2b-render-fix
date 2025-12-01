@@ -105,20 +105,6 @@ EXTERN_START
 */
 #define NEXT_STRIP_POLY(strip, ix, ufo)          CNK_NEXT_POLY((strip), ((ix) >= 2) ? (ufo) : 0)
 
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Transform Object ************************************************************/
-/*
-*   Description:
-*     Transform and draw a Chunk object with set draw function.
-*
-*   Parameters:
-*     - object      : chunk object
-*     - callback    : model draw function
-*/
-void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
-
 EXTERN_END
 
 #endif/*H_RF_DRAW_CNK*/

@@ -354,15 +354,128 @@ void    rjCnkSetControl( Uint32 off_flag, Uint32 on_flag );
 */
 Uint32  rjCnkGetControl( void );
 
-/****** Chunk Shadow Texure *********************************************************/
+/****** Chunk Callback **************************************************************************/
 /*
 *   Description:
-*     Start/end Chunk shadow texture.
+*     Set the Chunk object callback function.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - Called for every object drawn using 'CnkDrawObject'.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : object callback function                               [opt: nullptr]
+*       - object        : callback object pointer
 */
-void    rjCnkBeginShadowTex( void );
-void    rjCnkEndShadowTex( void );
+void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
+/*
+*   Description:
+*     Set the Chunk motion callback function.
+*
+*   Notes:
+*     - Called for every object drawn using 'CnkDrawMotion' or its variants.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : object callback function                               [opt: nullptr]
+*       - object        : callback object pointer
+*/
+void    rjCnkSetMotionCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
+/*
+*   Description:
+*     Set the Chunk model callback function.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - Called for every NON-CLIPPED model drawn using any draw function.
+*     - Reset the callback to 'NULL' when drawing is complete.
+* 
+*   Parameters:
+*     - callback        : model callback function                                [opt: nullptr]
+*       - model         : callback model pointer
+*/
+void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
 
-/****** Chunk Draw ******************************************************************/
+/****** Chunk Plist Callback ********************************************************************/
+/*
+*   Description:
+*     Set the texture ID callback function, for texture animation.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - The returned value will be used as the new texid.
+*     - Called for every 'tiny' chunk data in a drawn model.
+*     - Reset the callback to 'NULL' when drawing is complete.
+*     - See 'rjCnkGetTextureNum' for callback example
+*
+*   Parameters:
+*     - callback        : texture callback function                              [opt: nullptr]
+*       - n             : texture index
+*       + return        : new texture index
+*/
+void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 n) );
+/*
+*   Description:
+*     Set the Chunk material callback function, for changing material colors at draw time.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - The returned flags determines what colors will be applied to the model
+*     - Called for every 'material' chunk data in a drawn model.
+*     - Reset the callback to 'NULL' when drawing is complete.
+*     - See 'rjCnkGetMaterial' for callback example
+*
+*   Parameters:
+*     - callback        : material callback function                             [opt: nullptr]
+*       - dst           : destination material color array                          [RJ_CMC_##]
+*       - src           : source material color array                               [RJ_CMC_##]
+*       - flag          : material color flags in this material chunk               [RJ_CMF_##]
+*       + return        : output material color flags, for adding material colors   [RJ_CMF_##]
+*/
+void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
+
+/****** Chunk Modify ****************************************************************/
+/*
+*   Description:
+*     Set the Chunk UV offset value for regular UVs, for texture scrolling.
+*
+*   Notes:
+*     - This is a Render Fix extension, and is not part of base Ninja.
+*     - This will *not* affect environment maps.
+*     - Reset these values to '0.f' when drawing is complete.
+*
+*   Parameters:
+*     - u, v        : u and v scroll offset
+*/
+void    rjCnkSetUvScroll( Float u, Float v );
+/*
+*   Description:
+*     Set the Chunk UV offset value for environment mapping, for texture scrolling.
+*   Scrolling applies when 'NJD_CONTROL_3D_ENV_UV_SCROLL' is set.
+*
+*   Notes:
+*     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality is
+*     otherwise the same.
+*     - Reset these values to '0.f' when drawing is complete.
+*
+*   Parameters:
+*     - u, v        : u and v scroll offset
+*/
+void    rjCnkSetEnvUvScroll( Float u, Float v );
+
+/****** Chunk Draw ******************************************************************************/
+/*
+*   Description:
+*     Draw a Chunk model with no explicit 
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  rjCnkDrawModel( NJS_CNK_MODEL* model );
 /*
 *   Description:
 *     Draw a Chunk model.
@@ -371,9 +484,75 @@ void    rjCnkEndShadowTex( void );
 *     - model       : chunk model pointer
 *
 *   Returns:
-*     '0' if drawn, or '-1' if the model was clipped.
+*     '0' if drawn; or '-1' if the model was clipped.
 */
-Sint32  rjCnkDrawModel( const NJS_CNK_MODEL* model );
+Sint32  rjCnkNormalDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  njCnkEasyDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  njCnkSimpleDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  njCnkEasyMultiDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  njCnkSimpleMultiDrawModel( NJS_CNK_MODEL* model );
+/*
+*   Description:
+*     Draw a Chunk model.
+*
+*   Parameters:
+*     - model       : chunk model pointer
+*
+*   Returns:
+*     '0' if drawn; or '-1' if the model was clipped.
+*/
+Sint32  njCnkDirectDrawModel( NJS_CNK_MODEL* model );
+
+/****** Transform Object ************************************************************/
+/*
+*   Description:
+*     Transform and draw a Chunk object with set draw function.
+*
+*   Parameters:
+*     - object      : chunk object
+*     - callback    : model draw function
+*/
+void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Draw a Chunk object tree.
@@ -459,115 +638,13 @@ void    rjCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 */
 void    rjCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
-/****** Chunk Modify ****************************************************************/
+/****** Chunk Shadow Texure *********************************************************/
 /*
 *   Description:
-*     Set the Chunk UV offset value for regular UVs, for texture scrolling.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - This will *not* affect environment maps.
-*     - Reset these values to '0.f' when drawing is complete.
-*
-*   Parameters:
-*     - u, v        : u and v scroll offset
+*     Start/end Chunk shadow texture.
 */
-void    rjCnkSetUvScroll( Float u, Float v );
-/*
-*   Description:
-*     Set the Chunk UV offset value for environment mapping, for texture scrolling.
-*   Scrolling applies when 'NJD_CONTROL_3D_ENV_UV_SCROLL' is set.
-*
-*   Notes:
-*     - In base Ninja this is named 'njCnkSetUvScroll', but the functionality is
-*     otherwise the same.
-*     - Reset these values to '0.f' when drawing is complete.
-*
-*   Parameters:
-*     - u, v        : u and v scroll offset
-*/
-void    rjCnkSetEnvUvScroll( Float u, Float v );
-
-/****** Chunk Callback **************************************************************************/
-/*
-*   Description:
-*     Set the Chunk object callback function.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - Called for every object drawn using 'CnkDrawObject'.
-*     - Reset the callback to 'NULL' when drawing is complete.
-* 
-*   Parameters:
-*     - callback        : object callback function                               [opt: nullptr]
-*       - object        : callback object pointer
-*/
-void    rjCnkSetObjectCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
-/*
-*   Description:
-*     Set the Chunk motion callback function.
-*
-*   Notes:
-*     - Called for every object drawn using 'CnkDrawMotion' or its variants.
-*     - Reset the callback to 'NULL' when drawing is complete.
-* 
-*   Parameters:
-*     - callback        : object callback function                               [opt: nullptr]
-*       - object        : callback object pointer
-*/
-void    rjCnkSetMotionCallback( void(__cdecl* callback)(NJS_CNK_OBJECT* object) );
-/*
-*   Description:
-*     Set the Chunk model callback function.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - Called for every NON-CLIPPED model drawn using any draw function.
-*     - Reset the callback to 'NULL' when drawing is complete.
-* 
-*   Parameters:
-*     - callback        : model callback function                                [opt: nullptr]
-*       - model         : callback model pointer
-*/
-void    rjCnkSetModelCallback( void(__cdecl* callback)(NJS_CNK_MODEL* model) );
-
-/****** Chunk Plist Callback ********************************************************************/
-/*
-*   Description:
-*     Set the texture ID callback function, for texture animation.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - The returned value will be used as the new texid.
-*     - Called for every 'tiny' chunk data in a drawn model.
-*     - Reset the callback to 'NULL' when drawing is complete.
-*     - See 'rjCnkGetTextureNum' for callback example
-*
-*   Parameters:
-*     - callback        : texture callback function                              [opt: nullptr]
-*       - n             : texture index
-*       + return        : new texture index
-*/
-void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 n) );
-/*
-*   Description:
-*     Set the Chunk material callback function, for changing material colors at draw time.
-*
-*   Notes:
-*     - This is a Render Fix extension, and is not part of base Ninja.
-*     - The returned flags determines what colors will be applied to the model
-*     - Called for every 'material' chunk data in a drawn model.
-*     - Reset the callback to 'NULL' when drawing is complete.
-*     - See 'rjCnkGetMaterial' for callback example
-*
-*   Parameters:
-*     - callback        : material callback function                             [opt: nullptr]
-*       - dst           : destination material color array                          [RJ_CMC_##]
-*       - src           : source material color array                               [RJ_CMC_##]
-*       - flag          : material color flags in this material chunk               [RJ_CMF_##]
-*       + return        : output material color flags, for adding material colors   [RJ_CMF_##]
-*/
-void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
+void    rjCnkBeginShadowTex( void );
+void    rjCnkEndShadowTex( void );
 
 /****** Cheap Shadow ****************************************************************/
 /*

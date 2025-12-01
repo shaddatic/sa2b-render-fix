@@ -19,7 +19,7 @@
 /********************************/
 /****** Draw ************************************************************************************/
 Sint32
-rjCnkDrawModel(const NJS_CNK_MODEL* model)
+rjCnkDrawModel(NJS_CNK_MODEL* model)
 {
     if ( ShadowCnkDraw ) return CnkDrawShadow_Ext(model, _nj_vertex_buf_);
 
@@ -35,7 +35,7 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
     /** Model callback **/
     if ( _rj_cnk_model_callback_ )
     {
-        _rj_cnk_model_callback_( (NJS_CNK_MODEL*) model );
+        _rj_cnk_model_callback_( model );
     }
 
     const Uint32 cnkctrl = _rj_cnk_ctrl_flag_;
@@ -57,4 +57,55 @@ rjCnkDrawModel(const NJS_CNK_MODEL* model)
 
     /** Drawing completed successfully **/
     return CNK_RETN_OK;
+}
+
+/****** Ninja Draw ******************************************************************************/
+static inline Sint32
+___CnkDrawModel(NJS_CNK_MODEL* model, RFRS_CNKFUNCMD func)
+{
+    const int cache = RFRS_GetCnkFuncMode();
+
+    RFRS_SetCnkFuncMode(func);
+
+    const Sint32 clip = rjCnkDrawModel(model);
+
+    RFRS_SetCnkFuncMode(cache);
+
+    return clip;
+}
+
+Sint32
+rjCnkNormalDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_NORMAL);
+}
+
+Sint32
+njCnkEasyDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_EASY);
+}
+
+Sint32
+njCnkSimpleDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLE);
+}
+
+Sint32
+njCnkEasyMultiDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_EASYMULTI);
+}
+
+Sint32
+njCnkSimpleMultiDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
+}
+
+Sint32
+njCnkDirectDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
 }

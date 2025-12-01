@@ -13,53 +13,17 @@
 /*  Source              */
 /************************/
 /****** Direct **********************************************************************/
-Sint32
-njCnkDirectDrawModel(const NJS_CNK_MODEL* model)
-{
-    Sint32 result;
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_DIRECT);
-
-    result = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-
-    return result;
-}
-
 void
 njCnkDirectDrawObject(const NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_DIRECT);
-
-    rjCnkDrawObject(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    rjCnkTransformObject(object, njCnkDirectDrawModel);
 }
 
 /****** Easy ************************************************************************/
-Sint32
-njCnkEasyDrawModel(const NJS_CNK_MODEL* model)
-{
-    Sint32 result;
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    result = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-
-    return result;
-}
-
 void
 njCnkEasyDrawObject(const NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASY);
-
-    rjCnkDrawObject(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    rjCnkTransformObject(object, njCnkEasyDrawModel);
 }
 
 void
@@ -102,28 +66,10 @@ njCnkEasyDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* motio
 }
 
 /****** Easy Multi ******************************************************************/
-Sint32
-njCnkEasyMultiDrawModel(const NJS_CNK_MODEL* model)
-{
-    Sint32 result;
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
-
-    result = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-
-    return result;
-}
-
 void
 njCnkEasyMultiDrawObject(const NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_EASYMULTI);
-
-    rjCnkDrawObject(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    rjCnkTransformObject(object, njCnkEasyMultiDrawModel);
 }
 
 void
@@ -167,28 +113,10 @@ njCnkEasyMultiDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 }
 
 /****** Simple **********************************************************************/
-Sint32
-njCnkSimpleDrawModel(const NJS_CNK_MODEL* model)
-{
-    Sint32 result;
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
-
-    result = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-
-    return result;
-}
-
 void
 njCnkSimpleDrawObject(const NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLE);
-
-    rjCnkDrawObject(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    rjCnkTransformObject(object, njCnkSimpleDrawModel);
 }
 
 void
@@ -232,28 +160,10 @@ njCnkSimpleDrawShapeMotionBE(const NJS_CNK_OBJECT* object, const NJS_MOTION* mot
 }
 
 /****** Simple Multi ****************************************************************/
-Sint32
-njCnkSimpleMultiDrawModel(const NJS_CNK_MODEL* model)
-{
-    Sint32 result;
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
-
-    result = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
-
-    return result;
-}
-
 void
 njCnkSimpleMultiDrawObject(const NJS_CNK_OBJECT* object)
 {
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_SIMPLEMULTI);
-
-    rjCnkDrawObject(object);
-
-    RFRS_SetCnkFuncMode(RFRS_CNKFUNCMD_END);
+    rjCnkTransformObject(object, njCnkSimpleMultiDrawModel);
 }
 
 void
