@@ -105,5 +105,5 @@ njCnkSimpleMultiDrawModel(NJS_CNK_MODEL* model)
 Sint32
 njCnkDirectDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_DIRECT);
 }
