@@ -160,7 +160,7 @@ rjCnkSetStrip(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
         fst = (fst & _nj_constant_attr_and_) | _nj_constant_attr_or_;
     }
 
-    RFRS_CNKFUNCMD func = RFRS_GetCnkFuncMode();
+    RFRS_CNKFUNCMD func = _rj_cnk_context_.func;
 
     switch ( func )
     {
@@ -383,7 +383,7 @@ rjCnkStripStartShading(const RJS_CNK_STRIP* restrict strip)
 static void
 rjCnkStripStartMaterial(const RJS_CNK_STRIP* restrict strip)
 {
-    const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
+    const RFRS_CNKFUNCMD funcmd = _rj_cnk_context_.func;
 
     const Uint32 nj3dflag = _nj_control_3d_flag_;
 

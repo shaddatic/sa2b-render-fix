@@ -18,11 +18,9 @@
 /*  Source                      */
 /********************************/
 /****** Draw ************************************************************************************/
-Sint32
-rjCnkDrawModel(NJS_CNK_MODEL* model)
+static Sint32
+___rjCnkDrawModel(NJS_CNK_MODEL* model)
 {
-    if ( ShadowCnkDraw ) return CnkDrawShadow_Ext(model, _nj_vertex_buf_);
-
     /** Model clip **/
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP )
     {
@@ -59,53 +57,53 @@ rjCnkDrawModel(NJS_CNK_MODEL* model)
     return CNK_RETN_OK;
 }
 
-/****** Ninja Draw ******************************************************************************/
 static inline Sint32
-___CnkDrawModel(NJS_CNK_MODEL* model, RFRS_CNKFUNCMD func)
+___CnkDrawModelFunc(NJS_CNK_MODEL* model, RFRS_CNKFUNCMD func)
 {
-    const int cache = RFRS_GetCnkFuncMode();
+    _rj_cnk_context_.func = func;
 
-    RFRS_SetCnkFuncMode(func);
+    return ___rjCnkDrawModel(model);
+}
 
-    const Sint32 clip = rjCnkDrawModel(model);
-
-    RFRS_SetCnkFuncMode(cache);
-
-    return clip;
+/****** Ninja Draw ******************************************************************************/
+Sint32
+rjCnkDrawModel(NJS_CNK_MODEL* model)
+{
+    return ___CnkDrawModelFunc(model, RFRS_GetCnkFuncMode());
 }
 
 Sint32
 rjCnkNormalDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_NORMAL);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_NORMAL);
 }
 
 Sint32
 njCnkEasyDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_EASY);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_EASY);
 }
 
 Sint32
 njCnkSimpleDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLE);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_SIMPLE);
 }
 
 Sint32
 njCnkEasyMultiDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_EASYMULTI);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_EASYMULTI);
 }
 
 Sint32
 njCnkSimpleMultiDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
 }
 
 Sint32
 njCnkDirectDrawModel(NJS_CNK_MODEL* model)
 {
-    return ___CnkDrawModel(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
+    return ___CnkDrawModelFunc(model, RFRS_CNKFUNCMD_SIMPLEMULTI);
 }

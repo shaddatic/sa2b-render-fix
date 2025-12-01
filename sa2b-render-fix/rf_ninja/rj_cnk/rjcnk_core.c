@@ -54,7 +54,7 @@ RJF_CNK_SPECFUNC* _rj_cnk_spec_funcs_[NB_RJE_CNK_SPECFUNC] =
 static Sint32
 ___rjCnkGetAutoSpecMode(void)
 {
-    switch ( RFRS_GetCnkFuncMode() )
+    switch ( _rj_cnk_context_.func )
     {
         case RFRS_CNKFUNCMD_NORMAL:
         {
@@ -162,7 +162,7 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 
     // set context control flags
     {
-        const RFRS_CNKFUNCMD funcmd = RFRS_GetCnkFuncMode();
+        const RFRS_CNKFUNCMD funcmd = _rj_cnk_context_.func;
         const bool           all_on = (funcmd == RFRS_CNKFUNCMD_NORMAL);
 
         Uint32 new_flag = 0;

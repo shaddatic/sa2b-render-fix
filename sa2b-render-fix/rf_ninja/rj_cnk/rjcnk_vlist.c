@@ -786,7 +786,7 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
 Sint32
 rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
 {
-    const bool multi = ( RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT );
+    const bool multi = ( _rj_cnk_context_.func & RFRS_CNKFUNCMD_MULTIBIT );
 
     // Get Chunk Control vertex attribute flags
     const Uint16 vattr_and = (_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_MASK_VTX) >> RJD_CNK_CTRL_SHIFT_VTX;

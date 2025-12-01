@@ -154,6 +154,7 @@ RJ_CNK_MATCOLOR;
 /****** Chunk Context ***************************************************************************/
 typedef struct rjcnkctx
 {
+    Sint32          func;           /* draw function                                            */
     Uint16          flag;           /* context flags                                            */
     Uint16          vattr;          /* vertex attributes                                        */
     Sint16          cull;           /* last culling mode                                        */

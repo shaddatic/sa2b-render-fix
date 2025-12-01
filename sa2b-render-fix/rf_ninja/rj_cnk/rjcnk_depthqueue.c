@@ -21,7 +21,7 @@
 void
 rjCnkBeginDepthQueue(const NJS_CNK_MODEL* model)
 {
-    if ( (_nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE) && (RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT) )
+    if ( (_nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE) && (_rj_cnk_context_.func & RFRS_CNKFUNCMD_MULTIBIT) )
     {
         NJS_POINT3 pt;
         njCalcPoint(NULL, &model->center, &pt);

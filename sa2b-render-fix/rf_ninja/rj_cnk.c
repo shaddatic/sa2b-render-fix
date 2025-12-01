@@ -59,13 +59,22 @@ rjCnkEndShadowTex(void)
 
 /****** Other Draws *****************************************************************/
 static Sint32
-CnkDrawModel_NoClip(const NJS_CNK_MODEL* model)
+CnkDrawModel_SA2(NJS_CNK_MODEL* model)
 {
-    NJS_CNK_MODEL mdl = *model;
+    if ( ShadowCnkDraw )
+    {
+        return CnkDrawShadow_Ext(model, _nj_vertex_buf_);
+    }
 
-    mdl.r = -1.f;
+    const Uint32 ctrl3d = _nj_control_3d_flag_;
 
-    return rjCnkDrawModel( &mdl );
+    _nj_control_3d_flag_ &= ~NJD_CONTROL_3D_MODEL_CLIP;
+
+    const Sint32 clip = rjCnkDrawModel( model );
+
+    _nj_control_3d_flag_ = ctrl3d;
+
+    return clip;
 }
 
 #if 0
@@ -110,7 +119,7 @@ RFD_ChunkInit(void)
     /** RF Chunk draw functions **/
     WriteRetn(0x0042D340); // begin draw
 
-    WriteJump(0x0042D500, CnkDrawModel_NoClip); // CnkDrawModelSub
+    WriteJump(0x0042D500, CnkDrawModel_SA2); // CnkDrawModelSub
 //  WriteJump(0x0056DDD0, CnkDrawModel_ChDraw);
 
     WriteJump(0x0042EB30, rjCnkTransformObject);
