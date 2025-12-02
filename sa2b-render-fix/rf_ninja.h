@@ -7,30 +7,23 @@
 #ifndef H_RF_NINJA
 #define H_RF_NINJA
 
-/************************/
-/*  External Headers    */
-/************************/
-/****** Ninja ***********************************************************************/
-#include <samt/ninja/ninja.h>   /* ninja                                            */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>   /* ninja                                                        */
 
-/****** Utility *********************************************************************/
-#include <samt/util/anyobj.h>   /* ANY_OBJECT                                       */
+/****** Utility *********************************************************************************/
+#include <samt/util/anyobj.h>   /* ANY_OBJECT                                                   */
 
-/****** Game ************************************************************************/
-#include <samt/sonic/motion.h>  /* MOTION_CTRL                                      */
-
-/****** Render Fix ******************************************************************/
-#include <rf_njcnk.h>           /* easy, simple, etc                                */
+/****** Game ************************************************************************************/
+#include <samt/sonic/motion.h>  /* MOTION_CTRL                                                  */
 
 EXTERN_START
 
-/************************/
-/*  Macros              */
-/************************/
-/****** Convert UV Coords ***********************************************************/
-#define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                 */
-#define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                 */
-
+/********************************/
+/*  Constants                   */
+/********************************/
 /****** Chunk Control Flags *********************************************************************/
 #define RJD_CNK_CTRL_OPAQUE         (1<< 0) /* draw opaque polygons                             */
 #define RJD_CNK_CTRL_TRANSLUCENT    (1<< 1) /* draw translucent polygons                        */
@@ -58,9 +51,16 @@ EXTERN_START
 /****** Chunk Strip flags ***********************************************************************/
 #define RJD_FST_EUA                 (0x80<<NJD_FST_SHIFT)    /* extended use alpha              */
 
-/************************/
-/*  Extern Data         */
-/************************/
+/********************************/
+/*  Macros                      */
+/********************************/
+/****** Convert UV Coords ***********************************************************************/
+#define RJM_UVN(uv)      ((Float)(uv)*(1.f/256.f))  /* uvn to float                             */
+#define RJM_UVH(uv)      ((Float)(uv)*(1.f/1024.f)) /* uvh to float                             */
+
+/********************************/
+/*  Extern Variables            */
+/********************************/
 /****** Depth Queue *****************************************************************************/
 EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
 EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
@@ -242,7 +242,7 @@ void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float
 
 /************************************************************************************/
 /*
-*   RF Chunk Draw
+*   Chunk Draw
 */
 /****** Chunk Control ***************************************************************/
 /*
@@ -530,7 +530,7 @@ void    rjCnkDrawShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MO
 */
 void    rjCnkDrawShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
-/****** Chunk Draw Shape BE *********************************************************/
+/****** Chunk Draw Shape BE *********************************************************************/
 /*
 *   Description:
 *     Draw a big endian Chunk shape motion.
@@ -560,7 +560,7 @@ void    rjCnkDrawShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_
 */
 void    rjCnkDrawShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
-/****** Chunk Shadow Texure *********************************************************/
+/****** Shadow Texture **************************************************************************/
 /*
 *   Description:
 *     Start/end Chunk shadow texture.
@@ -568,27 +568,31 @@ void    rjCnkDrawShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* mot
 void    rjCnkBeginShadowTex( void );
 void    rjCnkEndShadowTex( void );
 
-/****** Cheap Shadow ****************************************************************/
+/************************************************************************************************/
+/*
+*   Modifier Shadow
+*/
+/****** Cheap Shadow ****************************************************************************/
 /*
 *   Description:
-*     Set the intensity of modifier shadows, also called cheap shadows. The value
-*   is divided by '256' and multiplied with the pixel color. For example, a value
-*   of '0' would result in a fully black pixel and a value of '256' would result in
-*   no change - or in other words cheap shadows would be disabled.
+*     Set the intensity of modifier shadows, also called cheap shadows. The value is divided by
+*   '256' and multiplied with the pixel color. For example, a value of '0' would result in a
+*   fully black pixel and a value of '256' would result in no change - or in other words cheap
+*   shadows would be disabled.
 *
 *   Notes:
-*     - Only one intensity can be used across a single scene. In other words, all
-*       shadows will use the same value across a single frame.
+*     - Only one intensity can be used across a single scene. In other words, all shadows will
+*       use the same value across a single frame.
 *     - The original Ninja version only supported values up to '255'
 *
 *   Parameters:
-*     - mode        : cheap shadow intensity                                [0~256]
+*     - mode        : cheap shadow intensity                                            [0~256]
 */
 void    rjSetCheapShadowMode( Int mode );
 /*
 *   Description:
-*     Set the color of modifier shadows, also called cheap shadows.  The color is
-*   additive, and multiplied by the intensity.
+*     Set the color of modifier shadows, also called cheap shadows. The color is additive, and
+*   multiplied by the intensity.
 *
 *   Notes:
 *     - The default color is black, or ( 0.f, 0.f, 0.f').
@@ -597,7 +601,7 @@ void    rjSetCheapShadowMode( Int mode );
 *     - This is a Render Fix extension, and was not available in Ninja.
 *
 *   Parameters:
-*     - r, g, b     : cheap shadow color                                      [0~1]
+*     - r, g, b     : cheap shadow color                                                  [0~1]
 */
 void    rjSetCheapShadowColor( Float r, Float g, Float b );
 /*
@@ -609,7 +613,6 @@ void    rjSetCheapShadowColor( Float r, Float g, Float b );
 *     - mode    : cheap shadow debug mode                                              [ON/OFF]
 */
 void    rjCheapShadowDebug( Bool mode );
-
 /*
 *   Description:
 *     Draw the current modifier buffer to the screen.
@@ -623,6 +626,10 @@ void    rjDrawCheapShadow( void );
 */
 void    rjModifierResetBuffer( void );
 
+/************************************************************************************************/
+/*
+*   Vsync
+*/
 /****** Wait Vsync Count ************************************************************************/
 /*
 *   Description:

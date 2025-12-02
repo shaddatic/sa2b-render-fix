@@ -30,6 +30,7 @@
 #include <rf_core.h>
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */

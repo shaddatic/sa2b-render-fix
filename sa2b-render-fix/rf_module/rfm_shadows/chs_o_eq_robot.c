@@ -10,7 +10,9 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
+#include <rf_core.h>                /* core                                                     */
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 static const void* const ObjectRobotModifyVList_p = (void*)0x00693AC0;
 void

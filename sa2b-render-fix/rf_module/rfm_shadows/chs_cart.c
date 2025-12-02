@@ -17,6 +17,7 @@
 #include <rf_core.h>
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_mdlutil.h>
 
 #define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)

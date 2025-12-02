@@ -11,8 +11,10 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
+#include <rf_core.h>                /* core                                                     */
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 #define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
 #define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)

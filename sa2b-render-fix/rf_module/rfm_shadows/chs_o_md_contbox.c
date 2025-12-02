@@ -10,8 +10,10 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
+#include <rf_core.h>                /* core                                                     */
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 static NJS_CNK_OBJECT* object_o_md_contbox_mod;
 

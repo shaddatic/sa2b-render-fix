@@ -1,25 +1,30 @@
-/************************/
-/*  Includes            */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#include <samt/core.h>          /* core                                             */
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Core Toolkit ****************************************************************************/
+#include <samt/core.h>              /* core                                                     */
 
-/****** Render Fix ******************************************************************/
-#include <rf_core.h>            /* ninja                                            */
-#include <rf_ninja.h>           /* rf draw                                          */
-#include <rf_renderstate.h>     /* render state                                     */
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
+
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* rf ninja                                                 */
+
+/****** Self ************************************************************************************/
+#include <rf_njcnk.h>               /* self                                                     */
 
 /************************/
 /*  Source              */
 /************************/
-/****** Direct **********************************************************************/
+/****** Direct **********************************************************************************/
 void
 njCnkDirectDrawObject(NJS_CNK_OBJECT* object)
 {
     rjCnkTransformObject(object, njCnkDirectDrawModel);
 }
 
-/****** Easy ************************************************************************/
+/****** Easy ************************************************************************************/
 void
 njCnkEasyDrawObject(NJS_CNK_OBJECT* object)
 {
@@ -50,7 +55,7 @@ njCnkEasyDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTIO
     rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyDrawModel);
 }
 
-/****** Easy Multi ******************************************************************/
+/****** Easy Multi ******************************************************************************/
 void
 njCnkEasyMultiDrawObject(NJS_CNK_OBJECT* object)
 {
@@ -81,7 +86,7 @@ njCnkEasyMultiDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_
     rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyMultiDrawModel);
 }
 
-/****** Simple **********************************************************************/
+/****** Simple **********************************************************************************/
 void
 njCnkSimpleDrawObject(NJS_CNK_OBJECT* object)
 {
@@ -112,7 +117,7 @@ njCnkSimpleDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOT
     rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleDrawModel);
 }
 
-/****** Simple Multi ****************************************************************/
+/****** Simple Multi ****************************************************************************/
 void
 njCnkSimpleMultiDrawObject(NJS_CNK_OBJECT* object)
 {
@@ -143,7 +148,7 @@ njCnkSimpleMultiDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJ
     rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleMultiDrawModel);
 }
 
-/****** Modifier ********************************************************************/
+/****** Modifier ********************************************************************************/
 void
 njCnkModDrawObject(NJS_CNK_OBJECT* object)
 {

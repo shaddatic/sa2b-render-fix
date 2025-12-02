@@ -16,6 +16,7 @@
 /** Render Fix **/
 #include <rf_samdl.h>
 #include <rf_ninja.h>
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_util.h>
 
 #define GET_BOSSWK(_tp)     ((BOSSWK*)_tp->awp)

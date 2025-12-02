@@ -16,6 +16,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_ninja.h>               /* rf ninja                                                 */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_light.h>               /* cnk light                                                */
 #include <rf_util.h>                /* switch displayer                                         */
 

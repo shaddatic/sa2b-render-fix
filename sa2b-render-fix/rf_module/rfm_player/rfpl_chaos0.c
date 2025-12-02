@@ -18,7 +18,6 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_ninja.h>           /* texture callback                                 */
-#include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_util.h>            /* change displayer                                 */
 #include <rf_renderstate.h>     /* render state                                     */
 

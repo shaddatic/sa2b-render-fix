@@ -14,7 +14,7 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_ninja.h>           /* ninja                                            */
-#include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
+#include <rf_njcnk.h>           /* ninja chunk draw                                         */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_util.h>            /* replace model                                    */
 
