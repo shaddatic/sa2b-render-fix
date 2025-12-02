@@ -519,11 +519,3 @@ EVR_StartReplaceAttr(void)
 
     MemCacheList = p_mem;
 }
-
-/****** Init ************************************************************************************/
-void
-EVR_ReplaceInit(void)
-{
-    WriteNOP(0x00600054, 0x0060005A);
-    WriteCall(0x00600054, EVR_StartReplaceAttr);
-}

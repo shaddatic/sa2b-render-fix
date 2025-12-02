@@ -91,6 +91,16 @@ RFE_EV_VSYNC;
 /****** Draw Pass *******************************************************************/
 typedef enum
 {
+    EV_DRAWPASS_END,
+
+    EV_DRAWPASS_OPAQUE,
+    EV_DRAWPASS_TRANS,
+}
+RFE_EV_DRAWPASS;
+
+/****** Draw Pass *******************************************************************/
+typedef enum
+{
     DBG_DRAWPASS_ALL,
     DBG_DRAWPASS_OPAQUE,
     DBG_DRAWPASS_TRANS,
@@ -135,18 +145,35 @@ void    EVR_VsyncInit( void );
 *     Init movie/overlay sub-module.
 */
 void    EVR_MovieInit( void );
+
+/****** Replace Attr ****************************************************************/
 /*
 *   Description:
-*     Init model/anim replacement system.
+*     Load and replace event ini attributes.
 */
-void    EVR_ReplaceInit( void );
-
-/****** End Replace *****************************************************************/
+void    EVR_StartReplaceAttr( void );
 /*
 *   Description:
 *     Free all event replace memory.
 */
 void    EVR_EndReplaceAttr( void );
+
+/****** Scan Event ******************************************************************/
+/*
+*   Description:
+*     Pre-scan event data for transparency sorting.
+*/
+void    EVR_ScanEvent( void );
+
+/****** Draw Pass *******************************************************************/
+/*
+*   Description:
+*     Set the current Chunk draw pass.
+*
+*   Parameters:
+*     - pass        : pass mode
+*/
+void    EV_SetDrawPass( RFE_EV_DRAWPASS pass );
 
 /****** Entry Type ******************************************************************/
 /*

@@ -118,23 +118,15 @@ EventDisplayerSort(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    const int old_rmode = _gj_render_mode_;
+    EV_SetDrawPass(EV_DRAWPASS_TRANS);
 
+    for (int i = 1; i <= 8; ++i)
     {
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
-
-        for (int i = 1; i <= 8; ++i)
-        {
-            EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventSceneNum   , i);
-        }
-
-        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
-
-        _gj_render_mode_ = old_rmode;
+        EventSceneDraw(EVENT_BASE_SCENE, i);
+        EventSceneDraw(EventSceneNum   , i);
     }
+
+    EV_SetDrawPass(EV_DRAWPASS_END);
 }
 
 static void
@@ -164,23 +156,15 @@ EventDisplayerDelayed(task* tp)
     EventDrawReflections();
     EventDrawSprites();
 
-    const int old_rmode = _gj_render_mode_;
+    EV_SetDrawPass(EV_DRAWPASS_TRANS);
 
+    for (int i = 9; i <= 16; ++i)
     {
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
-
-        for (int i = 9; i <= 16; ++i)
-        {
-            EventSceneDraw(EVENT_BASE_SCENE, i);
-            EventSceneDraw(EventSceneNum   , i);
-        }
-
-        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
-
-        _gj_render_mode_ = old_rmode;
+        EventSceneDraw(EVENT_BASE_SCENE, i);
+        EventSceneDraw(EventSceneNum   , i);
     }
+
+    EV_SetDrawPass(EV_DRAWPASS_END);
 
     if (EventUseFlare)
     {
@@ -221,46 +205,35 @@ EventDisplayer(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    /** Draw Event Scenes **/
+    /** Draw all opaque polygons **/
+
+    EV_SetDrawPass(EV_DRAWPASS_OPAQUE);
+
+    EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
+    EventSceneDraw(EventSceneNum   , EV_ALL_LAYERS);
+
+    /** Draw opaque equipment strips **/
+
+    if ( EventEquipmentEnable )
     {
-        const int old_rmode = _gj_render_mode_;
-
-        /** Draw all opaque polygons **/
-
-        _gj_render_mode_ = GJD_DRAW_SOLID;
-
-        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
-
-        EventSceneDraw(EVENT_BASE_SCENE, EV_ALL_LAYERS);
-        EventSceneDraw(EventSceneNum   , EV_ALL_LAYERS);
-
-        /** Draw opaque equipment strips **/
-
-        if ( EventEquipmentEnable )
-        {
-            EventEquipmentDraw();
-        }
-
-        /** Draw first transparent layer **/
-
-        _gj_render_mode_ = GJD_DRAW_TRANS;
-
-        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
-
-        EventSceneDraw(EVENT_BASE_SCENE, 0);
-        EventSceneDraw(EventSceneNum   , 0);
-
-        /** Draw transparent equipment strips **/
-
-        if ( EventEquipmentEnable )
-        {
-            EventEquipmentDraw();
-        }
-
-        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
-
-        _gj_render_mode_ = old_rmode;
+        EventEquipmentDraw();
     }
+
+    /** Draw first transparent layer **/
+
+    EV_SetDrawPass(EV_DRAWPASS_TRANS);
+
+    EventSceneDraw(EVENT_BASE_SCENE, 0);
+    EventSceneDraw(EventSceneNum   , 0);
+
+    /** Draw transparent equipment strips **/
+
+    if ( EventEquipmentEnable )
+    {
+        EventEquipmentDraw();
+    }
+
+    EV_SetDrawPass(EV_DRAWPASS_END);
 }
 
 static void

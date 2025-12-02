@@ -35,9 +35,10 @@
 /************************/
 /*  Constants           */
 /************************/
-/****** Event ***********************************************************************/
-#define CHUNK_ATTR_OPAQUE       (1)
-#define CHUNK_ATTR_TRANSPARENT  (2)
+/****** Draw Attributes (Scan) ******************************************************/
+#define DRAW_ATTR_OPAQUE       (1<<31)
+#define DRAW_ATTR_TRANS        (1<<30)
+#define DRAW_ATTR_DB           (1<<29)
 
 /************************/
 /*  Data                */
@@ -45,17 +46,47 @@
 /****** Event Draw Mode *************************************************************/
 static bool ApplyModelDiffuse;
 
+/****** Event Draw Pass *************************************************************/
+static RFE_EV_DRAWPASS DrawPass;
+static i32             GjCache;
+static u32             AttrFlag;
+static bool            MultiFunc;
+
 /************************/
 /*  Source              */
 /************************/
 /****** Common **********************************************************************/
-static bool
-IsTranclucentPass(void)
+void
+EV_SetDrawPass(RFE_EV_DRAWPASS pass)
 {
-    return (rjCnkGetControl() & RJD_CNK_CTRL_MASK_DRAW) == RJD_CNK_CTRL_TRANSLUCENT;
+    if ( DrawPass == EV_DRAWPASS_END )
+    {
+        GjCache = _gj_render_mode_;
+    }
+
+    DrawPass = pass;
+
+    if ( pass == EV_DRAWPASS_OPAQUE )
+    {
+        _gj_render_mode_ = GJD_DRAW_SOLID;
+
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_OPAQUE );
+    }
+    else if ( pass == EV_DRAWPASS_TRANS )
+    {
+        _gj_render_mode_ = GJD_DRAW_TRANS;
+
+        rjCnkSetControl( ~RJD_CNK_CTRL_MASK_DRAW, RJD_CNK_CTRL_TRANSLUCENT );
+    }
+    else
+    {
+        _gj_render_mode_ = GjCache;
+
+        rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_DRAW );
+    }
 }
 
-/****** Get Chunk *******************************************************************/
+/****** Scan Chunk ******************************************************************/
 static s32
 EV_GetCnkAttr(const Sint16* pPList)
 {
@@ -116,16 +147,16 @@ EV_GetCnkAttr(const Sint16* pPList)
 
             if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
             {
-                attr |= CHUNK_ATTR_TRANSPARENT;
+                attr |= DRAW_ATTR_TRANS;
             }
             else
             {
-                attr |= CHUNK_ATTR_OPAQUE;
+                attr |= DRAW_ATTR_OPAQUE;
             }
 
-            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
+            if ( fst & NJD_FST_DB )
             {
-                return attr;
+                attr |= DRAW_ATTR_DB;
             }
 
             /** Next offset **/
@@ -140,56 +171,23 @@ EV_GetCnkAttr(const Sint16* pPList)
     return attr;
 }
 
-static s32
-EV_IsDepthQueue(const NJS_CNK_MODEL* model)
-{
-    if ( (_nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE) && (RFRS_GetCnkFuncMode() & RFRS_CNKFUNCMD_MULTIBIT) )
-    {
-        NJS_POINT3 pt;
-        njCalcPoint(NULL, &model->center, &pt);
-
-        // hardcoded 
-        return ( (pt.z - model->r) < _rj_depth_queue_near_ ) ? CHUNK_ATTR_TRANSPARENT : 0;
-    }
-
-    return 0;
-}
-
-static s32
+static u32
 EV_GetCnkAttrObject(NJS_CNK_OBJECT* object)
 {
-    s32 attr = 0;
+    u32 attr = 0;
 
     const NJS_CNK_OBJECT* restrict p_obj = object;
 
     do
     {
-        if ( p_obj->model )
+        if ( p_obj->model && p_obj->model->plist )
         {
-            if ( p_obj->model->plist )
-            {
-                attr |= EV_GetCnkAttr(p_obj->model->plist);
-
-                if ( !(attr & CHUNK_ATTR_TRANSPARENT) && IsTranclucentPass() )
-                {
-                    attr |= EV_IsDepthQueue(p_obj->model);
-                }
-
-                if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
-                {
-                    return attr;
-                }
-            }
+            attr |= EV_GetCnkAttr(p_obj->model->plist);
         }
 
         if ( p_obj->child )
         {
             attr |= EV_GetCnkAttrObject(p_obj->child);
-
-            if ( attr == (CHUNK_ATTR_OPAQUE|CHUNK_ATTR_TRANSPARENT) )
-            {
-                return attr;
-            }
         }
 
         p_obj = p_obj->sibling;
@@ -199,15 +197,171 @@ EV_GetCnkAttrObject(NJS_CNK_OBJECT* object)
     return attr;
 }
 
-/****** Draw Chunk ******************************************************************/
+static u32
+GetObjectAttrFlags(const EVENT_ENTRY* restrict pEntry)
+{
+    if ( !pEntry->pObject )
+    {
+        return 0;
+    }
+
+    u32 attr;
+
+    switch ( EventGetEntryType(pEntry) )
+    {
+        case EV_ENTRY_TYPE_DRAW:
+        case EV_ENTRY_TYPE_MTN:
+        case EV_ENTRY_TYPE_SHAPE:
+        {
+            attr = EV_GetCnkAttrObject(pEntry->pObject);
+
+            if ( pEntry->attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE) )
+            {
+                ; // do nothing
+            }
+            else
+            {
+                attr |= DRAW_ATTR_DB;
+            }
+            break;
+        }
+        case EV_ENTRY_TYPE_EASYNOFOG:
+        {
+            attr = EV_GetCnkAttrObject(pEntry->pObject);
+
+            attr |= DRAW_ATTR_DB;
+            break;
+        }
+        case EV_ENTRY_TYPE_MULTIDRAW:
+        case EV_ENTRY_TYPE_MULTIMTN:
+        case EV_ENTRY_TYPE_MULTISHAPE:
+        {
+            attr = EV_GetCnkAttrObject(pEntry->pObject);
+
+            if ( pEntry->attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE) )
+            {
+                attr &= ~DRAW_ATTR_DB;
+            }
+            else
+            {
+                attr |= DRAW_ATTR_DB;
+            }
+            break;
+        }
+        case EV_ENTRY_TYPE_NONE: default:
+        case EV_ENTRY_TYPE_MODDRAW:
+        case EV_ENTRY_TYPE_MODMTN:
+        {
+            return 0;
+        }
+    }
+
+    return attr;
+}
+
+void
+EVR_ScanEvent(void)
+{
+    const int nb_entry = EventData.nbScene+1;
+
+    for ( int ix_scene = 0; ix_scene < nb_entry; ++ix_scene )
+    {
+        const EVENT_SCENE* const p_scene = &SceneData[ix_scene];
+
+        const int nb_entry = p_scene->nbEntry;
+
+        for (int ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
+        {
+            EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
+
+            p_entry->attr |= GetObjectAttrFlags(p_entry);
+        }
+    }
+}
+
+/****** Draw Mode *******************************************************************/
+enum
+{
+    DRAW_NONE,
+    DRAW_NORMAL,
+    DRAW_SORTED,
+};
+
+static bool
+EV_IsDepthQueue(const NJS_CNK_MODEL* model)
+{
+    if ( (_nj_control_3d_flag_ & NJD_CONTROL_3D_DEPTH_QUEUE) && MultiFunc )
+    {
+        if ( model )
+        {
+            NJS_POINT3 pt;
+            njCalcPoint(NULL, &model->center, &pt);
+
+            // hardcoded 
+            return ( (pt.z - (model->r + 100.f)) < _rj_depth_queue_near_ );
+        }
+        
+        return true;
+    }
+
+    return 0;
+}
+
+static i32
+GetDrawMode(NJS_CNK_OBJECT* object)
+{
+    u32 attr = AttrFlag;
+
+    if ( EV_IsDepthQueue(object->model) )
+    {
+        attr |= DRAW_ATTR_TRANS;
+    }
+
+    if ( DrawPass == EV_DRAWPASS_OPAQUE )
+    {
+        // clipping these causes some issues, and we also need to make sure
+        // the equipment attachments are drawn during this pass
+        return DRAW_NORMAL;
+    }
+    else // TRANS
+    {
+        if ( !(attr & DRAW_ATTR_TRANS) )
+        {
+            return DRAW_NONE;
+        }
+
+        // if not double sided
+        if ( !(attr & DRAW_ATTR_DB) )
+        {
+            return DRAW_NORMAL;
+        }
+
+        // only translucent and has an object tree, draw with sorting
+        if ( attr == DRAW_ATTR_TRANS && (object->child || object->sibling) )
+        {
+            return DRAW_SORTED;
+        }
+
+        return DRAW_NORMAL;
+    }
+}
+
+/****** Draw Chunk (Sub) ************************************************************/
 static void
 EV_CnkDrawObjectSub(NJS_CNK_OBJECT* object, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
-    const s32 attr = EV_GetCnkAttrObject( object );
-
-    if ( IsTranclucentPass() )
+    switch ( GetDrawMode(object) )
     {
-        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
+        case DRAW_NONE: default:
+        {
+            break;
+        }
+        case DRAW_NORMAL:
+        {
+            rjCnkTransformObject(object, drawfn);
+            break;
+        }
+        case DRAW_SORTED:
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
@@ -218,147 +372,167 @@ EV_CnkDrawObjectSub(NJS_CNK_OBJECT* object, Sint32(*drawfn)(NJS_CNK_MODEL*))
             rjCnkTransformObject(object, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
+            break;
         }
-        else if ( attr & CHUNK_ATTR_TRANSPARENT )
-        {
-            rjCnkTransformObject(object, drawfn);
-        }
-    }
-    else if ( attr & CHUNK_ATTR_OPAQUE )
-    {
-        rjCnkTransformObject(object, drawfn);
     }
 }
 
 static void
+EV_CnkDrawMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
+{
+    switch ( GetDrawMode(object) )
+    {
+        case DRAW_NONE: default:
+        {
+            break;
+        }
+        case DRAW_NORMAL:
+        {
+            rjCnkDrawMotion(object, motion, frame, drawfn);
+            break;
+        }
+        case DRAW_SORTED:
+        {
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+
+            rjCnkDrawMotion(object, motion, frame, drawfn);
+
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+
+            rjCnkDrawMotion(object, motion, frame, drawfn);
+
+            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
+            break;
+        }
+    }
+}
+
+static void
+EV_CnkDrawShapeMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
+{
+    switch ( GetDrawMode(object) )
+    {
+        case DRAW_NONE: default:
+        {
+            break;
+        }
+        case DRAW_NORMAL:
+        {
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            break;
+        }
+        case DRAW_SORTED:
+        {
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
+
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+
+            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
+
+            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+
+            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
+            break;
+        }
+    }
+}
+
+/****** Draw Object *****************************************************************/
+static void
 EV_CnkEasyDrawObject(NJS_CNK_OBJECT* object)
 {
+    MultiFunc = false;
+
     EV_CnkDrawObjectSub(object, njCnkEasyDrawModel);
 }
 
 static void
 EV_CnkSimpleDrawObject(NJS_CNK_OBJECT* object)
 {
+    MultiFunc = false;
+
     EV_CnkDrawObjectSub(object, njCnkSimpleDrawModel);
 }
 
 static void
 EV_CnkEasyMultiDrawObject(NJS_CNK_OBJECT* object)
 {
+    MultiFunc = true;
+
     EV_CnkDrawObjectSub(object, njCnkEasyMultiDrawModel);
 }
 
 static void
 EV_CnkSimpleMultiDrawObject(NJS_CNK_OBJECT* object)
 {
+    MultiFunc = true;
+
     EV_CnkDrawObjectSub(object, njCnkSimpleMultiDrawModel);
 }
 
-static void
-EV_CnkDrawMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
-{
-    const s32 attr = EV_GetCnkAttrObject( object );
-
-    if ( IsTranclucentPass() )
-    {
-        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
-        {
-            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
-
-            rjCnkDrawMotion(object, motion, frame, drawfn);
-
-            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
-
-            rjCnkDrawMotion(object, motion, frame, drawfn);
-
-            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
-        }
-        else if ( attr & CHUNK_ATTR_TRANSPARENT )
-        {
-            rjCnkDrawMotion(object, motion, frame, drawfn);
-        }
-    }
-    else if ( attr & CHUNK_ATTR_OPAQUE )
-    {
-        rjCnkDrawMotion(object, motion, frame, drawfn);
-    }
-}
-
+/****** Draw Motion *****************************************************************/
 static void
 EV_CnkEasyDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
+    MultiFunc = false;
+
     EV_CnkDrawMotionSub(object, motion, frame, njCnkEasyDrawModel);
 }
 
 static void
 EV_CnkSimpleDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
+    MultiFunc = false;
+
     EV_CnkDrawMotionSub(object, motion, frame, njCnkSimpleDrawModel);
 }
 
 static void
 EV_CnkEasyMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
+    MultiFunc = true;
+
     EV_CnkDrawMotionSub(object, motion, frame, njCnkEasyMultiDrawModel);
 }
 
 static void
 EV_CnkSimpleMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
+    MultiFunc = true;
+
     EV_CnkDrawMotionSub(object, motion, frame, njCnkSimpleMultiDrawModel);
 }
 
-static void
-EV_CnkDrawShapeMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
-{
-    const s32 attr = EV_GetCnkAttrObject( object );
-
-    if ( IsTranclucentPass() )
-    {
-        if ( attr == CHUNK_ATTR_TRANSPARENT && (object->child || object->sibling) )
-        {
-            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
-
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
-
-            rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
-
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
-
-            rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
-        }
-        else if ( attr & CHUNK_ATTR_TRANSPARENT )
-        {
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
-        }
-    }
-    else if ( attr & CHUNK_ATTR_OPAQUE )
-    {
-        rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
-    }
-}
-
+/****** Draw Shape Motion ***********************************************************/
 static void
 EV_CnkEasyDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
+    MultiFunc = false;
+
     EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkEasyDrawModel);
 }
 
 static void
 EV_CnkSimpleDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
+    MultiFunc = false;
+
     EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkSimpleDrawModel);
 }
 
 static void
 EV_CnkEasyMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
+    MultiFunc = true;
+
     EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkEasyMultiDrawModel);
 }
 
 static void
 EV_CnkSimpleMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
+    MultiFunc = true;
+
     EV_CnkDrawShapeMotionSub(object, motion, shape, frame, njCnkSimpleMultiDrawModel);
 }
 
@@ -528,7 +702,9 @@ EventSceneDraw(const int nbScene, const int nbLayer)
 
         const bool use_gj = !p_entry->pObject;
 
-        const int attr = p_entry->attr;
+        const u32 attr = p_entry->attr;
+
+        AttrFlag = attr;
 
         njPushMatrixEx();
 

@@ -152,6 +152,13 @@ ___LoadEventTextures(void)
     }
 }
 
+static void
+EventPostLoad(void)
+{
+    EVR_StartReplaceAttr();
+    EVR_ScanEvent();
+}
+
 /****** Init ************************************************************************/
 void
 EV_RendererInit(void)
@@ -194,7 +201,10 @@ EV_RendererInit(void)
     EVR_TaskInit();
     EVR_VsyncInit();
     EVR_MovieInit();
-    EVR_ReplaceInit();
+
+    // call for just after file load
+    WriteNOP(0x00600054, 0x0060005A);
+    WriteCall(0x00600054, EventPostLoad);
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
     WriteJump(0x00601938, 0x00601A0A); // ^^ movies
