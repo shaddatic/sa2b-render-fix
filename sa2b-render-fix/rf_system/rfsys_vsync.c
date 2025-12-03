@@ -9,6 +9,9 @@
 #include <samt/os.h>                /* highresclock                                             */
 #include <samt/modloader.h>         /* debugprint                                               */
 
+/****** Game ************************************************************************************/
+#include <samt/sonic/display.h>     /* display ratio                                            */
+
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_util.h>                /* replacefloat                                             */
@@ -142,8 +145,7 @@ RF_SysVsyncSceneEnd(void)
     // frametime debug
     if ( DebugFrameInfo )
     {
-        constexpr int x_offset = 46;
-        static    f64 s_avg_ms;
+        static f64 s_avg_ms;
 
         const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
 
@@ -156,6 +158,8 @@ RF_SysVsyncSceneEnd(void)
 
         mlDebugSetScale( 8 );
         mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
+
+        const i32 x_offset = (i32) roundf(46.f * GetDisplayRatio());
 
         mlDebugPrintC( NJM_LOCATION( 10+x_offset, 1),   "IMM /      AVG /    TGT" );
         mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
