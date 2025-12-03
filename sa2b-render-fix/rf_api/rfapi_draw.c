@@ -37,37 +37,37 @@ ___CnkDrawObject(NJS_CNK_OBJECT* object)
 static void
 ___CnkDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, rjCnkDrawModel);
+    rjCnkTransformMotion(object, motion, frame, rjCnkDrawModel);
 }
 
 static void
 ___CnkDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate)
 {
-    rjCnkDrawMotionLink(object, motion_link, rate, rjCnkDrawModel);
+    rjCnkTransformMotionLink(object, motion_link, rate, rjCnkDrawModel);
 }
 
 static void
 ___CnkDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotion(object, motion, shape, frame, frame, rjCnkDrawModel);
+    rjCnkTransformShapeMotion(object, motion, shape, frame, frame, rjCnkDrawModel);
 }
 
 static void
 ___CnkDrawShapeMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate)
 {
-    rjCnkDrawShapeMotionLink(object, motion_link, shape_link, rate, rjCnkDrawModel);
+    rjCnkTransformShapeMotionLink(object, motion_link, shape_link, rate, rjCnkDrawModel);
 }
 
 static void
 ___CnkDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, rjCnkDrawModel);
+    rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, rjCnkDrawModel);
 }
 
 static void
 ___CnkDrawShapeMotionLinkBE(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate)
 {
-    rjCnkDrawShapeMotionLinkBE(object, motion_link, shape_link, rate, rjCnkDrawModel);
+    rjCnkTransformShapeMotionLinkBE(object, motion_link, shape_link, rate, rjCnkDrawModel);
 }
 
 /********************************/
