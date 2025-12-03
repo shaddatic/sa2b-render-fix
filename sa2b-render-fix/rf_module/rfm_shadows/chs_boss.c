@@ -19,6 +19,9 @@
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_util.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 #define GET_BOSSWK(_tp)     ((BOSSWK*)_tp->awp)
 
 typedef struct bosswk

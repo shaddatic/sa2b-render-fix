@@ -18,7 +18,7 @@
 #include <rf_core.h>        /* core                                                 */
 #include <rf_util.h>        /* ReplaceFloat, SwitchDisplayer                        */
 #include <rf_mdlutil.h>     /* MaterialFlagOn                                       */
-#include <rf_renderstate.h> /* RFRS_CullMode                                        */
+#include <rf_ninja.h>       /* rf ninja                                             */
 #include <rf_njcnk.h>       /* ninja chunk draw                                     */
 
 /************************/

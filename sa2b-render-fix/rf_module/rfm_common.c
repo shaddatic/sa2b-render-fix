@@ -25,6 +25,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_mdlutil.h>             /* materialflag                                             */
+#include <rf_ninja.h>               /* rf ninja                                                 */
 #include <rf_njcnk.h>               /* easysimpledirect                                         */
 
 /****** Config **********************************************************************************/

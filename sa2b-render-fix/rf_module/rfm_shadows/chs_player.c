@@ -32,6 +32,9 @@
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
 

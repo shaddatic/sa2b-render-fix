@@ -34,25 +34,25 @@ njCnkEasyDrawObject(NJS_CNK_OBJECT* object)
 void
 njCnkEasyDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, njCnkEasyDrawModel);
+    rjCnkTransformMotion(object, motion, frame, njCnkEasyDrawModel);
 }
 
 void
 njCnkEasyDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float frame)
 {
-    rjCnkDrawMotionLink(object, motion_link, frame, njCnkEasyDrawModel);
+    rjCnkTransformMotionLink(object, motion_link, frame, njCnkEasyDrawModel);
 }
 
 void
 njCnkEasyDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotion(object, motion, shape, frame, frame, njCnkEasyDrawModel);
+    rjCnkTransformShapeMotion(object, motion, shape, frame, frame, njCnkEasyDrawModel);
 }
 
 void
 njCnkEasyDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyDrawModel);
+    rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyDrawModel);
 }
 
 /****** Easy Multi ******************************************************************************/
@@ -65,25 +65,25 @@ njCnkEasyMultiDrawObject(NJS_CNK_OBJECT* object)
 void
 njCnkEasyMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, njCnkEasyMultiDrawModel);
+    rjCnkTransformMotion(object, motion, frame, njCnkEasyMultiDrawModel);
 }
 
 void
 njCnkEasyMultiDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float frame)
 {
-    rjCnkDrawMotionLink(object, motion_link, frame, njCnkEasyMultiDrawModel);
+    rjCnkTransformMotionLink(object, motion_link, frame, njCnkEasyMultiDrawModel);
 }
 
 void
 njCnkEasyMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotion(object, motion, shape, frame, frame, njCnkEasyMultiDrawModel);
+    rjCnkTransformShapeMotion(object, motion, shape, frame, frame, njCnkEasyMultiDrawModel);
 }
 
 void
 njCnkEasyMultiDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyMultiDrawModel);
+    rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, njCnkEasyMultiDrawModel);
 }
 
 /****** Simple **********************************************************************************/
@@ -96,25 +96,25 @@ njCnkSimpleDrawObject(NJS_CNK_OBJECT* object)
 void
 njCnkSimpleDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, njCnkSimpleDrawModel);
+    rjCnkTransformMotion(object, motion, frame, njCnkSimpleDrawModel);
 }
 
 void
 njCnkSimpleDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float frame)
 {
-    rjCnkDrawMotionLink(object, motion_link, frame, njCnkSimpleDrawModel);
+    rjCnkTransformMotionLink(object, motion_link, frame, njCnkSimpleDrawModel);
 }
 
 void
 njCnkSimpleDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotion(object, motion, shape, frame, frame, njCnkSimpleDrawModel);
+    rjCnkTransformShapeMotion(object, motion, shape, frame, frame, njCnkSimpleDrawModel);
 }
 
 void
 njCnkSimpleDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleDrawModel);
+    rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleDrawModel);
 }
 
 /****** Simple Multi ****************************************************************************/
@@ -127,25 +127,25 @@ njCnkSimpleMultiDrawObject(NJS_CNK_OBJECT* object)
 void
 njCnkSimpleMultiDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, njCnkSimpleMultiDrawModel);
+    rjCnkTransformMotion(object, motion, frame, njCnkSimpleMultiDrawModel);
 }
 
 void
 njCnkSimpleMultiDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float frame)
 {
-    rjCnkDrawMotionLink(object, motion_link, frame, njCnkSimpleMultiDrawModel);
+    rjCnkTransformMotionLink(object, motion_link, frame, njCnkSimpleMultiDrawModel);
 }
 
 void
 njCnkSimpleMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotion(object, motion, shape, frame, frame, njCnkSimpleMultiDrawModel);
+    rjCnkTransformShapeMotion(object, motion, shape, frame, frame, njCnkSimpleMultiDrawModel);
 }
 
 void
 njCnkSimpleMultiDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame)
 {
-    rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleMultiDrawModel);
+    rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, njCnkSimpleMultiDrawModel);
 }
 
 /****** Modifier ********************************************************************************/
@@ -158,5 +158,5 @@ njCnkModDrawObject(NJS_CNK_OBJECT* object)
 void
 njCnkModDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame)
 {
-    rjCnkDrawMotion(object, motion, frame, njCnkModDrawModel);
+    rjCnkTransformMotion(object, motion, frame, njCnkModDrawModel);
 }

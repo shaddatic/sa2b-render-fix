@@ -65,70 +65,17 @@ EXTERN_START
 EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
 EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
 
-/************************/
-/*  Functions           */
-/************************/
-/****** Null Draw *******************************************************************/
-/*
-*   Description:
-*     Emulates a successful Chunk draw, but doesn't actually draw anything.
-* 
-*   Parameters:
-*     - model   : chunk model
-*
-*   Returns:
-*     Always '0' as if model was drawn.
-*/
-Sint32  njCnkNullDrawModel( const NJS_CNK_MODEL* model );
-/*
-*   Description:
-*     Goes through the steps of drawing, such as matrix transformations, without
-*   actually drawing anything.
-*
-*   Parameters:
-*     - object  : chunk object
-*/
-void    njCnkNullDrawObject( const NJS_CNK_OBJECT* object );
-/*
-*   Description:
-*     Goes through the steps of animating, such as matrix calculations & calling
-*   motion callbacks, without actually drawing anything.
-*
-*   Parameters:
-*     - object      : chunk object to animate
-*     - motion      : motion data for 'object'
-*     - frame       : frame of animation
-*/
-void    njCnkAnimateMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
-/*
-*   Description:
-*     Goes through the steps of animating, such as interpolating the motions, matrix
-*   calculations, & calling motion callbacks, without actually drawing anything.
-*
-*   Parameters:
-*     - object      : chunk object to animate
-*     - motion_link : motion link data and motion datas for 'object'
-*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
-*/
-void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
-/*
-*   Description:
-*     Animate an SA2 motion control without actually drawing anything.
-*
-*   Parameters:
-*     - pObject  : a Ninja object of any type
-*     - pMtnCtrl : a motion control pointer
-*/
-void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
-
-/****** Generic Shadows *************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Generic Shadows *************************************************************************/
 /*
 *   Draw common modifier models.
 */
 void    DrawBasicShadow( void );
 void    AL_ShadowDraw(   void );
 
-/****** Draw 2D *********************************************************************/
+/****** Draw 2D *********************************************************************************/
 /*
 *   Draw a multi-vertex, 2D texture.
 *
@@ -152,7 +99,7 @@ void    rjDrawTextureEx( const NJS_TEXTURE_VTX* polygon, Int count, Int trans );
 */
 void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
-/****** Polygon *********************************************************************/
+/****** Polygon *********************************************************************************/
 /*
 *   Draw a multi-vertex polygon.
 *
@@ -173,7 +120,7 @@ void    rjDrawPolygon( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
 */
 void    rjDrawTexture( const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag );
 
-/****** Draw Line *******************************************************************/
+/****** Draw Line *******************************************************************************/
 /*
 *   Description:
 *     Begin draw line and set draw parameters.
@@ -211,7 +158,7 @@ void    rjDrawLine2DExSetStrip( const NJS_POINT2* vtx, Float ooz, Sint32 Count )
 */
 void    rjDrawLineExEnd( void );
 
-/****** Draw Line (Combined) ********************************************************/
+/****** Draw Line (Combined) ********************************************************************/
 /*
 *   Description:
 *     Draw 3D line in either strip or list mode. Internally calls the seperated line
@@ -240,11 +187,11 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Chunk Draw
 */
-/****** Chunk Control ***************************************************************/
+/****** Chunk Control ***************************************************************************/
 /*
 *   Description:
 *     Set/unset Chunk draw control flags.
@@ -341,7 +288,7 @@ void    rjCnkSetTextureCallback( Sint16(__cdecl* callback)(Sint16 n) );
 */
 void    rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
 
-/****** Chunk Modify ****************************************************************/
+/****** Chunk Modify ****************************************************************************/
 /*
 *   Description:
 *     Set the Chunk UV offset value for regular UVs, for texture scrolling.
@@ -473,7 +420,11 @@ Sint32  njCnkDirectDrawModel( NJS_CNK_MODEL* model );
 */
 Sint32  njCnkModDrawModel( NJS_CNK_MODEL* model );
 
-/****** Transform Object ************************************************************/
+/************************************************************************************************/
+/*
+*   Transform Object
+*/
+/****** Object **********************************************************************************/
 /*
 *   Description:
 *     Transform and draw a Chunk object with set draw function.
@@ -482,9 +433,9 @@ Sint32  njCnkModDrawModel( NJS_CNK_MODEL* model );
 *     - object      : chunk object
 *     - callback    : model draw function
 */
-void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
+void    rjCnkTransformObject( NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
 
-/****** Chunk Draw Motion ***********************************************************/
+/****** Motion **********************************************************************************/
 /*
 *   Description:
 *     Draw a Chunk motion.
@@ -494,7 +445,7 @@ void    rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJ
 *     - motion      : motion data for 'object'
 *     - frame       : frame of animation
 */
-void    rjCnkDrawMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two Chunk motions.
@@ -504,9 +455,9 @@ void    rjCnkDrawMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame
 *     - motion_link : motion link data and motion datas for 'object'
 *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
 */
-void    rjCnkDrawMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
-/****** Chunk Draw Shape ***********************************************************/
+/****** Shape Motion ****************************************************************************/
 /*
 *   Description:
 *     Draw a Chunk shape motion.
@@ -517,7 +468,7 @@ void    rjCnkDrawMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_lin
 *     - shape       : shape data for 'object'   (optional)
 *     - frame       : frame of animation/shape
 */
-void    rjCnkDrawShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two Chunk shape motions.
@@ -528,9 +479,9 @@ void    rjCnkDrawShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MO
 *     - shape_link  : shape data for 'object'   (optional)
 *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
-void    rjCnkDrawShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
-/****** Chunk Draw Shape BE *********************************************************************/
+/****** Shape Motion BE *************************************************************************/
 /*
 *   Description:
 *     Draw a big endian Chunk shape motion.
@@ -544,7 +495,7 @@ void    rjCnkDrawShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motio
 *     - shape       : shape data for 'object'   (optional)
 *     - frame       : frame of animation/shape
 */
-void    rjCnkDrawShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 /*
 *   Description:
 *     Interpolate and draw two big endian Chunk shape motions.
@@ -558,7 +509,7 @@ void    rjCnkDrawShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_
 *     - shape_link  : shape data for 'object'   (optional)
 *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
 */
-void    rjCnkDrawShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
 
 /****** Shadow Texture **************************************************************************/
 /*

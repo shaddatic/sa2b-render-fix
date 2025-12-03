@@ -12,6 +12,7 @@
 /** Render Fix **/
 #include <rf_core.h>
 #include <rf_samdl.h>
+#include <rf_ninja.h>       /* rf ninja                                             */
 #include <rf_njcnk.h>
 
 #define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)

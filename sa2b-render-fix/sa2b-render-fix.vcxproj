@@ -154,10 +154,12 @@
     <ClCompile Include="rf_module\rfm_global\rfg_taskdisp.c" />
     <ClCompile Include="rf_module\rfm_global\rfg_mdltint.c" />
     <ClCompile Include="rf_module\rfm_stg_wjungle.c" />
+    <ClCompile Include="rf_util\rfu_draw.c" />
     <ClCompile Include="rf_util\rfu_model.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cnf.h" />
+    <ClInclude Include="rfu_draw.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_graphics.h" />
     <ClInclude Include="rf_samdl.h" />

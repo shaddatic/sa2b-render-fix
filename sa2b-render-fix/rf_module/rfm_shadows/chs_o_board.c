@@ -16,6 +16,9 @@
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 #define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
 #define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)
 

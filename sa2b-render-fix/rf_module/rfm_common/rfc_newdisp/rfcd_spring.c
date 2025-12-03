@@ -13,6 +13,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
+#include <rf_ninja.h>           /* rf ninja                                         */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 
 /****** Self ************************************************************************/

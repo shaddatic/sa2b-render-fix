@@ -388,18 +388,18 @@ EV_CnkDrawMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sin
         }
         case DRAW_NORMAL:
         {
-            rjCnkDrawMotion(object, motion, frame, drawfn);
+            rjCnkTransformMotion(object, motion, frame, drawfn);
             break;
         }
         case DRAW_SORTED:
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkDrawMotion(object, motion, frame, drawfn);
+            rjCnkTransformMotion(object, motion, frame, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkDrawMotion(object, motion, frame, drawfn);
+            rjCnkTransformMotion(object, motion, frame, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
             break;
@@ -418,18 +418,18 @@ EV_CnkDrawShapeMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION*
         }
         case DRAW_NORMAL:
         {
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
             break;
         }
         case DRAW_SORTED:
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkDrawShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
             break;

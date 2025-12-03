@@ -55,49 +55,6 @@ Float _rj_depth_queue_far_;
 /************************/
 /*  Source              */
 /************************/
-int 
-njCnkNullDrawModel(const NJS_CNK_MODEL* model)
-{
-    return 0;
-}
-
-void
-njCnkNullDrawObject(const NJS_CNK_OBJECT* object)
-{
-    njCnkTransformObject(object, njCnkNullDrawModel);
-}
-
-void
-njCnkAnimateMotion(const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame)
-{
-    njDrawMotion(object, motion, frame, njCnkNullDrawModel);
-}
-
-void
-njCnkAnimateMotionLink(const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float frame)
-{
-    njDrawMotionLink(object, motion_link, frame, njCnkNullDrawModel);
-}
-
-void
-AnimateMotion(const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl)
-{
-    if (pMtnCtrl->flag & 0x02)
-    {
-        NJS_MOTION_LINK motion_link;
-
-        motion_link.motion[0] = pMtnCtrl->minfo[0].pMotion;
-        motion_link.frame[0]  = pMtnCtrl->minfo[0].frame;
-
-        motion_link.motion[1] = pMtnCtrl->minfo[1].pMotion;
-        motion_link.frame[1]  = pMtnCtrl->minfo[1].frame;
-        
-        njCnkAnimateMotionLink(pObject, &motion_link, pMtnCtrl->ratio);
-    }
-    else
-        njCnkAnimateMotion(pObject, pMtnCtrl->minfo[0].pMotion, pMtnCtrl->minfo[0].frame);
-}
-
 void
 rjSetDepthQueue(Float near, Float far)
 {

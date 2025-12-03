@@ -48,9 +48,9 @@ ___rjCnkObjectRotateSet(void)
 
 /****** Draw Object *****************************************************************************/
 void
-rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) )
+rjCnkTransformObject( NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) )
 {
-    NJS_CNK_OBJECT* p_obj = (NJS_CNK_OBJECT*) object; // scary, but safe!
+    NJS_CNK_OBJECT* p_obj = object;
 
     do
     {
@@ -135,33 +135,33 @@ rjCnkTransformObject( const NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MO
 
 /****** Draw Motion *****************************************************************************/
 void
-rjCnkDrawMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     njDrawMotion(object, motion, frame, drawfn);
 }
 
 void
-rjCnkDrawMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     njDrawMotionLink(object, motion_link, rate, drawfn);
 }
 
 /****** Draw Shape Motion ***********************************************************************/
 void
-rjCnkDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     njDrawShapeMotion(object, motion, shape, frame, sframe, drawfn);
 }
 
 void
-rjCnkDrawShapeMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformShapeMotionLink(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     njDrawShapeLink(object, motion_link, shape_link, rate, drawfn);
 }
 
 /****** Draw Big Endian *************************************************************************/
 void
-rjCnkDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     /** Big endian shape motion draw **/
 
@@ -169,7 +169,7 @@ rjCnkDrawShapeMotionBE(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* s
 }
 
 void
-rjCnkDrawShapeMotionLinkBE(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
+rjCnkTransformShapeMotionLinkBE(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*))
 {
     /** Big endian shape link draw **/
 
