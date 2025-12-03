@@ -68,13 +68,6 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /********************************/
 /*  Prototypes                  */
 /********************************/
-/****** Generic Shadows *************************************************************************/
-/*
-*   Draw common modifier models.
-*/
-void    DrawBasicShadow( void );
-void    AL_ShadowDraw(   void );
-
 /****** Draw 2D *********************************************************************************/
 /*
 *   Draw a multi-vertex, 2D texture.

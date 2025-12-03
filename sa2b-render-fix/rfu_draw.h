@@ -62,6 +62,13 @@ void    njCnkAnimateMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_L
 */
 void    AnimateMotion( const ANY_OBJECT* pObject, const MOTION_CTRL* pMtnCtrl );
 
+/****** Generic Shadows *************************************************************************/
+/*
+*   Draw common modifier models.
+*/
+void    DrawBasicShadow( void );
+void    AL_ShadowDraw(   void );
+
 EXTERN_END
 
 #endif/*H_RF_UTIL_DRAW*/

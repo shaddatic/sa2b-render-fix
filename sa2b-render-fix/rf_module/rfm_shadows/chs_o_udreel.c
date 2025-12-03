@@ -12,7 +12,11 @@
 
 /** Render Fix **/
 #include <rf_ninja.h>
+
+/** RF Util **/
 #include <rf_util.h>
+#include <rfu_draw.h>
+
 
 static void
 ObjectUdreelDisplayerMod(task* tp)

@@ -12,6 +12,9 @@
 
 /** Render Fix **/
 #include <rf_ninja.h>
+
+/** RF Util **/
+#include <rfu_draw.h>
 #include <rf_util.h>
 
 static void

@@ -13,6 +13,9 @@
 /** Render Fix **/
 #include <rf_ninja.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 #define ObjectSearchBox     FUNC_PTR(void, __cdecl, (task*), 0x006E7F60)
 
 static void

@@ -20,6 +20,9 @@
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_mdlutil.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 #define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)
 
 typedef struct

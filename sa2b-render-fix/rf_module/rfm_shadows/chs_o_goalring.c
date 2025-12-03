@@ -12,6 +12,9 @@
 /** Render Fix **/
 #include <rf_ninja.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 static void
 ObjectGoalringDisplayerMod(task* tp)
 {

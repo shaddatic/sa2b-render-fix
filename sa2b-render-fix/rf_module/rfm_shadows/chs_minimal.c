@@ -12,6 +12,9 @@
 /** Render Fix **/
 #include <rf_ninja.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 #define dword_1945E08   DATA_REF(int, 0x1945E08)
 
 static void

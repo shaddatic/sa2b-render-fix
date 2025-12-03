@@ -18,6 +18,9 @@
 #include <rf_enemywk.h>
 #include <rf_renderstate.h>
 
+/** RF Util **/
+#include <rfu_draw.h>
+
 static void
 DrawEnemyMod(enemywk* ewp, taskwk* twp)
 {
