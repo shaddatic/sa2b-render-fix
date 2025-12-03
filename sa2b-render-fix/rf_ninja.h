@@ -420,89 +420,102 @@ Sint32  njCnkModDrawModel( NJS_CNK_MODEL* model );
 /****** Object **********************************************************************************/
 /*
 *   Description:
-*     Transform and draw a Chunk object with set draw function.
+*     Transform a Chunk object tree, with model callback.
+* 
+*   Notes:
+*     - Calls 'Object' and 'Model' callback functions.
 *
 *   Parameters:
-*     - object      : chunk object
-*     - callback    : model draw function
+*     - object      : chunk object head
+*     - callback    : model callback function (eg. CnkEasyDrawModel)
+*       - model     : chunk model
+*       + return    : clip status
 */
-void    rjCnkTransformObject( NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL*) );
+void    rjCnkTransformObject( NJS_CNK_OBJECT* object, Sint32(*callback)(NJS_CNK_MODEL* model) );
 
 /****** Motion **********************************************************************************/
 /*
 *   Description:
-*     Draw a Chunk motion.
+*     Transform a Chunk object with a motion, with model callback.
+* 
+*   Notes:
+*     - Calls 'Motion' and 'Model' callback functions.
 *
 *   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - frame       : frame of animation
+*     - object      : chunk object head
+*     - motion      : motion structure
+*     - frame       : motion frame
+*     - callback    : model callback function
 */
-void    rjCnkTransformMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame, Sint32(*callback)(NJS_CNK_MODEL*) );
 /*
 *   Description:
-*     Interpolate and draw two Chunk motions.
+*     Transform a Chunk object with a motion link (interpolated motions), with model callback.
+* 
+*   Notes:
+*     - Calls 'Motion' and 'Model' callback functions.
 *
 *   Parameters:
-*     - object      : object to animate and draw
-*     - motion_link : motion link data and motion datas for 'object'
-*     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
+*     - object      : chunk object head
+*     - motion_link : motion link structure
+*     - rate        : motion ratio                                                        [0~1]
+*     - callback    : model callback function
 */
-void    rjCnkTransformMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate, Sint32(*callback)(NJS_CNK_MODEL*) );
 
 /****** Shape Motion ****************************************************************************/
 /*
 *   Description:
-*     Draw a Chunk shape motion.
+*     Transform a Chunk object with a motion and shape motion, with model callback.
+* 
+*   Notes:
+*     - Calls 'Motion' and 'Model' callback functions.
+*     - If no shape motion is given, functions as 'CnkDrawMotion'
 *
 *   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - shape       : shape data for 'object'   (optional)
-*     - frame       : frame of animation/shape
+*     - object      : chunk object head
+*     - motion      : motion structure
+*     - shape       : shape motion structure                                     [opt: nullptr]
+*     - frame       : motion frame
+*     - sframe      : shape motion frame (the normal functions re-use 'frame')
+*     - callback    : model callback function
 */
-void    rjCnkTransformShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotion( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*callback)(NJS_CNK_MODEL*) );
 /*
 *   Description:
-*     Interpolate and draw two Chunk shape motions.
+*     Transform a Chunk object with a motion link and shape motion link (interpolated motions),
+*   with model callback.
+* 
+*   Notes:
+*     - Calls 'Motion' and 'Model' callback functions.
+*     - If no shape motion is given, functions as 'CnkDrawMotionLink'
 *
 *   Parameters:
-*     - object      : object to animate and draw
-*     - motion_link : motion data for 'object'
-*     - shape_link  : shape data for 'object'   (optional)
-*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*     - object      : chunk object head
+*     - motion_link : motion link structure
+*     - shape_link  : shape motion link structure                                [opt: nullptr]
+*     - rate        : motion ratio                                                        [0~1]
+*     - callback    : model callback function
 */
-void    rjCnkTransformShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionLink( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*callback)(NJS_CNK_MODEL*) );
 
 /****** Shape Motion BE *************************************************************************/
 /*
 *   Description:
-*     Draw a big endian Chunk shape motion.
-*
+*     Transform a Chunk object with a motion and big endian shape motion.
+* 
 *   Notes:
-*     - Only the shape vertex data is big endian
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion      : motion data for 'object'
-*     - shape       : shape data for 'object'   (optional)
-*     - frame       : frame of animation/shape
+*     - Only the shape vertex data is big endian.
 */
-void    rjCnkTransformShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionBE( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*callback)(NJS_CNK_MODEL*) );
 /*
 *   Description:
-*     Interpolate and draw two big endian Chunk shape motions.
-*
+*     Transform a Chunk object with a motion link and big endian shape motion link.
+* 
 *   Notes:
-*     - Only the shape vertex data is big endian
-*
-*   Parameters:
-*     - object      : object to animate and draw
-*     - motion_link : motion data for 'object'
-*     - shape_link  : shape data for 'object'   (optional)
-*     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
+*     - Only the shape vertex data is big endian.
 */
-void    rjCnkTransformShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*drawfn)(NJS_CNK_MODEL*) );
+void    rjCnkTransformShapeMotionLinkBE( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*callback)(NJS_CNK_MODEL*) );
 
 /****** Shadow Texture **************************************************************************/
 /*
