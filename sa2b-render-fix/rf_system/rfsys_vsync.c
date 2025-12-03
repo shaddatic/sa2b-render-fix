@@ -152,7 +152,7 @@ RF_SysVsyncSceneEnd(void)
         s_avg_ms = avg_ms;
 
         const f64 total_ms = GetMilliseconds(GetClock() - ClockStart, freq);
-        const f64 frameskip = 1.0 + (frame_ms / TARGET_MS);
+        const f64 frameskip = 1.0 + (FrameTime / TARGET_MS);
 
         mlDebugSetScale( 8 );
         mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
