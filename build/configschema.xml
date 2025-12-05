@@ -2,19 +2,19 @@
 <ConfigSchema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonicretro.org">
   <Groups>
     <Group name="graphics" display="Graphics Settings">
+      <Property name="vsync_calc" display="Frame Controller" type="GFX_VSYNC" defaultvalue="2">
+        <HelpText>The Frame Controller allows SA2 to keep in time by limiting the framerate to a factor of '60' and skipping frames if the game is falling behind due to lag.
+
+This is faster and more performant than the Mod Loader's 'Limit Framerate' patch, which you should disable.
+
+Fast: uses a less accurate method of controlling the framerate. Depending on your setup, this may be more stable.</HelpText>
+      </Property>
       <Property name="vsync_wait" display="Framerate" type="GFX_VSYNCWAIT" defaultvalue="1">
         <HelpText>The target framerate the game should aim for. Lower values will be easier to run and more stable on lower-end hardware, at the cost of a smoother gameplay experience.
 
 Certain animations, such as those in menus, are tied to the framerate and will play at a slower speed at lower fps values.
 
-NOTE: Requires RF's Frame Limiter to take affect.</HelpText>
-      </Property>
-      <Property name="vsync_calc" display="Frame Limiter" type="GFX_VSYNC" defaultvalue="2">
-        <HelpText>If, and how, the framerate should be limited. If the framerate goes above 60, the game will begin to run much faster than intended.
-
-This is faster and more performant than the Mod Loader's own frame limiter.
-
-Fast: uses a less accurate, but much faster, method of limiting the framerate. Depending on your setup, this may lead to a more stable experience.</HelpText>
+NOTE: Requires the Frame Controller!</HelpText>
       </Property>
       <Property name="anisotropy" display="Anisotropic Filtering" type="GFX_ANISOTROPY" defaultvalue="-1">
         <HelpText>Sharpens the appearance of textures at acute/sharp viewing angles. Dreamcast called this 'Supersampling'.
