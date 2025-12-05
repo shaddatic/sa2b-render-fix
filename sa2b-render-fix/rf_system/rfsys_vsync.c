@@ -26,40 +26,40 @@
 #include <math.h>                   /* fmax                                                     */
 
 /****** Self ************************************************************************************/
-#include <rf_system/rfsys_internal.h> /* parent & siblings                             */
+#include <rf_system/rfsys_internal.h> /* parent & siblings                                      */
 
 /********************************/
 /*  Constants                   */
 /********************************/
 /****** Basic Constants *************************************************************************/
-#define SLEEP_GRACE_MS              (0.25)            /* sleep call grace time                  */
+#define SLEEP_GRACE_MS              (0.5)             /* sleep call grace time                  */
 #define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
-#define TARGET_MS                   (MS_PER_SEC/60.0) /* target performance                     */
+#define TARGET_MS(wait)             (MS_PER_SEC/(60.0/(f64)(wait))) /* target performance       */
 
 /********************************/
 /*  Game Defs                   */
 /********************************/
 /****** Task Exec *******************************************************************************/
-#define TaskExecLoop1               DATA_REF(s32, 0x01DEB50C)
-#define TaskExecLoop2               DATA_REF(s32, 0x01DEB514)
-#define TaskExecCount               DATA_REF(s32, 0x01DEB510)
-#define ExecLoopDebug1              DATA_REF(s32, 0x025EFF60)
-#define ExecLoopDebug2              DATA_REF(s32, 0x025EFF60)
+#define TaskExecLoop1               DATA_REF(i32, 0x01DEB50C)
+#define TaskExecLoop2               DATA_REF(i32, 0x01DEB514)
+#define TaskExecCount               DATA_REF(i32, 0x01DEB510)
+#define ExecLoopDebug1              DATA_REF(i32, 0x025EFF60)
+#define ExecLoopDebug2              DATA_REF(i32, 0x025EFF60)
 
 /********************************/
 /*  Data                        */
 /********************************/
 /****** User Settings ***************************************************************************/
-static bool UseVsync;               /* enable/disable vsync calculations                        */
+static bool UseFrameController;     /* enable/disable vsync/frameskip calculations              */
 static bool FastVsync;              /* use fast but unnacurate vsync calcs                      */
 
 /****** Target Vsync Mode ***********************************************************************/
-static s32 WaitVsyncCount;          /* target vsync wait count                                  */
-static s32 MinWaitVsync;            /* minimum wait vsync count                                 */
+static i32 WaitVsyncCount;          /* target vsync wait count                                  */
+static i32 SkipVsyncCount;          /* debug skip vsync                                         */
+static i32 MinWaitVsync;            /* minimum wait vsync count                                 */
 
 /****** Clock ***********************************************************************************/
-static s64 ClockStart;              /* total frame clock start                      (for vsync) */
-static s64 FrameStart;              /* frametime clock start                   (for debug info) */
+static i64 ClockStart;              /* total frame clock start                      (for vsync) */
 
 /****** Frame Time ******************************************************************************/
 static f64 FrameTime;               /* last frametime in milliseconds                           */
@@ -72,122 +72,57 @@ static bool DebugFrameInfo;         /* debug frametime info                     
 /*  Source                      */
 /********************************/
 /****** Static **********************************************************************************/
-static s64
+static i64
 GetClock(void)
 {
     return osHighResolutionClock();
 }
 
 static f64
-GetMilliseconds(s64 clock, s64 freq)
+GetMilliseconds(i64 clock, i64 freq)
 {
     return ( (f64)clock / (f64)freq ) * MS_PER_SEC;
 }
 
 static f64
-GetFrameTime(s64 last_clock, s64 freq)
+GetFrameTime(i64 last_clock, i64 freq)
 {
     return ((f64)(osHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
 }
 
-static s32
-GetVsyncFrameskip(void)
+static f64
+GetVsyncWaitValue(void)
 {
-    const s32 wait_vsync = WaitVsyncCount;
-
-    return ( wait_vsync >= 0 ) ? wait_vsync - 1 : -wait_vsync;
+    return (f64)WaitVsyncCount;
 }
 
 /****** Extern **********************************************************************************/
 void
 RF_SysVsyncSceneStart(void)
 {
-    static s32 LastFrameskip = 0;
+    static i32 LastFrameskip = 0;
 
-    // get the start of the frame clock for debug frametime info
-    FrameStart = GetClock();
-
-    // frameskip
-    {
-        s32 frameskip = 1 + (s32)floor(FrameTime / TARGET_MS);
-
-        // if this is a sudden lag spike that's lasted longer than a quater of a second (in
-        // gametime), then reuse the previous frameskip value
-        if ( frameskip >= (LastFrameskip + 15) )
-        {
-            frameskip = LastFrameskip;
-        }
-
-        LastFrameskip = frameskip;
-
-        // include vsync frameskips
-        frameskip += GetVsyncFrameskip();
-
-        // set frameskip
-        TaskExecLoop1 = frameskip;
-        TaskExecLoop2 = frameskip;
-    }
-}
-
-void
-RF_SysVsyncSceneEnd(void)
-{
-#if 0
-    osSleep(13);
-#endif
-
-    const s64 freq = osHighResolutionFrequency();
-
-    const f64 vsync_wait_count = ( WaitVsyncCount >= 0 ) ? (f64)WaitVsyncCount : 1.0;
-
-    const f64 vsync_ms = (TARGET_MS * vsync_wait_count);
-
-    // frametime debug
-    if ( DebugFrameInfo )
-    {
-        static f64 s_avg_ms;
-
-        const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
-
-        const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / vsync_wait_count) );
-
-        s_avg_ms = avg_ms;
-
-        const f64 total_ms = GetMilliseconds(GetClock() - ClockStart, freq);
-        const f64 frameskip = 1.0 + (FrameTime / TARGET_MS);
-
-        mlDebugSetScale( 8 );
-        mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
-
-        const i32 x_offset = (i32) roundf(46.f * GetDisplayRatio());
-
-        mlDebugPrintC( NJM_LOCATION( 10+x_offset, 1),   "IMM /      AVG /    TGT" );
-        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
-        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 4),   "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
-        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 6), "VSYNC:%9.02f", total_ms - frame_ms );
-        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 7), "FSKIP:%9.02f", frameskip );
-    }
+    const i64 freq = osHighResolutionFrequency();
 
     // vsync
+    if ( UseFrameController )
     {
-        const s64 start_clock = GetClock();
+        const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
 
-        const f64 delta_ms = GetMilliseconds(start_clock - ClockStart, freq);
+        const i64 start_clock = GetClock();
+        const f64 delta_ms    = GetMilliseconds(start_clock - ClockStart, freq);
 
         f64 wait_ms = 0.f;
 
-        if ( UseVsync )
+        if ( vsync_ms > delta_ms )
         {
             // if the frame was too fast, wait a bit
-            if ( vsync_ms > delta_ms )
-            {
-                wait_ms = (vsync_ms - delta_ms);
-            }
-            // if the frame was too slow, wait for next open vsync window
-            else if ( vsync_ms < delta_ms )
-            {
-                wait_ms = TARGET_MS - fmod(delta_ms, TARGET_MS);
-            }
+            wait_ms = (vsync_ms - delta_ms);
+        }
+        else
+        {
+            // if the frame was too slow, wait until the next frame
+            wait_ms = TARGET_MS(1) - fmod(delta_ms, TARGET_MS(1));
         }
 
         if ( wait_ms > 0.f )
@@ -198,21 +133,13 @@ RF_SysVsyncSceneEnd(void)
 
                 if ( sleep_ms >= 1 )
                 {
-                    // if we're moving too far into the frame, wait an extra millisecond
-                    const f64 frame_ms = GetMilliseconds(GetClock() - FrameStart, freq);
-
-                    if ( (delta_ms - frame_ms) > (1.0 + SLEEP_GRACE_MS) )
-                    {
-                        sleep_ms++;
-                    }
-
-                    // sleep most of the time first to release CPU cycles
+                    // sleep to release CPU cycles
                     osSleep( sleep_ms );
                 }
             }
             else // accurate
             {
-                const s32 sleep_ms = (s32)floor(wait_ms - SLEEP_GRACE_MS);
+                const i32 sleep_ms = (i32)floor(wait_ms - SLEEP_GRACE_MS);
 
                 // sleep most of the time first to release CPU cycles
                 if ( sleep_ms > 0 ) osSleep( (u32) sleep_ms );
@@ -222,12 +149,85 @@ RF_SysVsyncSceneEnd(void)
             }
         }
 
+        const f64 ftotal = (delta_ms + wait_ms);
+
+        // frameskip
+
+        i32 frameskip = (i32) round( ftotal / TARGET_MS(1) );
+
+        // if this is a sudden lag spike that's lasted longer than a quater of a second (in
+        // gametime), then reuse the previous frameskip value
+        if ( frameskip >= (LastFrameskip + 15) )
+        {
+            frameskip      = LastFrameskip;
+            LastFrameskip += 1;
+        }
+        else
+        {
+            LastFrameskip = frameskip;
+        }
+
+        // include vsync frameskips
+        frameskip += SkipVsyncCount;
+
+        // set frameskip
+        TaskExecLoop1 = frameskip;
+        TaskExecLoop2 = frameskip;
+
+        // end
         FrameTime      = delta_ms;
-        FrameTimeTotal = delta_ms + wait_ms;
+        FrameTimeTotal = ftotal;
+    }
+    else // frame controller is disabled
+    {
+        const f64 ftotal = GetMilliseconds(GetClock() - ClockStart, freq);
+
+        FrameTime      = ftotal;
+        FrameTimeTotal = ftotal;
+
+        // set frameskip
+        TaskExecLoop1 = 1;
+        TaskExecLoop2 = 1;
     }
 
     // get the end of this frame clock for vsync calculations
     ClockStart = GetClock();
+}
+
+void
+RF_SysVsyncSceneEnd(void)
+{
+#if 0
+    osSleep(33);
+#endif
+
+    // frametime debug
+    if ( DebugFrameInfo )
+    {
+        const i64 freq = osHighResolutionFrequency();
+
+        const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
+
+        static f64 s_avg_ms;
+
+        const f64 frame_ms = GetMilliseconds(GetClock() - ClockStart, freq);
+
+        const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / GetVsyncWaitValue()) );
+
+        s_avg_ms = avg_ms;
+
+        const f64 frameskip = round(FrameTimeTotal / TARGET_MS(1));
+
+        mlDebugSetScale( 8 );
+        mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
+
+        const i32 x_offset = (i32) roundf(46.f * GetDisplayRatio());
+
+        mlDebugPrintC( NJM_LOCATION( 10+x_offset, 1),   "IMM /      AVG /    TGT" );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 4),   "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
+        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 6), "FSKIP:%9.02f", frameskip );
+    }
 }
 
 /****** Hook ************************************************************************************/
@@ -256,17 +256,28 @@ SetMidiPerformanceCounter(void)
 
 /****** Set Wait Count **************************************************************************/
 static void
-SetWaitVsyncCount(s32 count)
+SetWaitVsyncCount(i32 count)
 {
     if ( count > 0 )
     {
-        count = MAX(MinWaitVsync, count);
+        SkipVsyncCount = 0;
+        count          = MAX(MinWaitVsync, count);
+    }
+    else
+    {
+        SkipVsyncCount = -count;
+        count          = MinWaitVsync;
+    }
+
+    if ( UseFrameController == 0 )
+    {
+        count = 1;
     }
 
     WaitVsyncCount = count;
 
-    TaskExecLoop1 = ABS(count);
-    TaskExecLoop2 = ABS(count);
+    TaskExecLoop1 = count;
+    TaskExecLoop2 = count;
 
     TaskExecCount = 0;
 
@@ -275,7 +286,7 @@ SetWaitVsyncCount(s32 count)
 }
 
 void
-RF_SysSetWaitVsyncCount(s32 count)
+RF_SysSetWaitVsyncCount(i32 count)
 {
     // if 0, force reset count back to 1
     if ( count == 0 )
@@ -284,9 +295,9 @@ RF_SysSetWaitVsyncCount(s32 count)
         return;
     }
 
-    // if the wait count is negative, eg. the game is sped up,
+    // if the skip count is non-zero, eg. the game is sped up,
     // don't accept any non-negative values
-    if ( WaitVsyncCount < 0 )
+    if ( SkipVsyncCount )
     {
         if ( count < 0 )
         {
@@ -401,7 +412,7 @@ RF_SysVsyncInit(void)
         }
         case CNFE_GFX_VSYNC_ENABLED:
         {
-            UseVsync = true;
+            UseFrameController = true;
             break;
         }
     }
@@ -409,12 +420,15 @@ RF_SysVsyncInit(void)
     if ( frame_limit != CNFE_GFX_VSYNC_DISABLED && p_mlset->limitfps )
     {
         RF_MsgWarn(
-            "Limit Framerate",
+            "Frame Controller",
 
-            "It is recommeneded that you disable the 'Limit Framerate' Mod Loader patch, as "
-            "it can conflict with Render Fix's own vsync and frameskipping systems.\n\n"
+            "It is recommeneded that you disable the Mod Loader's 'Limit Framerate' patch, as "
+            "it will conflict with Render Fix's own frame controller and frameskipping systems.\n\n"
 
             "It can be found in the Mod Manager at: Game Config > Patches > Limit Framerate."
         );
     }
+
+    // start the clock on a reasonable value
+    ClockStart = GetClock();
 }
