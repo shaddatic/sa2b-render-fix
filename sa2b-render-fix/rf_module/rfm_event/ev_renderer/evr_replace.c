@@ -165,8 +165,6 @@ GetReplaceMotion(const c8* puName)
             ReplaceCacheAdd(puName, p_saanim);
         }
 
-        OutputInt(p_saanim->nbNode);
-
         return p_saanim->pMotion;
     }
 }
