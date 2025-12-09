@@ -15,8 +15,6 @@
 /************************/
 EXTERN_START
 /** Initialize **/
-void    RFG_NinjaBackColorInit( void );
-
 void    RFG_BackfaceCullingInit( void );
 
 void    RFG_DrawFunctionInit( void );

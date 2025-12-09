@@ -39,9 +39,6 @@
     <ClCompile Include="rf_module\rfm_stg_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_backcolor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -448,6 +445,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_util\rfu_draw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_backtex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

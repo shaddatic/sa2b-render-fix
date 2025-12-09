@@ -68,21 +68,118 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /********************************/
 /*  Prototypes                  */
 /********************************/
-/****** Draw 2D *********************************************************************************/
+/************************************************************************************************/
 /*
-*   Draw a multi-vertex, 2D texture.
+*   Back Texture
+*/
+/****** Set *************************************************************************************/
+/*
+*   Description:
+*     Set the back color (non-tex), which will be used to clear the framebuffer.
 *
 *   Parameters:
-*     - polygon : NJS_TEXTURE_VTX list
-*     - count   : NJS_TEXTURE_VTX entry count
-*     - trans   : is transparent
+*     - color1      : upper left color                                          [0xAA'RR'GG'BB]
+*     - color2      : upper right color                                         [0xAA'RR'GG'BB]
+*     - color3      : bottom left & right color                                 [0xAA'RR'GG'BB]
+*/
+void    rjSetBackColor( Uint32 color1, Uint32 color2, Uint32 color3 );
+/*
+*   Description:
+*     Set the back texture, which will be used to clear the framebuffer.
+*
+*   Notes:
+*     - Set the texture first before calling, using 'SetTextureNum' or 'SetTextureG'.
+*     - Vertex position info is ignored.
+*     - The bottom right vertex is generated automatically from the bottom left vertex
+*       (color/offset) and its relationship to the top right vertex (texture coords).
+*
+*   Parameters:
+*     - vtx         : the upper left, upper right, & bottom left vertex params
+*/
+void    rjSetBackTexture( const NJS_TEXTUREH_VTX vtx[3] );
+
+/************************************************************************************************/
+/*
+*   Ninja Draw
+*
+*   Notes:
+*     - Functions use vertex strip format.
+*     - 'x/y' vertex components are in screen coordinates (0~640/480).
+*     - 'z' vertex component is in the 0~1 range (back~front).
+*     - A 3D z value can be converted to the 0~1 range with 'z = 1/(-z_3d)'.
+*/
+/****** Normal **********************************************************************************/
+/*
+*   Description:
+*     Draw a non-tex polygon.
+*
+*   Parameters:
+*     - polygon     : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawPolygon( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
+/*
+*   Description:
+*     Draw a textured polygon, with texture GBIX parameter.
+*
+*   Parameters:
+*     - polygon     : vertex list
+*     - count       : vertex count
+*     - tex         : texture gbix
+*     - flag        : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawTexture( const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag );
+/*
+*   Description:
+*     Draw a textured polygon with highlights (specular/offset), with texture GBIX parameter.
+*
+*   Parameters:
+*     - polygon     : vertex list
+*     - count       : vertex count
+*     - tex         : texture gbix
+*     - flag        : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawTextureH( const NJS_TEXTUREH_VTX* polygon, Int count, Int tex, Int flag );
+
+/****** Ninja Draw Ex ***************************************************************************/
+/*
+*   Description:
+*     Draw a textured polygon.
+*
+*   Notes:
+*     - A texture must be set before drawing, using 'SetTextureNum' or 'SetTextureG'.
+*
+*   Parameters:
+*     - polygon     : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
 */
 void    rjDrawTextureEx( const NJS_TEXTURE_VTX* polygon, Int count, Int trans );
+/*
+*   Description:
+*     Draw a textured polygon with highlights (specular/offset).
+*
+*   Notes:
+*     - A texture must be set before drawing, using 'SetTextureNum' or 'SetTextureG'.
+*
+*   Parameters:
+*     - polygon     : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawTextureHEx( const NJS_TEXTUREH_VTX* polygon, Int count, Int trans );
+
+/************************************************************************************************/
+/*
+*   Draw 2D
+*/
+/****** Ninja Draw 2D ***************************************************************************/
 /*
 *   Draw a multi-vertex, 2D polygon.
 *
 *   Examples:
-*       rjDrawPolygon2D(poly, count, -1.0f, NJD_FILL | NJD_TRANSPARENT)
+*       rjDrawPolygon2D(poly, count, -1.0f, NJD_FILL|NJD_TRANSPARENT)
 *
 *   Parameters:
 *     - p       : POINT2COL list
@@ -92,66 +189,11 @@ void    rjDrawTextureEx( const NJS_TEXTURE_VTX* polygon, Int count, Int trans );
 */
 void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
-/****** Polygon *********************************************************************************/
+/************************************************************************************************/
 /*
-*   Draw a multi-vertex polygon.
-*
-*   Parameters:
-*     - polygon : polygon vertex list
-*     - count   : polygon vertex count
-*     - trans   : is transparent
+*   Draw Line
 */
-void    rjDrawPolygon( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
-/*
-*   Draw a multi-vertex textured polygon.
-*
-*   Parameters:
-*     - polygon     : polygon vertex list
-*     - count       : polygon vertex count
-*     - tex         : gbix value of texture to draw
-*     - flag        : transparency flag
-*/
-void    rjDrawTexture( const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag );
-
 /****** Draw Line *******************************************************************************/
-/*
-*   Description:
-*     Begin draw line and set draw parameters.
-*
-*   Parameters:
-*     - r         : radius, in 480p pixels
-*     - BaseColor : line color to draw (in 0xAA'RR'GG'BB format)
-*     - Trans     : use transparancy
-*/
-void    rjDrawLineExStart( Float r, Uint32 BaseColor, Sint32 Trans );
-/*
-*   Description:
-*     Draw 3D line in either strip or list mode.
-*
-*   Parameters:
-*     - vtx     : list of line vertexes
-*     - Count   : number of line vertexes
-*/
-void    rjDrawLine3DExSetStrip( const NJS_POINT3* vtx, Sint32 Count );
-void    rjDrawLine3DExSetList(  const NJS_POINT3* vtx, Sint32 Count  );
-/*
-*   Description:
-*     Draw 2D line in either strip or list mode.
-*
-*   Parameters:
-*     - vtx     : list of line vertexes
-*     - ooz     : 1/z, 'z' being the depth of the line
-*     - Count   : number of line vertexes
-*/
-void    rjDrawLine2DExSetList(  const NJS_POINT2* vtx, Float ooz, Sint32 Count );
-void    rjDrawLine2DExSetStrip( const NJS_POINT2* vtx, Float ooz, Sint32 Count );
-/*
-*   Description:
-*     End draw line.
-*/
-void    rjDrawLineExEnd( void );
-
-/****** Draw Line (Combined) ********************************************************************/
 /*
 *   Description:
 *     Draw 3D line in either strip or list mode. Internally calls the seperated line

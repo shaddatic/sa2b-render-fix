@@ -15,6 +15,7 @@
     <ClCompile Include="rf_feature.c" />
     <ClCompile Include="rf_graphics.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c" />
+    <ClCompile Include="rf_ninja\rj_backtex.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c" />
     <ClCompile Include="rf_ninja\rj_vsync.c" />
@@ -132,7 +133,6 @@
     <ClCompile Include="rf_light\rfl_setlight.c" />
     <ClCompile Include="rf_magic.cpp" />
     <ClCompile Include="rf_chkmod.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_backcolor.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_itembox.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_udreel.c" />
     <ClCompile Include="rf_nja.c" />

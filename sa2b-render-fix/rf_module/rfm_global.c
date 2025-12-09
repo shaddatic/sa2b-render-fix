@@ -74,7 +74,6 @@ RFM_GlobalInit(void)
     }
 
     RFG_BackfaceCullingInit();
-    RFG_NinjaBackColorInit();
 
     {
         constexpr double ptcldbl00 = 1.5;

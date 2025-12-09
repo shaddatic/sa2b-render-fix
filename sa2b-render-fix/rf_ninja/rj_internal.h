@@ -63,6 +63,11 @@ void    RJ_ModifierInit( void );
 *     Init line draw.
 */
 void    RJ_LineInit( void );
+/*
+*   Description:
+*     Init back texture/color.
+*/
+void    RJ_BackTextureInit( void );
 
 /****** Cnk Shape *******************************************************************************/
 /*
