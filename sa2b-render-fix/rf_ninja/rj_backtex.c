@@ -17,6 +17,22 @@
 #include <rf_ninja/rj_internal.h>   /* parent & siblings                                        */
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** Back Texture ****************************************************************************/
+#define BACK_DEPTH                  (0.f)         /* back texture/color z value                 */
+
+/****** DX9 Flags *******************************************************************************/
+#define DX9_CLEAR_SURFACE           (0x00000001)  /* clear the surface colors                   */
+#define DX9_CLEAR_ZBUFFER           (0x00000002)  /* clear target z buffer                      */
+#define DX9_CLEAR_STENCIL           (0x00000004)  /* clear stencil buffer                       */
+
+/****** Clear Defaults **************************************************************************/
+#define CLR_COLOR                   (0x00000000)  /* clear surface color                        */
+#define CLR_DEPTH                   (1.f)         /* clear depth                                */
+#define CLR_STENCIL                 (0x00)        /* clear stencil value                        */
+
+/********************************/
 /*  Game Defs                   */
 /********************************/
 /****** Back Texture ****************************************************************************/
@@ -61,9 +77,29 @@ static RJS_BACK_VTX _rj_back_vtx_[RJ_NB_BACK_NUM];
 /********************************/
 /*  Source                      */
 /********************************/
+/****** Magic Thiscall **************************************************************************/
+#pragma optimize("", off)
+static void
+MagicClear(void* self, u32 flag, u32 color, f32 depth, u32 stencil)
+{
+    const pint fptr = 0x00867B20;
+
+    __asm
+    {
+        push        [stencil]
+        push        [depth]
+        push        [color]
+        push        [flag]
+        mov ecx,    [self]
+
+        call fptr
+    }
+}
+#pragma optimize("", on)
+
 /****** Draw Backtex ****************************************************************************/
 static void
-DrawBackTextureSub(Float depth)
+DrawBackTextureSub(void)
 {
     _nj_curr_ctx_->texture = _rj_back_surface_;
 
@@ -79,7 +115,7 @@ DrawBackTextureSub(Float depth)
 
     vtx[0].x    = 0.0f - pos_off;
     vtx[0].y    = 0.0f;
-    vtx[0].z    = depth;
+    vtx[0].z    = BACK_DEPTH;
     vtx[0].u    = _rj_back_vtx_[RJ_BACK_HI_L].u - uvh_off;
     vtx[0].v    = _rj_back_vtx_[RJ_BACK_HI_L].v;
     vtx[0].bcol = _rj_back_vtx_[RJ_BACK_HI_L].bcol;
@@ -87,7 +123,7 @@ DrawBackTextureSub(Float depth)
 
     vtx[1].x    = 0.0f - pos_off;
     vtx[1].y    = 480.0f;
-    vtx[1].z    = depth;
+    vtx[1].z    = BACK_DEPTH;
     vtx[1].u    = _rj_back_vtx_[RJ_BACK_LO_L].u - uvh_off;
     vtx[1].v    = _rj_back_vtx_[RJ_BACK_LO_L].v;
     vtx[1].bcol = _rj_back_vtx_[RJ_BACK_LO_L].bcol;
@@ -95,7 +131,7 @@ DrawBackTextureSub(Float depth)
 
     vtx[2].x    = 640.0f + pos_off;
     vtx[2].y    = 0.0f;
-    vtx[2].z    = depth;
+    vtx[2].z    = BACK_DEPTH;
     vtx[2].u    = _rj_back_vtx_[RJ_BACK_HI_R].u + uvh_off;
     vtx[2].v    = _rj_back_vtx_[RJ_BACK_HI_R].v;
     vtx[2].bcol = _rj_back_vtx_[RJ_BACK_HI_R].bcol;
@@ -103,7 +139,7 @@ DrawBackTextureSub(Float depth)
 
     vtx[3].x    = 640.0f + pos_off;
     vtx[3].y    = 480.0f;
-    vtx[3].z    = depth;
+    vtx[3].z    = BACK_DEPTH;
     vtx[3].u    = _rj_back_vtx_[RJ_BACK_LO_R].u + uvh_off;
     vtx[3].v    = _rj_back_vtx_[RJ_BACK_LO_R].v;
     vtx[3].bcol = _rj_back_vtx_[RJ_BACK_LO_R].bcol;
@@ -113,7 +149,7 @@ DrawBackTextureSub(Float depth)
 }
 
 static void
-DrawBackColorSub(Float depth)
+DrawBackColorSub(void)
 {
     NJS_POLYGON_VTX vtx[4];
 
@@ -121,44 +157,62 @@ DrawBackColorSub(Float depth)
 
     vtx[0].x   = 0.0f - pos_off;
     vtx[0].y   = 0.0f;
-    vtx[0].z   = depth;
+    vtx[0].z   = BACK_DEPTH;
     vtx[0].col = _rj_back_vtx_[RJ_BACK_HI_L].bcol;
 
     vtx[1].x   = 0.0f - pos_off;
     vtx[1].y   = 480.0f;
-    vtx[1].z   = depth;
+    vtx[1].z   = BACK_DEPTH;
     vtx[1].col = _rj_back_vtx_[RJ_BACK_LO_L].bcol;
 
     vtx[2].x   = 640.0f + pos_off;
     vtx[2].y   = 0.0f;
-    vtx[2].z   = depth;
+    vtx[2].z   = BACK_DEPTH;
     vtx[2].col = _rj_back_vtx_[RJ_BACK_HI_R].bcol;
 
     vtx[3].x   = 640.0f + pos_off;
     vtx[3].y   = 480.0f;
-    vtx[3].z   = depth;
+    vtx[3].z   = BACK_DEPTH;
     vtx[3].col = _rj_back_vtx_[RJ_BACK_LO_R].bcol;
 
     rjDrawPolygon(vtx, 4, FALSE);
 }
 
 static void
-DrawBackTexture(void)
-{
+ClearFrameHook(void)
+{              
+    void* const rendev = *( (void**)0x01A557C0 );
+               
+    /** If the screen is fully faded out, just use black to stop a flicker **/
     if (FadeColor.argb.a == 0xFF)
-    {
+    {          
+        MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
         return;
+    }          
+               
+    /** If just a back color, and all the colors match, then use GPU clear as it's faster **/
+    if ( !_rj_back_surface_ )
+{
+        const u32 chk_color = _rj_back_vtx_[RJ_BACK_HI_L].bcol;
+               
+        if ( chk_color == _rj_back_vtx_[RJ_BACK_HI_R].bcol
+        &&   chk_color == _rj_back_vtx_[RJ_BACK_LO_L].bcol )
+    {
+            MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, chk_color,  CLR_DEPTH, CLR_STENCIL);
+            return;
+    }
     }
 
-    const Float depth = 0.f;
+    /** Otherwise clear everything except the screen color, and apply back texture/color **/
+    MagicClear(rendev, DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
 
     if ( _rj_back_surface_ )
     {
-        DrawBackTextureSub(depth);
+        DrawBackTextureSub();
     }
     else
     {
-        DrawBackColorSub(depth);
+        DrawBackColorSub();
     }
 }
 
@@ -176,34 +230,7 @@ SetBackColor(uint32_t b, uint32_t g, uint32_t r)
 }
 
 /****** Usercall Hook ***************************************************************************/
-const void* const RendererClear_p = (void*)0x00867B20;
-
 #pragma optimize("", off)
-
-__declspec(naked)
-static void
-___RendererClearHook(void)
-{
-    /** 1. Re-push stack objects for OG func call
-        2. Call original function, which cleans the new stack
-        3. Call DrawBackColor to draw on the cleared buffer
-        4. return while pushing adding 0x10 to the stack ptr **/
-
-    __asm
-    {
-        push[esp + 10h]
-        push[esp + 10h]
-        push[esp + 10h]
-        push[esp + 10h]
-
-        call RendererClear_p
-
-        call DrawBackTexture
-
-        retn 10h
-    }
-}
-
 __declspec(naked)
 static void
 ___SetBackColor(void)
@@ -252,7 +279,6 @@ ___SetBackColorSingle(void)
     }
 }
 #pragma warning( pop )
-
 #pragma optimize("", on)
 
 #define UnloadRELFile       FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
@@ -311,7 +337,8 @@ rjSetBackTexture(const NJS_TEXTUREH_VTX vtx[3])
 void
 RJ_BackTextureInit(void)
 {
-    WritePointer(0x008B6FDC, ___RendererClearHook);
+    WriteNOP( 0x00433F58, 0x00433F74);
+    WriteCall(0x00433F58, ClearFrameHook);
 
     WriteJump(0x00426540, ___SetBackColor);
     WriteJump(0x00426620, ___SetBackColorSingle);
@@ -327,7 +354,4 @@ RJ_BackTextureInit(void)
 
     /** Always reset back color on level exit **/
     FuncHook(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
-
-    // stop clearing render target (optimization)
-    WriteNOP(0x00867B2B, 0x00867B30);
 }
