@@ -150,7 +150,7 @@ DrawBackTexture(void)
         return;
     }
 
-    const Float depth = rjGetDepth2D(-_nj_clip_.f_clip);
+    const Float depth = 0.f;
 
     if ( _rj_back_surface_ )
     {
