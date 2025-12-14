@@ -180,27 +180,27 @@ DrawBackColorSub(void)
 
 static void
 ClearFrameHook(void)
-{              
+{
     void* const rendev = *( (void**)0x01A557C0 );
-               
+
     /** If the screen is fully faded out, just use black to stop a flicker **/
     if (FadeColor.argb.a == 0xFF)
-    {          
+    {
         MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
         return;
-    }          
-               
+    }
+
     /** If just a back color, and all the colors match, then use GPU clear as it's faster **/
     if ( !_rj_back_surface_ )
-{
+    {
         const u32 chk_color = _rj_back_vtx_[RJ_BACK_HI_L].bcol;
-               
+
         if ( chk_color == _rj_back_vtx_[RJ_BACK_HI_R].bcol
         &&   chk_color == _rj_back_vtx_[RJ_BACK_LO_L].bcol )
-    {
+        {
             MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, chk_color,  CLR_DEPTH, CLR_STENCIL);
             return;
-    }
+        }
     }
 
     /** Otherwise clear everything except the screen color, and apply back texture/color **/
@@ -333,6 +333,13 @@ rjSetBackTexture(const NJS_TEXTUREH_VTX vtx[3])
     _rj_back_vtx_[RJ_BACK_LO_R].ocol = vtx[2].ocol;
 }
 
+/****** Set Hooks *******************************************************************************/
+static void
+SetBackColor_WildCanyon(void)
+{
+    rjSetBackColor(0x3232AA, 0x3232AA, 0x3232AA);
+}
+
 /****** Init ************************************************************************************/
 void
 RJ_BackTextureInit(void)
@@ -354,4 +361,8 @@ RJ_BackTextureInit(void)
 
     /** Always reset back color on level exit **/
     FuncHook(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
+
+    // Add missing 'njSetBackColor' calls (inlined)
+    WriteNOP( 0x006A2462, 0x006A2481);
+    WriteCall(0x006A2462, SetBackColor_WildCanyon);
 }
