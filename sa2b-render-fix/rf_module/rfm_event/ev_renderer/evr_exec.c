@@ -49,13 +49,13 @@ EV_SceneExec(void)
 
     if ( ev_frame > 0.f ) // calculate scene index and frame
     {
-        EVENT_SCENE* p_scene = &SceneData[1];
+        EVENT_SCENE* p_scene = SceneData;
 
         const int nb_scene = EventData.nbScene;
 
-        for ( ; ix_scene < nb_scene; ++ix_scene, ++p_scene )
+        for ( ; ix_scene < nb_scene; ++ix_scene )
         {
-            const f32 new_sub = (f32)p_scene->nbFrame + ev_frame_sub;
+            const f32 new_sub = (f32)p_scene[ix_scene].nbFrame + ev_frame_sub;
 
             if ( new_sub - 1.0f >= ev_frame )
             {
