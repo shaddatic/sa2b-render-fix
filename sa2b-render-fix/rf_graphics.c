@@ -191,8 +191,17 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
             p_mcache->pstexs[index] = p_mtex->texture;
         }
 
-        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU     , s_GxToDxAddr[pTex->address_u]);
-        RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV     , s_GxToDxAddr[pTex->address_v]);
+        if ( index < 2 )
+        {
+            RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU, s_GxToDxAddr[pTex->address_u]);
+            RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV, s_GxToDxAddr[pTex->address_v]);
+        }
+        else // shadow texture
+        {
+            RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSU, DX9_TEXADDR_BORDER);
+            RFGX_SetSamplerState(index, DX9_SAMPLER_ADDRESSV, DX9_TEXADDR_BORDER);
+        }
+
         RFGX_SetSamplerState(index, DX9_SAMPLER_MAGFILTER    , s_GxToDxFilter[pTex->mag_filter]);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MINFILTER    , s_GxToDxFilter[pTex->min_filter]);
         RFGX_SetSamplerState(index, DX9_SAMPLER_MIPFILTER    , DX9_TEXFILTER_POINT);
