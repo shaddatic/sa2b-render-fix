@@ -15,6 +15,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
+#include <rf_ninja.h>           /* ninja                                            */
 
 /****** Self ************************************************************************/
 #include <rf_light/rfl_internal.h> /* parent & siblings                             */
@@ -24,39 +25,39 @@
 /************************/
 /****** Static **********************************************************************/
 static void
-SetLightIndex_RF(s32 light)
+SetLightIndex_RF(i32 light)
 {
     if ( LightsGC[light].flag & 1 )
     {
         const LIGHT_GC* p_light = &LightsGC[light];
 
-        rjCnkSetLightColor(RJD_CNK_LIGHT_1, p_light->lr, p_light->lg, p_light->lb);
+        rjSetLightColor(RJ_LIGHT_1, p_light->lr, p_light->lg, p_light->lb);
 
-        rjCnkSetAmbient(p_light->ar, p_light->ag, p_light->ab);
+        rjSetAmbient(p_light->ar, p_light->ag, p_light->ab);
 
-        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->x, p_light->y, p_light->z);
+        rjSetLightVector(RJ_LIGHT_1, p_light->x, p_light->y, p_light->z);
     }
     else // Dreamcast light
     {
         const LIGHT* p_light = &Lights[light];
 
-        rjCnkSetLightColor(RJD_CNK_LIGHT_1, p_light->r, p_light->g, p_light->b);
+        rjSetLightColor(RJ_LIGHT_1, p_light->r, p_light->g, p_light->b);
 
-        rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, p_light->inten, p_light->ambient);
+        rjSetLightIntensity(RJ_LIGHT_1, p_light->inten, p_light->ambient);
 
-        rjCnkSetLightVector(RJD_CNK_LIGHT_1, p_light->x, p_light->y, p_light->z);
+        rjSetLightVector(RJ_LIGHT_1, p_light->x, p_light->y, p_light->z);
     }
 
-    rjCnkSetLightMatrix(RJD_CNK_LIGHT_1);
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_1, ON);
+    rjSetLightMatrix(RJ_LIGHT_1);
+    rjSetLightSwitch(RJ_LIGHT_1, ON);
 
     // sync gx
-    rjCnkPushLightToGX(RJD_CNK_LIGHT_1);
-    rjCnkPushAmbientToGX();
+    RF_PushRjLightToGX(RJ_LIGHT_1);
+    RF_PushRjAmbientToGX();
 }
 
 static void
-SetPlayerLightIndex_RF(s32 pno)
+SetPlayerLightIndex_RF(i32 pno)
 {
     SetLightIndex_RF( PlayerLight[pno & 1] );
 }

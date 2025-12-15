@@ -18,7 +18,7 @@
 /*  Macros                      */
 /********************************/
 /****** Light Flags *****************************************************************************/
-#define LIGHT_ON(_flag, _ix)        ((_flag)&(RJD_CNK_LIGHTSW_1<<(_ix)))
+#define LIGHT_ON(_flag, _ix)        ((_flag)&(1<<(_ix)))
 
 /****** As Int **********************************************************************************/
 #define AS_UINT(a)                  *(Uint32*)(&(a))
@@ -101,13 +101,13 @@ rjCnkVertexColorLights(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
     NJS_ARGB argb = { _rj_cnk_diff_material_.a, _rj_cnk_ambi_material_.r, _rj_cnk_ambi_material_.g, _rj_cnk_ambi_material_.b };
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -116,9 +116,9 @@ rjCnkVertexColorLights(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        argb.r += (_rj_cnk_light_[i].r * inten);
-        argb.g += (_rj_cnk_light_[i].g * inten);
-        argb.b += (_rj_cnk_light_[i].b * inten);
+        argb.r += (_rj_lights_[i].r * inten);
+        argb.g += (_rj_lights_[i].g * inten);
+        argb.b += (_rj_lights_[i].b * inten);
     }
 
     argb.r = fminf(argb.r, 1.f);
@@ -139,13 +139,13 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
     NJS_ARGB argb = { _rj_cnk_diff_material_.a, _rj_cnk_ambi_material_.r, _rj_cnk_ambi_material_.g, _rj_cnk_ambi_material_.b };
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -154,9 +154,9 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        argb.r += (_rj_cnk_light_[i].r * inten);
-        argb.g += (_rj_cnk_light_[i].g * inten);
-        argb.b += (_rj_cnk_light_[i].b * inten);
+        argb.r += (_rj_lights_[i].r * inten);
+        argb.g += (_rj_lights_[i].g * inten);
+        argb.b += (_rj_lights_[i].b * inten);
     }
 
     argb.a *= ( (Float)pVtx->col.a / 128.f );
@@ -189,13 +189,13 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float exp = _rj_cnk_spec_material_.a;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
     NJS_ARGB spec = { 0 };
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -206,9 +206,9 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float spec_inten = njPow(inten, exp);
 
-        spec.r += (spec_inten * _rj_cnk_light_[i].r);
-        spec.g += (spec_inten * _rj_cnk_light_[i].g);
-        spec.b += (spec_inten * _rj_cnk_light_[i].b);
+        spec.r += (spec_inten * _rj_lights_[i].r);
+        spec.g += (spec_inten * _rj_lights_[i].g);
+        spec.b += (spec_inten * _rj_lights_[i].b);
     }
 
     spec.r *= _rj_cnk_spec_material_.r;
@@ -225,13 +225,13 @@ rjCnkSpecularEasy(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
-    Float spec = _rj_cnk_light_ambient_.inten;
+    Float spec = _rj_ambient_.inten;
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -255,13 +255,13 @@ rjCnkSpecularSimple(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
     Float spec = 0.f;
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -283,13 +283,13 @@ rjCnkSpecularMulti(const RJS_VERTEX_BUF* restrict pVtx)
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
 
-    const u32 lightsw = _rj_cnk_light_switch_;
+    const u32 lightsw = _rj_light_sw_;
 
     /** Start **/
 
     NJS_ARGB spec = { 0.f, _rj_cnk_ambi_material_.r, _rj_cnk_ambi_material_.g, _rj_cnk_ambi_material_.b };
 
-    for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
     {
         if ( !LIGHT_ON(lightsw, i) )
         {
@@ -298,9 +298,9 @@ rjCnkSpecularMulti(const RJS_VERTEX_BUF* restrict pVtx)
 
         const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
 
-        spec.r += (_rj_cnk_light_[i].r * inten);
-        spec.g += (_rj_cnk_light_[i].g * inten);
-        spec.b += (_rj_cnk_light_[i].b * inten);
+        spec.r += (_rj_lights_[i].r * inten);
+        spec.g += (_rj_lights_[i].g * inten);
+        spec.b += (_rj_lights_[i].b * inten);
     }
 
     spec.r -= 1.f;

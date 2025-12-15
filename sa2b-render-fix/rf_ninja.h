@@ -52,6 +52,71 @@ EXTERN_START
 #define RJD_FST_EUA                 (0x80<<NJD_FST_SHIFT)    /* extended use alpha              */
 
 /********************************/
+/*  Enums                       */
+/********************************/
+/****** Light Index *****************************************************************************/
+typedef enum rjlight
+{
+    RJ_LIGHT_ALL = -1,              /* apply to all lights                                      */
+
+    RJ_LIGHT_1,                     /* light index 1                                            */
+    RJ_LIGHT_2,                     /* light index 2                                            */
+    RJ_LIGHT_3,                     /* light index 3                                            */
+    RJ_LIGHT_4,                     /* light index 4                                            */
+    RJ_LIGHT_5,                     /* light index 5                                            */
+    RJ_LIGHT_6,                     /* light index 6                                            */
+
+    RJ_LIGHT_NUM,                   /* enum count                                               */
+}
+RJ_LIGHT;
+
+/****** Light Mode ******************************************************************************/
+typedef enum rjlightmd
+{
+    RJ_LIGHT_MD_DIR,                /* directional light                                         */
+    RJ_LIGHT_MD_POINT,              /* point light                                               */
+    RJ_LIGHT_MD_SPOT,               /* spot light                                       (GX emu) */
+}
+RJ_LIGHT_MODE;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Rj Light ********************************************************************************/
+typedef struct
+{
+    RJ_LIGHT_MODE mode;         /* light mode                                                   */
+
+    /** Directional Light **/
+
+    NJS_VECTOR  v;              /* light vector                                                 */
+
+    Float       r,g,b;          /* color                                                        */
+    Float       inten;          /* light intensity                                              */
+
+    /** Point Light **/
+
+    NJS_POINT3 p;               /* world position                                               */
+
+    f32        near;            /* near light plane                                             */
+    f32        far;             /* far light plane                                              */
+
+    /** Spot Light **/
+
+    f32        angmin;          /* minimum angle                                                */
+    f32        angmax;          /* maximum angle                                                */
+}
+RJS_LIGHT;
+
+/****** Ambient *********************************************************************************/
+typedef struct
+{
+    Float       r,g,b;          /* color                                                        */
+    Float       inten;          /* ambient intensity                                            */
+}
+RJS_AMBIENT;
+
+/********************************/
 /*  Macros                      */
 /********************************/
 /****** Convert UV Coords ***********************************************************************/
@@ -61,6 +126,13 @@ EXTERN_START
 /********************************/
 /*  Extern Variables            */
 /********************************/
+/****** Light Switch ****************************************************************************/
+#define _rj_light_sw_               DATA_REF(Uint32, 0x026702E0)
+
+/****** Light Data ******************************************************************************/
+EXTERN RJS_LIGHT   _rj_lights_[6];  /* light data                                               */
+EXTERN RJS_AMBIENT _rj_ambient_;    /* ambient data                                             */
+
 /****** Depth Queue *****************************************************************************/
 EXTERN Float _rj_depth_queue_near_; /* depth queue near plane                                   */
 EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                                    */
@@ -221,6 +293,104 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 */
 void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+
+/************************************************************************************************/
+/*
+*   Lights
+*/
+/****** Light Param *****************************************************************************/
+/*
+*   Description:
+*     Switch a Chunk light on or off.
+*
+*   Parameters:
+*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
+*     - flag        : on/off flag                                          [ON/OFF]
+*/
+void    rjSetLightSwitch( Int light, Int flag );
+/*
+*   Description:
+*     Set a Chunk light color.
+*
+*   Notes:
+*     - Internal light intensity is set to '1.f' when this function is called. To
+*       set a custom intensity, use 'SetLightIntensity'.
+*
+*   Parameters:
+*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
+*     - lr,lg,lb    : color                                               [0.f~1.f]
+*/
+void    rjSetLightColor( Int light, Float lr, Float lg, Float lb );
+/*
+*   Description:
+*     Set the Chunk ambient light color.
+*
+*   Notes:
+*     - Ambient is set here OR via intensity, but can't be both.
+*     - Internal ambient intensity value is set to the largest color component
+*       value when this function is called.
+*
+*   Parameters:
+*     - ar,ag,ab    : color                                               [0.f~1.f]
+*/
+void    rjSetAmbient( Float ar, Float ag, Float ab );
+/*
+*   Description:
+*     Set a Chunk light intensity, and optionally the ambient intensity.
+*
+*   Notes:
+*     - This will overwrite the ambient light color if ambient intensity is set.
+*     - Ambient is not updated when 'LIGHT_ALL' is used.
+*
+*   Parameters:
+*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
+*     - inten       : light intensity                                     [0.f~1.f]
+*     - ambient     : ambient intensity                        [opt: -1.f, 0.f~1.f]
+*/
+void    rjSetLightIntensity( Int light, Float inten, Float ambient );
+
+/****** Light Modes *****************************************************************************/
+/*
+*   Description:
+*     Set a Chunk light vector, and set the light mode to directional light.
+*
+*   Notes:
+*     - Vector is not normalized in-function.
+*
+*   Parameters:
+*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - vx,vy,vz    : vector
+*/
+void    rjSetLightVector( Int light, Float vx, Float vy, Float vz );
+/*
+*   Description:
+*     Set a Chunk light position, and set the light mode to point light.
+*
+*   Parameters:
+*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - px,py,pz    : vector
+*/
+void    rjSetLightPoint( Int light, Float px, Float py, Float pz );
+/*
+*   Description:
+*     Set Chunk point light near and far ranges.
+*
+*   Notes:
+*     - Anything closer than near is clamped to max intensity, then intensity falls
+*       off linearly until the far range.
+*
+*   Parameters:
+*     - light       : light index                                                 [RJ_LIGHT_#] 
+*/
+void    rjSetLightRange( Int light, Float nrange, Float frange );
+/*
+*   Description:
+*     Set Chunk light vectors/points to the current matrix, if it hasn't been done.
+*s
+*   Parameters:
+*     - light       : light index                                                 [RJ_LIGHT_#] 
+*/
+void    rjSetLightMatrix( Int light );
 
 /************************************************************************************************/
 /*

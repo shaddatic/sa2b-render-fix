@@ -462,15 +462,15 @@ rjCnkStripStartMaterial(const RJS_CNK_STRIP* restrict strip)
     }
     else if ( _rj_cnk_context_.flag & RJD_CXF_AMBIMATERIAL )
     {
-        _rj_cnk_ambi_material_.r = _rj_cnk_light_ambient_.r * ( (f32)strip->mats[RJ_CMC_AMBI].r * (1.f/255.f) );
-        _rj_cnk_ambi_material_.g = _rj_cnk_light_ambient_.g * ( (f32)strip->mats[RJ_CMC_AMBI].g * (1.f/255.f) );
-        _rj_cnk_ambi_material_.b = _rj_cnk_light_ambient_.b * ( (f32)strip->mats[RJ_CMC_AMBI].b * (1.f/255.f) );
+        _rj_cnk_ambi_material_.r = _rj_ambient_.r * ( (f32)strip->mats[RJ_CMC_AMBI].r * (1.f/255.f) );
+        _rj_cnk_ambi_material_.g = _rj_ambient_.g * ( (f32)strip->mats[RJ_CMC_AMBI].g * (1.f/255.f) );
+        _rj_cnk_ambi_material_.b = _rj_ambient_.b * ( (f32)strip->mats[RJ_CMC_AMBI].b * (1.f/255.f) );
     }
     else
     {
-        _rj_cnk_ambi_material_.r = _rj_cnk_light_ambient_.r;
-        _rj_cnk_ambi_material_.g = _rj_cnk_light_ambient_.g;
-        _rj_cnk_ambi_material_.b = _rj_cnk_light_ambient_.b;
+        _rj_cnk_ambi_material_.r = _rj_ambient_.r;
+        _rj_cnk_ambi_material_.g = _rj_ambient_.g;
+        _rj_cnk_ambi_material_.b = _rj_ambient_.b;
     }
 
     /****** Specular Material ***************************************************************/

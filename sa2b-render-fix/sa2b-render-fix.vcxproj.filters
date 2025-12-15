@@ -258,9 +258,6 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_njcnk.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_reflection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -444,10 +441,16 @@
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_njcnk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_util\rfu_draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja\rj_backtex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_light.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -527,9 +530,6 @@
     <ClInclude Include="rf_ninja\rj_cnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_njcnk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_nja\tls\rf_texerr.tls">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -585,6 +585,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_njcnk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfu_draw.h">

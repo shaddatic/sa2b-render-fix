@@ -67,15 +67,15 @@ rjCnkCalcVlistSpc(NJS_BGRA* dst, const NJS_BGRA* src)
 static Float
 rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
 {
-    const RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
+    const RJS_LIGHT* p_lite = &_rj_lights_[light];
 
-    switch ( p_lite->type )
+    switch ( p_lite->mode )
     {
-        case RJD_CNK_LIGHTMD_DIR:
+        case RJ_LIGHT_MD_DIR:
         {
             return njInnerProduct( &vbuf->nrm, &p_lite->v ) * p_lite->inten;
         }
-        case RJD_CNK_LIGHTMD_POINT: POINT:
+        case RJ_LIGHT_MD_POINT: POINT:
         {
             NJS_VECTOR v =
             {
@@ -108,7 +108,7 @@ rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
                 return njInnerProduct( &vbuf->nrm, &v ) * p_lite->inten;
             }
         }
-        case RJD_CNK_LIGHTMD_SPOT:
+        case RJ_LIGHT_MD_SPOT:
         {
             if ( p_lite->angmax == 0.f )
             {
@@ -165,34 +165,34 @@ rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
 void
 rjCnkVertexCalculateIntensity(RJS_VERTEX_BUF* restrict vbuf)
 {
-    const int litesw = _rj_cnk_light_switch_;
+    const Uint32 litesw = _rj_light_sw_;
 
-    if ( litesw & RJD_CNK_LIGHTSW_1 )
+    if ( litesw & (1<<RJ_LIGHT_1) )
     {
         vbuf->inten[0] = rjCnkCalcLightIntensity(0, vbuf);
     }
 
-    if ( litesw & RJD_CNK_LIGHTSW_2 )
+    if ( litesw & (1<<RJ_LIGHT_2) )
     {
         vbuf->inten[1] = rjCnkCalcLightIntensity(1, vbuf);
     }
 
-    if ( litesw & RJD_CNK_LIGHTSW_3 )
+    if ( litesw & (1<<RJ_LIGHT_3) )
     {
         vbuf->inten[2] = rjCnkCalcLightIntensity(2, vbuf);
     }
 
-    if ( litesw & RJD_CNK_LIGHTSW_4 )
+    if ( litesw & (1<<RJ_LIGHT_4) )
     {
         vbuf->inten[3] = rjCnkCalcLightIntensity(3, vbuf);
     }
 
-    if ( litesw & RJD_CNK_LIGHTSW_5 )
+    if ( litesw & (1<<RJ_LIGHT_5) )
     {
         vbuf->inten[4] = rjCnkCalcLightIntensity(4, vbuf);
     }
 
-    if ( litesw & RJD_CNK_LIGHTSW_6 )
+    if ( litesw & (1<<RJ_LIGHT_6) )
     {
         vbuf->inten[5] = rjCnkCalcLightIntensity(5, vbuf);
     }

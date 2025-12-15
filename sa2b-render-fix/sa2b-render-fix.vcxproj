@@ -16,6 +16,8 @@
     <ClCompile Include="rf_graphics.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c" />
     <ClCompile Include="rf_ninja\rj_backtex.c" />
+    <ClCompile Include="rf_ninja\rj_light.c" />
+    <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c" />
     <ClCompile Include="rf_ninja\rj_vsync.c" />
@@ -136,7 +138,6 @@
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_itembox.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_udreel.c" />
     <ClCompile Include="rf_nja.c" />
-    <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="rf_module\rfm_common.c" />
     <ClCompile Include="rf_api.c" />
@@ -162,6 +163,7 @@
     <ClInclude Include="rfu_draw.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_graphics.h" />
+    <ClInclude Include="rf_njcnk.h" />
     <ClInclude Include="rf_samdl.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
@@ -190,7 +192,6 @@
     <ClInclude Include="rf_light\rfl_internal.h" />
     <ClInclude Include="rf_magic.h" />
     <ClInclude Include="rf_ninja\rjcore\rjcore_init.h" />
-    <ClInclude Include="rf_njcnk.h" />
     <ClInclude Include="rf_renderstate.h" />
     <ClInclude Include="rf_enemywk.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h" />

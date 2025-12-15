@@ -16,6 +16,7 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_renderstate.h>     /* render state                                     */
+#include <rf_ninja.h>           /* render fix ninja                                 */
 #include <rf_light.h>           /* render fix light                                 */
 
 /****** Self ************************************************************************/
@@ -77,12 +78,12 @@ EventLightSet(void)
 
         njUnitVector(&vec);
 
-        rjCnkSetLightColor(ix_lt, p_lt->r, p_lt->g, p_lt->b);
-        rjCnkSetLightVector(ix_lt, vec.x, vec.y, vec.z);
+        rjSetLightColor(ix_lt, p_lt->r, p_lt->g, p_lt->b);
+        rjSetLightVector(ix_lt, vec.x, vec.y, vec.z);
 
-        rjCnkSetLightMatrix(ix_lt); // set vector reflect matrix
+        rjSetLightMatrix(ix_lt); // set vector reflect matrix
 
-        rjCnkPushLightToGX(ix_lt);
+        RF_PushRjLightToGX(ix_lt);
     }
 
     /** Ambient **/
@@ -99,23 +100,23 @@ EventLightSet(void)
 void
 EventLightSwitchSingle(void)
 {
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_1, ON);
+    rjSetLightSwitch(RJ_LIGHT_1, ON);
 
-    rjCnkSetLightIntensity(RJD_CNK_LIGHT_1, 1.f, SingleAmbi);
+    rjSetLightIntensity(RJ_LIGHT_1, 1.f, SingleAmbi);
 
     // turn off all other lights
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_2, OFF);
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_3, OFF);
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_4, OFF);
+    rjSetLightSwitch(RJ_LIGHT_2, OFF);
+    rjSetLightSwitch(RJ_LIGHT_3, OFF);
+    rjSetLightSwitch(RJ_LIGHT_4, OFF);
 }
 
 void
 EventLightSwitchMulti(Uint32 attr)
 {
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_1, (attr & EV_ENTF_LIGHT1));
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_2, (attr & EV_ENTF_LIGHT2));
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_3, (attr & EV_ENTF_LIGHT3));
-    rjCnkSetLightSwitch(RJD_CNK_LIGHT_4, (attr & EV_ENTF_LIGHT4));
+    rjSetLightSwitch(RJ_LIGHT_1, (attr & EV_ENTF_LIGHT1));
+    rjSetLightSwitch(RJ_LIGHT_2, (attr & EV_ENTF_LIGHT2));
+    rjSetLightSwitch(RJ_LIGHT_3, (attr & EV_ENTF_LIGHT3));
+    rjSetLightSwitch(RJ_LIGHT_4, (attr & EV_ENTF_LIGHT4));
 
-    rjCnkSetAmbient(MultiAmbi.r, MultiAmbi.g, MultiAmbi.b);
+    rjSetAmbient(MultiAmbi.r, MultiAmbi.g, MultiAmbi.b);
 }

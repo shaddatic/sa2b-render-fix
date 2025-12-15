@@ -16,6 +16,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
+#include <rf_ninja.h>           /* rf ninja                                         */
 #include <rf_shader.h>          /* shader constant                                  */
 
 /****** Self ************************************************************************/
@@ -63,15 +64,6 @@ typedef struct
 RX_LIGHT;
 
 /************************/
-/*  Export Data         */
-/************************/
-/****** Global Ambient Color ********************************************************/
-RJS_AMBIENT _rj_cnk_light_ambient_;
-
-/****** Global Lights ***************************************************************/
-RJS_LIGHT _rj_cnk_light_[6];
-
-/************************/
 /*  Game Data           */
 /************************/
 /****** GX Lights *******************************************************************/
@@ -102,125 +94,6 @@ rjLoadGxLight(Int light)
 
 /****** Static **********************************************************************/
 static void
-___rjCnkSetLightVector(Int light, Float vx, Float vy, Float vz)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    p_lite->type = RJD_CNK_LIGHTMD_DIR;
-
-    p_lite->v.x = vx;
-    p_lite->v.y = vy;
-    p_lite->v.z = vz;
-}
-
-static void
-___rjCnkSetLightSwitch(Int light, Int flag)
-{
-    if ( flag )
-    {
-        _rj_cnk_light_switch_ |= ( 1<<light );
-    }
-    else
-    {
-        _rj_cnk_light_switch_ &= ~( 1<<light );
-    }
-}
-
-static void
-___rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    p_lite->r = lr;
-    p_lite->g = lg;
-    p_lite->b = lb;
-
-    p_lite->inten = -1.f;
-}
-
-static void
-___rjCnkSetLightIntensity(Int light, Float inten, Float ambient)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    p_lite->inten = -inten;
-
-    if (ambient >= 0.f)
-    {
-        const Float ambi = MIN(ambient, 1.f);
-
-        _rj_cnk_light_ambient_.r = p_lite->r * ambi;
-        _rj_cnk_light_ambient_.g = p_lite->g * ambi;
-        _rj_cnk_light_ambient_.b = p_lite->b * ambi;
-
-        _rj_cnk_light_ambient_.inten = ambi;
-    }
-}
-
-static void
-___rjCnkSetLightPoint(Int light, Float px, Float py, Float pz)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    p_lite->type = RJD_CNK_LIGHTMD_POINT;
-
-    p_lite->p.x = px;
-    p_lite->p.y = py;
-    p_lite->p.z = pz;
-}
-
-static void
-___rjCnkSetLightRange(Int light, Float nrange, Float frange)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    p_lite->near = nrange * nrange;
-
-    const Float f_n = (frange - nrange);
-
-    if ( f_n < 0.f )
-    {
-        p_lite->far = 0.f;
-    }
-    else if ( f_n == 0.f )
-    {
-        p_lite->far = -1.0f;
-    }
-    else
-    {
-        const Float f = 1.f / (frange - nrange);
-
-        p_lite->far = -(f * f);
-    }
-}
-
-static void
-___rjCnkSetLightMatrix(Int light)
-{
-    RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
-
-    switch ( p_lite->type )
-    {
-        case RJD_CNK_LIGHTMD_DIR:
-        {
-            njCalcVector(NULL, &p_lite->v, &p_lite->v);
-            break;
-        }
-        case RJD_CNK_LIGHTMD_POINT:
-        {
-            njCalcPoint(NULL, &p_lite->p, &p_lite->p);
-            break;
-        }
-        case RJD_CNK_LIGHTMD_SPOT:
-        {
-            njCalcVector(NULL, &p_lite->v, &p_lite->v);
-            njCalcPoint( NULL, &p_lite->p, &p_lite->p);
-            break;
-        }
-    }
-}
-
-static void
 ___rjCnkPushLightToGX(Int light)
 {
     if (light >= RXD_LIGHT_MAX)
@@ -228,9 +101,9 @@ ___rjCnkPushLightToGX(Int light)
         return;
     }
 
-    if ( _rj_cnk_light_switch_ & ( 1 << light ) )
+    if ( _rj_light_sw_ & ( 1 << light ) )
     {
-        const RJS_LIGHT* restrict p_lite = &_rj_cnk_light_[light];
+        const RJS_LIGHT* restrict p_lite = &_rj_lights_[light];
 
         RX_LIGHT_ATTR* const p_gx_lite = _gj_light_list_[light].pAttr;
 
@@ -263,139 +136,13 @@ ___rjCnkPushLightToGX(Int light)
     rjLoadGxLight(light);
 }
 
-/****** Extern **********************************************************************/
-void
-rjCnkSetLightSwitch(Int light, Int flag)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightSwitch(i, flag);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightSwitch(light, flag);
-    }
-}
-
-void
-rjCnkSetAmbient(Float ar, Float ag, Float ab)
-{
-    _rj_cnk_light_ambient_.r = ar;
-    _rj_cnk_light_ambient_.g = ag;
-    _rj_cnk_light_ambient_.b = ab;
-
-    /** ambient intensity is set to the largest color value, as it's
-        the best approximation that can be made **/
-
-    _rj_cnk_light_ambient_.inten = MAX( MAX( ar, ag ), ab );
-}
-
-void
-rjCnkSetLightColor(Int light, Float lr, Float lg, Float lb)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightColor(i, lr, lg, lb);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightColor(light, lr, lg, lb);
-    }
-}
-
-void
-rjCnkSetLightIntensity(Int light, Float inten, Float ambient)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightIntensity(i, inten, -1.f);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightIntensity(light, inten, ambient);
-    }
-}
-
-void
-rjCnkSetLightVector(Int light, Float vx, Float vy, Float vz)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightVector(i, vx, vy, vz);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightVector(light, vx, vy, vz);
-    }
-}
-
-void
-rjCnkSetLightPoint(Int light, Float px, Float py, Float pz)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightPoint(i, px, py, pz);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightPoint(light, px, py, pz);
-    }
-}
-
-void
-rjCnkSetLightRange(Int light, Float nrange, Float frange)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightRange(i, nrange, frange);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightRange(light, nrange, frange);
-    }
-}
-
-void
-rjCnkSetLightMatrix(Int light)
-{
-    if ( light == RJD_CNK_LIGHT_ALL )
-    {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
-        {
-            ___rjCnkSetLightMatrix(i);
-        }
-    }
-    else
-    {
-        ___rjCnkSetLightMatrix(light);
-    }
-}
-
 /****** Rj To Gx ********************************************************************/
 void
-rjCnkPushLightToGX(Int light)
+RF_PushRjLightToGX(i32 light)
 {
-    if ( light == RJD_CNK_LIGHT_ALL ) // all lights
+    if ( light == RJ_LIGHT_ALL ) // all lights
     {
-        for ( int i = 0; i < RJD_CNK_LIGHT_NUM; ++i )
+        for ( i32 i = 0; i < RJ_LIGHT_NUM; ++i )
         {
             ___rjCnkPushLightToGX(i);
         }
@@ -407,9 +154,9 @@ rjCnkPushLightToGX(Int light)
 }
 
 void
-rjCnkPushAmbientToGX(void)
+RF_PushRjAmbientToGX(void)
 {
-    RF_ShaderSetConstantF4( RF_SCFV_AMBIENTREG_0, _rj_cnk_light_ambient_.r, _rj_cnk_light_ambient_.g, _rj_cnk_light_ambient_.b, 1.f );
+    RF_ShaderSetConstantF4( RF_SCFV_AMBIENTREG_0, _rj_ambient_.r, _rj_ambient_.g, _rj_ambient_.b, 1.f );
 }
 
 /****** Hooks ***********************************************************************/
@@ -425,11 +172,11 @@ gjSetLightColor_Hook(int id, Float r, Float g, Float b)
 static void
 gjSetAmbient_Hook(Float ar, Float ag, Float ab)
 {
-    _rj_cnk_light_ambient_.r = ar;
-    _rj_cnk_light_ambient_.g = ag;
-    _rj_cnk_light_ambient_.b = ab;
+    _rj_ambient_.r = ar;
+    _rj_ambient_.g = ag;
+    _rj_ambient_.b = ab;
 
-    _rj_cnk_light_ambient_.inten = MAX( MAX( ar, ag ), ab );
+    _rj_ambient_.inten = MAX( MAX( ar, ag ), ab );
 
     RF_ShaderSetConstantF4( RF_SCFV_AMBIENTREG_0, ar, ag, ab, 1.f );
 }
@@ -441,7 +188,7 @@ gjLoadLight_Hook(Int light)
     {
         const RX_LIGHT_ATTR* p_attr = _gj_light_list_[light].pAttr;
 
-        RJS_LIGHT* p_lite = &_rj_cnk_light_[light];
+        RJS_LIGHT* p_lite = &_rj_lights_[light];
 
         p_lite->r = p_attr->color.r;
         p_lite->g = p_attr->color.g;
@@ -451,7 +198,7 @@ gjLoadLight_Hook(Int light)
 
         if ( p_attr->vec.x != 0.f || p_attr->vec.y != 0.f || p_attr->vec.z != 0.f )
         {
-            p_lite->type = RJD_CNK_LIGHTMD_SPOT;
+            p_lite->mode = RJ_LIGHT_MD_SPOT;
 
             p_lite->v.x = -p_attr->vec.x;
             p_lite->v.y = -p_attr->vec.y;
@@ -467,7 +214,7 @@ gjLoadLight_Hook(Int light)
         }
         else
         {
-            p_lite->type = RJD_CNK_LIGHTMD_DIR;
+            p_lite->mode = RJ_LIGHT_MD_DIR;
 
             NJS_VECTOR vec = p_attr->pos;
 
