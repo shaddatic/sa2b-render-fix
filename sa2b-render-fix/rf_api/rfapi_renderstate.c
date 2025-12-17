@@ -6,11 +6,11 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_renderstate.h>         /* render state                                             */
-#include <rf_ninja.h>               /* render fix ninja                                         */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
+#include <rf_renderstate.h>         /* render state                                             */
+#include <rf_ninja.h>               /* render fix ninja                                         */
 
 /********************************/
 /*  Constants                   */

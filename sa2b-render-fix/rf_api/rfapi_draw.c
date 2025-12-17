@@ -6,14 +6,14 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_ninja.h>               /* draw                                                     */
-#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 /****** RF Util *********************************************************************************/
 #include <rfu_draw.h>               /* draw                                                     */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
+#include <rf_ninja.h>               /* draw                                                     */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 /********************************/
 /*  Constants                   */

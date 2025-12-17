@@ -6,10 +6,10 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_shader.h>              /* shader                                                   */
 
 /****** Self ************************************************************************************/
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
+#include <rf_shader.h>              /* shader                                                   */
 
 /********************************/
 /*  Constants                   */

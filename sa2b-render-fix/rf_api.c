@@ -10,11 +10,6 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_ninja.h>
-#include <rf_renderstate.h>
-#include <rf_shader.h>
-#include <rf_feature.h>
-#include <rf_ctrl.h>
 
 /** Internal **/
 #include <rf_api.h>
