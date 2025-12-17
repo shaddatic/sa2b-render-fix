@@ -110,7 +110,7 @@ rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
         }
         case RJ_LIGHT_MD_SPOT:
         {
-            if ( p_lite->angmax == 0.f )
+            if ( p_lite->oang == 0.f )
             {
                 goto POINT;
             }
@@ -144,9 +144,9 @@ rjCnkCalcLightIntensity(int light, const RJS_VERTEX_BUF* restrict vbuf)
 
             njUnitVector(&v);
 
-            Float angle = (1.f - ( ( njInnerProduct( &v, &p_lite->v ) * 0.5f ) + 0.5f )) - p_lite->angmin;
+            Float angle = (1.f - ( ( njInnerProduct( &v, &p_lite->v ) * 0.5f ) + 0.5f )) - p_lite->iang;
 
-            Float angle_inten = 1.f + (angle * p_lite->angmax);
+            Float angle_inten = 1.f + (angle * p_lite->oang);
 
             if ( angle_inten < 0.f )
             {

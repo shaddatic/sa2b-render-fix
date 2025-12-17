@@ -97,8 +97,8 @@ typedef struct
 
     /** Spot Light **/
 
-    f32        angmin;          /* minimum angle                                                */
-    f32        angmax;          /* maximum angle                                                */
+    f32          iang;          /* inner angle                                                  */
+    f32          oang;          /* outer angle                                                  */
 }
 RJS_LIGHT;
 

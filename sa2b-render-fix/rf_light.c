@@ -209,8 +209,8 @@ gjLoadLight_Hook(Int light)
             p_lite->near = 0.f;
             p_lite->far  = 0.f;
 
-            p_lite->angmin = 0.f;
-            p_lite->angmax = acosf(p_attr->angle) * -16.837942f;
+            p_lite->iang = 0.f;
+            p_lite->oang = acosf(p_attr->angle) * -16.837942f;
         }
         else
         {
