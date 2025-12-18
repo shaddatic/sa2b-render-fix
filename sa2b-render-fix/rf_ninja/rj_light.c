@@ -27,6 +27,19 @@ RJS_AMBIENT _rj_ambient_;           /* ambient light data                       
 /********************************/
 /****** Static **********************************************************************************/
 static void
+___rjSetLightSwitch(Int light, Int flag)
+{
+    if ( flag ) // ON
+    {
+        _rj_light_sw_ |= ( 1<<light );
+    }
+    else // OFF
+    {
+        _rj_light_sw_ &= ~( 1<<light );
+    }
+}
+
+static void
 ___rjSetLightVector(Int light, Float vx, Float vy, Float vz)
 {
     RJS_LIGHT* p_lite = &_rj_lights_[light];
@@ -39,16 +52,15 @@ ___rjSetLightVector(Int light, Float vx, Float vy, Float vz)
 }
 
 static void
-___rjSetLightSwitch(Int light, Int flag)
+___rjSetLightPoint(Int light, Float px, Float py, Float pz)
 {
-    if ( flag )
-    {
-        _rj_light_sw_ |= ( 1<<light );
-    }
-    else
-    {
-        _rj_light_sw_ &= ~( 1<<light );
-    }
+    RJS_LIGHT* p_lite = &_rj_lights_[light];
+
+    p_lite->mode = RJ_LIGHT_MD_POINT;
+
+    p_lite->p.x = px;
+    p_lite->p.y = py;
+    p_lite->p.z = pz;
 }
 
 static void
@@ -84,18 +96,6 @@ ___rjSetLightIntensity(Int light, Float inten, Float ambient)
 
         _rj_ambient_.inten = ambi;
     }
-}
-
-static void
-___rjSetLightPoint(Int light, Float px, Float py, Float pz)
-{
-    RJS_LIGHT* p_lite = &_rj_lights_[light];
-
-    p_lite->mode = RJ_LIGHT_MD_POINT;
-
-    p_lite->p.x = px;
-    p_lite->p.y = py;
-    p_lite->p.z = pz;
 }
 
 static void
