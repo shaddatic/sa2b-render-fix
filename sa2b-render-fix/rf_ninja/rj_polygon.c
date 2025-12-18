@@ -335,19 +335,65 @@ rjDrawTexture3DExSetData(const NJS_TEXTURE_VTX* p, Int count)
     rjSetHwCulling( RJ_CULL_NONE );
 }
 
+void
+rjDrawTexture3DHExStart(Int trans)
+{
+    rjDrawTexture3DExStart(trans);
+}
+
+void
+rjDrawTexture3DHExSetData(const NJS_TEXTUREH_VTX* p, Int count)
+{
+    rjSetHwCullingCtx();
+
+    rjStartVertex3D(RJ_VERTEX_PTCO);
+
+    const Sint32 nbv = rjStartTriStrip(count);
+
+    RJS_VERTEX_PTCO* restrict p_buf = rjGetVertexBuffer();
+
+    for ( int i = 0; i < count; ++i )
+    {
+        NJS_POINT3 pos = { 0 };
+        njCalcPoint(NULL, (NJS_POINT3*)&p[i].x, &pos);
+
+        p_buf[i].pos.x = pos.x;
+        p_buf[i].pos.y = pos.y;
+        p_buf[i].pos.z = pos.z;
+
+        p_buf[i].u     = p[i].u;
+        p_buf[i].v     = p[i].v;
+        p_buf[i].col   = p[i].bcol;
+        p_buf[i].off   = p[i].ocol;
+    }
+
+    rjEndTriStrip(nbv);
+
+    rjEndVertex();
+
+    rjSetHwCulling( RJ_CULL_NONE );
+}
+
 /****** Draw 3D *********************************************************************************/
 void
-rjDrawTexture3DEx(const NJS_TEXTURE_VTX* p, const Int count, Int trans)
+rjDrawPolygon3DEx(const NJS_POLYGON_VTX* p, const Int count, Int trans)
+{
+    rjDrawPolygon3DExStart(trans);
+    rjDrawPolygon3DExSetData(p, count);
+}
+
+void
+rjDrawTexture3DEx(const NJS_TEXTURE_VTX* p, Int count, Int trans)
 {
     rjDrawTexture3DExStart(trans);
     rjDrawTexture3DExSetData(p, count);
 }
 
 void
-rjDrawPolygon3DEx(const NJS_POLYGON_VTX* p, const Int count, Int trans)
+rjDrawTexture3DHEx(const NJS_TEXTUREH_VTX* p, Int count, Int trans)
 {
-    rjDrawPolygon3DExStart(trans);
-    rjDrawPolygon3DExSetData(p, count);
+    rjDrawTexture3DHExStart(trans);
+    rjDrawTexture3DHExSetData(p, count);
 }
 
 /****** ASM *************************************************************************************/

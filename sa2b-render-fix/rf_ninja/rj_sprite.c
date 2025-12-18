@@ -116,7 +116,7 @@ ___rjGetSpritePoints2D(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* restrict s
 }
 
 void
-rjDrawSprite2D(const NJS_SPRITE* restrict sp, Int n, Float pri, Uint32 attr)
+rjDrawSprite2D(const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr)
 {
     NJS_POINT3 p[4]; // vertex points
 
@@ -355,7 +355,7 @@ ___rjGetSpritePoints3D_Normal(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* res
 }
 
 void
-rjDrawSprite3D(const NJS_SPRITE* restrict sp, Int n, Uint32 attr)
+rjDrawSprite3D(const NJS_SPRITE* sp, Int n, Uint32 attr)
 {
     NJS_POINT3 p[4]; // vertex points
 

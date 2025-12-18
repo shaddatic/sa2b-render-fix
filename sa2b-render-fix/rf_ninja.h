@@ -238,70 +238,136 @@ void    rjDrawTextureHEx( const NJS_TEXTUREH_VTX* polygon, Int count, Int trans 
 
 /************************************************************************************************/
 /*
-*   Draw 2D
+*   Polygon 2/3D
 */
-/****** Ninja Draw 2D ***************************************************************************/
+/****** Polygon 2D ******************************************************************************/
 /*
-*   Draw a multi-vertex, 2D polygon.
+*   Description:
+*     Draw a non-tex polygon, with Ninja '2D draw' params.
 *
 *   Examples:
-*       rjDrawPolygon2D(poly, count, -1.0f, NJD_FILL|NJD_TRANSPARENT)
+*     - rjDrawPolygon2D(poly, count, -1.0f, NJD_FILL|NJD_TRANSPARENT);
 *
 *   Parameters:
-*     - p       : POINT2COL list
-*     - n       : POINT2COL entry count
-*     - pri     : draw priority (-1<->-65535)
-*     - attr    : draw attributes
+*     - p           : vertex list
+*     - n           : vertex count
+*     - pri         : draw priority/depth                                           [-1~-65535]
+*     - attr        : attributes
 */
 void    rjDrawPolygon2D( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
+/****** Polygon 3D ******************************************************************************/
+/*
+*   Description:
+*     Draw a non-tex polygon, in world space.
+*
+*   Parameters:
+*     - p           : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawPolygon3DEx( const NJS_POLYGON_VTX* p, Int count, Int trans );
+/*
+*   Description:
+*     Draw a textured polygon, in world space.
+*
+*   Notes:
+*     - A texture must be set before drawing, using 'SetTextureNum' or 'SetTextureG'.
+*
+*   Parameters:
+*     - p           : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawTexture3DEx( const NJS_TEXTURE_VTX* p, Int count, Int trans );
+/*
+*   Description:
+*     Draw a textured polygon with highlights (specular/offset), in world space.
+*
+*   Notes:
+*     - A texture must be set before drawing, using 'SetTextureNum' or 'SetTextureG'.
+*
+*   Parameters:
+*     - p           : vertex list
+*     - count       : vertex count
+*     - trans       : translucency flag                                            [TRUE/FALSE]
+*/
+void    rjDrawTexture3DHEx( const NJS_TEXTUREH_VTX* p, Int count, Int trans );
+
 /************************************************************************************************/
 /*
-*   Draw Line
+*   Line
 */
 /****** Draw Line *******************************************************************************/
 /*
 *   Description:
-*     Draw 3D line in either strip or list mode. Internally calls the seperated line
-*   draw functions
+*     Draw a line in either strip or list mode, in screen space.
 *
 *   Parameters:
-*     - vtx     : list of line vertexes
-*     - Count   : number of line vertexes
-*     - r       : radius, in 480p pixels
-*     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
-*/
-void    rjDrawLineStrip3D( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
-void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
-/*
-*   Description:
-*     Draw 2D line in either strip or list mode. Internally calls the seperated line
-*   draw functions
-*
-*   Parameters:
-*     - vtx     : list of line vertexes
-*     - ooz     : 1/z, 'z' being the depth of the line
-*     - Count   : number of line vertexes
-*     - r       : radius, in 480p pixels
-*     - Color   : line color to draw (in 0xAA'RR'GG'BB format)
+*     - vtx         : list of line vertexes
+*     - ooz         : 1/z, 'z' being the 3D depth of the line
+*     - Count       : number of line vertexes
+*     - r           : radius, in 480p pixels
+*     - Color       : line color                                                [0xAA'RR'GG'BB]
 */
 void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+/*
+*   Description:
+*     Draw a line in either strip or list mode, in world space.
+*
+*   Parameters:
+*     - vtx         : list of line vertexes
+*     - Count       : number of line vertexes
+*     - r           : radius, in 480p pixels
+*     - Color       : line color                                                [0xAA'RR'GG'BB]
+*/
+void    rjDrawLineStrip3D( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
+
+/************************************************************************************************/
+/*
+*   Sprite
+*/
+/****** Draw Sprite *****************************************************************************/
+/*
+*   Description:
+*     Draw a sprite, in screen space.
+*
+*   Parameters:
+*     - sp          : sprite
+*     - n           : texanim index
+*     - pri         : draw priority/depth                                           [-1~-65535]
+*     - attr        : attributes                                                 [NJD_SPRITE_#]
+*/
+void    rjDrawSprite2D( const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
+/*
+*   Description:
+*     Draw a sprite, in world space.
+*
+*   Parameters:
+*     - sp          : sprite
+*     - n           : texanim index
+*     - attr        : attributes                                                 [NJD_SPRITE_#]
+*/
+void    rjDrawSprite3D( const NJS_SPRITE* sp, Int n, Uint32 attr );
 
 /************************************************************************************************/
 /*
 *   Lights
 */
-/****** Light Param *****************************************************************************/
+/****** Light Switch ****************************************************************************/
 /*
 *   Description:
-*     Switch a Chunk light on or off.
+*     Switch a light on/off.
 *
 *   Parameters:
-*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
-*     - flag        : on/off flag                                          [ON/OFF]
+*     - light       : chunk light                                                  [RJ_LIGHT_#]
+*     - flag        : on/off flag                                                      [ON/OFF]
 */
 void    rjSetLightSwitch( Int light, Int flag );
+
+/****** Light Color *****************************************************************************/
 /*
 *   Description:
 *     Set a Chunk light color.
@@ -311,8 +377,8 @@ void    rjSetLightSwitch( Int light, Int flag );
 *       set a custom intensity, use 'SetLightIntensity'.
 *
 *   Parameters:
-*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
-*     - lr,lg,lb    : color                                               [0.f~1.f]
+*     - light       : chunk light                                                  [RJ_LIGHT_#]
+*     - lr,lg,lb    : color                                                           [0.f~1.f]
 */
 void    rjSetLightColor( Int light, Float lr, Float lg, Float lb );
 /*
@@ -325,7 +391,7 @@ void    rjSetLightColor( Int light, Float lr, Float lg, Float lb );
 *       value when this function is called.
 *
 *   Parameters:
-*     - ar,ag,ab    : color                                               [0.f~1.f]
+*     - ar,ag,ab    : color                                                           [0.f~1.f]
 */
 void    rjSetAmbient( Float ar, Float ag, Float ab );
 /*
@@ -337,16 +403,16 @@ void    rjSetAmbient( Float ar, Float ag, Float ab );
 *     - Ambient is not updated when 'LIGHT_ALL' is used.
 *
 *   Parameters:
-*     - light       : chunk light                                 [RJD_CNK_LIGHT_#]
-*     - inten       : light intensity                                     [0.f~1.f]
-*     - ambient     : ambient intensity                        [opt: -1.f, 0.f~1.f]
+*     - light       : chunk light                                                  [RJ_LIGHT_#]
+*     - inten       : light intensity                                                 [0.f~1.f]
+*     - ambient     : ambient intensity                                    [opt: -1.f, 0.f~1.f]
 */
 void    rjSetLightIntensity( Int light, Float inten, Float ambient );
 
 /****** Light Modes *****************************************************************************/
 /*
 *   Description:
-*     Set a Chunk light vector, and set the light mode to directional light.
+*     Set a light vector, and set the light mode to directional light.
 *
 *   Notes:
 *     - Vector is not normalized in-function.
@@ -358,13 +424,15 @@ void    rjSetLightIntensity( Int light, Float inten, Float ambient );
 void    rjSetLightVector( Int light, Float vx, Float vy, Float vz );
 /*
 *   Description:
-*     Set a Chunk light position, and set the light mode to point light.
+*     Set a light position, and set the light mode to point light.
 *
 *   Parameters:
 *     - light       : light index                                                 [RJ_LIGHT_#] 
 *     - px,py,pz    : vector
 */
 void    rjSetLightPoint( Int light, Float px, Float py, Float pz );
+
+/****** Light Param *****************************************************************************/
 /*
 *   Description:
 *     Set Chunk point light near and far ranges.
@@ -375,12 +443,16 @@ void    rjSetLightPoint( Int light, Float px, Float py, Float pz );
 *
 *   Parameters:
 *     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - nrange      : near range
+*     - frange      : far range
 */
 void    rjSetLightRange( Int light, Float nrange, Float frange );
+
+/****** Light Matrix ****************************************************************************/
 /*
 *   Description:
 *     Set Chunk light vectors/points to the current matrix, if it hasn't been done.
-*s
+*
 *   Parameters:
 *     - light       : light index                                                 [RJ_LIGHT_#] 
 */
