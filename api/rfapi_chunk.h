@@ -82,6 +82,20 @@ typedef struct
     /**** Chunk Callback ************************************/
     /*
     *   Description:
+    *     Set the Chunk model callback function.
+    *
+    *   Notes:
+    *     - This is a Render Fix extension, and is not part of base Ninja.
+    *     - Called for every *non-clipped* model drawn using any draw function.
+    *     - Reset the callback to 'NULL' when drawing is complete.
+    * 
+    *   Parameters:
+    *     - callback        : model callback function                        [opt: nullptr]
+    *       - model         : callback model pointer
+    */
+    void (*CnkSetModelCallback)( void(*callback)(NJS_CNK_MODEL* model) );
+    /*
+    *   Description:
     *     Set the Chunk object callback function.
     *
     *   Notes:
@@ -107,20 +121,6 @@ typedef struct
     *       - object        : callback object pointer
     */
     void (*CnkSetMotionCallback)( void(*callback)(NJS_CNK_OBJECT* object) );
-    /*
-    *   Description:
-    *     Set the Chunk model callback function.
-    *
-    *   Notes:
-    *     - This is a Render Fix extension, and is not part of base Ninja.
-    *     - Called for every *non-clipped* model drawn using any draw function.
-    *     - Reset the callback to 'NULL' when drawing is complete.
-    * 
-    *   Parameters:
-    *     - callback        : model callback function                        [opt: nullptr]
-    *       - model         : callback model pointer
-    */
-    void (*CnkSetModelCallback)( void(*callback)(NJS_CNK_MODEL* model) );
 
     /**** Chunk Polygon Callback ****************************/
     /*

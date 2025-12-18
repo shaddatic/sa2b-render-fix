@@ -23,9 +23,9 @@ const RFAPI_CHUNK rfapi_chunk =
     .CnkSetControl = rjCnkSetControl,
     .CnkGetControl = rjCnkGetControl,
 
+    .CnkSetModelCallback  = rjCnkSetModelCallback,
     .CnkSetObjectCallback = rjCnkSetObjectCallback,
     .CnkSetMotionCallback = rjCnkSetMotionCallback,
-    .CnkSetModelCallback  = rjCnkSetModelCallback,
 
     .CnkSetTextureCallback  = rjCnkSetTextureCallback,
     .CnkSetMaterialCallback = rjCnkSetMaterialCallback,
