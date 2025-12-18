@@ -395,7 +395,7 @@ rjCheapShadowEffectEnd(const Sint32 n)
 void
 rjSetCheapShadowMode(Int mode)
 {
-    const Int mode_and = mode & 255;
+    const Int mode_and = CLAMP(mode, 0, 256);
 
     _rj_shadow_color_.a = 1.f - ( (Float)mode_and * (1.f/256.f) );
 
