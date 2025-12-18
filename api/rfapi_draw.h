@@ -10,6 +10,8 @@
 *     - v1.3.2.0        : Version 2, added 'DrawLine' function set
 *     - v1.4.0.0        : Version 3, added additional modifier and Chunk related functions
 *     - v1.4.0.1        : Version 4, added 'SetCheapShadowColor'
+*     - v1.5.0.0        : Version 5, most functions were depricated - although many are still
+*                         fully functional, there's just a newer way to access them now.
 * 
 *   Availability:
 *     - Before Init     : No
@@ -23,7 +25,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_DRAW_VER              (4) /* draw api version                                     */
+#define RFAPI_DRAW_VER              (5) /* draw api version                                     */
 
 /********************************/
 /*  API Structures              */
@@ -37,6 +39,13 @@ typedef struct
 
     /**** Null Draw/Animate Motion **************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : make your own if needed
+    * 
     *   Description:
     *     Emulates a successful Chunk draw, but doesn't actually draw anything.
     * 
@@ -48,6 +57,13 @@ typedef struct
     */
     Sint32 (__cdecl* CnkNullDrawModel)( const NJS_CNK_MODEL* model );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : make your own if needed
+    * 
     *   Description:
     *     Goes through the steps of drawing, such as matrix transformations, without
     *   actually drawing anything.
@@ -57,6 +73,13 @@ typedef struct
     */
     void (__cdecl* CnkNullDrawObject)( const NJS_CNK_OBJECT* object );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : make your own if needed
+    * 
     *   Description:
     *     Goes through the steps of animating, such as matrix calculations & calling
     *   motion callbacks, without actually drawing anything.
@@ -68,6 +91,13 @@ typedef struct
     */
     void (__cdecl* CnkAnimateMotion)( const NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : make your own if needed
+    * 
     *   Description:
     *     Goes through the steps of animating, such as interpolating the motions, matrix
     *   calculations, & calling motion callbacks, without actually drawing anything.
@@ -90,6 +120,13 @@ typedef struct
 
     /**** Modifier Draw *************************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk modifier volume model.
     *
@@ -101,6 +138,13 @@ typedef struct
     */
     Sint32 (__cdecl* CnkModDrawModel)( NJS_CNK_MODEL* model );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a modifier volume object tree.
     *
@@ -109,6 +153,13 @@ typedef struct
     */
     void (__cdecl* CnkModDrawObject)( NJS_CNK_OBJECT* object );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk modifier volume motion.
     *
@@ -117,8 +168,15 @@ typedef struct
     *     - motion      : motion data for 'object'
     *     - frame       : frame of animation
     */
-    void (__cdecl* CnkModDrawMotion)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+    void (__cdecl* CnkModDrawMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : create your own using the 'Chunk' API module
+    * 
     *   Description:
     *     Interpolate and draw two Chunk modifier volume motions.
     *
@@ -127,7 +185,7 @@ typedef struct
     *     - motion_link : motion link data and motion datas for 'object'
     *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
     */
-    void (__cdecl* CnkModDrawMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
+    void (__cdecl* CnkModDrawMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate );
 
     /**** Modifier Common Draw ******************************/
     /*
@@ -145,7 +203,15 @@ typedef struct
     */
     /********************************************************/
     /*
-    *   Draw a multi-vertex, 2D texture with 'count'.
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Ninja Draw' API module
+    *     - alternative     : use the 'Ninja Draw' API module instead
+    * 
+    *   Description:
+    *     Draw a multi-vertex, 2D texture with 'count'.
     *
     *   Parameters:
     *     - polygon : NJS_TEXTURE_VTX list
@@ -154,7 +220,15 @@ typedef struct
     */
     void (__cdecl* DrawTextureEx)(const NJS_TEXTURE_VTX* polygon, Int count, Int trans);
     /*
-    *   Draw a multi-vertex, 2D polygon with 'n'.
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Ninja Draw' API module
+    *     - alternative     : use the 'Ninja Draw' API module instead
+    * 
+    *   Description:
+    *     Draw a multi-vertex, 2D polygon with 'n'.
     *
     *   Examples:
     *     - p->DrawPolygon2D(poly, count, -1.0f, NJD_FILL|NJD_TRANSPARENT)
@@ -175,6 +249,13 @@ typedef struct
     */
     /********************************************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Ninja Draw' API module
+    *     - alternative     : use the 'Ninja Draw' API module instead
+    * 
     *   Description:
     *     Draw a 3D line in either strip or list mode. 'Strip' will use the end
     *   vertex of the last line as the start vertex of the next line; 'List' will
@@ -192,6 +273,13 @@ typedef struct
     void (__cdecl* DrawLineStrip3D)( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
     void (__cdecl* DrawLineList3D)(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Ninja Draw' API module
+    *     - alternative     : use the 'Ninja Draw' API module instead
+    * 
     *   Description:
     *     Draw a 2D line in either strip or list mode. 'Strip' will use the end
     *   vertex of the last line as the start vertex of the next line; 'List' will
@@ -222,6 +310,13 @@ typedef struct
     */
     /**** Modifier Draw Shape Motion ************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : create your own using the 'Chunk' API module
+    * 
     *   Description:
     *     Draw a Chunk modifier volume motion.
     *
@@ -233,6 +328,13 @@ typedef struct
     */
     void (__cdecl* CnkModDrawShapeMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : create your own using the 'Chunk' API module
+    * 
     *   Description:
     *     Interpolate and draw two Chunk modifier volume motions.
     *
@@ -244,6 +346,13 @@ typedef struct
     */
     void (__cdecl* CnkModDrawShapeMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : create your own using the 'Chunk' API module
+    * 
     *   Description:
     *     Draw a Chunk modifier volume motion.
     *
@@ -255,6 +364,13 @@ typedef struct
     */
     void (__cdecl* CnkModDrawShapeMotionBE)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : non-functional, no-op
+    *     - reason          : very little usage with major internal changes
+    *     - alternative     : create your own using the 'Chunk' API module
+    * 
     *   Description:
     *     Interpolate and draw two Chunk modifier volume motions.
     *
@@ -272,6 +388,13 @@ typedef struct
     */
     /**** Chunk Draw ****************************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk model.
     *
@@ -283,6 +406,13 @@ typedef struct
     */
     Sint32 (__cdecl* CnkDrawModel)( NJS_CNK_MODEL* model );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk object tree.
     *
@@ -293,6 +423,13 @@ typedef struct
 
     /**** Chunk Draw Motion *********************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk motion.
     *
@@ -303,6 +440,13 @@ typedef struct
     */
     void (__cdecl* CnkDrawMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Interpolate and draw two Chunk motions.
     *
@@ -315,6 +459,13 @@ typedef struct
 
     /**** Chunk Draw Shape Motion ***************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a Chunk shape motion.
     *
@@ -326,6 +477,13 @@ typedef struct
     */
     void (__cdecl* CnkDrawShapeMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Interpolate and draw two Chunk shape motions.
     *
@@ -339,6 +497,13 @@ typedef struct
 
     /**** Chunk Draw Shape Motion (Big Endian) **************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Draw a big endian Chunk shape motion.
     *
@@ -353,6 +518,13 @@ typedef struct
     */
     void (__cdecl* CnkDrawShapeMotionBE)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Interpolate and draw two big endian Chunk shape motions.
     *
@@ -369,6 +541,13 @@ typedef struct
 
     /**** Chunk Modify **************************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Set the Chunk UV offset value for regular UVs, for texture scrolling.
     *
@@ -382,6 +561,13 @@ typedef struct
     */
     void (__cdecl* CnkSetUvScroll)( Float u, Float v );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Set the Chunk UV offset value for environment mapping, for texture
     *   scrolling. Scrolling applies when 'NJD_CONTROL_3D_ENV_UV_SCROLL' is set.
@@ -398,6 +584,13 @@ typedef struct
     */
     void (__cdecl* CnkSetEnvUvScroll)( Float u, Float v );
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Chunk' API module
+    *     - alternative     : use the 'Chunk' API module instead
+    * 
     *   Description:
     *     Set the texture ID callback function, for texture animation.
     *
@@ -413,6 +606,13 @@ typedef struct
 
     /**** Cheap Shadows *************************************/
     /*
+    *   [[ DEPRICATED : Version 5 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Ninja' API module
+    *     - alternative     : use the 'Ninja' API module instead
+    * 
     *   Description:
     *     Set the intensity of modifier shadows, also called cheap shadows. The
     *   value is divided by '256' and multiplied with the pixel color. For example,

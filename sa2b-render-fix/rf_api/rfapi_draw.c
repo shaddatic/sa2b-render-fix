@@ -85,7 +85,7 @@ const RFAPI_DRAW rfapi_draw =
     .CnkModDrawModel        = njCnkModDrawModel,
     .CnkModDrawObject       = njCnkModDrawObject,
 
-    .CnkModDrawMotion       = (void*) Obsolete,
+    .CnkModDrawMotion       = njCnkModDrawMotion,
     .CnkModDrawMotionLink   = (void*) Obsolete,
 
     .DrawBasicShadow        = DrawBasicShadow,
