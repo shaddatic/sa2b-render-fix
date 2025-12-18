@@ -16,12 +16,6 @@
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** API Module Version **********************************************************************/
-#define DRAW_API_VER                (4) /* draw api version                                     */
-
-/********************************/
 /*  Source                      */
 /********************************/
 /****** Functions *******************************************************************************/
@@ -80,7 +74,7 @@ ___CnkDrawShapeMotionLinkBE(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link
 EXTERN
 const RFAPI_DRAW rfapi_draw =
 {
-    .version = DRAW_API_VER,
+    .version = RFAPI_DRAW_VER,
 
     .CnkNullDrawModel       = (void*) Obsolete,
     .CnkNullDrawObject      = (void*) Obsolete,

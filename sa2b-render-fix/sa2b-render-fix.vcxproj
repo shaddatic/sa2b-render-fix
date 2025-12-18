@@ -12,6 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cnf.c" />
+    <ClCompile Include="rf_api\rfapi_light.c" />
+    <ClCompile Include="rf_api\rfapi_ninja.c" />
+    <ClCompile Include="rf_api\rfapi_chunk.c" />
+    <ClCompile Include="rf_api\rfapi_njdraw.c" />
     <ClCompile Include="rf_feature.c" />
     <ClCompile Include="rf_graphics.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c" />

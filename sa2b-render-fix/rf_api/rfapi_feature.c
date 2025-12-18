@@ -12,11 +12,9 @@
 #include <rf_feature.h>             /* rf feature                                               */
 
 /********************************/
-/*  Constants                   */
+/*  Source                      */
 /********************************/
-/****** API Module Version **********************************************************************/
-#define FEAT_API_VER                (1) /* feature api version                                  */
-
+/****** Static **********************************************************************************/
 static bool
 RFF_Depricated_True(void)
 {
@@ -29,11 +27,14 @@ RFF_Depricated_False(void)
     return false;
 }
 
-/** Exports **/
+/********************************/
+/*  Extern Variables            */
+/********************************/
+/****** SAMT ************************************************************************************/
 EXTERN
 const RFAPI_FEATURE rfapi_feature =
 {
-    .version = FEAT_API_VER,
+    .version = RFAPI_FEATURE_VER,
 
     .BackColorDraw   = RFF_BackColorDraw,
     .SpotLightFix    = RFF_SpotLightFix,

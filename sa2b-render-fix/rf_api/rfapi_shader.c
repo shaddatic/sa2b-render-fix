@@ -12,19 +12,13 @@
 #include <rf_shader.h>              /* shader                                                   */
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** API Module Version **********************************************************************/
-#define SHDR_API_VER                (1) /* shader api version                                   */
-
-/********************************/
 /*  Export Data                 */
 /********************************/
 /****** Shader API ******************************************************************************/
 EXTERN
 const RFAPI_SHADER rfapi_shader =
 {
-    .version = SHDR_API_VER,
+    .version = RFAPI_SHADER_VER,
 
     .LoadVShader = RF_DirectLoadVShader,
     .LoadPShader = RF_DirectLoadPShader,

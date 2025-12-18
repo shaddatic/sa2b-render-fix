@@ -20,6 +20,12 @@
 #define H_RFAPI_DRAW
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define RFAPI_DRAW_VER              (4) /* draw api version                                     */
+
+/********************************/
 /*  API Structures              */
 /********************************/
 /****** Draw API ********************************************************************************/
@@ -93,7 +99,7 @@ typedef struct
     *   Returns:
     *     '0' if drawn, or '-1' if the model was clipped.
     */
-    Sint32 (__cdecl* CnkModDrawModel)( const NJS_CNK_MODEL* model );
+    Sint32 (__cdecl* CnkModDrawModel)( NJS_CNK_MODEL* model );
     /*
     *   Description:
     *     Draw a modifier volume object tree.
@@ -101,7 +107,7 @@ typedef struct
     *   Parameters:
     *     - object      : chunk modifier volume object
     */
-    void (__cdecl* CnkModDrawObject)( const NJS_CNK_OBJECT* object );
+    void (__cdecl* CnkModDrawObject)( NJS_CNK_OBJECT* object );
     /*
     *   Description:
     *     Draw a Chunk modifier volume motion.
@@ -225,7 +231,7 @@ typedef struct
     *     - shape       : shape data for 'object'   (optional)
     *     - frame       : frame of animation/shape
     */
-    void (__cdecl* CnkModDrawShapeMotion)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+    void (__cdecl* CnkModDrawShapeMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
     *   Description:
     *     Interpolate and draw two Chunk modifier volume motions.
@@ -236,7 +242,7 @@ typedef struct
     *     - shape_link  : shape data for 'object'   (optional)
     *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
     */
-    void (__cdecl* CnkModDrawShapeMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+    void (__cdecl* CnkModDrawShapeMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate );
     /*
     *   Description:
     *     Draw a Chunk modifier volume motion.
@@ -247,7 +253,7 @@ typedef struct
     *     - shape       : shape data for 'object'   (optional)
     *     - frame       : frame of animation/shape
     */
-    void (__cdecl* CnkModDrawShapeMotionBE)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+    void (__cdecl* CnkModDrawShapeMotionBE)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
     *   Description:
     *     Interpolate and draw two Chunk modifier volume motions.
@@ -258,7 +264,7 @@ typedef struct
     *     - shape_link  : shape data for 'object'   (optional)
     *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
     */
-    void (__cdecl* CnkModDrawShapeMotionLinkBE)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+    void (__cdecl* CnkModDrawShapeMotionLinkBE)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate );
 
     /********************************************************/
     /*
@@ -275,7 +281,7 @@ typedef struct
     *   Returns:
     *     '0' if drawn, or '-1' if the model was clipped.
     */
-    Sint32 (__cdecl* CnkDrawModel)( const NJS_CNK_MODEL* model );
+    Sint32 (__cdecl* CnkDrawModel)( NJS_CNK_MODEL* model );
     /*
     *   Description:
     *     Draw a Chunk object tree.
@@ -283,7 +289,7 @@ typedef struct
     *   Parameters:
     *     - object      : chunk object
     */
-    void (__cdecl* CnkDrawObject)( const NJS_CNK_OBJECT* object );
+    void (__cdecl* CnkDrawObject)( NJS_CNK_OBJECT* object );
 
     /**** Chunk Draw Motion *********************************/
     /*
@@ -295,7 +301,7 @@ typedef struct
     *     - motion      : motion data for 'object'
     *     - frame       : frame of animation
     */
-    void (__cdecl* CnkDrawMotion)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
+    void (__cdecl* CnkDrawMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, Float frame );
     /*
     *   Description:
     *     Interpolate and draw two Chunk motions.
@@ -305,7 +311,7 @@ typedef struct
     *     - motion_link : motion link data and motion datas for 'object'
     *     - rate        : ratio of transition from motion 1 to motion 2 (0~1)
     */
-    void (__cdecl* CnkDrawMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
+    void (__cdecl* CnkDrawMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, Float rate );
 
     /**** Chunk Draw Shape Motion ***************************/
     /*
@@ -318,7 +324,7 @@ typedef struct
     *     - shape       : shape data for 'object'   (optional)
     *     - frame       : frame of animation/shape
     */
-    void (__cdecl* CnkDrawShapeMotion)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+    void (__cdecl* CnkDrawShapeMotion)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
     *   Description:
     *     Interpolate and draw two Chunk shape motions.
@@ -329,7 +335,7 @@ typedef struct
     *     - shape_link  : shape data for 'object'   (optional)
     *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
     */
-    void (__cdecl* CnkDrawShapeMotionLink)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+    void (__cdecl* CnkDrawShapeMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate );
 
     /**** Chunk Draw Shape Motion (Big Endian) **************/
     /*
@@ -345,7 +351,7 @@ typedef struct
     *     - shape       : shape data for 'object'   (optional)
     *     - frame       : frame of animation/shape
     */
-    void (__cdecl* CnkDrawShapeMotionBE)( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
+    void (__cdecl* CnkDrawShapeMotionBE)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame );
     /*
     *   Description:
     *     Interpolate and draw two big endian Chunk shape motions.
@@ -359,7 +365,7 @@ typedef struct
     *     - shape_link  : shape data for 'object'   (optional)
     *     - rate        : ratio of transition from motion/shape 1 to motion/shape 2 (0~1)
     */
-    void (__cdecl* CnkDrawShapeMotionLinkBE)( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
+    void (__cdecl* CnkDrawShapeMotionLinkBE)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate );
 
     /**** Chunk Modify **************************************/
     /*

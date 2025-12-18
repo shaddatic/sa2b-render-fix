@@ -1,42 +1,60 @@
-#include <samt/core.h>
-#include <samt/modinfo.h>
-#include <samt/modloader.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/modinfo.h>           /* mod info                                                 */
+#include <samt/modloader.h>         /* mod loader                                               */
 
-/** Utility **/
-#include <samt/util/dllexport.h>
+/****** Utility *********************************************************************************/
+#include <samt/util/dllexport.h>    /* dll export                                               */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Render Fix **/
-#include <rf_core.h>
+/****** Ninja ***********************************************************************************/
+#include <rf_core.h>                /* core                                                     */
 
-/** Internal **/
-#include <rf_api.h>
-#include <rf_api/rfapi_internal.h>
+/****** Self ************************************************************************************/
+#include <rf_api.h>                 /* self                                                     */
+#include <rf_api/rfapi_internal.h>  /* children                                                 */
 
-/** Constants **/
-#define CORE_API_VER    (1)
+/********************************/
+/*  Types                       */
+/********************************/
+/****** API Module Version **********************************************************************/
+typedef i32(__cdecl RF_INIT)(const RFAPI_CORE*, const c8*, const HelperFunctions*, size);
 
+/********************************/
+/*  Extern Variables            */
+/********************************/
+/****** Core API ********************************************************************************/
 EXPORT_DLL
 const RFAPI_CORE rfapi_core =
 {
-    .version = CORE_API_VER,
+    .version = RFAPI_CORE_VER,
 
     .modver = { 1,5,0,0 },
 
-    .pApiControl     = &rfapi_control,
-    .pApiConfig      = &rfapi_config,
-    .pApiFeature     = &rfapi_feature,
-    .pApiDraw        = &rfapi_draw,
-    .pApiRenderState = &rfapi_rstate,
-    .pApiShader      = &rfapi_shader,
+    .pControl     = &rfapi_control,
+    .pConfig      = &rfapi_config,
+    .pFeature     = &rfapi_feature,
+    .pDraw        = &rfapi_draw,
+    .pRenderState = &rfapi_rstate,
+    .pShader      = &rfapi_shader,
 
-    .pApiFont = &rfapi_font,
+    .pFont = &rfapi_font,
+
+    .pNinja          = &rfapi_ninja,
+    .pNjDraw         = &rfapi_njdraw,
+    .pChunk          = &rfapi_chunk,
+    .pLight          = &rfapi_light,
 };
 
-typedef s32(__cdecl RF_INIT)(const RFAPI_CORE*, const c8*, const HelperFunctions*, size);
-
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Call API ********************************************************************************/
 void
 RFAPI_CallFuncs(RF_APIFUNC apifn)
 {

@@ -9,10 +9,16 @@
 *   Version History:
 *     - v1.3.0.0        : Version 0, initial release
 *     - v1.3.1.0        : Version 1, added Font API module
-*     - v1.5.0.0        : Version 2, ???
+*     - v1.5.0.0        : Version 2, added Ninja, Ninja Draw, Chunk, & Light API modules
 */
 #ifndef H_RFAPI_CORE
 #define H_RFAPI_CORE
+
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** API Module Version **********************************************************************/
+#define RFAPI_CORE_VER              (2) /* core api version                                     */
 
 /********************************/
 /*  API Structures              */
@@ -37,15 +43,21 @@ typedef struct
 
     /**** API Modules ***************************************/
 
-    const RFAPI_CONTROL*     pApiControl;       /* Control API                                  */
-    const RFAPI_CONFIG*      pApiConfig;        /* Config API                                   */
-    const RFAPI_FEATURE*     pApiFeature;       /* Feature Check API                            */
-    const RFAPI_DRAW*        pApiDraw;          /* Draw API                                     */
-    const RFAPI_RENDERSTATE* pApiRenderState;   /* Render State API                             */
-    const RFAPI_SHADER*      pApiShader;        /* Shader API                                   */
+    const RFAPI_CONTROL*     pControl;          /* control module                               */
+    const RFAPI_CONFIG*      pConfig;           /* config module                                */
+    const RFAPI_FEATURE*     pFeature;          /* feature check module                         */
+    const RFAPI_DRAW*        pDraw;             /* draw module                                  */
+    const RFAPI_RENDERSTATE* pRenderState;      /* render state module                          */
+    const RFAPI_SHADER*      pShader;           /* shader module                                */
 
     /****** Version >= 1 ************************************************************************/
-    const RFAPI_FONT*        pApiFont;          /* Font API                                     */
+    const RFAPI_FONT*        pFont;             /* font module                                  */
+
+    /****** Version >= 2 ************************************************************************/
+    const RFAPI_NINJA*       pNinja;            /* ninja system module                          */
+    const RFAPI_NJDRAW*      pNjDraw;           /* ninja draw module                            */
+    const RFAPI_CHUNK*       pChunk;            /* chunk model module                           */
+    const RFAPI_LIGHT*       pLight;            /* lighting module                              */
 }
 RFAPI, RFAPI_CORE;
 

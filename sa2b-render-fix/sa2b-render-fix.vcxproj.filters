@@ -435,6 +435,9 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_api\rfapi_chunk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -447,10 +450,19 @@
     <ClCompile Include="rf_util\rfu_draw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_api\rfapi_ninja.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_ninja\rj_backtex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja\rj_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_light.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_api\rfapi_njdraw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -13,12 +13,6 @@
 #include <rf_ninja.h>               /* render fix ninja                                         */
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** API Module Version **********************************************************************/
-#define STATE_API_VER               (4) /* render state api version                             */
-
-/********************************/
 /*  Source                      */
 /********************************/
 /************************************************************************************************/
@@ -184,7 +178,7 @@ RFRS_GetSocTexHackMode(void)
 EXTERN
 const RFAPI_RENDERSTATE rfapi_rstate =
 {
-    .version = STATE_API_VER,
+    .version = RFAPI_RENDERSTATE_VER,
 
     .SetCullMode      = RFRS_SetCullMode,
     .SetTransMode     = RFRS_SetTransMode,

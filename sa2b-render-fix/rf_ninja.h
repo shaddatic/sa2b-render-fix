@@ -18,6 +18,7 @@ EXTERN_START
 /********************************/
 /*  Constants                   */
 /********************************/
+#ifndef H_RFAPI_CHUNK
 /****** Chunk Control Flags *********************************************************************/
 #define RJD_CNK_CTRL_OPAQUE         (1<< 0) /* draw opaque polygons                             */
 #define RJD_CNK_CTRL_TRANSLUCENT    (1<< 1) /* draw translucent polygons                        */
@@ -45,9 +46,12 @@ EXTERN_START
 /****** Chunk Strip flags ***********************************************************************/
 #define RJD_FST_EUA                 (0x80<<NJD_FST_SHIFT)    /* extended use alpha              */
 
+#endif/*H_RFAPI_CHUNK*/
+
 /********************************/
 /*  Enums                       */
 /********************************/
+#ifndef H_RFAPI_LIGHT
 /****** Light Index *****************************************************************************/
 typedef enum rjlight
 {
@@ -63,6 +67,7 @@ typedef enum rjlight
     RJ_LIGHT_NUM,                   /* enum count                                               */
 }
 RJ_LIGHT;
+#endif/*H_RFAPI_LIGHT*/
 
 /****** Light Mode ******************************************************************************/
 typedef enum rjlightmd
@@ -333,7 +338,7 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 /*
 *   Description:
 *     Draw a sprite, in screen space.
-*
+* 
 *   Parameters:
 *     - sp          : sprite
 *     - n           : texanim index
@@ -418,7 +423,7 @@ void    rjSetLightIntensity( Int light, Float inten, Float ambient );
 *     - Vector is not normalized in-function.
 *
 *   Parameters:
-*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - light       : light index                                                 [RJ_LIGHT_#]
 *     - vx,vy,vz    : vector
 */
 void    rjSetLightVector( Int light, Float vx, Float vy, Float vz );
@@ -427,7 +432,7 @@ void    rjSetLightVector( Int light, Float vx, Float vy, Float vz );
 *     Set a light position, and set the light mode to point light.
 *
 *   Parameters:
-*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - light       : light index                                                 [RJ_LIGHT_#]
 *     - px,py,pz    : vector
 */
 void    rjSetLightPoint( Int light, Float px, Float py, Float pz );
@@ -442,7 +447,7 @@ void    rjSetLightPoint( Int light, Float px, Float py, Float pz );
 *       off linearly until the far range.
 *
 *   Parameters:
-*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - light       : light index                                                 [RJ_LIGHT_#]
 *     - nrange      : near range
 *     - frange      : far range
 */
@@ -454,7 +459,7 @@ void    rjSetLightRange( Int light, Float nrange, Float frange );
 *     Set Chunk light vectors/points to the current matrix, if it hasn't been done.
 *
 *   Parameters:
-*     - light       : light index                                                 [RJ_LIGHT_#] 
+*     - light       : light index                                                 [RJ_LIGHT_#]
 */
 void    rjSetLightMatrix( Int light );
 

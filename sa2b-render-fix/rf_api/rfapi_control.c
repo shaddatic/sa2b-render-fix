@@ -12,19 +12,13 @@
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** API Module Version **********************************************************************/
-#define CTRL_API_VER                (1) /* control api version                                  */
-
-/********************************/
 /*  Export Data                 */
 /********************************/
 /****** Control API *****************************************************************************/
 EXTERN
 const RFAPI_CONTROL rfapi_control =
 {
-    .version = CTRL_API_VER,
+    .version = RFAPI_CONTROL_VER,
 
     .SetModBufferSize            = RFCTRL_SetModBufferSize,
     .CheapShadowChaoWorldDisable = RFCTRL_CheapShadowChaoWorldDisable,

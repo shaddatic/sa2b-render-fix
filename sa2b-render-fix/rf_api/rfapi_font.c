@@ -12,19 +12,13 @@
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 
 /********************************/
-/*  Constants                   */
-/********************************/
-/****** API Module Version **********************************************************************/
-#define FONT_API_VER                (0) /* font api version                                     */
-
-/********************************/
 /*  Export Data                 */
 /********************************/
 /****** Font API ********************************************************************************/
 EXTERN
 const RFAPI_FONT rfapi_font =
 {
-    .version = FONT_API_VER,
+    .version = RFAPI_FONT_VER,
 
     .LoadFontFile   = RF_FontLoadFile,
     .HalfSpaceWidth = RF_FontHalfSpace,
