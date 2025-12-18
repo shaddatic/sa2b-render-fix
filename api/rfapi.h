@@ -44,7 +44,7 @@ typedef NJS_OBJECT                  NJS_CNK_OBJECT; /* Mod Loader 'Object' compa
 *   Returns:
 *     'true' if the current version is '>=' the given version; or 'false' if not.
 */
-#define RFD_CHECKVER(api, rel, maj, sem, min) \
+#define RFAPI_CHECKVER(api, rel, maj, sem, min) \
     ( (int)(api)->modver.release   > (rel) || ( (int)(api)->modver.release   == (rel) && \
     ( (int)(api)->modver.major     > (maj) || ( (int)(api)->modver.major     == (maj) && \
     ( (int)(api)->modver.semimajor > (sem) || ( (int)(api)->modver.semimajor == (sem) && \
