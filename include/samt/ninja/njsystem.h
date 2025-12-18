@@ -235,7 +235,7 @@ void    njSetBackColor( Uint32 color1, Uint32 color2, Uint32 color3 );
 *   Parameters:
 *     - mode        : specular mode                                                    [ON/OFF]
 */
-void	njSpecularMode( Int mode );
+void    njSpecularMode( Int mode );
 
 /************************************************************************************************/
 /*
