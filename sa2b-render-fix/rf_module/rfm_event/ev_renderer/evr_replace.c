@@ -469,8 +469,6 @@ EVR_EndReplaceAttr(void)
 void
 EVR_StartReplaceAttr(void)
 {
-    DATA_REF(int, 0x01AEDE1C) = 0;
-
     EVR_EndReplaceAttr();
 
     MemCacheCount = 0;
