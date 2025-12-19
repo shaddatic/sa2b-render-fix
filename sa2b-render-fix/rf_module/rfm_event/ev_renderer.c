@@ -205,8 +205,12 @@ EV_RendererInit(void)
     EVR_MovieInit();
 
     // call for just after file load
-    WriteNOP(0x00600054, 0x0060005A);
-    WriteCall(0x00600054, EventPostLoad);
+    WriteNOP(0x0060004A, 0x00600050);
+    WriteCall(0x0060004A, EventPostLoad);
+
+    // fix compare for credits textures
+    const u8 cmp[] = { 0x81, 0x3D, 0xF4, 0x8A, 0xA2, 0x01, 0xD2, 0x00, 0x00, 0x00 };
+    WriteMemory(0x00600050, cmp, ARYLEN(cmp));
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
     WriteJump(0x00601938, 0x00601A0A); // ^^ movies
