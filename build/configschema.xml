@@ -315,7 +315,7 @@ Back - Display Event debug info.</HelpText>
       <Property name="modifier" display="Draw Modifier Models" type="BINT" defaultvalue="0">
         <HelpText>Draws modifier models directly to screen, rather than treating them as volumes for shadows. Useful for debugging modifier models in-game.</HelpText>
       </Property>
-      <Property name="maxmiplev" display="Maximum Mipmap Level" type="int" defaultvalue="0">
+      <Property name="maxmiplev" display="Maximum Mipmap Level" type="int" minvalue="0" defaultvalue="0">
         <HelpText>Restrict the texture mipmaps to a maximum mip level; with '0' meaning the full texture, '1' meaning the first mipmap, etc. 
 
 If a mipmap of the selected level isn't available, the next highest mipmap is used (eg. setting is '9' and there's only '7' mip levels, '7' is used).
