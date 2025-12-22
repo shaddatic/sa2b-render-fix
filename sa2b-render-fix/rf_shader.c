@@ -51,7 +51,7 @@ RF_ShaderError(const char* fpath)
 {
     char buf[128];
 
-    mtStrFormat(buf, sizeof(buf), "Failed to load shader %s", fpath);
+    mtStrFormat(buf, sizeof(buf), "Failed to load shader (%s)", fpath);
 
     RF_MsgWarn("Shader Error", buf);
 }
@@ -61,7 +61,7 @@ CompileError(const char* fpath)
 {
     char buf[128];
 
-    mtStrFormat(buf, sizeof(buf), "Failed to compile shader %s", fpath);
+    mtStrFormat(buf, sizeof(buf), "Failed to compile shader (%s)", fpath);
 
     RF_MsgWarn("Shader Error", buf);
 }
