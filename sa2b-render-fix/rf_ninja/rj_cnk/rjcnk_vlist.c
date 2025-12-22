@@ -212,39 +212,51 @@ rjCnkGetVlistVNX(NJS_VECTOR* dst, const CNK_VNX* src)
 }
 
 /****** Diffuse Color ***************************************************************/
-static inline void
-rjCnkGetVlistD5(NJS_ARGB* dst, const CNK_565* src)
+#define COLRCONV(colr, bits)        (u8)( ((colr) << (8-(bits))) | ((colr) << ~(0xFF << (8-(bits)))) )
+
+static inline NJS_BGRA
+rjCnkGetVlistD5(const CNK_565* restrict src)
 {
-    // not implemented
+    return (NJS_BGRA) {
+        .b = COLRCONV(src->b, 5),
+        .g = COLRCONV(src->g, 6),
+        .r = COLRCONV(src->r, 5),
+        .a = 0xFF,
+    };
+}
+
+static inline NJS_BGRA
+rjCnkGetVlistD4(const CNK_4444* src)
+{
+    return (NJS_BGRA) {
+        .b = COLRCONV(src->b, 4),
+        .g = COLRCONV(src->g, 4),
+        .r = COLRCONV(src->r, 4),
+        .a = COLRCONV(src->a, 4),
+    };
 }
 
 static inline void
-rjCnkGetVlistD4(NJS_ARGB* dst, const CNK_4444* src)
-{
-    // not implemented
-}
-
-static inline void
-rjCnkGetVlistDI(NJS_ARGB* dst, const Uint16* src)
+rjCnkGetVlistDI(const Uint16* src)
 {
     // not implemented
 }
 
 /****** Specular Color **************************************************************/
 static inline void
-rjCnkGetVlistS5(NJS_ARGB* dst, const CNK_565* src)
+rjCnkGetVlistS5(const CNK_565* src)
 {
     // not implemented
 }
 
 static inline void
-rjCnkGetVlistS8(NJS_ARGB* dst, const NJS_BGRA* src)
+rjCnkGetVlistS8(const NJS_BGRA* src)
 {
     // not implemented
 }
 
 static inline void
-rjCnkGetVlistSI(NJS_ARGB* dst, const Uint16* src)
+rjCnkGetVlistSI(const Uint16* src)
 {
     // not implemented
 }
