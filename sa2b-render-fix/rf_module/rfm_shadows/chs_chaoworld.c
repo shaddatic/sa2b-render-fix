@@ -1,71 +1,99 @@
-#include <samt/core.h>
-#include <samt/memory.h>
-#include <samt/writemem.h>
-#include <samt/funchook.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/memory.h>            /* alloc                                                    */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/funchook.h>          /* function hook                                            */
+#include <samt/writeop.h>           /* write operation                                          */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
 
-/** Chao **/
+/****** Chao ************************************************************************************/
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/chao/chao.h>
-#include <samt/sonic/chao/al_egg.h>
-#include <samt/sonic/chao/al_world.h>
-#include <samt/sonic/chao/alo_growtree.h>
-#include <samt/sonic/chao/alo_chaosdrive.h>
-#include <samt/sonic/chao/alo_obake_head.h>
-#include <samt/sonic/chao/alo_seed.h>
-#include <samt/sonic/chao/alo_fruit.h>
-#include <samt/sonic/chao/al_minimal.h>
+#include <samt/sonic/chao/chao.h>           /* chao                                             */
+#include <samt/sonic/chao/al_egg.h>         /* chao egg                                         */
+#include <samt/sonic/chao/al_world.h>       /* world manager                                    */
+#include <samt/sonic/chao/alo_growtree.h>   /* trees                                            */
+#include <samt/sonic/chao/alo_chaosdrive.h> /* chaos drives                                     */
+#include <samt/sonic/chao/alo_obake_head.h> /* hat/masks                                        */
+#include <samt/sonic/chao/alo_seed.h>       /* seeds                                            */
+#include <samt/sonic/chao/alo_fruit.h>      /* fruit                                            */
+#include <samt/sonic/chao/al_minimal.h>     /* minimals                                         */
 #undef  SAMT_INCL_FUNCPTRS
-#include <samt/sonic/chao/al_chao_info.h>
-#include <samt/sonic/chao/al_stage.h>
-#include <samt/sonic/chao/al_global.h>
-#include <samt/sonic/chao/al_misc.h>
+#include <samt/sonic/chao/al_chao_info.h>   /* chao info                                        */
+#include <samt/sonic/chao/al_stage.h>       /* stage info                                       */
+#include <samt/sonic/chao/al_global.h>      /* global vars                                      */
+#include <samt/sonic/chao/al_misc.h>        /* chao ball                                        */
 
-/** AL Toys **/
+/****** Chao Toys *******************************************************************************/
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/chao/al_toy/alo_ball.h>
-#include <samt/sonic/chao/al_toy/alo_box.h>
-#include <samt/sonic/chao/al_toy/alo_horse.h>
-#include <samt/sonic/chao/al_toy/alo_radicase.h>
-#include <samt/sonic/chao/al_toy/alo_tv.h>
+#include <samt/sonic/chao/al_toy/alo_ball.h>     /* chao ball                                   */
+#include <samt/sonic/chao/al_toy/alo_box.h>      /* jack box                                    */
+#include <samt/sonic/chao/al_toy/alo_horse.h>    /* rocking horse                               */
+#include <samt/sonic/chao/al_toy/alo_radicase.h> /* radio                                       */
+#include <samt/sonic/chao/al_toy/alo_tv.h>       /* television                                  */
 #undef  SAMT_INCL_FUNCPTRS
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_ninja.h>
-#include <rf_samdl.h>
-#include <rf_util.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* rf ninja                                                 */
+#include <rf_samdl.h>               /* get samdl                                                */
+#include <rf_util.h>                /* utils                                                    */
 
-/****** Config **********************************************************************/
-#include <cnf.h>                /* config get                                       */
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Chao Shape Flags ************************************************************************/
 #define SHAPE_FLG_SHADOW    (0b0000'0000'0000'1000)
 
+/****** Chao Flags ******************************************************************************/
 #define CHAO_FLG_DRAW       (0b0000'0010'0000'0000)
 #define CHAO_FLG_INRANGE    (0b0001'0000'0000'0000)
 
+/********************************/
+/*  Extern Variables            */
+/********************************/
+/****** Chao Shape Flags ************************************************************************/
 NJS_CNK_MODEL* model_al_mod;
 
+/********************************/
+/*  Static Variables            */
+/********************************/
+/****** Chao Shape Flags ************************************************************************/
+static const Angle LeafRotList[11] = { 0x2000, 0x3800, 0x5000, 0x4B00 };
+static const float LeafAdjList[11] = { 7.7f, 7.3f, 7.8f, 7.1f };
+static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Shadow Draw *****************************************************************************/
 void
 AL_ShadowDraw(void)
 {
     njCnkModDrawModel(model_al_mod);
 }
 
+/****** Chao Shadow *****************************************************************************/
 static void
 ChaoDisplayerMod(task* tp)
 {
     chaowk*               const cwp = GET_CHAOWK(tp);
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen3(tp, 5.2f, 4.5f, 2.9f) || (cwp->ChaoFlag & CHAO_FLG_DRAW) == 0)
+    if ( (cwp->ChaoFlag & CHAO_FLG_DRAW) == 0 || !AL_IsOnScreen3(tp, 5.2f, 4.5f, 2.9f) )
+    {
         return;
+    }
 
     const float cam_dist = ewp ? ewp->CamDist : 300.f;
 
@@ -209,10 +237,7 @@ CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* 
     return tp;
 }
 
-static const Angle LeafRotList[11] = { 0x2000, 0x3800, 0x5000, 0x4B00 };
-static const float LeafAdjList[11] = { 7.7f, 7.3f, 7.8f, 7.1f };
-static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
-
+/****** Tree Shadow *****************************************************************************/
 static void
 ALO_GrowTreeDisplayerMod(task* tp)
 {
@@ -306,6 +331,7 @@ ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
     return tp;
 }
 
+/****** Race Tree Shadow ************************************************************************/
 static void
 ALO_RaceTreeDisplayerMod(task* tp)
 {
@@ -361,6 +387,7 @@ ALO_RaceTreeHook(task* tp)
     tp->disp_shad = ALO_RaceTreeDisplayerMod;
 }
 
+/****** Chao Egg Shadow ************************************************************************/
 static void
 AL_EggDisplayerMod(task* tp)
 {
@@ -368,11 +395,15 @@ AL_EggDisplayerMod(task* tp)
     const EGG_WORK*       const eggwp = GET_EGG_WORK(tp);
     const ALW_ENTRY_WORK* const ewp   = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 3.5f, 3.0f))
+    if ( !ewp ) // not CWE related
+    {
         return;
+    }
 
-    if (!ewp || ChaoGlobal.CamDistShadowCutLev3 <= ewp->CamDist)
+    if ( ChaoGlobal.CamDistShadowCutLev3 <= ewp->CamDist || !AL_IsOnScreen2(tp, 3.5f, 3.0f) )
+    {
         return;
+    }
 
     float scl_h = (       eggwp->BuyoScale) * eggwp->ScaleAll;
     float scl_y = (2.0f - eggwp->BuyoScale) * eggwp->ScaleAll;
@@ -420,6 +451,7 @@ CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, cons
     return tp;
 }
 
+/****** Chaos Drive Shadow **********************************************************************/
 static void
 ALO_ChaosDriveDisplayerMod(task* tp)
 {
@@ -464,17 +496,17 @@ ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM
     return tp;
 }
 
+/****** Obake Head Shadow ***********************************************************************/
 static void
 ALO_ObakeHeadDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 2.5f, 2.0f) )
+    {
         return;
-
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
-        return;
+    }
 
     njPushMatrixEx();
 
@@ -512,17 +544,17 @@ ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECT
     return tp;
 }
 
+/****** Seed Shadow *****************************************************************************/
 static void
 ALO_SeedDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 1.5f, 1.0f))
+    if ( (ChaoGlobal.CamDistShadowCutLev1 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 1.5f, 1.0f) )
+    {
         return;
-
-    if (ChaoGlobal.CamDistShadowCutLev1 <= ewp->CamDist)
-        return;
+    }
 
     njPushMatrixEx();
 
@@ -557,20 +589,17 @@ ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_S
     return tp;
 }
 
+/****** Fruit Shadow ****************************************************************************/
 static void
 ALO_FruitDisplayerMod(task* tp)
 {
     const taskwk* const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 2.5f, 2.0f))
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || (twp->ang.z <= 0) || !AL_IsOnScreen2(tp, 2.5f, 2.0f) )
+    {
         return;
-
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
-        return;
-
-    if (twp->ang.z <= 0)
-        return;
+    }
 
     float scl_sub = (float)twp->ang.z * 0.3f + 0.3f;
 
@@ -616,17 +645,22 @@ ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* 
     return tp;
 }
 
+/****** Minimal Shadow **************************************************************************/
 static void
 AL_MinimalDisplayerMod(task* tp)
 {
     const MINIMAL_WORK*   const miniwp = GET_MINIMAL_WORK(tp);
     const ALW_ENTRY_WORK* const ewp    = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 3.0f, 2.0f))
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 3.0f, 2.0f) )
+    {
         return;
+    }
 
     njPushMatrixEx();
 
@@ -663,17 +697,22 @@ AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR*
     return tp;
 }
 
+/****** Race Fruit Shadow ***********************************************************************/
 static void
 ALO_RaceFruitDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (twp->ang.z <= 0)
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || twp->ang.z <= 0 )
+    {
         return;
+    }
 
     const float scl = (float)twp->ang.z * 0.3f + 0.3f;
 
@@ -705,17 +744,22 @@ ALO_RaceFruitHook(task* tp)
     tp->disp_shad = ALO_RaceFruitDisplayerMod;
 }
 
+/****** Chao Ball Shadow ************************************************************************/
 static void
 ALO_BallDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 2.0f, 0.0f))
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 2.0f, 0.0f) )
+    {
         return;
+    }
 
     njPushMatrixEx();
 
@@ -726,8 +770,7 @@ ALO_BallDisplayerMod(task* tp)
 
     njRotateY(NULL, twp->ang.y);
 
-    const float add_y = 
-        AL_IsHitKindWithNum(tp, 1, CI_KIND_AL_SHADOW) ? -1.45f : -1.0f;
+    const float add_y = AL_IsHitKindWithNum(tp, 1, CI_KIND_AL_SHADOW) ? -1.45f : -1.0f;
 
     njTranslate(NULL, 0.0f, add_y, 0.0f);
     njScale(NULL, 1.8f, 0.7f, 1.8f);
@@ -746,15 +789,16 @@ ALO_BallHook(task* tp)
     tp->disp_shad = ALO_BallDisplayerMod;
 }
 
+/****** Box Shadow ******************************************************************************/
 static void
 ALO_BoxDisplayerMod(task* tp)
 {
     const taskwk* const twp = tp->twp;
 
-    if (!AL_IsOnScreen2(tp, 2.5f, 1.0f))
+    if ( !AL_IsOnScreen2(tp, 2.5f, 1.0f) )
+    {
         return;
-
-    /** The box doesn't check CamDist **/
+    }
 
     njPushMatrixEx();
 
@@ -768,32 +812,36 @@ ALO_BoxDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-__declspec(naked)
+static mt_hookinfo BoxHookInfo[1];
 static void
-ALO_BoxCreateMovHook(void)
+ALO_BoxCreateHook(NJS_POINT3* pPos)
 {
-    __asm
+    FuncHookCall( BoxHookInfo, ALO_BoxCreate(pPos) );
+
+    task* const tp = ALO_BoxTaskPointer;
+
+    if ( tp && !tp->disp_shad )
     {
-        mov dword ptr [ebx+14h], 00580510h // ALO_BoxDisplayer
-        mov dword ptr [ebx+2Ch], offset ALO_BoxDisplayerMod
-        retn
+        tp->disp_shad = ALO_BoxDisplayerMod;
     }
 }
 
+/****** Horse Shadow ****************************************************************************/
 static void
 ALO_HorseDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!ewp)
-        return; // Goddamnit CWE! The Horse too??
-
-    if (!AL_IsOnScreen3(tp, 3.4f, 3.2f, 0.0f))
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (ChaoGlobal.CamDistShadowCutLev3 <= ewp->CamDist)
+    if ( (ChaoGlobal.CamDistShadowCutLev3 <= ewp->CamDist) || !AL_IsOnScreen3(tp, 3.4f, 3.2f, 0.0f) )
+    {
         return;
+    }
 
     njPushMatrixEx();
 
@@ -816,17 +864,22 @@ ALO_HorseHook(task* tp)
     tp->disp_shad = ALO_HorseDisplayerMod;
 }
 
+/****** Radicase Shadow *************************************************************************/
 static void
 ALO_RadicaseDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!AL_IsOnScreen2(tp, 3.0f, 1.0f))
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 3.0f, 1.0f) )
+    {
         return;
+    }
 
     njPushMatrixEx();
 
@@ -844,32 +897,36 @@ ALO_RadicaseDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-__declspec(naked)
+static mt_hookinfo RadicaseHookInfo[1];
 static void
-ALO_RadicaseCreateMovHook(void)
+ALO_RadicaseCreateHook(NJS_POINT3* pPos)
 {
-    __asm
+    FuncHookCall( RadicaseHookInfo, ALO_RadicaseCreate(pPos) );
+
+    task* const tp = ALO_RadicaseTaskPointer;
+
+    if ( tp && !tp->disp_shad )
     {
-        mov dword ptr[ebx + 18h], 0057CC80h // ALO_RadicaseDestructor
-        mov dword ptr[ebx + 2Ch], offset ALO_RadicaseDisplayerMod
-        retn
+        tp->disp_shad = ALO_RadicaseDisplayerMod;
     }
 }
 
+/****** TV Shadow *******************************************************************************/
 static void
 ALO_TVDisplayerMod(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
-    if (!ewp)
-        return; // Goddamnit CWE! Why only the TV??
-
-    if (!AL_IsOnScreen2(tp, 3.0f, 1.0f))
+    if ( !ewp ) // CWE moveable toys crash prevention
+    {
         return;
+    }
 
-    if (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist)
+    if ( (ChaoGlobal.CamDistShadowCutLev2 <= ewp->CamDist) || !AL_IsOnScreen2(tp, 3.0f, 1.0f) )
+    {
         return;
+    }
 
     njPushMatrixEx();
 
@@ -884,18 +941,21 @@ ALO_TVDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-__declspec(naked)
+static mt_hookinfo TVHookInfo[1];
 static void
-ALO_TVCreateMovHook(void)
+ALO_TVCreateHook(NJS_POINT3* pPos)
 {
-    __asm
+    FuncHookCall( TVHookInfo, ALO_TVCreate(pPos) );
+
+    task* const tp = ALO_TVTaskPointer;
+
+    if ( tp && !tp->disp_shad )
     {
-        mov dword ptr[ebx + 18h], 0055CB70h // ALO_TVDestructor
-        mov dword ptr[ebx + 2Ch], offset ALO_TVDisplayerMod
-        retn
+        tp->disp_shad = ALO_TVDisplayerMod;
     }
 }
 
+/****** Control *********************************************************************************/
 static bool CheapShadowNoChaoWorld;
 void
 RFCTRL_CheapShadowChaoWorldDisable(void)
@@ -903,6 +963,7 @@ RFCTRL_CheapShadowChaoWorldDisable(void)
     CheapShadowNoChaoWorld = true;
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_ChaoWorldInit(void)
 {
@@ -935,12 +996,11 @@ CHS_ChaoWorldInit(void)
     FuncHook(HookInfoALO_RaceFruit       , ALO_RaceFruit         , ALO_RaceFruitHook);
 
     /** Toys **/
-    FuncHook(HookInfoALO_Ball , ALO_Ball_p , ALO_BallHook);
-    FuncHook(HookInfoALO_Horse, ALO_Horse_p, ALO_HorseHook);
-
-    WriteCallToMovDwordPtr(0x0058092A, ALO_BoxCreateMovHook);
-    WriteCallToMovDwordPtr(0x0057CD2B, ALO_RadicaseCreateMovHook);
-    WriteCallToMovDwordPtr(0x0055CC2E, ALO_TVCreateMovHook);
+    FuncHook(HookInfoALO_Ball , ALO_Ball_p          , ALO_BallHook);
+    FuncHook(HookInfoALO_Horse, ALO_Horse_p         , ALO_HorseHook);
+    FuncHook(BoxHookInfo      , ALO_BoxCreate_p     , ALO_BoxCreateHook);
+    FuncHook(RadicaseHookInfo , ALO_RadicaseCreate_p, ALO_RadicaseCreateHook);
+    FuncHook(TVHookInfo       , ALO_TVCreate_p      , ALO_TVCreateHook);
 
     /** shadow model **/
     model_al_mod = RF_GetCnkModel("chao/al_mod.sa2mdl");
