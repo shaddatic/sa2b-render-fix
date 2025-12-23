@@ -63,7 +63,7 @@ EventGetEntryType(const EVENT_ENTRY* pEntry)
             return EV_ENTRY_TYPE_EASYNOFOG;
         }
 
-        if ( EntryRangeOut(pEntry, 1000.f) )
+        if ( CutsceneMode != EVENTMD_START && EntryRangeOut(pEntry, 1000.f) )
         {
             return EV_ENTRY_TYPE_NONE;
         }
