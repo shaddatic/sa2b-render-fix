@@ -212,7 +212,7 @@ rjCnkGetVlistVNX(NJS_VECTOR* dst, const CNK_VNX* src)
 }
 
 /****** Diffuse Color ***************************************************************/
-#define COLRCONV(colr, bits)        (u8)( ((colr) << (8-(bits))) | ((colr) << ~(0xFF << (8-(bits)))) )
+#define COLRCONV(colr, bits)        (u8)( ((colr) << (8-(bits))) | ((colr) & ~(0xFF << (8-(bits)))) )
 
 static inline NJS_BGRA
 rjCnkGetVlistD5(const CNK_565* restrict src)
