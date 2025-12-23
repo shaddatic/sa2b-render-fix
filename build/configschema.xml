@@ -224,6 +224,9 @@ E0113: there's no music at all</HelpText>
       </Property>
     </Group>
     <Group name="misc" display="Miscellaneous">
+      <Property name="fix_rng" display="Maintain Vanilla RNG" type="BINT" defaultvalue="0">
+        <HelpText>Disables any features that would change the RNG behavior of the game. This can be used by speedrunners to ensure the gameplay is unchanged compared to the unmodded game.</HelpText>
+      </Property>
       <Property name="ptcl_poly_scl" display="Particle Polygon Scale" type="float" defaultvalue="8.0">
         <HelpText>Change the size of polygon particles. The scale value is in 480p pixels, aka (pixel_scale * (vertical_resolution / 480p)) or (8 * (1080p / 480p)). NOTE: requires 'Fix Particle Scale'.</HelpText>
       </Property>

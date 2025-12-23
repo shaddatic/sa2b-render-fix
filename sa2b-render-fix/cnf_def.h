@@ -329,6 +329,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_EVENT_SUBTITLE          CNFO_INT(   CNFS_EVENT          , "subtitle"            , CNFE_BOOL_ENABLED                     )   /* Use Subtitles */
 
 /** Miscellaneous section **/
+#define CNF_MISC_FIXRNG             CNFO_INT(   CNFS_MISC           , "fix_rng"             , CNFE_BOOL_DISABLED                    )   /* Maintain Vanilla RNG */
 #define CNF_MISC_PTCLPOLYSCL        CNFO_FLOAT( CNFS_MISC           , "ptcl_poly_scl"       , 8.0f                                  )   /* Particle Polygon Scale */
 #define CNF_MISC_EVEQUIPMENT        CNFO_INT(   CNFS_MISC           , "ev_equip"            , CNFE_BOOL_ENABLED                     )   /* Player Equipment in Events */
 #define CNF_MISC_RACETREEMOD        CNFO_INT(   CNFS_MISC           , "race_tree_mod"       , CNFE_BOOL_ENABLED                     )   /* Draw Race Tree Modifier Shadows */

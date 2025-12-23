@@ -6,6 +6,9 @@
 
 #include <samt/sonic/task.h>
 
+#include <rf_core.h>
+#include <cnf.h>
+
 #define njDrawSomethingStart    FUNC_PTR(void, __cdecl, (int), 0x00491160)
 
 const int njDrawSomeSprite_p = 0x00491600;
@@ -163,11 +166,14 @@ RFCD_MizugomiInit(void)
     /** So, Death Chamber is missing this entirely, so to get 
         them to appear I'm using the particle code from Cannons Core K **/
 
-    WriteJump(0x006AB743, __BGMizugomiDCOff);
-    WriteJump(0x006AB74A, __BGMizugomiDCOn);
+    if ( CNF_GetInt(CNF_MISC_FIXRNG) != CNFE_BOOL_ENABLED )
+    {
+        WriteJump(0x006AB743, __BGMizugomiDCOff);
+        WriteJump(0x006AB74A, __BGMizugomiDCOn);
 
-    WritePointer(0x00BA4FD8, 0x00C8A90C); // Switch Texlist
-    WritePointer(0x00DBDFD0, 0x00C8A90C); // ^
+        WritePointer(0x00BA4FD8, 0x00C8A90C); // Switch Texlist
+        WritePointer(0x00DBDFD0, 0x00C8A90C); // ^
 
-    WriteCall(0x006AA467, __BGMizugomiDCBegin); // Load CCK particles
+        WriteCall(0x006AA467, __BGMizugomiDCBegin); // Load CCK particles
+    }
 }
