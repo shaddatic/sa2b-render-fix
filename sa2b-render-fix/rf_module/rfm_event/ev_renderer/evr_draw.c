@@ -262,9 +262,11 @@ GetObjectAttrFlags(const EVENT_ENTRY* restrict pEntry)
 void
 EVR_ScanEvent(void)
 {
-    const int nb_entry = EventData.nbScene+1;
+    const int nb_scene = EventData.nbScene+1;
 
-    for ( int ix_scene = 0; ix_scene < nb_entry; ++ix_scene )
+    RF_DbgExtraInfo("Scanning Event entry attributes...");
+
+    for ( int ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
     {
         const EVENT_SCENE* const p_scene = &SceneData[ix_scene];
 
