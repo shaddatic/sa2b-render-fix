@@ -13,6 +13,9 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_util.h>                /* utility                                                  */
 
+/****** Dx9ctrl *********************************************************************************/
+#include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
+
 /****** Self ************************************************************************************/
 #include <rf_ninja/rj_internal.h>   /* parent & siblings                                        */
 
@@ -206,6 +209,9 @@ ClearFrameHook(void)
     /** Otherwise clear everything except the screen color, and apply back texture/color **/
     MagicClear(rendev, DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
 
+    DX9_SetZEnable(FALSE);
+    DX9_SetZWrite(FALSE);
+
     if ( _rj_back_surface_ )
     {
         DrawBackTextureSub();
@@ -214,6 +220,9 @@ ClearFrameHook(void)
     {
         DrawBackColorSub();
     }
+
+    DX9_SetZWrite(TRUE);
+    DX9_SetZEnable(TRUE);
 }
 
 /****** Other Func ******************************************************************************/
