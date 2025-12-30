@@ -347,6 +347,23 @@ typedef struct
     *     - mode        : cheap shadow intensity                                        [0~256]
     */
     void (*SetCheapShadowMode)( Int mode );
+
+    /**** Depth Queue ***************************************/
+    /*
+    *   Description:
+    *     Set the depth queue depth values.
+    * 
+    *   Notes:
+    *     - Depth values are in world units
+    *
+    *   Examples:
+    *     - rjSetDepthQueue( -1800.f, -2000.f ); // default
+    *
+    *   Paramters:
+    *     - near        : near depth value
+    *     - far         : far depth value
+    */
+    void (*SetDepthQueue)( Float near, Float far );
 }
 RFAPI_NINJA;
 

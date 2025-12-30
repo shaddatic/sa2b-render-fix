@@ -47,4 +47,6 @@ const RFAPI_NINJA rfapi_ninja =
     .ModifierMode   = njModifierMode,
 
     .SetCheapShadowMode = rjSetCheapShadowMode,
+
+    .SetDepthQueue = rjSetDepthQueue,
 };

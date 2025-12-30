@@ -868,6 +868,27 @@ void    rjModifierResetBuffer( void );
 
 /************************************************************************************************/
 /*
+*   Depth Queue
+*/
+/****** Set Value *******************************************************************************/
+/*
+*   Description:
+*     Set the depth queue depth values.
+*
+*   Notes:
+*     - Depth values are in world units
+*
+*   Examples:
+*     - rjSetDepthQueue( -1800.f, -2000.f );
+*
+*   Paramters:
+*     - near        : near depth value
+*     - far         : far depth value
+*/
+void    rjSetDepthQueue( Float near, Float far );
+
+/************************************************************************************************/
+/*
 *   Vsync
 */
 /****** Wait Vsync Count ************************************************************************/
