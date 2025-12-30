@@ -236,6 +236,7 @@ typedef struct
     *     - Has no effect on model draw, set by model parameters.
     *     - Hardware value is 'level/4' - eg. '1->0.25', '2->0.5', etc
     *     - A level value of '0' is NOT valid.
+    *     - Values larger than '4' currently have no effect.
     *     - Default is '4'.
     *
     *   Parameters:
