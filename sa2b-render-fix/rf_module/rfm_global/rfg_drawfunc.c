@@ -94,6 +94,8 @@ RFG_DrawFunctionInit(void)
     WriteCall(0x004BACCF, ___njCnkEasyDrawModel); // Eternal Engine 2P: Space
     WriteCall(0x004BADBF, ___njCnkEasyDrawModel); // ^
 
+    WriteCall(0x00499025, ___njCnkEasyDrawModel); // Boss Last 2
+
     /****** Other ***************************************************************************/
 
     ___NOTE("This one is not technically a draw function issue...");
