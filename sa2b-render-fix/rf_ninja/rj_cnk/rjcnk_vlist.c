@@ -816,8 +816,15 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
             break;
         }
 
+        const i32 voff = (p_vhead->head - NJD_VERTOFF);
+
+        if ( voff >= ARYLEN(_rj_vlist_funcs_) )
+        {
+            return CNK_RETN_CLIP;
+        }
+
         // Get function for this vlist chunk
-        const RJS_VLIST_ENTRY* restrict p_vfunc = &_rj_vlist_funcs_[p_vhead->head - NJD_VERTOFF];
+        const RJS_VLIST_ENTRY* restrict p_vfunc = &_rj_vlist_funcs_[voff];
 
         // Multi draw variants don't support vertex types with no normals, so clip them
         if ( multi && !(p_vfunc->vattr & RJD_CVF_NORMAL) )
