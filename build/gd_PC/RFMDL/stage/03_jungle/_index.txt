@@ -1,3 +1,0 @@
-jo_grock                    : jungle object, flat ground rock
-jo_tree                     : jungle object, overhanging tree with large shadow
-jo_wrock                    : jungle object, wall rock
