@@ -25,7 +25,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFD_APIVER_LIGHT            (0) /* light api version                                    */
+#define RFAPI_LIGHT_VER             (0) /* light api version                                    */
 
 /********************************/
 /*  Enums                       */
