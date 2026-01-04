@@ -7,7 +7,7 @@
 * 
 *   Version History:
 *     - v1.3.0.0        : Version 0, initial release
-*     - v1.4.1.0        : Version 1, added 'GetGame#Shader' & 'Compile#Shader' functions.
+*     - v1.5.0.0        : Version 1, added 'GetGame#Shader' & 'Compile#Shader' functions.
 * 
 *   Availability:
 *     - Before Init     : No
