@@ -259,10 +259,13 @@ EventExecutor(task* tp)
     // 4:3 bars
     if ( UsePillarBox() )
     {
+        ___NOTE("Make color customizeable for next update");
+#if 0
         if ( EventNum < 400 && EventNum != 211 && CutsceneMode != 2 )
         {
             RF_SysSetPillarColor( 0xFF000010, 0xFF000008 );
         }
+#endif
 
         RF_SysEasySetPillarAspect( RF_SYS_PBA_43 );
     }
