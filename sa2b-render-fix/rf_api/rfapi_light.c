@@ -28,7 +28,7 @@ NonFunctional(void)
 EXTERN
 const RFAPI_LIGHT rfapi_light =
 {
-    .version = RFD_APIVER_LIGHT,
+    .version = RFAPI_LIGHT_VER,
 
     .SetLightSwitch = rjSetLightSwitch,
 
