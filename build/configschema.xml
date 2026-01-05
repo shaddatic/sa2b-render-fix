@@ -301,7 +301,6 @@ TGT: Target being aimed for.
 
 FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.
-VSYNC: Offset inside the frame.
 FSKIP: Frameskip value.</HelpText>
       </Property>
       <Property name="extra_info" display="Extra Debug Info" type="BINT" defaultvalue="0">
