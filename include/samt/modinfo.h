@@ -73,7 +73,7 @@ bool    miCheckSupport( void );
 *     Get the total number of currently active mods, and by extension the number of mod slots
 *   in use.
 */
-size    miGetModCount( void );
+isize   miGetModCount( void );
 
 /****** Get Mod Info ****************************************************************************/
 /*
@@ -151,7 +151,7 @@ const ml_modinfo* miGetInfoByPath( const c8* puPath );
 *   Returns:
 *     Position index in the mod list; or '-1' on failure.
 */
-size    miGetIndex( const ml_modinfo* pModInfo );
+isize   miGetIndex( const ml_modinfo* pModInfo );
 /*
 *   Description:
 *     Get a DLL export of a mod via its mod info structure.

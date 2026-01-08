@@ -467,7 +467,7 @@ bool    mtDirExists( const c8* puPath );
 *   Returns:
 *     'OK' or 'READONLY' on success; or 'ERROR' on failure.
 */
-mt_fselect mtFileSelect( c8* puOutPath, size lnOutPath, const mt_fselect_filter* puFilters, const c8* puStartPath, u32 flag );
+mt_fselect mtFileSelect( c8* puOutPath, isize lnOutPath, const mt_fselect_filter* puFilters, const c8* puStartPath, u32 flag );
 
 EXTERN_END
 

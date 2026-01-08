@@ -116,7 +116,7 @@ void*   mtDllGetExport( const mt_dllhandle* pDll, const c7* pcExportName );
 *   Returns:
 *     Number of exports successfully retrieved.
 */
-size    mtDllGetExportList( const mt_dllhandle* pDll, mt_dllexport* pExportList, usize nbExportList );
+isize   mtDllGetExportList( const mt_dllhandle* pDll, mt_dllexport* pExportList, usize nbExportList );
 
 EXTERN_END
 

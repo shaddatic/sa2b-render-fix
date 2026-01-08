@@ -322,7 +322,7 @@ size_t  mtStrToLower( c8* RESTRICT puDst, const c8* RESTRICT puOptSrc, size_t le
 *   Returns:
 *     Length of string after inserting escape sequences.
 */
-size    mtStrEscape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
+isize   mtStrEscape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
 /*
 *   Description:
 *     Resolve escape sequences in a string.
@@ -339,7 +339,7 @@ size    mtStrEscape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_
 *   Returns:
 *     Length of string after resolving escape sequences.
 */
-size    mtStrUnescape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
+isize   mtStrUnescape( c8* puOptDst, const c8* puSrc, const usize lnMax, const mt_stresc* pEscList );
 
 /************************************************************************************************/
 /*
@@ -428,14 +428,14 @@ size_t  mtStrCopy32To16( c16* puDst, size_t lnDstMax, const c32* puSrc, size_t l
 *   Returns:
 *     A duplicate of the given string, allocated by 'mtMemAlloc', in the new format.
 */
-c16*    mtStrDupeTo16( const c8* puStr, size_t lnMax, size* plnOut );
-c32*    mtStrDupeTo32( const c8* puStr, size_t lnMax, size* plnOut );
+c16*    mtStrDupeTo16( const c8* puStr, size_t lnMax, isize* plnOut );
+c32*    mtStrDupeTo32( const c8* puStr, size_t lnMax, isize* plnOut );
 //
-c8*     mtStrDupe16To8(  const c16* puStr, size_t lnMax, size* plnOut );
-c32*    mtStrDupe16To32( const c16* puStr, size_t lnMax, size* plnOut );
+c8*     mtStrDupe16To8(  const c16* puStr, size_t lnMax, isize* plnOut );
+c32*    mtStrDupe16To32( const c16* puStr, size_t lnMax, isize* plnOut );
 //
-c8*     mtStrDupe32To8(  const c32* puStr, size_t lnMax, size* plnOut );
-c16*    mtStrDupe32To16( const c32* puStr, size_t lnMax, size* plnOut );
+c8*     mtStrDupe32To8(  const c32* puStr, size_t lnMax, isize* plnOut );
+c16*    mtStrDupe32To16( const c32* puStr, size_t lnMax, isize* plnOut );
 
 /************************************************************************************************/
 /*

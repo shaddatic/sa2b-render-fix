@@ -149,12 +149,6 @@ typedef double              f64;    /* 8 byte real number                       
 /****** Boolean *********************************************************************************/
 typedef int32_t             b32;    /* 4 byte boolean                                           */
 
-/****** Old Integer *****************************************************************************/
-typedef int8_t              s8;     /* signed 1 byte integer                                    */
-typedef int16_t             s16;    /* signed 2 byte integer                                    */
-typedef int32_t             s32;    /* signed 4 byte integer                                    */
-typedef int64_t             s64;    /* signed 8 byte integer                                    */
-
 /************************************************************************************************/
 /*
 *   Character Types
@@ -179,8 +173,23 @@ typedef uintptr_t           pint;   /* pointer integer value                    
 typedef intptr_t            poff;   /* pointer offset value                                     */
 
 /****** Size ************************************************************************************/
-typedef int32_t             size;   /* size integer                                             */
+typedef int32_t             isize;  /* size integer                                             */
 typedef uint32_t            usize;  /* unsigned size integer                                    */
+typedef int64_t             lsize;  /* large size integer                                       */
+typedef uintptr_t           psize;  /* pointer address size integer                             */
+
+/************************************************************************************************/
+/*
+*   Old Types
+*/
+/****** Integer *********************************************************************************/
+typedef int8_t              s8;     /* signed 1 byte integer                                    */
+typedef int16_t             s16;    /* signed 2 byte integer                                    */
+typedef int32_t             s32;    /* signed 4 byte integer                                    */
+typedef int64_t             s64;    /* signed 8 byte integer                                    */
+
+/****** Size ************************************************************************************/
+typedef int32_t             size;   /* size integer                                             */
 
 /********************************/
 /*  Core Functions              */
@@ -201,7 +210,7 @@ const c8* mtGetModPath( void );
 *   Returns:
 *     Current mod position index; or '-1' if the mod loader isn't a supported version.
 */
-size    mtGetModIndex( void );
+isize   mtGetModIndex( void );
 
 /********************************/
 /*  Core Macros                 */

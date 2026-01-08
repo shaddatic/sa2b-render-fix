@@ -292,7 +292,7 @@ bool    mtConfigIsEmpty( const mt_config* pHead );
 *   Returns:
 *     Number of sections in the config structure.
 */
-size    mtConfigGetSectNum( const mt_config* pHead );
+isize   mtConfigGetSectNum( const mt_config* pHead );
 /*
 *   Description:
 *     Get a config section structure from a config header.
@@ -316,7 +316,7 @@ mt_config_sect* mtConfigGetSect( const mt_config* pHead, const c8* puSect );
 *   Returns:
 *     Config section; or 'nullptr' if the section doesn't exist.
 */
-mt_config_sect* mtConfigGetSectByIndex( const mt_config* pHead, size ixSect );
+mt_config_sect* mtConfigGetSectByIndex( const mt_config* pHead, isize ixSect );
 
 /****** Item Attribute **************************************************************************/
 /*
@@ -361,7 +361,7 @@ const c8* mtConfigSectGetName( const mt_config_sect* pSect );
 *   Returns:
 *     Number of sections in the config structure.
 */
-size    mtConfigSectGetItemNum( const mt_config_sect* pSect );
+isize   mtConfigSectGetItemNum( const mt_config_sect* pSect );
 /*
 *   Description:
 *     Get a config item from a config section by name.
@@ -385,7 +385,7 @@ mt_config_item* mtConfigSectGetItem( const mt_config_sect* pSect, const c8* puKe
 *   Returns:
 *     Config section; or 'nullptr' if the section doesn't exist.
 */
-mt_config_item* mtConfigSectGetItemByIndex( const mt_config_sect* pSect, size ixItem );
+mt_config_item* mtConfigSectGetItemByIndex( const mt_config_sect* pSect, isize ixItem );
 
 /****** Free ************************************************************************************/
 /*

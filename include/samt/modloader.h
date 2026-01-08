@@ -408,7 +408,7 @@ void    mlMotionLerpNearestEnd(   void );
 *   Returns:
 *     Number of characters copied into the buffer, including terminator.
 */
-size    mlGetExLibPath( c8* puOutPath, usize szOutPath );
+isize   mlGetExLibPath( c8* puOutPath, usize szOutPath );
 
 /****** Version >= 16 ***************************************************************************/
 /*

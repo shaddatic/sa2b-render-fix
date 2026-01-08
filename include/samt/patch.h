@@ -16,7 +16,7 @@ EXTERN_START
 typedef struct mt_patch
 {
     pint        ptr;                /* write address                                            */
-    size        len;                /* patch size                                               */
+    isize       len;                /* patch size                                               */
     byte        dat[];              /* patch data                                               */
 }
 mt_patch;
