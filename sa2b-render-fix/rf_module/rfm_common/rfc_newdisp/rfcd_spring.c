@@ -52,7 +52,7 @@ CNK_ObjectSpringADisp(const task* tp)
     njRotateX(NULL, twp->ang.x);
     njRotateY(NULL, twp->ang.y);
 
-    const s32 wtimer = twp->wtimer;
+    const i32 wtimer = twp->wtimer;
 
     if (wtimer)
     {
@@ -105,7 +105,7 @@ CNK_ObjectSpringBDisp(const task* tp)
     njRotateX(NULL, twp->ang.x);
     njRotateY(NULL, twp->ang.y);
 
-    const s32 wtimer = twp->wtimer;
+    const i32 wtimer = twp->wtimer;
 
     if (wtimer)
     {

@@ -72,7 +72,7 @@ CompileError(const char* fpath)
 */
 /****** Float Constants *************************************************************************/
 void
-RF_ShaderSetConstantF(RF_SCF_REGISTER registr, const dx9_float4* p, size nb)
+RF_ShaderSetConstantF(RF_SCF_REGISTER registr, const dx9_float4* p, isize nb)
 {
     if ( registr > RF_SCF_MAX )
     {

@@ -79,10 +79,10 @@ EV_SetDrawPass(RFE_EV_DRAWPASS pass)
 }
 
 /****** Scan Chunk ******************************************************************/
-static s32
+static i32
 EV_GetCnkAttr(const Sint16* pPList)
 {
-    s32 attr = 0;
+    i32 attr = 0;
 
     const Sint16* plist = pPList;
 
@@ -660,7 +660,7 @@ EventSceneDraw(const int nbScene, const int nbLayer)
         }
         default: // specific layer
         {
-            const s32 layer = (DebugDrawPass - DBG_DRAWPASS_LAYER_START);
+            const i32 layer = (DebugDrawPass - DBG_DRAWPASS_LAYER_START);
 
             if ( layer != nbLayer )
             {

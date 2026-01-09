@@ -68,7 +68,7 @@ static const Float MipDAdjList[16] =
 };
 
 /****** Graphics Settings ***********************************************************************/
-static s16      SamplerOverride[NB_SAMPLER];
+static i16      SamplerOverride[NB_SAMPLER];
 static dx9_uint MipLodBias;
 
 /********************************/
@@ -161,14 +161,14 @@ SetPaletteShader(void* pTex, const TEXTURE_INFO* pTexInfo/* CWE only param */)
 static void
 GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
 {
-    static const s16 s_GxToDxAddr[] =
+    static const i16 s_GxToDxAddr[] =
     {
         DX9_TEXADDR_CLAMP,
         DX9_TEXADDR_WRAP,
         DX9_TEXADDR_MIRROR
     };
 
-    static const s16 s_GxToDxFilter[] =
+    static const i16 s_GxToDxFilter[] =
     {
         DX9_TEXFILTER_POINT,
         DX9_TEXFILTER_LINEAR,

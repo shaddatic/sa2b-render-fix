@@ -408,7 +408,7 @@ RF_CnkLandTableMaterialFlagOn(OBJ_LANDTABLE* pLand, uint32_t flag)
 
     OBJ_LANDENTRY* plentry = pLand->pLandEntry;
 
-    const s16 nb = pLand->ssCount;
+    const i16 nb = pLand->ssCount;
 
     for (int i = 0; i < nb; ++i)
     {
@@ -532,7 +532,7 @@ RF_CnkLandTableMaterialFlagOff(OBJ_LANDTABLE* pLand, uint32_t flag)
 
     OBJ_LANDENTRY* plentry = pLand->pLandEntry;
 
-    const s16 nb = pLand->ssCount;
+    const i16 nb = pLand->ssCount;
 
     for (int i = 0; i < nb; ++i)
     {

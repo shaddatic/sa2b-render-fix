@@ -35,8 +35,8 @@
 /*  Data                        */
 /********************************/
 /****** Idle Fade *******************************************************************************/
-static s16 IdleInten;
-static s16 IdleFrame;
+static i16 IdleInten;
+static i16 IdleFrame;
 
 /****** Pillar Box ******************************************************************************/
 static NJS_TEXLIST* PbTexlist;
@@ -281,8 +281,8 @@ RF_SysCtrlIdleFade(void)
 {
     bool no_idle = false;
 
-    s16 idle_frame = IdleFrame;
-    s16 idle_inten = IdleInten;
+    i16 idle_frame = IdleFrame;
+    i16 idle_inten = IdleInten;
 
     if ( ulGlobalMode != MD_ADVERTISE && ulGlobalMode != MD_ACTION )
     {

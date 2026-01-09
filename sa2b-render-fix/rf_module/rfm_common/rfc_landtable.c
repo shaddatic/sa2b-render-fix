@@ -56,14 +56,14 @@ DrawLandtable_RF(void)
 
     //if ( pObjLandTable->ssAttribute & 2 ) // some flag? does nothing in battle
     {
-        const s32             nb_landentrylist = nbObjLandEntry;
+        const i32             nb_landentrylist = nbObjLandEntry;
         const OBJ_LANDENTRY** pp_landentrylist = pObjLandEntry;
 
-        for ( s32 i = 0; i < nb_landentrylist; ++i, ++pp_landentrylist )
+        for ( i32 i = 0; i < nb_landentrylist; ++i, ++pp_landentrylist )
         {
             const OBJ_LANDENTRY* p_landentry = *pp_landentrylist;
 
-            const s32 landattr = p_landentry->slAttribute;
+            const i32 landattr = p_landentry->slAttribute;
 
             const NJS_CNK_OBJECT* p_obj = p_landentry->pObject;
 

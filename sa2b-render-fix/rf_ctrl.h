@@ -27,7 +27,7 @@ EXTERN_START
 *     - nbTri       : number of triangles to fit in the buffer
 *     - nbTriList   : number of tri-list entries                       [depricated]
 */
-void    RFCTRL_SetModBufferSize( s32 nbTri, s32 nbTriList );
+void    RFCTRL_SetModBufferSize( i32 nbTri, i32 nbTriList );
 /*
 *   Description:
 *     Disable Render Fix's own modifier shadow hooks in Chao World. This can be

@@ -44,7 +44,7 @@ GravityCylinderDisplayerSorted(task* tp)
 
     njTranslateEx(&twp->pos);
 
-    const Sangle rot_y = -(Sangle)((f64)((s16)twp->ang.x) * 0.1000000014901161);
+    const Sangle rot_y = -(Sangle)((f64)((i16)twp->ang.x) * 0.1000000014901161);
 
     njRotateY(NULL, twp->ang.y & 0xFF00);
     njRotateZ(NULL, twp->ang.z);

@@ -310,7 +310,7 @@ RF_SysSetWaitVsyncCount(i32 count)
     SetWaitVsyncCount(count);
 }
 
-s32
+i32
 RF_SysGetWaitVsyncCount(void)
 {
     return WaitVsyncCount;

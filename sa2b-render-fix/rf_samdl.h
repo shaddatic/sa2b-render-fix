@@ -45,7 +45,7 @@ RFS_SAMDL;
 *   Returns:
 *     Loaded SAModel file; or 'nullptr' on failure.
 */
-mt_samdl* RF_GetSAModel( const c8* puPath, s32 flag );
+mt_samdl* RF_GetSAModel( const c8* puPath, u32 flag );
 /*
 *   Description:
 *     Free a loaded SAModel file.
@@ -68,7 +68,7 @@ void    RF_FreeSAModel( mt_samdl* pSamdl );
 *   Returns:
 *     Number of unique files loaded.
 */
-size    RF_GetSAModelList( RFS_SAMDL* restrict pSamdls, size nbSamdl, s32 flag );
+isize   RF_GetSAModelList( RFS_SAMDL* restrict pSamdls, isize nbSamdl, u32 flag );
 
 /****** Get Model *******************************************************************************/
 /*

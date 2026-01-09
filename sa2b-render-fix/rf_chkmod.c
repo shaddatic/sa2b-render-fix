@@ -212,9 +212,9 @@ ___ChkByDll(const c8* puDll)
 static bool
 ___ChkByNameAndAuthor(const c8* puName, const c8* puAuthor)
 {
-    const size nb_mod = miGetModCount();
+    const isize nb_mod = miGetModCount();
 
-    for ( size i = 0; i < nb_mod; ++i )
+    for ( isize i = 0; i < nb_mod; ++i )
     {
         const ml_modinfo* mhp = miGetInfoByIndex(i);
 

@@ -33,7 +33,7 @@ EXTERN_START
 *     - flagOn      : strip flags to enable
 *     - flagOff     : strip flags to disable
 */
-void    RFU_CnkSetStripFlag( Sint16* pPlist, s32 ixStrip, u16 flagOn, u16 flagOff );
+void    RFU_CnkSetStripFlag( Sint16* pPlist, i32 ixStrip, u16 flagOn, u16 flagOff );
 /*
 *   Description:
 *     Change strip flags in a Chunk model's polygon list.
@@ -44,7 +44,7 @@ void    RFU_CnkSetStripFlag( Sint16* pPlist, s32 ixStrip, u16 flagOn, u16 flagOf
 *     - flagOn      : strip flags to enable
 *     - flagOff     : strip flags to disable
 */
-void    RFU_CnkModelSetStripFlag( NJS_CNK_MODEL* pModel, s32 ixStrip, u16 flagOn, u16 flagOff );
+void    RFU_CnkModelSetStripFlag( NJS_CNK_MODEL* pModel, i32 ixStrip, u16 flagOn, u16 flagOff );
 /*
 *   Description:
 *     Change strip flags in a Chunk object tree.

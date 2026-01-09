@@ -73,7 +73,7 @@ typedef struct enemywk
     __int16 field_48;
     __int16 field_4A;
     uint16_t flag;
-    s16 scroll;
+    i16 scroll;
     char f4E[4];
     float float54;
     NJS_POINT3 home;

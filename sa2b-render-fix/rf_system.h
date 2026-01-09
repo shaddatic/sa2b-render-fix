@@ -126,7 +126,7 @@ void    RF_SysSetWaitVsyncCount( i32 count );
 *   Description:
 *     Get the current vsync wait count.
 */
-s32     RF_SysGetWaitVsyncCount( void );
+i32     RF_SysGetWaitVsyncCount( void );
 
 EXTERN_END
 

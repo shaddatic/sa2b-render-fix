@@ -25,7 +25,7 @@
 */
 /****** Plist Direct ****************************************************************************/
 void
-RFU_CnkSetStripFlag(Sint16* pPlist, s32 ixStrip, u16 flagOn, u16 flagOff)
+RFU_CnkSetStripFlag(Sint16* pPlist, i32 ixStrip, u16 flagOn, u16 flagOff)
 {
     Sint16* plist = pPlist;
 
@@ -103,7 +103,7 @@ RFU_CnkSetStripFlag(Sint16* pPlist, s32 ixStrip, u16 flagOn, u16 flagOff)
 
 /****** Model ***********************************************************************************/
 void
-RFU_CnkModelSetStripFlag(NJS_CNK_MODEL* pModel, s32 ixStrip, u16 flagOn, u16 flagOff)
+RFU_CnkModelSetStripFlag(NJS_CNK_MODEL* pModel, i32 ixStrip, u16 flagOn, u16 flagOff)
 {
     if ( !pModel->plist )
     {

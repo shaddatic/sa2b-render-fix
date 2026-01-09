@@ -21,8 +21,8 @@
 /*  Data                        */
 /********************************/
 /****** Format Buffer ***************************************************************************/
-static c8*  MsgBuffer;
-static size MsgBufferLen;
+static c8*   MsgBuffer;
+static isize MsgBufferLen;
 
 /****** Settings ********************************************************************************/
 static bool DbgExtraInfo;
@@ -33,14 +33,14 @@ static bool MsgWarnSuppress;
 /********************************/
 /****** Msg Buffer ******************************************************************************/
 static void
-MsgSetFormatLen(size szfmt)
+MsgSetFormatLen(isize szfmt)
 {
     if ( MsgBuffer )
     {
         mtFree(MsgBuffer);
     }
 
-    const size sz = szfmt + (32 - (szfmt % 32));
+    const isize sz = szfmt + (32 - (szfmt % 32));
 
     MsgBuffer    = mtAlloc(c8, sz);
     MsgBufferLen = sz;
@@ -58,17 +58,17 @@ MsgGetFormatStr(const c8* fmt, va_list varg)
 
     for ( ; ; )
     {
-        const size sz_buf = MsgBufferLen;
-        pu_buf            = MsgBuffer;
+        const isize sz_buf = MsgBufferLen;
+        pu_buf             = MsgBuffer;
 
-        const size out = vsnprintf(pu_buf, sz_buf, fmt, varg);
+        const isize out = vsnprintf(pu_buf, sz_buf, fmt, varg);
 
         if ( out < 0 )
         {
             return "Error formatting message";
         }
 
-        const size sz_need = (out+1);
+        const isize sz_need = (out+1);
 
         if ( sz_need <= sz_buf )
         {

@@ -528,7 +528,7 @@ RFS_MATRIX;
 *     - p           : float 4 array
 *     - nb          : number of constant registers to set
 */
-void    RF_ShaderSetConstantF( RF_SCF_REGISTER registr, const dx9_float4* p, size nb );
+void    RF_ShaderSetConstantF( RF_SCF_REGISTER registr, const dx9_float4* p, isize nb );
 /*
 *   Description:
 *     Set a shader constant register via a float4 defined in seperate parameters.

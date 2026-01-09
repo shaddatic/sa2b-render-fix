@@ -126,7 +126,7 @@ EXTERN RFE_EV_VSYNC     EventVsyncMode;
 EXTERN bool             EventDebugFlag;
 
 /****** Draw Pass *******************************************************************/
-EXTERN s32 DebugDrawPass;
+EXTERN i32 DebugDrawPass;
 
 /****** Big Tex *********************************************************************/
 EXTERN NJS_TEXLIST* EvBigTexture;

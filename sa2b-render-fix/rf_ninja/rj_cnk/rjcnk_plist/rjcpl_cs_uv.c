@@ -206,7 +206,7 @@ rjCnkDrawStripUV_ENV(const CNK_STRIP_HEAD* restrict striph, const RJS_VERTEX_BUF
 */
 /****** Vertex **********************************************************************************/
 static void
-rjCnkStripUV_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     RJE_CNK_VCOLFUNC cfunc;
     RJE_CNK_SPECFUNC sfunc = UseSpecular(pStrip) ? _rj_cnk_context_.spec : RJE_CNK_SPECFUNC_NONE;
@@ -256,7 +256,7 @@ rjCnkStripUV_VND8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* re
 }
 
 static void
-rjCnkStripUV_VN(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV_VN(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     RJE_CNK_VCOLFUNC cfunc;
     RJE_CNK_SPECFUNC sfunc = UseSpecular(pStrip) ? _rj_cnk_context_.spec : RJE_CNK_SPECFUNC_NONE;
@@ -294,7 +294,7 @@ rjCnkStripUV_VN(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
 }
 
 static void
-rjCnkStripUV_D8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV_D8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     const RJE_CNK_VCOLFUNC cfunc = RJE_CNK_VCOLFUNC_D8;
     const RJE_CNK_SPECFUNC sfunc = RJE_CNK_SPECFUNC_NONE;
@@ -310,7 +310,7 @@ rjCnkStripUV_D8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
 }
 
 static void
-rjCnkStripUV_D8S8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV_D8S8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     if ( pStrip->flag & NJD_FST_IS )
     {
@@ -332,7 +332,7 @@ rjCnkStripUV_D8S8(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* re
 }
 
 static void
-rjCnkStripUV_CV(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV_CV(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     const RJE_CNK_VCOLFUNC cfunc = RJE_CNK_VCOLFUNC_MATERIAL;
     const RJE_CNK_SPECFUNC sfunc = RJE_CNK_SPECFUNC_NONE;
@@ -349,7 +349,7 @@ rjCnkStripUV_CV(const RJS_CNK_STRIP* restrict pStrip, const RJS_VERTEX_BUF* rest
 
 /****** Extern **********************************************************************************/
 void
-rjCnkStripUV(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh)
+rjCnkStripUV(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh)
 {
     switch ( _rj_cnk_context_.vattr )
     {

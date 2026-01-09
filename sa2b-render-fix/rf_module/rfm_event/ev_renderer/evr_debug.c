@@ -68,7 +68,7 @@ EV_DebugCameraExec(task* tp)
 
     twp->ang.z = EventCamera.roll;
 
-    twp->wtimer = (s16) EventCamera.ang;
+    twp->wtimer = (u16) EventCamera.ang;
 
     // ang
     {
@@ -223,7 +223,7 @@ EV_DebugExec(task* tp)
                 }
                 default: // transparent layers
                 {
-                    const s32 layer = (DebugDrawPass - DBG_DRAWPASS_LAYER_START);
+                    const i32 layer = (DebugDrawPass - DBG_DRAWPASS_LAYER_START);
             
                     mtStrFormat(s_DebugTextBuffer, ARYLEN(s_DebugTextBuffer), "DEBUG DRAW   : TRANS L%02i", layer);
                     break;

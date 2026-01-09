@@ -58,7 +58,7 @@ typedef struct
 }
 CARTWK;
 
-#define PlayerCartSelected      DATA_ARY(s8, 0x0174B021, [2])
+#define PlayerCartSelected      DATA_ARY(i8, 0x0174B021, [2])
 
 static NJS_CNK_OBJECT* CartObjectList[8][2];
 

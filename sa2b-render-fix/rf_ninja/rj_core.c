@@ -575,7 +575,7 @@ rjEndVertex(void)
 
     if ( sz > RJD_VBUF_SIZE )
     {
-        const s32 i = rjCheapShadowEffectStart();
+        const i32 i = rjCheapShadowEffectStart();
 
         DX9_DrawPrimitiveUP(pri_type, pri_num, _rj_vertex_buffer_base_, _rj_vertex_buffer_stride_);
 
@@ -615,7 +615,7 @@ rjEndVertex(void)
 
     /** Draw the vertex buffer **/
 
-    const s32 i = rjCheapShadowEffectStart();
+    const i32 i = rjCheapShadowEffectStart();
 
     DX9_DrawPrimitive(pri_type, 0, pri_num);
 
@@ -938,7 +938,7 @@ InitShaderMacroPixel(RFS_MACRO* pMacroAry, const RFS_MACRO** ppOutMacro)
 }
 
 void
-RFCTRL_SetModBufferSize(s32 nbTri, s32 nbTriList)
+RFCTRL_SetModBufferSize(i32 nbTri, i32 nbTriList)
 {
     ___TODO("This function must be restored before release");
 

@@ -93,7 +93,7 @@ EV_LoadEffectFiles(void)
 
     c7 c_buf[64];
 
-    const size sz_buf = ARYLEN(c_buf);
+    const isize sz_buf = ARYLEN(c_buf);
 
     EV_EFF_INFO* const p_core_buf = &LargeFileBuffer[0];
     EV_EFF_INFO* const p_file_buf = &LargeFileBuffer[1];
@@ -105,7 +105,7 @@ EV_LoadEffectFiles(void)
     int  wait_vsync_val = 0;
 
     // structure info
-    const size nb_snd = ARYLEN(EvEffectInfo.sound);
+    const isize nb_snd = ARYLEN(EvEffectInfo.sound);
 
     int ix_cur_snd = 0;
 

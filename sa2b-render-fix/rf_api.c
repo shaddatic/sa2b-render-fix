@@ -23,7 +23,7 @@
 /*  Types                       */
 /********************************/
 /****** API Module Version **********************************************************************/
-typedef i32(__cdecl RF_INIT)(const RFAPI_CORE*, const c8*, const HelperFunctions*, size);
+typedef i32(__cdecl RF_INIT)(const RFAPI_CORE*, const c8*, const HelperFunctions*, isize);
 
 /********************************/
 /*  Extern Variables            */
@@ -74,9 +74,9 @@ RFAPI_CallFuncs(RF_APIFUNC apifn)
 
     const c7* pc_apifn = FuncNames[apifn];
 
-    const size nb_mod = miGetModCount();
+    const isize nb_mod = miGetModCount();
 
-    for ( size i = 0; i < nb_mod; ++i )
+    for ( isize i = 0; i < nb_mod; ++i )
     {
         const ml_modinfo* p_mi = miGetInfoByIndex(i);
 
@@ -87,7 +87,7 @@ RFAPI_CallFuncs(RF_APIFUNC apifn)
             continue;
         }
 
-        const s32 val = fn_init(&rfapi_core, p_mi->puPath, mtGetHelperFunctions(), i);
+        const i32 val = fn_init(&rfapi_core, p_mi->puPath, mtGetHelperFunctions(), i);
 
         if ( apifn < RF_APIFUNC_OLD_INIT && val != 0 )
         {

@@ -42,7 +42,7 @@ void    rjCnkStrip( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* r
 *     - vbuf        : current vertex buffer
 *     - uvh         : use HD UVs
 */
-void    rjCnkStripUV( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, s32 uvh );
+void    rjCnkStripUV( const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict vbuf, i32 uvh );
 /*
 *   Description:
 *     Parse and draw Chunk VN strip chunk.

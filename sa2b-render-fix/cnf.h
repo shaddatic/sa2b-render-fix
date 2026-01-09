@@ -17,7 +17,7 @@ typedef struct
 {
     const c8*   sect;               /* config entry section                                     */
     const c8*   key;                /* config entry key                                         */
-    const s32   def;                /* config entry default value                               */
+    const i32   def;                /* config entry default value                               */
 }
 CONFIG_INT;
 
@@ -84,7 +84,7 @@ void    CNF_Save( void );
 *   Returns:
 *     The user setting if it exists. If not, the default value
 */
-s32       CNF_GetInt(    const CONFIG_INT*    pCnfDef );
+i32       CNF_GetInt(    const CONFIG_INT*    pCnfDef );
 f64       CNF_GetFloat(  const CONFIG_FLOAT*  pCnfDef );
 bool      CNF_GetBool(   const CONFIG_BOOL*   pCnfDef );
 const c8* CNF_GetString( const CONFIG_STRING* pCnfDef );
@@ -98,7 +98,7 @@ const c8* CNF_GetString( const CONFIG_STRING* pCnfDef );
 *     - pCnfDef : pointer to a config setting definition
 *     - val     : value to set
 */
-void    CNF_SetInt(    const CONFIG_INT*    pCnfDef, s32       val );
+void    CNF_SetInt(    const CONFIG_INT*    pCnfDef, i32       val );
 void    CNF_SetFloat(  const CONFIG_FLOAT*  pCnfDef, f64       val );
 void    CNF_SetBool(   const CONFIG_BOOL*   pCnfDef, bool      val );
 void    CNF_SetString( const CONFIG_STRING* pCnfDef, const c8* val );
@@ -116,7 +116,7 @@ void    CNF_SetString( const CONFIG_STRING* pCnfDef, const c8* val );
 *   Returns:
 *     The user setting if it exists. If not, the default value
 */
-s32       CNF_DirectGetInt(    const c8* uSect, const c8* uKey, s32       def );
+i32       CNF_DirectGetInt(    const c8* uSect, const c8* uKey, i32       def );
 f64       CNF_DirectGetFloat(  const c8* uSect, const c8* uKey, f64       def );
 bool      CNF_DirectGetBool(   const c8* uSect, const c8* uKey, bool      def );
 const c8* CNF_DirectGetString( const c8* uSect, const c8* uKey, const c8* def );
@@ -131,7 +131,7 @@ const c8* CNF_DirectGetString( const c8* uSect, const c8* uKey, const c8* def );
 *     - key     : key to find
 *     - val     : value to set
 */
-void    CNF_DirectSetInt(    const c8* uSect, const c8* uKey, s32        val );
+void    CNF_DirectSetInt(    const c8* uSect, const c8* uKey, i32        val );
 void    CNF_DirectSetFloat(  const c8* uSect, const c8* uKey, f64        val );
 void    CNF_DirectSetBool(   const c8* uSect, const c8* uKey, bool       val );
 void    CNF_DirectSetString( const c8* uSect, const c8* uKey, const c8*  val );

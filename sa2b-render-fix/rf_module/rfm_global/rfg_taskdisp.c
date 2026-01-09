@@ -257,7 +257,7 @@ DrawModBuffer(int index)
 #define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
 #define IsSplitscreen       DATA_REF(bool  , 0x0174AFE0)
 
-#define ShadowMapCount      DATA_REF(s16, 0x01A5A3EC)
+#define ShadowMapCount      DATA_REF(i16, 0x01A5A3EC)
 
 static void
 TaskDisplayDispShad(task* btpl)

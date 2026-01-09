@@ -183,14 +183,14 @@ typedef struct
 
     u8 snd_begin;
     u8 staff_ctrl;
-    s16 voice_num;
+    i16 voice_num;
 
     c7 bgm[16];
     c7 jingle[16];
 
     u32 WaitVsyncCount;
 
-    s32 padding[7];
+    i32 padding[7];
 }
 EV_EFF_SOUND;
 
@@ -329,10 +329,10 @@ EV_BLARE_INFO;
 
 #define EventEffData            DATA_REF(EV_EFF_INFO , 0x01FEFE20)
 
-#define EventBigMotion          DATA_REF(s32         , 0x01DB0FBC)
+#define EventBigMotion          DATA_REF(i32         , 0x01DB0FBC)
 #define EventBigFrame           DATA_REF(f32         , 0x01DB0F90)
 #define EvBigActive             DATA_REF(b32         , 0x01DB0FD8)
-#define EvBigLastScene          DATA_REF(s32         , 0x01DB0FDC)
+#define EvBigLastScene          DATA_REF(i32         , 0x01DB0FDC)
 
 #define EventCamera             DATA_REF(NJS_CAMERA  , 0x01D19C20)
 
@@ -349,7 +349,7 @@ EV_BLARE_INFO;
 
 #define EventEquipmentIndexes       DATA_ARY(Sint32    , 0x0104CEA0, [18])
 
-#define EventDebugInfo              DATA_REF(s32  , 0x01DB0BE8)
+#define EventDebugInfo              DATA_REF(i32  , 0x01DB0BE8)
 
 #define EventCameraInit         FUNC_PTR(void, __cdecl, (void)         , 0x005FA160)
 #define EventDrawEquipment      FUNC_PTR(void, __cdecl, (void)         , 0x00601BB0)

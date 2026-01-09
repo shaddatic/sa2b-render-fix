@@ -85,7 +85,7 @@ RFM_CartInit(void)
 {
     if ( CNF_GetInt(CNF_CART_KANBAN) )
     {
-        WriteData(0x006224EC, -1063 + 28, s32);
+        WriteData(0x006224EC, -1063 + 28, i32);
     }
 
     switch ( CNF_GetInt(CNF_CART_CARTSPRITE) )

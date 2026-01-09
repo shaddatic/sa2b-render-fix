@@ -93,7 +93,7 @@ rjCnkSetCache(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
     const CNK_BITS_HEAD*     restrict p_bits  = (const void*) plist;
     const CNK_BITS_POLYLIST* restrict p_cache = (const void*) &p_bits->d;
 
-    const s32 ix_cache = p_cache->list;
+    const isize ix_cache = p_cache->list;
 
     _nj_cnk_polygon_cache_tbl_[ix_cache] = plist + CNK_BITSOFF_SIZE; // cache next offset
 
@@ -108,7 +108,7 @@ rjCnkDrawCache(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
     const CNK_BITS_HEAD*     restrict p_bits  = (const void*) plist;
     const CNK_BITS_POLYLIST* restrict p_cache = (const void*) &p_bits->d;
 
-    const s32 ix_cache = p_cache->list;
+    const isize ix_cache = p_cache->list;
 
     _nj_cnk_polygon_cache_num_--;
 
@@ -262,7 +262,7 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
     const NJS_TEXLIST* p_tls = njGetCurrentTexList();
 
-    if ( !p_tls || strip->texid >= (s16)p_tls->nbTexture )
+    if ( !p_tls || strip->texid >= (i16)p_tls->nbTexture )
     {
     TEX_ERR:
         p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
@@ -486,8 +486,8 @@ rjCnkStripStartAlpha(const RJS_CNK_STRIP* restrict strip)
 {
     RJ_ALPHA alphamd;
 
-    const s32 bld_src = (strip->blend & NJD_FBS_MASK);
-    const s32 bld_dst = (strip->blend & NJD_FBD_MASK);
+    const i32 bld_src = (strip->blend & NJD_FBS_MASK);
+    const i32 bld_dst = (strip->blend & NJD_FBD_MASK);
 
     if ( strip->flag & RJD_FST_TRANSLUCENT )
     {
@@ -536,14 +536,14 @@ rjCnkStripStartVertex(const RJS_CNK_STRIP* restrict strip)
     }
 }
 
-static size
+static isize
 rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
 {
     const bool inv_only = !(_rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_NORMAL);
 
     RJS_CNK_STRIP* restrict p_stentry = pOutStrips;
 
-    size nb_strip = 0;
+    isize nb_strip = 0;
 
     const Sint16* plist = pPList;
 
@@ -757,7 +757,7 @@ rjCnkStripDraw(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restri
 }
 
 static void
-rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, const RJS_VERTEX_BUF* restrict vbuf)
+rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const isize nbStrip, const RJS_VERTEX_BUF* restrict vbuf)
 {
     static const Uint16 CnkStripAndFlags[4] =
     {
@@ -788,7 +788,7 @@ rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, con
         const bool has_vnrm = vattr & RJD_CVF_NORMAL;
         const bool has_vcol = vattr & RJD_CVF_COLOR;
 
-        for ( size ix_st = 0; ix_st < nbStrip; ++ix_st )
+        for ( isize ix_st = 0; ix_st < nbStrip; ++ix_st )
         {
             const RJS_CNK_STRIP* p_strip = &strips[ix_st];
 
@@ -852,7 +852,7 @@ rjCnkStripDrawList(const RJS_CNK_STRIP* restrict strips, const size nbStrip, con
         {
             const Uint16 csd_on = do_inv ? RJD_CSD_INVERT : RJD_CSD_NORMAL;
 
-            for ( size ix_st = 0; ix_st < nbStrip; ++ix_st )
+            for ( isize ix_st = 0; ix_st < nbStrip; ++ix_st )
             {
                 const RJS_CNK_STRIP* p_strip = &strips[ix_st];
 
@@ -878,7 +878,7 @@ rjCnkPList(const Sint16* restrict plist, const RJS_VERTEX_BUF* restrict vbuf)
     rjCnkStartPlist( &strips[0] );
 
     // build strips and exec
-    const size nb_strip = rjCnkExecPlist( plist, strips );
+    const isize nb_strip = rjCnkExecPlist( plist, strips );
 
     if ( !nb_strip )
     {

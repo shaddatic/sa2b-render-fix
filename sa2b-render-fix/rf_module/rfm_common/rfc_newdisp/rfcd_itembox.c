@@ -308,7 +308,7 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
 
     njPushMatrixEx();
     {
-        const s16 wtimer = twp->wtimer;
+        const u16 wtimer = twp->wtimer;
 
         const f32 posy = ( njSin( (wtimer + 800) << 8) * 4.f ) + twp->pos.y;
 

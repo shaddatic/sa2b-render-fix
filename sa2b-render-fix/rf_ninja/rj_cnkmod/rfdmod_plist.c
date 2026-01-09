@@ -40,7 +40,7 @@ rjCnkModVolumeP3(const Sint16* const pPList, const RJS_VERTEX_BUF* const vbuf)
 
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MIRROR_MODEL )
     {
-        for (s32 i = 0; i < nb_poly; ++i)
+        for (i32 i = 0; i < nb_poly; ++i)
         {
             p_vbuf[0].pos = vbuf[p_vo->i2].pos;
             p_vbuf[1].pos = vbuf[p_vo->i1].pos;
@@ -53,7 +53,7 @@ rjCnkModVolumeP3(const Sint16* const pPList, const RJS_VERTEX_BUF* const vbuf)
     }
     else // normal draw
     {
-        for (s32 i = 0; i < nb_poly; ++i)
+        for (i32 i = 0; i < nb_poly; ++i)
         {
             p_vbuf[0].pos = vbuf[p_vo->i0].pos;
             p_vbuf[1].pos = vbuf[p_vo->i1].pos;

@@ -61,13 +61,13 @@ RF_MAGICTEXTURE;
 /****** Magic Sampler Data **********************************************************/
 typedef struct
 {
-    s32     MinFilter;
-    s32     MagFilter;
-    s32     MipFilter;
-    s32     AddressU;
-    s32     AddressV;
-    s32     AddressW;
-    s32     BorderColor;
+    i32     MinFilter;
+    i32     MagFilter;
+    i32     MipFilter;
+    i32     AddressU;
+    i32     AddressV;
+    i32     AddressW;
+    i32     BorderColor;
 }
 RF_MAGICSAMPLER;
 

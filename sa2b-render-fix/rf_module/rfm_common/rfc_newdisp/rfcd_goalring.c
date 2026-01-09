@@ -44,7 +44,7 @@ LOSTCHAOWK;
 /*  Game Data           */
 /************************/
 /****** Fog ********************************************************************/
-#define DisableObjectFog            DATA_REF(s32, 0x01AEFE64)
+#define DisableObjectFog            DATA_REF(i32, 0x01AEFE64)
 
 /****** Goalring ********************************************************************/
 #define texlist_goalring            DATA_ARY(NJS_TEXLIST, 0x00B4DA90, [1])

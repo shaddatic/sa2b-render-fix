@@ -37,10 +37,10 @@ typedef struct
     NJS_MOTION*     motion;
     NJS_MOTION*     shape;
     f32             frame;
-    s32             type;
+    i32             type;
     u32             attr;
-    s32             maxtimer;
-    s32             timer;
+    i32             maxtimer;
+    i32             timer;
     f32             fade;
 }
 EV_BLARE_PARAM;
@@ -78,7 +78,7 @@ blareDisp(task* tp)
 
     if ( p_blarewk->fade < 1.f && p_blarewk->fade > 0.f )
     {
-        FUNC_PTR(void, __cdecl, (s32), 0x00600B40)( (s32)(p_blarewk->fade * 100.f) );
+        FUNC_PTR(void, __cdecl, (i32), 0x00600B40)( (i32)(p_blarewk->fade * 100.f) );
 
         const u32 attr = p_blarewk->attr;
 

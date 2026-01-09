@@ -65,9 +65,9 @@ GetLightFilePaths(const c8* puPathBase, const c8** ppuOutPathDC, const c8** ppuO
     const c8* pu_out_path_dc = nullptr;
     const c8* pu_out_path_gc = nullptr; 
 
-    const s32 nb_mod = miGetModCount();
+    const isize nb_mod = miGetModCount();
 
-    for (s32 i = nb_mod - 1; i >= 0; --i)
+    for ( isize i = nb_mod - 1; i >= 0; --i )
     {
         const ml_modinfo* p_modinfo = miGetInfoByIndex(i);
 

@@ -41,7 +41,7 @@ FileError(c8* buf, const c8* puPath)
 
 /****** Get Object ******************************************************************************/
 mt_samdl*
-RF_GetSAModel(const c8* puPath, s32 flag)
+RF_GetSAModel(const c8* puPath, u32 flag)
 {
     c8 buf[BUF_LEN];
 
@@ -79,12 +79,12 @@ RF_FreeSAModel(mt_samdl* pSamdl)
 }
 
 /****** Get List ********************************************************************************/
-size
-RF_GetSAModelList(RFS_SAMDL* restrict pSamdls, const size nbSamdl, s32 flag)
+isize
+RF_GetSAModelList(RFS_SAMDL* restrict pSamdls, const isize nbSamdl, u32 flag)
 {
-    size nb = 0;
+    isize nb = 0;
 
-    for ( size i = 0; i < nbSamdl; ++i )
+    for ( isize i = 0; i < nbSamdl; ++i )
     {
         if ( !pSamdls[i].puInPath )
         {
@@ -105,7 +105,7 @@ RF_GetSAModelList(RFS_SAMDL* restrict pSamdls, const size nbSamdl, s32 flag)
 
     /** compare loaded models for duplicates, and free them **/
 
-    for ( size ix_man = 0; ix_man < nbSamdl; ++ix_man )
+    for ( isize ix_man = 0; ix_man < nbSamdl; ++ix_man )
     {
         mt_samdl* p_samdl = pSamdls[ix_man].pOutSamdl;
 
@@ -114,7 +114,7 @@ RF_GetSAModelList(RFS_SAMDL* restrict pSamdls, const size nbSamdl, s32 flag)
             continue;
         }
 
-        for ( size ix_cmp = ix_man+1; ix_cmp < nbSamdl; ++ix_cmp )
+        for ( isize ix_cmp = ix_man+1; ix_cmp < nbSamdl; ++ix_cmp )
         {
             mt_samdl* p_samdl_cmp = pSamdls[ix_cmp].pOutSamdl;
 

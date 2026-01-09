@@ -114,11 +114,11 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
 {
     c7 pc_path[128]; // base file path
 
-    const size sz_path = ARYLEN(pc_path);
+    const isize sz_path = ARYLEN(pc_path);
 
     /** Calculate Source Path **/
 
-    const size sz_fmt = mtStrFormat(pc_path, sz_path, "resource/gd_PC/%s", pcSrcFile);
+    const isize sz_fmt = mtStrFormat(pc_path, sz_path, "resource/gd_PC/%s", pcSrcFile);
 
     if ( sz_fmt >= sz_path )
     {
@@ -128,7 +128,7 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
 
     /** Get Ownership **/
     
-    const size ix_rf = mtGetModIndex();
+    const isize ix_rf = mtGetModIndex();
 
     if ( ix_rf == -1 ) // old mod loader
     {
@@ -146,7 +146,7 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
     }
     else // supports mod index features
     {
-        const size ix_file = mlGetFileModIndex(pc_path);
+        const isize ix_file = mlGetFileModIndex(pc_path);
 
         if ( ix_file == -1 )
         {
@@ -166,7 +166,7 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
 static void
 ReplaceFile(const c7* pcSrcPath, const c7* pcDstPath)
 {
-    const size ix_rf = mtGetModIndex();
+    const isize ix_rf = mtGetModIndex();
 
     if ( ix_rf == -1 ) // old mod loader
     {
@@ -197,11 +197,11 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
     c7 pc_path_src[128];
     c7 pc_path_dst[128];
 
-    const size sz_path = ARYLEN(pc_path_src);
+    const isize sz_path = ARYLEN(pc_path_src);
 
     /** Calculate Source Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_path_src, sz_path, "resource/gd_PC/%s", pcGdPath);
+        const isize sz_fmt = mtStrFormat(pc_path_src, sz_path, "resource/gd_PC/%s", pcGdPath);
 
         if ( sz_fmt >= sz_path )
         {
@@ -211,7 +211,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_path_dst, sz_path, "%s/" OPTI_DIR "/%s/%s", mtGetModPath(), pcOptiFolder, pcGdPath);
+        const isize sz_fmt = mtStrFormat(pc_path_dst, sz_path, "%s/" OPTI_DIR "/%s/%s", mtGetModPath(), pcOptiFolder, pcGdPath);
 
         if ( sz_fmt >= sz_path )
         {
@@ -235,7 +235,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
     c7 pc_src[128];
     c7 pc_dst[128];
 
-    const size sz_path = ARYLEN(pc_src);
+    const isize sz_path = ARYLEN(pc_src);
 
     /** Check File Ownership **/
     {
@@ -254,7 +254,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
     /** Calculate Source Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/PRS/%s.pak", pcTexName);
+        const isize sz_fmt = mtStrFormat(pc_src, sz_path, "resource/gd_PC/PRS/%s.pak", pcTexName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -264,7 +264,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
+        const isize sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcTexName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -288,7 +288,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
     c7 pc_src[128];
     c7 pc_dst[128];
 
-    const size sz_path = ARYLEN(pc_src);
+    const isize sz_path = ARYLEN(pc_src);
 
     /** Check File Ownership (PRS) **/
     {
@@ -326,7 +326,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
     }
     /** Calculate Destination Path **/
     {
-        const size sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
+        const isize sz_fmt = mtStrFormat(pc_dst, sz_path, "%s/" OPTI_DIR "/%s/PRS/%s.pak", mtGetModPath(), pcOptiFolder, pcPvrName);
 
         if ( sz_fmt >= sz_path )
         {
@@ -350,7 +350,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
     c7 pc_src[128];
     c7 pc_dst[128];
 
-    const size sz_path = ARYLEN(pc_src);
+    const isize sz_path = ARYLEN(pc_src);
 
     /** Check for folder based player model files **/
     {
@@ -517,18 +517,18 @@ RFU_DirectReplaceFloat(pint pOpcode, const void* pFlt)
     WritePointer(pOpcode+2, pFlt);
 }
 
-static f32  FloatList[64];
-static size FloatNumber;
-static f64  DoubleList[64];
-static size DoubleNumber;
+static f32   FloatList[64];
+static isize FloatNumber;
+static f64   DoubleList[64];
+static isize DoubleNumber;
 
 static bool
 ReplaceFloat(pint pOpcode, f32 val)
 {
     const f32*  p_flt = nullptr;
-    const size nb_flt = FloatNumber;
+    const isize nb_flt = FloatNumber;
 
-    for ( size i = 0; i < nb_flt; ++i )
+    for ( isize i = 0; i < nb_flt; ++i )
     {
         if ( FloatList[i] == val )
         {
@@ -559,10 +559,10 @@ ReplaceFloat(pint pOpcode, f32 val)
 static bool
 ReplaceDouble(pint pOpcode, f64 val)
 {
-    const f64*  p_dbl = nullptr;
-    const size nb_dbl = DoubleNumber;
+    const f64*   p_dbl = nullptr;
+    const isize nb_dbl = DoubleNumber;
 
-    for ( size i = 0; i < nb_dbl; ++i )
+    for ( isize i = 0; i < nb_dbl; ++i )
     {
         if ( DoubleList[i] == val )
         {

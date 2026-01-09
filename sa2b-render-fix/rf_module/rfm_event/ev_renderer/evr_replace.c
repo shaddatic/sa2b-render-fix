@@ -45,11 +45,11 @@ REPLACE_CACHE;
 /*  Variables                   */
 /********************************/
 /****** Memory Cache ****************************************************************************/
-static size MemCacheCount;
+static isize MemCacheCount;
 static void** MemCacheList;
 
 /****** Replace String Index ********************************************************************/
-static size StringIndex;
+static isize StringIndex;
 
 /****** Path Buffers ***************************************************************************/
 static c8* BasePath;
@@ -62,9 +62,9 @@ static c8* PathBuffer;
 static void*
 ReplaceCacheFind(const c8* puPath)
 {
-    const size nb_mem = MemCacheCount;
+    const isize nb_mem = MemCacheCount;
 
-    for ( size i = 0; i < nb_mem; ++i )
+    for ( isize i = 0; i < nb_mem; ++i )
     {
         if ( !ReplCache[i].str )
         {
@@ -97,7 +97,7 @@ ReplaceCacheAdd(const c8* puPath, void* pMem)
         StringIndex += mtStrCopy(pu_str, puPath, STR_NOMAX);
     }
 
-    const size i = MemCacheCount++;
+    const isize i = MemCacheCount++;
 
     ReplCache[i].str = pu_str;
     ReplCache[i].mem = pMem;
@@ -171,7 +171,7 @@ GetReplaceMotion(const c8* puName)
 
 /****** Replace Attribute ***********************************************************************/
 static void
-ReplaceEventSceneEntry(size ixEvent, size ixScene, size ixEntry)
+ReplaceEventSceneEntry(isize ixEvent, isize ixScene, isize ixEntry)
 {
     EVENT_ENTRY* p_this_entry = &EventData.pScenes[ixScene].pEntries[ixEntry];
 
@@ -237,7 +237,7 @@ ReplaceEventSceneEntry(size ixEvent, size ixScene, size ixEntry)
 }
 
 static void
-ReplaceEventSceneBig(size ixEvent, size ixScene)
+ReplaceEventSceneBig(isize ixEvent, isize ixScene)
 {
     EVENT_BIG* p_big = EventData.pScenes[ixScene].pBig;
 
@@ -263,7 +263,7 @@ ReplaceEventSceneBig(size ixEvent, size ixScene)
 
     /** Motion Count **/
 
-    const size nb_motion = mtConfigGetInt(p_cnf, NULL, "motion_num", -1);
+    const isize nb_motion = mtConfigGetInt(p_cnf, NULL, "motion_num", -1);
 
     if ( nb_motion != -1 )
     {
@@ -278,7 +278,7 @@ ReplaceEventSceneBig(size ixEvent, size ixScene)
             p_big->pMotions = p_bigmot;
         }
 
-        for ( size i = 0; i < nb_motion; ++i )
+        for ( isize i = 0; i < nb_motion; ++i )
         {
             mtStrFormat(buf, 16, "motion%03i", i);
 
@@ -319,7 +319,7 @@ ReplaceEventSceneBig(size ixEvent, size ixScene)
 }
 
 static void
-ReplaceEventSceneCamera(size ixEvent, size ixScene)
+ReplaceEventSceneCamera(isize ixEvent, isize ixScene)
 {
     mtStrFormat(PathBuffer, BUF_SIZE, "resource/gd_PC/EVENT/e%04i_rf/scene%03i_camera.ini", ixEvent, ixScene);
 
@@ -334,7 +334,7 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
 
     EVENT_SCENE* p_scene = &EventData.pScenes[ixScene];
 
-    const size nb_motion = mtConfigGetInt(p_cnf, NULL, "motion_num", -1);
+    const isize nb_motion = mtConfigGetInt(p_cnf, NULL, "motion_num", -1);
 
     if ( nb_motion != -1 )
     {
@@ -349,7 +349,7 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
             p_scene->pCameraMotions = p_motions;
         }
 
-        for ( size i = 0; i < nb_motion; ++i )
+        for ( isize i = 0; i < nb_motion; ++i )
         {
             mtStrFormat(buf, 16, "motion%03i", i);
 
@@ -372,7 +372,7 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
 }
 
 static void
-ReplaceEventEquipment(size ixEvent)
+ReplaceEventEquipment(isize ixEvent)
 {
     mtStrFormat(PathBuffer, BUF_SIZE, "resource/gd_PC/EVENT/e%04i_rf/equipment.ini", ixEvent);
 
@@ -387,13 +387,13 @@ ReplaceEventEquipment(size ixEvent)
 
     EVENT_EQUIPMENT* p_equip = EventData.pEquipment;
 
-    const size nb_equip = mtConfigGetInt(p_cnf, NULL, "equipment_num", -1);
+    const isize nb_equip = mtConfigGetInt(p_cnf, NULL, "equipment_num", -1);
 
     if ( nb_equip != -1 )
     {
         c8 buf[16];
 
-        for ( size i = 0; i < nb_equip; ++i )
+        for ( isize i = 0; i < nb_equip; ++i )
         {
             mtStrFormat(buf, 16, "equipment%03i", i);
 
@@ -452,10 +452,10 @@ EVR_EndReplaceAttr(void)
 {
     if ( MemCacheList )
     {
-        const size nb_mem = MemCacheCount;
-        void**      p_mem = MemCacheList;
+        const isize nb_mem = MemCacheCount;
+        void**       p_mem = MemCacheList;
 
-        for ( size i = 0; i < nb_mem; ++i )
+        for ( isize i = 0; i < nb_mem; ++i )
         {
             mtFree(p_mem[i]);
         }
@@ -479,13 +479,13 @@ EVR_StartReplaceAttr(void)
     PathBuffer = &mem_buffer[0];
     BasePath   = &mem_buffer[BUF_SIZE];
 
-    const size ix_event = EventNum;
+    const isize ix_event = EventNum;
 
-    const size nb_scene = EventData.nbScene + 1;
+    const isize nb_scene = EventData.nbScene + 1;
 
     for ( int ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
     {
-        const size nb_entry = EventData.pScenes[ix_scene].nbEntry;
+        const isize nb_entry = EventData.pScenes[ix_scene].nbEntry;
 
         ReplaceEventSceneBig(ix_event, ix_scene);
         ReplaceEventSceneCamera(ix_event, ix_scene);
@@ -505,10 +505,10 @@ EVR_StartReplaceAttr(void)
         return;
     }
 
-    const size nb_mem = MemCacheCount;
-    void**      p_mem = mtAlloc(void*, nb_mem);
+    const isize nb_mem = MemCacheCount;
+    void**       p_mem = mtAlloc(void*, nb_mem);
 
-    for ( size i = 0; i < nb_mem; ++i )
+    for ( isize i = 0; i < nb_mem; ++i )
     {
         p_mem[i] = ReplCache[i].mem;
     }

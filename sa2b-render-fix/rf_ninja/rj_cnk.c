@@ -22,7 +22,7 @@
 /*  Game References     */
 /************************/
 /****** Shadow Map ******************************************************************/
-#define _gj_shadow_tex_callback_    FUNC_REF(void, __cdecl, (s32), 0x01A55828)
+#define _gj_shadow_tex_callback_    FUNC_REF(void, __cdecl, (i32), 0x01A55828)
 
 #define _gj_shadow_tex_num_         DATA_REF(u8, 0x01934758)
 
