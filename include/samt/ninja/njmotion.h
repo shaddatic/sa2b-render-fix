@@ -19,172 +19,205 @@
 
 EXTERN_START
 
-/************************/
-/*  Constants           */
-/************************/
-/****** Motion Type Bits ************************************************************/
-#define NJD_MTYPE_POS_0         BIT_0   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_ANG_1         BIT_1   /* use NJS_MKEY_A                           */
-#define NJD_MTYPE_SCL_2         BIT_2   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_VEC_3         BIT_3   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_VEC_0         BIT_4   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_SANG_1        BIT_5   /* use NJS_MKEY_SA                          */
-#define NJD_MTYPE_TARGET_3      BIT_6   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_ROLL_6        BIT_7   /* use NJS_MKEY_SA1                         */
-#define NJD_MTYPE_ANGLE_7       BIT_8   /* use NJS_MKEY_A1                          */
-#define NJD_MTYPE_RGB_8         BIT_9   /* use NJS_MKEY_F                           */
-#define NJD_MTYPE_INTENSITY_9   BIT_10  /* use NJS_MKEY_F2                          */
-#define	NJD_MTYPE_SPOT_10       BIT_11  /* use NJS_MKEY_SPOT                        */
-#define NJD_MTYPE_POINT_9       BIT_12  /* use NJS_MKEY_F2                          */
-#define NJD_MTYPE_QUAT_1        BIT_13  /* use NJS_MKEY_QUAT                        */
-#define NJD_MTYPE_SHAPEID       BIT_14  /* use NJS_MKEY_SHAPEID     (compact shape) */
-#define NJD_MTYPE_EVENT_4       BIT_15  /* use NJS_MKEY_UI16                        */
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Motion Interpolate **********************************************************************/
+#define NJD_MFUNC_LINEAR            (0x0000) /* use linear                                      */
+#define NJD_MFUNC_SPLINE            (0x0040) /* use spline                                      */
+#define NJD_MFUNC_USER              (0x0080) /* use user function                               */
+#define NJD_MFUNC_MASK              (0x00C0) /* motion function mask                            */
 
-#define NJD_MTYPE_LINER        (0x0000) /* use liner                                */
-#define NJD_MTYPE_SPLINE       (0x0040) /* use spline                               */
-#define NJD_MTYPE_USER         (0x0080) /* use user function                        */
-#define NJD_MTYPE_MASK         (0x00C0) /* motion function mask                     */
-
-/****** Rotation Type ***************************************************************/
+/****** Rotation Type ***************************************************************************/
 /*
 *   These are returned by the 'njGetMotionNodeData' function
 */
-#define NJD_MROT_ANGLEXYZ      (0) /* ninja angle in xyz order                      */
-#define NJD_MROT_ANGLEZXY      (1) /* ninja angle in zxy (lightwave) order          */
-#define NJD_MROT_QUATERNION    (2) /* ninja quaternion                              */
+#define NJD_MROT_ANGLEXYZ           (0) /* ninja angle in xyz order                             */
+#define NJD_MROT_ANGLEZXY           (1) /* ninja angle in zxy (lightwave) order                 */
+#define NJD_MROT_QUATERNION         (2) /* ninja quaternion                                     */
 
-/************************/
-/*  Structures          */
-/************************/
-/****** Motion Key Structs **********************************************************/
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Motion Type *****************************************************************************/
+typedef enum njmtype
+{
+    NJ_MTYPE_POS_0,                 /* NJS_MKEY_F                                               */
+    NJ_MTYPE_ANG_1,                 /* NJS_MKEY_A                                               */
+    NJ_MTYPE_SCL_2,                 /* NJS_MKEY_F                                               */
+    NJ_MTYPE_VEC_3,                 /* NJS_MKEY_F                                               */
+    NJ_MTYPE_VERT_4,                /* NJS_MKEY_P                                               */
+    NJ_MTYPE_NORM_5,                /* NJS_MKEY_P                                               */
+    NJ_MTYPE_TARGET_3,              /* NJS_MKEY_F                                               */
+    NJ_MTYPE_ROLL_6,                /* NJS_MKEY_SA1                                             */
+    NJ_MTYPE_ANGLE_7,               /* NJS_MKEY_A1                                              */
+    NJ_MTYPE_RGB_8,                 /* NJS_MKEY_F                                               */
+    NJ_MTYPE_INTENSITY_9,           /* NJS_MKEY_F2                                              */
+    NJ_MTYPE_SPOT_10,               /* NJS_MKEY_SPOT                                            */
+    NJ_MTYPE_POINT_9,               /* NJS_MKEY_F2                                              */
+    NJ_MTYPE_QUAT_1,                /* NJS_MKEY_QUAT                                            */
+    NJ_MTYPE_SHAPEID,               /* NJS_MKEY_SHAPEID                         (compact shape) */
+    NJ_MTYPE_EVENT_4,               /* NJS_MKEY_UI16                                            */
+
+    NJ_NB_MTYPE,                    /* enum count                                               */
+
+    // Ninja2 only
+    NJ_MTYPE_VEC_0  = NJ_MTYPE_VERT_4, /* NJS_MKEY_F                                            */
+    NJ_MTYPE_SANG_1 = NJ_MTYPE_NORM_5, /* NJS_MKEY_SA                                           */
+}
+NJ_MTYPE;
+
+/****** Motion Type Flag ************************************************************************/
+#define NJD_MFLAG_POS_0         (1<<NJ_MTYPE_POS_0)       /* NJS_MKEY_F                         */
+#define NJD_MFLAG_ANG_1         (1<<NJ_MTYPE_ANG_1)       /* NJS_MKEY_A                         */
+#define NJD_MFLAG_SCL_2         (1<<NJ_MTYPE_SCL_2)       /* NJS_MKEY_F                         */
+#define NJD_MFLAG_VEC_3         (1<<NJ_MTYPE_VEC_3)       /* NJS_MKEY_F                         */
+#define NJD_MFLAG_VERT_4        (1<<NJ_MTYPE_VERT_4)      /* NJS_MKEY_P                         */
+#define NJD_MFLAG_NORM_5        (1<<NJ_MTYPE_NORM_5)      /* NJS_MKEY_P                         */
+#define NJD_MFLAG_TARGET_3      (1<<NJ_MTYPE_TARGET_3)    /* NJS_MKEY_F                         */
+#define NJD_MFLAG_ROLL_6        (1<<NJ_MTYPE_ROLL_6)      /* NJS_MKEY_SA1                       */
+#define NJD_MFLAG_ANGLE_7       (1<<NJ_MTYPE_ANGLE_7)     /* NJS_MKEY_A1                        */
+#define NJD_MFLAG_RGB_8         (1<<NJ_MTYPE_RGB_8)       /* NJS_MKEY_F                         */
+#define NJD_MFLAG_INTENSITY_9   (1<<NJ_MTYPE_INTENSITY_9) /* NJS_MKEY_F2                        */
+#define	NJD_MFLAG_SPOT_10       (1<<NJ_MTYPE_SPOT_10)     /* NJS_MKEY_SPOT                      */
+#define NJD_MFLAG_POINT_9       (1<<NJ_MTYPE_POINT_9)     /* NJS_MKEY_F2                        */
+#define NJD_MFLAG_QUAT_1        (1<<NJ_MTYPE_QUAT_1)      /* NJS_MKEY_QUAT                      */
+#define NJD_MFLAG_SHAPEID       (1<<NJ_MTYPE_SHAPEID)     /* NJS_MKEY_SHAPEID   (compact shape) */
+#define NJD_MFLAG_EVENT_4       (1<<NJ_MTYPE_EVENT_4)     /* NJS_MKEY_UI16                      */
+
+// Ninja2 only
+#define NJD_MFLAG_VEC_0         (1<<NJ_MTYPE_VEC_0)       /* NJS_MKEY_F                         */
+#define NJD_MFLAG_SANG_1        (1<<NJ_MTYPE_SANG_1)      /* NJS_MKEY_SA                        */
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Motion Keys *****************************************************************************/
 /*
-*     Keyframe animation data structures. Depending on the type attributes of the
-*   motion, different structures will be used to represent parts of the animation;
-*   for example, a position attribute will use an MKEY_F struct, but an angle
-*   attribute will use an MKEY_A struct. Their order in memory fixed to: pos, ang,
-*   scl, shape, vec, etc.
+*     Keyframe animation data structures. Depending on the type attributes of the motion,
+*   different structures will be used to represent parts of the animation; for example, a
+*   position attribute will use an 'MKEY_F', but an angle attribute will use an 'MKEY_A'. Their
+*   order in memory fixed to: pos, ang, scl, shape, vec, etc.
 */
-
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Float       key[3];     /* float 3                                              */
+    Uint32      keyframe;           /* key frame                                                */
+    Float       key[3];             /* float 3                                                  */
 }
 NJS_MKEY_F;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Angle       key[3];     /* angle                                                */
+    Uint32      keyframe;           /* key frame                                                */
+    Angle       key[3];             /* angle                                                    */
 }
 NJS_MKEY_A;
 
 typedef struct
 {
-    Uint16      keyframe;   /* key frame                                            */
-    Sangle      key[3];     /* short angle                                          */
+    Uint16      keyframe;           /* key frame                                                */
+    Sangle      key[3];             /* short angle                                              */
 }
 NJS_MKEY_SA;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Angle       angle;      /* angle                                                */
-    Float       axe[3];     /* axe vector                                           */
+    Uint32      keyframe;           /* key frame                                                */
+    Angle       angle;              /* angle                                                    */
+    Float       axe[3];             /* axe vector                                               */
 }
 NJS_MKEY_AX;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    void*       key;        /* pointer                                              */
+    Uint32      keyframe;           /* key frame                                                */
+    void*       key;                /* pointer                                                  */
 }
 NJS_MKEY_P;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Float       key;        /* float                                                */
+    Uint32      keyframe;           /* key frame                                                */
+    Float       key;                /* float                                                    */
 }
 NJS_MKEY_F1;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Float       key[2];     /* float 2                                              */
+    Uint32      keyframe;           /* key frame                                                */
+    Float       key[2];             /* float 2                                                  */
 }
 NJS_MKEY_F2;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Float       nrang;      /* near range                                           */
-    Float       frang;      /* far range                                            */
-    Angle       iang;       /* ???? angle                                           */
-    Angle       oang;       /* ???? angle                                           */
+    Uint32      keyframe;           /* key frame                                                */
+    Float       nrang;              /* near range                                               */
+    Float       frang;              /* far range                                                */
+    Angle       iang;               /* inner angle                                              */
+    Angle       oang;               /* outer angle                                              */
 }
 NJS_MKEY_SPOT;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Uint32      key;        /* unsigned int32                                       */
+    Uint32      keyframe;           /* key frame                                                */
+    Uint32      key;                /* unsigned int32                                           */
 }
 NJS_MKEY_UI32;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Sint32      key;        /* signed int32                                         */
+    Uint32      keyframe;           /* key frame                                                */
+    Sint32      key;                /* signed int32                                             */
 }
 NJS_MKEY_SI32, NJS_MKEY_A1;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Float       key[4];     /* quaternion (im[3], re[1])                            */
+    Uint32      keyframe;           /* key frame                                                */
+    Float       key[4];             /* quaternion (im[3], re[1])                                */
 }
 NJS_MKEY_QUAT;
 
 typedef struct
 {
-    Uint32      keyframe;   /* key frame                                            */
-    Uint32      shapeId;    /* shape id                                             */
+    Uint32      keyframe;           /* key frame                                                */
+    Uint32      shapeId;            /* shape id                                                 */
 }
 NJS_MKEY_SHAPEID;
 
 typedef struct
 {
-    Uint16      keyframe;   /* key frame                                            */
-    Sangle      key;        /* short angle                                          */
+    Uint16      keyframe;           /* key frame                                                */
+    Sangle      key;                /* short angle                                              */
 }
 NJS_MKEY_SA1;
 
 typedef struct
 {
-    Uint16      keyframe;   /* key frame                                            */
-    Uint16      key;        /* unsigned int16                                       */
+    Uint16      keyframe;           /* key frame                                                */
+    Uint16      key;                /* unsigned int16                                           */
 }
 NJS_MKEY_UI16;
 
 typedef struct
 {
-    NJS_MKEY_SHAPEID* keys;     /* key list                                         */
-    Uint16            nbKey;    /* key count                                        */
-    Uint16            entryId;  /* entry id                                         */
+    NJS_MKEY_SHAPEID* keys;         /* key list                                                 */
+    Uint16            nbKey;        /* key count                                                */
+    Uint16            entryId;      /* entry id                                                 */
 }
 NJS_CSHAPEDATA;
 
-/****** Motion Data Structs *********************************************************/
+/****** Motion Data *****************************************************************************/
 /*
-*     Motion data structures. These hold pointers to animation factor keyframes for
-*   each object in the object tree being animated. They also store the number of
-*   entries in each keyframe list. It is acceptable to use 'nullptr' for the motion
-*   key pointers in cases where an object has no animation factors of that type and
-*   the keyframe count is zero.
-*     The order of the MDATA list is fixed, starting with the parent object, then
-*   its children, then its siblings, with the children and siblings following the
-*   same order. For example, starting from the top, down:
+*     Motion data structures. These hold pointers to animation factor keyframes for each object
+*   in the object tree being animated. They also store the number of entries in each keyframe
+*   list. It is acceptable to use 'nullptr' for the motion key pointers in cases where an
+*   object has no animation factors of that type and the keyframe count is zero.
+*     The order of the MDATA list is fixed, starting with the parent object, then its children,
+*   then its siblings, with the children and siblings following the same order. For example,
+*   starting from the top, down:
 *
 *     - parent
 *     |-- child
@@ -199,8 +232,8 @@ NJS_CSHAPEDATA;
 */
 typedef struct
 {
-    void*       p[1];       /* factor pointer                                       */
-    Uint32      nb[1];      /* factor count                                         */
+    void*       p[1];                   /* factor pointer                                       */
+    Uint32      nb[1];                  /* factor count                                         */
 }
 NJS_MDATA1;
 /*
@@ -208,8 +241,8 @@ NJS_MDATA1;
 */
 typedef struct
 {
-    void*       p[2];       /* factor pointer                                       */
-    Uint32      nb[2];      /* factor count                                         */
+    void*       p[2];                   /* factor pointer                                       */
+    Uint32      nb[2];                  /* factor count                                         */
 }
 NJS_MDATA2;
 /*
@@ -217,8 +250,8 @@ NJS_MDATA2;
 */
 typedef struct
 {
-    void*       p[3];       /* factor pointer                                       */
-    Uint32      nb[3];      /* factor count                                         */
+    void*       p[3];                   /* factor pointer                                       */
+    Uint32      nb[3];                  /* factor count                                         */
 }
 NJS_MDATA3;
 /*
@@ -226,8 +259,8 @@ NJS_MDATA3;
 */
 typedef struct
 {
-    void*       p[4];       /* factor pointer                                       */
-    Uint32      nb[4];      /* factor count                                         */
+    void*       p[4];                   /* factor pointer                                       */
+    Uint32      nb[4];                  /* factor count                                         */
 }
 NJS_MDATA4;
 /*
@@ -235,154 +268,155 @@ NJS_MDATA4;
 */
 typedef struct
 {
-    void*       p[5];       /* factor pointer                                       */
-    Uint32      nb[5];      /* factor count                                         */
+    void*       p[5];                   /* factor pointer                                       */
+    Uint32      nb[5];                  /* factor count                                         */
 }
 NJS_MDATA5;
 
-/****** Motion Structs **************************************************************/
+/****** Motion Structs **************************************************************************/
 typedef struct njmot
 {
-    void*           mdata;      /* NJS_MDATA array                                  */
-    Uint32          nbFrame;    /* frame count                                      */
-    Uint16          type;       /* motion type  NJD_MTYPE_...                       */
-    Uint16          inp_fn;     /* interpolation & factor count                     */
+    void*           mdata;              /* NJS_MDATA array                                      */
+    Uint32          nbFrame;            /* frame count                                          */
+    Uint16          type;               /* motion type  NJD_MTYPE_...                           */
+    Uint16          inp_fn;             /* interpolation & factor count                         */
 }
 NJS_MOTION;
 
 typedef struct njmotlink
 {
-    NJS_MOTION*     motion[2];      /* motion's pointers                            */
-    Float           frame[2];       /* current frames                               */
+    NJS_MOTION*     motion[2];          /* motion's pointers                                    */
+    Float           frame[2];           /* current frames                                       */
 }
 NJS_MOTION_LINK;
 
-/****** Action Structs **************************************************************/
+/****** Action Structs **************************************************************************/
 typedef struct njact
 {
-    NJS_CNK_OBJECT* object;         /* object pointer                               */
-    NJS_MOTION*     motion;         /* motion                                       */
+    NJS_CNK_OBJECT* object;             /* object pointer                                       */
+    NJS_MOTION*     motion;             /* motion                                               */
 }
 NJS_ACTION;
 
 typedef struct njactlink
 {
-    NJS_CNK_OBJECT*  object;        /* object pointer                               */
-    NJS_MOTION_LINK* motionlink;    /* motion-link pointer                          */
+    NJS_CNK_OBJECT*  object;            /* object pointer                                       */
+    NJS_MOTION_LINK* motionlink;        /* motion-link pointer                                  */
 }
 NJS_ACTION_LINK;
 
-/****** Get Motion Data *************************************************************/
+/****** Get Motion Data *************************************************************************/
 typedef struct
 {
-    Float*      pos;
-    Float*      vect;
-    Angle*      roll;
-    Angle*      ang;
+    Float*      pos;                    /* position list                                        */
+    Float*      vect;                   /* normal/vector list                                   */
+    Angle*      roll;                   /* roll angle list                                      */
+    Angle*      ang;                    /* angle list                                           */
 }
 NJS_CMOTION_DATA;
 
-/************************/
-/*  Internal Types      */
-/************************/
-/****** Motion Function Types *******************************************************/
+/************************************************************************************************/
+/*
+*   Internal Types
+*/
+/****** Motion Function Types *******************************************************************/
 typedef	void	NJF_MOTION_INT_F3_FUNC( const NJS_MKEY_F*  key, Uint32 nbkeys, Float frame, Float*  dst);
 typedef	void	NJF_MOTION_INT_A3_FUNC( const NJS_MKEY_A*  key, Uint32 nbkeys, Float frame, Angle*  dst);
 typedef	void	NJF_MOTION_INT_A1_FUNC( const NJS_MKEY_A1* key, Uint32 nbkeys, Float frame, Angle*  dst);
 typedef	void	NJF_MOTION_INT_SA3_FUNC(const NJS_MKEY_SA* key, Uint32 nbkeys, Float frame, Sangle* dst);
 
-/****** Current Object Motion Info **************************************************/
+/****** Current Object Motion Info **************************************************************/
 typedef struct
 {
-    Float* pos_buf_ptr;			/*	_nj_mot_pos_buf_ptr_	                        */
-    Float* scl_buf_ptr;			/*	_nj_mot_scl_buf_ptr_	                        */
-    Angle* ang_buf_ptr;			/*	_nj_mot_ang_buf_ptr_	                        */
+    Float* pos_buf_ptr;                 /* _nj_mot_pos_buf_ptr_                                 */
+    Float* scl_buf_ptr;                 /* _nj_mot_scl_buf_ptr_                                 */
+    Angle* ang_buf_ptr;                 /* _nj_mot_ang_buf_ptr_                                 */
 
-    Sint32(*draw_func_p)(NJS_CNK_MODEL* cnkmdl); /* cnk draw function               */
+    Sint32(*draw_func_p)(NJS_CNK_MODEL* cnkmdl); /* cnk draw function                           */
 }
 NJS_CUR_OBJMOTION_INFO;
 
-/****** Current Motion Info *********************************************************/
+/****** Current Motion Info *********************************************************************/
 typedef struct
 {
-    void*       mdata;           /* NJS_MDATA(n) structure                          */
-    int         mdata_nbkeys_ofs;/* nbkeys offset from NUS_MDATA(n) structure top   */
-    int         mdata_size;      /* sizeof NJS_MDATA(n) structure			        */
-    void**      key;             /* Motion's pointer (mdata->p)                     */
-    Uint32*     nbkeys;          /* array of the number of keyframes (mdata->nb)    */
-    Float       frame;           /* current frame                                   */
-    Uint32      nbframes;        /* total number of keyframes                       */
-    Uint32      cnt;             /* array index for NJS_MDATA(n)'s members          */
-    Uint32      type;            /* mtype attributes of NJS_MDATA(n) structure      */
+    void*       mdata;                  /* NJS_MDATA(n) structure                               */
+    int         mdata_nbkeys_ofs;       /* nbkeys offset from NUS_MDATA(n) structure top        */
+    int         mdata_size;             /* sizeof NJS_MDATA(n) structure                        */
+    void**      key;                    /* Motion's pointer (mdata->p)                          */
+    Uint32*     nbkeys;                 /* array of the number of keyframes (mdata->nb)         */
+    Float       frame;                  /* current frame                                        */
+    Uint32      nbframes;               /* total number of keyframes                            */
+    Uint32      cnt;                    /* array index for NJS_MDATA(n)'s members               */
+    Uint32      type;                   /* mtype attributes of NJS_MDATA(n) structure           */
 
-    NJF_MOTION_INT_F3_FUNC*  int_f3_func_p;  /* Float[3] function                   */
-    NJF_MOTION_INT_A3_FUNC*  int_a3_func_p;  /* Angle[3] function                   */
-    NJF_MOTION_INT_A1_FUNC*  int_a1_func_p;  /* Angle[1] function                   */
-    NJF_MOTION_INT_SA3_FUNC* int_sa3_func_p; /* Sangle[3] function                  */
+    NJF_MOTION_INT_F3_FUNC*  int_f3_func_p;  /* Float[3] function                               */
+    NJF_MOTION_INT_A3_FUNC*  int_a3_func_p;  /* Angle[3] function                               */
+    NJF_MOTION_INT_A1_FUNC*  int_a1_func_p;  /* Angle[1] function                               */
+    NJF_MOTION_INT_SA3_FUNC* int_sa3_func_p; /* Sangle[3] function                              */
 
     /** For GetMotion functions **/
-    int     (*get_pos_func_p)( Float pos[3] ); /* get position                      */
-    int     (*get_ang_func_p)( Angle ang[3] ); /* get angle                         */
-    int     (*get_scl_func_p)( Float scl[3] ); /* get scale                         */
+    int (*get_pos_func_p)( Float pos[3] ); /* get position                                      */
+    int (*get_ang_func_p)( Angle ang[3] ); /* get angle                                         */
+    int (*get_scl_func_p)( Float scl[3] ); /* get scale                                         */
 }
 NJS_CUR_MOTION_INFO;
 
-/****** Current Motion Link Info ****************************************************/
+/****** Current Motion Link Info ****************************************************************/
 typedef struct
 {
-    Float       rate;           /* interpolation rate between motion0 and motion1   */
+    Float       rate;                   /* interpolation rate between motion0 and motion1       */
 }
 NJS_CUR_MOTIONLINK_INFO;
 
-/****** Current Shape Info **********************************************************/
+/****** Current Shape Info **********************************************************************/
 typedef struct 
 {
-    void*       mdata;           /* NJS_MDATA(n) structure                          */
-    int         mdata_nbkeys_ofs;/* nbkeys offset from NUS_MDATA(n) structure top   */
-    int         mdata_size;      /* sizeof NJS_MDATA(n) structure			        */
-    void**      key;             /* Motion's pointer (mdata->p)                     */
-    Uint32*     nbkeys;          /* array of the number of keyframes (mdata->nb)    */
-    Float       frame;           /* current frame                                   */
-    Uint32      nbframes;        /* total number of keyframes                       */
-    Uint32      cnt;             /* array index for NJS_MDATA(n)'s members          */
-    Uint32      type;            /* mtype attributes of NJS_MDATA(n) structure      */
+    void*       mdata;                  /* NJS_MDATA(n) structure                               */
+    int         mdata_nbkeys_ofs;       /* nbkeys offset from NUS_MDATA(n) structure top        */
+    int         mdata_size;             /* sizeof NJS_MDATA(n) structure                        */
+    void**      key;                    /* Motion's pointer (mdata->p)                          */
+    Uint32*     nbkeys;                 /* array of the number of keyframes (mdata->nb)         */
+    Float       frame;                  /* current frame                                        */
+    Uint32      nbframes;               /* total number of keyframes                            */
+    Uint32      cnt;                    /* array index for NJS_MDATA(n)'s members               */
+    Uint32      type;                   /* mtype attributes of NJS_MDATA(n) structure           */
 }
 NJS_CUR_SHAPE_INFO;
 
-/************************/
-/*  Motion Data         */
-/************************/
-/****** Motion Callback *************************************************************/
+/********************************/
+/*  Extern Data                 */
+/********************************/
+/****** Motion Callback *************************************************************************/
 #define _nj_cnk_motion_callback_    FUNC_REF(void, __cdecl, (NJS_CNK_OBJECT*), 0x01A55834)
 
-/****** Object Motion Info **********************************************************/
+/****** Object Motion Info **********************************************************************/
 #define _nj_obj_motion_info_    DATA_ARY(NJS_CUR_OBJMOTION_INFO, 0x01D19C00, [2])
 
-/****** Motion Info *****************************************************************/
+/****** Motion Info *****************************************************************************/
 #define _nj_motion_info_        DATA_ARY(NJS_CUR_MOTION_INFO , 0x025EFE60, [2])
 #define _nj_motinfo_ptr_        DATA_REF(NJS_CUR_MOTION_INFO*, 0x025EFE54)
 
-/****** Motion Link Info ************************************************************/
+/****** Motion Link Info ************************************************************************/
 #define _nj_motionlink_info_    DATA_REF(NJS_CUR_MOTIONLINK_INFO, 0x01D19BFC)
 
-/****** Shape VList Buffer **********************************************************/
+/****** Shape VList Buffer **********************************************************************/
 #define _nj_shape_buf_          DATA_REF(Sint32*, 0x02670540)
 
-/****** Shape Info ******************************************************************/
+/****** Shape Info ******************************************************************************/
 #define _nj_shape_info_         DATA_ARY(NJS_CUR_SHAPE_INFO , 0x01D19C60, [2])
 #define _nj_shpinfo_ptr_        DATA_REF(NJS_CUR_SHAPE_INFO*, 0x01D19C5C)
 
-/****** Shape Link Info *************************************************************/
+/****** Shape Link Info *************************************************************************/
 #define _nj_shapelink_info_     DATA_REF(NJS_CUR_MOTIONLINK_INFO, 0x01D19BF8)
 
-/************************/
-/*  Prototypes          */
-/************************/
-/************************************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/************************************************************************************************/
 /*
 *   Shape Init
 */
-/****** Set Shape Buffer ************************************************************/
+/****** Set Shape Buffer ************************************************************************/
 /*
 *   Description:
 *     Init the shape vlist buffer.
@@ -396,16 +430,15 @@ NJS_CUR_SHAPE_INFO;
 */
 void    njInitShape( void* buf, Sint32 size );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Draw Functions
 */
-/****** Set Motion Callback *********************************************************/
+/****** Set Motion Callback *********************************************************************/
 /*
 *   Description:
-*     Set motion callback function. This is called just before every object in the
-*   tree is drawn, the pointer to the next object to be drawn is the argument sent
-*   into the callback.
+*     Set motion callback function. This is called just before every object in the tree is
+*   drawn, the pointer to the next object to be drawn is the argument sent into the callback.
 *
 *   Notes:
 *     - Ensure to use 'nullptr' after your motions have been drawn
@@ -415,7 +448,7 @@ void    njInitShape( void* buf, Sint32 size );
 */
 void    njCnkSetMotionCallback( void (*func)(NJS_CNK_OBJECT* cnkobj) );
 
-/****** Draw Motion *****************************************************************/
+/****** Draw Motion *****************************************************************************/
 /*
 *   Description:
 *     Draw a motion with the default Chunk draw function.
@@ -428,8 +461,7 @@ void    njCnkSetMotionCallback( void (*func)(NJS_CNK_OBJECT* cnkobj) );
 void    njCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float frame );
 /*
 *   Description:
-*     Interpolate two motions and draw the result with the default Chunk draw
-*   function.
+*     Interpolate two motions and draw the result with the default Chunk draw function.
 *
 *   Parameters:
 *     - object      : object to animate and draw
@@ -438,7 +470,7 @@ void    njCnkDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion,
 */
 void    njCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate );
 
-/****** Draw Shape ******************************************************************/
+/****** Draw Shape ******************************************************************************/
 /*
 *   Description:
 *     Draw a shape motion with the default Chunk draw function.
@@ -456,8 +488,8 @@ void    njCnkDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK
 void    njCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
 /*
 *   Description:
-*     Interpolate two motions and two shape motion, and draw the result with the
-*   default Chunk draw function.
+*     Interpolate two motions and two shape motion, and draw the result with the default Chunk
+*   draw function.
 *
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
@@ -470,7 +502,7 @@ void    njCnkDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* mo
 */
 void    njCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
-/****** Big Endian Shape ************************************************************/
+/****** Big Endian Shape ************************************************************************/
 /*
 *   Description:
 *     Draw a big endian shape motion with the default Chunk draw function.
@@ -489,8 +521,8 @@ void    njCnkDrawShapeMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION
 void    njCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame );
 /*
 *   Description:
-*     Interpolate two motions and two big endian shape motions, and draw the result
-*   with the default Chunk draw function.
+*     Interpolate two motions and two big endian shape motions, and draw the result with the
+*   default Chunk draw function.
 *
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
@@ -504,11 +536,11 @@ void    njCnkDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* 
 */
 void    njCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Camera Motion
 */
-/****** Exec Motion *****************************************************************/
+/****** Exec Motion *****************************************************************************/
 /*
 *   Description:
 *     Execute a camera motion, and set the result to the screen.
@@ -520,7 +552,7 @@ void    njCnkDrawShapeMotionLinkBE( const NJS_CNK_OBJECT* object, const NJS_MOTI
 */
 void    njCameraMotion( const NJS_CAMERA* camera, const NJS_MOTION* motion, Float frame );
 
-/****** Get Motion ******************************************************************/
+/****** Get Motion ******************************************************************************/
 /*
 *   Description:
 *     Get camera motion parameters.
@@ -533,11 +565,11 @@ void    njCameraMotion( const NJS_CAMERA* camera, const NJS_MOTION* motion, Floa
 */
 void    njGetCameraMotion( const NJS_CAMERA* camera, const NJS_MOTION* motion, NJS_CMOTION_DATA* data, Float frame );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Low-Level Functions
 */
-/****** Motion Core *****************************************************************/
+/****** Motion Core *****************************************************************************/
 /*
 *   Description:
 *     Start parameters inside current motion info.
@@ -561,9 +593,9 @@ void    njStartMotionEx( const NJS_MOTION* motion, Float frame );
 void    njSetNextMotionNodeEx( void );
 /*
 *   Description:
-*     Set the current motion info slot. There are 2 slots, with each being used in
-*   different instances; slot 0 is used for regular motions and motion links, slot 1
-*   is only used for the second motion in motion links.
+*     Set the current motion info slot. There are 2 slots, with each being used in different
+*   instances; slot 0 is used for regular motions and motion links, slot 1 is only used for the
+*   second motion in motion links.
 *
 *   Notes:
 *     - slot is set to 0 after 'njStartMotionObj', 'DrawMotion' funcs,
@@ -574,7 +606,7 @@ void    njSetNextMotionNodeEx( void );
 */
 void    njSetCurMotionInfoSlot( int Slot );
 
-/****** Object Motion ***************************************************************/
+/****** Object Motion ***************************************************************************/
 /*
 *   Description:
 *     Start current motion parameters for object motion.
@@ -602,8 +634,7 @@ void    njStartMotionObj( const NJS_MOTION* motion, Float frame );
 void    njStartMotionObjEx( const NJS_MOTION* motion, Float frame );
 /*
 *   Description:
-*     Gets the position, rotation, and scaling information from the current motion
-*   node.
+*     Gets the position, rotation, and scaling information from the current motion node.
 *
 *   Notes:
 *     - Called by 'njMotionTransformEx'
@@ -630,7 +661,7 @@ int     njGetMotionNodeData( const NJS_CNK_OBJECT* cnkobj, Float (*pos)[3], Angl
 */
 void    njMotionTransformEx( const NJS_CNK_OBJECT* cnkobj );
 
-/****** Motion Link *****************************************************************/
+/****** Motion Link *****************************************************************************/
 /*
 *   Description:
 *     Start current motion parameters for motion link.
@@ -645,8 +676,8 @@ void    njMotionTransformEx( const NJS_CNK_OBJECT* cnkobj );
 void    njStartMotionLink( const NJS_MOTION_LINK* motion_link, Float rate );
 /*
 *   Description:
-*     Gets the position, rotation, and scaling information from the interpolated
-*   current motion link nodes.
+*     Gets the position, rotation, and scaling information from the interpolated current motion
+*   link nodes.
 *
 *   Notes:
 *     - Called by 'njMotionLinkTransformEx'
@@ -678,7 +709,7 @@ void    njMotionLinkTransformEx( const NJS_CNK_OBJECT* cnkobj );
 */
 void    njSetNextMotionLinkNode( void );
 
-/****** Shape Motion *****************************************************************/
+/****** Shape Motion ****************************************************************************/
 /*
 *   Description:
 *     Start current shape info parameters for shape motion.
@@ -711,7 +742,7 @@ void    njSetNextShapeNodeEx( void );
 */
 void    njSetCurShapeInfoSlot( int Slot );
 
-/****** Shape Link *****************************************************************/
+/****** Shape Link ******************************************************************************/
 /*
 *   Description:
 *     Start current shape info parameters for motion link.
@@ -730,11 +761,11 @@ void    njStartShapeLink( const NJS_MOTION_LINK* shape_link, Float rate );
 */
 void    njSetNextShapeLinkNode( void );
 
-/************************************************************************************/
+/************************************************************************************************/
 /*
 *   Draw with Specified Function
 */
-/****** Draw Motion *****************************************************************/
+/****** Draw Motion *****************************************************************************/
 /*
 *   Description:
 *     Draw a motion with a specified chunk draw function.
@@ -759,7 +790,7 @@ void	njDrawMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, Float
 */
 void	njDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, Float rate, Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel) );
 
-/****** Draw Shape ******************************************************************/
+/****** Draw Shape ******************************************************************************/
 /*
 *   Description:
 *     Draw a shape motion with a specified chunk draw function.
@@ -779,8 +810,8 @@ void	njDrawMotionLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* moti
 void	njDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame, Float sframe, Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel) );
 /*
 *   Description:
-*     Interpolate two motions and two shape motions, and draw the result with a
-*   specified chunk draw function.
+*     Interpolate two motions and two shape motions, and draw the result with a specified chunk
+*   draw function.
 *
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
@@ -795,7 +826,7 @@ void	njDrawShapeMotion( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, 
 */
 void	njDrawShapeLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motion_link, const NJS_MOTION_LINK* shape_link, Float rate, Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel) );
 
-/****** Big Endian Shape ************************************************************/
+/****** Big Endian Shape ************************************************************************/
 /*
 *   Description:
 *     Draw a big endian shape motion with a specified chunk draw function.
@@ -816,8 +847,8 @@ void	njDrawShapeLink( const NJS_CNK_OBJECT* object, const NJS_MOTION_LINK* motio
 void	njDrawShapeMotionBE( const NJS_CNK_OBJECT* object, const NJS_MOTION* motion, const NJS_MOTION* shape, Float frame, Float sframe, Sint32(*pDrawFunc)(NJS_CNK_MODEL* cnkmodel) );
 /*
 *   Description:
-*     Interpolate two motions and two big endian shape motions, and draw the result
-*   with a specified chunk draw function.
+*     Interpolate two motions and two big endian shape motions, and draw the result with a
+*   specified chunk draw function.
 *
 *   Notes:
 *     - If 'shape_link' is 'nullptr', function is the same as 'DrawMotionLink'
