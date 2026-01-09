@@ -265,7 +265,7 @@ EV_LoadEffectFiles(void)
     }
     // end sound info
 
-    RF_DbgExtraInfo("%i/512 Event sound entries used", ix_cur_snd);
+    RF_DbgExtra("%i/512 Event sound entries used", ix_cur_snd);
 
     for ( int i = ix_cur_snd; i < nb_snd; ++i )
     {

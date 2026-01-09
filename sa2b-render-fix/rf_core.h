@@ -82,7 +82,7 @@ bool    RF_DbgUseExtraInfo( void );
 *   Description:
 *     Print extra operational info.
 */
-#define RF_DbgExtraInfo(...)        if ( RF_DbgUseExtraInfo() ) RF_DbgInfo(__VA_ARGS__)
+#define RF_DbgExtra(...)        if ( RF_DbgUseExtraInfo() ) RF_DbgInfo(__VA_ARGS__)
 
 EXTERN_END
 

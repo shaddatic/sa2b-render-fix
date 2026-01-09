@@ -45,7 +45,7 @@ EV_SetWaitVsyncCount(void)
         {
             const int wait_vsync = MAX( 1, EventEffData.sound[0].WaitVsyncCount );
 
-            RF_DbgExtraInfo("Setting Event vsync to '%i'...", wait_vsync);
+            RF_DbgExtra("Setting Event vsync to '%i'...", wait_vsync);
 
             rjSetWaitVsyncCount( wait_vsync );
             break;

@@ -184,7 +184,7 @@ ReplaceEventSceneEntry(size ixEvent, size ixScene, size ixEntry)
         return;
     }
 
-    RF_DbgExtraInfo("Reading ini '/e%04i_rf/scene%03i_entry%03i.ini'", ixEvent, ixScene, ixEntry);
+    RF_DbgExtra("Reading ini '/e%04i_rf/scene%03i_entry%03i.ini'", ixEvent, ixScene, ixEntry);
 
     /** Object **/
 
@@ -250,7 +250,7 @@ ReplaceEventSceneBig(size ixEvent, size ixScene)
         return;
     }
 
-    RF_DbgExtraInfo("Reading ini '/e%04i_rf/scene%03i_big.ini'", ixEvent, ixScene);
+    RF_DbgExtra("Reading ini '/e%04i_rf/scene%03i_big.ini'", ixEvent, ixScene);
 
     /** Object **/
 
@@ -330,7 +330,7 @@ ReplaceEventSceneCamera(size ixEvent, size ixScene)
         return;
     }
 
-    RF_DbgExtraInfo("Reading ini '/e%04i_rf/scene%03i_camera.ini'", ixEvent, ixScene);
+    RF_DbgExtra("Reading ini '/e%04i_rf/scene%03i_camera.ini'", ixEvent, ixScene);
 
     EVENT_SCENE* p_scene = &EventData.pScenes[ixScene];
 
@@ -383,7 +383,7 @@ ReplaceEventEquipment(size ixEvent)
         return;
     }
 
-    RF_DbgExtraInfo("Reading ini '/e%04i_rf/equipment.ini'", ixEvent);
+    RF_DbgExtra("Reading ini '/e%04i_rf/equipment.ini'", ixEvent);
 
     EVENT_EQUIPMENT* p_equip = EventData.pEquipment;
 

@@ -256,7 +256,7 @@ EVR_ScanEvent(void)
 {
     const int nb_scene = EventData.nbScene+1;
 
-    RF_DbgExtraInfo("Scanning Event entry attributes...");
+    RF_DbgExtra("Scanning Event entry attributes...");
 
     for ( int ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
     {

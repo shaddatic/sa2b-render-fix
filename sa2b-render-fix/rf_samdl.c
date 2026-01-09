@@ -51,7 +51,7 @@ RF_GetSAModel(const c8* puPath, s32 flag)
 
     if ( p_samdl )
     {
-        RF_DbgExtraInfo("Loaded samdl file: '/rf/model/%s'", puPath);
+        RF_DbgExtra("Loaded samdl file: '/rf/model/%s'", puPath);
         return p_samdl;
     }
 
@@ -68,7 +68,7 @@ RF_GetSAModel(const c8* puPath, s32 flag)
         return nullptr;
     }
 
-    RF_DbgExtraInfo("Loaded samdl file: '/RFMDL/%s'", puPath);
+    RF_DbgExtra("Loaded samdl file: '/RFMDL/%s'", puPath);
     return p_samdl;
 }
 

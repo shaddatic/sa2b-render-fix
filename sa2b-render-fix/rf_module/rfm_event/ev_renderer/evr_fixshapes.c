@@ -95,7 +95,7 @@ EVR_FixShapes(void)
 {
     const int nb_scene = EventData.nbScene+1;
 
-    RF_DbgExtraInfo("Fixing shape data...");
+    RF_DbgExtra("Fixing shape data...");
 
     RF_FIXHIST* fxwk = RF_FixHistCreate();
 
