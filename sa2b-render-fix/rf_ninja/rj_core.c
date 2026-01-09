@@ -887,10 +887,17 @@ rjModifierResetBuffer(void)
     _rj_mod_vertex_buffer_num_ = 0;
 }
 
+static isize CustomModVtxBufferSize;
+
 void
 rjInitModVertexBuffer(Sint32 size)
 {
-    ___TODO("This function is temporary, remove later");
+    ___NOTE("This function is temporary, remove later");
+
+    if ( size < CustomModVtxBufferSize )
+    {
+        size = CustomModVtxBufferSize;
+    }
 
     if ( size <= 0 )
     {
@@ -940,9 +947,16 @@ InitShaderMacroPixel(RFS_MACRO* pMacroAry, const RFS_MACRO** ppOutMacro)
 void
 RFCTRL_SetModBufferSize(i32 nbTri, i32 nbTriList)
 {
-    ___TODO("This function must be restored before release");
+    nbTriList;
 
-    //SetIfGreater(ModBufferInitTriNum, nbTri);
+    const isize sz_tri = sizeof(RJS_VERTEX_M) * 3;
+
+    const isize sz_buf = (nbTri * sz_tri) / sizeof(Float);
+
+    if ( sz_buf > CustomModVtxBufferSize )
+    {
+        CustomModVtxBufferSize = sz_buf;
+    }
 }
 
 /****** Init ************************************************************************/
