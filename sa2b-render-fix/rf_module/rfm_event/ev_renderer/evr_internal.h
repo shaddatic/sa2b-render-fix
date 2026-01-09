@@ -43,6 +43,11 @@ EXTERN_START
 /** if none of the lights are enabled, regular draw will be used **/
 #define EV_ENTF_MULTILIGHT      (EV_ENTF_LIGHT1|EV_ENTF_LIGHT2|EV_ENTF_LIGHT3|EV_ENTF_LIGHT4)
 
+/****** RF Entry Flags **************************************************************/
+#define EV_ATTR_OPAQUE          (1<<31) /* has opaque                               */
+#define EV_ATTR_TRANS           (1<<30) /* has translucent                          */
+#define EV_ATTR_DB              (1<<29) /* has double sided                         */
+
 /****** Task ************************************************************************/
 #define DBG_FLAG_SPEED          (1<<0) /* timescale control                         */
 #define DBG_FLAG_CAMERA         (1<<1) /* debug camera                              */

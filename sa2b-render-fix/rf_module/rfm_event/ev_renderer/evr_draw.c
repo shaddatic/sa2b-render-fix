@@ -33,14 +33,6 @@
 #define gjDrawObject                FUNC_PTR(void, __cdecl   , (GJS_OBJECT*)    , 0x0042B530)
 
 /************************/
-/*  Constants           */
-/************************/
-/****** Draw Attributes (Scan) ******************************************************/
-#define DRAW_ATTR_OPAQUE       (1<<31)
-#define DRAW_ATTR_TRANS        (1<<30)
-#define DRAW_ATTR_DB           (1<<29)
-
-/************************/
 /*  Data                */
 /************************/
 /****** Event Draw Mode *************************************************************/
@@ -147,16 +139,16 @@ EV_GetCnkAttr(const Sint16* pPList)
 
             if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
             {
-                attr |= DRAW_ATTR_TRANS;
+                attr |= EV_ATTR_TRANS;
             }
             else
             {
-                attr |= DRAW_ATTR_OPAQUE;
+                attr |= EV_ATTR_OPAQUE;
             }
 
             if ( fst & NJD_FST_DB )
             {
-                attr |= DRAW_ATTR_DB;
+                attr |= EV_ATTR_DB;
             }
 
             /** Next offset **/
@@ -221,7 +213,7 @@ GetObjectAttrFlags(const EVENT_ENTRY* restrict pEntry)
             }
             else
             {
-                attr |= DRAW_ATTR_DB;
+                attr |= EV_ATTR_DB;
             }
             break;
         }
@@ -229,7 +221,7 @@ GetObjectAttrFlags(const EVENT_ENTRY* restrict pEntry)
         {
             attr = EV_GetCnkAttrObject(pEntry->pObject);
 
-            attr |= DRAW_ATTR_DB;
+            attr |= EV_ATTR_DB;
             break;
         }
         case EV_ENTRY_TYPE_MULTIDRAW:
@@ -240,11 +232,11 @@ GetObjectAttrFlags(const EVENT_ENTRY* restrict pEntry)
 
             if ( pEntry->attr & (EV_ENTF_SIMPLEMAT|EV_ENTF_FORCESIMPLE) )
             {
-                attr &= ~DRAW_ATTR_DB;
+                attr &= ~EV_ATTR_DB;
             }
             else
             {
-                attr |= DRAW_ATTR_DB;
+                attr |= EV_ATTR_DB;
             }
             break;
         }
@@ -316,7 +308,7 @@ GetDrawMode(NJS_CNK_OBJECT* object)
 
     if ( EV_IsDepthQueue(object->model) )
     {
-        attr |= DRAW_ATTR_TRANS;
+        attr |= EV_ATTR_TRANS;
     }
 
     if ( DrawPass == EV_DRAWPASS_OPAQUE )
@@ -327,19 +319,19 @@ GetDrawMode(NJS_CNK_OBJECT* object)
     }
     else // TRANS
     {
-        if ( !(attr & DRAW_ATTR_TRANS) )
+        if ( !(attr & EV_ATTR_TRANS) )
         {
             return DRAW_NONE;
         }
 
         // if not double sided
-        if ( !(attr & DRAW_ATTR_DB) )
+        if ( !(attr & EV_ATTR_DB) )
         {
             return DRAW_NORMAL;
         }
 
         // only translucent and has an object tree, draw with sorting
-        if ( attr == DRAW_ATTR_TRANS && (object->child || object->sibling) )
+        if ( attr == EV_ATTR_TRANS && (object->child || object->sibling) )
         {
             return DRAW_SORTED;
         }
