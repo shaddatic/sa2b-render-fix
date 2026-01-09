@@ -56,8 +56,8 @@ EXTERN_START
 #define DBG_FLAG_PRINTINFO      (1<<4) /* print event debug                         */
 
 /****** Pillarbox *******************************************************************/
-#define EV_PILLARBOX_MAX       (609)
-#define EV_PILLARBOX_NB        (EV_PILLARBOX_MAX+1)
+#define EV_PILLARBOX_MAX        (609)
+#define EV_PILLARBOX_NB         (EV_PILLARBOX_MAX+1)
 
 /************************/
 /*  Opaque Types        */
