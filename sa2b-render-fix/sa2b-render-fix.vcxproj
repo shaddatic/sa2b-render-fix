@@ -17,6 +17,7 @@
     <ClCompile Include="rf_api\rfapi_chunk.c" />
     <ClCompile Include="rf_api\rfapi_njdraw.c" />
     <ClCompile Include="rf_feature.c" />
+    <ClCompile Include="rf_fixhistory.c" />
     <ClCompile Include="rf_graphics.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_replace.c" />
     <ClCompile Include="rf_ninja\rj_backtex.c" />
@@ -166,6 +167,7 @@
     <ClInclude Include="cnf.h" />
     <ClInclude Include="rfu_draw.h" />
     <ClInclude Include="rf_api.h" />
+    <ClInclude Include="rf_fixhistory.h" />
     <ClInclude Include="rf_graphics.h" />
     <ClInclude Include="rf_njcnk.h" />
     <ClInclude Include="rf_samdl.h" />

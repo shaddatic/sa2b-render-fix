@@ -17,6 +17,7 @@
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
+#include <rf_fixhistory.h>      /* fixhistory                                       */
 
 /************************/
 /*  Constants           */
@@ -33,71 +34,12 @@
 #define FIX_POINTER(ptr, off)   (*(uintptr_t*)&(ptr) += (uintptr_t)(off))
 
 /************************/
-/*  Structures          */
-/************************/
-/****** Core Toolkit ****************************************************************/
-typedef struct
-{
-    const void** pp;            /* pointer list                                     */
-    int          num;           /* pointer list size in memory                      */
-}
-FIX_HISTORY;
-
-/************************/
 /*  Source              */
 /************************/
 /************************************************************************************/
 /*
 *   Big Endian
 */
-
-/****** Fix History *****************************************************************/
-static FIX_HISTORY*
-CreateFixHistory(void)
-{
-    FIX_HISTORY* p_history = mtAlloc(FIX_HISTORY, 1);
-
-    p_history->pp  = mtCalloc(void*, 128);
-    p_history->num = 128;
-
-    return p_history;
-}
-
-static void
-FreeFixHistory(FIX_HISTORY* pHistory)
-{
-    mtFree(pHistory->pp);
-    mtFree(pHistory);
-}
-
-static bool
-CheckAndAddToFixHistory(const void* p, FIX_HISTORY* pHistory)
-{
-    const int num = pHistory->num;
-    const void** pp = pHistory->pp;
-
-    for (int i = 0; i < num; ++i, ++pp)
-    {
-        if (*pp == nullptr)
-        {
-            *pp = p;
-            return false;
-        }
-
-        if (p == *pp)
-            return true;
-    }
-
-    /** If we got here without returning, the list has been maxed out. Realloc more
-      room and clear new space. **/
-
-    mtRecalloc(&pHistory->pp, void*, num, num * 2);
-
-    pHistory->num = num * 2;
-
-    return CheckAndAddToFixHistory(p, pHistory); // try again
-}
-
 /****** Byteswap ********************************************************************/
 static void
 ByteswapVList(Sint32* pVList)
@@ -188,11 +130,11 @@ ByteswapPList(Sint16* pPList)
 }
 
 static void
-FixChunkPointersAndByteswap(NJS_CNK_OBJECT* pObject, uintptr_t offset, FIX_HISTORY* pHistory)
+FixChunkPointersAndByteswap(NJS_CNK_OBJECT* pObject, uintptr_t offset, RF_FIXHIST* pHistory)
 {
     do
     {
-        if ( !CheckAndAddToFixHistory(pObject, pHistory) )
+        if ( !RF_FixHistAdd(pHistory, pObject) )
         {
             EndianSwap32(&pObject->evalflags);
 
@@ -218,7 +160,7 @@ FixChunkPointersAndByteswap(NJS_CNK_OBJECT* pObject, uintptr_t offset, FIX_HISTO
 
                 NJS_CNK_MODEL* p_model = pObject->model;
 
-                if ( !CheckAndAddToFixHistory(p_model, pHistory) )
+                if ( !RF_FixHistAdd(pHistory, p_model) )
                 {
                     if (p_model->vlist)
                     {
@@ -226,7 +168,7 @@ FixChunkPointersAndByteswap(NJS_CNK_OBJECT* pObject, uintptr_t offset, FIX_HISTO
 
                         FIX_POINTER(p_model->vlist, offset);
 
-                        if ( !CheckAndAddToFixHistory(p_model->vlist, pHistory) )
+                        if ( !RF_FixHistAdd(pHistory, p_model->vlist) )
                         {
                             ByteswapVList(p_model->vlist);
                         }
@@ -238,7 +180,7 @@ FixChunkPointersAndByteswap(NJS_CNK_OBJECT* pObject, uintptr_t offset, FIX_HISTO
 
                         FIX_POINTER(p_model->plist, offset);
 
-                        if ( !CheckAndAddToFixHistory(p_model->plist, pHistory) )
+                        if ( !RF_FixHistAdd(pHistory, p_model->plist) )
                         {
                             ByteswapPList(p_model->plist);
                         }
@@ -370,7 +312,7 @@ NEW_LoadPlayerMDL(PL_OBJECT* pObjList)
           game, which is why we're replacing it here. Adding little endian support
           was just another upside. **/
 
-        FIX_HISTORY* p_history = CreateFixHistory();
+        RF_FIXHIST* p_history = RF_FixHistCreate();
 
         do
         {
@@ -389,7 +331,7 @@ NEW_LoadPlayerMDL(PL_OBJECT* pObjList)
         }
         while ( (++obj_list)->index != -1 );
 
-        FreeFixHistory(p_history);
+        RF_FixHistFree(p_history);
     }
     else // little endian
     {

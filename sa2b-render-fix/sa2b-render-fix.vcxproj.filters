@@ -465,6 +465,9 @@
     <ClCompile Include="rf_api\rfapi_njdraw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_fixhistory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -603,6 +606,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfu_draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_fixhistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
