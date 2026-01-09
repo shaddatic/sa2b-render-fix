@@ -157,6 +157,7 @@ EventPostLoad(void)
 {
     DATA_REF(int, 0x01AEDE1C) = 0;
 
+    EVR_FixShapes();
     EVR_StartReplaceAttr();
     EVR_ScanEvent();
 }

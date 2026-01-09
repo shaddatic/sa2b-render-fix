@@ -465,6 +465,9 @@
     <ClCompile Include="rf_api\rfapi_njdraw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_fixshapes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="rf_fixhistory.c">
       <Filter>Source Files</Filter>
     </ClCompile>

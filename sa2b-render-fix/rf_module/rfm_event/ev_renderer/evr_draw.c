@@ -412,18 +412,18 @@ EV_CnkDrawShapeMotionSub(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION*
         }
         case DRAW_NORMAL:
         {
-            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotion(object, motion, shape, frame, frame, drawfn);
             break;
         }
         case DRAW_SORTED:
         {
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_INVERSE );
 
-            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotion(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_NORMAL );
 
-            rjCnkTransformShapeMotionBE(object, motion, shape, frame, frame, drawfn);
+            rjCnkTransformShapeMotion(object, motion, shape, frame, frame, drawfn);
 
             rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
             break;

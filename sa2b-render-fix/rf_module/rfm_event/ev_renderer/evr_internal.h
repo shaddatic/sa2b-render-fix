@@ -154,6 +154,13 @@ void    EVR_MovieInit( void );
 /****** Replace Attr ****************************************************************/
 /*
 *   Description:
+*     Fix big endian shape motions in the event data.
+*/
+void    EVR_FixShapes( void );
+
+/****** Replace Attr ****************************************************************/
+/*
+*   Description:
 *     Load and replace event ini attributes.
 */
 void    EVR_StartReplaceAttr( void );
