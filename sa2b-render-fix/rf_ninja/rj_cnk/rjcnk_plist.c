@@ -26,7 +26,7 @@
 #define RJD_CSD_SKIPMAT             (1<<3) /* skip material reads/setting                       */
 
 /****** Check Struct ****************************************************************************/
-#define RJD_CST_MAX                 (128) /* chunk strip entry count                            */
+#define RJD_CST_MAX                 (256) /* chunk strip entry count                            */
 
 /********************************/
 /*  Macros                      */
