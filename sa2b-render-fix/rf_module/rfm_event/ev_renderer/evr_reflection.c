@@ -138,7 +138,7 @@ EventDrawReflectionModels(int nbScene)
             case EV_ENTRY_TYPE_SHAPE:
             {
                 EventLightSwitchSingle();
-                njCnkEasyDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                njCnkEasyDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_MULTIDRAW:
@@ -156,7 +156,7 @@ EventDrawReflectionModels(int nbScene)
             case EV_ENTRY_TYPE_MULTISHAPE:
             {
                 EventLightSwitchMulti(attr);
-                njCnkEasyMultiDrawShapeMotionBE(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
+                njCnkEasyMultiDrawShapeMotion(p_entry->pObject, p_entry->pMotion, p_entry->pShape, EventSceneFrame);
                 break;
             }
             case EV_ENTRY_TYPE_EASYNOFOG:

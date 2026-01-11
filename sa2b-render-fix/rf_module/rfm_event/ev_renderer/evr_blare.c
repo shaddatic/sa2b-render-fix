@@ -122,11 +122,11 @@ blareDisp(task* tp)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleDrawShapeMotionBE(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
+                    njCnkSimpleDrawShapeMotion(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
                 }
                 else
                 {
-                    njCnkEasyDrawShapeMotionBE(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
+                    njCnkEasyDrawShapeMotion(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
                 }
 
                 break;
@@ -167,11 +167,11 @@ blareDisp(task* tp)
 
                 if ( (attr & EV_ENTF_SIMPLEMAT) )
                 {
-                    njCnkSimpleMultiDrawShapeMotionBE(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
+                    njCnkSimpleMultiDrawShapeMotion(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
                 }
                 else
                 {
-                    njCnkEasyMultiDrawShapeMotionBE(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
+                    njCnkEasyMultiDrawShapeMotion(p_blarewk->object, p_blarewk->motion, p_blarewk->shape, p_blarewk->frame);
                 }
 
                 break;
