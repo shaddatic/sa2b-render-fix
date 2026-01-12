@@ -178,19 +178,6 @@ typedef uint32_t            usize;  /* unsigned size integer                    
 typedef int64_t             lsize;  /* large size integer                                       */
 typedef uintptr_t           psize;  /* pointer address size integer                             */
 
-/************************************************************************************************/
-/*
-*   Old Types
-*/
-/****** Integer *********************************************************************************/
-typedef int8_t              s8;     /* signed 1 byte integer                                    */
-typedef int16_t             s16;    /* signed 2 byte integer                                    */
-typedef int32_t             s32;    /* signed 4 byte integer                                    */
-typedef int64_t             s64;    /* signed 8 byte integer                                    */
-
-/****** Size ************************************************************************************/
-typedef int32_t             size;   /* size integer                                             */
-
 /********************************/
 /*  Core Functions              */
 /********************************/

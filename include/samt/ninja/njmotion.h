@@ -308,10 +308,10 @@ NJS_ACTION_LINK;
 /****** Get Motion Data *************************************************************************/
 typedef struct
 {
-    Float*      pos;                    /* position list                                        */
-    Float*      vect;                   /* normal/vector list                                   */
-    Angle*      roll;                   /* roll angle list                                      */
-    Angle*      ang;                    /* angle list                                           */
+    Float*      pos;                    /* output position                                      */
+    Float*      vect;                   /* output vector                                        */
+    Angle*      roll;                   /* output roll angle                                    */
+    Angle*      ang;                    /* output angle                                         */
 }
 NJS_CMOTION_DATA;
 
@@ -320,10 +320,10 @@ NJS_CMOTION_DATA;
 *   Internal Types
 */
 /****** Motion Function Types *******************************************************************/
-typedef	void	NJF_MOTION_INT_F3_FUNC( const NJS_MKEY_F*  key, Uint32 nbkeys, Float frame, Float*  dst);
-typedef	void	NJF_MOTION_INT_A3_FUNC( const NJS_MKEY_A*  key, Uint32 nbkeys, Float frame, Angle*  dst);
-typedef	void	NJF_MOTION_INT_A1_FUNC( const NJS_MKEY_A1* key, Uint32 nbkeys, Float frame, Angle*  dst);
-typedef	void	NJF_MOTION_INT_SA3_FUNC(const NJS_MKEY_SA* key, Uint32 nbkeys, Float frame, Sangle* dst);
+typedef	void    NJF_MOTION_INT_F3_FUNC( const NJS_MKEY_F*  key, Uint32 nbkeys, Float frame, Float*  dst);
+typedef	void    NJF_MOTION_INT_A3_FUNC( const NJS_MKEY_A*  key, Uint32 nbkeys, Float frame, Angle*  dst);
+typedef	void    NJF_MOTION_INT_A1_FUNC( const NJS_MKEY_A1* key, Uint32 nbkeys, Float frame, Angle*  dst);
+typedef	void    NJF_MOTION_INT_SA3_FUNC(const NJS_MKEY_SA* key, Uint32 nbkeys, Float frame, Sangle* dst);
 
 /****** Current Object Motion Info **************************************************************/
 typedef struct
