@@ -206,6 +206,8 @@ EXTERN Uint32 _rj_cnk_ctrl_flag_;       /* control flags                        
 /****** Chunk Draw ******************************************************************************/
 EXTERN RJS_CNK_CTX _rj_cnk_context_;    /* chunk global context                                 */
 
+EXTERN NJS_BGRA _rj_cnk_default_material_[RJ_NB_CMC]; /* chunk default materials                */
+
 EXTERN NJS_ARGB _rj_cnk_diff_material_; /* diffuse material                                     */
 EXTERN NJS_ARGB _rj_cnk_ambi_material_; /* ambient material                                     */
 EXTERN NJS_ARGB _rj_cnk_spec_material_; /* specular material                                    */

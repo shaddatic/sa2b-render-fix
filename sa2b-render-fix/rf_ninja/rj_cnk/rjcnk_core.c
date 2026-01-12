@@ -21,6 +21,13 @@
 /****** Self ************************************************************************************/
 RJS_CNK_CTX _rj_cnk_context_;
 
+NJS_BGRA _rj_cnk_default_material_[RJ_NB_CMC] =
+{
+    { 178, 178, 178, 255 }, // diffuse  : BGRA
+    { 127, 127, 127, 255 }, // ambient  : BGR#
+    { 255, 255, 255, 11  }, // specular : BGRE
+};
+
 NJS_ARGB    _rj_cnk_diff_material_; /* diffuse material                                         */
 NJS_ARGB    _rj_cnk_ambi_material_; /* ambient material                             (a == noop) */
 NJS_ARGB    _rj_cnk_spec_material_; /* specular material                        (a == exponent) */
@@ -156,9 +163,9 @@ void
 rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
 {
     // set default strip materials
-    basest->mats[RJ_CMC_DIFF] = (NJS_BGRA){ 178, 178, 178, 255 };
-    basest->mats[RJ_CMC_AMBI] = (NJS_BGRA){ 127, 127, 127, 255 };
-    basest->mats[RJ_CMC_SPEC] = (NJS_BGRA){ 255, 255, 255, 16  };
+    basest->mats[RJ_CMC_DIFF] = _rj_cnk_default_material_[RJ_CMC_DIFF];
+    basest->mats[RJ_CMC_AMBI] = _rj_cnk_default_material_[RJ_CMC_AMBI];
+    basest->mats[RJ_CMC_SPEC] = _rj_cnk_default_material_[RJ_CMC_SPEC];
 
     // set context control flags
     {
