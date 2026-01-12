@@ -278,6 +278,14 @@ Don't enable this for no reason! Many newer mods require these features and won'
 [ WARNING! ]
 Don't enable this for no reason! Many models will actually break with this enabled, including RF's 'Dreamcast Character Models'!</HelpText>
       </Property>
+      <Property name="mat_specdef" display="Broken Specular Material" type="BWARN" defaultvalue="0">
+        <HelpText>Sets the default specular material to black, which fixes many modded models that don't have specular material setup correctly - especially with Chao World mods. 
+
+This will have no affect on most other models that have specular materials properly applied.
+
+[ WARNING! ]
+Enabling this might break some effects that rely on default specular material, so be cautious.</HelpText>
+      </Property>
       <Property name="chw_mod" display="Custom Chao World Shadows" type="BWARN" defaultvalue="0">
         <HelpText>Disables RF's Modifier Shadows in Chao World for compatibility with Chao mods that have their own shadow systems. Older mods can't do this on their own, but newer mods should enable this for you when needed.
 

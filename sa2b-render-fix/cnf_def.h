@@ -345,6 +345,7 @@ CNFE_MISC_SHDWRES;
 /** Compatibility section **/
 #define CNF_COMPAT_PLBROKENFIX      CNFO_INT(   CNFS_COMPAT         , "pl_brokenfix"        , CNFE_BOOL_DISABLED                    )   /* Broken Character Model Fix */
 #define CNF_COMPAT_PLTEXMAT         CNFO_INT(   CNFS_COMPAT         , "pl_texmat"           , CNFE_BOOL_DISABLED                    )   /* Character Diffuse Material */
+#define CNF_COMPAT_SPECDEF          CNFO_INT(   CNFS_COMPAT         , "mat_specdef"         , CNFE_BOOL_DISABLED                    )   /* Broken Specular Material */
 #define CNF_COMPAT_NOCHMOD          CNFO_INT(   CNFS_COMPAT         , "chw_mod"             , CNFE_BOOL_DISABLED                    )   /* Disable Modifiers in Chao World */
 #define CNF_COMPAT_OLDATEST         CNFO_INT(   CNFS_COMPAT         , "old_atest"           , CNFE_BOOL_DISABLED                    )   /* Use Old Alpha Test Parameters */
 

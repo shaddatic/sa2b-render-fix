@@ -14,6 +14,9 @@
 #include <rf_magic.h>           /* rf_magic                                         */
 #include <rf_light.h>           /* chunk light                                      */
 
+/****** Config **********************************************************************/
+#include <cnf.h>                /* get int                                          */
+
 /****** Self ************************************************************************/
 #include <rf_ninja/rj_internal.h>           /* parent & siblings                    */
 #include <rf_ninja/rj_cnk/rjcnk_internal.h> /* self                                 */
@@ -127,4 +130,11 @@ RFD_ChunkInit(void)
     // fix shape motion not calling motion callback
     WriteJump(0x00784890, rjCnkPushPopShape);
     WriteJump(0x00784E70, rjCnkPushPopShapeLink);
+
+    if ( CNF_GetInt(CNF_COMPAT_SPECDEF) )
+    {
+        _rj_cnk_default_material_[RJ_CMC_SPEC].b =
+        _rj_cnk_default_material_[RJ_CMC_SPEC].g =
+        _rj_cnk_default_material_[RJ_CMC_SPEC].r = 0;
+    }
 }
