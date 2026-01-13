@@ -75,7 +75,7 @@ NJ_MTYPE;
 #define NJD_MFLAG_VERT_4        (1<<NJ_MTYPE_VERT_4)      /* NJS_MKEY_P                         */
 #define NJD_MFLAG_NORM_5        (1<<NJ_MTYPE_NORM_5)      /* NJS_MKEY_P                         */
 #define NJD_MFLAG_TARGET_3      (1<<NJ_MTYPE_TARGET_3)    /* NJS_MKEY_F                         */
-#define NJD_MFLAG_ROLL_6        (1<<NJ_MTYPE_ROLL_6)      /* NJS_MKEY_SA1                       */
+#define NJD_MFLAG_ROLL_6        (1<<NJ_MTYPE_ROLL_6)      /* NJS_MKEY_A1             (nj2, SA1) */
 #define NJD_MFLAG_ANGLE_7       (1<<NJ_MTYPE_ANGLE_7)     /* NJS_MKEY_A1                        */
 #define NJD_MFLAG_RGB_8         (1<<NJ_MTYPE_RGB_8)       /* NJS_MKEY_F                         */
 #define NJD_MFLAG_INTENSITY_9   (1<<NJ_MTYPE_INTENSITY_9) /* NJS_MKEY_F2                        */

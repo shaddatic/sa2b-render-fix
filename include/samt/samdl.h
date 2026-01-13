@@ -66,6 +66,8 @@ EXTERN_START
 #define SAANIM_LABELS               (1<<0)  /* load label data                                  */
 #define SAANIM_RETURNERR            (1<<1)  /* error in 'type', over 'nullptr'                  */
 
+#define SAANIM_NJ2                  (1<<8)  /* ninja2 motion data                               */
+
 /********************************/
 /*  Enums                       */
 /********************************/
@@ -110,6 +112,7 @@ typedef enum mt_saanim_type
 
     SAANIM_TYPE_MOTION      = 8,    /* ninja motion                                             */
     SAANIM_TYPE_CHAO,               /* chao motion                                     (sangle) */
+    SAANIM_TYPE_NINJA2              /* ninja2 motion                                            */
 }
 mt_saanim_type;
 
