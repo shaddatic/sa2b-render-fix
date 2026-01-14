@@ -42,28 +42,28 @@ EXTERN_START
 /****** Motion Type *****************************************************************************/
 typedef enum njmtype
 {
-    NJ_MTYPE_POS_0,                 /* NJS_MKEY_F                                               */
-    NJ_MTYPE_ANG_1,                 /* NJS_MKEY_A                                               */
-    NJ_MTYPE_SCL_2,                 /* NJS_MKEY_F                                               */
-    NJ_MTYPE_VEC_3,                 /* NJS_MKEY_F                                               */
-    NJ_MTYPE_VERT_4,                /* NJS_MKEY_P                                               */
-    NJ_MTYPE_NORM_5,                /* NJS_MKEY_P                                               */
-    NJ_MTYPE_TARGET_3,              /* NJS_MKEY_F                                               */
-    NJ_MTYPE_ROLL_6,                /* NJS_MKEY_SA1                                             */
-    NJ_MTYPE_ANGLE_7,               /* NJS_MKEY_A1                                              */
-    NJ_MTYPE_RGB_8,                 /* NJS_MKEY_F                                               */
-    NJ_MTYPE_INTENSITY_9,           /* NJS_MKEY_F2                                              */
-    NJ_MTYPE_SPOT_10,               /* NJS_MKEY_SPOT                                            */
-    NJ_MTYPE_POINT_9,               /* NJS_MKEY_F2                                              */
-    NJ_MTYPE_QUAT_1,                /* NJS_MKEY_QUAT                                            */
-    NJ_MTYPE_SHAPEID,               /* NJS_MKEY_SHAPEID                         (compact shape) */
-    NJ_MTYPE_EVENT_4,               /* NJS_MKEY_UI16                                            */
+    NJ_MTYPE_POS_0,                 /* position                                                 */
+    NJ_MTYPE_ANG_1,                 /* angle3                                                   */
+    NJ_MTYPE_SCL_2,                 /* scale                                                    */
+    NJ_MTYPE_VEC_3,                 /* vector                                                   */
+    NJ_MTYPE_VERT_4,                /* model vertex                                             */
+    NJ_MTYPE_NORM_5,                /* model normal                                             */
+    NJ_MTYPE_TARGET_3,              /* camera target                                            */
+    NJ_MTYPE_ROLL_6,                /* camera roll                                              */
+    NJ_MTYPE_ANGLE_7,               /* angle                                                    */
+    NJ_MTYPE_RGB_8,                 /* float color                                              */
+    NJ_MTYPE_INTENSITY_9,           /* light intensity and ambient intensity                    */
+    NJ_MTYPE_SPOT_10,               /* spotlight                                                */
+    NJ_MTYPE_POINT_9,               /* screen position                                          */
+    NJ_MTYPE_QUAT_1,                /* quaternion                                               */
+    NJ_MTYPE_SHAPEID,               /* ninja2 shape id                                          */
+    NJ_MTYPE_EVENT_4,               /* motion event id                                          */
 
     NJ_NB_MTYPE,                    /* enum count                                               */
 
     // Ninja2 only
-    NJ_MTYPE_VEC_0  = NJ_MTYPE_VERT_4, /* NJS_MKEY_F                                            */
-    NJ_MTYPE_SANG_1 = NJ_MTYPE_NORM_5, /* NJS_MKEY_SA                                           */
+    NJ_MTYPE_VEC_0  = NJ_MTYPE_VERT_4, /* vector                                                */
+    NJ_MTYPE_SANG_1 = NJ_MTYPE_NORM_5, /* short angle3                                          */
 }
 NJ_MTYPE;
 
