@@ -82,7 +82,6 @@ PS_IN main(VS_IN input)
     
     float4 finalColor = float4(0,0,0,0);
     
-    [loop]
     for (int index = 0; index < 4; ++index)
     {
         float3 diffuseResult = 0;
