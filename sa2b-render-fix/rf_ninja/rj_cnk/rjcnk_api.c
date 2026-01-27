@@ -114,7 +114,7 @@ rjCnkSetTextureCallback(Sint16(__cdecl* callback)(Sint16 n))
 }
 
 void
-rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) )
+rjCnkSetMaterialCallback( Uint32(__cdecl* callback)(NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag) )
 {
     _rj_cnk_material_callback_ = ( callback ) ? ( callback ) : ( rjCnkGetMaterial );
 }

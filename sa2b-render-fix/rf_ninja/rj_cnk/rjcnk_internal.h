@@ -36,11 +36,6 @@ EXTERN_START
 #define RJD_CXF_NONTEXSPEC          (1<<3) /* notex specular                                    */
 #define RJD_CXF_TWOPASSLIGHT        (1<<4) /* use two pass lighting                             */
 
-/****** Chunk Material Flag *********************************************************************/
-#define RJD_CMF_DIFF                (1<<0)
-#define RJD_CMF_AMBI                (1<<1)
-#define RJD_CMF_SPEC                (1<<2)
-
 /****** Chunk Strip Flags ***********************************************************************/
 /*
 *   Strip Flag Type Masks
@@ -136,17 +131,6 @@ typedef enum rjcnkdq
     RJ_CNK_DQ_ON,                   /* depthqueue is enabled                                    */
 }
 RJ_CNK_DEPTHQUEUE;
-
-/****** Depth Queue Mode ************************************************************************/
-typedef enum rjcnkmat
-{
-    RJ_CMC_DIFF,                    /* diffuse material color                                   */
-    RJ_CMC_AMBI,                    /* ambient material color                                   */
-    RJ_CMC_SPEC,                    /* specular material color                                  */
-
-    RJ_NB_CMC,                      /* enum count                                               */
-}
-RJ_CNK_MATCOLOR;
 
 /********************************/
 /*  Game Structures             */

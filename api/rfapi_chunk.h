@@ -53,10 +53,26 @@
 /****** Chunk Strip Flags ***********************************************************************/
 #define RJD_FST_EUA                 (0x80<<8) /* extended use alpha                             */
 
+/****** Chunk Material Colors *******************************************************************/
+typedef enum rjcnkmat
+{
+    RJ_CMC_DIFF,                    /* diffuse material color                                   */
+    RJ_CMC_AMBI,                    /* ambient material color                                   */
+    RJ_CMC_SPEC,                    /* specular material color                                  */
+
+    RJ_NB_CMC,                      /* enum count                                               */
+}
+RJ_CNK_MATCOLOR;
+
+/****** Chunk Material Flag *********************************************************************/
+#define RJD_CMF_DIFF                (1<<0) /* has diffuse material color                        */
+#define RJD_CMF_AMBI                (1<<1) /* has ambient material color                        */
+#define RJD_CMF_SPEC                (1<<2) /* has specular material color                       */
+
 /********************************/
 /*  API Structures              */
 /********************************/
-/****** Font API ********************************************************************************/
+/****** Chunk API *******************************************************************************/
 typedef struct
 {
     uint32_t version;               /* structure version                                        */
@@ -156,7 +172,7 @@ typedef struct
     *       - flag          : material color flags in this material chunk               [RJ_CMF_##]
     *       + return        : output material color flags, for adding material colors   [RJ_CMF_##]
     */
-    void (*CnkSetMaterialCallback)( Uint32(*callback)(NJS_BGRA* dst, const NJS_BGRA* src, Uint32 flag) );
+    void (*CnkSetMaterialCallback)( Uint32(*callback)(NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC], Uint32 flag) );
 
     /**** Chunk Modify **************************************/
     /*
