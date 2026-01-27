@@ -66,7 +66,7 @@ static mt_hookinfo HookInfoObjectMinimal[1];
 static void
 ObjectMinimalHook(task* tp)
 {
-    FuncHookCall( HookInfoObjectMinimal, ObjectMinimal(tp) );
+    mtHookInfoCall( HookInfoObjectMinimal, ObjectMinimal(tp) );
 
     tp->disp_shad = MinimalDisplayerMod;
 }
@@ -79,7 +79,7 @@ MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 {
     task* minitp;
 
-    FuncHookCall( HookInfoMinimalCreate, minitp = MinimalCreate(posX, posY, posZ, num, flag) );
+    mtHookInfoCall( HookInfoMinimalCreate, minitp = MinimalCreate(posX, posY, posZ, num, flag) );
 
     minitp->disp_shad = MinimalDisplayerMod;
 
@@ -89,6 +89,6 @@ MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 void
 CHS_MinimalInit(void)
 {
-    FuncHook(HookInfoObjectMinimal, ObjectMinimal, ObjectMinimalHook);
-    FuncHook(HookInfoMinimalCreate, MinimalCreate, MinimalCreateHook);
+    mtHookFunc(HookInfoObjectMinimal, ObjectMinimal, ObjectMinimalHook);
+    mtHookFunc(HookInfoMinimalCreate, MinimalCreate, MinimalCreateHook);
 }

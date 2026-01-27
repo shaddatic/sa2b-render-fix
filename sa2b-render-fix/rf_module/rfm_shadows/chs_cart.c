@@ -155,7 +155,7 @@ courseDisplayDisplayerHook(task* tp)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    FuncHookCall( HookInfoCourseDisplayDisplayer, courseDisplayDisplayer(tp) );
+    mtHookInfoCall( HookInfoCourseDisplayDisplayer, courseDisplayDisplayer(tp) );
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
@@ -170,7 +170,7 @@ CHS_CartInit(void)
     WriteJump(0x0061CB80, cartDisplayerMod);
     WriteCall(0x0061C60F, CreateNoStencilTexture);
 
-    FuncHook(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
+    mtHookFunc(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
 
     RFS_SAMDL mdl_list[8 * 2] =
     {

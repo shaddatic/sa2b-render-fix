@@ -90,7 +90,7 @@ static mt_hookinfo GX_SetViewportHookInfo[1];
 static void
 GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
 {
-    FuncHookCall( GX_SetViewportHookInfo, GX_SetViewport(X, Y, W, H, MinZ, MaxZ) );
+    mtHookInfoCall( GX_SetViewportHookInfo, GX_SetViewport(X, Y, W, H, MinZ, MaxZ) );
 
     SendScreenRatioToShader(_nj_screen_.w, _nj_screen_.h);
 }
@@ -114,7 +114,7 @@ HintTextDisplayerHook(void* p)
         so the hint text displays correctly **/
     SendScreenRatioToShader(640.0f, 480.0f);
 
-    FuncHookCall( HintTextDisplayerHookInfo, HintTextDisplayer(p) );
+    mtHookInfoCall( HintTextDisplayerHookInfo, HintTextDisplayer(p) );
 
     /** Once drawn, update the shader to the correct aspect
         ratio again **/
@@ -145,14 +145,14 @@ RFG_3DSpriteInit(void)
     //WriteNOP(0x0077D835, 0x0077D83A); // Kill `if (z < -1.0f) z = -1.0f;`
 
     /** Fix Multi-screen desync and squish **/
-    FuncHook(GX_SetViewportHookInfo, GX_SetViewport, GX_SetViewportHook);
+    mtHookFunc(GX_SetViewportHookInfo, GX_SetViewport, GX_SetViewportHook);
 
     /** Fix lens flairs "un-squishing" themselves,
         which causes stretching with the above fix **/
     WriteNOP(0x006C79EE, 0x006C79F8);
 
     /** Fix hint text in 2P **/
-    FuncHook(HintTextDisplayerHookInfo, HintTextDisplayer_p, __HintTextDisplayerHook);
+    mtHookFunc(HintTextDisplayerHookInfo, HintTextDisplayer_p, __HintTextDisplayerHook);
 
     /** Fix ectoplasm effects "un-squishing" themselves,
         which causes stretching with the above fix **/

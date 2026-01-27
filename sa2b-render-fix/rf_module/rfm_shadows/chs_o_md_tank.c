@@ -41,7 +41,7 @@ static mt_hookinfo HookInfoObjectTank[1];
 static void
 ObjectTankHook(task* tp)
 {
-    FuncHookCall( HookInfoObjectTank, ObjectTank(tp) );
+    mtHookInfoCall( HookInfoObjectTank, ObjectTank(tp) );
 
     if (tp->disp)
         tp->disp_shad = ObjectMDContainerBoxDisplayerMod;
@@ -50,7 +50,7 @@ ObjectTankHook(task* tp)
 void
 CHS_TankInit(void)
 {
-    FuncHook(HookInfoObjectTank, ObjectTank, ObjectTankHook);
+    mtHookFunc(HookInfoObjectTank, ObjectTank, ObjectTankHook);
 
     object_o_md_contbox_mod = RF_GetCnkObject("object/md_tank_mod.sa2mdl");
 }

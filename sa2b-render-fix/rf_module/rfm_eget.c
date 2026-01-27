@@ -25,7 +25,7 @@ getEmblemDisplayerHook(task* const tp)
 {
     RFRS_SetTransMode(RFRS_TRANSMD_AUTO_ATEST);
 
-    FuncHookCall( getEmblemDisplayerHookInfo, getEmblemDisplayer(tp) );
+    mtHookInfoCall( getEmblemDisplayerHookInfo, getEmblemDisplayer(tp) );
 
     RFRS_SetTransMode(RFRS_TRANSMD_END);
 }
@@ -35,7 +35,7 @@ RFM_EmblemGetInit(void)
 {
     // fix kiran
     SwitchDisplayer(0x0079860F, DISP);
-    FuncHook(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
+    mtHookFunc(getEmblemDisplayerHookInfo, getEmblemDisplayer, getEmblemDisplayerHook);
 
     // allow fade-in
     WriteNOP(0x006049A8, 0x006049AE); /* Stop FadeColor being set to 0 */

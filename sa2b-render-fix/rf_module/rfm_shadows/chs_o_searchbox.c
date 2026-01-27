@@ -50,5 +50,5 @@ void
 CHS_SearchBoxInit(void)
 {
     WriteRetn(0x006E7E90);
-    FuncHook(HookInfoObjectSearchBox, ObjectSearchBox, ObjectSearchBoxHook);
+    mtHookFunc(HookInfoObjectSearchBox, ObjectSearchBox, ObjectSearchBoxHook);
 }

@@ -115,7 +115,7 @@ static mt_hookinfo ObjectGlobalLightManagerHookInfo[1];
 static void
 ObjectGlobalLightManagerHook(task* tp)
 {
-    FuncHookCall( ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager(tp) );
+    mtHookInfoCall( ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager(tp) );
 
     tp->dest = ObjectGlobalLightSWDestructor;
 }
@@ -187,7 +187,7 @@ RFM_CommonInit(void)
         WriteCall(0x004FE3E6, EnemyLoadTextureStage);
     }
 
-    FuncHook(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
+    mtHookFunc(ObjectGlobalLightManagerHookInfo, ObjectGlobalLightManager, ObjectGlobalLightManagerHook);
 
     /** Fix keys in Death Chamber & Egg Quaters glowing eye effect **/
     WriteCall(0x006D27A7, ___DrawEmeraldKey);

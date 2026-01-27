@@ -39,7 +39,7 @@ static mt_hookinfo HookInfoObjectMDFireBall[1];
 static void
 ObjectMDFireBallHook(task* tp)
 {
-    FuncHookCall(HookInfoObjectMDFireBall, ObjectMDFireBall(tp));
+    mtHookInfoCall(HookInfoObjectMDFireBall, ObjectMDFireBall(tp));
 
     tp->disp_shad = ObjectMDFireBallDisplayerMod;
 }
@@ -60,7 +60,7 @@ ObjectMeteoBigDisplayerMod(task* tp)
 void
 CHS_MeteoBigInit(void)
 {
-    FuncHook(HookInfoObjectMDFireBall, ObjectMDFireBall, ObjectMDFireBallHook);
+    mtHookFunc(HookInfoObjectMDFireBall, ObjectMDFireBall, ObjectMDFireBallHook);
 
     WriteJump(0x005C5120, ObjectMeteoBigDisplayerMod);
     KillCall(0x005C4E04); // Kill SetStencilInfo

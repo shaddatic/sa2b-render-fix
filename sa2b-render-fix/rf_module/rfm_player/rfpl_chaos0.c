@@ -78,7 +78,7 @@ Chaos0DispHook(task* tp)
         rjCnkSetTextureCallback( ChaosTextureCallback );
     }
 
-    FuncHookCall( Chaos0DispHookInfo, Chaos0Disp(tp) );
+    mtHookInfoCall( Chaos0DispHookInfo, Chaos0Disp(tp) );
 
     rjCnkSetTextureCallback( NULL );
 
@@ -115,7 +115,7 @@ Chaos0DispDelyHook(task* tp)
 
     njCnkSetMotionCallback( Chaos0DelyMotionCallback );
 
-    FuncHookCall( Chaos0DispDelyHookInfo, Chaos0DispDely(tp) );
+    mtHookInfoCall( Chaos0DispDelyHookInfo, Chaos0DispDely(tp) );
 
     njCnkSetMotionCallback(  NULL );
     rjCnkSetTextureCallback( NULL );
@@ -129,8 +129,8 @@ RFPL_Chaos0Init(void)
       as DC Chaos 0 is totally transparent. **/
     SwitchDisplayer(0x00728CC7, DISP_SORT);
 
-    FuncHook(Chaos0DispHookInfo    , Chaos0Disp    , Chaos0DispHook);
-    FuncHook(Chaos0DispDelyHookInfo, Chaos0DispDely, Chaos0DispDelyHook);
+    mtHookFunc(Chaos0DispHookInfo    , Chaos0Disp    , Chaos0DispHook);
+    mtHookFunc(Chaos0DispDelyHookInfo, Chaos0DispDely, Chaos0DispDelyHook);
 
     /** Kill the inlaid texture animation code. We replace it with a better
       system using Render Fix's Chunk 'TextureCallback' feature, where we can

@@ -38,7 +38,7 @@ static mt_hookinfo HookInfoObjectMDContainerBox[1];
 static void
 ObjectMDContainerBoxHook(task* tp)
 {
-    FuncHookCall( HookInfoObjectMDContainerBox, ObjectMDContainerBox(tp) );
+    mtHookInfoCall( HookInfoObjectMDContainerBox, ObjectMDContainerBox(tp) );
 
     if (tp->disp)
         tp->disp_shad = ObjectMDContainerBoxDisplayerMod;
@@ -47,7 +47,7 @@ ObjectMDContainerBoxHook(task* tp)
 void
 CHS_MDContainerBoxInit(void)
 {
-    FuncHook(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
+    mtHookFunc(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
 
     object_o_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod.sa2mdl");
 }

@@ -225,7 +225,7 @@ LandChangeLandTableHook(OBJ_LANDTABLE* land)
 {
     boolLandGjmdl = LandTableIsGinja(land);
 
-    FuncHookCall( LandChangeLandTableHookInfo, LandChangeLandTable(land) );
+    mtHookInfoCall( LandChangeLandTableHookInfo, LandChangeLandTable(land) );
 }
 
 /****** Init ************************************************************************/
@@ -233,7 +233,7 @@ void
 RFC_LandtableInit(void)
 {
     /** Automatically determine landtable format type **/
-    FuncHook(LandChangeLandTableHookInfo, LandChangeLandTable_p, LandChangeLandTableHook);
+    mtHookFunc(LandChangeLandTableHookInfo, LandChangeLandTable_p, LandChangeLandTableHook);
 
     WriteJump(0x0047C2E0, DrawLandtable_RF);
     WriteJump(0x0047C200, LandDisplayer_RF);

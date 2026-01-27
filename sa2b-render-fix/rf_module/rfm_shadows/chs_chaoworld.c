@@ -226,7 +226,7 @@ CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* 
 {
     task* tp;
 
-    FuncHookCall(HookInfoCreateChaoExtra, tp = CreateChaoExtra(pParamGC, IsParamCopy, pElement, pPos, angy));
+    mtHookInfoCall(HookInfoCreateChaoExtra, tp = CreateChaoExtra(pParamGC, IsParamCopy, pElement, pPos, angy));
 
     if (!tp)
         return NULL;
@@ -321,7 +321,7 @@ ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
 {
     task* tp;
 
-    FuncHookCall( HookInfoALO_GrowTreeCreate, tp = ALO_GrowTreeCreate(pPos, pInfo) );
+    mtHookInfoCall( HookInfoALO_GrowTreeCreate, tp = ALO_GrowTreeCreate(pPos, pInfo) );
 
     if (!tp)
         return NULL;
@@ -382,7 +382,7 @@ static mt_hookinfo HookInfoALO_RaceTree[1];
 static void
 ALO_RaceTreeHook(task* tp)
 {
-    FuncHookCall( HookInfoALO_RaceTree, ALO_RaceTree(tp) );
+    mtHookInfoCall( HookInfoALO_RaceTree, ALO_RaceTree(tp) );
 
     tp->disp_shad = ALO_RaceTreeDisplayerMod;
 }
@@ -441,7 +441,7 @@ CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, cons
 {
     task* tp;
 
-    FuncHookCall( HookInfoCreateEgg, tp = CreateEgg(pGene, pParamGC, IsParamCopy, pPos, type) );
+    mtHookInfoCall( HookInfoCreateEgg, tp = CreateEgg(pGene, pParamGC, IsParamCopy, pPos, type) );
 
     if (!tp)
         return NULL;
@@ -486,7 +486,7 @@ ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM
 {
     task* tp;
 
-    FuncHookCall( HookInfoALO_ChaosDriveCreate, tp = ALO_ChaosDriveCreate(kind, pPos, pVelo, pSaveInfo) );
+    mtHookInfoCall( HookInfoALO_ChaosDriveCreate, tp = ALO_ChaosDriveCreate(kind, pPos, pVelo, pSaveInfo) );
 
     if (!tp)
         return NULL;
@@ -534,7 +534,7 @@ ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECT
 {
     task* tp;
 
-    FuncHookCall( HookInfoALO_ObakeHeadCreate, tp = ALO_ObakeHeadCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
+    mtHookInfoCall( HookInfoALO_ObakeHeadCreate, tp = ALO_ObakeHeadCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
     if (!tp)
         return NULL;
@@ -579,7 +579,7 @@ ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_S
 {
     task* tp;
 
-    FuncHookCall( HookInfoALO_SeedCreate, tp = ALO_SeedCreate(kind, pPos, pVelo, pSaveInfo) );
+    mtHookInfoCall( HookInfoALO_SeedCreate, tp = ALO_SeedCreate(kind, pPos, pVelo, pSaveInfo) );
 
     if (!tp)
         return NULL;
@@ -635,7 +635,7 @@ ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* 
 {
     task* tp;
 
-    FuncHookCall( HookInfoALO_FruitCreate, tp = ALO_FruitCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
+    mtHookInfoCall( HookInfoALO_FruitCreate, tp = ALO_FruitCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
     if (!tp)
         return NULL;
@@ -687,7 +687,7 @@ AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR*
 {
     task* tp;
 
-    FuncHookCall( HookInfoAL_MinimalCreate, tp = AL_MinimalCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
+    mtHookInfoCall( HookInfoAL_MinimalCreate, tp = AL_MinimalCreate(kind, pPos, AngY, pVelo, pSaveInfo) );
 
     if (!tp)
         return NULL;
@@ -739,7 +739,7 @@ static mt_hookinfo HookInfoALO_RaceFruit[1];
 static void
 ALO_RaceFruitHook(task* tp)
 {
-    FuncHookCall( HookInfoALO_RaceFruit, ALO_RaceFruit(tp) );
+    mtHookInfoCall( HookInfoALO_RaceFruit, ALO_RaceFruit(tp) );
 
     tp->disp_shad = ALO_RaceFruitDisplayerMod;
 }
@@ -784,7 +784,7 @@ static mt_hookinfo HookInfoALO_Ball[1];
 static void
 ALO_BallHook(task* tp)
 {
-    FuncHookCall( HookInfoALO_Ball, ALO_Ball(tp) );
+    mtHookInfoCall( HookInfoALO_Ball, ALO_Ball(tp) );
 
     tp->disp_shad = ALO_BallDisplayerMod;
 }
@@ -816,7 +816,7 @@ static mt_hookinfo BoxHookInfo[1];
 static void
 ALO_BoxCreateHook(NJS_POINT3* pPos)
 {
-    FuncHookCall( BoxHookInfo, ALO_BoxCreate(pPos) );
+    mtHookInfoCall( BoxHookInfo, ALO_BoxCreate(pPos) );
 
     task* const tp = ALO_BoxTaskPointer;
 
@@ -859,7 +859,7 @@ static mt_hookinfo HookInfoALO_Horse[1];
 static void
 ALO_HorseHook(task* tp)
 {
-    FuncHookCall( HookInfoALO_Horse, ALO_Horse(tp) );
+    mtHookInfoCall( HookInfoALO_Horse, ALO_Horse(tp) );
 
     tp->disp_shad = ALO_HorseDisplayerMod;
 }
@@ -901,7 +901,7 @@ static mt_hookinfo RadicaseHookInfo[1];
 static void
 ALO_RadicaseCreateHook(NJS_POINT3* pPos)
 {
-    FuncHookCall( RadicaseHookInfo, ALO_RadicaseCreate(pPos) );
+    mtHookInfoCall( RadicaseHookInfo, ALO_RadicaseCreate(pPos) );
 
     task* const tp = ALO_RadicaseTaskPointer;
 
@@ -945,7 +945,7 @@ static mt_hookinfo TVHookInfo[1];
 static void
 ALO_TVCreateHook(NJS_POINT3* pPos)
 {
-    FuncHookCall( TVHookInfo, ALO_TVCreate(pPos) );
+    mtHookInfoCall( TVHookInfo, ALO_TVCreate(pPos) );
 
     task* const tp = ALO_TVTaskPointer;
 
@@ -975,32 +975,32 @@ CHS_ChaoWorldInit(void)
     WriteRetn(0x00540F70);  // Kill AL_CreateShadowTex
 
     /** Chao **/
-    FuncHook(HookInfoCreateChaoExtra, CreateChaoExtra_p, CreateChaoExtraHook);
+    mtHookFunc(HookInfoCreateChaoExtra, CreateChaoExtra_p, CreateChaoExtraHook);
     WriteRetn(0x005405D0); // AL_DrawChaoShadow
 
     /** Grow Tree **/
-    FuncHook(HookInfoALO_GrowTreeCreate, ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
+    mtHookFunc(HookInfoALO_GrowTreeCreate, ALO_GrowTreeCreate_p, ALO_GrowTreeCreateHook);
 
     if ( CNF_GetInt(CNF_MISC_RACETREEMOD) )
     {
-        FuncHook(HookInfoALO_RaceTree, ALO_RaceTree, ALO_RaceTreeHook);
+        mtHookFunc(HookInfoALO_RaceTree, ALO_RaceTree, ALO_RaceTreeHook);
     }
 
     /** AL Objects **/
-    FuncHook(HookInfoCreateEgg           , CreateEgg_p           , CreateEggHook);
-    FuncHook(HookInfoALO_ChaosDriveCreate, ALO_ChaosDriveCreate_p, ALO_ChaosDriveCreateHook);
-    FuncHook(HookInfoALO_ObakeHeadCreate , ALO_ObakeHeadCreate_p , ALO_ObakeHeadCreateHook);
-    FuncHook(HookInfoALO_SeedCreate      , ALO_SeedCreate_p      , ALO_SeedCreateHook);
-    FuncHook(HookInfoALO_FruitCreate     , ALO_FruitCreate_p     , ALO_FruitCreateHook);
-    FuncHook(HookInfoAL_MinimalCreate    , AL_MinimalCreate_p    , AL_MinimalCreateHook);
-    FuncHook(HookInfoALO_RaceFruit       , ALO_RaceFruit         , ALO_RaceFruitHook);
+    mtHookFunc(HookInfoCreateEgg           , CreateEgg_p           , CreateEggHook);
+    mtHookFunc(HookInfoALO_ChaosDriveCreate, ALO_ChaosDriveCreate_p, ALO_ChaosDriveCreateHook);
+    mtHookFunc(HookInfoALO_ObakeHeadCreate , ALO_ObakeHeadCreate_p , ALO_ObakeHeadCreateHook);
+    mtHookFunc(HookInfoALO_SeedCreate      , ALO_SeedCreate_p      , ALO_SeedCreateHook);
+    mtHookFunc(HookInfoALO_FruitCreate     , ALO_FruitCreate_p     , ALO_FruitCreateHook);
+    mtHookFunc(HookInfoAL_MinimalCreate    , AL_MinimalCreate_p    , AL_MinimalCreateHook);
+    mtHookFunc(HookInfoALO_RaceFruit       , ALO_RaceFruit         , ALO_RaceFruitHook);
 
     /** Toys **/
-    FuncHook(HookInfoALO_Ball , ALO_Ball_p          , ALO_BallHook);
-    FuncHook(HookInfoALO_Horse, ALO_Horse_p         , ALO_HorseHook);
-    FuncHook(BoxHookInfo      , ALO_BoxCreate_p     , ALO_BoxCreateHook);
-    FuncHook(RadicaseHookInfo , ALO_RadicaseCreate_p, ALO_RadicaseCreateHook);
-    FuncHook(TVHookInfo       , ALO_TVCreate_p      , ALO_TVCreateHook);
+    mtHookFunc(HookInfoALO_Ball , ALO_Ball_p          , ALO_BallHook);
+    mtHookFunc(HookInfoALO_Horse, ALO_Horse_p         , ALO_HorseHook);
+    mtHookFunc(BoxHookInfo      , ALO_BoxCreate_p     , ALO_BoxCreateHook);
+    mtHookFunc(RadicaseHookInfo , ALO_RadicaseCreate_p, ALO_RadicaseCreateHook);
+    mtHookFunc(TVHookInfo       , ALO_TVCreate_p      , ALO_TVCreateHook);
 
     /** shadow model **/
     model_al_mod = RF_GetCnkModel("chao/al_mod.sa2mdl");

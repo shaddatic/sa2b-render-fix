@@ -286,7 +286,7 @@ SonicDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_SONIC);
 
-    FuncHookCall( SonicDisp_CompatHookInfo, SonicDisp(tp) );
+    mtHookInfoCall( SonicDisp_CompatHookInfo, SonicDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_SONIC);
 }
@@ -297,7 +297,7 @@ MilesDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_MILES);
 
-    FuncHookCall( MilesDisp_CompatHookInfo, MilesDisp(tp) );
+    mtHookInfoCall( MilesDisp_CompatHookInfo, MilesDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_MILES);
 }
@@ -308,7 +308,7 @@ KnucklesDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_KNUCKLES);
 
-    FuncHookCall( KnucklesDisp_CompatHookInfo, KnucklesDisp(tp) );
+    mtHookInfoCall( KnucklesDisp_CompatHookInfo, KnucklesDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_KNUCKLES);
 }
@@ -319,7 +319,7 @@ EggmanDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_EGGMAN);
 
-    FuncHookCall( EggmanDisp_CompatHookInfo, EggmanDisp(tp) );
+    mtHookInfoCall( EggmanDisp_CompatHookInfo, EggmanDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_EGGMAN);
 }
@@ -330,7 +330,7 @@ RougeDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_ROUGE);
 
-    FuncHookCall( RougeDisp_CompatHookInfo, RougeDisp(tp) );
+    mtHookInfoCall( RougeDisp_CompatHookInfo, RougeDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_ROUGE);
 }
@@ -341,7 +341,7 @@ EggWalkerDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_EGG_WALKER);
 
-    FuncHookCall( EggWalkerDisp_CompatHookInfo, EggWalkerDisp(tp) );
+    mtHookInfoCall( EggWalkerDisp_CompatHookInfo, EggWalkerDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_EGG_WALKER);
 }
@@ -352,7 +352,7 @@ TailsWalkerDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_TAILS_WALKER);
 
-    FuncHookCall( TailsWalkerDisp_CompatHookInfo, TailsWalkerDisp(tp) );
+    mtHookInfoCall( TailsWalkerDisp_CompatHookInfo, TailsWalkerDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_TAILS_WALKER);
 }
@@ -363,7 +363,7 @@ SuperSonicDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_SUPER_SONIC);
 
-    FuncHookCall( SuperSonicDisp_CompatHookInfo, SuperSonicDisp(tp) );
+    mtHookInfoCall( SuperSonicDisp_CompatHookInfo, SuperSonicDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_SUPER_SONIC);
 }
@@ -374,7 +374,7 @@ ChaoWalkerDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_CHAO_WALKER);
 
-    FuncHookCall( ChaoWalkerDisp_CompatHookInfo, ChaoWalkerDisp(tp) );
+    mtHookInfoCall( ChaoWalkerDisp_CompatHookInfo, ChaoWalkerDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_CHAO_WALKER);
 }
@@ -385,7 +385,7 @@ DarkChaoWalkerDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_DARK_WALKER);
 
-    FuncHookCall( DarkChaoWalkerDisp_CompatHookInfo, DarkChaoWalkerDisp(tp) );
+    mtHookInfoCall( DarkChaoWalkerDisp_CompatHookInfo, DarkChaoWalkerDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_DARK_WALKER);
 }
@@ -396,7 +396,7 @@ TicalDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_TICAL);
 
-    FuncHookCall( TicalDisp_CompatHookInfo, TicalDisp(tp) );
+    mtHookInfoCall( TicalDisp_CompatHookInfo, TicalDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_TICAL);
 }
@@ -407,7 +407,7 @@ ChaosDisp_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_CHAOS0);
 
-    FuncHookCall( ChaosDisp_CompatHookInfo, ChaosDisp(tp) );
+    mtHookInfoCall( ChaosDisp_CompatHookInfo, ChaosDisp(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_CHAOS0);
 }
@@ -418,7 +418,7 @@ ChaosDispDely_CompatHook(task* tp)
 {
     PlayerModelCompatStartDisplayer(PLNO_CHAOS0);
 
-    FuncHookCall( ChaosDispDely_CompatHookInfo, ChaosDispDely(tp) );
+    mtHookInfoCall( ChaosDispDely_CompatHookInfo, ChaosDispDely(tp) );
 
     PlayerModelCompatEndDisplayer(PLNO_CHAOS0);
 }
@@ -433,19 +433,19 @@ PlayerModelCompatHook(void)
         return;
     }
 
-    FuncHook( SonicDisp_CompatHookInfo          , SonicDisp_p           , SonicDisp_CompatHook );
-    FuncHook( MilesDisp_CompatHookInfo          , MilesDisp_p           , MilesDisp_CompatHook );
-    FuncHook( KnucklesDisp_CompatHookInfo       , KnucklesDisp_p        , KnucklesDisp_CompatHook );
-    FuncHook( EggmanDisp_CompatHookInfo         , EggmanDisp_p          , EggmanDisp_CompatHook );
-    FuncHook( RougeDisp_CompatHookInfo          , RougeDisp_p           , RougeDisp_CompatHook );
-    FuncHook( EggWalkerDisp_CompatHookInfo      , EggWalkerDisp_p       , EggWalkerDisp_CompatHook );
-    FuncHook( TailsWalkerDisp_CompatHookInfo    , TailsWalkerDisp_p     , TailsWalkerDisp_CompatHook );
-    FuncHook( SuperSonicDisp_CompatHookInfo     , SuperSonicDisp_p      , SuperSonicDisp_CompatHook );
-    FuncHook( ChaoWalkerDisp_CompatHookInfo     , ChaoWalkerDisp_p      , ChaoWalkerDisp_CompatHook );
-    FuncHook( DarkChaoWalkerDisp_CompatHookInfo , DarkChaoWalkerDisp_p  , DarkChaoWalkerDisp_CompatHook );
-    FuncHook( TicalDisp_CompatHookInfo          , TicalDisp_p           , TicalDisp_CompatHook );
-    FuncHook( ChaosDisp_CompatHookInfo          , ChaosDisp_p           , ChaosDisp_CompatHook );
-    FuncHook( ChaosDispDely_CompatHookInfo      , ChaosDispDely_p       , ChaosDispDely_CompatHook );
+    mtHookFunc( SonicDisp_CompatHookInfo          , SonicDisp_p           , SonicDisp_CompatHook );
+    mtHookFunc( MilesDisp_CompatHookInfo          , MilesDisp_p           , MilesDisp_CompatHook );
+    mtHookFunc( KnucklesDisp_CompatHookInfo       , KnucklesDisp_p        , KnucklesDisp_CompatHook );
+    mtHookFunc( EggmanDisp_CompatHookInfo         , EggmanDisp_p          , EggmanDisp_CompatHook );
+    mtHookFunc( RougeDisp_CompatHookInfo          , RougeDisp_p           , RougeDisp_CompatHook );
+    mtHookFunc( EggWalkerDisp_CompatHookInfo      , EggWalkerDisp_p       , EggWalkerDisp_CompatHook );
+    mtHookFunc( TailsWalkerDisp_CompatHookInfo    , TailsWalkerDisp_p     , TailsWalkerDisp_CompatHook );
+    mtHookFunc( SuperSonicDisp_CompatHookInfo     , SuperSonicDisp_p      , SuperSonicDisp_CompatHook );
+    mtHookFunc( ChaoWalkerDisp_CompatHookInfo     , ChaoWalkerDisp_p      , ChaoWalkerDisp_CompatHook );
+    mtHookFunc( DarkChaoWalkerDisp_CompatHookInfo , DarkChaoWalkerDisp_p  , DarkChaoWalkerDisp_CompatHook );
+    mtHookFunc( TicalDisp_CompatHookInfo          , TicalDisp_p           , TicalDisp_CompatHook );
+    mtHookFunc( ChaosDisp_CompatHookInfo          , ChaosDisp_p           , ChaosDisp_CompatHook );
+    mtHookFunc( ChaosDispDely_CompatHookInfo      , ChaosDispDely_p       , ChaosDispDely_CompatHook );
 
     IsHooked = true;
 }

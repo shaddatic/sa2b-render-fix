@@ -46,7 +46,7 @@ static mt_hookinfo HookInfoObjectBlock2[1];
 static void
 ObjectBlock2Hook(task* tp)
 {
-    FuncHookCall( HookInfoObjectBlock2, ObjectBlock2(tp) );
+    mtHookInfoCall( HookInfoObjectBlock2, ObjectBlock2(tp) );
 
     if (tp->disp)
         tp->disp_shad = ObjectBlock2DisplayerMod;
@@ -80,7 +80,7 @@ static mt_hookinfo HookInfoObjectBlock[1];
 static void
 ObjectBlockHook(task* tp)
 {
-    FuncHookCall( HookInfoObjectBlock, ObjectBlock(tp) );
+    mtHookInfoCall( HookInfoObjectBlock, ObjectBlock(tp) );
 
     if (tp->disp)
         tp->disp_shad = ObjectBlockDisplayerMod;
@@ -89,8 +89,8 @@ ObjectBlockHook(task* tp)
 void
 CHS_CCBlockInit(void)
 {
-    FuncHook(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
-    FuncHook(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
+    mtHookFunc(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
+    mtHookFunc(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
 
     object_o_cc_block_mod = RF_GetCnkObject("object/cc_block_mod.sa2mdl");
 }

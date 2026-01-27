@@ -425,7 +425,7 @@ GX_End_Modifier(void)
 {
     const Sint32 i = rjCheapShadowEffectStart();
 
-    FuncHookCall( GX_End_ModifierHookInfo, GX_End_p() );
+    mtHookInfoCall( GX_End_ModifierHookInfo, GX_End_p() );
 
     rjCheapShadowEffectEnd(i);
 }
@@ -436,7 +436,7 @@ GX_EndOther_Modifier(int a1, char a2)
 {
     const Sint32 i = rjCheapShadowEffectStart();
 
-    FuncHookCall( GX_EndOther_ModifierHookInfo, GX_EndOther_p(a1, a2) );
+    mtHookInfoCall( GX_EndOther_ModifierHookInfo, GX_EndOther_p(a1, a2) );
 
     rjCheapShadowEffectEnd(i);
 }

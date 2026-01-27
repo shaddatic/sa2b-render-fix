@@ -205,20 +205,33 @@ isize   mtGetModIndex( void );
 /****** Core ************************************************************************************/
 /*
 *   Description:
-*     Gets the number of elements in a defined array variable.
+*     Gets the number of elements in an array, including multi-dimensional arrays.
+*
+*   Notes:
+*     - In the case of multi-dimensional arrays, the count is taken left to right. For example,
+*       Any array 'int a[4][2]' will return: '4 = COUNTOF(a)', and '2 = COUNTOF(a[0])'
 *
 *   Parameters:
-*     - ary     : array variable
+*     - ary         : array variable
 */
-#define ARYLEN(ary)         (sizeof(ary)/sizeof(0[ary]))
+#define COUNTOF(ary)         (sizeof(ary)/sizeof(*ary))
 /*
 *   Description:
 *     Gets the number of bits in a defined type or variable.
 *
 *   Parameters:
-*     - type    : type/variable
+*     - type        : type/variable
 */
 #define BITSIN(type)        (sizeof(type)*8)
+/*
+*   Description:
+*     Cast an lvalue to another type without implicit conversion between the types.
+*
+*   Parameters:
+*     - type        : type to cast to
+*     - var         : variable to cast
+*/
+#define BITCAST(type, var)  *((type*)&(var))
 
 /****** Function ********************************************************************************/
 /*
@@ -226,9 +239,9 @@ isize   mtGetModIndex( void );
 *     Clamps a value within the set range.
 *
 *   Parameters:
-*     - val     : value to clamp
-*     - min     : minimum value
-*     - max     : maximum value
+*     - val         : value to clamp
+*     - min         : minimum value
+*     - max         : maximum value
 */
 #define CLAMP(val, min, max)             (((val)<(min))?(min):((max)<(val))?(max):(val))
 /*
@@ -236,7 +249,7 @@ isize   mtGetModIndex( void );
 *     Gets the maximum of two values.
 *
 *   Parameters:
-*     - val#    : values to find the maximum of
+*     - val#        : values to find the maximum of
 */
 #define MAX(val1, val2)                  ((val1)>(val2)?(val1):(val2))
 /*
@@ -244,7 +257,7 @@ isize   mtGetModIndex( void );
 *     Gets the minimum of two values.
 *
 *   Parameters:
-*     - val#    : values to find the minimum of
+*     - val#        : values to find the minimum of
 */
 #define MIN(val1, val2)                  ((val1)>(val2)?(val2):(val1))
 /*
@@ -253,7 +266,7 @@ isize   mtGetModIndex( void );
 *   form of the value.
 *
 *   Parameters:
-*     - val     : value to find the absolute value of
+*     - val         : value to find the absolute value of
 */
 #define ABS(val)                         ((val)>=0?(val):-(val))
 /*
@@ -261,7 +274,7 @@ isize   mtGetModIndex( void );
 *     Get the highest absolute value of two values
 *
 *   Parameters:
-*     - val#    : values to find the absolute maximum of
+*     - val#        : values to find the absolute maximum of
 */
 #define MAX_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val1):(val2))
 /*
@@ -269,7 +282,7 @@ isize   mtGetModIndex( void );
 *     Get the lowest absolute value of two values
 *
 *   Parameters:
-*     - val#    : values to find the absolute minimum of
+*     - val#        : values to find the absolute minimum of
 */
 #define MIN_ABS(val1, val2)              ((ABS(val1))>(ABS(val2))?(val2):(val1))
 
@@ -282,8 +295,8 @@ isize   mtGetModIndex( void );
 *     - #define SomeData    DATA_REF(int*, 0x12345678)
 *
 *   Parameters:
-*     - type    : type of the data, can be a pointer type
-*     - addr    : constant address of the data
+*     - type        : type of the data, can be a pointer type
+*     - addr        : constant address of the data
 */
 #define DATA_REF(type, addr)                (*(type*const)(addr))
 /*
@@ -294,9 +307,9 @@ isize   mtGetModIndex( void );
 *     - #define SomeArray   DATA_ARY(double, 0x12345678, [23][2])
 *
 *   Parameters:
-*     - type    : type of the data the array contains
-*     - addr    : constant address of the start of the array
-*     - nb      : number of elements in the array, can be multi-dimensional
+*     - type        : type of the data the array contains
+*     - addr        : constant address of the start of the array
+*     - nb          : number of elements in the array, can be multi-dimensional
 */
 #define DATA_ARY(type, addr, nb)            (*(type(*const)nb)(addr))
 
@@ -337,6 +350,16 @@ isize   mtGetModIndex( void );
 *     - addr        : constant address of the pointer reference
 */
 #define FUNC_REF(type, meth, args, addr)    (*(type(meth**const)args)(addr))
+
+/****** Old Defs ********************************************************************************/
+/*
+*   Description:
+*     Gets the number of elements in a defined array variable.
+*
+*   Parameters:
+*     - ary         : array variable
+*/
+#define ARYLEN(ary)         (sizeof(ary)/sizeof(0[ary]))
 
 EXTERN_END
 

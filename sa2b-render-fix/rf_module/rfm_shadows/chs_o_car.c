@@ -148,7 +148,7 @@ static mt_hookinfo ObjectCECarHookInfo[1];
 void
 ObjectCECarHook(task* tp)
 {
-    FuncHookCall( ObjectCECarHookInfo, ObjectCECar(tp) );
+    mtHookInfoCall( ObjectCECarHookInfo, ObjectCECar(tp) );
 
     /** If successfully loaded **/
     if (tp->mwp)
@@ -218,7 +218,7 @@ static mt_hookinfo ObjectMSCar2HookInfo[1];
 void
 ObjectMSCar2Hook(task* tp)
 {
-    FuncHookCall( ObjectMSCar2HookInfo, ObjectMSCar2(tp) );
+    mtHookInfoCall( ObjectMSCar2HookInfo, ObjectMSCar2(tp) );
 
     /** If successfully loaded **/
     if (tp->mwp)
@@ -243,13 +243,13 @@ void
 CHS_CarInit(void)
 {
     /** City Escape **/
-    FuncHook(ObjectCECarHookInfo, ObjectCECar, ObjectCECarHook);
+    mtHookFunc(ObjectCECarHookInfo, ObjectCECar, ObjectCECarHook);
 
     WriteJump(0x005E2930, ObjectCECarCrashDisplayerMod);
     KillCall(0x005E150F); // SetStencilInfo
 
     /** Mission Street **/
-    FuncHook(ObjectMSCar2HookInfo, ObjectMSCar2, ObjectMSCar2Hook);
+    mtHookFunc(ObjectMSCar2HookInfo, ObjectMSCar2, ObjectMSCar2Hook);
 
     WriteJump(0x005B75C0, ObjectMSCarCrashDisplayerMod);
     KillCall(0x005B6148); // SetStencilInfo

@@ -155,19 +155,6 @@ void    mtHookFuncCall( mt_hookinfo* RESTRICT pHookInfo, void* RESTRICT pHookAdd
                                             call;                         \
                                             mtHookInfoSwitch(hinfo,  ON)
 
-/************************************************************************************************/
-/*
-*   Depricated Macros
-*/
-/****** Create Hook *****************************************************************************/
-#define FuncHook(info, pHookAddr, pFunc)              mtHookFunction(info, (void*)(pHookAddr), (const void*)(pFunc))
-#define CallHook(info, pHookAddr, pFunc)              mtHookFuncCall(info, (void*)(pHookAddr), (const void*)(pFunc))
-
-/****** Call Original ***************************************************************************/
-#define FuncHookCall(info, code)                mtHookInfoSwitch(info, OFF); \
-                                                code; \
-                                                mtHookInfoSwitch(info,  ON)
-
 EXTERN_END
 
 #endif/*H_SAMT_FUNCHOOK*/

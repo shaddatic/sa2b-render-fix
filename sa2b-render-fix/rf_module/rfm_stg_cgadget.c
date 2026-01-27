@@ -17,7 +17,7 @@ static mt_hookinfo BgDispCGHookInfo[1];
 static void
 BgDispCGHook(task* tp)
 {
-    FuncHookCall( BgDispCGHookInfo, BgDispCG(tp) );
+    mtHookInfoCall( BgDispCGHookInfo, BgDispCG(tp) );
 
     njFogEnable();
 }
@@ -25,5 +25,5 @@ BgDispCGHook(task* tp)
 void
 RFM_CrazyGadgetInit(void)
 {
-     FuncHook(BgDispCGHookInfo, BgDispCG, BgDispCGHook);
+    mtHookFunc(BgDispCGHookInfo, BgDispCG, BgDispCGHook);
 }

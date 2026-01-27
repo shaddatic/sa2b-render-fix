@@ -144,7 +144,7 @@ DisplayStageMapHook(float scroll, float fade)
     _nj_constant_material_.g = fade;
     _nj_constant_material_.b = fade;
 
-    FuncHookCall( HookInfoDisplayStageMap, DisplayStageMap(scroll, fade)) ;
+    mtHookInfoCall( HookInfoDisplayStageMap, DisplayStageMap(scroll, fade)) ;
 
     ResetConstantMaterial();
 }
@@ -163,7 +163,7 @@ screenEffectDispHook(task* tp)
     if (flt_1A3D660 != 0.0f)
         SetConstMatAndBackupConstAttr(flt_1A3D660);
 
-    FuncHookCall( HookInfoScreenEffectDisp, screenEffectDisp(tp) );
+    mtHookInfoCall( HookInfoScreenEffectDisp, screenEffectDisp(tp) );
 
     if (flt_1A3D660 != 0.0f)
         RestoreConstMatAndConstAttr();
@@ -245,8 +245,8 @@ RFM_MenusInit(void)
     // menu fading fix
     WriteNOP(0x0066FA08, 0x0066FA0E); // NOP erronious if check
 
-    FuncHook(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
-    FuncHook(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
+    mtHookFunc(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
+    mtHookFunc(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
 
     WriteCall(0x00675EA8, __SOCDrawSpriteWithConstMat); // Stage Map
     WriteCall(0x00675F58, __SOCDrawSpriteWithConstMat); // ^

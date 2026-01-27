@@ -92,7 +92,7 @@ static mt_hookinfo AL_ConstructorHookInfo[1];
 static void
 AL_ConstructorHook(task* tp)
 {
-    FuncHookCall( AL_ConstructorHookInfo, AL_Constructor(tp) );
+    mtHookInfoCall( AL_ConstructorHookInfo, AL_Constructor(tp) );
 
     rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
 }
@@ -101,7 +101,7 @@ static mt_hookinfo AL_DestructorHookInfo[1];
 static void
 AL_DestructorHook(task* tp)
 {
-    FuncHookCall( AL_DestructorHookInfo, AL_Destructor(tp) );
+    mtHookInfoCall( AL_DestructorHookInfo, AL_Destructor(tp) );
 
     rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
 }
@@ -196,6 +196,6 @@ RFM_ShadowsInit(void)
     rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
 
     /** Shadow opacity function hooks **/
-    FuncHook(AL_ConstructorHookInfo, AL_Constructor, AL_ConstructorHook);
-    FuncHook(AL_DestructorHookInfo , AL_Destructor , AL_DestructorHook);
+    mtHookFunc(AL_ConstructorHookInfo, AL_Constructor, AL_ConstructorHook);
+    mtHookFunc(AL_DestructorHookInfo , AL_Destructor , AL_DestructorHook);
 }

@@ -55,9 +55,7 @@ static mt_hookinfo HookInfoGolemUdreel[1];
 static void
 ObjectGolemUdreelHook(task* tp)
 {
-    mtHookInfoSwitch(HookInfoGolemUdreel, OFF);
-    ObjectGolemUdreel(tp);
-    mtHookInfoSwitch(HookInfoGolemUdreel, ON);
+    mtHookInfoCall(HookInfoGolemUdreel, ObjectGolemUdreel(tp));
 
     if (tp->disp)
         tp->disp_shad = ObjectGolemUdreelDisplayerMod;
@@ -69,7 +67,7 @@ CHS_UdreelInit(void)
     WriteJump(0x006E6320, ObjectUdreelDisplayerMod);
     SwitchDisplayer(0x006E56A2, DISP_SHAD);
 
-    FuncHook(HookInfoGolemUdreel, ObjectGolemUdreel, ObjectGolemUdreelHook);
+    mtHookFunc(HookInfoGolemUdreel, ObjectGolemUdreel, ObjectGolemUdreelHook);
     KillCall(0x004BC47C);
     KillCall(0x004BC6FE);
 }

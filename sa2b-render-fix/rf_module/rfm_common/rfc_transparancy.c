@@ -51,7 +51,7 @@ ObjectMSCarDispHook(task* tp)
 
     _gj_render_mode_ = GJD_DRAW_SOLID | GJD_DRAW_TRANS;
 
-    FuncHookCall( ObjectMSCarDispHookInfo, ObjectMSCarDisp(tp) );
+    mtHookInfoCall( ObjectMSCarDispHookInfo, ObjectMSCarDisp(tp) );
 
     _gj_render_mode_ = backup_rmode;
 }
@@ -141,7 +141,7 @@ RFC_TransparancyInit(void)
         SwitchDisplayer(0x0063D70F, DISP_DELY); // Dry Lagoon BgDisp
 
         SwitchDisplayer(0x005B4944, DISP_SORT); // Mission Street Cars
-        FuncHook(ObjectMSCarDispHookInfo, ObjectMSCarDisp, ObjectMSCarDispHook);
+        mtHookFunc(ObjectMSCarDispHookInfo, ObjectMSCarDisp, ObjectMSCarDispHook);
 
         SwitchDisplayer(0x0070397F, DISP_SORT); // PC Chained Hoops
     }
