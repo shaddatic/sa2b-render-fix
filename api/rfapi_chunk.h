@@ -378,24 +378,6 @@ typedef struct
     *     - callback    : model callback function
     */
     void (*CnkTransformShapeMotionLink)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*callback)(NJS_CNK_MODEL*) );
-
-    /**** Chunk Big Endian **********************************/
-    /*
-    *   Description:
-    *     Transform a Chunk object with a motion and big endian shape motion.
-    * 
-    *   Notes:
-    *     - Only the shape vertex data is big endian.
-    */
-    void (*CnkTransformShapeMotionBE)( NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS_MOTION* shape, Float frame, Float sframe, Sint32(*callback)(NJS_CNK_MODEL*) );
-    /*
-    *   Description:
-    *     Transform a Chunk object with a motion link and big endian shape motion link.
-    * 
-    *   Notes:
-    *     - Only the shape vertex data is big endian.
-    */
-    void (*CnkTransformShapeMotionLinkBE)( NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate, Sint32(*callback)(NJS_CNK_MODEL*) );
 }
 RFAPI_CHUNK;
 
