@@ -69,11 +69,11 @@ Chaos0DispHook(task* tp)
 
     RFRS_SetTransMode(RFRS_TRANSMD_AUTO_ATEST);
 
-    const KNUCKLESWK* knwp = GET_KNUCKLESWK(tp);
+    const knuckleswk* knwp = GET_KNUCKLESWK(tp);
 
     if (Chaos0TexAnim)
     {
-        ChaosWaterAnimId = (knwp->chaos0_texid >> 1) + CHAOS0_WWA_TEXID;
+        ChaosWaterAnimId = (knwp->texid >> 1) + CHAOS0_WWA_TEXID;
 
         rjCnkSetTextureCallback( ChaosTextureCallback );
     }
@@ -89,9 +89,9 @@ Chaos0DispHook(task* tp)
 static void
 Chaos0DelyMotionCallback(NJS_CNK_OBJECT* object)
 {
-    if ( object == CHAR_OBJECTS[525].pObject->child->child->child->sibling )
+    if ( object == plobjects[525].obj->child->child->child->sibling )
     {
-        if ( playertwp[KnucklesWorkPointer->pw.pl_num]->mode != 1 )
+        if ( playertwp[KnucklesWorkPointer->pw.player]->mode != 1 )
             return;
 
         njRotateX(NULL, KnucklesWorkPointer->pw.lean);
@@ -102,13 +102,13 @@ static mt_hookinfo Chaos0DispDelyHookInfo[1];
 static void
 Chaos0DispDelyHook(task* tp)
 {
-    const KNUCKLESWK* knwp = GET_KNUCKLESWK(tp);
+    const knuckleswk* knwp = GET_KNUCKLESWK(tp);
 
     KnucklesWorkPointer = GET_KNUCKLESWK(tp);
 
     if (Chaos0TexAnim)
     {
-        ChaosWaterAnimId = (knwp->chaos0_texid >> 1) + CHAOS0_WWA_TEXID;
+        ChaosWaterAnimId = (knwp->texid >> 1) + CHAOS0_WWA_TEXID;
 
         rjCnkSetTextureCallback( ChaosTextureCallback );
     }

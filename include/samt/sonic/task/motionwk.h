@@ -2,39 +2,44 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/task/motionwk.h'
 *
 *   Description:
-*       Definitions and macros for the MOTIONWK struct type.
+*     Task 'Motion Work'.
 */
-#ifndef _SA2B_TASK_MOTIONWK_H_
-#define _SA2B_TASK_MOTIONWK_H_
+#ifndef H_SA2B_TASK_MOTIONWK
+#define H_SA2B_TASK_MOTIONWK
 
-/************************/
-/*  Includes            */
-/************************/
-/** Ninja **/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-/************************/
-/*  Structures          */
-/************************/
-#define TO_MOTIONWK(_p)     ((motionwk*)(_p))
+EXTERN_START
 
-#define MOTIONWK            \
-struct {                    \
-    union {                 \
-        int8_t    b[4];     \
-        int16_t   w[2];     \
-        int32_t   l;        \
-        f32       f;        \
-        void* ptr;          \
-    } work;                 \
-    NJS_POINT3 spd;         \
-    NJS_POINT3 acc;         \
-    Angle3     ang_aim;     \
-    Angle3     ang_spd;     \
-    f32        force;       \
-    f32        accel;       \
-    f32        frict;       \
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Work Macro ******************************************************************************/
+#define MOTIONWK struct { \
+    NJS_VECTOR  spd;                /* speed                                                    */ \
+    NJS_VECTOR  acc;                /* acceleration                                             */ \
+    NJS_ANGLE3  ang_aim;            /* angle aim                                                */ \
+    NJS_ANGLE3  ang_spd;            /* angle speed                                              */ \
+    f32         force;              /* force                                                    */ \
+    f32         accel;              /* forward acceleration                                     */ \
+    f32         frict;              /* friction                                                 */ \
+                          \
+    union {               \
+        i8      b[4];               /* bytes                                                    */ \
+        i16     w[2];               /* words                                                    */ \
+        i32     l;                  /* long                                                     */ \
+        f32     f;                  /* real                                                     */ \
+        void*   ptr;                /* pointer                                                  */ \
+    }                     \
+    work;                           /* inline work                                              */ \
 }
+
+/****** Work ************************************************************************************/
+#define TO_MOTIONWK(p)              ((motionwk*)(p))
 
 typedef struct motionwk
 {
@@ -42,4 +47,6 @@ typedef struct motionwk
 }
 motionwk;
 
-#endif/*_SA2B_TASK_MOTIONWK_H_*/
+EXTERN_END
+
+#endif/*H_SA2B_TASK_MOTIONWK*/

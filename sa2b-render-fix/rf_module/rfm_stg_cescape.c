@@ -48,7 +48,7 @@ CreateNewLightSW(task* tp, float posX, float posY, float posZ)
         .z = 0.0f
     };
 
-    task* ctp = CreateChildTask(TELE_TWK, ObjectLightSW, tp);
+    task* ctp = CreateChildTask(IM_TWK, ObjectLightSW, tp);
 
     njPushMatrixEx();
 

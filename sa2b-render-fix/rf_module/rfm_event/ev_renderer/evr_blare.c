@@ -189,7 +189,7 @@ blareDisp(task* tp)
 static void
 EV_BlareCreate(const EV_BLARE_PARAM* pBlareParam)
 {
-    task* tp = CreateElementalTask(TELE_NUL, LEV_2, blareExec, "blareExec");
+    task* tp = CreateElementalTask(IM_NONE, LEV_2, blareExec, "blareExec");
 
     tp->disp_dely = blareDisp;
 

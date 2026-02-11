@@ -2,36 +2,58 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/figure/shadow.h'
 *
 *   ~~ Under Construction ~~
-*   Contains functions, structs, and data for Shadow
+*
+*   Description:
+*     Shadow the Hedgehog player.
 */
-#ifndef _SA2B_FIGURE_SHADOW_H_
-#define _SA2B_FIGURE_SHADOW_H_
+#ifndef H_SA2B_FIGURE_SHADOW
+#define H_SA2B_FIGURE_SHADOW
 
-/************************/
-/*  Includes            */
-/************************/
-#include <samt/sonic/figure/sonic.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-/************************/
-/*  Data                */
-/************************/
-#define mtx_ShadowFootR          DATA_REF(NJS_MATRIX, 0x01A51894)
+/****** Game ************************************************************************************/
+#include <samt/sonic/player.h>      /* core player                                              */
+#include <samt/sonic/reform.h>      /* reform object                                            */
 
-/************************/
-/*  Functions           */
-/************************/
+/****** Figure **********************************************************************************/
+#include <samt/sonic/figure/sonic.h> /* sonic                                                   */
+
 EXTERN_START
-void    ShadowMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+
+/********************************/
+/*  Variables                   */
+/********************************/
+/****** Matrix **********************************************************************************/
+#define mtx_ShadowFootR             DATA_REF(NJS_MATRIX, 0x01A51894)
+
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Motion Callback *************************************************************************/
+/*
+*   Description:
+*     Shadow's main motion callback function.
+*
+*   Parameters:
+*     - cnkobj      : motion object
+*/
+void    ShadowMotionCallBack( NJS_CNK_OBJECT* cnkobj );
+
+#ifdef SAMT_INCL_FUNCPTRS
+
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define ShadowMotionCallBack_p              FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F5E0)
+
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 EXTERN_END
 
-/************************/
-/*  Function Ptrs       */
-/************************/
-#ifdef SAMT_INCL_FUNCPTRS
-/** Function ptrs **/
-#   define ShadowMotionCallBack_p       FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F5E0)
+#endif/*H_SA2B_FIGURE_SHADOW*/
 
-#endif /* SAMT_INCL_FUNCPTRS */
-
-#endif /* _SA2B_FIGURE_SHADOW_H_ */

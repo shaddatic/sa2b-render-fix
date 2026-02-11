@@ -2,75 +2,99 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/figure/knuckles.h'
 *
 *   ~~ Under Construction ~~
-*   Contains functions, structs, and data for Knuckles
+*
+*   Description:
+*     Knuckles the Echidna player, and base header for treasure hunters.
 */
-#ifndef _SA2B_FIGURE_KNUCKLES_H_
-#define _SA2B_FIGURE_KNUCKLES_H_
+#ifndef H_SA2B_FIGURE_KNUCKLES
+#define H_SA2B_FIGURE_KNUCKLES
 
-/************************/
-/*  Includes            */
-/************************/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-#include <samt/sonic/player.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/player.h>      /* core player                                              */
+#include <samt/sonic/reform.h>      /* reform object                                            */
 
-/************************/
-/*  Structures          */
-/************************/
-#define GET_KNUCKLESWK(_tp)     ((KNUCKLESWK*)tp->awp)
+EXTERN_START
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Player Work *****************************************************************************/
+#define GET_KNUCKLESWK(_tp)         ((knuckleswk*)tp->awp)
 
 typedef struct knuckleswk
 {
-    playerwk pw;
+    playerwk        pw;             /* player work                                          */
 
-    char field_308[76];
-    signed __int16 someAng2;
-    signed __int16 someAng0;
-    signed __int16 someAng1;
-    __int16 chaos0_texid;
-    int someAnimationIndex;
-    char field_3B0[4];
-    float someFlt;
-    Angle someHeadAng;
-    char field_3C0[36];
-    PLAYER_OBJECT* pObjectData0;
-    PLAYER_OBJECT* pObjectData1;
-    PLAYER_OBJECT* pObjectData2;
-    NJS_TEXLIST* TextureList;
-    NJS_TEXLIST* EffectTextureList;
-    PL_OBJECT* ModelList;
-    PL_MOTION* MotionList;
-    NJS_MOTION_LINK pMotionLink;
-    char field_410[16];
+    i8              walltimer;      // increments when scraping against walls when gliding
+    i8              colsomething;   // changes when punching into a colision
+    i8              field_35E[70];
+    i16             timer;          // increments with a player flag set
+    i16             jumptimer;      // increments while holding jump
+    i16             someAng2;
+    i16             someAng0;
+    i16             someAng1;
+    i16             texid;          // texture id for chaos0
+    i32             wing_actnum;    // wing action number for something
+    i8              field_3B4[4];
+    f32             wing_frame;     // rouge wings shape frame
+    Angle           sunglass_ang;   // sunglass/treasurescope angle
+    NJS_POINT3      somePos;
+    NJS_POINT3      rootpos;
+    NJS_POINT3      setpos;
+    reformwk*       rw_head;        // head reform
+    reformwk*       rw_body;        // rouge's body
+    reformwk*       rw_back;        // rouge's back, battle only
+    NJS_TEXLIST*    tlist;          /* texlist                                              */
+    NJS_TEXLIST*    tlist_efftex;   /* texlist, efftex                                      */
+    playerobj*      freeobj;        /* free object list                                     */
+    playermot*      freemtn;        /* free motion list                                     */
+    NJS_MOTION_LINK slink;          // rouge wings shape link
+    NJS_MOTION_LINK mlink;          // rouge wings motion link
 }
-KNUCKLESWK;
+knuckleswk;
 
-/************************/
-/*  Data                */
-/************************/
-#define KnucklesWorkPointer     DATA_REF(KNUCKLESWK*, 0x01A51C88)
+/********************************/
+/*  Variables                   */
+/********************************/
+/****** Player Work *****************************************************************************/
+#define KnucklesWorkPointer         DATA_REF(knuckleswk*, 0x01A51C88)
 
-#define mtx_KnucklesBase        DATA_REF(NJS_MATRIX , 0x01A51BEC)
-#define mtx_KnucklesHead        DATA_REF(NJS_MATRIX , 0x01A51CBC)
-#define mtx_KnucklesBody        DATA_REF(NJS_MATRIX , 0x01A51B3C)
-#define mtx_KnucklesHandL       DATA_REF(NJS_MATRIX , 0x01A51C58)
-#define mtx_KnucklesHandR       DATA_REF(NJS_MATRIX , 0x01A51C8C)
+/****** Matrix **********************************************************************************/
+#define mtx_KnucklesBase            DATA_REF(NJS_MATRIX, 0x01A51BEC)
+#define mtx_KnucklesHead            DATA_REF(NJS_MATRIX, 0x01A51CBC)
+#define mtx_KnucklesBody            DATA_REF(NJS_MATRIX, 0x01A51B3C)
+#define mtx_KnucklesHandL           DATA_REF(NJS_MATRIX, 0x01A51C58)
+#define mtx_KnucklesHandR           DATA_REF(NJS_MATRIX, 0x01A51C8C)
 
-/************************/
-/*  Functions           */
-/************************/
-EXTERN_START
-void    KnucklesMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Motion Callback *************************************************************************/
+/*
+*   Description:
+*     Knuckles' main motion callback function.
+*
+*   Parameters:
+*     - cnkobj      : motion object
+*/
+void    KnucklesMotionCallBack( NJS_CNK_OBJECT* cnkobj );
+
+#ifdef SAMT_INCL_FUNCPTRS
+
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define KnucklesMotionCallBack_p            FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0072EAA0)
+
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 EXTERN_END
 
-/************************/
-/*  Function Ptrs       */
-/************************/
-#ifdef SAMT_INCL_FUNCPTRS
-/** Function ptrs **/
-#   define KnucklesMotionCallBack_p     FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0072EAA0)
-
-#endif /* SAMT_INCL_FUNCPTRS */
-
-#endif /* _SA2B_FIGURE_KNUCKLES_H_ */
+#endif/*H_SA2B_FIGURE_KNUCKLES*/

@@ -169,7 +169,7 @@ CNK_Object3SpringDisp(const task* tp)
 
     njCnkDirectDrawModel(p_base->model);
 
-    const f32 trans = njAbs(mwp->spd.x);
+    const f32 trans = njAbs(mwp->spd.y);
 
     njTranslate(NULL, 0.f, trans, trans);
 

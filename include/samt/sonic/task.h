@@ -1,137 +1,189 @@
 /*
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/task.h'
 *
-*   Contains defines, structs, functions, and enums related to the Task system
+*   Description:
+*     SA2's game object system.
 */
-#ifndef _SA2B_TASK_H_
-#define _SA2B_TASK_H_
+#ifndef H_SA2B_TASK
+#define H_SA2B_TASK
 
-/************************/
-/*  Includes            */
-/************************/
-/** Ninja **/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-/** Task Work **/
-#include <samt/sonic/task/taskwk.h>
-#include <samt/sonic/task/motionwk.h>
-#include <samt/sonic/task/forcewk.h>
-#include <samt/sonic/task/anywk.h>
+/****** Task ************************************************************************************/
+#include <samt/sonic/task/taskwk.h>   /* task work                                              */
+#include <samt/sonic/task/motionwk.h> /* motion work                                            */
+#include <samt/sonic/task/forcewk.h>  /* motion work                                            */
+#include <samt/sonic/task/anywk.h>    /* any work                                               */
+#include <samt/sonic/task/taskexec.h> /* task executor                                          */
 
-#include <samt/sonic/task/taskexec.h>
+EXTERN_START
 
-/************************/
-/*  Abstract Types      */
-/************************/
-typedef struct _OBJ_CONDITION   OBJ_CONDITION;
+/********************************/
+/*  Opaque Types                */
+/********************************/
+/****** Set Condition ***************************************************************************/
+typedef struct _OBJ_CONDITION       OBJ_CONDITION;
 
-/************************/
-/*  Enums               */
-/************************/
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Task Flags ******************************************************************************/
+#define IM_NONE                     (0)     /* no work                                          */
+#define IM_MWK                      (1<<0)  /* motion work                                      */
+#define IM_TWK                      (1<<1)  /* task work                                        */
+#define IM_FWK                      (1<<2)  /* force work                                       */
+#define IM_AWK                      (1<<3)  /* any work                                         */
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Task Level ******************************************************************************/
 typedef enum
 {
-    LEV_0,
-    LEV_1,
-    LEV_2,
-    LEV_3,
-    LEV_4,
-    LEV_5,
-    LEV_6,
-    LEV_C,
-    LEV_M
+    LEV_0,                          /* level 0, high priority                                   */
+    LEV_1,                          /* level 1, high priority                                   */
+    LEV_2,                          /* level 2                                                  */
+    LEV_3,                          /* level 3                                                  */
+    LEV_4,                          /* level 4                                                  */
+    LEV_5,                          /* level 5                                                  */
+    LEV_6,                          /* level 6                                                  */
+    LEV_C,                          /* create only, task not added to btp list                  */
+
+    LEV_M                           /* task level max                                           */
 }
 tasklevel;
 
-/************************/
-/*  Structures          */
-/************************/
+anywk;
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Task ************************************************************************************/
 typedef struct task
 {
-    struct task*    next;       /* Next Task                        */
-    struct task*    last;       /* Last Task                        */
-    struct task*    ptp;        /* Parent Task                      */
-    struct task*    ctp;        /* Child Task                       */
+    struct task*    next;           /* next                                                     */
+    struct task*    last;           /* last                                                     */
+    struct task*    ptp;            /* parent                                                   */
+    struct task*    ctp;            /* child                                                    */
 
-    /** Task Executors **/
-    task_exec       exec;       /* Executor                         */
-    task_exec       disp;       /* Displayer            (Drawn 1st) */
-    task_exec       dest;       /* Destructor                       */
-    task_exec       disp_dely;  /* Delayed Displayer    (Drawn 3rd) */
-    task_exec       disp_sort;  /* Sorted Displayer     (Drawn 2nd) */
-    task_exec       disp_late;  /* Late Displayer       (Drawn 4th) */
-    task_exec       disp_last;  /* Last Displayer       (Drawn 5th) */
-    task_exec       disp_shad;  /* Shadow Displayer                 */
+    task_exec       exec;           /* executor                                                 */
+    task_exec       disp;           /* displayer                                          [1st] */
+    task_exec       dest;           /* destructor                                               */
+    task_exec       disp_dely;      /* delayed displayer                                  [3rd] */
+    task_exec       disp_sort;      /* sorted displayer                                   [2nd] */
+    task_exec       disp_late;      /* late displayer                                     [4th] */
+    task_exec       disp_last;      /* last displayer                                     [5th] */
+    task_exec       disp_shad;      /* shadow displayer                                         */
 
-    /** Set Pointers **/
-    OBJ_CONDITION*  ocp;        /* Set Data                         */
+    OBJ_CONDITION*  ocp;            /* object/set data                                          */
 
-    /** Task Work Pointers **/
-    struct taskwk*   twp;       /* Task Work                        */
-    struct motionwk* mwp;       /* Motion Work                      */
-    struct forcewk*  fwp;       /* Force Work          (Array of 2) */
-    struct anywk*    awp;       /* Any Work                         */
+    struct taskwk*   twp;           /* task work                                                */
+    struct motionwk* mwp;           /* motion work                                              */
+    struct forcewk*  fwp;           /* force work                                  [array of 2] */
+    struct anywk*    awp;           /* any work                                                 */
 
-    char*            name;      /* Task Name                        */
-    u32                id;      /* Task ID    (unused & unfinished) */
+    char*            name;          /* name                                                     */
+    u32              id;            /* id                                 [unused & unfinished] */
 
     union {
-        i8      b[4];
-        i16     w[2];
-        i32     l;
-        f32     f;
-        void*   ptr;
-    } thp;                      /* Needs more research              */
+        i8      b[4];               /* bytes                                                    */
+        i16     w[2];               /* words                                                    */
+        i32     l;                  /* long                                                     */
+        f32     f;                  /* real                                                     */
+        void*   ptr;                /* pointer                                                  */
+    }
+    work;                           /* inline work                                              */
 }
 task;
 
-/************************/
-/*  Data                */
-/************************/
-#define btp                 DATA_ARY(task*, 0x01A5A254, [8]) /* Task lists */
+/********************************/
+/*  Variables                   */
+/********************************/
+/****** Task List *******************************************************************************/
+#define btp                         DATA_ARY(task*    , 0x01A5A254, [LEV_M])
 
-/************************/
-/*  Task Element Flags  */
-/************************/
-#define TELE_NUL            (0)     /* No Elements                  */
-#define TELE_MWK            (1<<0)  /* Motion Work                  */
-#define TELE_TWK            (1<<1)  /* Task Work                    */
-#define TELE_FWK            (1<<2)  /* Force Work                   */
-#define TELE_AWK            (1<<3)  /* Any Work                     */
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Create Task *****************************************************************************/
+/*
+*   Description:
+*     Create a new task.
+*
+*   Notes:
+*     - 'Elemental' means 'foundational', as in 'not a child task'.
+*
+*   Parameters:
+*     - im          : init mask                                                          [IM_#]
+*     - level       : task level
+*     - exec        : task executor                                               [opt:nullptr]
+*     - name        : task name
+*/
+task*   CreateElementalTask( u16 im, tasklevel level, task_exec exec, const c7* name );
+/*
+*   Description:
+*     Create a new task as a child of another task.
+*
+*   Parameters:
+*     - im          : init mask                                                          [IM_#]
+*     - exec        : task executor
+*     - tp          : task parent
+*/
+task*   CreateChildTask( u16 im, task_exec exec, task* tp );
 
-/************************/
-/*  Functions           */
-/************************/
-EXTERN_START
-/****** Create Task *****************************************************************/
-/** Create new Task **/
-task*   CreateElementalTask(u8 im, tasklevel level, task_exec exec, const char* name);
-/** Create new task as a child of another Task **/
-task*   CreateChildTask(int16_t im, task_exec exec, task* tp);
+/****** Free Task *******************************************************************************/
+/*
+*   Description:
+*     Queue a task for freeing.
+*
+*   Notes:
+*     - Members 'ocp', 'twp', 'mwp', 'fwp', & 'awp' are freed automatically.
+*
+*   Parameters:
+*     - tp          : task
+*/
+void    FreeTask( task* tp );
+/*
+*   Description:
+*     Queue all tasks for freeing, except 'LEV_0' and 'LEV_1'.
+*/
+void    PurgeTask( void );
+/*
+*   Description:
+*     Queue all tasks for freeing.
+*/
+void    GenocideTask( void );
 
-/****** Free Task *******************************************************************/
-/** Queue Task for freeing **/
-void    FreeTask(task* tp);
+/****** Destroy Task ****************************************************************************/
+/*
+*   Description:
+*     Frees all task data, and task pointers.
+*
+*   Parameters:
+*     - tp          : task
+*/
+void    DestroyTask( task* tp );
 
-/****** Task Exec *******************************************************************/
-/** Generic Task_EXEC **/
-void    no_op(task* tp);
-
-/****** Task Destructor Exec ********************************************************/
-void    DestroyTask(task* tp);
-
-EXTERN_END
-
-/************************/
-/*  Function Ptrs       */
-/************************/
 #ifdef SAMT_INCL_FUNCPTRS
-/** Function ptr **/
-#   define CreateChildTask_p        FUNC_PTR(task*, __cdecl, (i16, task_exec, task*), 0x00470C00)
-#   define DestroyTask_p            FUNC_PTR(void , __cdecl, (task*)                , 0x0046F720)
 
-/** User-Function ptr **/
-#   define CreateElementalTask_p    ((void*)0x0046F610);
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define CreateChildTask_p                   FUNC_PTR(task*, __cdecl, (u16, task_exec, task*), 0x00470C00)
+#define PurgeTask_p                         FUNC_PTR(void , __cdecl, (void)                 , 0x00470AE0)
+#define GenocideTask_p                      FUNC_PTR(void , __cdecl, (void)                 , 0x00470B10)
+#define DestroyTask_p                       FUNC_PTR(void , __cdecl, (task*)                , 0x0046F720)
+
+/****** Usercall Pointers ***********************************************************************/
+#define CreateElementalTask_p               ((void*)0x0046F610)
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif/*_SA2B_TASK_H_*/
+EXTERN_END
+
+#endif/*H_SA2B_TASK*/

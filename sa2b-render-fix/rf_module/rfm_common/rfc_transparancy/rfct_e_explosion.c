@@ -15,7 +15,7 @@
 static task*
 EnemyExplosionCreateTask(void)
 {
-    task* tp = CreateElementalTask(TELE_TWK, LEV_3, EnemyExplosionExecutor, "exec");
+    task* tp = CreateElementalTask(IM_TWK, LEV_3, EnemyExplosionExecutor, "exec");
 
     tp->awp = syCalloc(1, 80);
 

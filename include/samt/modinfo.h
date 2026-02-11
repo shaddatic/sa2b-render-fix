@@ -15,8 +15,8 @@ EXTERN_START
 /********************************/
 /*  Opaque Types                */
 /********************************/
-/****** DLL Handle ******************************************************************************/
-typedef struct mt_dllhandle             mt_dllhandle; /* windows hmodule                        */
+/****** Lib Handle ******************************************************************************/
+typedef struct mt_dlib              mt_dlib; /* library handle                                  */
 
 /****** Config **********************************************************************************/
 typedef struct mt_config                mt_config; /* config file                               */
@@ -44,7 +44,7 @@ typedef struct ml_modinfo
     const c8*            puPath;        /* mod path                                             */
     const c8*            puID;          /* mod ID, from mod.ini                                 */
 
-    const mt_dllhandle*      pDll;      /* pointer to DLL handle                                */
+    const mt_dlib*      pDlib;          /* library handle                                       */
 
     bool        bSaveRedirectMain;      /* mod has redirected the main save path                */
     bool        bSaveRedirectChao;      /* mod has redirected the chao save path                */
@@ -108,7 +108,7 @@ const ml_modinfo* miGetInfoByIndex( usize index );
 *   Returns:
 *     Mod info structure; or 'nullptr' if the dll is not linked to a mod.
 */
-const ml_modinfo* miGetInfoByDll( const mt_dllhandle* pDll );
+const ml_modinfo* miGetInfoByDll( const mt_dlib* pDlib );
 /*
 *   Description:
 *     Get a mod info via its DLL file name.
@@ -119,7 +119,7 @@ const ml_modinfo* miGetInfoByDll( const mt_dllhandle* pDll );
 *   Returns:
 *     Mod info structure; or 'nullptr' if the mod is not active.
 */
-const ml_modinfo* miGetInfoByDllName( const c8* puDllName );
+const ml_modinfo* miGetInfoByDllName( const c8* puDlib );
 /*
 *   Description:
 *     Get a mod info via its name.

@@ -327,7 +327,7 @@ isize   mtGetModIndex( void );
 *
 *   Parameters:
 *     - type        : return type of the function
-*     - meth        : calling method of the function                      (optional)
+*     - meth        : calling method of the function                              [opt: blank]
 *     - args        : arguments to the function
 *     - addr        : constant address of the start of the function
 */
@@ -345,13 +345,13 @@ isize   mtGetModIndex( void );
 *
 *   Parameters:
 *     - type        : return type of the function
-*     - meth        : calling method of the function                      (optional)
+*     - meth        : calling method of the function                              [opt: blank]
 *     - args        : arguments to the function
 *     - addr        : constant address of the pointer reference
 */
 #define FUNC_REF(type, meth, args, addr)    (*(type(meth**const)args)(addr))
 
-/****** Old Defs ********************************************************************************/
+/****** Depricated ******************************************************************************/
 /*
 *   Description:
 *     Gets the number of elements in a defined array variable.

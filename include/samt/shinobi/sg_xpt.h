@@ -9,28 +9,32 @@
 
 EXTERN_START
 
-/************************/
-/*  Typedefs            */
-/************************/
-/****** Integer *********************************************************************/
-typedef unsigned __int8         Uint8;  /* unsigned 1 byte integer                  */
-typedef signed   __int8         Sint8;  /* signed 1 byte integer                    */
-typedef unsigned __int16        Uint16; /* unsigned 2 byte integer                  */
-typedef signed   __int16        Sint16; /* signed 2 byte integer                    */
-typedef unsigned __int32        Uint32; /* unsigned 4 byte integer                  */
-typedef signed   __int32        Sint32; /* signed 4 byte integer                    */
+/********************************/
+/*  Types                       */
+/********************************/
+/****** Integer *********************************************************************************/
+typedef u8                          Uint8;  /* unsigned 1 byte integer                          */
+typedef i8                          Sint8;  /* signed 1 byte integer                            */
+typedef u16                         Uint16; /* unsigned 2 byte integer                          */
+typedef i16                         Sint16; /* signed 2 byte integer                            */
+typedef u32                         Uint32; /* unsigned 4 byte integer                          */
+typedef i32                         Sint32; /* signed 4 byte integer                            */
 
-/****** Default Integer *************************************************************/
-typedef signed __int32          Int;    /* default integer                          */
+/****** Angles **********************************************************************************/
+typedef Sint32                      Angle;  /* hardware angle                                   */
+typedef Sint16                      Sangle; /* hardware angle, as 2 byte integer                */
 
-/****** Real Number *****************************************************************/
-typedef float                   Float;  /* 4 byte real number                       */
+/****** Default Integer *************************************************************************/
+typedef Sint32                      Int;    /* default integer                                  */
 
-/****** Void ************************************************************************/
-typedef void                    Void;   /* void type                                */
+/****** Real Number *****************************************************************************/
+typedef float                       Float;  /* 4 byte real number                               */
 
-/****** Boolean *********************************************************************/
-typedef signed __int32          Bool;   /* 4 byte boolean                           */
+/****** Void ************************************************************************************/
+typedef void                        Void;   /* void type                                        */
+
+/****** Boolean *********************************************************************************/
+typedef Sint32                      Bool;   /* 4 byte boolean                                   */
 
 EXTERN_END
 

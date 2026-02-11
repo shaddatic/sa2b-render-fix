@@ -64,57 +64,57 @@ static bool   DrawEggmanExtraShield;
 static int
 GetCharacterPlayer(int character)
 {
-    return (int)(playerpwp[1] && playerpwp[1]->ch_num == character);
+    return (int)(playerpwp[1] && playerpwp[1]->basechar == character);
 }
 
 static void
 DrawSonicShadow(NJS_MOTION* motion, float frame)
 {
-    SONICWK* spwp = (SONICWK*)playerpwp[ GetCharacterPlayer( PLNO_SONIC ) ];
+    sonicwk* spwp = (sonicwk*) playerpwp[ GetCharacterPlayer( PLNO_SONIC ) ];
     SonicWorkPointer = spwp;
 
     njCnkSetMotionCallback(SonicMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[0].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[0].obj, motion, frame);
 
     if (DrawSonicFlameRing && spwp->pw.equipment & EQUIP_SONIC_FLAMERING)
     {
-        if (CHAR_OBJECTS[25].pObject)
+        if (plobjects[25].obj)
         {
             njSetMatrix(0, &mtx_SonicHandR);
-            njCnkDrawModel(CHAR_OBJECTS[25].pObject->model);
+            njCnkDrawModel(plobjects[25].obj->model);
         }
     }
 
     if (DrawSonicRubberUnit && spwp->pw.equipment & EQUIP_SONIC_RUBBERUNIT)
     {
-        if (CHAR_OBJECTS[26].pObject)
+        if (plobjects[26].obj)
         {
             njSetMatrix(0, &mtx_SonicHandL);
-            njCnkDrawModel(CHAR_OBJECTS[26].pObject->model);
+            njCnkDrawModel(plobjects[26].obj->model);
         }
     }
 
     if (DrawSonicMagicWrist && spwp->pw.equipment & EQUIP_SONIC_MAGICWRIST)
     {
-        if (CHAR_OBJECTS[27].pObject)
+        if (plobjects[27].obj)
         {
             njSetMatrix(0, &mtx_SonicHandL);
-            njCnkDrawObject(CHAR_OBJECTS[27].pObject);
+            njCnkDrawObject(plobjects[27].obj);
         }
     }
 
     if (DrawSonicShoes && spwp->pw.equipment & EQUIP_SONIC_SHOES)
     {
-        if (CHAR_OBJECTS[14].pObject)
+        if (plobjects[14].obj)
         {
             njSetMatrix(0, &mtx_SonicFootL);
-            njCnkDrawObject(CHAR_OBJECTS[14].pObject);
+            njCnkDrawObject(plobjects[14].obj);
         }
 
-        if (CHAR_OBJECTS[13].pObject)
+        if (plobjects[13].obj)
         {
             njSetMatrix(0, &mtx_SonicFootR);
-            njCnkDrawObject(CHAR_OBJECTS[13].pObject);
+            njCnkDrawObject(plobjects[13].obj);
         }
     }
 
@@ -124,33 +124,33 @@ DrawSonicShadow(NJS_MOTION* motion, float frame)
 static void
 DrawShadowShadow(NJS_MOTION* motion, float frame)
 {
-    SONICWK* spwp = (SONICWK*)playerpwp[ GetCharacterPlayer(PLNO_SHADOW) ];
+    sonicwk* spwp = (sonicwk*)playerpwp[ GetCharacterPlayer(PLNO_SHADOW) ];
     SonicWorkPointer = spwp;
 
     njCnkSetMotionCallback(ShadowMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[65].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[65].obj, motion, frame);
 
     if (DrawShadowFlameRing && spwp->pw.equipment & EQUIP_SHADOW_FLAMERING) // Flame Ring
     {
-        if (CHAR_OBJECTS[100].pObject)
+        if (plobjects[100].obj)
         {
             njSetMatrix(NULL, &mtx_SonicHandR);
-            njCnkDrawModel(CHAR_OBJECTS[100].pObject->model);
+            njCnkDrawModel(plobjects[100].obj->model);
         }
     }
 
     if (DrawShadowShoes && spwp->pw.equipment & EQUIP_SHADOW_SHOES) // Air Shoes
     {
-        if (CHAR_OBJECTS[79].pObject)
+        if (plobjects[79].obj)
         {
             njSetMatrix(NULL, &mtx_SonicFootL);
-            njCnkDrawObject(CHAR_OBJECTS[79].pObject);
+            njCnkDrawObject(plobjects[79].obj);
         }
 
-        if (CHAR_OBJECTS[78].pObject)
+        if (plobjects[78].obj)
         {
             njSetMatrix(NULL, &mtx_ShadowFootR);
-            njCnkDrawObject(CHAR_OBJECTS[78].pObject);
+            njCnkDrawObject(plobjects[78].obj);
         }
     }
 
@@ -160,25 +160,23 @@ DrawShadowShadow(NJS_MOTION* motion, float frame)
 static void
 DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 {
-    KNUCKLESWK* kwp = (KNUCKLESWK*)playerpwp[GetCharacterPlayer( PLNO_KNUCKLES )];
+    knuckleswk* kwp = (knuckleswk*)playerpwp[GetCharacterPlayer( PLNO_KNUCKLES )];
     KnucklesWorkPointer = kwp;
 
     njCnkSetMotionCallback(KnucklesMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[142].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[142].obj, motion, frame);
 
     njPushMatrixEx();
 
     if (DrawKnuxSunglass && kwp->pw.equipment & EQUIP_KNUCKLES_SUNGLASS)
     {
-        if (CHAR_OBJECTS[161].pObject)
+        if (plobjects[161].obj)
         {
-            NJS_CNK_OBJECT* pobj = CHAR_OBJECTS[161].pObject->child;
+            NJS_CNK_OBJECT* pobj = plobjects[161].obj->child;
 
             njSetMatrix(NULL, &mtx_KnucklesHead);
-            njTranslateEx((NJS_VECTOR*)pobj->pos);
-
-            if (kwp->someHeadAng != 0x2000)
-                njRotateZ(0, kwp->someHeadAng - 0x2000);
+            njTranslateA(NULL, pobj->pos);
+            njRotateZ(   NULL, kwp->sunglass_ang - 0x2000);  
 
             njCnkDrawModel(pobj->model);
         }
@@ -186,10 +184,10 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 
     if (DrawKnuxAir && kwp->pw.equipment & EQUIP_KNUCKLES_AIR)
     {
-        if (CHAR_OBJECTS[168].pObject)
+        if (plobjects[168].obj)
         {
             njSetMatrix(NULL, &mtx_KnucklesBody);
-            njCnkDrawObject(CHAR_OBJECTS[168].pObject);
+            njCnkDrawObject(plobjects[168].obj);
         }
     }
 
@@ -198,31 +196,31 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
         njSetMatrix(NULL, &mtx_KnucklesHandL);
         if (DrawKnuxClaw && kwp->pw.equipment & EQUIP_KNUCKLES_CLAW)
         {
-            if (CHAR_OBJECTS[162].pObject)
+            if (plobjects[162].obj)
             {
-                njCnkDrawObject(CHAR_OBJECTS[162].pObject);
+                njCnkDrawObject(plobjects[162].obj);
             }
         }
         if (DrawKnuxGloves && kwp->pw.equipment & EQUIP_KNUCKLES_GROVES)
         {
-            if (CHAR_OBJECTS[164].pObject)
+            if (plobjects[164].obj)
             {
-                njCnkDrawObject(CHAR_OBJECTS[164].pObject);
+                njCnkDrawObject(plobjects[164].obj);
             }
         }
         njSetMatrix(NULL, &mtx_KnucklesHandR);
         if (DrawKnuxClaw && kwp->pw.equipment & EQUIP_KNUCKLES_CLAW)
         {
-            if (CHAR_OBJECTS[163].pObject)
+            if (plobjects[163].obj)
             {
-                njCnkDrawObject(CHAR_OBJECTS[163].pObject);
+                njCnkDrawObject(plobjects[163].obj);
             }
         }
         if (DrawKnuxGloves && kwp->pw.equipment & EQUIP_KNUCKLES_GROVES)
         {
-            if (CHAR_OBJECTS[165].pObject)
+            if (plobjects[165].obj)
             {
-                njCnkDrawObject(CHAR_OBJECTS[165].pObject);
+                njCnkDrawObject(plobjects[165].obj);
             }
         }
     }
@@ -235,29 +233,27 @@ DrawKnucklesShadow(NJS_MOTION* motion, float frame)
 static void
 DrawRougeShadow(NJS_MOTION* motion, float frame)
 {
-    KNUCKLESWK* rwp = (KNUCKLESWK*)playerpwp[ GetCharacterPlayer( PLNO_ROUGE ) ];
+    knuckleswk* rwp = (knuckleswk*) playerpwp[ GetCharacterPlayer( PLNO_ROUGE ) ];
     KnucklesWorkPointer = rwp;
 
     njCnkSetMotionCallback(RougeMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[171].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[171].obj, motion, frame);
 
     njPushMatrixEx();
 
     if (DrawRougeScope && rwp->pw.equipment & EQUIP_ROUGE_SCOPE)
     {
-        if (CHAR_OBJECTS[205].pObject)
+        if (plobjects[205].obj)
         {
-            NJS_CNK_OBJECT* pobj = CHAR_OBJECTS[205].pObject;
+            NJS_CNK_OBJECT* pobj = plobjects[205].obj;
 
             njSetMatrix(NULL, &mtx_KnucklesHead);
             njCnkDrawModel(pobj->model);
 
             pobj = pobj->child;
 
-            njTranslateEx((NJS_VECTOR*)pobj->pos);
-
-            if (rwp->someHeadAng != 0x2000)
-                njRotateZ(0, rwp->someHeadAng - 0x2000);
+            njTranslateA(NULL, pobj->pos);
+            njRotateZ(   NULL, rwp->sunglass_ang - 0x2000);  
 
             njCnkDrawModel(pobj->model);
         }
@@ -265,31 +261,31 @@ DrawRougeShadow(NJS_MOTION* motion, float frame)
 
     if (DrawRougeBoots && rwp->pw.equipment & EQUIP_ROUGE_BOOTS)
     {
-        if (CHAR_OBJECTS[201].pObject)
+        if (plobjects[201].obj)
         {
             njSetMatrix(NULL, &mtx_KnucklesHandL);
-            njCnkDrawObject(CHAR_OBJECTS[201].pObject);
+            njCnkDrawObject(plobjects[201].obj);
         }
 
-        if (CHAR_OBJECTS[203].pObject)
+        if (plobjects[203].obj)
         {
             njSetMatrix(NULL, &mtx_KnucklesHandR);
-            njCnkDrawObject(CHAR_OBJECTS[203].pObject);
+            njCnkDrawObject(plobjects[203].obj);
         }
     }
 
     if (DrawRougeNails && rwp->pw.equipment & EQUIP_ROUGE_NAILS)
     {
-        if (CHAR_OBJECTS[199].pObject)
+        if (plobjects[199].obj)
         {
             njSetMatrix(NULL, &mtx_RougeBootL);
-            njCnkDrawObject(CHAR_OBJECTS[199].pObject);
+            njCnkDrawObject(plobjects[199].obj);
         }
 
-        if (CHAR_OBJECTS[195].pObject)
+        if (plobjects[195].obj)
         {
             njSetMatrix(NULL, &mtx_RougeBootR);
-            njCnkDrawObject(CHAR_OBJECTS[195].pObject);
+            njCnkDrawObject(plobjects[195].obj);
         }
     }
 
@@ -301,17 +297,17 @@ DrawRougeShadow(NJS_MOTION* motion, float frame)
 static void
 DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
 {
-    WALKERWK* ewwp = (WALKERWK*)playerpwp[ GetCharacterPlayer( PLNO_EGG_WALKER ) ];
+    walkerwk* ewwp = (walkerwk*) playerpwp[ GetCharacterPlayer( PLNO_EGG_WALKER ) ];
     EggWalkerWorkPointer = ewwp;
 
     njCnkSetMotionCallback(EggWalkerMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[248].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[248].obj, motion, frame);
 
     if (DrawEggmanPowerGun)
     {
         const int num = DrawEggmanPowerGun == EQUIP_MD_FULL && (ewwp->pw.equipment & EQUIP_EGGMAN_POWERGUN) ? 260 : 258;
 
-        NJS_CNK_OBJECT* powergun = CHAR_OBJECTS[num].pObject;
+        NJS_CNK_OBJECT* powergun = plobjects[num].obj;
 
         if (powergun)
         {
@@ -334,17 +330,17 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
         njSetMatrix(NULL, &mtx_EWalkerLargeCannon);
         if (DrawEggmanBazooka == EQUIP_MD_FULL && ewwp->pw.equipment & EQUIP_EGGMAN_BAZOOKA) // Large Cannon
         {
-            if (CHAR_OBJECTS[263].pObject)
+            if (plobjects[263].obj)
             {
                 njTranslate(NULL, 1.0f - njCos(ewwp->CannonRecoil), 0, 0);
-                njCnkDrawObject(CHAR_OBJECTS[263].pObject);
+                njCnkDrawObject(plobjects[263].obj);
             }
         }
         else
         {
-            if (CHAR_OBJECTS[266].pObject)
+            if (plobjects[266].obj)
             {
-                njCnkDrawObject(CHAR_OBJECTS[266].pObject);
+                njCnkDrawObject(plobjects[266].obj);
             }
         }
     }
@@ -353,16 +349,16 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
     {
         //njPushMatrixEx();
 
-        if (CHAR_OBJECTS[274].pObject)
+        if (plobjects[274].obj)
         {
             njSetMatrix(NULL, &mtx_EWalkerJetEngineL);
-            njCnkDrawObject(CHAR_OBJECTS[274].pObject);
+            njCnkDrawObject(plobjects[274].obj);
         }
 
-        if (CHAR_OBJECTS[276].pObject)
+        if (plobjects[276].obj)
         {
             njSetMatrix(NULL, &mtx_EWalkerJetEngineR);
-            njCnkDrawObject(CHAR_OBJECTS[276].pObject);
+            njCnkDrawObject(plobjects[276].obj);
         }
 
         //njPopMatrixEx();
@@ -370,10 +366,10 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
 
     if (DrawEggmanExtraShield && ewwp->pw.equipment & EQUIP_EGGMAN_EXTRASHIELD) // Armor
     {
-        if (CHAR_OBJECTS[278].pObject)
+        if (plobjects[278].obj)
         {
             njPushMatrix(&mtx_EWalkerProtectiveArmor);
-            njCnkDrawObject(CHAR_OBJECTS[278].pObject);
+            njCnkDrawObject(plobjects[278].obj);
             njPopMatrixEx();
         }
     }
@@ -384,17 +380,17 @@ DrawEggWalkerShadow(NJS_MOTION* motion, float frame)
 static void
 DrawTornadoShadow(NJS_MOTION* motion, float frame)
 {
-    WALKERWK* ewwp = (WALKERWK*)playerpwp[ GetCharacterPlayer( PLNO_TAILS_WALKER ) ];
+    walkerwk* ewwp = (walkerwk*)playerpwp[ GetCharacterPlayer( PLNO_TAILS_WALKER ) ];
     EggWalkerWorkPointer = ewwp;
 
-    njCnkSetMotionCallback(TornadoWalkerMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[293].pObject, motion, frame);
+    njCnkSetMotionCallback(TailsWalkerMotionCallBack_p);
+    njCnkDrawMotion(plobjects[293].obj, motion, frame);
 
     if (DrawMilesLazerBlaster)
     {
         const int num = DrawMilesLazerBlaster == EQUIP_MD_FULL && (ewwp->pw.equipment & EQUIP_MILES_LASERBALSTER) ? 306 : 304;
 
-        NJS_CNK_OBJECT* blaster = CHAR_OBJECTS[num].pObject;
+        NJS_CNK_OBJECT* blaster = plobjects[num].obj;
 
         if (blaster)
         {
@@ -415,7 +411,7 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
     {
         if (DrawMilesHyperCannon == EQUIP_MD_FULL && ewwp->pw.equipment & EQUIP_MILES_HYPERCANNON)
         {
-            NJS_CNK_OBJECT* hypercannon = CHAR_OBJECTS[309].pObject;
+            NJS_CNK_OBJECT* hypercannon = plobjects[309].obj;
 
             if (hypercannon)
             {
@@ -435,7 +431,7 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
         }
         else
         {
-            NJS_CNK_OBJECT* hypercannon = CHAR_OBJECTS[312].pObject;
+            NJS_CNK_OBJECT* hypercannon = plobjects[312].obj;
 
             if (hypercannon)
             {
@@ -450,16 +446,16 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
 
     if (DrawMilesBooster && ewwp->pw.equipment & EQUIP_MILES_BOOSTER) // Booster
     {
-        if (CHAR_OBJECTS[319].pObject)
+        if (plobjects[319].obj)
         {
             njSetMatrix(NULL, &mtx_TornadoBoosterL);
-            njCnkDrawObject(CHAR_OBJECTS[319].pObject);
+            njCnkDrawObject(plobjects[319].obj);
         }
 
-        if (CHAR_OBJECTS[321].pObject)
+        if (plobjects[321].obj)
         {
             njSetMatrix(NULL, &mtx_TornadoBoosterR);
-            njCnkDrawObject(CHAR_OBJECTS[321].pObject);
+            njCnkDrawObject(plobjects[321].obj);
         }
 
         //njPopMatrixEx();
@@ -471,64 +467,64 @@ DrawTornadoShadow(NJS_MOTION* motion, float frame)
 static void
 DrawEggmanShadow(NJS_MOTION* motion, float frame)
 {
-    njCnkDrawMotion(CHAR_OBJECTS[230].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[230].obj, motion, frame);
 }
 
 static void
 DrawMilesShadow(NJS_MOTION* motion, float frame)
 {
-    MilesWorkPointer = (MILESWK*)playerpwp[GetCharacterPlayer( PLNO_MILES )];
+    MilesWorkPointer = (mileswk*) playerpwp[GetCharacterPlayer( PLNO_MILES )];
 
     njCnkSetMotionCallback(MilesMotionCallBack_p);
-    njCnkDrawMotion(CHAR_OBJECTS[208].pObject, motion, frame);
+    njCnkDrawMotion(plobjects[208].obj, motion, frame);
 }
 
 static void __cdecl
 njCnkDrawMotionHook(NJS_CNK_OBJECT* object, NJS_MOTION* motion, float frame)
 {
-    if (object == CHAR_OBJECTS[48].pObject) // Sonic
+    if (object == plobjects[48].obj) // Sonic
     {
         DrawSonicShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[123].pObject) // Shadow
+    if (object == plobjects[123].obj) // Shadow
     {
         DrawShadowShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[142].pObject) // Knuckes
+    if (object == plobjects[142].obj) // Knuckes
     {
         DrawKnucklesShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[171].pObject) // Rouge
+    if (object == plobjects[171].obj) // Rouge
     {
         DrawRougeShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[463].pObject || object == CHAR_OBJECTS[248].pObject) // Mech Eggman
+    if (object == plobjects[463].obj || object == plobjects[248].obj) // Mech Eggman
     {
         DrawEggWalkerShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[464].pObject || object == CHAR_OBJECTS[293].pObject) // Mech Tails
+    if (object == plobjects[464].obj || object == plobjects[293].obj) // Mech Tails
     {
         DrawTornadoShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[527].pObject) // Eggman
+    if (object == plobjects[527].obj) // Eggman
     {
         DrawEggmanShadow(motion, frame);
         return;
     }
 
-    if (object == CHAR_OBJECTS[528].pObject) // Miles
+    if (object == plobjects[528].obj) // Miles
     {
         DrawMilesShadow(motion, frame);
         return;

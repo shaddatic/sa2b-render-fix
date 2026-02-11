@@ -2,21 +2,29 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/figure/sonic.h'
 *
 *   ~~ Under Construction ~~
-*   Contains functions, structs, and data for Sonic
+* 
+*   Description:
+*     Sonic the Hedgehog player, and base header for speed characters.
 */
-#ifndef _SA2B_FIGURE_SONIC_H_
-#define _SA2B_FIGURE_SONIC_H_
+#ifndef H_SA2B_FIGURE_SONIC
+#define H_SA2B_FIGURE_SONIC
 
-/************************/
-/*  Includes            */
-/************************/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-#include <samt/sonic/player.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/player.h>      /* core player                                              */
+#include <samt/sonic/reform.h>      /* reform object                                            */
 
-/************************/
-/*  Enums               */
-/************************/
+EXTERN_START
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Player Motion ***************************************************************************/
 enum
 {
     SONICMOT_LSDS          = 87,
@@ -185,60 +193,71 @@ enum
     SONICMOT_END,
 };
 
-/************************/
-/*  Structures          */
-/************************/
-#define GET_SONICWK(_tp)    ((SONICWK*)(_tp)->awp)
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Player Work *****************************************************************************/
+#define GET_SONICWK(_tp)    ((sonicwk*)(_tp)->awp)
 
 typedef struct sonicwk
 {
-    playerwk pw;
+    playerwk        pw;             /* player work                                          */
 
-    char field_35C[4];
-    int16_t flag;
-    char field_35C_[4];
-    int16_t unks_1;
-    __int16 SpindashCounter;
-    int field_36A;
-    int field_36E;
-    int field_372;
-    __int16 field_376;
-    NJS_VECTOR Position_;
-    int field_386;
-    int field_38A;
-    PLAYER_OBJECT* pObjectData;
-    NJS_TEXLIST* TextureList;
-    PL_OBJECT* ModelList;
-    PL_MOTION* MotionList;
+    i8              field_35C[4];
+    i16             flag;
+    i8              field_35C_[4];
+    i16             unks_1;
+    i16             SpindashCounter;
+    i32             field_36A;
+    i32             field_36E;
+    i32             field_372;
+    i16             field_376;
+    NJS_VECTOR      setpos;
+    i32             field_386;
+    i32             field_38A;
+    reformwk*       rw_head;
+    NJS_TEXLIST*    tlist;          /* texlist                                                  */
+    playerobj*      freeobj;        /* free object list                                         */
+    playermot*      freemtn;        /* free motion list                                         */
 }
-SONICWK; // 928
+sonicwk; // 928
 
-/************************/
-/*  Data                */
-/************************/
-#define SonicWorkPointer    DATA_REF(SONICWK*  , 0x01A51A9C)
+/********************************/
+/*  Variables                   */
+/********************************/
+/****** Player Work *****************************************************************************/
+#define SonicWorkPointer            DATA_REF(sonicwk*  , 0x01A51A9C)
 
-#define mtx_SonicBase       DATA_REF(NJS_MATRIX, 0x01A51A00)
-#define mtx_SonicHandL      DATA_REF(NJS_MATRIX, 0x01A51A3C)
-#define mtx_SonicHandR      DATA_REF(NJS_MATRIX, 0x01A51AA0)
-#define mtx_SonicFootL      DATA_REF(NJS_MATRIX, 0x01A51A6C)
-#define mtx_SonicFootR      DATA_REF(NJS_MATRIX, 0x01A519D0)
+/****** Matrix **********************************************************************************/
+#define mtx_SonicBase               DATA_REF(NJS_MATRIX, 0x01A51A00)
+#define mtx_SonicHandL              DATA_REF(NJS_MATRIX, 0x01A51A3C)
+#define mtx_SonicHandR              DATA_REF(NJS_MATRIX, 0x01A51AA0)
+#define mtx_SonicFootL              DATA_REF(NJS_MATRIX, 0x01A51A6C)
+#define mtx_SonicFootR              DATA_REF(NJS_MATRIX, 0x01A519D0)
 
-/************************/
-/*  Functions           */
-/************************/
-EXTERN_START
-void    SonicMotionCallBack(NJS_CNK_OBJECT* cnkobj);
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Motion Callback *************************************************************************/
+/*
+*   Description:
+*     Sonic's main motion callback function.
+*
+*   Parameters:
+*     - cnkobj      : motion object
+*/
+void    SonicMotionCallBack( NJS_CNK_OBJECT* cnkobj );
+
+#ifdef SAMT_INCL_FUNCPTRS
+
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define SonicMotionCallBack_p               FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071EAA0)
+
+#endif/*SAMT_INCL_FUNCPTRS*/
 
 EXTERN_END
 
-/************************/
-/*  Function Ptrs       */
-/************************/
-#ifdef SAMT_INCL_FUNCPTRS
-/** Function ptrs **/
-#   define SonicMotionCallBack_p    FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071EAA0)
-
-#endif /* SAMT_INCL_FUNCPTRS */
-
-#endif /* _SA2B_FIGURE_SONIC_H_ */
+#endif/*H_SA2B_FIGURE_SONIC*/

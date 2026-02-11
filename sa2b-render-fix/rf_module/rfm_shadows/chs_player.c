@@ -84,7 +84,7 @@ SonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
 
     njPushMatrixEx();
 
-    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_SONIC)
+    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SONIC)
     {
         njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -94,7 +94,7 @@ SonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
     }
     else
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[7].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[7].obj;
 
         if (mod_head == nullptr)
             mod_head = object_sonic_head_mod;
@@ -150,7 +150,7 @@ TeriosDrawMod(taskwk* twp, playerwk* pwp, int motion)
 
     njPushMatrixEx();
 
-    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_SHADOW)
+    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SHADOW)
     {
         njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -159,7 +159,7 @@ TeriosDrawMod(taskwk* twp, playerwk* pwp, int motion)
     }
     else
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[72].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[72].obj;
 
         if (mod_head == nullptr)
             mod_head = object_terios_head_mod;
@@ -213,7 +213,7 @@ AmyDrawMod(taskwk* twp, playerwk* pwp, int motion)
 
     njPushMatrixEx();
 
-    if (pwp->mj.plactptr[motion].objnum == BALL_OBJ_NUM_AMY)
+    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_AMY)
     {
         njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
         njRotateY(NULL, 0x8000 - twp->ang.y);
@@ -324,14 +324,14 @@ static void __cdecl
 SonicDisplayerShadowHook(task* tp)
 {
     taskwk* const twp = tp->twp;
-    SONICWK* const swp = GET_SONICWK(tp);
+    sonicwk* const swp = GET_SONICWK(tp);
 
     njGetMatrix(&mtx_SonicBase);
     njInvertMatrix(&mtx_SonicBase);
 
     SonicWorkPointer = swp;
 
-    switch (swp->pw.ch_num_multi) {
+    switch (swp->pw.character) {
     case PLNO_SONIC:
         njCnkSetMotionCallback(SonicMotionCallBack_p);
         break;
@@ -351,7 +351,7 @@ SonicDisplayerShadowHook(task* tp)
 
     njPushMatrixEx();
 
-    int mtnnum = swp->pw.mj.mtnnum;
+    i32 action = swp->pw.m.action;
 
     if (twp->mode == 51)
     {
@@ -384,13 +384,13 @@ SonicDisplayerShadowHook(task* tp)
     else
         njTranslateEx(&twp->pos);
 
-    if (MultiIntroPno != swp->pw.pl_num + 1)
+    if (MultiIntroPno != swp->pw.player + 1)
     {
         njRotateZ(NULL, twp->ang.z);
         njRotateX(NULL, twp->ang.x);
         njRotateY(NULL, 0x8000 - twp->ang.y);
 
-        if (mtnnum == 11 && twp->flag & 3)
+        if (action == 11 && twp->flag & 3)
         {
             /** I have no idea **/
             njTranslate(NULL, 0.0f, -1.0f, 0.0f);
@@ -407,50 +407,50 @@ SonicDisplayerShadowHook(task* tp)
 
     if (twp->mode == 54 && swp->pw.motion_list)
     {
-        njCnkAnimateMotion(CHAR_OBJECTS[swp->pw.mj.plactptr->objnum].pObject, *swp->pw.motion_list, flt_1DEB070);
+        njCnkAnimateMotion(plobjects[swp->pw.m.plactptr->objnum].obj, *swp->pw.motion_list, flt_1DEB070);
     }
     else
     {
-        NJS_CNK_OBJECT* p_object = CHAR_OBJECTS[swp->pw.mj.plactptr[mtnnum].objnum].pObject;
+        NJS_CNK_OBJECT* p_object = plobjects[swp->pw.m.plactptr[action].objnum].obj;
         NJS_MOTION* p_motion;
 
-        if (swp->pw.mj.mtnmode == 2)
+        if (swp->pw.m.mtnmode == 2)
         {
-            p_motion = swp->pw.mj.plmtnptr;
+            p_motion = swp->pw.m.plmtnptr;
         }
         else
         {
-            if ((twp->flag & BALL_FLAG) && swp->pw.ch_num_multi != PLNO_METAL_SONIC && (swp->flag & 0x11))
+            if ((twp->flag & BALL_FLAG) && swp->pw.character != PLNO_METAL_SONIC && (swp->flag & 0x11))
             {
-                mtnnum = 30;
-                p_object = CHAR_OBJECTS[swp->pw.mj.plactptr[mtnnum].objnum].pObject;
+                action = 30;
+                p_object = plobjects[swp->pw.m.plactptr[action].objnum].obj;
             }
 
-            p_motion = CHAR_MOTIONS[swp->pw.mj.plactptr[swp->pw.mj.plactptr[mtnnum].actnum].actnum].pMotion;
+            p_motion = plmotions[swp->pw.m.plactptr[swp->pw.m.plactptr[action].actnum].actnum].mot;
         }
 
-        njCnkAnimateMotion(p_object, p_motion, swp->pw.mj.nframe);
+        njCnkAnimateMotion(p_object, p_motion, swp->pw.m.nframe);
     }
 
     njCnkSetMotionCallback(NULL);
 
     njPopMatrixEx();
 
-    switch (swp->pw.ch_num_multi) {
+    switch (swp->pw.character) {
     case PLNO_SONIC:
-        SonicDrawMod(twp, &swp->pw, mtnnum);
+        SonicDrawMod(twp, &swp->pw, action);
         break;
 
     case PLNO_SHADOW:
-        TeriosDrawMod(twp, &swp->pw, mtnnum);
+        TeriosDrawMod(twp, &swp->pw, action);
         break;
 
     case PLNO_AMY:
-        AmyDrawMod(twp, &swp->pw, mtnnum);
+        AmyDrawMod(twp, &swp->pw, action);
         break;
 
     case PLNO_METAL_SONIC:
-        MetalSonicDrawMod(twp, &swp->pw, mtnnum);
+        MetalSonicDrawMod(twp, &swp->pw, action);
         break;
     }
 }
@@ -462,11 +462,11 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[motion].objnum;
+    const int objnum = pwp->m.plactptr[motion].objnum;
 
     if (objnum == 208)
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[214].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[214].obj;
 
         if (mod_head == nullptr)
             mod_head = object_miles_head_mod;
@@ -513,7 +513,7 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
             njPopMatrixEx();
             njPushMatrixEx();
 
-            MILESWK* const mileswp = (MILESWK*)pwp;
+            mileswk* const mileswp = (mileswk*)pwp;
 
             njTranslateV(NULL, &pwp->tails_pos);
 
@@ -580,7 +580,7 @@ static void
 MilesDisplayerShadowHook(task* tp)
 {
     taskwk*  const     twp = tp->twp;
-    MILESWK* const mileswp = GET_MILESWK(tp);
+    mileswk* const mileswp = GET_MILESWK(tp);
 
     njGetMatrix(&mtx_MilesBase);
     njInvertMatrix(&mtx_MilesBase);
@@ -591,14 +591,14 @@ MilesDisplayerShadowHook(task* tp)
 
     njPushMatrixEx();
 
-    int mtnnum = mileswp->pw.mj.mtnnum;
+    const i32 action = mileswp->pw.m.action;
 
     njTranslateEx(&twp->pos);
     njRotateZ(NULL, twp->ang.z);
     njRotateX(NULL, twp->ang.x);
     njRotateY(NULL, 0x8000 - twp->ang.y);
 
-    if (mtnnum == 11 && twp->flag & 0x03)
+    if (action == 11 && twp->flag & 0x03)
     {
         njTranslate(NULL, 0.0f, -1.0f, 0.0f);
         njRotateZ(NULL, 0x2000);
@@ -609,25 +609,25 @@ MilesDisplayerShadowHook(task* tp)
 
     if (twp->mode == 54 && mileswp->pw.motion_list)
     {
-        njCnkAnimateMotion(CHAR_OBJECTS[mileswp->pw.mj.plactptr->objnum].pObject, *mileswp->pw.motion_list, flt_1DEB070);
+        njCnkAnimateMotion(plobjects[mileswp->pw.m.plactptr->objnum].obj, *mileswp->pw.motion_list, flt_1DEB070);
     }
     else
     {
-        if (mileswp->pw.mj.mtnmode == 2)
+        if (mileswp->pw.m.mtnmode == 2)
         {
             njCnkAnimateMotion(
-                CHAR_OBJECTS[mileswp->pw.mj.plactptr[mtnnum].objnum].pObject, 
-                mileswp->pw.mj.plmtnptr, 
-                mileswp->pw.mj.nframe);
+                plobjects[mileswp->pw.m.plactptr[action].objnum].obj, 
+                mileswp->pw.m.plmtnptr, 
+                mileswp->pw.m.nframe);
         }
         else
         {
-            const int actnum = mileswp->pw.mj.plactptr[mtnnum].actnum;
+            const int actnum = mileswp->pw.m.plactptr[action].actnum;
 
             njCnkAnimateMotion(
-                CHAR_OBJECTS[mileswp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                CHAR_MOTIONS[mileswp->pw.mj.plactptr[actnum].actnum].pMotion,
-                mileswp->pw.mj.nframe);
+                plobjects[mileswp->pw.m.plactptr[action].objnum].obj,
+                plmotions[mileswp->pw.m.plactptr[actnum].actnum].mot,
+                mileswp->pw.m.nframe);
         }
     }
 
@@ -635,7 +635,7 @@ MilesDisplayerShadowHook(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    MilesDisplayMod(twp, &mileswp->pw, mtnnum);
+    MilesDisplayMod(twp, &mileswp->pw, action);
 }
 
 static void
@@ -645,11 +645,11 @@ EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 230)
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[236].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[236].obj;
 
         if (mod_head == nullptr)
             mod_head = object_eggman_head_mod;
@@ -702,7 +702,7 @@ static void
 EggmanDisplayerShadowHook(task* tp)
 {
     taskwk*   const      twp = tp->twp;
-    EGGMANWK* const eggmanwp = GET_EGGMANWK(tp);
+    eggmanwk* const eggmanwp = GET_EGGMANWK(tp);
 
     njGetMatrix(&mtx_EggmanBase);
     njInvertMatrix(&mtx_EggmanBase);
@@ -711,7 +711,7 @@ EggmanDisplayerShadowHook(task* tp)
 
     njCnkSetMotionCallback(EggmanMotionCallBack_p);
 
-    const int mtnnum = eggmanwp->pw.mj.mtnnum;
+    const i32 action = eggmanwp->pw.m.action;
 
     njPushMatrixEx();
 
@@ -723,25 +723,25 @@ EggmanDisplayerShadowHook(task* tp)
 
     if (twp->mode == 54 && eggmanwp->pw.motion_list)
     {
-        njCnkAnimateMotion(CHAR_OBJECTS[eggmanwp->pw.mj.plactptr->objnum].pObject, *eggmanwp->pw.motion_list, flt_1DEB070);
+        njCnkAnimateMotion(plobjects[eggmanwp->pw.m.plactptr->objnum].obj, *eggmanwp->pw.motion_list, flt_1DEB070);
     }
     else
     {
-        if (eggmanwp->pw.mj.mtnmode == 2)
+        if (eggmanwp->pw.m.mtnmode == 2)
         {
             njCnkAnimateMotion(
-                CHAR_OBJECTS[eggmanwp->pw.mj.plactptr[mtnnum].objnum].pObject, 
-                eggmanwp->pw.mj.plmtnptr, 
-                eggmanwp->pw.mj.nframe);
+                plobjects[eggmanwp->pw.m.plactptr[action].objnum].obj, 
+                eggmanwp->pw.m.plmtnptr, 
+                eggmanwp->pw.m.nframe);
         }
         else
         {
-            const actnum = eggmanwp->pw.mj.plactptr[mtnnum].actnum;
+            const actnum = eggmanwp->pw.m.plactptr[action].actnum;
 
             njCnkAnimateMotion(
-                CHAR_OBJECTS[eggmanwp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                CHAR_MOTIONS[eggmanwp->pw.mj.plactptr[actnum].actnum].pMotion,
-                eggmanwp->pw.mj.nframe);
+                plobjects[eggmanwp->pw.m.plactptr[action].objnum].obj,
+                plmotions[eggmanwp->pw.m.plactptr[actnum].actnum].mot,
+                eggmanwp->pw.m.nframe);
         }
     }
 
@@ -749,7 +749,7 @@ EggmanDisplayerShadowHook(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    EggmanDisplayMod(twp, &eggmanwp->pw, mtnnum);
+    EggmanDisplayMod(twp, &eggmanwp->pw, action);
 }
 
 static void
@@ -759,11 +759,11 @@ KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[motion].objnum;
+    const int objnum = pwp->m.plactptr[motion].objnum;
 
     if (objnum == 142)
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[148].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[148].obj;
 
         if (mod_head == nullptr)
             mod_head = object_knuckles_head_mod;
@@ -842,11 +842,11 @@ RougeDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 171)
     {
-        NJS_CNK_OBJECT* mod_head = CHAR_OBJECTS[178].pObject;
+        NJS_CNK_OBJECT* mod_head = plobjects[178].obj;
 
         if (mod_head == nullptr)
             mod_head = object_rouge_head_mod;
@@ -902,7 +902,7 @@ TikalDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 483)
     {
@@ -957,7 +957,7 @@ ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 507)
     {
@@ -1008,15 +1008,15 @@ ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 static void
 KnucklesDisplayerShadowHook(task* tp)
 {
-    taskwk* const  twp = tp->twp;
-    KNUCKLESWK* const knwp = GET_KNUCKLESWK(tp);
+    taskwk*     const twp = tp->twp;
+    knuckleswk* const knwp = GET_KNUCKLESWK(tp);
 
     njGetMatrix(&mtx_KnucklesBase);
     njInvertMatrix(&mtx_KnucklesBase);
 
     KnucklesWorkPointer = knwp;
 
-    switch (knwp->pw.ch_num_multi) {
+    switch (knwp->pw.character) {
     case PLNO_KNUCKLES:
         njCnkSetMotionCallback(KnucklesMotionCallBack_p);
         break;
@@ -1034,7 +1034,7 @@ KnucklesDisplayerShadowHook(task* tp)
         break;
     }
 
-    const int mtnnum = knwp->pw.mj.mtnnum;
+    const i32 action = knwp->pw.m.action;
 
     njPushMatrixEx();
 
@@ -1070,27 +1070,27 @@ KnucklesDisplayerShadowHook(task* tp)
         njTranslateEx(&twp->pos);
 
     /** Multiplayer intro **/
-    if (MultiIntroPno != knwp->pw.pl_num + 1)
+    if (MultiIntroPno != knwp->pw.player + 1)
     {
         njRotateZ(NULL, twp->ang.z);
         njRotateX(NULL, twp->ang.x);
         njRotateY(NULL, 0x8000 - twp->ang.y);
 
         /** Flying **/
-        if (mtnnum == 105)
+        if (action == 105)
         {
             motionwk* mwp = tp->mwp;
 
-            knwp->someAng0 = sub_446960(-(Sangle)(mwp->ang_aim.x - twp->ang.y), 2048, knwp->someAng0);
+            knwp->someAng0 = sub_446960(-(Sangle)(mwp->ang_aim.y - twp->ang.y), 2048, knwp->someAng0);
 
             njRotateX(NULL, knwp->someAng0);
 
         } /** Climb attatch **/
-        else if (mtnnum == 106)
+        else if (action == 106)
         {
-            const int actnum = knwp->pw.mj.plactptr[mtnnum].actnum;
+            const int actnum = knwp->pw.m.plactptr[action].actnum;
 
-            float some_ang = (1.0f - knwp->pw.mj.nframe / CHAR_MOTIONS[knwp->pw.mj.plactptr[actnum].actnum].pMotion->nbFrame) * (float)knwp->someAng0;
+            float some_ang = (1.0f - knwp->pw.m.nframe / plmotions[knwp->pw.m.plactptr[actnum].actnum].mot->nbFrame) * (float)knwp->someAng0;
 
             njRotateX(NULL, (Angle)some_ang);
         }
@@ -1102,25 +1102,25 @@ KnucklesDisplayerShadowHook(task* tp)
 
     if (twp->mode == 54 && knwp->pw.motion_list)
     {
-        njCnkAnimateMotion(CHAR_OBJECTS[knwp->pw.mj.plactptr->objnum].pObject, *knwp->pw.motion_list, flt_1DEB070);
+        njCnkAnimateMotion(plobjects[knwp->pw.m.plactptr->objnum].obj, *knwp->pw.motion_list, flt_1DEB070);
     }
     else
     {
-        if (knwp->pw.mj.mtnmode == 2)
+        if (knwp->pw.m.mtnmode == 2)
         {
             njCnkAnimateMotion(
-                CHAR_OBJECTS[knwp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                knwp->pw.mj.plmtnptr,
-                knwp->pw.mj.nframe);
+                plobjects[knwp->pw.m.plactptr[action].objnum].obj,
+                knwp->pw.m.plmtnptr,
+                knwp->pw.m.nframe);
         }
         else
         {
-            const int actnum = knwp->pw.mj.plactptr[mtnnum].actnum;
+            const int actnum = knwp->pw.m.plactptr[action].actnum;
 
             njCnkAnimateMotion(
-                CHAR_OBJECTS[knwp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                CHAR_MOTIONS[knwp->pw.mj.plactptr[actnum].actnum].pMotion,
-                knwp->pw.mj.nframe);
+                plobjects[knwp->pw.m.plactptr[action].objnum].obj,
+                plmotions[knwp->pw.m.plactptr[actnum].actnum].mot,
+                knwp->pw.m.nframe);
         }
     }
 
@@ -1128,21 +1128,21 @@ KnucklesDisplayerShadowHook(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    switch (knwp->pw.ch_num_multi) {
+    switch (knwp->pw.character) {
     case PLNO_KNUCKLES:
-        KnucklesDisplayMod(twp, &knwp->pw, mtnnum);
+        KnucklesDisplayMod(twp, &knwp->pw, action);
         break;
 
     case PLNO_ROUGE:
-        RougeDisplayMod(twp, &knwp->pw, mtnnum);
+        RougeDisplayMod(twp, &knwp->pw, action);
         break;
 
     case PLNO_TICAL:
-        TikalDisplayMod(twp, &knwp->pw, mtnnum);
+        TikalDisplayMod(twp, &knwp->pw, action);
         break;
 
     case PLNO_CHAOS0:
-        ChaosDisplayMod(twp, &knwp->pw, mtnnum);
+        ChaosDisplayMod(twp, &knwp->pw, action);
         break;
     }
 }
@@ -1154,11 +1154,11 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 293)
     {
-        NJS_CNK_OBJECT* mod_body = CHAR_OBJECTS[297].pObject;
+        NJS_CNK_OBJECT* mod_body = plobjects[297].obj;
 
         if (mod_body == nullptr)
             mod_body = object_twalker_body_mod;
@@ -1170,7 +1170,7 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
         njPopMatrixEx();
         njPushMatrixEx();
 
-        NJS_CNK_OBJECT* mod_foot1 = CHAR_OBJECTS[300].pObject;
+        NJS_CNK_OBJECT* mod_foot1 = plobjects[300].obj;
 
         if (mod_foot1 == nullptr)
             mod_foot1 = object_twalker_foot_mod;
@@ -1186,7 +1186,7 @@ TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
         njPopMatrixEx();
         njPushMatrixEx();
 
-        NJS_CNK_OBJECT* mod_foot2 = CHAR_OBJECTS[301].pObject;
+        NJS_CNK_OBJECT* mod_foot2 = plobjects[301].obj;
 
         if (mod_foot2 == nullptr)
             mod_foot2 = object_twalker_foot_mod;
@@ -1213,11 +1213,11 @@ EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 248)
     {
-        NJS_CNK_OBJECT* mod_body = CHAR_OBJECTS[252].pObject;
+        NJS_CNK_OBJECT* mod_body = plobjects[252].obj;
 
         if (mod_body == nullptr)
             mod_body = object_ewalker_body_mod;
@@ -1229,7 +1229,7 @@ EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
         njPopMatrixEx();
         njPushMatrixEx();
 
-        NJS_CNK_OBJECT* mod_foot = CHAR_OBJECTS[255].pObject;
+        NJS_CNK_OBJECT* mod_foot = plobjects[255].obj;
 
         if (mod_foot == nullptr)
             mod_foot = object_ewalker_foot_mod;
@@ -1258,7 +1258,7 @@ ChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 450)
     {
@@ -1293,7 +1293,7 @@ DarkChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 
     njPushMatrixEx();
 
-    const int objnum = pwp->mj.plactptr[mtnnum].objnum;
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
 
     if (objnum == 473)
     {
@@ -1328,16 +1328,16 @@ static void
 EggWalkerDisplayerShadowHook(task* tp)
 {
     taskwk*   const twp = tp->twp;
-    WALKERWK* const wwp = GET_WALKERWK(tp);
+    walkerwk* const wwp = GET_WALKERWK(tp);
 
     njGetMatrix(&mtx_EWalkerBase);
     njInvertMatrix(&mtx_EWalkerBase);
 
     EggWalkerWorkPointer = wwp;
 
-    switch (wwp->pw.ch_num_multi) {
+    switch (wwp->pw.character) {
     case PLNO_TAILS_WALKER:
-        njCnkSetMotionCallback(TornadoWalkerMotionCallBack_p);
+        njCnkSetMotionCallback(TailsWalkerMotionCallBack_p);
         break;
 
     case PLNO_EGG_WALKER:
@@ -1355,7 +1355,7 @@ EggWalkerDisplayerShadowHook(task* tp)
 
     njPushMatrixEx();
 
-    const int mtnnum = wwp->pw.mj.mtnnum;
+    const int action = wwp->pw.m.action;
 
     if (twp->mode == 51)
     {
@@ -1389,7 +1389,7 @@ EggWalkerDisplayerShadowHook(task* tp)
         njTranslateEx(&twp->pos);
 
     /** Multiplayer intro **/
-    if (MultiIntroPno != wwp->pw.pl_num + 1)
+    if (MultiIntroPno != wwp->pw.player + 1)
     {
         njRotateZ(NULL, twp->ang.z);
         njRotateX(NULL, twp->ang.x);
@@ -1401,25 +1401,25 @@ EggWalkerDisplayerShadowHook(task* tp)
 
     if (twp->mode == 54 && wwp->pw.motion_list)
     {
-        njCnkAnimateMotion(CHAR_OBJECTS[wwp->pw.mj.plactptr->objnum].pObject, *wwp->pw.motion_list, flt_1DEB070);
+        njCnkAnimateMotion(plobjects[wwp->pw.m.plactptr->objnum].obj, *wwp->pw.motion_list, flt_1DEB070);
     }
     else
     {
-        if (wwp->pw.mj.mtnmode == 2)
+        if (wwp->pw.m.mtnmode == 2)
         {
             njCnkAnimateMotion(
-                CHAR_OBJECTS[wwp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                wwp->pw.mj.plmtnptr,
-                wwp->pw.mj.nframe);
+                plobjects[wwp->pw.m.plactptr[action].objnum].obj,
+                wwp->pw.m.plmtnptr,
+                wwp->pw.m.nframe);
         }
         else
         {
-            const int actnum = wwp->pw.mj.plactptr[mtnnum].actnum;
+            const int actnum = wwp->pw.m.plactptr[action].actnum;
 
             njCnkAnimateMotion(
-                CHAR_OBJECTS[wwp->pw.mj.plactptr[mtnnum].objnum].pObject,
-                CHAR_MOTIONS[wwp->pw.mj.plactptr[actnum].actnum].pMotion,
-                wwp->pw.mj.nframe);
+                plobjects[wwp->pw.m.plactptr[action].objnum].obj,
+                plmotions[wwp->pw.m.plactptr[actnum].actnum].mot,
+                wwp->pw.m.nframe);
         }
     }
 
@@ -1427,21 +1427,21 @@ EggWalkerDisplayerShadowHook(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    switch (wwp->pw.ch_num_multi) {
+    switch (wwp->pw.character) {
     case PLNO_TAILS_WALKER:
-        TornadoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
+        TornadoWalkerDisplayMod(twp, &wwp->pw, action);
         break;
 
     case PLNO_EGG_WALKER:
-        EggWalkerDisplayMod(twp, &wwp->pw, mtnnum);
+        EggWalkerDisplayMod(twp, &wwp->pw, action);
         break;
 
     case PLNO_CHAO_WALKER:
-        ChaoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
+        ChaoWalkerDisplayMod(twp, &wwp->pw, action);
         break;
 
     case PLNO_DARK_WALKER:
-        DarkChaoWalkerDisplayMod(twp, &wwp->pw, mtnnum);
+        DarkChaoWalkerDisplayMod(twp, &wwp->pw, action);
         break;
     }
 }

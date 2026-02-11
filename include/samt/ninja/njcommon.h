@@ -131,12 +131,24 @@ typedef struct gjobj                GJS_OBJECT;
 #define NJD_SPRITE_SCALE            BIT_4 /* draw 3d sprite facing screen, eg. scale only       */
 #define NJD_SPRITE_ALPHA            BIT_5 /* use alpha                                          */
 
-/********************************/
-/*  Basic Types                 */
-/********************************/
-/****** Angles **********************************************************************************/
-typedef Sint32                      NJS_ANGLE , Angle;
-typedef Sint16                      NJS_SANGLE, Sangle;
+/****** Object Eval Flags ***********************************************************************/
+#define NJD_EVAL_UNIT_POS           BIT_0  /* ignore translation                                */
+#define NJD_EVAL_UNIT_ANG           BIT_1  /* ignore rotation                                   */
+#define NJD_EVAL_UNIT_SCL           BIT_2  /* ignore scaling                                    */
+#define NJD_EVAL_HIDE               BIT_3  /* do not draw model                                 */
+#define NJD_EVAL_BREAK              BIT_4  /* terminate tracing children                        */
+#define NJD_EVAL_ZXY_ANG            BIT_5  /* use 'LightWave' rotation order                    */
+#define NJD_EVAL_SKIP               BIT_6  /* skip object for motion data                       */
+#define NJD_EVAL_SHAPE_SKIP         BIT_7  /* skip object for shape motion data                 */
+#define NJD_EVAL_CLIP               BIT_8  /* if model clipped, stop tracing object children    */
+// Ninja2
+#define NJD_EVAL_MODIFIER           BIT_9  /* object is a modifier volume            (id. only) */
+#define NJD_EVAL_QUATERNION         BIT_10 /* object uses quaternion rotation                   */
+#define NJD_EVAL_ROTATE_BASE        BIT_11 /* cache matrix before the object is processed       */
+#define NJD_EVAL_ROTATE_SET         BIT_12 /* set non-translation components of cached matrix   */
+#define NJD_EVAL_ENVELOPE           BIT_13 /* object has envelope/weight data        (id. only) */
+// Mask
+#define NJD_EVAL_MASK             (0x3fff) /* valid eval flags mask                             */
 
 /********************************/
 /*  Structures                  */
@@ -144,7 +156,7 @@ typedef Sint16                      NJS_SANGLE, Sangle;
 /****** Angle ***********************************************************************************/
 typedef struct njang3
 {
-    NJS_ANGLE   x, y, z;            /* angle components                                         */
+    Angle       x, y, z;            /* angle components                                         */
 }
 NJS_ANGLE3, Angle3;
 

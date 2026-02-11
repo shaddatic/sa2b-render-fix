@@ -79,7 +79,7 @@ ObjectBoardCEDisplayerMod(task* tp)
     {
         uint32_t v11 = *(uint32_t*)((uintptr_t)tp->mwp + 24) + 24;
 
-        NJS_MOTION* p_motion = CHAR_MOTIONS[pwp->mj.mtnnum + 24].pMotion;
+        NJS_MOTION* p_motion = plmotions[pwp->m.action + 24].mot;
 
         if (p_motion)
         {
@@ -88,7 +88,7 @@ ObjectBoardCEDisplayerMod(task* tp)
             njRotateX(NULL, twp->ang.x);
             njRotateY(NULL, twp->ang.y);
 
-            if (pwp->mj.mtnmode == 2)
+            if (pwp->m.mtnmode == 2)
             {
                 if (v11 - 145 > 0x17)
                 {
@@ -102,18 +102,18 @@ ObjectBoardCEDisplayerMod(task* tp)
                 {
                     NJS_MOTION_LINK motion_link;
 
-                    motion_link.motion[0] = CHAR_MOTIONS[v11].pMotion;
+                    motion_link.motion[0] = plmotions[v11].mot;
                     motion_link.frame[0] = *(float*)((uintptr_t)tp->mwp + 28);
 
                     motion_link.motion[1] = p_motion;
                     motion_link.frame[1] = 0.0f;
 
-                    njCnkAnimateMotionLink(p_object, &motion_link, pwp->mj.nframe);
+                    njCnkAnimateMotionLink(p_object, &motion_link, pwp->m.nframe);
                 }
             }
             else
             {
-                njCnkAnimateMotion(p_object, p_motion, pwp->mj.nframe);
+                njCnkAnimateMotion(p_object, p_motion, pwp->m.nframe);
             }
         }
     }
@@ -160,7 +160,7 @@ ObjectBoardMHDisplayerMod(task* tp)
     {
         uint32_t v11 = *(uint32_t*)((uintptr_t)tp->mwp + 24) + 24;
 
-        NJS_MOTION* p_motion = CHAR_MOTIONS[pwp->mj.mtnnum + 24].pMotion;
+        NJS_MOTION* p_motion = plmotions[pwp->m.action + 24].mot;
 
         if (p_motion)
         {
@@ -169,7 +169,7 @@ ObjectBoardMHDisplayerMod(task* tp)
             njRotateX(NULL, twp->ang.x);
             njRotateY(NULL, 0x4000 + twp->ang.y);
 
-            if (pwp->mj.mtnmode == 2)
+            if (pwp->m.mtnmode == 2)
             {
                 if (v11 - 145 > 0x17)
                 {
@@ -183,18 +183,18 @@ ObjectBoardMHDisplayerMod(task* tp)
                 {
                     NJS_MOTION_LINK motion_link;
 
-                    motion_link.motion[0] = CHAR_MOTIONS[v11].pMotion;
+                    motion_link.motion[0] = plmotions[v11].mot;
                     motion_link.frame[0] = *(float*)((uintptr_t)tp->mwp + 28);
 
                     motion_link.motion[1] = p_motion;
                     motion_link.frame[1] = 0.0f;
 
-                    njCnkAnimateMotionLink(object_board_mh, &motion_link, pwp->mj.nframe);
+                    njCnkAnimateMotionLink(object_board_mh, &motion_link, pwp->m.nframe);
                 }
             }
             else
             {
-                njCnkAnimateMotion(object_board_mh, p_motion, pwp->mj.nframe);
+                njCnkAnimateMotion(object_board_mh, p_motion, pwp->m.nframe);
             }
         }
     }

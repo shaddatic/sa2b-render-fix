@@ -74,9 +74,6 @@
 #define ChaosDisp               ChaosDisp_p
 #define ChaosDispDely           ChaosDispDely_p
 
-/****** Player Object ***************************************************************/
-#define CreatePlayerObjectData          FUNC_PTR(PLAYER_OBJECT*, __cdecl, (NJS_CNK_OBJECT*), 0x00447580)
-
 /************************/
 /*  Data                */
 /************************/
@@ -89,22 +86,22 @@ static bool ConstTexMaterial;
 /************************/
 /****** Static **********************************************************************/
 static void
-FixRougeInitCrash(NJS_CNK_OBJECT* object, KNUCKLESWK* knwp)
+FixRougeInitCrash(NJS_CNK_OBJECT* object, knuckleswk* knwp)
 {
     if ( !object->model || !object->model->vlist )
         return;
 
-    PLAYER_OBJECT* plobj = CreatePlayerObjectData(object);
+    reformwk* rwp = CreateReform(object);
 
-    knwp->pObjectData2 = plobj;
+    knwp->rw_back = rwp;
 
-    plobj->data0[0] = 14;
-    plobj->someFlt = 0.4f;
+    rwp->mode = 14;
+    rwp->inten = 0.4f;
 
-    plobj->someInt0 = 0x3000;
-    plobj->someInt2 = 0x400;
+    rwp->freq = 0x3000;
+    rwp->speed = 0x400;
 
-    plobj->pObj2 = object;
+    rwp->altobj1 = object;
 }
 
 __declspec(naked)
@@ -154,22 +151,22 @@ ___DrawMotionWithSorting(void)
 #define CreatePlayerDrawMotionWithAlphaReducing         FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*, NJS_MOTION*, NJS_TEXLIST*, Float, Sint8), 0x00476C20)
 
 static void
-CreatePlayerDrawLightDashWithAlphaReducing(const taskwk* twp, const playerwk* pwp, const SONICWK* swp)
+CreatePlayerDrawLightDashWithAlphaReducing(const taskwk* twp, const playerwk* pwp, const sonicwk* swp)
 {
     if ( GetGameTime() & 1 )
     {
         NJS_CNK_OBJECT* object;
 
-        switch ( pwp->ch_num )
+        switch ( pwp->basechar )
         {
             case PLNO_SONIC:
             {
-                object = CHAR_OBJECTS[30].pObject;
+                object = plobjects[30].obj;
                 break;
             }
             case PLNO_SHADOW:
             {
-                object = CHAR_OBJECTS[103].pObject;
+                object = plobjects[103].obj;
                 break;
             }
             default:
@@ -193,7 +190,7 @@ CreatePlayerDrawLightDashWithAlphaReducing(const taskwk* twp, const playerwk* pw
 
         if ( uc2PVSMode == MD_2PVS_1PLAYER )
         {
-            CreatePlayerDrawMotionWithAlphaReducing(object, NULL, swp->TextureList, 0.f, pwp->pl_num);
+            CreatePlayerDrawMotionWithAlphaReducing(object, NULL, swp->tlist, 0.f, pwp->player);
         }
 
         njPopMatrixEx();
