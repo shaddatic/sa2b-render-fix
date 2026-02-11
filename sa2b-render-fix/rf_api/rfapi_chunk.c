@@ -46,7 +46,4 @@ const RFAPI_CHUNK rfapi_chunk =
     .CnkTransformMotionLink      = rjCnkTransformMotionLink,
     .CnkTransformShapeMotion     = rjCnkTransformShapeMotion,
     .CnkTransformShapeMotionLink = rjCnkTransformShapeMotionLink,
-
-    .CnkTransformShapeMotionBE     = rjCnkTransformShapeMotionBE,
-    .CnkTransformShapeMotionLinkBE = rjCnkTransformShapeMotionLinkBE,
 };
