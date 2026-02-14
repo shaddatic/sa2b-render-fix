@@ -60,11 +60,10 @@ static int8_t DrawEggmanBazooka;
 static bool   DrawEggmanJetEngine;
 static bool   DrawEggmanExtraShield;
 
-
 static int
 GetCharacterPlayer(int character)
 {
-    return (int)(playerpwp[1] && playerpwp[1]->basechar == character);
+    return (int)(playerpwp[1] && playerpwp[1]->character == character);
 }
 
 static void
