@@ -707,8 +707,6 @@ rjCnkVertexIN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
     }
 }
 
-___NOTE("Once the");
-
 static void
 rjCnkVertexVNS5(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
