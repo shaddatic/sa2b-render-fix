@@ -141,6 +141,39 @@ GetShadowTexIntensity(const PS_IN inpt)
 
 #endif
 
+float4 GetTexShadingColor(float4 tex, float4 col, float4 off, float mode)
+{
+    float4 color;
+    float4 color2;
+
+    // DECAL
+    color.rgb = tex.rgb; 
+    color.a   = tex.a;
+    
+    // MODULATE
+    color2.rgb = col.rgb * tex.rgb;
+    color2.a   = col.a;
+    
+    color = lerp(color, color2, mode);
+    
+    // DECALAPHA
+    color2.rgb = (tex.rgb * tex.a) + (col.rgb * (1.f - tex.a));
+//  color2.a   = col.a;
+    
+    color = lerp(color, color2, saturate(mode - 1.f));
+    
+    // MODULATEALPHA
+    color2.rgb = tex.rgb * col.rgb;
+    color2.a   = col.a * tex.a;
+    
+    color = lerp(color, color2, saturate(mode - 2.f));
+    
+    // apply offset color
+    color.rgb += off.rgb;
+    
+    return color;
+}
+
 /********************************/
 /*  Pixel Shader                */
 /********************************/
@@ -163,26 +196,7 @@ main(const PS_IN inpt)
 
         tex.a = saturate( tex.a + texalpha ); // ignore texture alpha
 
-	    if ( texshading <= TEXSHADING_DECAL )
-	    {
-            outp.col.rgb = tex.rgb + inpt.off.rgb;
-            outp.col.a   = tex.a;
-        }
-        else if ( texshading <= TEXSHADING_MODULATE )
-        {
-            outp.col.rgb = (inpt.col.rgb * tex.rgb) + inpt.off.rgb;
-            outp.col.a   = inpt.col.a;
-        }
-        else if ( texshading <= TEXSHADING_DECALALPHA )
-        {
-            outp.col.rgb = (tex.rgb * (tex.a)) + (inpt.col.rgb * (1.f - tex.a)) + inpt.off.rgb;
-            outp.col.a   = inpt.col.a;
-        }
-        else // ( texshading <= TEXSHADING_MODULATEALPHA )
-        {
-            outp.col.rgb = (tex.rgb * inpt.col.rgb) + inpt.off.rgb;
-            outp.col.a   = inpt.col.a * tex.a;
-        }
+        outp.col = GetTexShadingColor(tex, inpt.col, inpt.off, texshading);
     }
     else // nontex
     {
