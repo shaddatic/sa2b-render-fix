@@ -77,6 +77,7 @@ EXTERN_START
 #define RJD_CVT_PC                  (RJD_CVF_COLOR)                  /* pos + color             */
 #define RJD_CVT_PNC                 (RJD_CVF_NORMAL|RJD_CVF_COLOR)   /* pos + nrm + col         */
 #define RJD_CVT_PCS                 (RJD_CVF_COLOR|RJD_CVF_SPECULAR) /* pos + col + specular    */
+#define RJD_CVT_PNCS                (RJD_CVF_NORMAL|RJD_CVF_COLOR|RJD_CVF_SPECULAR) /* all      */
 
 /********************************/
 /*  Function Types              */

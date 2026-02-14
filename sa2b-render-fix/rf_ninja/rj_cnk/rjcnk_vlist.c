@@ -40,25 +40,25 @@ RJS_VLIST_ENTRY;
 /************************/
 /****** Transform *******************************************************************/
 static inline void
-rjCnkCalcVlistPos(NJS_POINT3* dst, const NJS_POINT3* src)
+rjCnkGetVlistPos(NJS_POINT3* dst, const NJS_POINT3* src)
 {
     njCalcPoint(NULL, src, dst);
 }
 
 static inline void
-rjCnkCalcVlistNrm(NJS_VECTOR* dst, const NJS_VECTOR* src)
+rjCnkGetVlistNrm(NJS_VECTOR* dst, const NJS_VECTOR* src)
 {
     njCalcVector(NULL, src, dst);
 }
 
 static inline void
-rjCnkCalcVlistCol(NJS_BGRA* dst, const NJS_BGRA* src)
+rjCnkGetVlistCol(NJS_BGRA* dst, const NJS_BGRA* src)
 {
     *dst = *src;
 }
 
 static inline void
-rjCnkCalcVlistSpc(NJS_BGRA* dst, const NJS_BGRA* src)
+rjCnkGetVlistSpc(NJS_BGRA* dst, const NJS_BGRA* src)
 {
     *dst = *src;
 }
@@ -211,54 +211,61 @@ rjCnkGetVlistVNX(NJS_VECTOR* dst, const CNK_VNX* src)
     dst->z = CNK_GET_VNX(src->z);
 }
 
-/****** Diffuse Color ***************************************************************/
-#define COLRCONV(colr, bits)        (u8)( ((colr) << (8-(bits))) | ((colr) & ~(0xFF << (8-(bits)))) )
-
-static inline NJS_BGRA
-rjCnkGetVlistD5(const CNK_565* restrict src)
+/****** Get Color Component *********************************************************/
+static inline Uint8
+rjCnkGetColor(Int val, Int nbit)
 {
-    return (NJS_BGRA) {
-        .b = COLRCONV(src->b, 5),
-        .g = COLRCONV(src->g, 6),
-        .r = COLRCONV(src->r, 5),
-        .a = 0xFF,
-    };
+    const Int ib = (8 - nbit);
+
+    // original ninja code
+//  return (Uint8) ( (val & (0xFF >> ib)) << ib );
+
+    return (Uint8) ( (val << ib) | (val >> (nbit-ib)) );
 }
 
-static inline NJS_BGRA
-rjCnkGetVlistD4(const CNK_4444* src)
+/****** Diffuse Color ***************************************************************/
+static inline void
+rjCnkGetVlistD5(NJS_BGRA* restrict dst, const CNK_565* restrict src)
 {
-    return (NJS_BGRA) {
-        .b = COLRCONV(src->b, 4),
-        .g = COLRCONV(src->g, 4),
-        .r = COLRCONV(src->r, 4),
-        .a = COLRCONV(src->a, 4),
-    };
+    dst->b = rjCnkGetColor(src->b, 5);
+    dst->g = rjCnkGetColor(src->g, 6);
+    dst->r = rjCnkGetColor(src->r, 5);
+    dst->a = 0xFF;
 }
 
 static inline void
-rjCnkGetVlistDI(const Uint16* src)
+rjCnkGetVlistD4(NJS_BGRA* restrict dst, const CNK_4444* restrict src)
 {
-    // not implemented
+    dst->b = rjCnkGetColor(src->b, 4);
+    dst->g = rjCnkGetColor(src->g, 4);
+    dst->r = rjCnkGetColor(src->r, 4);
+    dst->a = rjCnkGetColor(src->a, 4);
+}
+
+static inline void
+rjCnkGetVlistDI(NJS_BGRA* restrict dst, const Uint16* restrict src)
+{
+    const Uint32 inten = ((*src >> 8) * 0x00'01'01'01) | 0xFF'00'00'00;
+
+    *dst = BITCAST(NJS_BGRA, inten);
 }
 
 /****** Specular Color **************************************************************/
 static inline void
-rjCnkGetVlistS5(const CNK_565* src)
+rjCnkGetVlistS5(NJS_BGRA* restrict dst, const CNK_565* restrict src)
 {
-    // not implemented
+    dst->b = rjCnkGetColor(src->b, 5);
+    dst->g = rjCnkGetColor(src->g, 6);
+    dst->r = rjCnkGetColor(src->r, 5);
+    dst->a = 0x00;
 }
 
 static inline void
-rjCnkGetVlistS8(const NJS_BGRA* src)
+rjCnkGetVlistSI(NJS_BGRA* restrict dst, const Uint16* restrict src)
 {
-    // not implemented
-}
+    const Uint32 inten = ((*src >> 8) * 0x00'01'01'01);
 
-static inline void
-rjCnkGetVlistSI(const Uint16* src)
-{
-    // not implemented
+    *dst = BITCAST(NJS_BGRA, inten);
 }
 
 /************************************************************************************/
@@ -278,7 +285,7 @@ rjCnkVertex1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbu
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
     }
 }
 
@@ -294,8 +301,8 @@ rjCnkVertexVNSH(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -313,7 +320,7 @@ rjCnkVertex(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
     }
 }
 
@@ -329,8 +336,8 @@ rjCnkVertexD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistCol(&p_vbuf->col, &p_vertex->col);
     }
 }
 
@@ -346,8 +353,8 @@ rjCnkVertexVN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -365,9 +372,9 @@ rjCnkVertexVND8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
-        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistCol(&p_vbuf->col, &p_vertex->col);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -385,9 +392,9 @@ rjCnkVertexD8S8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
-        rjCnkCalcVlistSpc(&p_vbuf->spc, &p_vertex->spc);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistCol(&p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistSpc(&p_vbuf->spc, &p_vertex->spc);
     }
 }
 
@@ -407,8 +414,8 @@ rjCnkVertexVNX(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &vect);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -430,9 +437,9 @@ rjCnkVertexVNXD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
-        rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &vect);
+        rjCnkGetVlistCol(&p_vbuf->col, &p_vertex->col);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -454,8 +461,8 @@ rjCnkVertexVNX1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
         rjCnkGetVlistVNX(&vect, &p_vertex->nrm);
 
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &vect);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &vect);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -473,8 +480,8 @@ rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
     {
-        rjCnkCalcVlistPos(&p_vbuf->pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
 
         rjCnkVertexCalculateIntensity(p_vbuf);
     }
@@ -493,7 +500,7 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
     for (int i = 0; i < nb_vertex; ++i, ++p_vertex)
     {
         NJS_POINT3 pos;
-        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
+        rjCnkGetVlistPos(&pos, &p_vertex->pos);
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
@@ -536,8 +543,8 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
     {
         NJS_POINT3 pos;
         NJS_VECTOR nrm;
-        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
-        rjCnkCalcVlistNrm(&nrm, &p_vertex->nrm);
+        rjCnkGetVlistPos(&pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&nrm, &p_vertex->nrm);
 
         /** Apply weights **/
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
@@ -601,7 +608,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
     for (int i = 0; i < nb_vertex; ++i)
     {
         NJS_POINT3 pos;
-        rjCnkCalcVlistPos(&pos, &p_vertex->pos);
+        rjCnkGetVlistPos(&pos, &p_vertex->pos);
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
@@ -631,12 +638,137 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
                 p_vbuf->pos.y += pos.y;
                 p_vbuf->pos.z += pos.z;
 
-                rjCnkCalcVlistCol(&p_vbuf->col, &p_vertex->col); // read color only for end verteces
+                rjCnkGetVlistCol(&p_vbuf->col, &p_vertex->col); // read color only for end verteces
                 break;
             }
         }
 
         ++p_vertex;
+    }
+}
+
+static void
+rjCnkVertexS5(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int           nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_S5* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistD5( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistS5( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
+    }
+}
+
+static void
+rjCnkVertexS4(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int           nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_S4* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistD4( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistS5( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
+    }
+}
+
+static void
+rjCnkVertexIN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int           nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_IN* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistDI( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistSI( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
+    }
+}
+
+___NOTE("Once the");
+
+static void
+rjCnkVertexVNS5(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int              nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_VN_S5* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistD5( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistS5( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
+    }
+}
+
+static void
+rjCnkVertexVNS4(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int              nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_VN_S4* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistD4( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistS5( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
+    }
+}
+
+static void
+rjCnkVertexVNIN(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
+{
+    /** Read vertex header **/
+    const int              nb_vertex = vhead->nbindeces;
+    const CNK_VERTEX_VN_IN* p_vertex = (void*) vhead->d;
+
+    /** Populate vertex buffer **/
+    RJS_VERTEX_BUF* restrict p_vbuf = vbuf;
+
+    for (int i = 0; i < nb_vertex; ++i, ++p_vertex, ++p_vbuf)
+    {
+        rjCnkGetVlistPos(&p_vbuf->pos, &p_vertex->pos);
+        rjCnkGetVlistNrm(&p_vbuf->nrm, &p_vertex->nrm);
+        rjCnkGetVlistDI( &p_vbuf->col, &p_vertex->col);
+        rjCnkGetVlistSI( &p_vbuf->spc, &p_vertex->spc);
+
+        rjCnkVertexCalculateIntensity(p_vbuf);
     }
 }
 
@@ -691,21 +823,21 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     },
     [ NJD_CV_S5 - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_P,
+        .vattr   = RJD_CVT_PCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertex1,
+        .fnVlist = rjCnkVertexS5,
     },
     [ NJD_CV_S4 - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_P,
+        .vattr   = RJD_CVT_PCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertex1,
+        .fnVlist = rjCnkVertexS4,
     },
     [ NJD_CV_IN - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_P,
+        .vattr   = RJD_CVT_PCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertex1,
+        .fnVlist = rjCnkVertexIN,
     },
     /*
     *   Chunk Vertex Normals
@@ -736,21 +868,21 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     },
     [ NJD_CV_VN_S5 - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_PN,
+        .vattr   = RJD_CVT_PNCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertexVN1,
+        .fnVlist = rjCnkVertexVNS5,
     },
     [ NJD_CV_VN_S4 - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_PN,
+        .vattr   = RJD_CVT_PNCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertexVN1,
+        .fnVlist = rjCnkVertexVNS4,
     },
     [ NJD_CV_VN_IN - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_PN,
+        .vattr   = RJD_CVT_PNCS,
         .njflag  = FALSE,
-        .fnVlist = rjCnkVertexVN1,
+        .fnVlist = rjCnkVertexVNIN,
     },
     /*
     *   Chunk Vertex Normals32 (VNX)
