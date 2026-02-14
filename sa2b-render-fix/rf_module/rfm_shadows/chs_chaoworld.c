@@ -46,6 +46,9 @@
 #include <rf_samdl.h>               /* get samdl                                                */
 #include <rf_util.h>                /* utils                                                    */
 
+/****** RF Util *********************************************************************************/
+#include <rfu_draw.h>               /* al shadow draw                                           */
+
 /****** Config **********************************************************************************/
 #include <cnf.h>                    /* config get                                               */
 
@@ -60,12 +63,6 @@
 #define CHAO_FLG_INRANGE    (0b0001'0000'0000'0000)
 
 /********************************/
-/*  Extern Variables            */
-/********************************/
-/****** Chao Shape Flags ************************************************************************/
-NJS_CNK_MODEL* model_al_mod;
-
-/********************************/
 /*  Static Variables            */
 /********************************/
 /****** Chao Shape Flags ************************************************************************/
@@ -76,13 +73,6 @@ static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
 /********************************/
 /*  Source                      */
 /********************************/
-/****** Shadow Draw *****************************************************************************/
-void
-AL_ShadowDraw(void)
-{
-    njCnkModDrawModel(model_al_mod);
-}
-
 /****** Chao Shadow *****************************************************************************/
 static void
 ChaoDisplayerMod(task* tp)
@@ -1001,7 +991,4 @@ CHS_ChaoWorldInit(void)
     mtHookFunc(BoxHookInfo      , ALO_BoxCreate_p     , ALO_BoxCreateHook);
     mtHookFunc(RadicaseHookInfo , ALO_RadicaseCreate_p, ALO_RadicaseCreateHook);
     mtHookFunc(TVHookInfo       , ALO_TVCreate_p      , ALO_TVCreateHook);
-
-    /** shadow model **/
-    model_al_mod = RF_GetCnkModel("chao/al_mod.sa2mdl");
 }

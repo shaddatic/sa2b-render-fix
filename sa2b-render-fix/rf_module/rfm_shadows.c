@@ -51,6 +51,7 @@ static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
 /****** Mod Shadow ******************************************************************/
 static NJS_CNK_MODEL* model_basic_shadow;
+static NJS_CNK_MODEL* model_al_mod;
 
 /************************/
 /*  Source              */
@@ -84,6 +85,12 @@ DrawBasicShadow(void)
     njCnkModDrawModel(model_basic_shadow);
 }
 
+void
+AL_ShadowDraw(void)
+{
+    njCnkModDrawModel(model_al_mod);
+}
+
 /****** Set Shadow Intensity ********************************************************/
 #define AL_Constructor      FUNC_PTR(void, __cdecl, (task*), 0x0052AB60)
 #define AL_Destructor       FUNC_PTR(void, __cdecl, (task*), 0x0052AE70)
@@ -110,6 +117,10 @@ AL_DestructorHook(task* tp)
 void
 RFM_ShadowsInit(void)
 {
+    /** shadow model **/
+    model_basic_shadow = RF_GetCnkModel("common/basic_mod.sa2mdl");
+    model_al_mod       = RF_GetCnkModel("chao/al_mod.sa2mdl");
+
     if ( CNF_GetInt(CNF_MISC_NOSHADOWS) )
     {
         WriteRetn(0x0046FBC0); // Disable all shadows
@@ -157,9 +168,6 @@ RFM_ShadowsInit(void)
         RFG_ForceShadowMaps();
         return;
     }
-
-    // get basic shadow model
-    model_basic_shadow = RF_GetCnkModel("common/basic_mod.sa2mdl");
 
     if ( CNF_GetInt(CNF_DEBUG_MODIFIER) )
     {
