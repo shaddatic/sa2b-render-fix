@@ -326,6 +326,11 @@ SonicDisplayerShadowHook(task* tp)
     taskwk* const twp = tp->twp;
     sonicwk* const swp = GET_SONICWK(tp);
 
+    if ( MultiIntroPno && MultiIntroPno != swp->pw.player + 1 )
+    {
+        return;
+    }
+
     njGetMatrix(&mtx_SonicBase);
     njInvertMatrix(&mtx_SonicBase);
 
@@ -1011,6 +1016,11 @@ KnucklesDisplayerShadowHook(task* tp)
     taskwk*     const twp = tp->twp;
     knuckleswk* const knwp = GET_KNUCKLESWK(tp);
 
+    if ( MultiIntroPno && MultiIntroPno != knwp->pw.player + 1 )
+    {
+        return;
+    }
+
     njGetMatrix(&mtx_KnucklesBase);
     njInvertMatrix(&mtx_KnucklesBase);
 
@@ -1329,6 +1339,11 @@ EggWalkerDisplayerShadowHook(task* tp)
 {
     taskwk*   const twp = tp->twp;
     walkerwk* const wwp = GET_WALKERWK(tp);
+
+    if ( MultiIntroPno && MultiIntroPno != wwp->pw.player + 1 )
+    {
+        return;
+    }
 
     njGetMatrix(&mtx_EWalkerBase);
     njInvertMatrix(&mtx_EWalkerBase);
