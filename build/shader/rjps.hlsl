@@ -63,8 +63,7 @@ struct PS_OUT
 /********************************/
 /****** Get Texture *****************************************************************************/
 #if 0
-half4
-GetPalette(const float2 uv)
+half4 GetPalette(const float2 uv)
 {
     const half   plt_index = (half)tex2D( s_DiffuseTex, uv ).w * totalPaletteIndices + paletteOffset;
     const float2 plt_uv    = float2(plt_index / indexDiv, 0);
@@ -73,8 +72,7 @@ GetPalette(const float2 uv)
 }
 #endif
 
-half4
-GetTexture(const float2 uv)
+half4 GetTexture(const float2 uv)
 {
     return tex2D(s_DiffuseTex, uv);
 }
@@ -82,8 +80,7 @@ GetTexture(const float2 uv)
 /****** Fog *************************************************************************************/
 #if (PXL_FOG == 1)
 
-float
-GetFogIntensity(const float w)
+float GetFogIntensity(const float w)
 {
     const float fogDensity = 8;
     
@@ -110,26 +107,21 @@ GetFogIntensity(const float w)
 
 #endif
 
-
-
 /****** Shadow Tex ******************************************************************************/
 #if (PXL_SHTEX == 1)
 
-bool
-HasTex(float texGenCount, int check)
+bool HasTex(float texGenCount, int check)
 {
     return (texGenCount - (check + 0.2f)) > 0;
 }
 
-float
-GetShadow(sampler2D tex, float2 uv, float texGenCount, int check)
+float GetShadow(sampler2D tex, float2 uv, float texGenCount, int check)
 {
     half v = tex2D(tex, uv).r;
     return HasTex(texGenCount, check) ? (1.0f - v) : 1;
 }
 
-half
-GetShadowTexIntensity(const PS_IN inpt)
+half GetShadowTexIntensity(const PS_IN inpt)
 {
     half shadow = 1;
 
@@ -178,8 +170,7 @@ float4 GetTexShadingColor(float4 tex, float4 col, float4 off, float mode)
 /*  Pixel Shader                */
 /********************************/
 /****** Main ************************************************************************************/
-PS_OUT
-main(const PS_IN inpt)
+PS_OUT main(const PS_IN inpt)
 {
     const bool polytex = c_PolyAttr.y > 0.f;
 
@@ -195,7 +186,7 @@ main(const PS_IN inpt)
         half4 tex = GetTexture( inpt.uv );
 
         tex.a = saturate( tex.a + texalpha ); // ignore texture alpha
-
+        
         outp.col = GetTexShadingColor(tex, inpt.col, inpt.off, texshading);
     }
     else // nontex

@@ -45,8 +45,7 @@ struct VS_OUT
 /*  Vertex Shader               */
 /********************************/
 /****** Main ************************************************************************************/
-VS_OUT
-main(VS_IN inpt)
+VS_OUT main(VS_IN inpt)
 {
     const bool vnrm = c_PolyAttr.x > 0.f;
     const bool vtex = c_PolyAttr.y > 0.f;
