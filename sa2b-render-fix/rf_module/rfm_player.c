@@ -157,7 +157,7 @@ CreatePlayerDrawLightDashWithAlphaReducing(const taskwk* twp, const playerwk* pw
     {
         NJS_CNK_OBJECT* object;
 
-        switch ( pwp->basechar )
+        switch ( pwp->character )
         {
             case PLNO_SONIC:
             {
