@@ -269,27 +269,27 @@ CNK_VERTEX_HEAD;
 /****** Sub-Structures **************************************************************/
 typedef struct
 {
-    Uint16 r : 5;               /* red component                             [0~31] */
-    Uint16 g : 6;               /* green component                           [0~63] */
     Uint16 b : 5;               /* blue component                            [0~31] */
+    Uint16 g : 6;               /* green component                           [0~63] */
+    Uint16 r : 5;               /* red component                             [0~31] */
 }
 CNK_565;
 
 typedef struct
 {
-    Uint16 a : 4;               /* alpha component                           [0~15] */
-    Uint16 r : 4;               /* red component                             [0~15] */
-    Uint16 g : 4;               /* green component                           [0~15] */
     Uint16 b : 4;               /* blue component                            [0~15] */
+    Uint16 g : 4;               /* green component                           [0~15] */
+    Uint16 r : 4;               /* red component                             [0~15] */
+    Uint16 a : 4;               /* alpha component                           [0~15] */
 }
 CNK_4444;
 
 typedef struct
 {
-    Sint32   :  2;              /* padding                                          */
-    Sint32 x : 10;              /* x normal                              [-512~511] */
-    Sint32 y : 10;              /* y normal                              [-512~511] */
     Sint32 z : 10;              /* z normal                              [-512~511] */
+    Sint32 y : 10;              /* y normal                              [-512~511] */
+    Sint32 x : 10;              /* x normal                              [-512~511] */
+    Sint32   :  2;              /* padding                                          */
 }
 CNK_VNX;
 
@@ -348,24 +348,24 @@ CNK_VERTEX_NF;
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
-    CNK_565    col;             /* diffuse color                                    */
     CNK_565    spc;             /* specular color                                   */
+    CNK_565    col;             /* diffuse color                                    */
 }
 CNK_VERTEX_S5;
 
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
-    CNK_4444   col;             /* diffuse color                                    */
     CNK_565    spc;             /* specular color                                   */
+    CNK_4444   col;             /* diffuse color                                    */
 }
 CNK_VERTEX_S4;
 
 typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
-    Uint16     col;             /* diffuse intensity                      [0~65535] */
     Uint16     spc;             /* specular intensity                     [0~65535] */
+    Uint16     col;             /* diffuse intensity                      [0~65535] */
 }
 CNK_VERTEX_IN;
 
@@ -398,8 +398,8 @@ typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    CNK_565    col;             /* diffuse color                                    */
     CNK_565    spc;             /* specular color                                   */
+    CNK_565    col;             /* diffuse color                                    */
 }
 CNK_VERTEX_VN_S5;
 
@@ -407,8 +407,8 @@ typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    CNK_4444   col;             /* diffuse color                                    */
     CNK_565    spc;             /* specular color                                   */
+    CNK_4444   col;             /* diffuse color                                    */
 }
 CNK_VERTEX_VN_S4;
 
@@ -416,8 +416,8 @@ typedef struct
 {
     NJS_POINT3 pos;             /* position                                         */
     NJS_VECTOR nrm;             /* normal                                           */
-    Uint16     col;             /* diffuse intensity                      [0~65535] */
     Uint16     spc;             /* specular intensity                     [0~65535] */
+    Uint16     col;             /* diffuse intensity                      [0~65535] */
 }
 CNK_VERTEX_VN_IN;
 
@@ -563,7 +563,7 @@ CNK_STRIP_HEAD;
 /****** Sub-Struct ******************************************************************/
 typedef struct
 {
-    Sint16          i;          /* vertex buffer index                              */
+    Uint16          i;          /* vertex buffer index                              */
 //  CNK_UFO         ufo;        /* user flag offset, per polygon                    */
 }
 CNK_ST;

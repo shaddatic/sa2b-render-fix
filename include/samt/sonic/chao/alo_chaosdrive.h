@@ -13,6 +13,8 @@
 
 #include <samt/sonic/task/taskwk.h>
 
+#include <samt/sonic/chao/al_minimal.h>
+
 /************************/
 /*  Abstract Types      */
 /************************/
@@ -22,14 +24,17 @@ typedef struct item_save_info   ITEM_SAVE_INFO;
 /************************/
 /*  Enums               */
 /************************/
-typedef enum /* Toolkit addition */
+/****** Chaos Drive Type ************************************************************************/
+/*
+*   chaos drive type, stored in 'kind'
+*/
+enum
 {
-    AL_DRIVE_YELLOW = 0x15,
-    AL_DRIVE_GREEN = 0x16,
-    AL_DRIVE_RED = 0x17,
-    AL_DRIVE_PURPLE = 0x18
-}
-eAL_DRIVES;
+    CDR_YELLOW,
+    CDR_GREEN,
+    CDR_RED,
+    CDR_PURPLE,
+};
 
 /************************/
 /*  Structures          */

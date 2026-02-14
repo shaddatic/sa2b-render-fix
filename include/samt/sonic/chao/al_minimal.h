@@ -69,6 +69,13 @@ enum
     MINI_PHEN,                  /* phoenix                                          */
 
     NB_MINI,                    /* minimal count                                    */
+
+    MINI_CDR_YELLOW = NB_MINI,  /* chaos drive, yellow                              */
+    MINI_CDR_GREEN,             /* chaos drive, yellow                              */
+    MINI_CDR_RED,               /* chaos drive, yellow                              */
+    MINI_CDR_PURPLE,            /* chaos drive, yellow                              */
+
+    NB_MINI_CDR,                /* minimal and chaos drive count                    */
 };
 
 /****** Mini 'mode' *****************************************************************/

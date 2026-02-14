@@ -97,7 +97,7 @@ typedef struct al_object
     int32_t ItemOffsetFlag;
     NJS_POINT3 ItemOffsetPos;
     Angle3 ItemOffsetAng;
-    float(*pOldMatrix)[16];
+    NJS_MATRIX* pOldMatrix;
     AL_BUYO_PARAM* pBuyoParam;
     void* DisplayList;
 }
