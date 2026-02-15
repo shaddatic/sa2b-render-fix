@@ -122,7 +122,7 @@ RFU_GetFileOwnership(const c7* pcSrcFile)
 
     if ( sz_fmt >= sz_path )
     {
-        RF_DbgWarn("Path buffer overflowed!");
+        RF_DbgWarn(RFD_FUNCNAME " Path buffer overflowed!");
         return FOWN_ERROR;
     }
 
@@ -205,7 +205,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 
         if ( sz_fmt >= sz_path )
         {
-            RF_DbgWarn("Source path buffer overflowed!");
+            RF_DbgWarn(RFD_FUNCNAME " Source path buffer overflowed!");
             return false;
         }
     }
@@ -215,7 +215,7 @@ RFU_ReplaceFile(const c7* pcGdPath, const c7* pcOptiFolder)
 
         if ( sz_fmt >= sz_path )
         {
-            RF_DbgWarn("Destination path buffer overflowed!");
+            RF_DbgWarn(RFD_FUNCNAME " Destination path buffer overflowed!");
             return false;
         }
     }
@@ -258,7 +258,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
         if ( sz_fmt >= sz_path )
         {
-            RF_DbgWarn("Source path buffer overflowed!");
+            RF_DbgWarn(RFD_FUNCNAME " Source path buffer overflowed!");
             return false;
         }
     }
@@ -268,7 +268,7 @@ RFU_ReplaceTexture(const c7* pcTexName, const c7* pcOptiFolder)
 
         if ( sz_fmt >= sz_path )
         {
-            RF_DbgWarn("Destination path buffer overflowed!");
+            RF_DbgWarn(RFD_FUNCNAME " Destination path buffer overflowed!");
             return false;
         }
     }
@@ -301,7 +301,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgExtra("Texture file '%s' is not owned by the Game or RF", pc_src);
+            RF_DbgExtra(RFD_FUNCNAME " Texture file '%s' is not owned by the Game or RF", pc_src);
             return false;
         }
     }
@@ -313,7 +313,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgExtra("Texture file '%s' is not owned by the Game or RF", pc_src);
+            RF_DbgExtra(RFD_FUNCNAME " Texture file '%s' is not owned by the Game or RF", pc_src);
             return false;
         }
     }
@@ -330,7 +330,7 @@ RFU_ReplacePvr(const c7* pcPvrName, const c7* pcOptiFolder)
 
         if ( sz_fmt >= sz_path )
         {
-            RF_DbgWarn("Destination path buffer overflowed!");
+            RF_DbgWarn(RFD_FUNCNAME " Destination path buffer overflowed!");
             return false;
         }
     }
@@ -360,7 +360,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgExtra("Player file '%s' is not owned by the Game or RF", pcPrsName);
+            RF_DbgExtra(RFD_FUNCNAME " Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
         }
     }
@@ -372,7 +372,7 @@ RFU_ReplacePlayerPrs(const c7* pcPrsName, const c7* pcOptiFolder)
 
         if ( fown > FOWN_RF )
         {
-            RF_DbgExtra("Player file '%s' is not owned by the Game or RF", pcPrsName);
+            RF_DbgExtra(RFD_FUNCNAME " Player file '%s' is not owned by the Game or RF", pcPrsName);
             return false;
         }
     }
@@ -609,7 +609,7 @@ RFU_ReplaceFloat(pint pOpcode, f64 val)
         }
         default:
         {
-            RF_DbgWarn("Invalid float opcode %02H", cmp);
+            RF_DbgWarn(RFD_FUNCNAME " Invalid float opcode %02H", cmp);
             return false;
         }
     }

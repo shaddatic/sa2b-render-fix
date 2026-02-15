@@ -30,9 +30,14 @@ EXTERN_START
 /****** Function Info ***************************************************************************/
 /*
 *   Description:
+*     Function name.
+*/
+#define RFD_FUNCNAME                "["__FUNCTION__"]"
+/*
+*   Description:
 *     Function name and line macro, eg. "RF_DebugOut (ln 50)"
 */
-#define RFD_FUNCINFO                __FUNCTION__ " (ln " __LINE__ ")"
+#define RFD_FUNCINFO                "["__FUNCTION__"](ln " __LINE__ ")"
 
 /********************************/
 /*  Prototypes                  */
@@ -75,9 +80,9 @@ bool    RF_DbgUseExtraInfo( void );
 /*  Function Macros             */
 /********************************/
 /****** Debug Out *******************************************************************************/
-#define RF_DbgInfo(...)             ___OutputDebugString("RF INFO: "                     __VA_ARGS__)
-#define RF_DbgWarn(...)             ___OutputDebugString("RF WARN: [" __FUNCTION__ "] "  __VA_ARGS__)
-#define RF_DbgError(...)            ___OutputDebugString("RF ERROR: [" __FUNCTION__ "] " __VA_ARGS__)
+#define RF_DbgInfo(...)             ___OutputDebugString("RF INFO: "  __VA_ARGS__)
+#define RF_DbgWarn(...)             ___OutputDebugString("RF WARN: "  __VA_ARGS__)
+#define RF_DbgError(...)            ___OutputDebugString("RF ERROR: " __VA_ARGS__)
 /*
 *   Description:
 *     Print extra operational info.
