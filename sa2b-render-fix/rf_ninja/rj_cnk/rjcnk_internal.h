@@ -70,6 +70,10 @@ EXTERN_START
 #define RJD_CVF_COLOR               (1<<1) /* has vertex colors                                 */
 #define RJD_CVF_SPECULAR            (1<<2) /* has vertex offset color                           */
 /*
+*   Vertex Type Flags
+*/
+#define RJD_CVF_VND8                (1<<15)/* is VND8, and color must be divided by 128         */
+/*
 *   Vertex Types
 */
 #define RJD_CVT_P                   (0)                              /* position                */
@@ -142,10 +146,11 @@ typedef struct rjcnkctx
     Sint32          func;           /* draw function                                            */
     Uint16          flag;           /* context flags                                            */
     Uint16          vattr;          /* vertex attributes                                        */
+    Uint16          vnd8;           /* use vnd8 color calculations (color/128)                  */
+    Sint16          spec;           /* specular mode                                            */
     Sint16          cull;           /* last culling mode                                        */
     Sint16          texid;          /* last texture id                                          */
     CNK_TINY_HEAD   tiny;           /* last texture material                                    */
-    Sint16          spec;           /* specular mode                                            */
     Sint16          depthq;         /* depth queue mode                                         */
 }
 RJS_CNK_CTX;

@@ -138,6 +138,8 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
     /** Get constants **/
 
     const Float inten_mul = _rj_cnk_inten_multiply_;
+    const Float color_mul = _rj_cnk_context_.vnd8 ?
+                            (1.f/128.f) : (1.f/255.f);
 
     const u32 lightsw = _rj_light_sw_;
 
@@ -159,10 +161,10 @@ rjCnkVertexColorLightsD8(const RJS_VERTEX_BUF* restrict pVtx)
         argb.b += (_rj_lights_[i].b * inten);
     }
 
-    argb.a *= ( (Float)pVtx->col.a / 128.f );
-    argb.r *= ( (Float)pVtx->col.r / 128.f ) * _rj_cnk_diff_material_.r;
-    argb.g *= ( (Float)pVtx->col.g / 128.f ) * _rj_cnk_diff_material_.g;
-    argb.b *= ( (Float)pVtx->col.b / 128.f ) * _rj_cnk_diff_material_.b;
+    argb.a *= ( (Float)pVtx->col.a * color_mul );
+    argb.r *= ( (Float)pVtx->col.r * color_mul ) * _rj_cnk_diff_material_.r;
+    argb.g *= ( (Float)pVtx->col.g * color_mul ) * _rj_cnk_diff_material_.g;
+    argb.b *= ( (Float)pVtx->col.b * color_mul ) * _rj_cnk_diff_material_.b;
 
     return ArgbToUint(&argb);
 }

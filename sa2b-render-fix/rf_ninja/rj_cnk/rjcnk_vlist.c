@@ -848,7 +848,7 @@ static const RJS_VLIST_ENTRY _rj_vlist_funcs_[NJD_CV_NF_D8 - NJD_VERTOFF + 1] =
     },
     [ NJD_CV_VN_D8 - NJD_VERTOFF ] =
     {
-        .vattr   = RJD_CVT_PNC,
+        .vattr   = RJD_CVT_PNC|RJD_CVF_VND8,
         .njflag  = FALSE,
         .fnVlist = rjCnkVertexVND8,
     },
@@ -969,7 +969,8 @@ rjCnkVList(const Sint32* restrict pVList, RJS_VERTEX_BUF* restrict vbuf)
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vhead->indexoffset ];
 
         // Set vertex attrs and buffer
-        _rj_cnk_context_.vattr = (p_vfunc->vattr & vattr_and);
+        _rj_cnk_context_.vattr = (p_vfunc->vattr & vattr_and); // excludes VND8 flag
+        _rj_cnk_context_.vnd8  = (p_vfunc->vattr & RJD_CVF_VND8);
 
         p_vfunc->fnVlist(p_vhead, p_vbuf);
 

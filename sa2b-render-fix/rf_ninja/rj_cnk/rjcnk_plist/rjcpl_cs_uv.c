@@ -369,6 +369,7 @@ rjCnkStripUV(const RJS_CNK_STRIP* restrict strip, const RJS_VERTEX_BUF* restrict
             break;
         }
         case RJD_CVT_PNC:
+        case RJD_CVT_PNCS:
         {
             rjCnkStripUV_VND8(strip, vbuf, uvh);
             break;
