@@ -792,8 +792,7 @@ rjStartModTriList(Sint32 nbPoly)
 
     if ( mod_num + vtx_num >= _rj_mod_vertex_buffer_max_ )
     {
-        OutputString("RFDBG: Modifier vertex buffer is full!");
-
+        RF_DbgWarn("Modifier vertex buffer is full!");
         return FALSE;
     }
 
