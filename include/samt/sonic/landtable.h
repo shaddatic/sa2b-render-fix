@@ -70,9 +70,6 @@ typedef struct zxsdwstr             zxsdwstr; /* zx shadow structure            
 #define LANDDRAW_NOCOMPILE      (1<<26) /* don't compile model, use other draw                  */
 #define LANDDRAW_DRAW           (1<<31) /* land entry is to be drawn                            */
 
-/****** Render Fix Flags ************************************************************************/
-#define LANDDRAW_RFDRAW         (1<<16) /* use render fix's normal draw                         */
-
 /********************************/
 /*  Structures                  */
 /********************************/
