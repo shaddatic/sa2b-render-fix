@@ -778,8 +778,8 @@ rjEndTriDestrip(Sint32 count)
     _rj_vertex_buffer_top_ += _rj_vertex_buffer_stride_ * count;
 }
 
-static Uint32 _rj_mod_vertex_buffer_max_;
-Uint32        _rj_mod_vertex_buffer_num_;
+Uint32 _rj_mod_vertex_buffer_max_;
+Uint32 _rj_mod_vertex_buffer_num_;
 
 static RJS_VERTEX_M* _rj_mod_vertex_buffer_top_;
 

@@ -23,6 +23,12 @@
 Sint32
 njCnkModDrawModel(NJS_CNK_MODEL* model)
 {
+    // if the modifier vertex buffer is uninitialized, stop drawing
+    if ( !_rj_mod_vertex_buffer_max_ )
+    {
+        return CNK_RETN_CLIP;
+    }
+
     if ( _nj_control_3d_flag_ & NJD_CONTROL_3D_MODEL_CLIP )
     {
         if ( model->r > 0.f && njCnkModelClip(model) )
