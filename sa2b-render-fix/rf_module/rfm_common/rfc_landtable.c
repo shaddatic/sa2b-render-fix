@@ -96,16 +96,20 @@ DrawLandtable_RF(void)
 
                 if ( landattr & LANDDRAW_NOCOMPILE )
                 {
-                    if ( landattr & LANDDRAW_SIMPLEDRAW )
+                    if ( landattr & LANDDRAW_RFDRAW ) // rf addition
+                    {
+                        rjCnkNormalDrawModel(p_obj->model);
+                    }
+                    else if ( landattr & LANDDRAW_SIMPLEDRAW )
                     {
                         njCnkSimpleDrawModel(p_obj->model);
                     }
-                    else
+                    else // easy draw
                     {
                         njCnkEasyDrawModel(p_obj->model);
                     }
                 }
-                else
+                else // direct draw
                 {
                     njCnkDirectDrawModel(p_obj->model);
                 }
