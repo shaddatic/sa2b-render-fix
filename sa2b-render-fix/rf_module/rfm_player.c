@@ -240,8 +240,8 @@ BrokenModelCompatStart(int pno)
 static void
 BrokenModelCompatEnd(int pno)
 {
-    _nj_constant_attr_and_ =  NJD_FST_MASK;
-    _nj_constant_attr_or_  = ~NJD_FST_MASK;
+    _nj_constant_attr_and_ = ~0;
+    _nj_constant_attr_or_  =  0;
 
     // double sided lighting, restore
     rjCnkSetControl( ~0, RJD_CNK_CTRL_DBLIGHT );
