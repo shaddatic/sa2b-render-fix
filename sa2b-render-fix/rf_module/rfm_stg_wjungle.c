@@ -37,7 +37,7 @@ BgDispSort(task* tp)
     njFogDisable();
 
     njPushMatrixEx();
-    NJS_POINT3* pcampos = &cameraControlWork[cameraNumber]->pos;
+    NJS_POINT3* pcampos = &camera_curpos->pos;
 
     njTranslate(NULL, pcampos->x, 0.0f, pcampos->z);
 

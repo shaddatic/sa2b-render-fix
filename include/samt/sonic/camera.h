@@ -25,19 +25,32 @@ typedef struct _CameraSystemWork    CameraSystemWork;
 /************************/
 /*  Defines             */
 /************************/
-#define cameraCurrentWork           cameraControlWork[cameraNumber]
+#define camera_curpos               camera_pos[cameraNumber]
 
 /************************/
 /*  Structures          */
 /************************/
-typedef struct _camcontwk
+typedef struct _camposwk
 {
     NJS_POINT3 pos;
-    Angle3     ang;
+    NJS_ANGLE3 ang;
     NJS_VECTOR dir;
     NJS_POINT3 tgt;
     NJS_POINT3 diff;
-    f32        spd;
+    f32        tgtdist;
+}
+camposwk;
+
+typedef struct _camcontwk
+{
+    i32         cammode;
+    b32         colliflag;
+    i32         timer;
+    NJS_POINT3  pos;
+    NJS_ANGLE3  ang;
+    NJS_VECTOR  dir;
+    NJS_POINT3  tgt;
+    f32         tgtdist;
 }
 camcontwk;
 
@@ -55,27 +68,27 @@ typedef struct
 }
 CAMCOLLI;
 
-typedef struct _CAMERALEVEL
+typedef struct _OBJ_CAMERAPARAM
 {
     int mode;
     int field_4;
     uint32_t counter;
-    void (__cdecl * pfnCamera)(CameraSystemWork*, struct _CAMERALEVEL*);
+    void (__cdecl * pfnCamera)(CameraSystemWork*, struct _OBJ_CAMERAPARAM*);
     int field_10;
     char work[256];
 }
-CAMERALEVEL;
+OBJ_CAMERAPARAM;
 
-typedef struct _ADJUSTLEVEL
+typedef struct _OBJ_ADJUSTPARAM
 {
     int adjust;
     int field_4;
     uint32_t counter;
-    void (__cdecl * pfnAdjust)(CameraSystemWork*, struct _ADJUSTLEVEL*);
+    void (__cdecl * pfnAdjust)(CameraSystemWork*, struct _OBJ_ADJUSTPARAM*);
     int field_10;
     char work[256];
 }
-ADJUSTLEVEL;
+OBJ_ADJUSTPARAM;
 
 typedef struct _CameraSystemWork
 {
@@ -96,20 +109,18 @@ typedef struct _CameraSystemWork
 
     NJS_CAMERA camera;
 
-    camcontwk ControlWork;
-    camcontwk ControlWorkOld;
-    camcontwk ControlWorkOlder;
+    camposwk posCamera[3];                  /* position + position history          */
 
     int32_t level;
-    CAMERALEVEL ModeLevel[16];
-    ADJUSTLEVEL AdjustLevel[16];
+    OBJ_CAMERAPARAM Camera[16];
+    OBJ_ADJUSTPARAM Adjust[16];
 }
 CameraSystemWork;
 
 typedef struct _OBJ_CAMERAMODE
 {
     const char* name;
-    void (__cdecl* fnCamera)(CameraSystemWork*, CAMERALEVEL*);
+    void (__cdecl* fnCamera)(CameraSystemWork*, OBJ_CAMERAPARAM*);
     int unk;
 }
 OBJ_CAMERAMODE;
@@ -117,7 +128,7 @@ OBJ_CAMERAMODE;
 typedef struct _OBJ_CAMERAADJUST
 {
     const char* name;
-    void (__cdecl* fnAdjust)(CameraSystemWork*, ADJUSTLEVEL*);
+    void (__cdecl* fnAdjust)(CameraSystemWork*, OBJ_ADJUSTPARAM*);
 }
 OBJ_CAMERAADJUST;
 
@@ -136,17 +147,12 @@ CAMADJUSTWK_KNUCKLES;
 #define cameraNumber                DATA_REF(int32_t         , 0x01DD92A0)
 
 #define cameraSystemWork            DATA_ARY(CameraSystemWork, 0x01DCFF40, [4])
-
-#define cameraControlWork           DATA_ARY(camcontwk*      , 0x01DD92B0, [4])
+#define cameraControlWork           DATA_REF(camcontwk       , 0x01DCFF00)
 
 #define CameraMode                  DATA_ARY(OBJ_CAMERAMODE  , 0x008ABD38, [28])
 #define CameraAdjust                DATA_ARY(OBJ_CAMERAADJUST, 0x008ABE88, [14])
 
 #define camera_twp                  DATA_REF(taskwk*         , 0x01A5A784)
-
-/************************/
-/*  Prototypes          */
-/************************/
-int     SetAdjustMode( int num, int adjust );
+#define camera_pos                  DATA_ARY(camposwk*       , 0x01DD92B0, [4])
 
 #endif/*_SA2B_CAMERA_H_*/
