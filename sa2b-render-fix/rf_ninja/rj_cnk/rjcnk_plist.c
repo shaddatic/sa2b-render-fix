@@ -212,7 +212,7 @@ rjCnkSetStrip(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
 
     const Uint32 sttype = p_striph->head;
 
-    pStrip->flag = (fst | sttype);
+    pStrip->flag = (fst & NJD_FST_MASK) | sttype;
 
     if ( (sttype - NJD_STRIPOFF) % 3 ) // UVN/UVH
     {
