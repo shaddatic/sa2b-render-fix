@@ -21,7 +21,7 @@
 
 /****** Camera Data *****************************************************************/
 #define EvCamRangeOutPos                DATA_REF(NJS_POINT3, 0x01DB0FF0)
-#define EvCameraContWk                  DATA_REF(camcontwk , 0x01A283A0)
+#define EvCameraContWk                  DATA_REF(camposwk  , 0x01A283A0)
 #define EventCameraMotionNum            DATA_REF(int       , 0x01DB0EC4)
 
 /************************/
