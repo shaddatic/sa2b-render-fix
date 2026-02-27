@@ -282,6 +282,10 @@ RF_ShaderInit(void)
 {
     mtHookFunc(SetShaderIndexHookInfo, SetShaderIndex_p, SetShaderIndexHook);
 
+    RFS_VSHADER* p_sonicuivs = RF_CompileVShader("sonicuivs", nullptr);
+
+    RF_SetGameVShader(RFE_SHADERIX_UI, p_sonicuivs);
+
     RFS_VSHADER* p_sonicvs = RF_CompileVShader("sonicvs", nullptr);
 
     RF_SetGameVShader(RFE_SHADERIX_MDL_NONE, p_sonicvs);
