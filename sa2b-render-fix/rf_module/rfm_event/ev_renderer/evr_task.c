@@ -35,9 +35,6 @@
 /****** Flag ************************************************************************/
 #define DisableCutsceneRendering                DATA_REF(int, 0x01AEDE28)
 
-/****** Clip ************************************************************************/
-#define NearClip                                DATA_REF(f32, 0x025EFF44)
-
 /************************/
 /*  Source              */
 /************************/
@@ -241,8 +238,6 @@ EventDestructor(task* tp)
 {
     taskwk* restrict twp = tp->twp;
 
-    NearClip = twp->scl.z; // reset the near plane to 1.f
-
     if ( EvBigTexture )
     {
         texFreeTexlist(EvBigTexture);
@@ -275,11 +270,6 @@ EventExecutor(task* tp)
     if ( DisableCutsceneRendering || DisableCutscene || CutsceneMode == EVENTMD_UNK_7 || CutsceneMode == EVENTMD_UNK_8 || CutsceneMode == EVENTMD_TIMECARD )
     {
         return;
-    }
-
-    if ( EventNum == 350 )
-    {
-        NearClip = 3.f; // set the near plane to 3 during Dreamcast intro, increasing Z accuracy
     }
 
     taskwk* restrict twp = tp->twp;
@@ -370,8 +360,6 @@ EventInitiator(task* tp)
     tp->disp_dely = EventDisplayerDelayed;
     tp->disp_sort = EventDisplayerSort;
     tp->disp_shad = EventDisplayerShadow;
-
-    tp->twp->scl.z = NearClip;
 
     EventExecutor(tp);
 }
