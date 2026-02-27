@@ -59,8 +59,8 @@ VS_OUT main(VS_IN inpt)
 #else
     outp.pos.x =  inpt.pos.x * c_DeviceInfo.w;
     outp.pos.y = -inpt.pos.y;
-    outp.pos.z = 1.f - inpt.pos.z;
-    outp.pos.w = 1.f;
+    outp.pos.z =  inpt.pos.z;
+    outp.pos.w =  1.f;
 #endif
 
     outp.w = outp.pos.z;

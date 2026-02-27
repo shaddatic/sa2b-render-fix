@@ -32,7 +32,7 @@
 
 /****** Clear Defaults **************************************************************************/
 #define CLR_COLOR                   (0x00000000)  /* clear surface color                        */
-#define CLR_DEPTH                   (1.f)         /* clear depth                                */
+#define CLR_DEPTH                   (0.f)         /* clear depth                                */
 #define CLR_STENCIL                 (0x00)        /* clear stencil value                        */
 
 /********************************/

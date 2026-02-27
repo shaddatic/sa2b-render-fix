@@ -197,7 +197,7 @@ ModifierDrawFast(void)
     /****** Initial Setup ******/
 
     /** Force Z Func **/
-    DX9_SetZFunc(DX9_CMP_LEQ);
+    DX9_SetZFunc(DX9_CMP_GEQ);
 
     /** Enable stencil **/
     DX9_SetStencilEnable(true);
@@ -255,7 +255,7 @@ ModifierDrawFast(void)
     );
 
     /** Z buffer **/
-    DX9_SetZFunc(DX9_CMP_GTR);
+    DX9_SetZFunc(DX9_CMP_LSS);
 
     /** Stencil ref **/
     DX9_SetStencilRef(STENCIL_BIT_ON | STENCIL_BIT_DRAW);
@@ -288,7 +288,7 @@ ModifierDrawFast(void)
     DX9_SetStencilPass(DX9_STCL_ZERO);
 
     // restore z compare
-    DX9_SetZFunc(DX9_CMP_LEQ);
+    DX9_SetZFunc(DX9_CMP_GEQ);
 
     // restore culling
     DX9_SetFaceCulling(DX9_CULL_NONE);

@@ -145,6 +145,7 @@ RF_NinjaInit(void)
     RJ_ModifierInit();
     RJ_LineInit();
     RJ_BackTextureInit();
+    RJ_ProjectInit();
 
     /** Allow 'count' argument to be writeable **/
     WriteData(&TexExCount, 4, int32_t);

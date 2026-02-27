@@ -68,6 +68,11 @@ void    RJ_LineInit( void );
 *     Init back texture/color.
 */
 void    RJ_BackTextureInit( void );
+/*
+*   Description:
+*     Init projection matrix.
+*/
+void    RJ_ProjectInit( void );
 
 /****** Cnk Shape *******************************************************************************/
 /*
