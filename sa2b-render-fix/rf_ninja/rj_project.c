@@ -15,6 +15,9 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 
+/****** Dx9ctrl *********************************************************************************/
+#include <dx9ctrl/dx9_renderstate.h> /* z func                                                  */
+
 /****** Self ************************************************************************************/
 #include <rf_ninja/rj_internal.h>  /* parent & siblings                                         */
 
@@ -78,4 +81,6 @@ void
 RJ_ProjectInit(void)
 {
     WriteJump(0x00427220, ___InitProjMatrix);
+
+    DX9_SetZFunc(DX9_CMP_GEQ);
 }
