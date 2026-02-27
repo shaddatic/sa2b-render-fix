@@ -23,6 +23,7 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_fixshapes.c" />
     <ClCompile Include="rf_ninja\rj_backtex.c" />
     <ClCompile Include="rf_ninja\rj_light.c" />
+    <ClCompile Include="rf_ninja\rj_project.c" />
     <ClCompile Include="rf_njcnk.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c" />

@@ -471,6 +471,9 @@
     <ClCompile Include="rf_fixhistory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_ninja\rj_project.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
