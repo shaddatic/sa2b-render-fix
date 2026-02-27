@@ -63,7 +63,7 @@ VS_OUT main(VS_IN inpt)
     outp.pos.w =  1.f;
 #endif
 
-    outp.w = outp.pos.z;
+    outp.w = outp.pos.w;
     
     outp.uv  = vtex ? inpt.uv  : float2(0.f, 0.f);
     outp.col = vcol ? inpt.col : float4(1.f, 1.f, 1.f, 1.f);

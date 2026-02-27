@@ -46,13 +46,13 @@ struct PS_IN
 {
     float4 ScreenPosition       : SV_POSITION;
     float4 PositionInfo         : TEXCOORD;
-	float3 Normal				: TEXCOORD1;
-	float2 UV					: TEXCOORD2;
-	float4 Color0				: TEXCOORD3;
-	float4 Shadow12				: TEXCOORD4;
-	float4 Shadow34				: TEXCOORD5;
-	float3 Shadow5				: TEXCOORD6;
-	float3 TexCoord				: TEXCOORD7;
+    float3 Normal				: TEXCOORD1;
+    float2 UV					: TEXCOORD2;
+    float4 Color0				: TEXCOORD3;
+    float4 Shadow12				: TEXCOORD4;
+    float4 Shadow34				: TEXCOORD5;
+    float3 Shadow5				: TEXCOORD6;
+    float3 TexCoord				: TEXCOORD7;
 };
 
 /********************************/
@@ -204,10 +204,10 @@ PS_IN main(VS_IN input)
     }
 
     output.PositionInfo.xyz = input.Position;
-    output.PositionInfo.w = output.ScreenPosition.z;
+    output.PositionInfo.w   = output.ScreenPosition.w;
 
     output.Normal = input.Normal;
-    output.UV = input.TexCoord;
+    output.UV     = input.TexCoord;
 
     output.Shadow5.z = g_NumTexGens;
 
