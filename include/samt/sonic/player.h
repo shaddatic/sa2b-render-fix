@@ -108,6 +108,14 @@ enum
 {
     PLAYER_1,                       /* player 1                                                 */
     PLAYER_2,                       /* player 2                                                 */
+    PLAYER_3,                       /* player 3                                                 */
+    PLAYER_4,                       /* player 4                                                 */
+    PLAYER_5,                       /* player 5                                                 */
+    PLAYER_6,                       /* player 6                                                 */
+    PLAYER_7,                       /* player 7                                                 */
+    PLAYER_8,                       /* player 8                                                 */
+
+    NB_PLAYER,                      /* enum count                                               */
 };
 
 /****** Player Character ************************************************************************/
@@ -712,6 +720,20 @@ void    CancelLookingAtP( i32 pno );
 *     Get the current number of active players.
 */
 i32     CountCharacters( void );
+/*
+*   Description:
+*     Get the player position from this frame, or any previous frame up to 255.
+*
+*   Parameters:
+*     - pno         : player number
+*     - frame       : history frame, 0 meaning this frame
+*     - pos         : position output                                             [opt:nullptr]
+*     - ang         : angle output                                                [opt:nullptr]
+*
+*   Returns:
+*     'TRUE' if the player exists; or 'FALSE' if they do not.
+*/
+b32     GetPlayerPosition( i32 pno, u8 frame, NJS_POINT3* pos, NJS_ANGLE3* ang );
 /*
 *   Description:
 *     Get player number of task.

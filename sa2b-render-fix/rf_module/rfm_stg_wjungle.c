@@ -29,19 +29,19 @@ BgDispSort(task* tp)
 {
     taskwk* twp = tp->twp;
 
-    if ((byte_174AFFD == 1 && cameraNumber == 0) || 
-        (byte_174AFFD == 2 && cameraNumber == 1) ||
+    if ((byte_174AFFD == 1 && camera_num == 0) || 
+        (byte_174AFFD == 2 && camera_num == 1) ||
         (byte_174AFFD == 3))
         return;
 
     njFogDisable();
 
     njPushMatrixEx();
-    NJS_POINT3* pcampos = &camera_curpos->pos;
+    NJS_POINT3* pcampos = &camera_pos[camera_num]->pos;
 
     njTranslate(NULL, pcampos->x, 0.0f, pcampos->z);
 
-    if (((1 << cameraNumber) & twp->mode) != 0) // I'm not sure either
+    if (((1 << camera_num) & twp->mode) != 0) // I'm not sure either
     {
         njTranslate(NULL, 0.0, -1317.0, 0.0);
     }
@@ -52,7 +52,7 @@ BgDispSort(task* tp)
     njSetTexture(&tex);
     njCnkDrawObject(object_water_w_jungle);
 
-    if (((4 << cameraNumber) & twp->mode) == 0)
+    if (((4 << camera_num) & twp->mode) == 0)
     {
         njSetTexture(texlist_mist_w_jungle);
 

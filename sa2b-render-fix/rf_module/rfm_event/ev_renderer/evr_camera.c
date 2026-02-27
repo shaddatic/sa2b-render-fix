@@ -94,9 +94,9 @@ EV_CameraExec(task* tp)
     EvCameraContWk.pos.y = EventCamera.py;
     EvCameraContWk.pos.z = EventCamera.pz;
 
-    EvCameraContWk.dir.x = EventCamera.vx;
-    EvCameraContWk.dir.y = EventCamera.vy;
-    EvCameraContWk.dir.z = EventCamera.vz;
+    EvCameraContWk.vec.x = EventCamera.vx;
+    EvCameraContWk.vec.y = EventCamera.vy;
+    EvCameraContWk.vec.z = EventCamera.vz;
 
-    GetInverseAngleXYFromVec(&EvCameraContWk.dir, &EvCameraContWk.ang.x, &EvCameraContWk.ang.y);
+    GetInverseAngleXYFromVec(&EvCameraContWk.vec, &EvCameraContWk.ang.x, &EvCameraContWk.ang.y);
 }

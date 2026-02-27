@@ -356,11 +356,11 @@ GetCurrCameraCullState(void)
 {
     if (byte_0174AFFD == 1)
     {
-        return cameraNumber == 0;
+        return camera_num == 0;
     }
     else if (byte_0174AFFD == 2)
     {
-        return cameraNumber == 1;
+        return camera_num == 1;
     }
     else
     {
