@@ -55,6 +55,8 @@ rjInitProjMatrix(NJS_MATRIX44* dm, f32 view, f32 ratio, f32 near, f32 far)
         .m[2][3] = -1.f,
         .m[3][2] = far * (near / clip_range),
     };
+
+    DX9_SetZFunc(DX9_CMP_GEQ);
 }
 
 __declspec(naked)
@@ -81,6 +83,4 @@ void
 RJ_ProjectInit(void)
 {
     WriteJump(0x00427220, ___InitProjMatrix);
-
-    DX9_SetZFunc(DX9_CMP_GEQ);
 }
