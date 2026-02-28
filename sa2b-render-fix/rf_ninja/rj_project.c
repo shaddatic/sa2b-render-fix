@@ -47,6 +47,9 @@ rjInitProjMatrix(NJS_MATRIX44* dm, f32 view, f32 ratio, f32 near, f32 far)
         .m[3][2] = -1.f,
     };
 
+    // undo ratio adjustment, why do it like this?
+    ratio *= GetDisplayRatioY() / GetDisplayRatioX();
+
     mat_proj_screen = (NJS_MATRIX44)
     {
         .m[0][0] = 1.f / (vtan * ratio),
