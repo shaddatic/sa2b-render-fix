@@ -53,7 +53,7 @@ ___SetAlphaMode_Opaque(void)
         RF_MagicSetAlphaTestEnable(false); // this isn't done in vanilla, this certainly slowed the game down some
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
+        RF_MagicSetZFunc(MAGIC_CMP_GREATEREQUAL);
         RF_MagicSetZWrite(true);
 
         _rj_alpha_mode_ = RJ_ALPHA_OPAQUE;
@@ -73,7 +73,7 @@ ___SetAlphaMode_Transparent(void)
         RF_MagicSetAlphaTestEnable(false);
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
+        RF_MagicSetZFunc(MAGIC_CMP_GREATEREQUAL);
         RF_MagicSetZWrite(false);
 
         _rj_alpha_mode_ = RJ_ALPHA_TRANSLUCENT;
@@ -98,7 +98,7 @@ ___SetAlphaMode_Alphatest(void)
         RF_MagicSetAlphaRef(ref);
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
+        RF_MagicSetZFunc(MAGIC_CMP_GREATEREQUAL);
         RF_MagicSetZWrite(true);
 
         _rj_alpha_mode_ = RJ_ALPHA_ALPHATEST;
@@ -123,7 +123,7 @@ ___SetAlphaMode_Punchthrough(void)
         RF_MagicSetAlphaRef(ref);
 
         RF_MagicSetZEnable(true);
-        RF_MagicSetZFunc(MAGIC_CMP_LESSEQUAL);
+        RF_MagicSetZFunc(MAGIC_CMP_GREATEREQUAL);
         RF_MagicSetZWrite(true);
 
         _rj_alpha_mode_ = RJ_ALPHA_PUNCHTHROUGH;
