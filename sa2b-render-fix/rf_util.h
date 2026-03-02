@@ -26,7 +26,7 @@
 /*  External Opaques    */
 /************************/
 /****** Texture Table ***************************************************************/
-typedef struct prstable         TEX_PRSTABLE;
+typedef struct pvmtable         TEX_PVMTABLE;
 
 EXTERN_START
 
@@ -44,7 +44,7 @@ EXTERN_START
 *     - idx1        : entry index to swap 1
 *     - idx2        : entry index to swap 2
 */
-void    RF_SwapTexFileTableIndex( TEX_PRSTABLE* pTexTable, int idx1, int idx2 );
+void    RF_SwapTexFileTableIndex( TEX_PVMTABLE* pTexTable, int idx1, int idx2 );
 
 /****** Interpolation ***************************************************************/
 /*
@@ -168,7 +168,7 @@ bool    RFU_ReplaceChunkObject( NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile 
 /*
 *   Function Wrappers (int -> type pointer)
 */
-#define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PRSTABLE*)(_textable), (_idx1), (_idx2))
+#define SwapTexFileTableIndex(_textable, _idx1, _idx2)  RF_SwapTexFileTableIndex((TEX_PVMTABLE*)(_textable), (_idx1), (_idx2))
 
 EXTERN_END
 

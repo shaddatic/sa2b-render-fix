@@ -52,9 +52,9 @@ PathIsRF(const char* pcPath)
 
 /****** Texture File Table **********************************************************/
 void
-RF_SwapTexFileTableIndex(TEX_PRSTABLE* pTexTable, int idx1, int idx2)
+RF_SwapTexFileTableIndex(TEX_PVMTABLE* pTexTable, int idx1, int idx2)
 {
-    TEX_PRSTABLE tmp = pTexTable[idx1];
+    TEX_PVMTABLE tmp = pTexTable[idx1];
     pTexTable[idx1] = pTexTable[idx2];
     pTexTable[idx2] = tmp;
 }

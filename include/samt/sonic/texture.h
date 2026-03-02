@@ -16,12 +16,12 @@ EXTERN_START
 /************************/
 /*  Structures          */
 /************************/
-typedef struct prstable
+typedef struct pvmtable
 {
     char*        pname;
     NJS_TEXLIST* ptexlist;
 }
-TEX_PRSTABLE;
+TEX_PVMTABLE;
 
 typedef NJS_TEXLIST**      TEX_TEXTABLE;
 
@@ -46,7 +46,7 @@ typedef NJS_TEXLIST**      TEX_TEXTABLE;
 *   Returns:
 *     '1' on success, '-1' on failure
 */
-int32_t  texLoadTexturePrsFile( const char* fname, NJS_TEXLIST* ptlo );
+i32     texLoadTexturePvmFile( const char* fname, NJS_TEXLIST* ptlo );
 
 /****** PVM Table *******************************************************************/
 /*
@@ -55,10 +55,10 @@ int32_t  texLoadTexturePrsFile( const char* fname, NJS_TEXLIST* ptlo );
 *   copies the TEXNAME information into every texlist contained in 'pTexLists'
 *
 *   Parameters:
-*     - pPrsList  : array of TEX_PVMTABLE entries, ending with a null entry
-*     - pTexLists : array of pointers to NJS_TEXLIST* arrays, all ending in nullptrs
+*     - pPvmList    : array of TEX_PVMTABLE entries, ending with a null entry
+*     - pTexLists   : array of pointers to NJS_TEXLIST* arrays, all ending in nullptrs
 */
-void    texLoadTexturePrsList( TEX_PRSTABLE* pPrsList, TEX_TEXTABLE* pTexLists );
+void    texLoadTexturePvmList( TEX_PVMTABLE* pPvmList, TEX_TEXTABLE* pTexLists );
 /*
 *   Description:
 *     Release all textures in 'ptexlist' in each 'pPrsList' entry and their copies in
@@ -68,7 +68,7 @@ void    texLoadTexturePrsList( TEX_PRSTABLE* pPrsList, TEX_TEXTABLE* pTexLists )
 *     - pPrsList  : array of TEX_PVMTABLE entries, ending with a null entry
 *     - pTexLists : array of pointers to NJS_TEXLIST* arrays, all ending in nullptrs
 */
-void    texReleaseTexturePrsList( TEX_PRSTABLE* pPrsList, TEX_TEXTABLE* pTexLists );
+void    texReleaseTexturePvmList( TEX_PVMTABLE* pPrsList, TEX_TEXTABLE* pTexLists );
 
 /****** Create TexList **************************************************************/
 /*
@@ -117,7 +117,7 @@ void    texCopyTexture( NJS_TEXLIST* pTexDst, const NJS_TEXLIST* pTexSrc );
 *   Returns:
 *     '1' on success, '-1' on failure
 */
-int32_t  LoadPakMEM( const char* fname, NJS_TEXLIST* ptlo );
+i32     LoadPakMEM( const char* fname, NJS_TEXLIST* ptlo );
 /*
 *   Description:
 *     Load texture PRS file 'fname' into the NJS_TEXLIST 'ptlo'
@@ -129,19 +129,19 @@ int32_t  LoadPakMEM( const char* fname, NJS_TEXLIST* ptlo );
 *   Returns:
 *     '1' on success, '-1' on failure
 */
-int32_t  LoadPrsMEM( const char* fname, NJS_TEXLIST* ptlo );
+i32     LoadPrsMEM( const char* fname, NJS_TEXLIST* ptlo );
 
 /************************/
 /*  Function Ptrs       */
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /****** Function Pointer ************************************************************/
-#   define texLoadTexturePrsFile_p          FUNC_PTR(int32_t     , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
+#   define texLoadTexturePvmFile_p          FUNC_PTR(int32_t     , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
 #   define texCreateTexlist_p               FUNC_PTR(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
 /****** User-Function Pointer *******************************************************/
-#   define texLoadTexturePrsList_p          ((void*)0x0044C7B0)
-#   define texReleaseTexturePrsList_p       ((void*)0x0044C810)
+#   define texLoadTexturePvmList_p          ((void*)0x0044C7B0)
+#   define texReleaseTexturePvmList_p       ((void*)0x0044C810)
 #   define texCopyTexture_p                 ((void*)0x0044C880)
 #   define LoadPakMEM_p                     ((void*)0x00430B10)
 #   define LoadPrsMEM_p                     ((void*)0x0044C620)
