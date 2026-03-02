@@ -114,7 +114,7 @@ DrawMovieFMV(int x, int y, int w, int h, float z, u32 color)
         return;
     }
 
-    DrawMovie_Fill(x, y, w, h, z, color, MovieFmvFit);
+    DrawMovie_Fill(x, y, w, h, 0.f, color, MovieFmvFit);
 }
 
 /****** Hook Task *******************************************************************************/
