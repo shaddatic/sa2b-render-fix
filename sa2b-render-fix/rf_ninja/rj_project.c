@@ -89,6 +89,8 @@ RJ_ProjectInit(void)
 
     // fix SoC model, kill Z func set
     WriteNOP( 0x0041E694, 0x0041E6C6 );
+    // fix movie draw Z func set
+    WriteNOP( 0x0060057D, 0x006005A2 );
 
     // fix reset device render state
     WriteData(0x0085F76B, MAGIC_CMP_GREATEREQUAL, u8);
