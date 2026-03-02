@@ -6,6 +6,7 @@
 #include <samt/writeop.h>           /* write call                                               */
 #include <samt/writemem.h>          /* write data                                               */
 #include <samt/funchook.h>          /* function hook                                            */
+#include <samt/string.h>            /* strmatch                                                 */
 
 /****** Game ************************************************************************************/
 #include <samt/sonic/task.h>        /* task                                                     */
@@ -25,6 +26,9 @@
 /********************************/
 /****** Draw Movie ******************************************************************************/
 #define DrawMovie                   FUNC_PTR(void, __cdecl, (int, int, int, int, float, u32), 0x005F8D90)
+
+/****** Movie Name ******************************************************************************/
+#define EvMovieFile                 DATA_ARY(c7, 0x01DB0D2C, [260])
 
 /********************************/
 /*  Data                        */
@@ -101,19 +105,19 @@ DrawMovie_Fill(int x, int y, int w, int h, float z, u32 color, CNFE_EVENT_MOVIE 
 static void
 DrawMovieEffect(int x, int y, int w, int h, float z, u32 color)
 {
+    // make an exception for geralds diary, as it's not supposed to fit the screen
+    if ( mtStrMatch(EvMovieFile, "maria90sec.m1v", STR_NOMAX) )
+    {
+        DrawMovie_Fill(x, y, w, h, z, color, CNFE_EVENT_MOVIE_FIT);
+        return;
+    }
+
     DrawMovie_Fill(x, y, w, h, z, color, MovieEffectFit);
 }
 
 static void
 DrawMovieFMV(int x, int y, int w, int h, float z, u32 color)
 {
-    // make an exception for geralds diary, as it's not supposed to fit the screen
-    if ( EventNum == 203 )
-    {
-        DrawMovie_Fill(x, y, w, h, z, color, CNFE_EVENT_MOVIE_FIT);
-        return;
-    }
-
     DrawMovie_Fill(x, y, w, h, z, color, MovieFmvFit);
 }
 
