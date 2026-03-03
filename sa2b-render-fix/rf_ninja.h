@@ -399,7 +399,8 @@ void    rjQuadTextureEnd( void );
 /****** Set Quad Attr ***************************************************************************/
 /*
 *   Description:
-*     Set a quad texture via texlist id or global id, set the colors.
+*     Set a quad texture via texlist id or global id, set the colors, and set Ninja ctx to
+*   render state.
 *
 *   Notes:
 *     - Calling between quad texture draw calls will incur a performance penalty.
@@ -415,7 +416,7 @@ void    rjSetQuadTextureG( Sint32 gid,   Uint32 col );
 void    rjSetQuadTextureH( Sint32 texid, Uint32 col, Uint32 off );
 /*
 *   Description:
-*     Set a quad texture color and highlight colors, and 
+*     Set a quad texture color and highlight colors, and set Ninja ctx to render state.
 *
 *   Notes:
 *     - Calling between quad texture draw calls will incur a performance penalty, although
@@ -438,7 +439,7 @@ void    rjSetQuadTextureHColor( Uint32 col, Uint32 off );
 *       vertexes of the quad are implied.
 *
 *   Parameters:
-*     - q           : quad texture structure
+*     - q           : quad texture
 *     - z           : depth                                                           [1.f~0.f]
 */
 void    rjDrawQuadTexture( const NJS_QUAD_TEXTURE* q, Float z );
@@ -453,7 +454,7 @@ void    rjDrawQuadTexture( const NJS_QUAD_TEXTURE* q, Float z );
 *     - The z member defines the depth for all vertexes.
 *
 *   Parameters:
-*     - q           : quad texture ex structure
+*     - q           : quad texture ex
 */
 void    rjDrawQuadTextureEx( const NJS_QUAD_TEXTURE_EX* q );
 

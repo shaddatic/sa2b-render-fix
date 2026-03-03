@@ -19,7 +19,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_NJDRAW_VER            (0) /* ninja draw api version                               */
+#define RFAPI_NJDRAW_VER            (1) /* ninja draw api version                               */
 
 /********************************/
 /*  API Structures              */
@@ -199,6 +199,133 @@ typedef struct
     *     - attr    : attributes
     */
     void (*DrawPolygon2D)( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
+
+    /****** Version >= 1 ********************************************************************/
+
+    /********************************************************/
+    /*
+    *   Set Texture
+    */
+    /**** Set Texture ***************************************/
+    /*
+    *   Description:
+    *     Set the current Texlist.
+    *
+    *   Parameters:
+    *     - texlist     : texlist pointer
+    *
+    *   Returns:
+    *     Always '1'.
+    */
+    Sint32 (*SetTexture)( NJS_TEXLIST* texlist );
+    /*
+    *   Description:
+    *     Set the active texture for use with draw functions via texlist index.
+    *
+    *   Parameters:
+    *     - n           : texname index into current texlist
+    *
+    *   Returns:
+    *     '1' on success; or '-1' on failure.
+    */
+    Sint32 (*SetTextureNum)( Uint32 n );
+    /*
+    *   Description:
+    *     Set the active texture for use with draw functions via a global index. Seaches all
+    *   loaded textures and picks the first GBIX match.
+    *
+    *   Parameters:
+    *     - globalIndex : global index
+    *
+    *   Returns:
+    *     '1' on success; or '-1' on failure.
+    */
+    Sint32 (*SetTextureNumG)( Uint32 globalIndex );
+
+    /********************************************************/
+    /*
+    *   Quad Texture
+    */
+    /**** Start/End *****************************************/
+    /*
+    *   Description:
+    *     Start quad texture draw.
+    *
+    *   Notes:
+    *     - DO NOT draw any other polygons other than quad textures until drawing is completed
+    *       with 'QuadTextureEnd'. Doing so is undefined behavior.
+    *
+    *   Parameters:
+    *     - trans       : use translucent drawing                                  [TRUE/FALSE]
+    */
+    void (*QuadTextureStart)( Sint32 trans );
+    /*
+    *   Description:
+    *     End quad texture draw, and draw all buffered polygons.
+    */
+    void (*QuadTextureEnd)( void );
+
+    /****** Set Quad Attr ***********************************/
+    /*
+    *   Description:
+    *     Set a quad texture via texlist id or global id, set the colors, and set Ninja ctx to
+    *   render state.
+    *
+    *   Notes:
+    *     - Calling between quad texture draw calls will incur a performance penalty.
+    *
+    *   Parameters:
+    *     - texid       : texlist index
+    *     - gid         : texture gbix
+    *     - col         : quad color
+    *     - off         : quad highlight color
+    */
+    void (*SetQuadTexture)(  Sint32 texid, Uint32 col );
+    void (*SetQuadTextureG)( Sint32 gid,   Uint32 col );
+    void (*SetQuadTextureH)( Sint32 texid, Uint32 col, Uint32 off );
+    /*
+    *   Description:
+    *     Set a quad texture color and highlight colors, and set Ninja ctx to render state.
+    *
+    *   Notes:
+    *     - Calling between quad texture draw calls will incur a performance penalty, although
+    *       a lesser penalty than regular 'SetQuad' functions.
+    *
+    *   Parameters:
+    *     - col         : quad color
+    *     - off         : quad highlight color
+    */
+    void (*SetQuadTextureColor)(  Uint32 col );
+    void (*SetQuadTextureHColor)( Uint32 col, Uint32 off );
+
+    /****** Draw Quad ***************************************/
+    /*
+    *   Description:
+    *     Buffer a quad texture for rectangle drawing.
+    *
+    *   Notes:
+    *     - The x1 members define the top left vertex, and x2 define the bottom right; the other
+    *       vertexes of the quad are implied.
+    *
+    *   Parameters:
+    *     - q           : quad texture
+    *     - z           : depth                                                           [1.f~0.f]
+    */
+    void (*DrawQuadTexture)( const NJS_QUAD_TEXTURE* q, Float z );
+    /*
+    *   Description:
+    *     Buffer a quad texture ex for parallelogram drawing.
+    *
+    *   Notes:
+    *     - The x,y,u,v members define the top left vertex. xx1 members define the top right
+    *       vertex as an offset from the first vertex. xx2 members define the bottom right vertex,
+    *       as an offset from the second vertex. The bottom left vertex is implied.
+    *     - The z member defines the depth for all vertexes.
+    *
+    *   Parameters:
+    *     - q           : quad texture ex
+    */
+    void (*DrawQuadTextureEx)( const NJS_QUAD_TEXTURE_EX* q );
 }
 RFAPI_NJDRAW;
 
