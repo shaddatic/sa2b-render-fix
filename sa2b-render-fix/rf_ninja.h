@@ -375,6 +375,90 @@ void    rjDrawSprite3D( const NJS_SPRITE* sp, Int n, Uint32 attr );
 
 /************************************************************************************************/
 /*
+*   Quad Texture
+*/
+/****** Start/End *******************************************************************************/
+/*
+*   Description:
+*     Start quad texture draw.
+*
+*   Notes:
+*     - DO NOT draw any other polygons other than quad textures until drawing is completed
+*       with 'QuadTextureEnd'. Doing so is undefined behavior.
+*
+*   Parameters:
+*     - trans       : use translucent drawing                                      [TRUE/FALSE]
+*/
+void    rjQuadTextureStart( Sint32 trans );
+/*
+*   Description:
+*     End quad texture draw, and draw all buffered polygons.
+*/
+void    rjQuadTextureEnd( void );
+
+/****** Set Quad Attr ***************************************************************************/
+/*
+*   Description:
+*     Set a quad texture via texlist id or global id, set the colors.
+*
+*   Notes:
+*     - Calling between quad texture draw calls will incur a performance penalty.
+*
+*   Parameters:
+*     - texid       : texlist index
+*     - gid         : texture gbix
+*     - col         : quad color
+*     - off         : quad highlight color
+*/
+void    rjSetQuadTexture(  Sint32 texid, Uint32 col );
+void    rjSetQuadTextureG( Sint32 gid,   Uint32 col );
+void    rjSetQuadTextureH( Sint32 texid, Uint32 col, Uint32 off );
+/*
+*   Description:
+*     Set a quad texture color and highlight colors, and 
+*
+*   Notes:
+*     - Calling between quad texture draw calls will incur a performance penalty, although
+*       a lesser penalty than regular 'SetQuad' functions.
+*
+*   Parameters:
+*     - col         : quad color
+*     - off         : quad highlight color
+*/
+void    rjSetQuadTextureColor(  Uint32 col );
+void    rjSetQuadTextureHColor( Uint32 col, Uint32 off );
+
+/****** Draw Quad *******************************************************************************/
+/*
+*   Description:
+*     Buffer a quad texture for rectangle drawing.
+*
+*   Notes:
+*     - The x1 members define the top left vertex, and x2 define the bottom right; the other
+*       vertexes of the quad are implied.
+*
+*   Parameters:
+*     - q           : quad texture structure
+*     - z           : depth                                                           [1.f~0.f]
+*/
+void    rjDrawQuadTexture( const NJS_QUAD_TEXTURE* q, Float z );
+/*
+*   Description:
+*     Buffer a quad texture ex for parallelogram drawing.
+*
+*   Notes:
+*     - The x,y,u,v members define the top left vertex. xx1 members define the top right
+*       vertex as an offset from the first vertex. xx2 members define the bottom right vertex,
+*       as an offset from the second vertex. The bottom left vertex is implied.
+*     - The z member defines the depth for all vertexes.
+*
+*   Parameters:
+*     - q           : quad texture ex structure
+*/
+void    rjDrawQuadTextureEx( const NJS_QUAD_TEXTURE_EX* q );
+
+/************************************************************************************************/
+/*
 *   Lights
 */
 /****** Light Switch ****************************************************************************/
