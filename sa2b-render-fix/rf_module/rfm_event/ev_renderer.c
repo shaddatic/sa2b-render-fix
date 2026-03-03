@@ -36,6 +36,7 @@ static u32 Event43Mode[(EV_PILLARBOX_MAX / BITSIN(u32)) + 1];
 bool            EventEquipmentEnable;
 RFE_EV_VSYNC    EventVsyncMode;
 bool            EventDebugFlag;
+bool            EventDebugMovie;
 
 /****** Big Tex *********************************************************************/
 NJS_TEXLIST*    EvBigTexture;
@@ -170,6 +171,7 @@ EV_RendererInit(void)
     EventVsyncMode       = CNF_GetInt(CNF_EVENT_VSYNC);
 
     EventDebugFlag       = CNF_GetInt(CNF_DEBUG_EVENT);
+    EventDebugMovie      = CNF_GetInt(CNF_DEBUG_TEXMOVIE);
 
     switch ( CNF_GetInt(CNF_EVENT_43MD) )
     {
