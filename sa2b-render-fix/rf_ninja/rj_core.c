@@ -122,13 +122,14 @@ static RFS_VSHADER* _rj_mvtx_shader_;
 static RFS_PSHADER* _rj_mpxl_shader_;
 
 /****** Current State ***************************************************************************/
+Uint32 _rj_vertex_buffer_num_;
+
 static Uint32 _rj_polygon_format_;
 
 static byte* _rj_vertex_buffer_base_;
 static byte* _rj_vertex_buffer_top_;
 static byte* _rj_vertex_buffer_cpy_;
 
-static Uint32 _rj_vertex_buffer_num_;
 static Uint32 _rj_vertex_buffer_stride_;
 
 static dx9_vtx_decl* _rj_curr_vtx_decl_;

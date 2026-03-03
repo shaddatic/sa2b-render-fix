@@ -205,6 +205,9 @@ RJS_UV;
 /********************************/
 /*  Extern Data                 */
 /********************************/
+/****** Vertex Buffer ***************************************************************************/
+EXTERN Uint32 _rj_vertex_buffer_num_;   /* vertex number                                        */
+
 /****** Texture Error ***************************************************************************/
 EXTERN NJS_TEXNAME texture_rf_texerr[]; /* error texname                                        */
 EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                                        */
