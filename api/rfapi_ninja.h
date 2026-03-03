@@ -312,7 +312,7 @@ typedef struct
     *     - Default is 'BOTHINVALPHA'.
     *
     *   Parameters:
-    *     - target      : color target                                          [RJD_###_COLOR]
+    *     - target      : color target                                          [RJD_COLOR_###]
     *     - mode        : blending mode                                [RJD_COLOR_BLENDING_###]
     */
     void (*ColorBlendingMode)( Int target, Int mode );
