@@ -54,6 +54,11 @@ Only recommended for very specific reasons or with the use of antialiasing, like
       </Property>
     </Group>
     <Group name="main" display="Global Render Settings">
+      <Property name="texsys_size" display="Texture Limit" type="GB_TEXSYSSIZE" defaultvalue="2">
+        <HelpText>Changes the maximum* number of textures the game can load at once. Higher values will require more memory, but will avoid crashes if the vanilla limit of 2048 is hit. Especially if GBIX values are ignored.
+
+*Mods can use their own texture system, overcoming this limit - however it's usually quite impractical outside of specific situations.</HelpText>
+      </Property>
       <Property name="gidx_ignore" display="Ignore Global Texture Index" type="BINT" defaultvalue="1">
         <HelpText>Forces the game to ignore the Global Index value for textures, which fixes some texture issues at the cost of some memory.</HelpText>
       </Property>

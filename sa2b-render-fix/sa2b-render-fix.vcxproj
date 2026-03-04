@@ -135,7 +135,7 @@
     <ClCompile Include="rf_ninja\rj_cnkmod\rfdmod_vlist.c" />
     <ClCompile Include="rf_ninja\rj_line.c" />
     <ClCompile Include="rf_ninja\rj_sprite.c" />
-    <ClCompile Include="rf_ninja\rj_texerr.c" />
+    <ClCompile Include="rf_ninja\rj_texture.c" />
     <ClCompile Include="rf_font.c" />
     <ClCompile Include="rf_light.c" />
     <ClCompile Include="rf_light\rfl_file.c" />

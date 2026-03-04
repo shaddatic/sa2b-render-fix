@@ -138,7 +138,7 @@ RF_NinjaInit(void)
 {
     RFD_CoreInit();
     RFD_ChunkInit();
-    RFD_TexerrInit();
+    RJ_TextureInit();
     RFD_PolygonInit();
     RFD_SpriteInit();
     RFD_AlphaBlendInit();

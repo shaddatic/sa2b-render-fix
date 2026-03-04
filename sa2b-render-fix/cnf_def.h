@@ -286,6 +286,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_GFX_MIPMAPS             CNFO_INT(   CNFS_GFX            , "mipmaps"             , CNFE_BOOL_ENABLED                     )   /* Use Mipmaps */
 
 /** Global section **/
+#define CNF_GLOBAL_TEXSYSSIZE       CNFO_INT(   CNFS_GLOBAL         , "texsys_size"         , 2                                     )   /* Texture Limit */
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */
 #define CNF_GLOBAL_CNKSPEC          CNFO_INT(   CNFS_GLOBAL         , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
