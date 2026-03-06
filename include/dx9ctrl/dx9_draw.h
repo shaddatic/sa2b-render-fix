@@ -17,6 +17,14 @@
 DX9_HEADER_START
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** Clear Rendertarget **********************************************************************/
+#define DX9_CLEAR_COLOR             (0x01) /* clear color buffer                                */
+#define DX9_CLEAR_DEPTH             (0x02) /* clear depth buffer                                */
+#define DX9_CLEAR_STENCIL           (0x04) /* clear stencil buffer                              */
+
+/********************************/
 /*  Enums                       */
 /********************************/
 /****** Vertex Primitive Type *******************************************************************/
@@ -45,7 +53,7 @@ dx9_primitive_type;
 *     - nbPrim      : number of primitives to draw
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_DrawPrimitive( dx9_primitive_type type, dx9_size ixStart, dx9_size nbPrim );
 /*
@@ -60,9 +68,25 @@ bool    DX9_DrawPrimitive( dx9_primitive_type type, dx9_size ixStart, dx9_size n
 *     - szStride    : stride size of each vertex in bytes
 * 
 *   Returns:
-*     'true' on success, or 'false' on failure.
+*     'true' on success; or 'false' on failure.
 */
 bool    DX9_DrawPrimitiveUP( dx9_primitive_type type, dx9_size nbPrim, const void* pVtxBuf, dx9_size szStride );
+
+/****** Clear Rendertarget **********************************************************************/
+/*
+*   Description:
+*     Clear render target attributes to set values.
+* 
+*   Parameters:
+*     - flag        : attribute flags to clear                                      [DX9_CLEAR]
+*     - color       : color value
+*     - z           : depth buffer value
+*     - stencil     : stencil value
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_Clear( dx9_flag flag, dx9_uint color, dx9_float z, dx9_uint stencil );
 
 DX9_HEADER_END
 
