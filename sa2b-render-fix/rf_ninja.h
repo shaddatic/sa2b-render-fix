@@ -353,7 +353,7 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 /****** Draw Sprite *****************************************************************************/
 /*
 *   Description:
-*     Draw a sprite, in screen space.
+*     Draw a sprite quad, in screen space.
 * 
 *   Parameters:
 *     - sp          : sprite
@@ -364,7 +364,7 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 void    rjDrawSprite2D( const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
 /*
 *   Description:
-*     Draw a sprite, in world space.
+*     Draw a sprite quad, in world space.
 *
 *   Parameters:
 *     - sp          : sprite
