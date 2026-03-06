@@ -269,18 +269,18 @@ NJS_TEXLIST;
 /*  Structures                  */
 /********************************/
 /****** Texture Manage **************************************************************************/
-#define _nj_texmanage           DATA_REF(NJS_TEXMANAGE*, 0x02670590)
-#define _nj_texmanagesize       DATA_REF(Int           , 0x0267058C)
+#define _nj_texmanage               DATA_REF(NJS_TEXMANAGE*, 0x02670590)
+#define _nj_texmanagesize           DATA_REF(Int           , 0x0267058C)
 
 /****** Texture System **************************************************************************/
-#define _nj_texsys              DATA_REF(NJS_TEXSYSTEM*, 0x025F0278)
-#define _nj_texsyssize          DATA_REF(Int           , 0x025EFFE0)
+#define _nj_texsys                  DATA_REF(NJS_TEXSYSTEM*, 0x025F0278)
+#define _nj_texsyssize              DATA_REF(Int           , 0x025EFFE0)
 
 /****** Texture Count ***************************************************************************/
-#define _nj_tex_count           DATA_REF(Sint32        , 0x025F0260)
+#define _nj_tex_count               DATA_REF(Sint32        , 0x025F0260)
 
 /****** Texture Error ***************************************************************************/
-#define _nj_texerr_             DATA_REF(NJS_TEXERRSTAT, 0x025F0280)
+#define _nj_texerr_                 DATA_REF(NJS_TEXERRSTAT, 0x025F0280)
 
 /********************************/
 /*  Prototypes                  */

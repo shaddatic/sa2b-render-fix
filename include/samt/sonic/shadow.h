@@ -61,7 +61,7 @@ zxsdwstr;
 /************************/
 EXTERN_START
 /** Calculate ground shadow position and angle **/
-f32       GetShadowPos(f32 x, f32 y, f32 z, Angle3* ang);
+f32     GetShadowPos(f32 x, f32 y, f32 z, Angle3* ang);
 
 /** Calculate shadow info below 'position' **/
 void    GetCharacterShadowInfo(NJS_VECTOR* position, shadowwk* swp);
