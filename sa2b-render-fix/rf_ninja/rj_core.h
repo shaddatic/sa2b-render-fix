@@ -123,6 +123,15 @@ typedef enum rjtexshade
 }
 RJ_TEXSHADE;
 
+/****** Polygon Fill Mode ***********************************************************************/
+typedef enum rjfillmd
+{
+    RJ_FILL_POINT,
+    RJ_FILL_WIRE,
+    RJ_FILL_FILL,
+}
+RJ_FILL;
+
 /****** Polygon Culling Mode ********************************************************************/
 typedef enum rjcullmd
 {
@@ -291,6 +300,20 @@ void    rjSetHwPolygonShading( RJ_SHADE mode );
 *     - igntexalpha : ignore texture alpha mode
 */
 void    rjSetHwTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
+
+/****** Fill ************************************************************************************/
+/*
+*   Description:
+*     Set the polygon fill mode.
+*
+*   Notes:
+*     - Hardware lines drawn in wire mode are different than the software lines drawn with
+*       functions like 'rjDrawLine'
+*
+*   Parameters:
+*     - mode        : polygon fill mode
+*/
+void    rjSetHwFill( RJ_FILL mode );
 
 /****** Culling *********************************************************************************/
 /*

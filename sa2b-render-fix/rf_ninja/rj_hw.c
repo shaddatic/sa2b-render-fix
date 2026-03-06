@@ -64,6 +64,15 @@ rjSetHwCulling(RJ_CULL mode)
     GX_SetCullMode(mode);
 }
 
+/****** Fill ************************************************************************************/
+void
+rjSetHwFill(RJ_FILL mode)
+{
+    const i32 off = DX9_FILL_POINT - RJ_FILL_POINT;
+
+    DX9_SetFillMode(mode + off);
+}
+
 /****** Texture *********************************************************************************/
 void
 rjSetHwPalette(Int bank)
