@@ -208,6 +208,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
 
     rjSetBlend2D( attr & NJD_TRANSPARENT );
 
+    rjSetHwFill( (attr & NJD_FILL) ? RJ_FILL_FILL : RJ_FILL_WIRE );
+
     if ( attr & NJD_USE_TEXTURE )
     {
         rjSetTexture2D(FALSE);
@@ -256,6 +258,7 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
         rjEndVertex();
     }
 
+    rjSetHwFill(    RJ_FILL_FILL );
     rjSetHwCulling( RJ_CULL_NONE );
 }
 
