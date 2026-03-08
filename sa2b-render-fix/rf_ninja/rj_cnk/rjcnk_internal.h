@@ -332,7 +332,6 @@ Uint32  rjCnkVertexColorLightsD8( const RJS_VERTEX_BUF* restrict pVtx );
 *     - pVtx        : vertex buffer entry
 */
 Uint32  rjCnkSpecularNone( const RJS_VERTEX_BUF* restrict pVtx );
-
 /*
 *   Description:
 *     Get the buffered specular vertex color.
@@ -350,6 +349,15 @@ Uint32  rjCnkSpecularS8( const RJS_VERTEX_BUF* restrict pVtx );
 *     - pVtx        : vertex buffer entry
 */
 Uint32  rjCnkSpecularNormal( const RJS_VERTEX_BUF* restrict pVtx );
+/*
+*   Description:
+*     Calculate Render Fix 'Soft' specular lighting on a vertex, and return the absolute
+*   specular color.
+*
+*   Parameters:
+*     - pVtx        : vertex buffer entry
+*/
+Uint32  rjCnkSpecularSoft( const RJS_VERTEX_BUF* restrict pVtx );
 /*
 *   Description:
 *     Calculate Easy specular lighting on a vertex, and return the absolute

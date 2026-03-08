@@ -34,6 +34,7 @@ EXTERN_START
 #define RJD_CNK_CTRL_TEXTURE        (1<<12) /* use textures                                     */
 #define RJD_CNK_CTRL_ENVIRONMENT    (1<<13) /* use normal-based environment calculations        */
 #define RJD_CNK_CTRL_DBLIGHT        (1<<14) /* use double sided lighting when available         */
+#define RJD_CNK_CTRL_SPECULAR       (1<<15) /* use exponential specular when available          */
 
 #define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
 #define RJD_CNK_CTRL_MASK_CULL      (RJD_CNK_CTRL_NORMAL|RJD_CNK_CTRL_INVERSE)

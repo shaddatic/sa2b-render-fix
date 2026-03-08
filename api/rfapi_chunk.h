@@ -10,6 +10,7 @@
 * 
 *   Version History:
 *     - v1.5.0.0        : Version 0, initial release
+*     - v1.5.3.0        : Version 1, added 'SPECULAR' control flag
 * 
 *   Availability:
 *     - Before Init     : No
@@ -23,7 +24,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_CHUNK_VER             (0) /* chunk api version                                    */
+#define RFAPI_CHUNK_VER             (1) /* chunk api version                                    */
 
 /****** Chunk Control Flags *********************************************************************/
 #define RJD_CNK_CTRL_OPAQUE         (1<< 0) /* draw opaque polygons                             */
@@ -40,6 +41,7 @@
 #define RJD_CNK_CTRL_TEXTURE        (1<<12) /* use textures                                     */
 #define RJD_CNK_CTRL_ENVIRONMENT    (1<<13) /* use normal-based environment calculations        */
 #define RJD_CNK_CTRL_DBLIGHT        (1<<14) /* use double sided lighting when available         */
+#define RJD_CNK_CTRL_SPECULAR       (1<<15) /* use exponential specular when available     [v1] */
 
 /****** Chunk Control Masks *********************************************************************/
 #define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
@@ -80,6 +82,11 @@ typedef struct
     /*
     *   Description:
     *     Set/unset Chunk draw control flags.
+    * 
+    *   Notes:
+    *     - Do not blindly enable all flags when drawing is complete. New flags may be
+    *       added in future that are default off, and your mod will break. Be careful, or
+    *       use 'CnkGetControl' to backup flags before restoring them.
     *
     *   Parameters:
     *     - off_flag    : flags to be turned off/and'd                       [RJD_CNK_CTRL]

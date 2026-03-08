@@ -25,7 +25,8 @@ Uint32  rjCnkGetMaterial( NJS_BGRA dst[RJ_NB_CMC], const NJS_BGRA src[RJ_NB_CMC]
 /*  Extern Data                 */
 /********************************/
 /****** Control Flags ***************************************************************************/
-Uint32 _rj_cnk_ctrl_flag_ = RJD_CNK_CTRL_MASK;
+Uint32 _rj_cnk_ctrl_flag_ = (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX
+                            |RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DBLIGHT|RJD_CNK_CTRL_SPECULAR);
 
 /****** UV Offset *******************************************************************************/
 RJS_UV _rj_cnk_uv_scroll_;
