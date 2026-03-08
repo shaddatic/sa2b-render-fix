@@ -213,11 +213,15 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
         spec.b += (spec_inten * _rj_lights_[i].b);
     }
 
+    spec.r = fminf(spec.r, 1.f);
+    spec.g = fminf(spec.g, 1.f);
+    spec.b = fminf(spec.b, 1.f);
+
     spec.r *= _rj_cnk_spec_material_.r;
     spec.g *= _rj_cnk_spec_material_.g;
     spec.b *= _rj_cnk_spec_material_.b;
 
-    return SpecToUint(&spec);
+    return ArgbToUintEx(&spec);
 }
 
 Uint32
