@@ -16,6 +16,16 @@ Certain animations, such as those in menus, are tied to the framerate and will p
 
 NOTE: Requires the Frame Controller!</HelpText>
       </Property>
+      <Property name="multisample" display="Antialiasing Mode" type="GFX_MULTISAMPLE" defaultvalue="0">
+        <HelpText>Reduces pixel aliasing artifacts (or jaggies), usually seen on polygon edges - but at the cost of game performance.
+
+None: No anti-aliasing (Vanilla)
+
+MSAA: Multisample Anti-Aliasing
+
+[Note]
+This may cause a slight flicker during loading screens depending on your setup, it is harmless though.</HelpText>
+      </Property>
       <Property name="anisotropy" display="Anisotropic Filtering" type="GFX_ANISOTROPY" defaultvalue="-1">
         <HelpText>Sharpens the appearance of textures at acute/sharp viewing angles. Dreamcast called this 'Supersampling'.
 

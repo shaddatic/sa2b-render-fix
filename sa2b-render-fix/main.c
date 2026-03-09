@@ -53,11 +53,11 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     CNF_Init();
 
     /** Render Fix init **/
+    RFGX_Init();
     RF_MsgInit();
     RF_RenderStateInit();
     RF_NinjaInit();
     RF_FontInit();
-    RFGX_Init();
     RF_LightInit();
     RF_ShaderInit();
     RF_SysInit();

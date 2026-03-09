@@ -260,6 +260,30 @@ ___SetTexture(void)
 void
 RFGX_Init(void)
 {
+    const i32 rgb565 = 0;
+    const i32 msaa    = CNF_GetInt(CNF_GFX_MULTISAMPLE);
+
+    if ( rgb565 || msaa )
+    {
+        RF_MAGIC_DEVICEINFO dinfo;
+
+        RF_MagicGetRenderDeviceInitInfo(&dinfo);
+
+        if ( rgb565 )
+        {
+            dinfo.BackBufferFormat = MAGIC_FMT_R5G6B5;
+        }
+
+        if ( msaa )
+        {
+            dinfo.MultiSampleType = msaa;
+
+            DX9_SetMSAAEnable(TRUE);
+        }
+
+        RF_MagicSetRenderDeviceInitInfo(&dinfo);
+    }
+
     WriteJump(0x0041FA60, ___SetTexture);
 
     for ( int i = 0; i < NB_SAMPLER; ++i )
