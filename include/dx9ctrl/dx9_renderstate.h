@@ -336,6 +336,22 @@ bool    DX9_SetDstBlend( dx9_blend_op op );
 */
 bool    DX9_SetAlphaFunc( dx9_compare_op op );
 
+/****** MSAA ************************************************************************************/
+/*
+*   Description:
+*     Set the Multi-Sample Anti-Aliasing state. 
+*
+*   Notes:
+*     - It must be enabled in the present parameters for this to take effect.
+* 
+*   Parameters:
+*     - state       : enable state
+*
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_SetMSAAEnable( dx9_bool state );
+
 /****** Triangle Culling ************************************************************************/
 /*
 *   Description:
