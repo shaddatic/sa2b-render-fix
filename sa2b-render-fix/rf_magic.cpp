@@ -154,8 +154,11 @@ RF_MagicSetRenderDeviceInitInfo(const RF_MAGIC_DEVICEINFO* pInfo)
 
     PRESENT_PARAMS* params = (PRESENT_PARAMS*) g_pRenderDevice->m_pDeviceCreator->m_D3DPP;
 
-    params->BackBufferFormat = FmtConv[pInfo->BackBufferFormat][1];
-    params->MultiSampleType  = pInfo->MultiSampleType;
+    params->BackBufferWidth        = pInfo->BackBufferWidth;
+    params->BackBufferHeight       = pInfo->BackBufferHeight;
+    params->BackBufferFormat       = FmtConv[pInfo->BackBufferFormat][1];
+    params->MultiSampleType        = pInfo->MultiSampleType;
+    params->AutoDepthStencilFormat = FmtConv[pInfo->DepthStencilFormat][1];
 
     RF_MagicResetRenderDeviceInitInfo(pInfo);
 }
