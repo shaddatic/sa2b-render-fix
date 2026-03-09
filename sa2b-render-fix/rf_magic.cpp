@@ -110,3 +110,52 @@ RF_MagicGetStateCache(void)
 {
     return (RF_MAGIC_STATECACHE*)&g_pRenderDevice->m_pShaderGroup;
 }
+
+#define DeviceResetFunc             DATA_REF(Magic::RenderCore::OnDeviceResetFunc*, 0x174F81C)
+#define DeviceLostFunc              DATA_REF(Magic::RenderCore::OnDeviceLostFunc* , 0x174F820)
+
+EXTERN
+void
+RF_MagicGetRenderDeviceInitInfo(RF_MAGIC_DEVICEINFO* pInfo)
+{
+    g_pRenderDevice->vft->GetRenderDeviceInitInfo(g_pRenderDevice, (Magic::RenderCore::RenderDeviceInitInfo_t*)pInfo);
+}
+
+EXTERN
+void
+RF_MagicResetRenderDeviceInitInfo(const RF_MAGIC_DEVICEINFO* pInfo)
+{
+    g_pRenderDevice->vft->ResetRenderDeviceInitInfo(g_pRenderDevice, (Magic::RenderCore::RenderDeviceInitInfo_t*)pInfo, &DeviceLostFunc, &DeviceResetFunc);
+}
+
+EXTERN
+void
+RF_MagicSetRenderDeviceInitInfo(const RF_MAGIC_DEVICEINFO* pInfo)
+{
+    #define FmtConv     DATA_ARY(u32, 0x0174BD08, [6][2])
+
+    struct PRESENT_PARAMS
+    {
+        u32 BackBufferWidth;
+        u32 BackBufferHeight;
+        i32 BackBufferFormat;
+        u32 BackBufferCount;
+        i32 MultiSampleType;
+        u32 MultiSampleQuality;
+        i32 SwapEffect;
+        void* hDeviceWindow;
+        b32 Windowed;
+        b32 EnableAutoDepthStencil;
+        i32 AutoDepthStencilFormat;
+        u32 Flags;
+        u32 FullScreen_RefreshRateInHz;
+        u32 PresentationInterval;
+    };
+
+    PRESENT_PARAMS* params = (PRESENT_PARAMS*) g_pRenderDevice->m_pDeviceCreator->m_D3DPP;
+
+    params->BackBufferFormat = FmtConv[pInfo->BackBufferFormat][1];
+    params->MultiSampleType  = pInfo->MultiSampleType;
+
+    RF_MagicResetRenderDeviceInitInfo(pInfo);
+}

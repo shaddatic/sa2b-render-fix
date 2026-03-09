@@ -33,6 +33,42 @@ typedef enum
 }
 RFE_MAGIC_SHADER;
 
+typedef enum
+{
+    MAGIC_FMT_UNKNOWN,
+    MAGIC_FMT_R8G8B8,
+    MAGIC_FMT_A8R8G8B8,
+    MAGIC_FMT_X8R8G8B8,
+    MAGIC_FMT_R5G6B5,
+    MAGIC_FMT_X1R5G5B5,
+    MAGIC_FMT_A1R5G5B5,
+    MAGIC_FMT_A4R4G4B4,
+    MAGIC_FMT_A8,
+    MAGIC_FMT_A2B10G10R10,
+    MAGIC_FMT_A8B8G8R8,
+    MAGIC_FMT_A2R10G10B10,
+    MAGIC_FMT_A1B16G16R16,
+    MAGIC_FMT_L8,
+    MAGIC_FMT_DXT1,
+    MAGIC_FMT_DXT2,
+    MAGIC_FMT_DXT3,
+    MAGIC_FMT_DXT4,
+    MAGIC_FMT_DXT5,
+    MAGIC_FMT_D16_LOCK,
+    MAGIC_FMT_D32,
+    MAGIC_FMT_D24S8,
+    MAGIC_FMT_D24X8,
+    MAGIC_FMT_D16,
+    MAGIC_FMT_D32F_LOCK,
+    MAGIC_FMT_R16F,
+    MAGIC_FMT_G16R16F,
+    MAGIC_FMT_A16B16G16R16F,
+    MAGIC_FMT_R32F,
+    MAGIC_FMT_G32R32F,
+    MAGIC_FMT_A32B32G32R32F
+}
+RF_MAGIC_FORMAT;
+
 /************************/
 /*  Structures          */
 /************************/
@@ -131,6 +167,25 @@ typedef struct
 RF_MAGIC_STATECACHE;
 
 RF_MAGIC_STATECACHE*  RF_MagicGetStateCache( void );
+
+// Render Device Info
+typedef struct
+{
+    bool    Windowed;
+    i32     BackBufferWidth;
+    i32     BackBufferHeight;
+    i32     BackBufferFormat;
+    i32     DepthStencilFormat;
+    i32     MultiSampleType;
+    bool    Vsync;
+}
+RF_MAGIC_DEVICEINFO;
+
+void    RF_MagicGetRenderDeviceInitInfo( RF_MAGIC_DEVICEINFO* pInfo );
+
+void    RF_MagicSetRenderDeviceInitInfo( const RF_MAGIC_DEVICEINFO* pInfo );
+
+void    RF_MagicResetRenderDeviceInitInfo( const RF_MAGIC_DEVICEINFO* pInfo );
 
 EXTERN_END
 
