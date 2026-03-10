@@ -257,16 +257,15 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
     /** get texture **/
 
-    NJS_TEXMANAGE* p_texman;
-    NJS_TEXSYSTEM* p_texsys;
+    NJS_TEXMANAGE* restrict p_texman;
+    NJS_TEXSYSTEM* restrict p_texsys;
 
-    const NJS_TEXLIST* p_tls = njGetCurrentTexList();
+    const NJS_TEXLIST* restrict p_tls = njGetCurrentTexList();
 
     if ( !p_tls || strip->texid >= (i16)p_tls->nbTexture )
     {
     TEX_ERR:
         p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
-
         p_texsys = p_texman->texsys;
     }
     else
@@ -279,6 +278,11 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
         if (!p_texsys) goto TEX_ERR;
     }
+
+    _nj_curr_ctx_->texture = &p_texsys->texsurface;
+    _nj_curr_ctx_->gbix    = p_texsys->globalIndex;
+    _nj_curr_ctx_->bank    = p_texman->bank;
+    _nj_curr_ctx_->texnum  = strip->texid;
 
     pTexSurface = &p_texsys->texsurface;
 
