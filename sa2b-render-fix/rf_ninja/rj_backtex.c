@@ -102,8 +102,6 @@ DrawBackTextureSub(void)
 {
     njSetSystemAttr( &_rj_back_sysattr_ );
 
-    rjSetTexture2D(FALSE);
-
     NJS_TEXTUREH_VTX vtx[4];
 
     const Float ratio = (GetDisplayRatio() - 1.0f);
