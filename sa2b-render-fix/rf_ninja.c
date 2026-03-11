@@ -151,7 +151,7 @@ RF_NinjaInit(void)
     RFU_ReplaceFloat(0x005A5C1A, uvmul_new); // chCnk // NJD_CV_VN_D8
     RFU_ReplaceFloat(0x0041BCC1, uvmul_new); // Ginja
 
-    const f64 farclip = 65536.0;
+    const f64 farclip = 65535.0;
 
     RFU_ReplaceFloat(0x00458FC5, farclip);
     RFU_ReplaceFloat(0x004EE20A, farclip);
