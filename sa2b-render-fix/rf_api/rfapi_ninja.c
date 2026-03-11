@@ -49,4 +49,7 @@ const RFAPI_NINJA rfapi_ninja =
     .SetCheapShadowMode = rjSetCheapShadowMode,
 
     .SetDepthQueue = rjSetDepthQueue,
+
+    // version 1
+    .SetEnvelopeWeightValue = rjSetEnvelopeWeightValue,
 };

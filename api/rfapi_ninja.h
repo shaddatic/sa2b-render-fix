@@ -11,6 +11,7 @@
 * 
 *   Version History:
 *     - v1.5.0.0        : Version 0, initial release
+*     - v1.5.3.0        : Version 1, added 'SetEnvelopeWeightValue'
 * 
 *   Availability:
 *     - Before Init     : No
@@ -24,7 +25,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_NINJA_VER                         (0) /* ninja api version                        */
+#define RFAPI_NINJA_VER                         (1) /* ninja api version                        */
 
 /****** Color Target ****************************************************************************/
 #define RJD_COLOR_SRC                           (0) /* new rasterized pixel color               */
@@ -365,6 +366,21 @@ typedef struct
     *     - far         : far depth value
     */
     void (*SetDepthQueue)( Float near, Float far );
+
+    /****** Version >= 1 ************************************************************************/
+
+    /**** Envelope ******************************************/
+    /*
+    *   Description:
+    *     Set the weight factor for envelope (skinning) data, for drawing Ninja1/2 models.
+    *
+    *   Notes:
+    *     - Ninja1 used '1/255' (and is the default), while Ninja2 used '1/65535'.
+    *
+    *   Paramters:
+    *     - value       : weight factor
+    */
+    void (*SetEnvelopeWeightValue)( Float value );
 }
 RFAPI_NINJA;
 

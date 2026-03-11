@@ -177,7 +177,7 @@ void    rjSetDepthQueue( Float near, Float far );
 /****** Envelope ********************************************************************************/
 /*
 *   Description:
-*     Set the weight factor for enveloped (skinned) models.
+*     Set the weight factor for envelope (skinning) data, for drawing Ninja1/2 models.
 *
 *   Notes:
 *     - Ninja1 used '1/255' (and is the default), while Ninja2 used '1/65535'.
