@@ -155,6 +155,40 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /********************************/
 /************************************************************************************************/
 /*
+*   Core System
+*/
+/****** Depth Queue *****************************************************************************/
+/*
+*   Description:
+*     Set the depth queue depth values.
+*
+*   Notes:
+*     - Depth values are in world units
+*
+*   Examples:
+*     - rjSetDepthQueue( -1800.f, -2000.f );
+*
+*   Paramters:
+*     - near        : near depth value
+*     - far         : far depth value
+*/
+void    rjSetDepthQueue( Float near, Float far );
+
+/****** Envelope ********************************************************************************/
+/*
+*   Description:
+*     Set the weight factor for enveloped (skinned) models.
+*
+*   Notes:
+*     - Ninja1 used '1/255' (and is the default), while Ninja2 used '1/65535'.
+*
+*   Paramters:
+*     - value       : weight factor
+*/
+void    rjSetEnvelopeWeightValue( Float value );
+
+/************************************************************************************************/
+/*
 *   Back Texture
 */
 /****** Set *************************************************************************************/
@@ -964,27 +998,6 @@ void    rjDrawCheapShadow( void );
 *     Clear the modifier buffer for a new frame.
 */
 void    rjModifierResetBuffer( void );
-
-/************************************************************************************************/
-/*
-*   Depth Queue
-*/
-/****** Set Value *******************************************************************************/
-/*
-*   Description:
-*     Set the depth queue depth values.
-*
-*   Notes:
-*     - Depth values are in world units
-*
-*   Examples:
-*     - rjSetDepthQueue( -1800.f, -2000.f );
-*
-*   Paramters:
-*     - near        : near depth value
-*     - far         : far depth value
-*/
-void    rjSetDepthQueue( Float near, Float far );
 
 /************************************************************************************************/
 /*

@@ -224,6 +224,9 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                        
 /****** Modifier ********************************************************************************/
 EXTERN Uint32 _rj_mod_vertex_buffer_max_; /* vertex buffer max count                            */
 
+/****** Envelope ********************************************************************************/
+EXTERN Float _rj_envelope_weight_value_; /* weight multiply                                     */
+
 /****** Translucency Mode ***********************************************************************/
 #define _rj_alpha_mode_             DATA_REF(RJ_ALPHA, 0x025EFE50)
 

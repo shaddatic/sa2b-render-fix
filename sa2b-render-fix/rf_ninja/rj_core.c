@@ -104,6 +104,9 @@ RJE_DRAW;
 /********************************/
 /*  Data                        */
 /********************************/
+/****** Envelope ********************************************************************************/
+Float _rj_envelope_weight_value_ = (1.f/65535.f);
+
 /****** Polygon Attr Mask ***********************************************************************/
 static Uint16 _rj_polyattr_mask_[4];
 
@@ -143,6 +146,13 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 /************************/
 /*  Source              */
 /************************/
+/****** Envelope/Weight *************************************************************************/
+void
+rjSetEnvelopeWeightValue(Float value)
+{
+    _rj_envelope_weight_value_ = value;
+}
+
 /****** Polyattr Mask ***************************************************************************/
 void
 rjSetPolyAttrMask(Int nrm, Int tex, Int col, Int off)
