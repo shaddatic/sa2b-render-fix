@@ -68,6 +68,7 @@ RJS_BACK_VTX;
 /********************************/
 /****** Back Texture ****************************************************************************/
 static NJS_TEXSURFACE* _rj_back_surface_;
+static NJS_SYS_ATTR    _rj_back_sysattr_;
 
 /****** Vertex **********************************************************************************/
 static RJS_BACK_VTX _rj_back_vtx_[RJ_NB_BACK_NUM];
@@ -99,7 +100,7 @@ MagicClear(void* self, u32 flag, u32 color, f32 depth, u32 stencil)
 static void
 DrawBackTextureSub(void)
 {
-    _nj_curr_ctx_->texture = _rj_back_surface_;
+    njSetSystemAttr( &_rj_back_sysattr_ );
 
     rjSetTexture2D(FALSE);
 
@@ -312,6 +313,8 @@ void
 rjSetBackTexture(const NJS_TEXTUREH_VTX vtx[3])
 {
     _rj_back_surface_ = _nj_curr_ctx_->texture;
+
+    njGetSystemAttr( &_rj_back_sysattr_ );
 
     _rj_back_vtx_[RJ_BACK_HI_L].u    = vtx[0].u;
     _rj_back_vtx_[RJ_BACK_HI_L].v    = vtx[0].v;
