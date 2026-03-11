@@ -39,9 +39,6 @@
 /************************/
 /*  Game Data           */
 /************************/
-/****** DrawTextureEx ***************************************************************/
-#define TexExCount          DATA_REF(int32_t, 0x0077F6BF)
-
 /****** DrawPolygon2D ***************************************************************/
 #define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
 
@@ -146,9 +143,6 @@ RF_NinjaInit(void)
     RJ_LineInit();
     RJ_BackTextureInit();
     RJ_QuadTexInit();
-
-    /** Allow 'count' argument to be writeable **/
-    WriteData(&TexExCount, 4, int32_t);
 
     /** Allow 'n' argument to be writeable **/
     WriteData(&Poly2DN, 4, int32_t);
