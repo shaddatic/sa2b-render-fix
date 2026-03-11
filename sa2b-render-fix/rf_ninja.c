@@ -180,6 +180,8 @@ RF_NinjaInit(void)
 
     rjSetDepthQueue( -1800.f, -2000.f );
 
+    rjSetEnvelopeWeightValue( 1.f/255.f );
+
 //  njPolygonCullingSize(0.05f);
 
     /** Fix shader issues (mostly Chao world) **/
