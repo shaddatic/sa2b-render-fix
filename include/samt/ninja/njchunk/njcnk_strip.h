@@ -97,7 +97,6 @@
 #define NJD_FST_DB        (0x10<<NJD_FST_SHIFT)
 #define NJD_FST_FL        (0x20<<NJD_FST_SHIFT)
 #define NJD_FST_ENV       (0x40<<NJD_FST_SHIFT)
-#define NJD_FST_NAT       (0x80<<NJD_FST_SHIFT)
 #define NJD_FST_MASK      (0xFF<<NJD_FST_SHIFT)
 
 #endif/*H_NJ_CHUNK*/
