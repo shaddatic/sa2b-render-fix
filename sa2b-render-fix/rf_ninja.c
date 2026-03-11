@@ -37,12 +37,6 @@
 #include <rf_ninja/rj_internal.h> /* children                                       */
 
 /************************/
-/*  Game Data           */
-/************************/
-/****** DrawPolygon2D ***************************************************************/
-#define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
-
-/************************/
 /*  Data                */
 /************************/
 /****** Depth Queue *****************************************************************/
@@ -143,9 +137,6 @@ RF_NinjaInit(void)
     RJ_LineInit();
     RJ_BackTextureInit();
     RJ_QuadTexInit();
-
-    /** Allow 'n' argument to be writeable **/
-    WriteData(&Poly2DN, 4, int32_t);
 
     /** Replace game's `njSetScreen` with SAMT version **/
     WriteJump(0x0077E980, ___SetScreenHook);
