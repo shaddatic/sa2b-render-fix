@@ -7,6 +7,7 @@
 #include <samt/sonic/task.h>
 
 #include <rf_core.h>
+#include <rf_ninja.h>
 #include <cnf.h>
 
 #define njDrawSomethingStart    FUNC_PTR(void, __cdecl, (int), 0x00491160)
@@ -57,10 +58,10 @@ MizugomiDisplayer_AM(task* tp)
 
     njTranslateEx(&twp->pos);
 
-    njSetTexture(texlist_mizugomi_am);
-    njSetTextureNum(0);
+    rjSetTexture(texlist_mizugomi_am);
+    rjSetTextureNum(0);
 
-    njDrawSomethingStart(1);
+    njDrawSomethingStart(TRUE);
     njDrawSomeSprite(mwp->p, mwp->n, 0.0f, 0.075f, 0.075f, 0xFF809050);
 
     njPopMatrixEx();

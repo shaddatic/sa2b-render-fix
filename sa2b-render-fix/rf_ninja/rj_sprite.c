@@ -140,8 +140,8 @@ rjDrawSprite2D(const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr)
 
     rjSetHwCullingCtx();
 
-    njSetTexture( sp->tlist );
-    njSetTextureNum( tap->texid );
+    rjSetTexture( sp->tlist );
+    rjSetTextureNum( tap->texid );
 
     rjSetBlend2D( attr & (NJD_SPRITE_ALPHA|0x40) );
     rjSetTexture2D( uv_clamp );
@@ -393,8 +393,8 @@ rjDrawSprite3D(const NJS_SPRITE* sp, Int n, Uint32 attr)
 
     rjSetHwCullingCtx();
 
-    njSetTexture( sp->tlist );
-    njSetTextureNum( tanim->texid );
+    rjSetTexture( sp->tlist );
+    rjSetTextureNum( tanim->texid );
 
     rjSetBlend2D( attr & NJD_SPRITE_ALPHA );
     rjSetTexture2D( uv_clamp );

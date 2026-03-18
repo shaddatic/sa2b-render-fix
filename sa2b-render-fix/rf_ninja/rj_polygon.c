@@ -172,7 +172,7 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
 void
 rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
 {
-    _nj_curr_ctx_->texture = rjGetTextureSurfaceG(tex);
+    rjSetTextureNumG(tex);
 
     rjDrawTextureEx(polygon, count, flag);
 }
@@ -180,7 +180,7 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
 void
 rjDrawTextureH(const NJS_TEXTUREH_VTX* polygon, Int count, Int tex, Int flag)
 {
-    _nj_curr_ctx_->texture = rjGetTextureSurfaceG(tex);
+    rjSetTextureNumG(tex);
 
     rjDrawTextureHEx(polygon, count, flag);
 }

@@ -99,7 +99,7 @@ rjSetQuadTexture(Sint32 texid, Uint32 col)
 {
     ___StartChangeQuadTexAttr();
 
-    njSetTextureNum(texid);
+    rjSetTextureNum(texid);
     rjSetTexture2D(FALSE);
 
     ___SetQuadTexColor(col);
@@ -112,7 +112,7 @@ rjSetQuadTextureG(Sint32 gid, Uint32 col)
 {
     ___StartChangeQuadTexAttr();
 
-    njSetTextureNumG(gid);
+    rjSetTextureNumG(gid);
     rjSetTexture2D(FALSE);
 
     ___SetQuadTexColor(col);
@@ -125,7 +125,7 @@ rjSetQuadTextureH(Sint32 texid, Uint32 col, Uint32 off)
 {
     ___StartChangeQuadTexAttr();
 
-    njSetTextureNum(texid);
+    rjSetTextureNum(texid);
     rjSetTexture2D(FALSE);
 
     ___SetQuadTexHColor(col, off);

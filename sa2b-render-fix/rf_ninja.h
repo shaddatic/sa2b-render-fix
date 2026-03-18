@@ -155,6 +155,65 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /********************************/
 /************************************************************************************************/
 /*
+*   Texture
+*/
+/****** Set Texture *****************************************************************************/
+/*
+*   Description:
+*     Set the current texlist for drawing.
+*
+*   Parameters:
+*     - texlist     : texture list                                                [opt:nullptr]
+*
+*   Returns:
+*     Always '1'.
+*/
+Sint32  rjSetTexture( NJS_TEXLIST* texlist );
+/*
+*   Description:
+*     Set the current texture for drawing, via an index into the current set texlist.
+*
+*   Notes:
+*     - If any texture error is encountered, eg. '-1' is returned, the error texture will be
+*       applied instead to avoid a crash.
+*
+*   Parameters:
+*     - n           : texlist index
+*
+*   Returns:
+*     '1' on success; or '-1' on failure.
+*/
+Sint32  rjSetTextureNum( Uint32 n );
+/*
+*   Description:
+*     Set the current texture for drawing, via a global index value.
+*
+*   Notes:
+*     - Searches all loaded textures in the current texture manage list and applies
+*       the first texture it finds
+*     - If any texture error is encountered, eg. '-1' is returned, the error texture will be
+*       applied instead to avoid a crash.
+*
+*   Parameters:
+*     - globalIndex : texture gbix
+*
+*   Returns:
+*     '1' on success; or '-1' on failure.
+*/
+Sint32  rjSetTextureNumG( Uint32 globalIndex );
+
+/****** Get Texlist *****************************************************************************/
+/*
+*   Description:
+*     Get the current set texlist.
+*
+*   Returns:
+*     The current Texlist, which may be 'nullptr'.
+*/
+NJS_TEXLIST* rjGetCurrentTexlist( void );
+
+/************************************************************************************************/
+/*
 *   Core System
 */
 /****** Depth Queue *****************************************************************************/

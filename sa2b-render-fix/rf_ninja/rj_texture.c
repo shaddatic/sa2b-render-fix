@@ -47,7 +47,115 @@ EXTERN NJS_TEXLIST texlist_rf_texerr[];
 /********************************/
 /*  Source                      */
 /********************************/
-/****** Init ************************************************************************************/
+/****** Static **********************************************************************************/
+static NJS_TEXMANAGE*
+rjSearchTexManage(Uint32 globalIndex)
+{
+    if ( _nj_texmanagesize <= 0 )
+    {
+        return nullptr;
+    }
+
+    const Sint32  nb_texman = _nj_texmanagesize;
+    NJS_TEXMANAGE* p_texman = _nj_texmanage;
+
+    for ( Int i = 0; i < nb_texman; ++i, ++p_texman )
+    {
+        NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+
+        if ( p_texsys && p_texsys->globalIndex == globalIndex )
+        {
+            return p_texman;
+        }
+    }
+
+    return nullptr;
+}
+
+/****** Texlist *********************************************************************************/
+Sint32
+rjSetTexture(NJS_TEXLIST* texlist)
+{
+    _nj_curr_ctx_->texlist = texlist;
+    return 1;
+}
+
+NJS_TEXLIST*
+rjGetCurrentTexlist(void)
+{
+    return _nj_curr_ctx_->texlist;
+}
+
+/****** Set Texture *****************************************************************************/
+Sint32
+rjSetTextureNum(Uint32 n)
+{
+    Sint32 retcode;
+
+    NJS_TEXMANAGE* p_texman;
+    NJS_TEXSYSTEM* p_texsys;
+
+    NJS_TEXLIST* const ptls = _nj_curr_ctx_->texlist;
+
+    if ( !ptls || ptls->nbTexture <= n )
+    {
+    TEX_ERR:
+        p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
+        p_texsys = p_texman->texsys;
+
+        retcode = -1;
+    }
+    else
+    {
+        p_texman = (NJS_TEXMANAGE*) ptls->textures[n].texaddr;
+
+        if (!p_texman) goto TEX_ERR;
+
+        p_texsys = p_texman->texsys;
+
+        if (!p_texsys) goto TEX_ERR;
+
+        retcode = 1;
+    }
+
+    // ignore this warning, it's wrong
+    _nj_curr_ctx_->texture = &p_texsys->texsurface;
+    _nj_curr_ctx_->gbix    = p_texsys->globalIndex;
+    _nj_curr_ctx_->bank    = p_texman->bank;
+    _nj_curr_ctx_->texnum  = n;
+
+    return retcode;
+}
+
+Sint32
+rjSetTextureNumG(Uint32 globalIndex)
+{
+    Sint32 retcode;
+
+    NJS_TEXMANAGE* p_texman = rjSearchTexManage(globalIndex);
+
+    if ( !p_texman )
+    {
+        p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
+        retcode = -1;
+    }
+    else
+    {
+        retcode = 1;
+    }
+
+    // texsystem always exists at this point
+    NJS_TEXSYSTEM* p_texsys = p_texman->texsys;
+
+    _nj_curr_ctx_->texture = &p_texsys->texsurface;
+    _nj_curr_ctx_->gbix    = p_texsys->globalIndex;
+    _nj_curr_ctx_->bank    = p_texman->bank;
+    _nj_curr_ctx_->texnum  = -1;
+
+    return retcode;
+}
+
+/****** Texture Limit ***************************************************************************/
 static void
 ChangeTextureLimit(Int ntex)
 {
@@ -83,6 +191,13 @@ ChangeTextureLimit(Int ntex)
     RF_DbgInfo("Expanded texture limit to %i, from %i!", ntex, texmemsize);
 }
 
+/****** Conversion ******************************************************************************/
+static Sint32 __fastcall
+___SetTextureNum(Uint32 n)
+{
+    return rjSetTextureNum(n);
+}
+
 /****** Init ************************************************************************************/
 void
 RJ_TextureInit(void)
@@ -112,4 +227,8 @@ RJ_TextureInit(void)
     _nj_texmanagesize = nb_texman;
     _nj_texsys        =  p_texsys;
     _nj_texmanage     =  p_texman;
+
+    /****** Func Hook ***********************************************************************/
+
+    WriteJump(0x0042ED30, ___SetTextureNum);
 }
