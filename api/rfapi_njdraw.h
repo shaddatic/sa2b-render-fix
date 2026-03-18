@@ -6,7 +6,8 @@
 * 
 *   Version History:
 *     - v1.5.0.0        : Version 0, initial release
-*     - v1.5.3.0        : Version 1, added 'QuadDraw' function set
+*     - v1.5.3.0        : Version 1, added 'QuadDraw' function set & 'DrawTexture' and
+*                         'DrawSprite2D+3D' now have tex error handling logic
 * 
 *   Availability:
 *     - Before Init     : No
