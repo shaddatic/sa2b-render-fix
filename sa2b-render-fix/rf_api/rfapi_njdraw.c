@@ -44,10 +44,6 @@ const RFAPI_NJDRAW rfapi_njdraw =
     .DrawPolygon2D = rjDrawPolygon2D,
 
     // ver 1
-    .SetTexture     = njSetTexture,
-    .SetTextureNum  = njSetTextureNum,
-    .SetTextureNumG = njSetTextureNumG,
-
     .QuadTextureStart = rjQuadTextureStart,
     .QuadTextureEnd   = rjQuadTextureEnd,
 

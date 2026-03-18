@@ -52,4 +52,10 @@ const RFAPI_NINJA rfapi_ninja =
 
     // version 1
     .SetEnvelopeWeightValue = rjSetEnvelopeWeightValue,
+
+    .SetTexture     = rjSetTexture,
+    .SetTextureNum  = rjSetTextureNum,
+    .SetTextureNumG = rjSetTextureNumG,
+
+    .GetCurrentTexlist = rjGetCurrentTexlist,
 };

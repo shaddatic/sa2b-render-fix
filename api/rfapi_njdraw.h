@@ -6,6 +6,7 @@
 * 
 *   Version History:
 *     - v1.5.0.0        : Version 0, initial release
+*     - v1.5.3.0        : Version 1, added 'QuadDraw' function set
 * 
 *   Availability:
 *     - Before Init     : No
@@ -201,46 +202,6 @@ typedef struct
     void (*DrawPolygon2D)( const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr );
 
     /****** Version >= 1 ********************************************************************/
-
-    /********************************************************/
-    /*
-    *   Set Texture
-    */
-    /**** Set Texture ***************************************/
-    /*
-    *   Description:
-    *     Set the current Texlist.
-    *
-    *   Parameters:
-    *     - texlist     : texlist pointer
-    *
-    *   Returns:
-    *     Always '1'.
-    */
-    Sint32 (*SetTexture)( NJS_TEXLIST* texlist );
-    /*
-    *   Description:
-    *     Set the active texture for use with draw functions via texlist index.
-    *
-    *   Parameters:
-    *     - n           : texname index into current texlist
-    *
-    *   Returns:
-    *     '1' on success; or '-1' on failure.
-    */
-    Sint32 (*SetTextureNum)( Uint32 n );
-    /*
-    *   Description:
-    *     Set the active texture for use with draw functions via a global index. Seaches all
-    *   loaded textures and picks the first GBIX match.
-    *
-    *   Parameters:
-    *     - globalIndex : global index
-    *
-    *   Returns:
-    *     '1' on success; or '-1' on failure.
-    */
-    Sint32 (*SetTextureNumG)( Uint32 globalIndex );
 
     /********************************************************/
     /*
