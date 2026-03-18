@@ -122,17 +122,24 @@ rjCnkSetMaterial(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
 
     const CNK_MATERIAL_HEAD* restrict p_mat = (void*) plist;
 
-    const NJS_BGRA* restrict p_col = (void*) p_mat->d;
-
-    int   nb_mat = 0;
-    NJS_BGRA mats[RJ_NB_CMC];
-
-    if ( p_mat->head & RJD_CMF_DIFF ) mats[RJ_CMC_DIFF] = p_col[ nb_mat++ ];
-    if ( p_mat->head & RJD_CMF_AMBI ) mats[RJ_CMC_AMBI] = p_col[ nb_mat++ ];
-    if ( p_mat->head & RJD_CMF_SPEC ) mats[RJ_CMC_SPEC] = p_col[ nb_mat++ ];
-
-    // call Chunk material callback with material colors
-    _rj_cnk_material_callback_( pStrip->mats, mats, p_mat->head );
+    if ( p_mat->head == NJD_CM_BU )
+    {
+        // bump material
+    }
+    else // material color
+    {
+        const NJS_BGRA* restrict p_col = (void*) p_mat->d;
+        
+        int   nb_mat = 0;
+        NJS_BGRA mats[RJ_NB_CMC];
+        
+        if ( p_mat->head & RJD_CMF_DIFF ) mats[RJ_CMC_DIFF] = p_col[ nb_mat++ ];
+        if ( p_mat->head & RJD_CMF_AMBI ) mats[RJ_CMC_AMBI] = p_col[ nb_mat++ ];
+        if ( p_mat->head & RJD_CMF_SPEC ) mats[RJ_CMC_SPEC] = p_col[ nb_mat++ ];
+        
+        // call Chunk material callback with material colors
+        _rj_cnk_material_callback_( pStrip->mats, mats, p_mat->head );
+    }
 
     return p_mat->size + CNK_MATOFF_SIZE_ADD;
 }
