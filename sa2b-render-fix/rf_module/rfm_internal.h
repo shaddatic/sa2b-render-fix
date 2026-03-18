@@ -95,6 +95,11 @@ void    RFM_CartInit( void );
 *     Init the 'Chao World' feature module.
 */
 void    RFM_ChaoInit( void );
+/*
+*   Description:
+*     Init the 'Pumpkin Hill' feature module.
+*/
+void    RFM_PumpkinInit( void );
 
 EXTERN_END
 

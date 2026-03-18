@@ -333,9 +333,6 @@
     <ClCompile Include="rf_light\rfl_setlight.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_ninja\rj_texerr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -472,6 +469,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja\rj_quadtex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_texture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_module\rfm_stg_pumpkin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

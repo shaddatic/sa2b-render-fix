@@ -40,4 +40,5 @@ RF_ModuleInit(void)
     RFM_BossBogyInit();
     RFM_CartInit();
     RFM_ChaoInit();
+    RFM_PumpkinInit();
 }
