@@ -189,19 +189,32 @@ typedef struct
 }
 CNK_BITS_HEAD;
 
+/****** Sub-Structures **************************************************************************/
+typedef struct
+{
+    union {
+        Uint8 blend;                /* blend bits                                               */
+
+        struct {
+            Uint8  dst      : 3;    /* destination blend mode                                   */
+            Uint8  src      : 3;    /* source blend mode                                        */
+            Uint8  dstsel   : 1;    /* destination select, for accumulation buffer              */
+            Uint8  srcsel   : 1;    /* source select, for accumulation buffer                   */
+        };
+    };
+}
+CNK_BA;
+
 /****** Structures ******************************************************************************/
 typedef struct
 {
-    Uint8       : 2;
-    Uint8 src   : 3;                /* source blend mode                                        */
-    Uint8 dst   : 3;                /* destination blend mode                                   */
+    CNK_BA blend;                   /* blend mode                                               */
 }
 CNK_BITS_BLENDALPHA;
 
 typedef struct
 {
-    Uint8        : 4;
-    Uint8 adjust : 4;               /* mipmap 'd' adjust                                        */
+    Uint8 adjust;                   /* mipmap 'd' adjust                                 [0~15] */
 }
 CNK_BITS_DADJUST;
 
@@ -221,20 +234,39 @@ CNK_BITS_POLYLIST;
 /*
 *   Material Structures
 */
-/****** Header + Structure **********************************************************************/
+/****** Header **********************************************************************************/
 typedef struct
 {
     Uint8  head;                    /* chunk type                                               */
 
-    Uint8       : 2;
-    Uint8  src  : 3;                /* source blend mode                                        */
-    Uint8  dst  : 3;                /* destination blend mode                                   */
+    CNK_BA blend;                   /* blend mode                                               */
     Uint16 size;                    /* chunk data size, in i16 steps                            */
 
     // chunk data
-    NJS_BGRA d[];                   /* data                 [ambi: 'a' = nul, spec: 'a' = exp] */
+    Sint16 d[];                     /* data                                                     */
 }
 CNK_MATERIAL_HEAD;
+
+/****** Sub-Structures **************************************************************************/
+typedef struct
+{
+    Sint16 dx, dy, dz;              /* direction x,y,z                                          */
+}
+CNK_PVN;
+
+/****** Structures ******************************************************************************/
+typedef struct
+{
+    NJS_BGRA col[];                 /* diff,ambi,spec        [ambi: 'a' = nul, spec: 'a' = exp] */
+}
+CNK_MATERIAL_COLOR;
+
+typedef struct
+{
+    CNK_PVN dir;
+    CNK_PVN up;
+}
+CNK_MATERIAL_BUMP;
 
 /************************************************************************************************/
 /*
@@ -245,13 +277,27 @@ typedef struct
 {
     Uint8  head;                    /* chunk type                                               */
 
-    Uint8  mipmap : 4;              /* mipmap adjust                                            */
-    Uint8  clamp  : 2;              /* uv clamp mode                                            */
-    Uint8  flip   : 2;              /* uv flip mode                                             */
+    union
+    {
+        Uint8 headbits;
 
-    Uint16 texid   : 13;            /* texture id                                               */
-    Uint16 ssample : 1;             /* super sample flag                                        */
-    Uint16 filter  : 2;             /* texture filter mode                                      */
+        struct {
+            Uint8  mipmap : 4;      /* mipmap adjust                                            */
+            Uint8  clamp  : 2;      /* uv clamp mode                                            */
+            Uint8  flip   : 2;      /* uv flip mode                                             */
+        };
+    };
+    
+    union
+    {
+        Uint16 texbits;
+
+        struct {
+            Uint16 texid   : 13;    /* texture id                                               */
+            Uint16 ssample : 1;     /* super sample flag                                        */
+            Uint16 filter  : 2;     /* texture filter mode                                      */
+        };
+    };
 }
 CNK_TINY_HEAD;
 
@@ -264,10 +310,18 @@ typedef struct
 {
     Uint8  head;                    /* chunk type                                               */
 
-    Uint8  wstat  : 2;              /* weight status, for ninja flag                            */
-    Uint8         : 4;
-    Uint8  cshape : 1;              /* compact shape flag                                 [nj2] */
-    Uint8  vcalc  : 1;              /* vertex clip calc continue                                */
+    union
+    {
+        Uint8 flag;                 /* vertex flags                                             */
+
+        struct {
+            Uint8  wstat  : 2;      /* weight status, for ninja flag                            */
+            Uint8         : 4;
+            Uint8  cshape : 1;      /* compact shape flag                                 [nj2] */
+            Uint8  vcalc  : 1;      /* vertex clip calc continue                                */
+        };
+    };
+
     Uint16 size;                    /* chunk data size, in i32 steps                            */
 
     // chunk data
@@ -353,7 +407,7 @@ typedef struct
 {
     NJS_POINT3 pos;                 /* position                                                 */
     Uint16     i;                   /* vertex buffer index                                      */
-    Uint16     w;                   /* weight value                                     [0~255] */
+    Uint16     w;                   /* weight value                               [0~255/65535] */
 }
 CNK_VERTEX_NF;
 
@@ -402,7 +456,7 @@ typedef struct
     NJS_POINT3 pos;                 /* position                                                 */
     NJS_VECTOR nrm;                 /* normal                                                   */
     Uint16     i;                   /* vertex buffer index                                      */
-    Uint16     w;                   /* weight value                                     [0~255] */
+    Uint16     w;                   /* weight value                               [0~255/65535] */
 }
 CNK_VERTEX_VN_NF;
 
@@ -468,7 +522,7 @@ typedef struct
 {
     NJS_POINT3 pos;                 /* position                                                 */
     Uint16     i;                   /* vertex buffer index                                      */
-    Uint16     w;                   /* weight value                                     [0~255] */
+    Uint16     w;                   /* weight value                               [0~255/65535] */
     NJS_BGRA   col;                 /* diffuse color                                            */
 }
 CNK_VERTEX_NF_D8;
@@ -596,9 +650,7 @@ CNK_ST_UV;
 typedef struct
 {
     Uint16          i;              /* vertex buffer index                                      */
-    Sint16          vnx;            /* x vertex normal                           (-32768~32767) */
-    Sint16          vny;            /* y vertex normal                           (-32768~32767) */
-    Sint16          vnz;            /* z vertex normal                           (-32768~32767) */
+    CNK_PVN         vn;             /* poly vertex normal                                       */
 //  CNK_UFO         ufo;            /* user flag offset, per polygon                            */
 }
 CNK_ST_VN;
@@ -608,9 +660,7 @@ typedef struct
     Uint16          i;              /* vertex buffer index                                      */
     Sint16          u;              /* u coordinate                           (0~256 or 0~1024) */
     Sint16          v;              /* v coordinate                           (0~256 or 0~1024) */
-    Sint16          vnx;            /* x vertex normal                           (-32768~32767) */
-    Sint16          vny;            /* y vertex normal                           (-32768~32767) */
-    Sint16          vnz;            /* z vertex normal                           (-32768~32767) */
+    CNK_PVN         vn;             /* poly vertex normal                                       */
 //  CNK_UFO         ufo;            /* user flag offset, per polygon                            */
 }
 CNK_ST_UV_VN;
@@ -632,6 +682,24 @@ typedef struct
 //  CNK_UFO         ufo;            /* user flag offset, per polygon                            */
 }
 CNK_ST_UV_D8;
+
+typedef struct
+{
+    Uint16          i;              /* vertex buffer index                                      */
+//  CNK_UFO         ufo;            /* user flag offset, per polygon                            */
+}
+CNK_ST_2;
+
+typedef struct
+{
+    Uint16          i;              /* vertex buffer index                                      */
+    Sint16          u1;             /* u coordinate                           (0~256 or 0~1024) */
+    Sint16          v1;             /* v coordinate                           (0~256 or 0~1024) */
+    Sint16          u2;             /* u coordinate                           (0~256 or 0~1024) */
+    Sint16          v2;             /* v coordinate                           (0~256 or 0~1024) */
+//  CNK_UFO         ufo;            /* user flag offset, per polygon                            */
+}
+CNK_ST_UV2;
 
 /****** Chunk Struct ****************************************************************************/
 typedef struct

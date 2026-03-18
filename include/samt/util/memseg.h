@@ -11,7 +11,7 @@
 /*  Constants           */
 /************************/
 /****** Virtual Page ****************************************************************/
-#define MEMSEG_PAGE_SIZE    ((size_t)0x00001000) /* windows memory page size        */
+#define MEMSEG_PAGE_SIZE    ((usize)0x00001000) /* windows memory page size         */
 
 /****** Address Segments ************************************************************/
 #define MEMSEG_NOACCESS     ((void*)0x00010000) /* end of the no access segment     */

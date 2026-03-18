@@ -133,7 +133,7 @@ typedef struct mt_salabel
     const char* pcTool;             /* tool the model was edited/created in                     */
     const char* pcDescription;      /* model description                                        */
 
-    size_t          nbLabel;        /* number of data labels                                    */
+    isize           nbLabel;        /* number of data labels                                    */
     mt_salabel_entry pLabels[];     /* data label array                                         */
 }
 mt_salabel;
@@ -142,7 +142,7 @@ mt_salabel;
 typedef struct mt_samdl
 {
     mt_samdl_type type;             /* structure format type, or error code                     */
-    size_t        size;             /* size of model buffer segment                             */
+    isize         size;             /* size of model buffer segment                             */
 
     mt_salabel* pLabels;            /* model label data                                         */
 
@@ -158,7 +158,7 @@ mt_samdl;
 typedef struct mt_salvl
 {
     mt_salvl_type type;             /* structure format type, or error code                     */
-    size_t        size;             /* size of landtable buffer segment                         */
+    isize         size;             /* size of landtable buffer segment                         */
 
     mt_salabel* pLabels;            /* landtable label data                                     */
 
@@ -173,11 +173,11 @@ mt_salvl;
 typedef struct mt_saanim
 {
     mt_saanim_type type;            /* structure format type, or error code                     */
-    size_t         size;            /* size of landtable buffer segment                         */
+    isize          size;            /* size of landtable buffer segment                         */
 
     mt_salabel* pLabels;            /* motion label data                                        */
 
-    size_t    nbNode;               /* number of motion nodes                                   */
+    isize     nbNode;               /* number of motion nodes                                   */
     NJS_MOTION pMotion[];           /* motion head                                              */
 }
 mt_saanim;

@@ -49,14 +49,13 @@
 static void
 GetLightFilePaths(const c8* puPathBase, const c8** ppuOutPathDC, const c8** ppuOutPathGC)
 {
-    const size_t sz_path = mtStrSize(puPathBase, STR_NOMAX);
+    const isize sz_path = mtStrSize(puPathBase, STR_NOMAX);
 
     // get gc path
     c8* const pu_path_gc = (void*) &GlobalBuffer[0x200];
 
-    mtStrCopy(pu_path_gc, puPathBase, sz_path - CHARIN(".bin"));
-
-    mtStrAppend(pu_path_gc, STR_AUTOLEN, "_gc.bin", STR_NOMAX);
+    mtStrCopy(  pu_path_gc, puPathBase, sz_path - CHARIN(".bin"));
+    mtStrAppend(pu_path_gc, "_gc.bin", STR_NOMAX);
 
     // get replaced paths
     const c8* pu_repl_path_dc = mlGetReplacedFile(puPathBase);
