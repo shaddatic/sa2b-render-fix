@@ -3,6 +3,7 @@
 /********************************/
 /****** Core Toolkit ****************************************************************************/
 #include <samt/core.h>              /* core                                                     */
+#include <samt/writeop.h>           /* write op                                                 */
 
 /****** System **********************************************************************************/
 #include <samt/shinobi/sg_maloc.h>  /* symalloc                                                 */
@@ -227,6 +228,9 @@ RJ_TextureInit(void)
     _nj_texmanagesize = nb_texman;
     _nj_texsys        =  p_texsys;
     _nj_texmanage     =  p_texman;
+
+    // set the global index to -1
+    TexerrTexsys[0].globalIndex = -1;
 
     /****** Func Hook ***********************************************************************/
 
