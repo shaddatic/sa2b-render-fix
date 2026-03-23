@@ -22,12 +22,12 @@ EXTERN_START
 /*  Structures                  */
 /********************************/
 /****** List Load *******************************************************************************/
-typedef struct rfsamdl
+typedef struct rfmdlfile
 {
-    const c8*       puInPath;       /* local file path                                          */
-    mt_samdl*       pOutSamdl;      /* loaded samdl file                                        */
+    const c8*       puPath;         /* local file path                                          */
+    NJS_CNK_OBJECT* pObject;        /* loaded object                                            */
 }
-RFS_SAMDL;
+RFS_MDLFILE;
 
 /********************************/
 /*  Prototypes                  */
@@ -68,7 +68,7 @@ void    RF_FreeSAModel( mt_samdl* pSamdl );
 *   Returns:
 *     Number of unique files loaded.
 */
-isize   RF_GetSAModelList( RFS_SAMDL* restrict pSamdls, isize nbSamdl, u32 flag );
+isize   RF_GetSAModelList( RFS_MDLFILE* restrict pSamdls, isize nbSamdl, u32 flag );
 
 /****** Get Model *******************************************************************************/
 /*
