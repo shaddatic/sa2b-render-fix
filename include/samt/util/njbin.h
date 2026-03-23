@@ -120,11 +120,12 @@ i32     mtNinjaBinaryRead( mt_njbin* pNb, void* pDst, u32* pOutName );
 *   Parameters:
 *     - pNb         : ninja binary
 *     - pOutName    : chunk name                                                     [opt:NULL]
+*     - pOutSize    : chunk size                                                     [opt:NULL]
 *
 *   Returns:
 *     Allocated buffer with binary data; or 'nullptr' on error.
 */
-void*   mtNinjaBinaryAlloc( mt_njbin* pNb, u32* pOutName );
+void*   mtNinjaBinaryAlloc( mt_njbin* pNb, u32* pOutName, usize* pOutSize );
 
 /****** Open Memory *****************************************************************************/
 /*
