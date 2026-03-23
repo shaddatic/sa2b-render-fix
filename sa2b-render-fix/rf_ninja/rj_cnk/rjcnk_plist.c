@@ -639,6 +639,17 @@ rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
                 continue;
             }
 
+            // trilinear multi-pass clipping
+            if ( p_stentry->flag & (NJD_FST_UA|RJD_FST_EUA) && p_stentry->tiny.filter >= CNK_FILTER_TRILINEAR_A )
+            {
+                // clip everything except the 3rd pass. This clip includes opaque strips, as
+                // the second pass uses transparency (and that isn't the 3rd pass, so clip)
+                if ( (p_stentry->blend & (NJD_FBS_SEL|NJD_FBD_SEL)) != NJD_FBS_SEL )
+                {
+                    continue;
+                }
+            }
+
             nb_strip++;
 
             if ( nb_strip >= RJD_CST_MAX ) 
