@@ -18,7 +18,8 @@
 /*  Constants                   */
 /********************************/
 /****** Mod Loader ******************************************************************************/
-#define MLVER_MIN   (9)             /* minimum mod loader version                               */
+#define MLVER_HARD_MIN             ML_MINVER_MODINFO   /* absolute minimum mod loader version   */
+#define MLVER_SOFT_MIN             ML_MINVER_FILEMODIX /* soft minimum mod loader version       */
 
 /********************************/
 /*  Source                      */
@@ -36,16 +37,37 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     DX9_Init();
 
     /** Mod Loader Check **/
-    if ( mlGetVersion() < MLVER_MIN )
     {
-        RF_MsgError("Mod Loader Version",
-            "Render Fix can't operate safely on the currently installed version of the SA2 Mod Loader.\n"
-            "Please update the Mod Loader to a newer version!\n\n"
-            "Render Fix will now abort the init process."
-        );
+        const i32 ml_ver = mlGetVersion();
 
-        return;
+        if ( ml_ver < MLVER_HARD_MIN )
+        {
+            RF_MsgError("Mod Loader Version",
+                        "Render Fix requires Mod Loader versions newer than v%i, but your version is only v%i.\n\n"
+
+                        "Update the Mod Loader to a newer version! You can do this from the Mod Manager.\n\n"
+
+                        "Render Fix will now abort the init process.",
+
+                        MLVER_HARD_MIN-1, ml_ver
+            );
+
+            return;
+        }
+        else if ( ml_ver < MLVER_SOFT_MIN )
+        {
+            RF_MsgWarn("Mod Loader Version",
+                       "Render Fix is designed for Mod Loader versions v%i and newer, but your version is only %i.\n\n"
+
+                       "Please update the Mod Loader to a newer version. You can do this from the Mod Manager.\n\n"
+
+                       "Some features have been disabled.",
+
+                       MLVER_SOFT_MIN, ml_ver
+            );
+        }
     }
+
 
     RFAPI_CallFuncs( RF_APIFUNC_EARLY );
 
