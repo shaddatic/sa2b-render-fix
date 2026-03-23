@@ -83,6 +83,22 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_DbgExtra("End Init");
 }
 
+/****** On Device X *****************************************************************************/
+EXPORT_DLL
+void __cdecl
+OnRenderDeviceLost(void)
+{
+    RJ_OnDeviceLost();
+}
+
+
+EXPORT_DLL
+void __cdecl
+OnRenderDeviceReset(void)
+{
+    RJ_OnDeviceReset();
+}
+
 /****** On Scene X ******************************************************************************/
 EXPORT_DLL
 void __cdecl

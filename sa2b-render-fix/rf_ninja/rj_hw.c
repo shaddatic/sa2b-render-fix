@@ -208,6 +208,16 @@ rjSetHwTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
     }
 }
 
+/****** Cache ***********************************************************************************/
+void
+rjResetHwCache(void)
+{
+    _rj_hw_texparam_ = (dx9_float4){ 0 };
+    _rj_hw_polyattr_ = (dx9_float4){ 0 };
+
+    _rj_polygon_shading_ = 0;
+}
+
 /****** Init ************************************************************************************/
 void
 RJ_HwInit(void)

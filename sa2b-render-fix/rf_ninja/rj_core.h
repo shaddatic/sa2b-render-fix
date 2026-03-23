@@ -237,6 +237,13 @@ EXTERN Float _rj_envelope_weight_value_; /* weight multiply                     
 /*
 *   Draw Core
 */
+/****** Reset Cache *****************************************************************************/
+/*
+*   Description:
+*     Reset the hw module parameter cache.
+*/
+void    rjResetHwCache( void );
+
 /****** Set Polygon Attributes ******************************************************************/
 /*
 *   Description:
