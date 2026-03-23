@@ -620,6 +620,9 @@
     <ClInclude Include="rf_fixhistory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rfu_njbin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="models\basic_shadow.nja" />

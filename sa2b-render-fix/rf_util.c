@@ -10,6 +10,9 @@
 #include <samt/model.h>         /* v/plistsize                                      */
 #include <samt/samdl.h>         /* mt_samdl                                         */
 
+/****** Util ************************************************************************/
+#include <samt/util/njbin.h>    /* ninja binary                                     */
+
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
 
@@ -613,4 +616,59 @@ RFU_ReplaceFloat(pint pOpcode, f64 val)
             return false;
         }
     }
+}
+
+/****** Ninja Binary ****************************************************************************/
+void*
+RFU_NinjaBinaryRead(const c8* fpath, bool(*fnNameCheck)(u32 name))
+{
+    mt_njbin* nb = mtNinjaBinaryOpen(fpath);
+
+    u32 cnk_name = '****';
+    u32 cnk_size = 0;
+
+    // find the model binary chunk
+    for ( ; ; )
+    {
+        // get chunk. if error, stop
+        if ( mtNinjaBinaryChunk(nb, &cnk_name, &cnk_size) < NJBIN_RET_OK )
+        {
+            break;
+        }
+
+        // check chunk name. if matches we found what we want, stop
+        if ( fnNameCheck(cnk_name) )
+        {
+            break;
+        }
+
+        // skip to the next chunk. if error or we reach the end, stop
+        if ( mtNinjaBinarySkip(nb) != NJBIN_RET_OK )
+        {
+            break;
+        }
+    }
+
+    // return ptr
+    void* p_object;
+
+    // we found it!
+    if ( fnNameCheck(cnk_name) )
+    {
+        p_object = mtMemAlloc(cnk_size);
+
+        if ( mtNinjaBinaryRead(nb, p_object, NULL) < NJBIN_RET_OK )
+        {
+            // there was an error, stop
+            mtFree(p_object);
+            p_object = nullptr;
+        }
+    }
+    else // some error
+    {
+        p_object = nullptr;
+    }
+
+    mtNinjaBinaryClose(nb);
+    return p_object;
 }

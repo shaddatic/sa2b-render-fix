@@ -169,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="cnf.h" />
     <ClInclude Include="rfu_draw.h" />
+    <ClInclude Include="rfu_njbin.h" />
     <ClInclude Include="rf_api.h" />
     <ClInclude Include="rf_fixhistory.h" />
     <ClInclude Include="rf_graphics.h" />
