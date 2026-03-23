@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>       /* rf ninja                                             */
 #include <rf_njcnk.h>
 
@@ -148,5 +148,5 @@ RFCD_UDReelInit(void)
     WriteJump(0x006E6170, ObjectUDReelCnkDisplayer);
     WriteJump(0x004BC210, ObjectUDReelGolemCnkDisplayer); // Golem
 
-    object_udreel = RF_GetCnkObject("object/udreel.sa2mdl");
+    object_udreel = RF_GetCnkObject("object/udreel");
 }

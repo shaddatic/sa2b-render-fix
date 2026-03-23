@@ -28,7 +28,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -1471,15 +1471,15 @@ void
 CHS_PlayerInit(void)
 {
     /** Sonic/Shadow/Amy/Metal **/
-    object_sonic_head_mod      = RF_GetCnkObject("figure/sonic_head_mod.sa2mdl");
-    object_amy_head_mod        = RF_GetCnkObject("figure/amy_head_mod.sa2mdl");
-    object_terios_head_mod     = RF_GetCnkObject("figure/terios_head_mod.sa2mdl");
-    object_metalsonic_head_mod = RF_GetCnkObject("figure/metalsonic_head_mod.sa2mdl");
+    object_sonic_head_mod      = RF_GetCnkObject("figure/sonic_head_mod");
+    object_amy_head_mod        = RF_GetCnkObject("figure/amy_head_mod");
+    object_terios_head_mod     = RF_GetCnkObject("figure/terios_head_mod");
+    object_metalsonic_head_mod = RF_GetCnkObject("figure/metalsonic_head_mod");
 
     WriteJump(0x0071E520, SonicDisplayerShadowHook);
 
     /** Miles **/
-    object_miles_head_mod = RF_GetCnkObject("figure/miles_head_mod.sa2mdl");
+    object_miles_head_mod = RF_GetCnkObject("figure/miles_head_mod");
 
     WriteRetn(0x00750C40);
     WriteJump(0x0074FF20, MilesDisplayerShadowHook);
@@ -1487,16 +1487,16 @@ CHS_PlayerInit(void)
     MilesTailModifiers = CNF_GetInt(CNF_PLAYER_MILESTAILMOD);
 
     /** Eggman **/
-    object_eggman_head_mod = RF_GetCnkObject("figure/eggman_head_mod.sa2mdl");
+    object_eggman_head_mod = RF_GetCnkObject("figure/eggman_head_mod");
 
     WriteRetn(0x0073F1A0);
     WriteJump(0x0073E8B0, EggmanDisplayerShadowHook);
 
     /** Knuckles/Rouge/Tikal/Chaos **/
-    object_knuckles_head_mod = RF_GetCnkObject("figure/knuckles_head_mod.sa2mdl");
-    object_rouge_head_mod    = RF_GetCnkObject("figure/rouge_head_mod.sa2mdl");
-    object_tikal_head_mod    = RF_GetCnkObject("figure/tikal_head_mod.sa2mdl");
-    object_chaos_head_mod    = RF_GetCnkObject("figure/chaos_head_mod.sa2mdl");
+    object_knuckles_head_mod = RF_GetCnkObject("figure/knuckles_head_mod");
+    object_rouge_head_mod    = RF_GetCnkObject("figure/rouge_head_mod");
+    object_tikal_head_mod    = RF_GetCnkObject("figure/tikal_head_mod");
+    object_chaos_head_mod    = RF_GetCnkObject("figure/chaos_head_mod");
 
     WriteRetn(0x00730100);
     WriteJump(0x0072DCE0, KnucklesDisplayerShadowHook);
@@ -1504,14 +1504,14 @@ CHS_PlayerInit(void)
     WriteJump(0x0072E390, KnucklesDisplayerShadowHook);
 
     /** Mech Walkers **/
-    object_twalker_body_mod = RF_GetCnkObject("figure/twalker_body_mod.sa2mdl");
-    object_twalker_foot_mod = RF_GetCnkObject("figure/twalker_foot_mod.sa2mdl");
-    object_ewalker_body_mod = RF_GetCnkObject("figure/ewalker_body_mod.sa2mdl");
-    object_ewalker_foot_mod = RF_GetCnkObject("figure/ewalker_foot_mod.sa2mdl");
-    object_cwalker_body_mod = RF_GetCnkObject("figure/cwalker_body_mod.sa2mdl");
-    object_cwalker_foot_mod = RF_GetCnkObject("figure/cwalker_foot_mod.sa2mdl");
-    object_dwalker_body_mod = RF_GetCnkObject("figure/dwalker_body_mod.sa2mdl");
-    object_dwalker_foot_mod = RF_GetCnkObject("figure/dwalker_foot_mod.sa2mdl");
+    object_twalker_body_mod = RF_GetCnkObject("figure/twalker_body_mod");
+    object_twalker_foot_mod = RF_GetCnkObject("figure/twalker_foot_mod");
+    object_ewalker_body_mod = RF_GetCnkObject("figure/ewalker_body_mod");
+    object_ewalker_foot_mod = RF_GetCnkObject("figure/ewalker_foot_mod");
+    object_cwalker_body_mod = RF_GetCnkObject("figure/cwalker_body_mod");
+    object_cwalker_foot_mod = RF_GetCnkObject("figure/cwalker_foot_mod");
+    object_dwalker_body_mod = RF_GetCnkObject("figure/dwalker_body_mod");
+    object_dwalker_foot_mod = RF_GetCnkObject("figure/dwalker_foot_mod");
 
     WriteRetn(0x00748AF0);
     WriteRetn(0x00745310);

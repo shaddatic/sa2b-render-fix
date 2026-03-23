@@ -1,18 +1,16 @@
 /*
-*   SA2 Render Fix - '/rf_samdl.h'
+*   SA2 Render Fix - '/rf_model.h'
 *
 *   Description:
-*     Render Fix Font module.
+*     For loading model binary files located in either the private 'model' directory, or the
+*   public 'RFMDL' directory.
 */
-#ifndef H_RF_SAMDL
-#define H_RF_SAMDL
+#ifndef H_RF_MODEL
+#define H_RF_MODEL
 
 /********************************/
 /*  Includes                    */
 /********************************/
-/****** SAMT ************************************************************************************/
-#include <samt/samdl.h>             /* samdl/lvl                                                */
-
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
@@ -27,53 +25,33 @@ typedef struct rfmdlfile
     const c8*       puPath;         /* local file path                                          */
     NJS_CNK_OBJECT* pObject;        /* loaded object                                            */
 }
-RFS_MDLFILE;
+RFS_OBJFILE;
 
 /********************************/
 /*  Prototypes                  */
 /********************************/
-/****** Get SAModel File ************************************************************************/
-/*
-*   Description:
-*     Get an SAModel file from either Render Fix's private 'model' directory, or - if a file
-*   isn't found there - the public 'RFMDL' directory.
-*
-*   Parameters:
-*     - puPath      : local path to file
-*     - flag        : samdl load flags
-*
-*   Returns:
-*     Loaded SAModel file; or 'nullptr' on failure.
-*/
-mt_samdl* RF_GetSAModel( const c8* puPath, u32 flag );
-/*
-*   Description:
-*     Free a loaded SAModel file.
-*
-*   Parameters:
-*     - pSamdl      : samdl
-*/
-void    RF_FreeSAModel( mt_samdl* pSamdl );
-
 /****** Load List *******************************************************************************/
 /*
 *   Description:
 *     Get a list of SAModel files, and free any duplicate models in the list to save memory.
 *
 *   Parameters:
-*     - pSamdls     : samdl entry list
-*     - nbSamdl     : number of samdl entries
-*     - flag        : samdl flags
+*     - pObjs       : object file list
+*     - nbObjs      : number of object files
 *
 *   Returns:
 *     Number of unique files loaded.
 */
-isize   RF_GetSAModelList( RFS_MDLFILE* restrict pSamdls, isize nbSamdl, u32 flag );
+isize   RF_GetCnkObjectList( RFS_OBJFILE* restrict pObjs, isize nbObj );
 
 /****** Get Model *******************************************************************************/
 /*
 *   Description:
 *     Get a Ninja object file from either RF's private directory, or the public one.
+*
+*   Notes:
+*     - The file path must exclude the extension for the function to operate correctly.
+*     - Model files in the private directly have precidence over public ones.
 *
 *   Parameters:
 *     - puPath      : local path to file
@@ -81,11 +59,18 @@ isize   RF_GetSAModelList( RFS_MDLFILE* restrict pSamdls, isize nbSamdl, u32 fla
 *   Returns:
 *     Loaded object; or 'nullptr' on failure.
 */
+NJS_OBJECT*     RF_GetBscObject( const c8* puPath );
 NJS_CNK_OBJECT* RF_GetCnkObject( const c8* puPath );
 GJS_OBJECT*     RF_GetGjsObject( const c8* puPath );
 /*
 *   Description:
 *     Get a Ninja model file from either RF's private directory, or the public one.
+*
+*   Notes:
+*     - The file path must exclude the extension for the function to operate correctly.
+*     - Model files in the private directly have precidence over public ones.
+*     - The address returned from these functions cannot be freed, as the memory is allocated
+*       from the head object. If you wish to free the memory, use the Object variant instead.
 *
 *   Parameters:
 *     - puPath      : local path to file
@@ -93,9 +78,10 @@ GJS_OBJECT*     RF_GetGjsObject( const c8* puPath );
 *   Returns:
 *     Loaded model; or 'nullptr' on failure.
 */
+NJS_MODEL*     RF_GetBscModel( const c8* puPath );
 NJS_CNK_MODEL* RF_GetCnkModel( const c8* puPath );
 GJS_MODEL*     RF_GetGjsModel( const c8* puPath );
 
 EXTERN_END
 
-#endif/*H_RF_SAMDL*/
+#endif/*H_RF_MODEL*/

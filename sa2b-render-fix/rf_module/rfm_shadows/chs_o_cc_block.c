@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -92,5 +92,5 @@ CHS_CCBlockInit(void)
     mtHookFunc(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
     mtHookFunc(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
 
-    object_o_cc_block_mod = RF_GetCnkObject("object/cc_block_mod.sa2mdl");
+    object_o_cc_block_mod = RF_GetCnkObject("object/cc_block_mod");
 }

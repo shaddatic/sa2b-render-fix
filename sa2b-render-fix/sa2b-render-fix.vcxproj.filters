@@ -411,7 +411,7 @@
     <ClCompile Include="rf_nja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_samdl.c">
+    <ClCompile Include="rf_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cnf.c">
@@ -596,7 +596,7 @@
     <ClInclude Include="rf_module\rfm_menus\rfmenu_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_samdl.h">
+    <ClInclude Include="rf_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cnf.h">

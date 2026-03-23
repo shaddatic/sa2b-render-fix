@@ -23,6 +23,7 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_mdlutil.h>         /* change strip flag                                */
+#include <rf_model.h>           /* get object                                       */
 
 /****** Self ************************************************************************/
 #include <rf_util.h>            /* self                                             */
@@ -474,20 +475,16 @@ ReplaceChunkObjectSub(NJS_CNK_OBJECT* pDstObject, const NJS_CNK_OBJECT* pSrcObje
 bool
 RFU_ReplaceChunkModel(NJS_CNK_MODEL* pDstModel, const c8* puSrcFile)
 {
-    c8 upath[256];
+    NJS_CNK_OBJECT* p_obj = RF_GetCnkObject(puSrcFile);
 
-    mtStrFormat(upath, ARYLEN(upath), "%s/model/%s.sa2mdl", mtGetModPath(), puSrcFile);
-
-    mt_samdl* const p_samdl = mtSAModelLoad(upath, SAMDL_CHUNK|SAMDL_MODEL);
-
-    if ( !p_samdl )
+    if ( !p_obj || !p_obj->model )
     {
         return false;
     }
 
-    const bool result = ReplaceChunkModelSub(pDstModel, p_samdl->pChunk->model);
+    const bool result = ReplaceChunkModelSub(pDstModel, p_obj->model);
 
-    mtSAModelFree(p_samdl);
+    mtFree(p_obj);
 
     return result;
 }
@@ -495,20 +492,16 @@ RFU_ReplaceChunkModel(NJS_CNK_MODEL* pDstModel, const c8* puSrcFile)
 bool
 RFU_ReplaceChunkObject(NJS_CNK_OBJECT* pDstObject, const c8* puSrcFile)
 {
-    c8 upath[256];
+    NJS_CNK_OBJECT* p_obj = RF_GetCnkObject(puSrcFile);
 
-    mtStrFormat(upath, ARYLEN(upath), "%s/model/%s.sa2mdl", mtGetModPath(), puSrcFile);
-
-    mt_samdl* const p_samdl = mtSAModelLoad(upath, SAMDL_CHUNK);
-
-    if ( !p_samdl )
+    if ( !p_obj )
     {
         return false;
     }
 
-    const bool result = ReplaceChunkObjectSub(pDstObject, p_samdl->pChunk);
+    const bool result = ReplaceChunkObjectSub(pDstObject, p_obj);
 
-    mtSAModelFree(p_samdl);
+    mtFree(p_obj);
 
     return result;
 }

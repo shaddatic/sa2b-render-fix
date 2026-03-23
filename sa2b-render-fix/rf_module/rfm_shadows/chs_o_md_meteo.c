@@ -12,7 +12,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -65,5 +65,5 @@ CHS_MeteoBigInit(void)
     WriteJump(0x005C5120, ObjectMeteoBigDisplayerMod);
     KillCall(0x005C4E04); // Kill SetStencilInfo
 
-    object_o_md_meteo_mod = RF_GetCnkObject("object/md_meteo_mod.sa2mdl");
+    object_o_md_meteo_mod = RF_GetCnkObject("object/md_meteo_mod");
 }

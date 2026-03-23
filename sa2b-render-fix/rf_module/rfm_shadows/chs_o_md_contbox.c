@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -49,5 +49,5 @@ CHS_MDContainerBoxInit(void)
 {
     mtHookFunc(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
 
-    object_o_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod.sa2mdl");
+    object_o_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod");
 }

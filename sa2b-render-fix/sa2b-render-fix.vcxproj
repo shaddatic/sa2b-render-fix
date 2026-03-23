@@ -29,7 +29,7 @@
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_model.c" />
     <ClCompile Include="rf_ninja\rj_cnk\rjcnk_object.c" />
     <ClCompile Include="rf_ninja\rj_vsync.c" />
-    <ClCompile Include="rf_samdl.c" />
+    <ClCompile Include="rf_model.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_kumi.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_tjumpdai.c" />
@@ -174,7 +174,7 @@
     <ClInclude Include="rf_fixhistory.h" />
     <ClInclude Include="rf_graphics.h" />
     <ClInclude Include="rf_njcnk.h" />
-    <ClInclude Include="rf_samdl.h" />
+    <ClInclude Include="rf_model.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rf_module\rfm_event\ev_renderer\evr_internal.h" />
