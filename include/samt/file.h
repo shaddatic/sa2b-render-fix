@@ -214,6 +214,14 @@ bool    mtFileSeekStart( FILE* f );
 *     'true' on success; or 'false' on failure.
 */
 bool    mtFileSeekEnd( FILE* f );
+/*
+*   Description:
+*     Check if the end of the file has been reached.
+*
+*   Returns:
+*     'true' if the seek is at the end of the file; or 'false' if not.
+*/
+bool    mtFileEof( FILE* f );
 
 /****** File Size *******************************************************************************/
 /*

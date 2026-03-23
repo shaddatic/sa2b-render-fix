@@ -10,6 +10,13 @@
 *       heap, meaning it can be released using a single 'free' call (or 2 if labels exist).
 *       This also helps with memory locality and correct padding widths between data segments
 *       is always ensured.
+*
+*     - When using the 'RETURNERR' load flag, the returned structure when an error occurs is
+*       part of a constant buffer and does not need to be freed.
+*
+*     - When using the 'NOHEAD' load flag, the returned pointer must be cast to the correct
+*       structure manually: eg. 'object = (NJS_OBJECT*) mtSAModelLoad(path, SAMDL_NOHEAD)'.
+*       Additionally, the returned pointer is to be free'd by you and not mt.
 * 
 *     - Due to using flexable arrays '[]', using 'sizeof' will lead to odd behavior when using
 *       the MSVC compilier. Please use the defined 'SIZEOF_#' constants instead.
@@ -41,6 +48,7 @@ EXTERN_START
 #define SAMDL_NOFLAG                (0)     /* no flags                                         */
 #define SAMDL_LABELS                (1<<0)  /* load samdl label data                            */
 #define SAMDL_RETURNERR             (1<<1)  /* error in 'type', over 'nullptr'                  */
+#define SAMDL_NOHEAD                (1<<2)  /* don't return header, only object                 */
 
 #define SAMDL_BASIC                 (1<<4)  /* basic format only                                */
 #define SAMDL_CHUNK                 (1<<5)  /* chunk format only                                */
@@ -53,6 +61,7 @@ EXTERN_START
 #define SALVL_NOFLAG                (0)     /* no flags                                         */
 #define SALVL_LABELS                (1<<0)  /* load label data                                  */
 #define SALVL_RETURNERR             (1<<1)  /* error in 'type', over 'nullptr'                  */
+#define SALVL_NOHEAD                (1<<2)  /* don't return header, only landtable              */
 
 #define SALVL_BASIC                 (1<<4)  /* basic format only                                */
 #define SALVL_CHUNK                 (1<<5)  /* chunk format only                                */
@@ -65,8 +74,17 @@ EXTERN_START
 #define SAANIM_NOFLAG               (0)     /* no flags                                         */
 #define SAANIM_LABELS               (1<<0)  /* load label data                                  */
 #define SAANIM_RETURNERR            (1<<1)  /* error in 'type', over 'nullptr'                  */
+#define SAANIM_NOHEAD               (1<<2)  /* don't return header, only motion                 */
 
 #define SAANIM_NJ2                  (1<<8)  /* ninja2 motion data                               */
+
+/****** SATex Flags *****************************************************************************/
+#define SATEX_NOFLAG                (0)     /* no flags                                         */
+#define SATEX_LABELS                (1<<0)  /* load label data                                  */
+#define SATEX_RETURNERR             (1<<1)  /* error in 'type', over 'nullptr'                  */
+#define SATEX_NOHEAD                (1<<2)  /* don't return header, only texlist                */
+
+#define SATEX_NOTEXN                (1<<8)  /* exclude texture names                            */
 
 /********************************/
 /*  Enums                       */
@@ -115,6 +133,21 @@ typedef enum mt_saanim_type
     SAANIM_TYPE_NINJA2              /* ninja2 motion                                            */
 }
 mt_saanim_type;
+
+/****** SATexture *******************************************************************************/
+typedef enum mt_satex_type
+{
+    SATEX_ERROR_NOFILE     = -1,    /* file couldn't be loaded                                  */
+    SATEX_ERROR_FILESIZE   = -2,    /* file too small                                           */
+    SATEX_ERROR_FILEMAGIC  = -3,    /* incorrect file magic                                     */
+    SATEX_ERROR_FILEVER    = -4,    /* unsupported file version                                 */
+    SATEX_ERROR_SIZE       = -8,    /* file size is too small                                   */
+    SATEX_ERROR_READ       = -9,    /* failed to read file                                      */
+    SATEX_ERROR_NOTLIST    = -10,   /* no texname entry                                         */
+
+    SATEX_TYPE_TEXLIST     = 12,    /* ninja texlist                                            */
+}
+mt_satex_type;
 
 /********************************/
 /*  Structures                  */
@@ -182,6 +215,18 @@ typedef struct mt_saanim
 }
 mt_saanim;
 
+/****** SATexture *******************************************************************************/
+typedef struct mt_satex
+{
+    mt_satex_type type;             /* structure format type, or error code                     */
+    isize         size;             /* size of texlist buffer segment                           */
+
+    mt_salabel* pLabels;            /* texlist label data                                       */
+
+    NJS_TEXLIST pTexlist[];         /* texlist head                                             */
+}
+mt_satex;
+
 /********************************/
 /*  Prototypes                  */
 /********************************/
@@ -192,20 +237,14 @@ mt_saanim;
 /****** SAModel File ****************************************************************************/
 /*
 *   Description:
-*     Load an sa1mdl, sa2mdl, or sa2bmdl file. Model labels can also be loaded by using the
-*   'SAMDL_LABELS' flag, but are otherwise omitted.
-*
-*   Notes:
-*     - When using the 'SAMDL_RETURNERR' flag, if an error occurs the returned pointer does
-*       NOT need to be free'd. It uses an internal, constant buffer.
+*     Load an sa1mdl, sa2mdl, or sa2bmdl file.
 *
 *   Parameters:
 *     - pcPath      : file path to the samdl file
 *     - flag        : samdl load flags
 * 
 *   Returns:
-*     A new samodel structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an samdl structure with an error code in the 'type' member.
+*     An samdl/object structure; or 'nullptr' on error.
 */
 mt_samdl* mtSAModelLoad( const c8* pcPath, const u32 flag );
 /*
@@ -217,20 +256,14 @@ void    mtSAModelFree( mt_samdl* pSamdl );
 /****** SALevel File ****************************************************************************/
 /*
 *   Description:
-*     Load an sa1lvl, sa2lvl, or sa2blvl file. LandTable labels can also be loaded by using the
-*   'SALVL_LABELS' flag, but are otherwise omitted.
-*
-*   Notes:
-*     - When using the 'SALVL_RETURNERR' flag, if an error occurs the returned
-*       pointer does NOT need to be free'd. It uses an internal, constant buffer.
+*     Load an sa1lvl, sa2lvl, or sa2blvl file.
 *
 *   Parameters:
 *     - pcPath      : file path to the salvl file
 *     - flag        : salvl load flags
 * 
 *   Returns:
-*     A new salevel structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an salvl structure with an error code in the 'type' member.
+*     An salvl/landtable structure; or 'nullptr' on error.
 */
 mt_salvl* mtSALevelLoad( const c8* pcPath, const u32 flag );
 /*
@@ -242,20 +275,14 @@ void    mtSALevelFree( mt_salvl* pSalvl);
 /****** SAAnimation File ************************************************************************/
 /*
 *   Description:
-*     Load an saanim file. Motion labels can also be loaded by using the 'SAANIM_LABELS' flag,
-*   but are otherwise omitted.
-*
-*   Notes:
-*     - When using the 'SAANIM_RETURNERR' flag, if an error occurs the returned pointer does
-*       NOT need to be free'd. It uses an internal, constant buffer.
+*     Load an saanim file.
 *
 *   Parameters:
 *     - pcPath      : file path to the saanim file
 *     - flag        : saanim load flags
 * 
 *   Returns:
-*     A new saanim structure loaded from the file; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an saanim structure with an error code in the 'type' member.
+*     An saanim/motion structure; or 'nullptr' on error.
 */
 mt_saanim* mtSAAnimLoad( const c8* pcPath, const u32 flag );
 /*
@@ -264,6 +291,25 @@ mt_saanim* mtSAAnimLoad( const c8* pcPath, const u32 flag );
 */
 void    mtSAAnimFree( mt_saanim* pSaanim );
 
+/****** SATexture File **************************************************************************/
+/*
+*   Description:
+*     Load an satex file.
+*
+*   Parameters:
+*     - pcPath      : file path to the satex file
+*     - flag        : satex load flags                                               [SATEX_##]
+* 
+*   Returns:
+*     An satex/texlist structure loaded from the file; or 'nullptr' on error.
+*/
+mt_satex* mtSATexLoad( const c8* pcPath, const u32 flag );
+/*
+*   Description:
+*     Free a satex structure, and its labels if any were loaded.
+*/
+void    mtSATexFree( mt_satex* pSatex );
+
 /************************************************************************************************/
 /*
 *   Memory Load
@@ -271,61 +317,78 @@ void    mtSAAnimFree( mt_saanim* pSaanim );
 /****** SAModel File ****************************************************************************/
 /*
 *   Description:
-*     Get an SAModel structure from a file already in memory - it is otherwise functionally the
-*   same as the 'Load' function. This will also fix the pointers in the loaded memory if it
-*   hasn't already been done.
+*     Get an samdl structure from a file already in memory.
 *
 *   Notes:
+*     - Other than the source, this is functionally identical to the 'Load' variant.
+*     - Managing the input memory after reading is completed is left up to you, not mt.
 *     - This should only be called once, as some flags makes changes to the memory that can't
 *       be undone.
 *
 *   Parameters:
 *     - pMem        : file in memory
-*     - flag        : samodel load flags
+*     - flag        : samdl load flags
 *
 *   Returns:
-*     A new samodel structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an samodel structure with an error code in the 'type' member.
+*     An samdl/object structure; or 'nullptr' on error.
 */
-mt_samdl* mtSAModelMem( void* pMem, const u32 flag );
+mt_samdl* mtSAModelMem( void* pMem, usize szMem, u32 flag );
 
 /****** SALevel File ****************************************************************************/
 /*
 *   Description:
-*     Get an SALevel structure from a file already in memory - it is otherwise functionally the
-*   same as the 'Load' function. This will also fix the pointers in the loaded memory if it
-*   hasn't already been done.
+*     Get an salvl structure from a file already in memory.
 *
 *   Notes:
+*     - Other than the source, this is functionally identical to the 'Load' variant.
+*     - Managing the input memory after reading is completed is left up to you, not mt.
 *     - This should only be called once, as some flags makes changes to the memory that can't
 *       be undone.
 *
 *   Parameters:
 *     - pMem        : file in memory
-*     - flag        : salevel load flags
+*     - flag        : salvl load flags
 *
 *   Returns:
-*     A new salevel structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an salevel structure with an error code in the 'type' member.
+*     An salvl/landtable structure; or 'nullptr' on error.
 */
-mt_salvl* mtSALevelMem( void* pMem, const u32 flag );
+mt_salvl* mtSALevelMem( void* pMem, usize szMem, u32 flag );
 
 /****** SAAnimation File ************************************************************************/
 /*
 *   Description:
-*     Get an SAAnim structure from a file already in memory - it is otherwise functionally the
-*   same as the 'Load' function. This will also fix the pointers in the loaded memory if it
-*   hasn't already been done.
+*     Get an saanim structure from a file already in memory.
+*
+*   Notes:
+*     - Other than the source, this is functionally identical to the 'Load' variant.
+*     - Managing the input memory after reading is completed is left up to you, not mt.
 *
 *   Parameters:
 *     - pMem        : file in memory
 *     - flag        : saanim load flags
 *
 *   Returns:
-*     A new saanim structure loaded from memory; or 'nullptr' on error; or, if 'RETURNERR'
-*   flag is set, an saanim structure with an error code in the 'type' member.
+*     An saanim/motion structure; or 'nullptr' on error.
 */
-mt_saanim* mtSAAnimMem( void* pMem, const u32 flag );
+mt_saanim* mtSAAnimMem( void* pMem, usize szMem, u32 flag );
+
+/****** SATexture File ************************************************************************/
+/*
+*   Description:
+*     Get an SATex structure from a file already in memory.
+*
+*   Notes:
+*     - Other than the source, this is functionally identical to the 'Load' variant.
+*     - Managing the input memory after reading is completed is left up to you, not mt.
+*
+*   Parameters:
+*     - pMem        : file in memory
+*     - flag        : satex load flags
+*
+*   Returns:
+*     An satex/texlist structure; or 'nullptr' on error.
+*/
+mt_satex* mtSATexMem( void* pMem, usize szMem, u32 flag );
 
 EXTERN_END
 

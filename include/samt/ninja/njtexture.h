@@ -390,7 +390,7 @@ NJS_TEXLIST* njGetCurrentTexList( void );
 *   Returns:
 *     '1' on success; or '-1' if any error (check '_nj_texerr_').
 */
-Sint32 njLoadTexture( NJS_TEXLIST* texlist );
+Sint32  njLoadTexture( NJS_TEXLIST* texlist );
 
 /****** Release Texture *************************************************************************/
 /*

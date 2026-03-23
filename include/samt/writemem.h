@@ -68,16 +68,6 @@ void    mtMemSetProtected16( void* pDst, u16 val, usize nb );
 *     - nb      : number of 4-byte units to set (4*'nb' bytes)
 */
 void    mtMemSetProtected32( void* pDst, u32 val, usize nb );
-/*
-*   Description:
-*     Copy 'nb' repeated 8-byte units of value 'val' to protected memory.
-*
-*   Parameters:
-*     - pDst    : address to mem set
-*     - val     : value of the 8-byte chunks
-*     - nb      : number of 8-byte units to set (8*'nb' bytes)
-*/
-void    mtMemSetProtected64( void* pDst, u64 val, usize nb );
 
 #ifdef __cplusplus
 EXTERN_END
