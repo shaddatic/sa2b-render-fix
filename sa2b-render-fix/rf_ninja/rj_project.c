@@ -24,6 +24,12 @@
 #include <rf_ninja/rj_internal.h>  /* parent & siblings                                         */
 
 /********************************/
+/*  Constants                   */
+/********************************/
+/****** Project *********************************************************************************/
+#define INFINITE_Z                  1
+
+/********************************/
 /*  Game Variables              */
 /********************************/
 /****** Project *********************************************************************************/
@@ -42,23 +48,42 @@ rjInitProjMatrix(NJS_MATRIX44* dm, f32 view, f32 ratio, f32 near, f32 far)
 
     *dm = (NJS_MATRIX44)
     {
+#if INFINITE_Z
+
+        .m[0][0] = 1.f / (vtan * ratio),
+        .m[1][1] = 1.f / (vtan),
+        .m[2][2] = 0.f,
+        .m[2][3] = near,
+        .m[3][2] = -1.f,
+#else
         .m[0][0] = 1.f / (vtan * ratio),
         .m[1][1] = 1.f / (vtan),
         .m[2][2] = near / clip_range,
         .m[2][3] = far * (near / clip_range),
         .m[3][2] = -1.f,
+#endif
     };
+
 
     // undo ratio adjustment, why do it like this?
     ratio *= GetDisplayRatioY() / GetDisplayRatioX();
 
     mat_proj_screen = (NJS_MATRIX44)
     {
+#if INFINITE_Z
+
+        .m[0][0] = 1.f / (vtan * ratio),
+        .m[1][1] = 1.f / (vtan),
+        .m[2][2] = 0.f,
+        .m[2][3] = -1.f,
+        .m[3][2] = near,
+#else
         .m[0][0] = 1.f / (vtan * ratio),
         .m[1][1] = 1.f / (vtan),
         .m[2][2] = far / clip_range,
         .m[2][3] = -1.f,
         .m[3][2] = far * (near / clip_range),
+#endif
     };
 }
 
