@@ -242,7 +242,7 @@ ObjectItemBoxAirDispSort_RF(task* tp)
 
     njCnkDirectDrawModel(obj_dome->model);
 
-    rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK );
+    rjCnkSetControl( ~RJD_CNK_CTRL_MASK_CULL, RJD_CNK_CTRL_MASK_CULL );
 
     const int texid = ItemBoxAirInfoList[twp->btimer].texid;
 

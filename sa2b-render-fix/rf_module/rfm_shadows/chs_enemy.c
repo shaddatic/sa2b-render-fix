@@ -14,7 +14,7 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_enemywk.h>
 #include <rf_renderstate.h>
 
@@ -575,5 +575,5 @@ CHS_EnemyInit(void)
     WriteCall(0x004FC750, EnemyKyokoInitHook);              // Kyoko
     WriteCall(0x004F9F46, __EnemyShoukoInitHook);           // Shouko (Jets)
 
-    object_e_shouko_mod = RF_GetCnkObject("enemy/shouko_mod.sa2mdl");
+    object_e_shouko_mod = RF_GetCnkObject("enemy/shouko_mod");
 }

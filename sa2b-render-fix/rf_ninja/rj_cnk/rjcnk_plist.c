@@ -122,17 +122,24 @@ rjCnkSetMaterial(RJS_CNK_STRIP* restrict pStrip, const Sint16* restrict plist)
 
     const CNK_MATERIAL_HEAD* restrict p_mat = (void*) plist;
 
-    NJS_BGRA mats[RJ_NB_CMC];
-
-    int nb_mat = 0;
-
-    if ( p_mat->head & RJD_CMF_DIFF ) mats[RJ_CMC_DIFF] = p_mat->d[ nb_mat++ ];
-    if ( p_mat->head & RJD_CMF_AMBI ) mats[RJ_CMC_AMBI] = p_mat->d[ nb_mat++ ];
-    if ( p_mat->head & RJD_CMF_SPEC ) mats[RJ_CMC_SPEC] = p_mat->d[ nb_mat++ ];
-
-    // call Chunk material callback with material colors
-
-    _rj_cnk_material_callback_( pStrip->mats, mats, p_mat->head );
+    if ( p_mat->head == NJD_CM_BU )
+    {
+        // bump material
+    }
+    else // material color
+    {
+        const NJS_BGRA* restrict p_col = (void*) p_mat->d;
+        
+        int   nb_mat = 0;
+        NJS_BGRA mats[RJ_NB_CMC];
+        
+        if ( p_mat->head & RJD_CMF_DIFF ) mats[RJ_CMC_DIFF] = p_col[ nb_mat++ ];
+        if ( p_mat->head & RJD_CMF_AMBI ) mats[RJ_CMC_AMBI] = p_col[ nb_mat++ ];
+        if ( p_mat->head & RJD_CMF_SPEC ) mats[RJ_CMC_SPEC] = p_col[ nb_mat++ ];
+        
+        // call Chunk material callback with material colors
+        _rj_cnk_material_callback_( pStrip->mats, mats, p_mat->head );
+    }
 
     return p_mat->size + CNK_MATOFF_SIZE_ADD;
 }
@@ -257,16 +264,15 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
     /** get texture **/
 
-    NJS_TEXMANAGE* p_texman;
-    NJS_TEXSYSTEM* p_texsys;
+    NJS_TEXMANAGE* restrict p_texman;
+    NJS_TEXSYSTEM* restrict p_texsys;
 
-    const NJS_TEXLIST* p_tls = njGetCurrentTexList();
+    const NJS_TEXLIST* restrict p_tls = njGetCurrentTexList();
 
     if ( !p_tls || strip->texid >= (i16)p_tls->nbTexture )
     {
     TEX_ERR:
         p_texman = (NJS_TEXMANAGE*) texture_rf_texerr[0].texaddr;
-
         p_texsys = p_texman->texsys;
     }
     else
@@ -279,6 +285,11 @@ rjCnkStripStartTexture(const RJS_CNK_STRIP* restrict strip)
 
         if (!p_texsys) goto TEX_ERR;
     }
+
+    _nj_curr_ctx_->texture = &p_texsys->texsurface;
+    _nj_curr_ctx_->gbix    = p_texsys->globalIndex;
+    _nj_curr_ctx_->bank    = p_texman->bank;
+    _nj_curr_ctx_->texnum  = strip->texid;
 
     pTexSurface = &p_texsys->texsurface;
 
@@ -626,6 +637,17 @@ rjCnkExecPlist(const Sint16* restrict pPList, RJS_CNK_STRIP* pOutStrips)
             if ( inv_only && !(p_stentry->flag & NJD_FST_DB) )
             {
                 continue;
+            }
+
+            // trilinear multi-pass clipping
+            if ( p_stentry->flag & (NJD_FST_UA|RJD_FST_EUA) && p_stentry->tiny.filter >= CNK_FILTER_TRILINEAR_A )
+            {
+                // clip everything except the 3rd pass. This clip includes opaque strips, as
+                // the second pass uses transparency (and that isn't the 3rd pass, so clip)
+                if ( (p_stentry->blend & (NJD_FBS_SEL|NJD_FBD_SEL)) != NJD_FBS_SEL )
+                {
+                    continue;
+                }
             }
 
             nb_strip++;

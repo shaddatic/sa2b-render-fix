@@ -1,150 +1,150 @@
 /*
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/texture.h'
 *
-*   Contains structs and functions related to texture loading.
+*   Description:
+*     The game's texture module, for loading textures and other texture utilities.
 */
 #ifndef H_SA2B_TEXTURE
 #define H_SA2B_TEXTURE
 
-/************************/
-/*  External Headers    */
-/************************/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
 EXTERN_START
 
-/************************/
-/*  Structures          */
-/************************/
-typedef struct prstable
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Pvm Table *******************************************************************************/
+typedef struct pvmtable
 {
-    char*        pname;
-    NJS_TEXLIST* ptexlist;
+    char*        pname;             /* pvm file name                                            */
+    NJS_TEXLIST* ptexlist;          /* texlist                                                  */
 }
-TEX_PRSTABLE;
+TEX_PVMTABLE;
 
-typedef NJS_TEXLIST**      TEX_TEXTABLE;
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Texname Buffer **************************************************************************/
+#define texname_tex                 DATA_ARY(NJS_TEXNAME, 0x01940870, [512])
 
-/************************/
-/*  Game References     */
-/************************/
-/****** Texname Buffer **************************************************************/
-#define texname_tex         DATA_ARY(NJS_TEXNAME, 0x01940870, [512])
-
-/************************/
-/*  Prototypes          */
-/************************/
-/****** Texture File ****************************************************************/
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Texture File ****************************************************************************/
 /*
 *   Description:
-*     Load a texture PRS or PAK file 'fname' into the NJS_TEXLIST 'ptlo'
+*     Load a PVM, PRS, or PAK (HD only) texture file into a texlist.
 *
 *   Parameters:
-*     - fname   : name of the texture file, excluding file extension
-*     - ptlo    : pointer to an NJS_TEXLIST to load the textures into
+*     - fname           : name of the texture file, excluding file extension
+*     - ptlo            : pointer to an NJS_TEXLIST to load the textures into
 *
 *   Returns:
-*     '1' on success, '-1' on failure
+*     '1' on success; or '-1' on failure.
 */
-int32_t  texLoadTexturePrsFile( const char* fname, NJS_TEXLIST* ptlo );
+i32     texLoadTexturePvmFile( const char* fname, NJS_TEXLIST* ptlo );
 
-/****** PVM Table *******************************************************************/
+/****** PVM Table *******************************************************************************/
 /*
 *   Description:
-*     Loads texture file 'pname' into 'ptexlist' in each 'pPrsList' entry, then
-*   copies the TEXNAME information into every texlist contained in 'pTexLists'
+*     Load an array of PVM, PRS, or PAK (HD only) texture files into set texlists, then
+*   distribute the loaded textures to a list of lists of texlists by the texture names.
 *
 *   Parameters:
-*     - pPrsList  : array of TEX_PVMTABLE entries, ending with a null entry
-*     - pTexLists : array of pointers to NJS_TEXLIST* arrays, all ending in nullptrs
+*     - pvmtbls         : list of pvm entries, ending with null
+*     - pptlos          : list of texlist lists, each ending with null
 */
-void    texLoadTexturePrsList( TEX_PRSTABLE* pPrsList, TEX_TEXTABLE* pTexLists );
+void    texLoadTexturePvmList( TEX_PVMTABLE pvmtbls[], NJS_TEXLIST** pptlos[] );
 /*
 *   Description:
-*     Release all textures in 'ptexlist' in each 'pPrsList' entry and their copies in
-*   each NJS_TEXLIST entry in 'pTexLists'
+*     Release all textures as loaded by 'texLoadTexturePvmList'.
 * 
 *   Parameters:
-*     - pPrsList  : array of TEX_PVMTABLE entries, ending with a null entry
-*     - pTexLists : array of pointers to NJS_TEXLIST* arrays, all ending in nullptrs
+*     - pvmtbls         : list of pvm entries, ending with null
+*     - pptlos          : list of texlist lists, each ending with null
 */
-void    texReleaseTexturePrsList( TEX_PRSTABLE* pPrsList, TEX_TEXTABLE* pTexLists );
+void    texReleaseTexturePvmList( TEX_PVMTABLE pvmtbls[], NJS_TEXLIST** pptlos[] );
 
-/****** Create TexList **************************************************************/
+/****** Create TexList **************************************************************************/
 /*
 *   Description:
-*     Allocates a new texlist & texname list with as many entries as their are
-*   textures in 'fname', and loads 'fname' into it
+*     Allocates a new texlist & texname list with as many entries as their are textures in
+*   'fname', and loads 'fname' into it.
 *
 *   Parameters:
-*     - fname   : name of the texture file, excluding file extension
+*     - fname           : name of the texture file, excluding file extension
 *
 *   Returns:
-*     A new NJS_TEXLIST, or 'nullptr' on failure to find file
+*     A new texlist; or 'nullptr' on failure to find file.
 */
 NJS_TEXLIST* texCreateTexlist( const char* fname );
 /*
 *   Description:
-*     Frees texlists created by 'texCreateTexlist'. Also releases all textures
-*   before freeing
+*     Frees texlists created by 'texCreateTexlist'. Also releases all textures before freeing.
 *
 *   Parameters:
-*     - ptlo    : pointer to an NJS_TEXLIST to free
+*     - ptlo            : texlist
 */
-void         texFreeTexlist( NJS_TEXLIST* ptlo );
+void    texFreeTexlist( NJS_TEXLIST* ptlo );
 
-/****** Utility *********************************************************************/
+/****** Utility *********************************************************************************/
 /*
 *   Description:
-*     Copies TexName entries with matching filenames from 'pTexSrc' to 'pTexDst'.
-*   Does not copy texture data, only NJS_TEXNAME entries and pointers
+*     Copies TexName entries with matching filenames from 'pTexSrc' to 'pTexDst'. Does not copy
+*   texture data, only NJS_TEXNAME entries and pointers.
 *
 *   Parameters:
-*     - pTexDst : texlist to copy into
-*     - pTexSrc : texlist to copy from
+*     - pTexDst         : texlist destination
+*     - pTexSrc         : texlist source
 */
 void    texCopyTexture( NJS_TEXLIST* pTexDst, const NJS_TEXLIST* pTexSrc );
 
-/****** Internal Functions **********************************************************/
+/****** Internal Functions **********************************************************************/
 /*
 *   Description:
-*     Load texture PAK file 'fname' into the NJS_TEXLIST 'ptlo'
+*     Load a PAK texture file into a texlist.
 *
 *   Parameters:
-*     - fname   : name of the texture file, excluding file extension
-*     - ptlo    : pointer to an NJS_TEXLIST to load the textures into
+*     - fname           : name of the texture file, excluding file extension
+*     - ptlo            : texlist
 *
 *   Returns:
-*     '1' on success, '-1' on failure
+*     '1' on success; or '-1' on failure.
 */
-int32_t  LoadPakMEM( const char* fname, NJS_TEXLIST* ptlo );
+i32     LoadPakMEM( const char* fname, NJS_TEXLIST* ptlo );
 /*
 *   Description:
-*     Load texture PRS file 'fname' into the NJS_TEXLIST 'ptlo'
+*     Load a PRS texture file into a texlist.
 *
 *   Parameters:
-*     - fname   : name of the texture file, excluding file extension
-*     - ptlo    : pointer to an NJS_TEXLIST to load the textures into
+*     - fname           : name of the texture file, excluding file extension
+*     - ptlo            : texlist
 *
 *   Returns:
-*     '1' on success, '-1' on failure
+*     '1' on success; or '-1' on failure.
 */
-int32_t  LoadPrsMEM( const char* fname, NJS_TEXLIST* ptlo );
+i32     LoadPrsMEM( const char* fname, NJS_TEXLIST* ptlo );
 
-/************************/
-/*  Function Ptrs       */
-/************************/
 #ifdef SAMT_INCL_FUNCPTRS
-/****** Function Pointer ************************************************************/
-#   define texLoadTexturePrsFile_p          FUNC_PTR(int32_t     , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
-#   define texCreateTexlist_p               FUNC_PTR(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
-/****** User-Function Pointer *******************************************************/
-#   define texLoadTexturePrsList_p          ((void*)0x0044C7B0)
-#   define texReleaseTexturePrsList_p       ((void*)0x0044C810)
-#   define texCopyTexture_p                 ((void*)0x0044C880)
-#   define LoadPakMEM_p                     ((void*)0x00430B10)
-#   define LoadPrsMEM_p                     ((void*)0x0044C620)
+/********************************/
+/*  Function Pointers           */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define texLoadTexturePvmFile_p          FUNC_PTR(i32         , __fastcall, (const char*, NJS_TEXLIST*), 0x0044C350)
+#define texCreateTexlist_p               FUNC_PTR(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
+
+/****** Usercall Pointers ***********************************************************************/
+#define texLoadTexturePvmList_p          ((void*)0x0044C7B0) /* ###(EAX,STK)                    */
+#define texReleaseTexturePvmList_p       ((void*)0x0044C810) /* ###(ECX,EAX)                    */
+#define texCopyTexture_p                 ((void*)0x0044C880) /* ###(ECX,STK)                    */
+#define LoadPakMEM_p                     ((void*)0x00430B10) /* EAX(EAX,STK)                    */
+#define LoadPrsMEM_p                     ((void*)0x0044C620) /* EAX(STK,ECX)                    */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

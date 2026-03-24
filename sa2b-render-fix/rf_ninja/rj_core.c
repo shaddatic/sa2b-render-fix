@@ -104,6 +104,9 @@ RJE_DRAW;
 /********************************/
 /*  Data                        */
 /********************************/
+/****** Envelope ********************************************************************************/
+Float _rj_envelope_weight_value_ = (1.f/65535.f);
+
 /****** Polygon Attr Mask ***********************************************************************/
 static Uint16 _rj_polyattr_mask_[4];
 
@@ -122,13 +125,14 @@ static RFS_VSHADER* _rj_mvtx_shader_;
 static RFS_PSHADER* _rj_mpxl_shader_;
 
 /****** Current State ***************************************************************************/
+Uint32 _rj_vertex_buffer_num_;
+
 static Uint32 _rj_polygon_format_;
 
 static byte* _rj_vertex_buffer_base_;
 static byte* _rj_vertex_buffer_top_;
 static byte* _rj_vertex_buffer_cpy_;
 
-static Uint32 _rj_vertex_buffer_num_;
 static Uint32 _rj_vertex_buffer_stride_;
 
 static dx9_vtx_decl* _rj_curr_vtx_decl_;
@@ -142,6 +146,13 @@ static dx9_vtx_buff* _rj_mod_vertex_buffer_;
 /************************/
 /*  Source              */
 /************************/
+/****** Envelope/Weight *************************************************************************/
+void
+rjSetEnvelopeWeightValue(Float value)
+{
+    _rj_envelope_weight_value_ = value;
+}
+
 /****** Polyattr Mask ***************************************************************************/
 void
 rjSetPolyAttrMask(Int nrm, Int tex, Int col, Int off)
@@ -958,6 +969,40 @@ RFCTRL_SetModBufferSize(i32 nbTri, i32 nbTriList)
     }
 }
 
+/****** Device Reset ****************************************************************************/
+static void
+RJ_CreateVertexBuffers(void)
+{
+    rjInitModVertexBuffer(0x8000);
+
+    _rj_vertex_buffer_ = DX9_CreateVertexBuffer(RJD_VBUF_SIZE, DX9_USAGE_DYNAMIC|DX9_USAGE_WRITEONLY, DX9_POOL_DEFAULT);
+}
+
+void
+RJ_OnDeviceLost(void)
+{
+    if ( !mtGetModPath() )
+    {
+        return;
+    }
+
+    DX9_VertexBufferRelease(_rj_vertex_buffer_);
+    DX9_VertexBufferRelease(_rj_mod_vertex_buffer_);
+}
+
+void
+RJ_OnDeviceReset(void)
+{
+    if ( !mtGetModPath() )
+    {
+        return;
+    }
+
+    rjResetHwCache();
+
+    RJ_CreateVertexBuffers();
+}
+
 /****** Init ************************************************************************/
 void
 RFD_CoreInit(void)
@@ -1005,12 +1050,6 @@ RFD_CoreInit(void)
         _rj_mpxl_shader_ = RF_CompilePShader(SHADER_NAME_MODPS, nullptr);
     }
 
-    /** Vertex Buffers **/
-
-    rjInitModVertexBuffer(0x8000);
-
-    _rj_vertex_buffer_ = DX9_CreateVertexBuffer(RJD_VBUF_SIZE, DX9_USAGE_DYNAMIC|DX9_USAGE_WRITEONLY, DX9_POOL_DEFAULT);
-
     /** Vertex Declarations **/
 
     dx9_vtx_elem vtx_elems[5];
@@ -1019,50 +1058,54 @@ RFD_CoreInit(void)
 
     vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
     vtx_elems[1] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
-    vtx_elems[2] = vtx_elems[1];
-    vtx_elems[3] = vtx_elems[1];
-    vtx_elems[4] = vtx_elems[1];
 
     _rj_vtx_decls_[RJ_VERTEX_P] = DX9_CreateVtxDecl(vtx_elems);
-
-    // pos + color
-
-//  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
-    vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
-
-    _rj_vtx_decls_[RJ_VERTEX_PC] = DX9_CreateVtxDecl(vtx_elems);
-
-    // pos + color + specular
-
-//  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
-//  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
-    vtx_elems[2] = (dx9_vtx_elem){ 0, 16, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
-
-    _rj_vtx_decls_[RJ_VERTEX_PCO] = DX9_CreateVtxDecl(vtx_elems);
-
-    vtx_elems[2] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
     // pos + texture (uv)
 
 //  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
     vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
+    vtx_elems[2] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
     _rj_vtx_decls_[RJ_VERTEX_PT] = DX9_CreateVtxDecl(vtx_elems);
+
+    // pos + color
+
+//  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
+    vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
+    vtx_elems[2] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
+
+    _rj_vtx_decls_[RJ_VERTEX_PC] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + tex + color
 
 //  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
-//  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
+    vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
     vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
+    vtx_elems[3] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
     _rj_vtx_decls_[RJ_VERTEX_PTC] = DX9_CreateVtxDecl(vtx_elems);
+
+    // pos + color + specular
+
+//  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
+    vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
+    vtx_elems[2] = (dx9_vtx_elem){ 0, 16, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
+    vtx_elems[3] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
+
+    _rj_vtx_decls_[RJ_VERTEX_PCO] = DX9_CreateVtxDecl(vtx_elems);
 
     // pos + tex + color + spec
 
 //  vtx_elems[0] = (dx9_vtx_elem){ 0, 0 , DX9_VTXTYPE_FLOAT3, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_POSITION, 0 };
-//  vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
-//  vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
+    vtx_elems[1] = (dx9_vtx_elem){ 0, 12, DX9_VTXTYPE_FLOAT2, DX9_VTXMETH_DEFAULT, DX9_VTXUSE_TEXCOORD, 0 };
+    vtx_elems[2] = (dx9_vtx_elem){ 0, 20, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 0 };
     vtx_elems[3] = (dx9_vtx_elem){ 0, 24, DX9_VTXTYPE_COLOR , DX9_VTXMETH_DEFAULT, DX9_VTXUSE_COLOR   , 1 };
+    vtx_elems[4] = (dx9_vtx_elem)DX9_VTX_ELEM_END();
 
     _rj_vtx_decls_[RJ_VERTEX_PTCO] = DX9_CreateVtxDecl(vtx_elems);
+
+    /** Vertex Buffers **/
+
+    RJ_CreateVertexBuffers();
 }

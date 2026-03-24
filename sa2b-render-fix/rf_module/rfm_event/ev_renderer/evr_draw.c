@@ -137,7 +137,7 @@ EV_GetCnkAttr(const Sint16* pPList)
             /** NJD_STRIPOFF **/
             const Sint16 fst = plist[0];
 
-            if ( fst & (NJD_FST_UA|NJD_FST_NAT) )
+            if ( fst & (NJD_FST_UA|RJD_FST_EUA) )
             {
                 attr |= EV_ATTR_TRANS;
             }

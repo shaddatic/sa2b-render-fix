@@ -20,7 +20,7 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_util.h>                /* replace model                                            */
-#include <rf_samdl.h>               /* get chunk                                                */
+#include <rf_model.h>               /* get chunk                                                */
 
 /****** Config **********************************************************************************/
 #include <cnf.h>                    /* config get                                               */
@@ -110,28 +110,28 @@ RFM_CartInit(void)
         RFU_ReplaceFloat(0x0044E78F, zanki_py);
     }
 
-    ObjCarts[CART_SONIC][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_sonic.sa2mdl");
-    ObjCarts[CART_SONIC][TYPE_FAR]     = RF_GetCnkObject("cart/cart_sonic_far.sa2mdl");
-    ObjCarts[CART_SONIC][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_sonic_special.sa2mdl");
+    ObjCarts[CART_SONIC][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_sonic");
+    ObjCarts[CART_SONIC][TYPE_FAR]     = RF_GetCnkObject("cart/cart_sonic_far");
+    ObjCarts[CART_SONIC][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_sonic_special");
 
-    ObjCarts[CART_TAILS][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_tails.sa2mdl");
-    ObjCarts[CART_TAILS][TYPE_FAR]     = RF_GetCnkObject("cart/cart_tails_far.sa2mdl");
-    ObjCarts[CART_TAILS][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_chao.sa2mdl");
+    ObjCarts[CART_TAILS][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_tails");
+    ObjCarts[CART_TAILS][TYPE_FAR]     = RF_GetCnkObject("cart/cart_tails_far");
+    ObjCarts[CART_TAILS][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_chao");
 
-    ObjCarts[CART_KNUCKLES][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_knuckles.sa2mdl");
-    ObjCarts[CART_KNUCKLES][TYPE_FAR]     = RF_GetCnkObject("cart/cart_knuckles_far.sa2mdl");
-    ObjCarts[CART_KNUCKLES][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_knuckles_special.sa2mdl");
+    ObjCarts[CART_KNUCKLES][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_knuckles");
+    ObjCarts[CART_KNUCKLES][TYPE_FAR]     = RF_GetCnkObject("cart/cart_knuckles_far");
+    ObjCarts[CART_KNUCKLES][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_knuckles_special");
 
-    ObjCarts[CART_SHADOW][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_shadow.sa2mdl");
-    ObjCarts[CART_SHADOW][TYPE_FAR]     = RF_GetCnkObject("cart/cart_shadow_far.sa2mdl");
-    ObjCarts[CART_SHADOW][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_shadow_special.sa2mdl");
+    ObjCarts[CART_SHADOW][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_shadow");
+    ObjCarts[CART_SHADOW][TYPE_FAR]     = RF_GetCnkObject("cart/cart_shadow_far");
+    ObjCarts[CART_SHADOW][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_shadow_special");
 
-    ObjCarts[CART_EGGMAN][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_eggman.sa2mdl");
-    ObjCarts[CART_EGGMAN][TYPE_FAR]     = RF_GetCnkObject("cart/cart_eggman_far.sa2mdl");
-    ObjCarts[CART_EGGMAN][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_eggman_special.sa2mdl");
+    ObjCarts[CART_EGGMAN][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_eggman");
+    ObjCarts[CART_EGGMAN][TYPE_FAR]     = RF_GetCnkObject("cart/cart_eggman_far");
+    ObjCarts[CART_EGGMAN][TYPE_SPECIAL] = RF_GetCnkObject("cart/cart_eggman_special");
 
-    ObjCarts[CART_ROUGE][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_rouge.sa2mdl");
-    ObjCarts[CART_ROUGE][TYPE_FAR]     = RF_GetCnkObject("cart/cart_rouge_far.sa2mdl");
+    ObjCarts[CART_ROUGE][TYPE_NORMAL]  = RF_GetCnkObject("cart/cart_rouge");
+    ObjCarts[CART_ROUGE][TYPE_FAR]     = RF_GetCnkObject("cart/cart_rouge_far");
     ObjCarts[CART_ROUGE][TYPE_SPECIAL] = nullptr; // eggrobo matches DC anyway
 
     {

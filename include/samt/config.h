@@ -51,8 +51,8 @@ typedef struct mt_config_item       mt_config_item; /* config item              
 *     - mtConfigOpen2( mtGetModPath(), "config.ini" );  // two para path
 * 
 *   Parameters:
-*     - puPath      : path to ini file/directory                                 [opt: nullptr]
-*     - puName      : name of ini file
+*     - puPath      : path to ini file/directory                                     [opt:NULL]
+*     - puName      : name of ini file                                               [opt:NULL]
 *
 *   Returns:
 *     Config header with contents of ini file; or new empty header.
@@ -95,6 +95,23 @@ bool    mtConfigSave2( const mt_config* pHead, const c8* puPath, const c8* puNam
 *       become invalid upon calling this.
 */
 void    mtConfigFree( mt_config* pHead );
+
+/****** Memory **********************************************************************************/
+/*
+*   Description:
+*     Open a config structure from already loaded memory.
+*
+*   Notes:
+*     - Managing the input memory after reading is completed is left up to you, not mt.
+*
+*   Parameters:
+*     - pMem        : config memory buffer
+*     - szMem       : config size
+*
+*   Returns:
+*     Config header with contents of memory; or 'nullptr' on failure.
+*/
+mt_config* mtConfigMem( void* pMem, usize szMem );
 
 /************************************************************************************************/
 /*

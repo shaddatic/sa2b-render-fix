@@ -490,6 +490,9 @@ rjCnkVertexVN1(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict v
 static void
 rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
+    /* get envelope weight value */
+    const Float envelope_wval = _rj_envelope_weight_value_;
+
     /** Read vertex header **/
     const Sint32        nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_NF* p_vertex = (void*) vhead->d;
@@ -504,7 +507,7 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
-        const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
+        const Float mul = (Float)p_vertex->w * envelope_wval;
 
         pos.x *= mul;
         pos.y *= mul;
@@ -532,6 +535,9 @@ rjCnkVertexNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vb
 static void
 rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
+    /* get envelope weight value */
+    const Float envelope_wval = _rj_envelope_weight_value_;
+
     /** Read vertex header **/
     const Sint32           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_VN_NF* p_vertex = (void*) vhead->d;
@@ -549,7 +555,7 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
         /** Apply weights **/
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
-        const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
+        const Float mul = (Float)p_vertex->w * envelope_wval;
 
         pos.x *= mul;
         pos.y *= mul;
@@ -598,6 +604,9 @@ rjCnkVertexVNNF(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 static void
 rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict vbuf)
 {
+    /* get envelope weight value */
+    const Float envelope_wval = _rj_envelope_weight_value_;
+
     /** Read vertex header **/
     const Sint32           nb_vertex = vhead->nbindeces;
     const CNK_VERTEX_NF_D8* p_vertex = (void*) vhead->d;
@@ -612,7 +621,7 @@ rjCnkVertexNFD8(const CNK_VERTEX_HEAD* restrict vhead, RJS_VERTEX_BUF* restrict 
 
         RJS_VERTEX_BUF* restrict p_vbuf = &vbuf[ p_vertex->i ];
 
-        const f32 mul = CNK_GET_WEIGHT(p_vertex->w);
+        const Float mul = (Float)p_vertex->w * envelope_wval;
 
         pos.x *= mul;
         pos.y *= mul;

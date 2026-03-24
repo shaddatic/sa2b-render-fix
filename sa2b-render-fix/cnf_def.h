@@ -280,12 +280,14 @@ CNFE_MISC_SHDWRES;
 /** Graphics section **/
 #define CNF_GFX_VSYNCWAIT           CNFO_INT(   CNFS_GFX            , "vsync_wait"          , CNFE_GFX_VSYNCWAIT_60                 )   /* Framerate */
 #define CNF_GFX_VSYNC               CNFO_INT(   CNFS_GFX            , "vsync_calc"          , CNFE_GFX_VSYNC_ENABLED                )   /* Frame Limiter */
+#define CNF_GFX_MULTISAMPLE         CNFO_INT(   CNFS_GFX            , "multisample"         , 0                                     )   /* Multi Sample Anti-Aliasing */
 #define CNF_GFX_ANISOTROPY          CNFO_INT(   CNFS_GFX            , "anisotropy"          , CNFE_GFX_ANISOTROPY_AUTO              )   /* Anisotropic Filtering */
 #define CNF_GFX_TEXFILTER           CNFO_INT(   CNFS_GFX            , "texfilter"           , CNFE_GFX_TEXFILTER_AUTO               )   /* Texture Filtering */
 #define CNF_GFX_MIPDADJ             CNFO_INT(   CNFS_GFX            , "mipdadj"             , CNFE_GFX_MIPDADJ_AUTO                 )   /* Mipmap Depth Adjust */
 #define CNF_GFX_MIPMAPS             CNFO_INT(   CNFS_GFX            , "mipmaps"             , CNFE_BOOL_ENABLED                     )   /* Use Mipmaps */
 
 /** Global section **/
+#define CNF_GLOBAL_TEXSYSSIZE       CNFO_INT(   CNFS_GLOBAL         , "texsys_size"         , 2                                     )   /* Texture Limit */
 #define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */
 #define CNF_GLOBAL_CNKSPEC          CNFO_INT(   CNFS_GLOBAL         , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
@@ -353,6 +355,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_DEBUG_FRAMEINFO         CNFO_INT(   CNFS_DEBUG          , "frametime_info"      , CNFE_BOOL_DISABLED                    )   /* Debug framtime info */
 #define CNF_DEBUG_GAMESPEED         CNFO_INT(   CNFS_DEBUG          , "game_speed"          , 0                                     )   /* Game speed modifier */
 #define CNF_DEBUG_EVENT             CNFO_INT(   CNFS_DEBUG          , "event"               , CNFE_BOOL_DISABLED                    )   /* Event debug features */
+#define CNF_DEBUG_TEXMOVIE          CNFO_INT(   CNFS_DEBUG          , "texmovie"            , CNFE_BOOL_DISABLED                    )   /* Event texture movie */
 #define CNF_DEBUG_MODIFIER          CNFO_INT(   CNFS_DEBUG          , "modifier"            , CNFE_BOOL_DISABLED                    )   /* Draw modifier models */
 #define CNF_DEBUG_MAXMIPLEV         CNFO_INT(   CNFS_DEBUG          , "maxmiplev"           , 0                                     )   /* Maximum Mipmap Level */
 #define CNF_DEBUG_DISABLE_ALERT     CNFO_INT(   CNFS_DEBUG          , "no_alerts"           , CNFE_BOOL_DISABLED                    )   /* Disable Alert Message Boxes */

@@ -37,7 +37,7 @@ void    RFD_ChunkInit( void );
 *   Description:
 *     Init Texture-Error sub-module.
 */
-void    RFD_TexerrInit( void );
+void    RJ_TextureInit( void );
 /*
 *   Description:
 *     Init polygon/texture draw.
@@ -68,6 +68,11 @@ void    RJ_LineInit( void );
 *     Init back texture/color.
 */
 void    RJ_BackTextureInit( void );
+/*
+*   Description:
+*     Init quad texture.
+*/
+void    RJ_QuadTexInit( void );
 /*
 *   Description:
 *     Init projection matrix.

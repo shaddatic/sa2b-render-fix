@@ -25,11 +25,6 @@
 /****** Back Texture ****************************************************************************/
 #define BACK_DEPTH                  (0.f)         /* back texture/color z value                 */
 
-/****** DX9 Flags *******************************************************************************/
-#define DX9_CLEAR_SURFACE           (0x00000001)  /* clear the surface colors                   */
-#define DX9_CLEAR_ZBUFFER           (0x00000002)  /* clear target z buffer                      */
-#define DX9_CLEAR_STENCIL           (0x00000004)  /* clear stencil buffer                       */
-
 /****** Clear Defaults **************************************************************************/
 #define CLR_COLOR                   (0x00000000)  /* clear surface color                        */
 #define CLR_DEPTH                   (0.f)         /* clear depth                                */
@@ -73,6 +68,7 @@ RJS_BACK_VTX;
 /********************************/
 /****** Back Texture ****************************************************************************/
 static NJS_TEXSURFACE* _rj_back_surface_;
+static NJS_SYS_ATTR    _rj_back_sysattr_;
 
 /****** Vertex **********************************************************************************/
 static RJS_BACK_VTX _rj_back_vtx_[RJ_NB_BACK_NUM];
@@ -104,9 +100,7 @@ MagicClear(void* self, u32 flag, u32 color, f32 depth, u32 stencil)
 static void
 DrawBackTextureSub(void)
 {
-    _nj_curr_ctx_->texture = _rj_back_surface_;
-
-    rjSetTexture2D(FALSE);
+    njSetSystemAttr( &_rj_back_sysattr_ );
 
     NJS_TEXTUREH_VTX vtx[4];
 
@@ -189,7 +183,7 @@ ClearFrameHook(void)
     /** If the screen is fully faded out, just use black to stop a flicker **/
     if (FadeColor.argb.a == 0xFF)
     {
-        MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
+        MagicClear(rendev, DX9_CLEAR_COLOR|DX9_CLEAR_DEPTH|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
         return;
     }
 
@@ -201,13 +195,13 @@ ClearFrameHook(void)
         if ( chk_color == _rj_back_vtx_[RJ_BACK_HI_R].bcol
         &&   chk_color == _rj_back_vtx_[RJ_BACK_LO_L].bcol )
         {
-            MagicClear(rendev, DX9_CLEAR_SURFACE|DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, chk_color,  CLR_DEPTH, CLR_STENCIL);
+            MagicClear(rendev, DX9_CLEAR_COLOR|DX9_CLEAR_DEPTH|DX9_CLEAR_STENCIL, chk_color,  CLR_DEPTH, CLR_STENCIL);
             return;
         }
     }
 
     /** Otherwise clear everything except the screen color, and apply back texture/color **/
-    MagicClear(rendev, DX9_CLEAR_ZBUFFER|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
+    MagicClear(rendev, DX9_CLEAR_DEPTH|DX9_CLEAR_STENCIL, CLR_COLOR, CLR_DEPTH, CLR_STENCIL);
 
     DX9_SetZEnable(FALSE);
     DX9_SetZWrite(FALSE);
@@ -317,6 +311,8 @@ void
 rjSetBackTexture(const NJS_TEXTUREH_VTX vtx[3])
 {
     _rj_back_surface_ = _nj_curr_ctx_->texture;
+
+    njGetSystemAttr( &_rj_back_sysattr_ );
 
     _rj_back_vtx_[RJ_BACK_HI_L].u    = vtx[0].u;
     _rj_back_vtx_[RJ_BACK_HI_L].v    = vtx[0].v;

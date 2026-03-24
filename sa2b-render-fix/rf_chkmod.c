@@ -178,6 +178,14 @@ static const RFS_CHKMOD CheckModList[] =
         .puBody   = "The 'E0129 Music Restoration' mod is obsolete and non-functional! Render Fix has ported the Dreamcast events as-is - including music and effect files!\n\n"
                     "Please disable the 'E0129 Music Restoration' mod!"
     },
+    // Stage Atmosphere Tweaks, by Hoppy
+    {
+        CHKMOD_NAMEANDAUTHOR("Stage Atmosphere Tweaks", "HoppyBoppyBunny"),
+
+        .puHead   = "Conflict (Stage Atmosphere Tweaks, by HoppyBoppyBunny)",
+        .puBody   = "The 'Stage Atmosphere Tweaks' mod is non-functional in the latest versions of Render Fix, and causes models to become pitch black! This is due to broken lighting and fog files that the vanilla game, through luck, ends up with semi-normal values!\n\n"
+                    "Please disable the 'Stage Atmosphere Tweaks' mod!"
+    },
     /*
     *   Enable Check
     */

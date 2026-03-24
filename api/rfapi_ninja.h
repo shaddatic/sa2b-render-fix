@@ -11,6 +11,7 @@
 * 
 *   Version History:
 *     - v1.5.0.0        : Version 0, initial release
+*     - v1.5.3.0        : Version 1, added 'SetEnvelopeWeightValue' and 'Set/GetTexture'
 * 
 *   Availability:
 *     - Before Init     : No
@@ -24,7 +25,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_NINJA_VER                         (0) /* ninja api version                        */
+#define RFAPI_NINJA_VER                         (1) /* ninja api version                        */
 
 /****** Color Target ****************************************************************************/
 #define RJD_COLOR_SRC                           (0) /* new rasterized pixel color               */
@@ -312,7 +313,7 @@ typedef struct
     *     - Default is 'BOTHINVALPHA'.
     *
     *   Parameters:
-    *     - target      : color target                                          [RJD_###_COLOR]
+    *     - target      : color target                                          [RJD_COLOR_###]
     *     - mode        : blending mode                                [RJD_COLOR_BLENDING_###]
     */
     void (*ColorBlendingMode)( Int target, Int mode );
@@ -365,6 +366,80 @@ typedef struct
     *     - far         : far depth value
     */
     void (*SetDepthQueue)( Float near, Float far );
+
+    /****** Version >= 1 ************************************************************************/
+
+    /**** Envelope ******************************************/
+    /*
+    *   Description:
+    *     Set the weight factor for envelope (skinning) data, for drawing Ninja1/2 models.
+    *
+    *   Notes:
+    *     - Ninja1 used '1/255' (and is the default), while Ninja2 used '1/65535'.
+    *
+    *   Paramters:
+    *     - value       : weight factor
+    */
+    void (*SetEnvelopeWeightValue)( Float value );
+
+    /********************************************************/
+    /*
+    *   Texture
+    */
+    /**** Set Texture ***************************************/
+    /*
+    *   Description:
+    *     Set the current Texlist.
+    *
+    *   Parameters:
+    *     - texlist     : texlist pointer
+    *
+    *   Returns:
+    *     Always '1'.
+    */
+    Sint32 (*SetTexture)( NJS_TEXLIST* texlist );
+    /*
+    *   Description:
+    *     Set the current texture for drawing, via an index into the current set Texlist.
+    *
+    *   Notes:
+    *     - If any texture error is encountered, eg. '-1' is returned, the error texture
+    *       will be applied instead to avoid a crash.
+    *
+    *   Parameters:
+    *     - n           : texlist index
+    *
+    *   Returns:
+    *     '1' on success; or '-1' on failure.
+    */
+    Sint32 (*SetTextureNum)( Uint32 n );
+    /*
+    *   Description:
+    *     Set the current texture for drawing, via a global index value.
+    *
+    *   Notes:
+    *     - Searches all loaded textures in the current texture manage list and applies
+    *       the first texture it finds
+    *     - If any texture error is encountered, eg. '-1' is returned, the error texture
+    *       will be applied instead to avoid a crash.
+    *
+    *   Parameters:
+    *     - globalIndex : texture gbix
+    *
+    *   Returns:
+    *     '1' on success; or '-1' on failure.
+    */
+    Sint32 (*SetTextureNumG)( Uint32 globalIndex );
+
+    /**** Get Current Texlist *******************************/
+    /*
+    *   Description:
+    *     Get the current Texlist.
+    *
+    *   Returns:
+    *     The current Texlist, which may be 'nullptr'.
+    */
+    NJS_TEXLIST* (*GetCurrentTexlist)( void );
 }
 RFAPI_NINJA;
 

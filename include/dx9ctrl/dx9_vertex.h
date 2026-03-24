@@ -110,7 +110,7 @@ dx9_vtx_elem;
 /*
 *   Vertex Declaration
 */
-/****** Create Vertex Declaration ***************************************************************/
+/****** Create **********************************************************************************/
 /*
 *   Description:
 *     Create a vertex declaration from a vertex element list. Ensure the array is
@@ -124,7 +124,7 @@ dx9_vtx_elem;
 */
 dx9_vtx_decl* DX9_CreateVtxDecl( const dx9_vtx_elem* pVtxElements );
 
-/****** Set Vertex Declaration ******************************************************************/
+/****** Set *************************************************************************************/
 /*
 *   Description:
 *     Set the current vertex declaration.
@@ -136,6 +136,19 @@ dx9_vtx_decl* DX9_CreateVtxDecl( const dx9_vtx_elem* pVtxElements );
 *     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetVtxDecl( dx9_vtx_decl* pVtxDecl );
+
+/****** Release *********************************************************************************/
+/*
+*   Description:
+*     Release a vertex declaration.
+* 
+*   Parameters:
+*     - pVtxDecl    : vertex declaration pointer
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_VtxDeclRelease( dx9_vtx_decl* pVtxDeclaration );
 
 /************************************************************************************************/
 /*
@@ -186,6 +199,19 @@ void*   DX9_VertexBufferLock( dx9_vtx_buff* pBuf, dx9_size ixOffset, dx9_size sz
 *     'true' on success; or 'false' on failure.
 */
 bool    DX9_VertexBufferUnlock( dx9_vtx_buff* pBuf );
+
+/****** Release *********************************************************************************/
+/*
+*   Description:
+*     Release a vertex buffer.
+* 
+*   Parameters:
+*     - pBuf        : vertex buffer
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_VertexBufferRelease( dx9_vtx_buff* pBuf );
 
 /****** Set Vertex Stream ***********************************************************************/
 /*

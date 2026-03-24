@@ -31,12 +31,6 @@
 #include <rf_light/rfl_internal.h> /* parent & siblings                             */
 
 /************************/
-/*  Game Defs           */
-/************************/
-/****** Core Toolkit ****************************************************************/
-#define GlobalBuffer            DATA_ARY(byte, 0x01DEFE20, [0x100000])
-
-/************************/
 /*  Macros              */
 /************************/
 /****** Character Count *************************************************************/
@@ -49,57 +43,44 @@
 static void
 GetLightFilePaths(const c8* puPathBase, const c8** ppuOutPathDC, const c8** ppuOutPathGC)
 {
-    const size_t sz_path = mtStrSize(puPathBase, STR_NOMAX);
-
-    // get gc path
-    c8* const pu_path_gc = (void*) &GlobalBuffer[0x200];
-
-    mtStrCopy(pu_path_gc, puPathBase, sz_path - CHARIN(".bin"));
-
-    mtStrAppend(pu_path_gc, STR_AUTOLEN, "_gc.bin", STR_NOMAX);
-
-    // get replaced paths
-    const c8* pu_repl_path_dc = mlGetReplacedFile(puPathBase);
-    const c8* pu_repl_path_gc = mlGetReplacedFile(pu_path_gc);
-
-    const c8* pu_out_path_dc = nullptr;
-    const c8* pu_out_path_gc = nullptr; 
-
-    const isize nb_mod = miGetModCount();
-
-    for ( isize i = nb_mod - 1; i >= 0; --i )
+    if ( mlGetVersion() >= ML_MINVER_FILEMODIX )
     {
-        const ml_modinfo* p_modinfo = miGetInfoByIndex(i);
+        // get extension index
+        const isize ix_ext = mtPathGetExtension(puPathBase, STR_NOMAX);
 
-        if ( mtPathSearch(pu_repl_path_gc, p_modinfo->puPath, STR_NOMAX) == 0 )
+        if ( ix_ext < 0 )
         {
-            pu_out_path_gc = pu_repl_path_gc;
-            pu_out_path_dc = pu_repl_path_dc;
-            break;
+            // I don't really know what to do in this case,
+            // so I'm just not going really to think about it
+            goto DREAMCAST_ONLY;
         }
 
-        if ( mtPathSearch(pu_repl_path_dc, p_modinfo->puPath, STR_NOMAX) == 0 )
+        // make gc path
+        c8* const pu_path_gc = (void*) &GlobalBuffer[0x200];
+
+        mtStrCopy( pu_path_gc, puPathBase, STR_NOMAX );
+
+        mtStrFormat( &pu_path_gc[ix_ext], STR_NOMAX, "_gc%s", &puPathBase[ix_ext] );
+
+        // get indexes
+        const isize ix_path_dc = mlGetFileModIndex(puPathBase);
+        const isize ix_path_gc = mlGetFileModIndex(pu_path_gc);
+
+        if ( ix_path_gc < ix_path_dc )
         {
-            pu_out_path_dc = pu_repl_path_dc;
-            break;
+            goto DREAMCAST_ONLY;
         }
+
+        // return both types
+        *ppuOutPathDC = mlGetReplacedFile(puPathBase);
+        *ppuOutPathGC = mlGetReplacedFile(pu_path_gc);
     }
-
-    // the whole point of this function is that the DC files get priority. If a DC file is found before a GC one, then it will act as if no GC files exist.
-    // if a GC file is found first, it will continue looking for a DC file to also load
-
-    if ( !pu_out_path_dc )
+    else // too old, just do dreamcast
     {
-        pu_out_path_dc = puPathBase;
-
-        if ( !pu_out_path_gc )
-        {
-            pu_out_path_gc = pu_path_gc;
-        }
+    DREAMCAST_ONLY:
+        *ppuOutPathDC = mlGetReplacedFile(puPathBase);
+        *ppuOutPathGC = nullptr;
     }
-
-    *ppuOutPathDC = pu_out_path_dc;
-    *ppuOutPathGC = pu_out_path_gc;
 }
 
 #define LIGHT_COUNT         (12)

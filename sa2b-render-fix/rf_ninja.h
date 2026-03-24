@@ -34,14 +34,12 @@ EXTERN_START
 #define RJD_CNK_CTRL_TEXTURE        (1<<12) /* use textures                                     */
 #define RJD_CNK_CTRL_ENVIRONMENT    (1<<13) /* use normal-based environment calculations        */
 #define RJD_CNK_CTRL_DBLIGHT        (1<<14) /* use double sided lighting when available         */
+#define RJD_CNK_CTRL_SPECULAR       (1<<15) /* use exponential specular when available          */
 
 #define RJD_CNK_CTRL_MASK_DRAW      (RJD_CNK_CTRL_OPAQUE|RJD_CNK_CTRL_TRANSLUCENT)
 #define RJD_CNK_CTRL_MASK_CULL      (RJD_CNK_CTRL_NORMAL|RJD_CNK_CTRL_INVERSE)
 #define RJD_CNK_CTRL_MASK_MODEL     (RJD_CNK_CTRL_VLIST|RJD_CNK_CTRL_PLIST)
 #define RJD_CNK_CTRL_MASK_VTX       (RJD_CNK_CTRL_VNORM|RJD_CNK_CTRL_VCOLR|RJD_CNK_CTRL_VSPEC)
-#define RJD_CNK_CTRL_MASK_EFFECT    (RJD_CNK_CTRL_TEXTURE|RJD_CNK_CTRL_ENVIRONMENT|RJD_CNK_CTRL_DBLIGHT)
-
-#define RJD_CNK_CTRL_MASK           (RJD_CNK_CTRL_MASK_DRAW|RJD_CNK_CTRL_MASK_CULL|RJD_CNK_CTRL_MASK_MODEL|RJD_CNK_CTRL_MASK_VTX|RJD_CNK_CTRL_MASK_EFFECT)
 
 /****** Chunk Strip flags ***********************************************************************/
 #define RJD_FST_EUA                 (0x80<<NJD_FST_SHIFT)    /* extended use alpha              */
@@ -155,6 +153,99 @@ EXTERN Float _rj_depth_queue_far_;  /* depth queue far plane                    
 /********************************/
 /*  Prototypes                  */
 /********************************/
+/************************************************************************************************/
+/*
+*   Texture
+*/
+/****** Set Texture *****************************************************************************/
+/*
+*   Description:
+*     Set the current texlist for drawing.
+*
+*   Parameters:
+*     - texlist     : texture list                                                [opt:nullptr]
+*
+*   Returns:
+*     Always '1'.
+*/
+Sint32  rjSetTexture( NJS_TEXLIST* texlist );
+/*
+*   Description:
+*     Set the current texture for drawing, via an index into the current set texlist.
+*
+*   Notes:
+*     - If any texture error is encountered, eg. '-1' is returned, the error texture will be
+*       applied instead to avoid a crash.
+*
+*   Parameters:
+*     - n           : texlist index
+*
+*   Returns:
+*     '1' on success; or '-1' on failure.
+*/
+Sint32  rjSetTextureNum( Uint32 n );
+/*
+*   Description:
+*     Set the current texture for drawing, via a global index value.
+*
+*   Notes:
+*     - Searches all loaded textures in the current texture manage list and applies
+*       the first texture it finds
+*     - If any texture error is encountered, eg. '-1' is returned, the error texture will be
+*       applied instead to avoid a crash.
+*
+*   Parameters:
+*     - globalIndex : texture gbix
+*
+*   Returns:
+*     '1' on success; or '-1' on failure.
+*/
+Sint32  rjSetTextureNumG( Uint32 globalIndex );
+
+/****** Get Texlist *****************************************************************************/
+/*
+*   Description:
+*     Get the current set texlist.
+*
+*   Returns:
+*     The current Texlist, which may be 'nullptr'.
+*/
+NJS_TEXLIST* rjGetCurrentTexlist( void );
+
+/************************************************************************************************/
+/*
+*   Core System
+*/
+/****** Depth Queue *****************************************************************************/
+/*
+*   Description:
+*     Set the depth queue depth values.
+*
+*   Notes:
+*     - Depth values are in world units
+*
+*   Examples:
+*     - rjSetDepthQueue( -1800.f, -2000.f );
+*
+*   Paramters:
+*     - near        : near depth value
+*     - far         : far depth value
+*/
+void    rjSetDepthQueue( Float near, Float far );
+
+/****** Envelope ********************************************************************************/
+/*
+*   Description:
+*     Set the weight factor for envelope (skinning) data, for drawing Ninja1/2 models.
+*
+*   Notes:
+*     - Ninja1 used '1/255' (and is the default), while Ninja2 used '1/65535'.
+*
+*   Paramters:
+*     - value       : weight factor
+*/
+void    rjSetEnvelopeWeightValue( Float value );
+
 /************************************************************************************************/
 /*
 *   Back Texture
@@ -353,7 +444,7 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 /****** Draw Sprite *****************************************************************************/
 /*
 *   Description:
-*     Draw a sprite, in screen space.
+*     Draw a sprite quad, in screen space.
 * 
 *   Parameters:
 *     - sp          : sprite
@@ -364,7 +455,7 @@ void    rjDrawLineList3D(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 
 void    rjDrawSprite2D( const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
 /*
 *   Description:
-*     Draw a sprite, in world space.
+*     Draw a sprite quad, in world space.
 *
 *   Parameters:
 *     - sp          : sprite
@@ -372,6 +463,91 @@ void    rjDrawSprite2D( const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr );
 *     - attr        : attributes                                                 [NJD_SPRITE_#]
 */
 void    rjDrawSprite3D( const NJS_SPRITE* sp, Int n, Uint32 attr );
+
+/************************************************************************************************/
+/*
+*   Quad Texture
+*/
+/****** Start/End *******************************************************************************/
+/*
+*   Description:
+*     Start quad texture draw.
+*
+*   Notes:
+*     - DO NOT draw any other polygons other than quad textures until drawing is completed
+*       with 'QuadTextureEnd'. Doing so is undefined behavior.
+*
+*   Parameters:
+*     - trans       : use translucent drawing                                      [TRUE/FALSE]
+*/
+void    rjQuadTextureStart( Sint32 trans );
+/*
+*   Description:
+*     End quad texture draw, and draw all buffered polygons.
+*/
+void    rjQuadTextureEnd( void );
+
+/****** Set Quad Attr ***************************************************************************/
+/*
+*   Description:
+*     Set a quad texture via texlist id or global id, set the colors, and set Ninja ctx to
+*   render state.
+*
+*   Notes:
+*     - Calling between quad texture draw calls will incur a performance penalty.
+*
+*   Parameters:
+*     - texid       : texlist index
+*     - gid         : texture gbix
+*     - col         : quad color
+*     - off         : quad highlight color
+*/
+void    rjSetQuadTexture(  Sint32 texid, Uint32 col );
+void    rjSetQuadTextureG( Sint32 gid,   Uint32 col );
+void    rjSetQuadTextureH( Sint32 texid, Uint32 col, Uint32 off );
+/*
+*   Description:
+*     Set a quad texture color and highlight colors, and set Ninja ctx to render state.
+*
+*   Notes:
+*     - Calling between quad texture draw calls will incur a performance penalty, although
+*       a lesser penalty than regular 'SetQuad' functions.
+*
+*   Parameters:
+*     - col         : quad color
+*     - off         : quad highlight color
+*/
+void    rjSetQuadTextureColor(  Uint32 col );
+void    rjSetQuadTextureHColor( Uint32 col, Uint32 off );
+
+/****** Draw Quad *******************************************************************************/
+/*
+*   Description:
+*     Buffer a quad texture for rectangle drawing.
+*
+*   Notes:
+*     - The x1 members define the top left vertex, and x2 define the bottom right; the other
+*       vertexes of the quad are implied.
+*
+*   Parameters:
+*     - q           : quad texture
+*     - z           : depth                                                           [1.f~0.f]
+*/
+void    rjDrawQuadTexture( const NJS_QUAD_TEXTURE* q, Float z );
+/*
+*   Description:
+*     Buffer a quad texture ex for parallelogram drawing.
+*
+*   Notes:
+*     - The x,y,u,v members define the top left vertex. xx1 members define the top right
+*       vertex as an offset from the first vertex. xx2 members define the bottom right vertex,
+*       as an offset from the second vertex. The bottom left vertex is implied.
+*     - The z member defines the depth for all vertexes.
+*
+*   Parameters:
+*     - q           : quad texture ex
+*/
+void    rjDrawQuadTextureEx( const NJS_QUAD_TEXTURE_EX* q );
 
 /************************************************************************************************/
 /*
@@ -881,27 +1057,6 @@ void    rjDrawCheapShadow( void );
 *     Clear the modifier buffer for a new frame.
 */
 void    rjModifierResetBuffer( void );
-
-/************************************************************************************************/
-/*
-*   Depth Queue
-*/
-/****** Set Value *******************************************************************************/
-/*
-*   Description:
-*     Set the depth queue depth values.
-*
-*   Notes:
-*     - Depth values are in world units
-*
-*   Examples:
-*     - rjSetDepthQueue( -1800.f, -2000.f );
-*
-*   Paramters:
-*     - near        : near depth value
-*     - far         : far depth value
-*/
-void    rjSetDepthQueue( Float near, Float far );
 
 /************************************************************************************************/
 /*

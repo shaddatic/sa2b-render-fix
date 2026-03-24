@@ -140,8 +140,8 @@ rjDrawSprite2D(const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr)
 
     rjSetHwCullingCtx();
 
-    njSetTexture( sp->tlist );
-    njSetTextureNum( tap->texid );
+    rjSetTexture( sp->tlist );
+    rjSetTextureNum( tap->texid );
 
     rjSetBlend2D( attr & (NJD_SPRITE_ALPHA|0x40) );
     rjSetTexture2D( uv_clamp );
@@ -219,7 +219,7 @@ rjDrawSprite2D(const NJS_SPRITE* sp, Int n, Float pri, Uint32 attr)
 static Bool
 ___rjGetSpritePoints3D_ScaleOnly(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* restrict sp, Int n, Uint32 attr)
 {
-    const NJS_TEXANIM* restrict tap = &sp->tanim[n];
+    const NJS_TEXANIM* restrict tanim = &sp->tanim[n];
 
     /** Calc Pos and Clip *******************************************************************/
 
@@ -234,13 +234,13 @@ ___rjGetSpritePoints3D_ScaleOnly(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* 
 
     /** Calc Points and Angle ***************************************************************/
 
-    const f32 x1 = sp->sx * (f32)(-tap->cx);
-    const f32 y1 = sp->sy * (f32)(-tap->cy);
+    const f32 x1 =  sp->sx * (f32)(-tanim->cx);
+    const f32 y1 = -sp->sy * (f32)(-tanim->cy);
 
-    const f32 x2 = sp->sx * (f32)(tap->sx - tap->cx);
-    const f32 y2 = sp->sy * (f32)(tap->sy - tap->cy);
+    const f32 x2 =  sp->sx * (f32)(tanim->sx - tanim->cx);
+    const f32 y2 = -sp->sy * (f32)(tanim->sy - tanim->cy);
 
-    if ( attr & NJD_SPRITE_ANGLE )
+    if ( attr & NJD_SPRITE_ANGLE && sp->ang )
     {
         const f32 a_sin = njSin( sp->ang );
         const f32 a_cos = njCos( sp->ang );
@@ -291,11 +291,11 @@ ___rjGetSpritePoints3D_Normal(NJS_POINT3* restrict pOutPt, const NJS_SPRITE* res
 
     /** Calc Points and Angle ***************************************************************/
 
-    const f32 x1 = sp->sx * (f32)(-tanim->cx);
-    const f32 y1 = sp->sy * (f32)(-tanim->cy);
+    const f32 x1 =  sp->sx * (f32)(-tanim->cx);
+    const f32 y1 = -sp->sy * (f32)(-tanim->cy);
 
-    const f32 x2 = sp->sx * (f32)(tanim->sx - tanim->cx);
-    const f32 y2 = sp->sy * (f32)(tanim->sy - tanim->cy);
+    const f32 x2 =  sp->sx * (f32)(tanim->sx - tanim->cx);
+    const f32 y2 = -sp->sy * (f32)(tanim->sy - tanim->cy);
 
     if ( attr & NJD_SPRITE_ANGLE && sp->ang )
     {
@@ -379,22 +379,22 @@ rjDrawSprite3D(const NJS_SPRITE* sp, Int n, Uint32 attr)
 
     /** Setup Draw State ********************************************************************/
 
-    const NJS_TEXANIM* restrict tap = &sp->tanim[n];
+    const NJS_TEXANIM* restrict tanim = &sp->tanim[n];
 
     Int uv_clamp = TRUE;
 
-    if ( tap->u1 < 0 || tap->u1 > 256 ||
-         tap->u2 < 0 || tap->u2 > 256 ||
-         tap->v1 < 0 || tap->v1 > 256 ||
-         tap->v2 < 0 || tap->v2 > 256 )
+    if ( tanim->u1 < 0 || tanim->u1 > 256 ||
+         tanim->u2 < 0 || tanim->u2 > 256 ||
+         tanim->v1 < 0 || tanim->v1 > 256 ||
+         tanim->v2 < 0 || tanim->v2 > 256 )
     {
         uv_clamp = FALSE;
     }
 
     rjSetHwCullingCtx();
 
-    njSetTexture( sp->tlist );
-    njSetTextureNum( tap->texid );
+    rjSetTexture( sp->tlist );
+    rjSetTextureNum( tanim->texid );
 
     rjSetBlend2D( attr & NJD_SPRITE_ALPHA );
     rjSetTexture2D( uv_clamp );
@@ -407,26 +407,27 @@ rjDrawSprite3D(const NJS_SPRITE* sp, Int n, Uint32 attr)
 
     if ( attr & NJD_SPRITE_HFLIP )
     {
-        u1 = (f32) tap->u2 * uv_mul;
-        u2 = (f32) tap->u1 * uv_mul;
+        u1 = (f32) tanim->u2 * uv_mul;
+        u2 = (f32) tanim->u1 * uv_mul;
     }
     else // no flip
     {
-        u1 = (f32) tap->u1 * uv_mul;
-        u2 = (f32) tap->u2 * uv_mul;
+        u1 = (f32) tanim->u1 * uv_mul;
+        u2 = (f32) tanim->u2 * uv_mul;
     }
 
     f32 v1, v2;
 
     if ( attr & NJD_SPRITE_VFLIP )
     {
-        v1 = (f32) tap->v2 * uv_mul;
-        v2 = (f32) tap->v1 * uv_mul;
+        v1 = (f32) tanim->v2 * uv_mul;
+        v2 = (f32) tanim->v1 * uv_mul;
+
     }
     else // no flip
     {
-        v1 = (f32) tap->v1 * uv_mul;
-        v2 = (f32) tap->v2 * uv_mul;
+        v1 = (f32) tanim->v1 * uv_mul;
+        v2 = (f32) tanim->v2 * uv_mul;
     }
 
     /** Sprite Color ************************************************************************/

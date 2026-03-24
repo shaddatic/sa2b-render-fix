@@ -10,7 +10,8 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_samdl.h>
+#include <rf_core.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_enemywk.h>
 
@@ -64,5 +65,5 @@ CHS_BunchinInit(void)
 
     KillCall(0x006DBC9C); // Kill SetStencilInfo
 
-    object_o_bunchin_mod = RF_GetCnkObject("object/bunchin_mod.sa2mdl");
+    object_o_bunchin_mod = RF_GetCnkObject("object/bunchin_mod");
 }

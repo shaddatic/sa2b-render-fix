@@ -110,27 +110,6 @@ typedef struct gjobj                GJS_OBJECT;
 #define NJD_CONTROL_3D_DISABLE_OPAQUE_MODIFIER      BIT_18 /* disable opaque modifier           */
 #define NJD_CONTROL_3D_MIRROR_MODEL                 BIT_31 /* model drawn with inverted scaling */
 
-/****** Draw Attribute **************************************************************************/
-#define NJD_DRAW_MASK               (0x0000000f) /* mask for triangle type                      */
-
-#define NJD_DRAW_NORMAL             (0x00000000) /* draw triangle list                          */
-#define NJD_DRAW_FAN                (0x00000001) /* draw triangle fan                           */
-#define NJD_DRAW_CONNECTED          (0x00000002) /* draw triangle strip                         */
-#define NJD_DRAW_INSCRIBED          (0x00000010) /* draw inscribed circle                       */
-#define NJD_FILL                    (0x00000020) /* fill polygon, else wireframe                */
-#define NJD_TRANSPARENT             (0x00000040) /* use alpha                                   */
-#define NJD_CALC_LIGHT              (0x40000000) /* use light calculation                       */
-#define NJD_USE_TEXTURE             (0x80000000) /* use texture                                 */
-
-/****** Ninja Sprite ****************************************************************************/
-#define NJD_SPRITE_ANGLE            BIT_0 /* rotate sprite around center by 'angle' param       */
-#define NJD_SPRITE_COLOR            BIT_1 /* use constant material color, else white            */
-#define NJD_SPRITE_HFLIP            BIT_2 /* horizontal texture flip                            */
-#define NJD_SPRITE_VFLIP            BIT_3 /* vertical texture flip                              */
-#define NJD_SPRITE_HVFLIP           (NJD_SPRITE_HFLIP|NJD_SPRITE_VFLIP)
-#define NJD_SPRITE_SCALE            BIT_4 /* draw 3d sprite facing screen, eg. scale only       */
-#define NJD_SPRITE_ALPHA            BIT_5 /* use alpha                                          */
-
 /****** Object Eval Flags ***********************************************************************/
 #define NJD_EVAL_UNIT_POS           BIT_0  /* ignore translation                                */
 #define NJD_EVAL_UNIT_ANG           BIT_1  /* ignore rotation                                   */

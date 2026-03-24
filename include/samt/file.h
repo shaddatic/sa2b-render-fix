@@ -126,7 +126,7 @@ bool    mtFileClose( FILE* f );
 *   Returns:
 *     Number of bytes written to the buffer; or '0' on failure.
 */
-size_t  mtFileRead( FILE* f, void* pDst, size_t sz );
+isize   mtFileRead( FILE* f, void* pDst, usize sz );
 /*
 *   Description:
 *     Write to an open file stream, and advance the seek offset.
@@ -139,7 +139,7 @@ size_t  mtFileRead( FILE* f, void* pDst, size_t sz );
 *   Returns:
 *     Number of bytes written to the buffer; or '0' on failure.
 */
-size_t  mtFileWrite( FILE* f, const void* pSrc, size_t sz );
+isize   mtFileWrite( FILE* f, const void* pSrc, usize sz );
 /*
 *   Description:
 *     Write the same section of a source buffer to an open file stream multiple
@@ -154,7 +154,7 @@ size_t  mtFileWrite( FILE* f, const void* pSrc, size_t sz );
 *   Returns:
 *     Number of bytes written to the buffer; or '0' on failure.
 */
-size_t  mtFileWriteMulti( FILE* f, const void* pSrc, size_t sz, size_t nb );
+isize   mtFileWriteMulti( FILE* f, const void* pSrc, usize sz, usize nb );
 
 /****** File Seek *******************************************************************************/
 /*
@@ -214,6 +214,14 @@ bool    mtFileSeekStart( FILE* f );
 *     'true' on success; or 'false' on failure.
 */
 bool    mtFileSeekEnd( FILE* f );
+/*
+*   Description:
+*     Check if the end of the file has been reached.
+*
+*   Returns:
+*     'true' if the seek is at the end of the file; or 'false' if not.
+*/
+bool    mtFileEof( FILE* f );
 
 /****** File Size *******************************************************************************/
 /*
@@ -226,7 +234,7 @@ bool    mtFileSeekEnd( FILE* f );
 *   Returns:
 *     The total size of the open file stream, in bytes.
 */
-size_t  mtFileSize( FILE* f );
+isize   mtFileSize( FILE* f );
 
 /************************************************************************************************/
 /*
@@ -235,17 +243,17 @@ size_t  mtFileSize( FILE* f );
 /****** File Load *******************************************************************************/
 /*
 *   Description:
-*     Load an entire file into a buffer with an optional returned size parameter
+*     Load an entire file into a buffer, with an optional returned size parameter.
 *
 *   Parameters:
 *     - puPath      : file path
-*     - pOptOutSize : pointer to a size_t used to return the size of the new buffer (optional)
+*     - pOptOutSize : return size of loaded file                                  [opt:nullptr]
 *
 *   Returns:
-*     Memory buffer containing the entire file allocated with `malloc`, or nullptr
-*   if there was an error.
+*     Memory buffer containing the entire file; or 'nullptr' on failure, with the size set to
+*   '-1' if the file could not be loaded, or '-2' if the file was larger than 2GB.
 */
-void*   mtFileLoad( const c8* puPath, size_t* pOptOutSize );
+void*   mtFileLoad( const c8* puPath, isize* pOptOutSize );
 
 /************************************************************************************************/
 /*
@@ -264,7 +272,7 @@ void*   mtFileLoad( const c8* puPath, size_t* pOptOutSize );
 *   Returns:
 *     Number of bytes written to the buffer, 0 indicates an error
 */
-size_t  mtFileReadEx( const c8* puPath, void* pDst, size_t sz );
+isize   mtFileReadEx( const c8* puPath, void* pDst, usize sz );
 /*
 *   Description:
 *     Create & write 'nb' bytes into a file at 'fpath' from 'pBuf'
@@ -277,7 +285,7 @@ size_t  mtFileReadEx( const c8* puPath, void* pDst, size_t sz );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  mtFileWriteEx( const c8* puPath, const void* pSrc, size_t sz );
+isize   mtFileWriteEx( const c8* puPath, const void* pSrc, usize sz );
 /*
 *   Description:
 *     Write 'nb' bytes to the end of a file at 'fpath' from 'pBuf'
@@ -290,7 +298,7 @@ size_t  mtFileWriteEx( const c8* puPath, const void* pSrc, size_t sz );
 *   Returns:
 *     Number of bytes written to the file, 0 indicates an error
 */
-size_t  mtFileAppendEx( const c8* puPath, const void* pSrc, size_t sz );
+isize   mtFileAppendEx( const c8* puPath, const void* pSrc, usize sz );
 
 /************************************************************************************************/
 /*

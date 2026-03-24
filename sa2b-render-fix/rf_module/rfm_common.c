@@ -97,10 +97,10 @@ EnemyLoadTextureStage(const char* fname, NJS_TEXLIST* ptlo)
 
     mtStrFormat(buf, ARYLEN(buf), "%s_STG%02i", fname, ssStageNumber);
 
-    const int err = texLoadTexturePrsFile(buf, ptlo);
+    const int err = texLoadTexturePvmFile(buf, ptlo);
 
     if (err == -1)
-        return texLoadTexturePrsFile(fname, ptlo);
+        return texLoadTexturePvmFile(fname, ptlo);
 
     return err;
 }

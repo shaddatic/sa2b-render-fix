@@ -19,6 +19,7 @@
 #include <rf_core.h>            /* core                                             */
 #include <rf_renderstate.h>     /* render state                                     */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
+#include <rf_ninja.h>           /* quad draw                                        */
 
 /****** Std *************************************************************************/
 #include <stdio.h>              /* snprintf                                         */
@@ -35,6 +36,16 @@
 /****** Get Input *******************************************************************/
 #define GET_TRIGG(lr)       ((f32)(lr) * (1.f/255.f))
 #define GET_ANLOG(xy)       ((f32)(xy) * (1.f/128.f)) // input controls uses 128 for both axes
+
+/************************/
+/*  Game Vars           */
+/************************/
+/****** Texture Movie ***************************************************************/
+#define TextureMovieTaskP           DATA_REF(task*, 0x01AEDE0C)
+#define textureMovieExec            FUNC_PTR(void, __cdecl, (task*), 0x005FAED0)
+
+/****** Movie Id ********************************************************************/
+#define EvMovieTexid                 DATA_REF(i32, 0x01A28940)
 
 /************************/
 /*  Source              */
@@ -372,5 +383,39 @@ EV_DebugDisp(task* tp)
         // sprite alpha
 
         mlDebugPrint(NJM_LOCATION(1, 14), "ALPHA EFFECT : %+.2f", _nj_constant_material_.a);
+    }
+
+    if ( EventDebugMovie )
+    {
+        if ( TextureMovieTaskP && TextureMovieTaskP->exec == textureMovieExec )
+        {
+            const NJS_QUAD_TEXTURE_EX quadex =
+            {
+                .x = 640.f - 64.f - 20.f,
+                .y = 480.f - 48.f - 20.f,
+                .z = 1.f,
+
+                .vx1 = 64.f,
+                .vy1 = 0.f,
+                .vx2 = 0.f,
+                .vy2 = 48.f,
+
+                .u = 0.f,
+                .v = 0.f,
+
+                .vu1 = 1.f,
+                .vv1 = 0.f,
+                .vu2 = 0.f,
+                .vv2 = 1.f,
+            };
+
+            rjQuadTextureStart(FALSE);
+            {
+                rjSetQuadTexture(EvMovieTexid, 0xFFFFFFFF);
+
+                rjDrawQuadTextureEx(&quadex);
+            }
+            rjQuadTextureEnd();
+        }
     }
 }

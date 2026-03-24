@@ -52,6 +52,17 @@ typedef enum
 }
 dx9_compare_op;
 
+/****** Fill Mode *******************************************************************************/
+typedef enum dx9_fill_mode
+{
+    DX9_FILL_ERROR = -1,            /* error return value                                       */
+
+    DX9_FILL_POINT = 1,             /* draw each vertex as a point                              */
+    DX9_FILL_WIREFRAME,             /* draw lines between each vertex                           */
+    DX9_FILL_SOLID,                 /* draw polygons as solid                                   */
+}
+dx9_fill_mode;
+
 /****** Shading Mode ****************************************************************************/
 typedef enum dx9_shade_mode
 {
@@ -119,6 +130,19 @@ dx9_cull_mode;
 /********************************/
 /*  Prototypes                  */
 /********************************/
+/****** Fill Mode *******************************************************************************/
+/*
+*   Description:
+*     Set the polygon fill mode.
+*
+*   Parameters:
+*     - mode        : polygon fill mode
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_SetFillMode( dx9_fill_mode mode );
+
 /****** Shading Mode ****************************************************************************/
 /*
 *   Description:
@@ -312,6 +336,22 @@ bool    DX9_SetDstBlend( dx9_blend_op op );
 */
 bool    DX9_SetAlphaFunc( dx9_compare_op op );
 
+/****** MSAA ************************************************************************************/
+/*
+*   Description:
+*     Set the Multi-Sample Anti-Aliasing state. 
+*
+*   Notes:
+*     - It must be enabled in the present parameters for this to take effect.
+* 
+*   Parameters:
+*     - state       : enable state
+*
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_SetMSAAEnable( dx9_bool state );
+
 /****** Triangle Culling ************************************************************************/
 /*
 *   Description:
@@ -348,6 +388,19 @@ bool    DX9_SetPointSize( dx9_float size );
 *     'true' on success; or 'false' on failure.
 */
 bool    DX9_SetPointScaleEnable( dx9_bool state );
+
+/****** Line Primitive **************************************************************************/
+/*
+*   Description:
+*     Set if line primitives should draw the last pixel.
+* 
+*   Parameters:
+*     - stage       : last pixel state
+* 
+*   Returns:
+*     'true' on success; or 'false' on failure.
+*/
+bool    DX9_SetLineLastPixelDraw( dx9_bool state );
 
 DX9_HEADER_END
 

@@ -333,9 +333,6 @@
     <ClCompile Include="rf_light\rfl_setlight.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_ninja\rj_texerr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_texanim.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -414,7 +411,7 @@
     <ClCompile Include="rf_nja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_samdl.c">
+    <ClCompile Include="rf_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cnf.c">
@@ -469,6 +466,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_fixhistory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_quadtex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_ninja\rj_texture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_module\rfm_stg_pumpkin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja\rj_project.c">
@@ -593,7 +599,7 @@
     <ClInclude Include="rf_module\rfm_menus\rfmenu_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_samdl.h">
+    <ClInclude Include="rf_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cnf.h">
@@ -615,6 +621,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_fixhistory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfu_njbin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

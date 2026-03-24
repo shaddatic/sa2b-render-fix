@@ -33,7 +33,7 @@ EXTERN_START
 *   Returns:
 *     Pointer to newly allocated memory.
 */
-void*   mtMemAlloc( size_t sz );
+void*   mtMemAlloc( usize sz );
 /*
 *   Description:
 *     Dynamically allocate a region of zeroed memory from the heap using a chunk
@@ -46,7 +46,7 @@ void*   mtMemAlloc( size_t sz );
 *     | for already zeroed memory.
 *
 *   Examples:
-*     - MemCalloc(8, sizeof(int)); // memory sized for 8 integers
+*     - mtMemCalloc(8, sizeof(int)); // memory sized for 8 integers
 * 
 *   Parameters:
 *     - nb          : number of memory chunks to allocate for
@@ -55,7 +55,7 @@ void*   mtMemAlloc( size_t sz );
 *   Returns:
 *     Pointer to newly allocated memory.
 */
-void*   mtMemCalloc( size_t nb, size_t sz );
+void*   mtMemCalloc( usize nb, usize sz );
 
 /****** Free ***********************************************************************/
 /*
@@ -89,7 +89,7 @@ void    mtMemFree( void* p );
 *     - pp          : memory region to reallocate and return pointer for new region
 *     - sz          : new size to reallocate to, in bytes
 */
-void    mtMemRealloc( void** pp, size_t sz );
+void    mtMemRealloc( void** pp, usize sz );
 /*
 *   Description:
 *     Re-allocate a region of memory to a different size, keeping the contents of
@@ -108,7 +108,7 @@ void    mtMemRealloc( void** pp, size_t sz );
 *     - szPre       : previous size of region, in bytes
 *     - szNew       : new size to reallocate to, in bytes
 */
-void    mtMemRecalloc( void** pp, size_t szPre, size_t szNew );
+void    mtMemRecalloc( void** pp, usize szPre, usize szNew );
 
 /************************************************************************************/
 /*
@@ -132,11 +132,13 @@ void    mtMemRecalloc( void** pp, size_t szPre, size_t szNew );
 *     - pd          : set destination
 *     - val         : value to set
 *     - nb          : size of memory area in 1, 2, 4, or 8 byte chunks
+*
+*   Returns:
+*     The number of bytes set.
 */
-void    mtMemSet(   void* pd, u8  val, size_t nb );
-void    mtMemSet16( void* pd, u16 val, size_t nb );
-void    mtMemSet32( void* pd, u32 val, size_t nb );
-void    mtMemSet64( void* pd, u64 val, size_t nb );
+isize   mtMemSet(   void* pd, u8  val, usize nb );
+isize   mtMemSet16( void* pd, u16 val, usize nb );
+isize   mtMemSet32( void* pd, u32 val, usize nb );
 
 /****** Memcpy **********************************************************************/
 /*
@@ -150,11 +152,13 @@ void    mtMemSet64( void* pd, u64 val, size_t nb );
 *     - pd          : copy destination
 *     - ps          : copy source
 *     - nb          : size of copy in 1, 2, 4, or 8 byte chunks
+*
+*   Returns:
+*     The number of bytes copied.
 */
-void    mtMemCopy(   void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
-void    mtMemCopy16( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
-void    mtMemCopy32( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
-void    mtMemCopy64( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
+isize   mtMemCopy(   void* RESTRICT pd, const void* RESTRICT ps, usize nb );
+isize   mtMemCopy16( void* RESTRICT pd, const void* RESTRICT ps, usize nb );
+isize   mtMemCopy32( void* RESTRICT pd, const void* RESTRICT ps, usize nb );
 
 /****** Memmove *********************************************************************/
 /*
@@ -169,11 +173,13 @@ void    mtMemCopy64( void* RESTRICT pd, const void* RESTRICT ps, size_t nb );
 *     - pd          : copy destination
 *     - ps          : copy source
 *     - nb          : size of copy in 1, 2, 4, or 8 byte chunks
+*
+*   Returns:
+*     The number of bytes moved.
 */
-void    mtMemMove(   void* pd, const void* ps, size_t nb );
-void    mtMemMove16( void* pd, const void* ps, size_t nb );
-void    mtMemMove32( void* pd, const void* ps, size_t nb );
-void    mtMemMove64( void* pd, const void* ps, size_t nb );
+isize   mtMemMove(   void* pd, const void* ps, usize nb );
+isize   mtMemMove16( void* pd, const void* ps, usize nb );
+isize   mtMemMove32( void* pd, const void* ps, usize nb );
 
 /****** Memdupe *********************************************************************/
 /*
@@ -187,7 +193,7 @@ void    mtMemMove64( void* pd, const void* ps, size_t nb );
 *     - ps          : duplicate source
 *     - nb          : size of duplication, in bytes
 */
-void*   mtMemDupe( const void* ps, size_t nb );
+void*   mtMemDupe( const void* ps, usize nb );
 
 /************************************************************************************/
 /*
@@ -209,7 +215,7 @@ void*   mtMemDupe( const void* ps, size_t nb );
 *   Returns:
 *     'true' if the memory chunks exactly match; or 'false' if they don't.
 */
-bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
+bool    mtMemMatch( const void* p1, const void* p2, usize nb );
 
 /************************/
 /*  Macros              */
@@ -318,6 +324,9 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 *     - ps          : copy source
 *     - type        : data type or structure of memory
 *     - nb          : number of 'type' to copy
+*
+*   Returns:
+*     The number of bytes copied.
 */
 #define mtCopy(pd, ps, type, nb)    mtMemCopy((pd), (ps), (sizeof(type) * (nb)))
 
@@ -335,6 +344,9 @@ bool    mtMemMatch( const void* p1, const void* p2, size_t nb );
 *     - ps          : copy source
 *     - type        : data type or structure of memory
 *     - nb          : number of 'type' to copy
+*
+*   Returns:
+*     The number of bytes moved.
 */
 #define mtMove(pd, ps, type, nb)    mtMemMove((pd), (ps), (sizeof(type) * (nb)))
 

@@ -12,7 +12,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -225,5 +225,5 @@ CHS_BoardInit(void)
     WriteJump(0x005EBFC0, ObjectBoardCEDisplayerMod);
     WriteJump(0x006F7AC0, ObjectBoardMHHook);
 
-    object_o_board_mod = RF_GetCnkObject("object/board_mod.sa2mdl");
+    object_o_board_mod = RF_GetCnkObject("object/board_mod");
 }

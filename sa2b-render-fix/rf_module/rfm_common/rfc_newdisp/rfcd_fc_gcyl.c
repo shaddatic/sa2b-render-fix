@@ -98,5 +98,5 @@ RFCD_FinalChaseGravityCylinderInit(void)
     WriteJump(0x004E9DB0, GravityCylinderDisplayerSorted);
 
     CnkModelMaterialFlagOn(object_gcyl->model, 4, NJD_FST_DB);  // Transparant glass
-    CnkModelMaterialFlagOn(object_gcyl->model, 4, NJD_FST_NAT);
+    CnkModelMaterialFlagOn(object_gcyl->model, 4, RJD_FST_EUA);
 }

@@ -123,6 +123,15 @@ typedef enum rjtexshade
 }
 RJ_TEXSHADE;
 
+/****** Polygon Fill Mode ***********************************************************************/
+typedef enum rjfillmd
+{
+    RJ_FILL_POINT,
+    RJ_FILL_WIRE,
+    RJ_FILL_FILL,
+}
+RJ_FILL;
+
 /****** Polygon Culling Mode ********************************************************************/
 typedef enum rjcullmd
 {
@@ -205,12 +214,18 @@ RJS_UV;
 /********************************/
 /*  Extern Data                 */
 /********************************/
+/****** Vertex Buffer ***************************************************************************/
+EXTERN Uint32 _rj_vertex_buffer_num_;   /* vertex number                                        */
+
 /****** Texture Error ***************************************************************************/
 EXTERN NJS_TEXNAME texture_rf_texerr[]; /* error texname                                        */
 EXTERN NJS_TEXLIST texlist_rf_texerr[]; /* error texlist                                        */
 
 /****** Modifier ********************************************************************************/
 EXTERN Uint32 _rj_mod_vertex_buffer_max_; /* vertex buffer max count                            */
+
+/****** Envelope ********************************************************************************/
+EXTERN Float _rj_envelope_weight_value_; /* weight multiply                                     */
 
 /****** Translucency Mode ***********************************************************************/
 #define _rj_alpha_mode_             DATA_REF(RJ_ALPHA, 0x025EFE50)
@@ -222,6 +237,13 @@ EXTERN Uint32 _rj_mod_vertex_buffer_max_; /* vertex buffer max count            
 /*
 *   Draw Core
 */
+/****** Reset Cache *****************************************************************************/
+/*
+*   Description:
+*     Reset the hw module parameter cache.
+*/
+void    rjResetHwCache( void );
+
 /****** Set Polygon Attributes ******************************************************************/
 /*
 *   Description:
@@ -288,6 +310,20 @@ void    rjSetHwPolygonShading( RJ_SHADE mode );
 *     - igntexalpha : ignore texture alpha mode
 */
 void    rjSetHwTextureParam( RJ_TEXSHADE shade, Bool igntexalpha );
+
+/****** Fill ************************************************************************************/
+/*
+*   Description:
+*     Set the polygon fill mode.
+*
+*   Notes:
+*     - Hardware lines drawn in wire mode are different than the software lines drawn with
+*       functions like 'rjDrawLine'
+*
+*   Parameters:
+*     - mode        : polygon fill mode
+*/
+void    rjSetHwFill( RJ_FILL mode );
 
 /****** Culling *********************************************************************************/
 /*

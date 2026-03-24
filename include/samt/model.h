@@ -45,7 +45,7 @@ typedef struct mt_ptrlist   mt_ptrlist; /* ptrlist                              
 *   Returns:
 *     Object node count of given object.
 */
-size_t  mtBscNodeCount( const NJS_OBJECT* pObject );
+isize   mtBscNodeCount( const NJS_OBJECT* pObject );
 /*
 *   Description:
 *     Get an object node via index in a Basic object tree.
@@ -57,7 +57,7 @@ size_t  mtBscNodeCount( const NJS_OBJECT* pObject );
 *     Pointer to object node at given index; or 'nullptr' if the index is larger than the
 *   object tree.
 */
-NJS_OBJECT* mtBscGetNode( const NJS_OBJECT* pObject, size_t ixNode );
+NJS_OBJECT* mtBscGetNode( const NJS_OBJECT* pObject, usize ixNode );
 
 /************************************************************************************************/
 /*
@@ -74,7 +74,7 @@ NJS_OBJECT* mtBscGetNode( const NJS_OBJECT* pObject, size_t ixNode );
 *   Returns:
 *     Object node count of given object.
 */
-size_t  mtCnkNodeCount( const NJS_CNK_OBJECT* pObject );
+isize   mtCnkNodeCount( const NJS_CNK_OBJECT* pObject );
 /*
 *   Description:
 *     Get an object node via index in a Chunk object tree.
@@ -86,7 +86,7 @@ size_t  mtCnkNodeCount( const NJS_CNK_OBJECT* pObject );
 *     Pointer to object node at given index; or 'nullptr' if the index is larger than the
 *   object tree.
 */
-NJS_CNK_OBJECT* mtCnkGetNode( const NJS_CNK_OBJECT* pObject, size_t ixNode );
+NJS_CNK_OBJECT* mtCnkGetNode( const NJS_CNK_OBJECT* pObject, usize ixNode );
 
 /****** Model ***********************************************************************************/
 /*
@@ -99,7 +99,7 @@ NJS_CNK_OBJECT* mtCnkGetNode( const NJS_CNK_OBJECT* pObject, size_t ixNode );
 *   Returns:
 *     Size of the vlist, in bytes.
 */
-size_t  mtCnkVListSize( const Sint32* pVList );
+isize   mtCnkVListSize( const Sint32* pVList );
 /*
 *   Description:
 *     Get the total size of a Chunk polygon list.
@@ -110,7 +110,7 @@ size_t  mtCnkVListSize( const Sint32* pVList );
 *   Returns:
 *     Size of the plist, in bytes.
 */
-size_t  mtCnkPListSize( const Sint16* pPList );
+isize   mtCnkPListSize( const Sint16* pPList );
 
 /************************************************************************************************/
 /*
@@ -127,7 +127,7 @@ size_t  mtCnkPListSize( const Sint16* pPList );
 *   Returns:
 *     Object node count of given object.
 */
-size_t  mtGjsNodeCount( const GJS_OBJECT* pObject );
+isize   mtGjsNodeCount( const GJS_OBJECT* pObject );
 /*
 *   Description:
 *     Get an object node via index in a Ginja object tree.
@@ -139,7 +139,7 @@ size_t  mtGjsNodeCount( const GJS_OBJECT* pObject );
 *     Pointer to object node at given index; or 'nullptr' if the index is larger than the
 *   object tree.
 */
-GJS_OBJECT* mtGjsGetNode( const GJS_OBJECT* pObject, size_t ixNode );
+GJS_OBJECT* mtGjsGetNode( const GJS_OBJECT* pObject, usize ixNode );
 
 /****** Model ***********************************************************************************/
 /*
@@ -152,7 +152,7 @@ GJS_OBJECT* mtGjsGetNode( const GJS_OBJECT* pObject, size_t ixNode );
 *   Returns:
 *     The length of a Ginja vertex array list, including the termination entry.
 */
-size_t  mtGjsArrayLength( const GJS_ARRAY* pArrays );
+isize   mtGjsArrayLength( const GJS_ARRAY* pArrays );
 /*
 *   Description:
 *     Get the total size of a Ginja vertex array list.
@@ -163,7 +163,7 @@ size_t  mtGjsArrayLength( const GJS_ARRAY* pArrays );
 *   Returns:
 *     The size of a Ginja vertex array list, in bytes.
 */
-size_t  mtGjsArraySize( const GJS_ARRAY* pArrays );
+isize   mtGjsArraySize( const GJS_ARRAY* pArrays );
 /*
 *   Description:
 *     Get the total number of entries in a Ginja vertex array list.
@@ -174,7 +174,7 @@ size_t  mtGjsArraySize( const GJS_ARRAY* pArrays );
 *   Returns:
 *     The length of a Ginja vertex array list, including the termination entry.
 */
-size_t  mtGjsVlistLength( const GJS_VLIST* pVlist );
+isize   mtGjsVlistLength( const GJS_VLIST* pVlist );
 /*
 *   Description:
 *     Get the total size of a Ginja vertex array list.
@@ -185,7 +185,7 @@ size_t  mtGjsVlistLength( const GJS_VLIST* pVlist );
 *   Returns:
 *     The size of a Ginja vertex array list, in bytes.
 */
-size_t  mtGjsVlistSize( const GJS_VLIST* pVlist );
+isize   mtGjsVlistSize( const GJS_VLIST* pVlist );
 
 /************************************************************************************************/
 /*

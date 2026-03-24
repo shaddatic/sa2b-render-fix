@@ -37,15 +37,6 @@
 #include <rf_ninja/rj_internal.h> /* children                                       */
 
 /************************/
-/*  Game Data           */
-/************************/
-/****** DrawTextureEx ***************************************************************/
-#define TexExCount          DATA_REF(int32_t, 0x0077F6BF)
-
-/****** DrawPolygon2D ***************************************************************/
-#define Poly2DN             DATA_REF(int32_t, 0x00490FA8)
-
-/************************/
 /*  Data                */
 /************************/
 /****** Depth Queue *****************************************************************/
@@ -138,20 +129,15 @@ RF_NinjaInit(void)
 {
     RFD_CoreInit();
     RFD_ChunkInit();
-    RFD_TexerrInit();
+    RJ_TextureInit();
     RFD_PolygonInit();
     RFD_SpriteInit();
     RFD_AlphaBlendInit();
     RJ_ModifierInit();
     RJ_LineInit();
     RJ_BackTextureInit();
+    RJ_QuadTexInit();
     RJ_ProjectInit();
-
-    /** Allow 'count' argument to be writeable **/
-    WriteData(&TexExCount, 4, int32_t);
-
-    /** Allow 'n' argument to be writeable **/
-    WriteData(&Poly2DN, 4, int32_t);
 
     /** Replace game's `njSetScreen` with SAMT version **/
     WriteJump(0x0077E980, ___SetScreenHook);
@@ -166,7 +152,7 @@ RF_NinjaInit(void)
     RFU_ReplaceFloat(0x005A5C1A, uvmul_new); // chCnk // NJD_CV_VN_D8
     RFU_ReplaceFloat(0x0041BCC1, uvmul_new); // Ginja
 
-    const f64 farclip = 65536.0;
+    const f64 farclip = 65535.0;
 
     RFU_ReplaceFloat(0x00458FC5, farclip);
     RFU_ReplaceFloat(0x004EE20A, farclip);
@@ -194,6 +180,8 @@ RF_NinjaInit(void)
     njIgnoreTextureAlphaMode( OFF );
 
     rjSetDepthQueue( -1800.f, -2000.f );
+
+    rjSetEnvelopeWeightValue( 1.f/255.f );
 
 //  njPolygonCullingSize(0.05f);
 

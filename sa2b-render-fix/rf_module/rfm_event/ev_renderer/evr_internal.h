@@ -124,6 +124,7 @@ RFE_DBG_DRAWPASS;
 EXTERN bool             EventEquipmentEnable;
 EXTERN RFE_EV_VSYNC     EventVsyncMode;
 EXTERN bool             EventDebugFlag;
+EXTERN bool             EventDebugMovie;
 
 /****** Draw Pass *******************************************************************/
 EXTERN i32 DebugDrawPass;

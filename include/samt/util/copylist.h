@@ -39,8 +39,8 @@
 * 
 *   NJS_CNK_OBJECT* p_obj = ... ;
 *
-*   const size_t sz_vlist = mtCnkGetVlistSize( p_obj->model->vlist );
-*   const size_t sz_plist = mtCnkGetPlistSize( p_obj->model->plist );
+*   const isize sz_vlist = mtCnkGetVlistSize( p_obj->model->vlist );
+*   const isize sz_plist = mtCnkGetPlistSize( p_obj->model->plist );
 *
 *   //
 *   // create copylist and add source data pointers and their sizes
@@ -125,7 +125,7 @@ void    mtCopyListFree( mt_copylist* pclh );
 *     - pSrc        : source data
 *     - szSrc       : size of source data in bytes
 */
-void    mtCopyListAdd( mt_copylist* pclh, const void* pSrc, size_t szSrc );
+void    mtCopyListAdd( mt_copylist* pclh, const void* pSrc, usize szSrc );
 
 /****** Check Entry *****************************************************************/
 /*
@@ -165,7 +165,7 @@ void    mtCopyListCopy( const mt_copylist* pclh, void* pDst );
 *   Returns:
 *     Size of copylist, including padding.
 */
-size_t  mtCopyListSize( const mt_copylist* pclh );
+isize   mtCopyListSize( const mt_copylist* pclh );
 
 /****** Resolve Source Pointer ******************************************************/
 /*

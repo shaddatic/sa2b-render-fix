@@ -11,7 +11,7 @@
 
 /** Render Fix **/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_samdl.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
@@ -52,5 +52,5 @@ CHS_TankInit(void)
 {
     mtHookFunc(HookInfoObjectTank, ObjectTank, ObjectTankHook);
 
-    object_o_md_contbox_mod = RF_GetCnkObject("object/md_tank_mod.sa2mdl");
+    object_o_md_contbox_mod = RF_GetCnkObject("object/md_tank_mod");
 }

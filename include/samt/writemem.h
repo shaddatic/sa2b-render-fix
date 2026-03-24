@@ -24,7 +24,7 @@ EXTERN_START
 *     - pSrc    : address to copy from
 *     - nb      : number of bytes to copy
 */
-void    mtMemCopyProtected( void* pDst, const void* pSrc, size_t nb );
+void    mtMemCopyProtected( void* pDst, const void* pSrc, usize nb );
 /*
 *   Description:
 *     Move 'nb' bytes from 'pSrc' to 'pDst' while ignoring write permissions. Leaves
@@ -35,7 +35,7 @@ void    mtMemCopyProtected( void* pDst, const void* pSrc, size_t nb );
 *     - pSrc    : address to copy from
 *     - nb      : number of bytes to copy
 */
-void    mtMemMoveProtected( void* pDst, const void* pSrc, size_t nb );
+void    mtMemMoveProtected( void* pDst, const void* pSrc, usize nb );
 
 /****** Mem Set *********************************************************************/
 /*
@@ -47,7 +47,7 @@ void    mtMemMoveProtected( void* pDst, const void* pSrc, size_t nb );
 *     - val     : value of the bytes
 *     - nb      : number of bytes to set
 */
-void    mtMemSetProtected( void* pDst, u8 val, size_t nb );
+void    mtMemSetProtected( void* pDst, u8 val, usize nb );
 /*
 *   Description:
 *     Copy 'nb' repeated 2-byte units of value 'val' to protected memory.
@@ -57,7 +57,7 @@ void    mtMemSetProtected( void* pDst, u8 val, size_t nb );
 *     - val     : value of the 8-byte chunks
 *     - nb      : number of 2-byte units to set (2*'nb' bytes)
 */
-void    mtMemSetProtected16( void* pDst, u16 val, size_t nb );
+void    mtMemSetProtected16( void* pDst, u16 val, usize nb );
 /*
 *   Description:
 *     Copy 'nb' repeated 4-byte units of value 'val' to protected memory.
@@ -67,17 +67,7 @@ void    mtMemSetProtected16( void* pDst, u16 val, size_t nb );
 *     - val     : value of the 8-byte chunks
 *     - nb      : number of 4-byte units to set (4*'nb' bytes)
 */
-void    mtMemSetProtected32( void* pDst, u32 val, size_t nb );
-/*
-*   Description:
-*     Copy 'nb' repeated 8-byte units of value 'val' to protected memory.
-*
-*   Parameters:
-*     - pDst    : address to mem set
-*     - val     : value of the 8-byte chunks
-*     - nb      : number of 8-byte units to set (8*'nb' bytes)
-*/
-void    mtMemSetProtected64( void* pDst, u64 val, size_t nb );
+void    mtMemSetProtected32( void* pDst, u32 val, usize nb );
 
 #ifdef __cplusplus
 EXTERN_END
@@ -121,7 +111,7 @@ EXTERN_START
 *     - src     : pointer to copy from
 *     - nb      : number of bytes to copy
 */
-#define WriteMemory(dst, src, nb)           mtMemCopyProtected((void*)(dst), (const void*)(src), (size_t)(nb))
+#define WriteMemory(dst, src, nb)           mtMemCopyProtected((void*)(dst), (const void*)(src), (usize)(nb))
 
 /****** Write R-Value ***************************************************************/
 /*

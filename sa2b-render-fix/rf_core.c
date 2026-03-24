@@ -20,10 +20,6 @@
 /********************************/
 /*  Data                        */
 /********************************/
-/****** Format Buffer ***************************************************************************/
-static c8*   MsgBuffer;
-static isize MsgBufferLen;
-
 /****** Settings ********************************************************************************/
 static bool DbgExtraInfo;
 static bool MsgWarnSuppress;
@@ -31,21 +27,7 @@ static bool MsgWarnSuppress;
 /********************************/
 /*  Source                      */
 /********************************/
-/****** Msg Buffer ******************************************************************************/
-static void
-MsgSetFormatLen(isize szfmt)
-{
-    if ( MsgBuffer )
-    {
-        mtFree(MsgBuffer);
-    }
-
-    const isize sz = szfmt + (32 - (szfmt % 32));
-
-    MsgBuffer    = mtAlloc(c8, sz);
-    MsgBufferLen = sz;
-}
-
+/****** Msg Format ******************************************************************************/
 static const c8*
 MsgGetFormatStr(const c8* fmt, va_list varg)
 {
@@ -54,30 +36,10 @@ MsgGetFormatStr(const c8* fmt, va_list varg)
         return fmt; // if no format codes, don't format
     }
 
-    c8* pu_buf;
+    const usize sz_buf = COUNTOF(GlobalBuffer) - 0x4000;
+    c8* const   pu_buf = (c8*) &GlobalBuffer[0x4000];
 
-    for ( ; ; )
-    {
-        const isize sz_buf = MsgBufferLen;
-        pu_buf             = MsgBuffer;
-
-        const isize out = vsnprintf(pu_buf, sz_buf, fmt, varg);
-
-        if ( out < 0 )
-        {
-            return "Error formatting message";
-        }
-
-        const isize sz_need = (out+1);
-
-        if ( sz_need <= sz_buf )
-        {
-            break; // done!
-        }
-
-        // buffer too small; expand, try again
-        MsgSetFormatLen( sz_need );
-    }
+    vsnprintf(pu_buf, sz_buf, fmt, varg);
 
     return pu_buf;
 }

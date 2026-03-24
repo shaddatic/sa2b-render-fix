@@ -16,7 +16,7 @@
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_ninja.h>           /* set cheap shadow intensity                       */
-#include <rf_samdl.h>           /* file load                                        */
+#include <rf_model.h>           /* file load                                        */
 
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
@@ -118,8 +118,8 @@ void
 RFM_ShadowsInit(void)
 {
     /** shadow model **/
-    model_basic_shadow = RF_GetCnkModel("common/basic_mod.sa2mdl");
-    model_al_mod       = RF_GetCnkModel("chao/al_mod.sa2mdl");
+    model_basic_shadow = RF_GetCnkModel("common/basic_mod");
+    model_al_mod       = RF_GetCnkModel("chao/al_mod");
 
     if ( CNF_GetInt(CNF_MISC_NOSHADOWS) )
     {

@@ -359,8 +359,8 @@ RF_SysCtrlDrawPillar(bool passFinal)
 
     if ( PbTexlist )
     {
-        njSetTexture(PbTexlist);
-        njSetTextureNum(PbTexnum);
+        rjSetTexture(PbTexlist);
+        rjSetTextureNum(PbTexnum);
 
         SysDrawPillar_Tex(tgt_shft, dsp_shft, trans);
     }

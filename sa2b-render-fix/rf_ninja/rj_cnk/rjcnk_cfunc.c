@@ -213,11 +213,57 @@ rjCnkSpecularNormal(const RJS_VERTEX_BUF* restrict pVtx)
         spec.b += (spec_inten * _rj_lights_[i].b);
     }
 
+    spec.r = fminf(spec.r, 1.f);
+    spec.g = fminf(spec.g, 1.f);
+    spec.b = fminf(spec.b, 1.f);
+
     spec.r *= _rj_cnk_spec_material_.r;
     spec.g *= _rj_cnk_spec_material_.g;
     spec.b *= _rj_cnk_spec_material_.b;
 
-    return SpecToUint(&spec);
+    return ArgbToUintEx(&spec);
+}
+
+Uint32
+rjCnkSpecularSoft(const RJS_VERTEX_BUF* restrict pVtx)
+{
+    /** Get constants **/
+
+    const Float inten_mul = _rj_cnk_inten_multiply_;
+
+    const u32 lightsw = _rj_light_sw_;
+
+    /** Start **/
+
+    NJS_ARGB spec = { 0 };
+
+    for ( int i = 0; i < RJ_LIGHT_NUM; ++i )
+    {
+        if ( !LIGHT_ON(lightsw, i) )
+        {
+            continue;
+        }
+
+        const Float inten = fmaxf(pVtx->inten[i] * inten_mul, 0.f);
+
+        spec.r += (_rj_lights_[i].r * inten);
+        spec.g += (_rj_lights_[i].g * inten);
+        spec.b += (_rj_lights_[i].b * inten);
+    }
+
+    spec.r -= 1.f;
+    spec.g -= 1.f;
+    spec.b -= 1.f;
+
+    spec.r = fminf(spec.r, 1.f);
+    spec.g = fminf(spec.g, 1.f);
+    spec.b = fminf(spec.b, 1.f);
+
+    spec.r *= _rj_cnk_spec_material_.r;
+    spec.g *= _rj_cnk_spec_material_.g;
+    spec.b *= _rj_cnk_spec_material_.b;
+
+    return ArgbToUintEx(&spec);
 }
 
 Uint32

@@ -20,6 +20,7 @@ const RFAPI_NJDRAW rfapi_njdraw =
 {
     .version = RFAPI_NJDRAW_VER,
 
+    // ver 0
     .DrawPolygon  = rjDrawPolygon,
     .DrawTexture  = rjDrawTexture,
     .DrawTextureH = rjDrawTextureH,
@@ -41,4 +42,18 @@ const RFAPI_NJDRAW rfapi_njdraw =
     .DrawSprite3D = rjDrawSprite3D,
 
     .DrawPolygon2D = rjDrawPolygon2D,
+
+    // ver 1
+    .QuadTextureStart = rjQuadTextureStart,
+    .QuadTextureEnd   = rjQuadTextureEnd,
+
+    .SetQuadTexture   = rjSetQuadTexture,
+    .SetQuadTextureG  = rjSetQuadTextureG,
+    .SetQuadTextureH  = rjSetQuadTextureH,
+
+    .SetQuadTextureColor = rjSetQuadTextureColor,
+    .SetQuadTextureHColor = rjSetQuadTextureHColor,
+
+    .DrawQuadTexture   = rjDrawQuadTexture,
+    .DrawQuadTextureEx = rjDrawQuadTextureEx,
 };

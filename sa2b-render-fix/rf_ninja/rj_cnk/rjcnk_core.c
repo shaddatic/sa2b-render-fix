@@ -234,6 +234,17 @@ rjCnkStartPlist(RJS_CNK_STRIP* restrict basest)
             break;
         }
     }
+
+    if ( _rj_cnk_ctrl_flag_ & RJD_CNK_CTRL_SPECULAR )
+    {
+        _rj_cnk_spec_funcs_[RJE_CNK_SPECFUNC_NORMAL] = rjCnkSpecularNormal;
+        _rj_cnk_spec_funcs_[RJE_CNK_SPECFUNC_SIMPLE] = rjCnkSpecularSimple;
+    }
+    else
+    {
+        _rj_cnk_spec_funcs_[RJE_CNK_SPECFUNC_NORMAL] = rjCnkSpecularSoft;
+        _rj_cnk_spec_funcs_[RJE_CNK_SPECFUNC_SIMPLE] = rjCnkSpecularEasy;
+    }
 }
 
 void

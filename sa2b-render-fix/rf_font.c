@@ -257,10 +257,10 @@ Font1ToFont32_S(FONT_1_CHAR* pBuff)
 RFS_FONT*
 RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 {
-    size_t fsize;
+    isize fsize;
     void* const file = mtFileLoad(fpath, &fsize);
 
-    if (!file)
+    if ( !file )
     {
         OutputString("Render Fix: Font file not found, aborting load!");
         return nullptr;

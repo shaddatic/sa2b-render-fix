@@ -881,6 +881,9 @@
 #define iff_CPSM    'CPSM'     /* ninja compact shape motion  */
 #define iff_NJSL    'NJSL'     /* ninja compact shape list    */
 
+#define iff_GJCM    'GJCM'     /* ginja model                 */
+#define iff_GJTL    'GJTL'     /* ginja texlist               */
+
 /*
  * texture chunk name
  */

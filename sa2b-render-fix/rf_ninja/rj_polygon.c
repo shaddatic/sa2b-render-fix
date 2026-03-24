@@ -172,7 +172,7 @@ rjDrawTextureHEx(const NJS_TEXTUREH_VTX* polygon, Int count, Int trans)
 void
 rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
 {
-    _nj_curr_ctx_->texture = rjGetTextureSurfaceG(tex);
+    rjSetTextureNumG(tex);
 
     rjDrawTextureEx(polygon, count, flag);
 }
@@ -180,7 +180,7 @@ rjDrawTexture(const NJS_TEXTURE_VTX* polygon, Int count, Int tex, Int flag)
 void
 rjDrawTextureH(const NJS_TEXTUREH_VTX* polygon, Int count, Int tex, Int flag)
 {
-    _nj_curr_ctx_->texture = rjGetTextureSurfaceG(tex);
+    rjSetTextureNumG(tex);
 
     rjDrawTextureHEx(polygon, count, flag);
 }
@@ -207,6 +207,8 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
     rjSetHwCullingCtx();
 
     rjSetBlend2D( attr & NJD_TRANSPARENT );
+
+    rjSetHwFill( (attr & NJD_FILL) ? RJ_FILL_FILL : RJ_FILL_WIRE );
 
     if ( attr & NJD_USE_TEXTURE )
     {
@@ -256,6 +258,7 @@ rjDrawPolygon2D(const NJS_POINT2COL* p, Sint32 n, Float pri, Uint32 attr)
         rjEndVertex();
     }
 
+    rjSetHwFill(    RJ_FILL_FILL );
     rjSetHwCulling( RJ_CULL_NONE );
 }
 

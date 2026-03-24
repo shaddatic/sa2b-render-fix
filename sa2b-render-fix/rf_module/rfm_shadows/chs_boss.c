@@ -14,7 +14,8 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
-#include <rf_samdl.h>
+#include <rf_core.h>
+#include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_util.h>
@@ -404,7 +405,7 @@ CHS_BossInit(void)
     WriteCall(0x00613FD0, DrawBasicShadow); // Sand Timer
     KillCall(0x00612F70);
 
-    object_b_bigbogy_mod = RF_GetCnkObject("boss/bigbogy/bigbogy_mod.sa2mdl");
+    object_b_bigbogy_mod = RF_GetCnkObject("boss/bigbogy/bigbogy_mod");
 
     /** Big Foot **/
     WriteJump(0x005D0B30, BossBigFootDisplayerMod);
@@ -418,7 +419,7 @@ CHS_BossInit(void)
     WriteJump(0x005D4410, BossFlyingDogDispMod);
     WriteCall(0x005D0F86, CreateNoStencilTexture); // Kill GetStencilInfo
 
-    object_b_fdog_mod = RF_GetCnkObject("boss/fdog/fdog_mod.sa2mdl");
+    object_b_fdog_mod = RF_GetCnkObject("boss/fdog/fdog_mod");
 
     /** Gun Robot Missiles **/
     WriteCallToMovDwordPtr(0x005D6393, __GRoboMissileMovHook);

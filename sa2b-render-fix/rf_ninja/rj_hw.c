@@ -64,6 +64,15 @@ rjSetHwCulling(RJ_CULL mode)
     GX_SetCullMode(mode);
 }
 
+/****** Fill ************************************************************************************/
+void
+rjSetHwFill(RJ_FILL mode)
+{
+    const i32 off = DX9_FILL_POINT - RJ_FILL_POINT;
+
+    DX9_SetFillMode(mode + off);
+}
+
 /****** Texture *********************************************************************************/
 void
 rjSetHwPalette(Int bank)
@@ -197,6 +206,16 @@ rjSetHwTextureParam(RJ_TEXSHADE shademd, Bool igntexalpha)
 
         RF_ShaderSetConstantF(RF_SCFP_TEXPARAM, &_rj_hw_texparam_, 1);
     }
+}
+
+/****** Cache ***********************************************************************************/
+void
+rjResetHwCache(void)
+{
+    _rj_hw_texparam_ = (dx9_float4){ 0 };
+    _rj_hw_polyattr_ = (dx9_float4){ 0 };
+
+    _rj_polygon_shading_ = 0;
 }
 
 /****** Init ************************************************************************************/

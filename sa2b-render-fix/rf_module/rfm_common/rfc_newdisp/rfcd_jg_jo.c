@@ -17,7 +17,7 @@
 #include <rf_ninja.h>           /* rf ninja                                         */
 #include <rf_njcnk.h>           /* emulated njcnk draw functions                    */
 #include <rf_mdlutil.h>         /* change strip flag                                */
-#include <rf_samdl.h>           /* load model                                       */
+#include <rf_model.h>           /* load model                                       */
 
 /****** Self ************************************************************************/
 #include <rf_module/rfm_common/rfc_newdisp/rfcd_internal.h> /* parent & siblings    */
@@ -92,9 +92,9 @@ RFCD_JungleObjectInit(void)
 {
     JungleObjectTexlists[2] = texlist_jo_tree;
 
-    JungleObjects[0] = RF_GetCnkModel("stage/03_jungle/jo_wrock.sa2mdl");
-    JungleObjects[1] = RF_GetCnkModel("stage/03_jungle/jo_grock.sa2mdl");
-    JungleObjects[2] = RF_GetCnkModel("stage/03_jungle/jo_tree.sa2mdl");
+    JungleObjects[0] = RF_GetCnkModel("stage/03_jungle/jo_wrock");
+    JungleObjects[1] = RF_GetCnkModel("stage/03_jungle/jo_grock");
+    JungleObjects[2] = RF_GetCnkModel("stage/03_jungle/jo_tree");
     
     WriteJump(0x005EF7F0, CNK_JungleObjectDisp);
     WriteJump(0x005EF8F0, CNK_JungleObjectDisp_NoShadow);
