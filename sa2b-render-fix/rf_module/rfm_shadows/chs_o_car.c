@@ -18,8 +18,6 @@
 #include <rf_util.h>
 #include <rf_renderstate.h>
 
-#define GlobalBuffer        DATA_ARY(int, 0x01DEFE20, [1])
-
 #define ModTurnVertex       FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
 
 #define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
