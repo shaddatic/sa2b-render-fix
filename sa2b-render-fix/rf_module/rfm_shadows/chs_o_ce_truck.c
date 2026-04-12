@@ -8,6 +8,7 @@
 /** Source **/
 #include <samt/sonic/task.h>
 #include <samt/sonic/debug.h>
+#include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
 #include <rf_ninja.h>
@@ -135,7 +136,11 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
         .r = (r * 2) + 300.0f
     };
 
+    OnControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
+
     njCnkModDrawModel(&model);
+
+    OffControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
 static void
