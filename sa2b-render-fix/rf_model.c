@@ -44,7 +44,7 @@ GetObjectFromFile(const c8* puPath, const c8* puBinExt, const c8* puMdlExt, bool
 
     if ( mtFileExists(strbuf) )
     {
-        void* p_obj = RFU_NinjaBinaryRead(strbuf, fnBinCheck);
+        void* p_obj = RFU_NinjaBinaryGet(strbuf, fnBinCheck);
 
         // found? Return!
         if ( p_obj )
@@ -89,7 +89,7 @@ GetObjectFromFile(const c8* puPath, const c8* puBinExt, const c8* puMdlExt, bool
 
         if ( pu_fpath != strbuf )
         {
-            void* p_obj = RFU_NinjaBinaryRead(pu_fpath, fnBinCheck);
+            void* p_obj = RFU_NinjaBinaryGet(pu_fpath, fnBinCheck);
 
             // found? Return!
             if ( p_obj )

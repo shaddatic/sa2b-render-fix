@@ -532,12 +532,12 @@ RFU_ReplaceFloat(pint pOpcode, f64 val)
 
 /****** Ninja Binary ****************************************************************************/
 void*
-RFU_NinjaBinaryRead(const c8* fpath, bool(*fnNameCheck)(u32 name))
+RFU_NinjaBinaryRead(mt_njbin* nb, bool(*fnNameCheck)(u32 name))
 {
-    mt_njbin* nb = mtNinjaBinaryOpen(fpath);
-
     u32 cnk_name = '****';
     u32 cnk_size = 0;
+
+    bool found = false;
 
     // find the model binary chunk
     for ( ; ; )
@@ -551,6 +551,7 @@ RFU_NinjaBinaryRead(const c8* fpath, bool(*fnNameCheck)(u32 name))
         // check chunk name. if matches we found what we want, stop
         if ( fnNameCheck(cnk_name) )
         {
+            found = true;
             break;
         }
 
@@ -562,25 +563,42 @@ RFU_NinjaBinaryRead(const c8* fpath, bool(*fnNameCheck)(u32 name))
     }
 
     // return ptr
-    void* p_object;
+    void* mem;
 
     // we found it!
-    if ( fnNameCheck(cnk_name) )
+    if ( found )
     {
-        p_object = mtMemAlloc(cnk_size);
+        mem = mtMemAlloc(cnk_size);
 
-        if ( mtNinjaBinaryRead(nb, p_object, NULL, NULL) < NJBIN_RET_OK )
+        if ( mtNinjaBinaryRead(nb, mem, NULL, NULL) < NJBIN_RET_OK )
         {
             // there was an error, stop
-            mtFree(p_object);
-            p_object = nullptr;
+            mtFree(mem);
+            mem = nullptr;
         }
     }
     else // some error
     {
-        p_object = nullptr;
+        mem = nullptr;
     }
 
+    mtNinjaBinaryReset(nb);
+
+    return mem;
+}
+
+void*
+RFU_NinjaBinaryGet(const c8* fpath, bool(*fnNameCheck)(u32 name))
+{
+    mt_njbin* const nb = mtNinjaBinaryOpen(fpath);
+
+    if ( !nb )
+    {
+        return nullptr;
+    }
+
+    void* const mem = RFU_NinjaBinaryRead(nb, fnNameCheck);
+
     mtNinjaBinaryClose(nb);
-    return p_object;
+    return mem;
 }
