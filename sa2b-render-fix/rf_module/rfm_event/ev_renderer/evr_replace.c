@@ -13,6 +13,7 @@
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
+#include <rfu_njbin.h>              /* ninja binary                                             */
 
 /****** Self ************************************************************************************/
 #include <rf_module/rfm_event/ev_renderer/evr_internal.h> /* parent & siblings                  */
@@ -51,13 +52,27 @@ static void** MemCacheList;
 /****** Replace String Index ********************************************************************/
 static isize StringIndex;
 
-/****** Path Buffers ***************************************************************************/
-static c8* BasePath;
-static c8* PathBuffer;
+/****** Path Buffers ****************************************************************************/
+static const c8* IniFile;
+static       c8* BasePath;
+static       c8* PathBuffer;
 
 /********************************/
 /*  Source                      */
 /********************************/
+/****** Ninja Binary ****************************************************************************/
+static bool
+IsCnkModelBinary(u32 name)
+{
+    return (name == 'NJCM' || name == 'N2CM');
+}
+
+static bool
+IsMotionBinary(u32 name)
+{
+    return (name == 'NMDM' || name == 'NSSM');
+}
+
 /****** Cache ***********************************************************************************/
 static void*
 ReplaceCacheFind(const c8* puPath)
@@ -112,8 +127,11 @@ StartReplaceIni(const c8* puSrcPath)
     // if not replaced, eg. original pointer returned
     if ( pu_path == puSrcPath )
     {
+        IniFile = nullptr;
         return nullptr;
     }
+
+    IniFile = pu_path;
 
     mtStrCopy(    BasePath, pu_path, BUF_SIZE );
     mtPathParent( BasePath, nullptr, BUF_SIZE );
@@ -121,8 +139,8 @@ StartReplaceIni(const c8* puSrcPath)
     return mtConfigOpen(pu_path);
 }
 
-static inline NJS_CNK_OBJECT*
-GetReplaceObject(const c8* puName)
+static void*
+GetReplaceFileBinary(const c8* puName, const c8* puFtype, const c8* puSaext, bool(*fnNameCheck)(u32 name))
 {
     if ( mtStrMatch(puName, "null", STR_NOMAX) )
     {
@@ -130,43 +148,51 @@ GetReplaceObject(const c8* puName)
     }
     else
     {
-        mt_samdl* p_samdl = ReplaceCacheFind(puName);
+        void* ptr = ReplaceCacheFind(puName);
 
-        if ( !p_samdl )
+        if ( !ptr )
         {
+            const isize ix_ext = mtPathGetExtension(puName, STR_NOMAX);
+
             mtStrFormat(PathBuffer, BUF_SIZE, "%s/%s", BasePath, puName);
 
-            p_samdl = mtSAModelLoad(PathBuffer, SAMDL_NOFLAG);
+            if ( ix_ext == STR_NOINDEX || !mtStrMatch(&puName[ix_ext], puSaext, STR_NOMAX) )
+            {
+                ptr = RFU_NinjaBinaryGet(PathBuffer, fnNameCheck);
+            }
+            else if ( IsCnkModelBinary == fnNameCheck )
+            {
+                ptr = mtSAModelLoad(PathBuffer, SAMDL_NOHEAD|SAMDL_CHUNK);
+            }
+            else // motion/shape
+            {
+                ptr = mtSAAnimLoad(PathBuffer, SAANIM_NOHEAD);
+            }
 
-            ReplaceCacheAdd(puName, p_samdl);
+            if ( !ptr )
+            {
+                RF_MsgWarn("Event Replace System", "Unable to open %s file '%s' in '%s'!\n\nSetting entry to 'nullptr' to avoid a crash.", puFtype, puName, IniFile);
+            }
+            else // file loaded
+            {
+                ReplaceCacheAdd(puName, ptr);
+            }
         }
 
-        return p_samdl->pChunk;
+        return ptr;
     }
+}
+
+static inline NJS_CNK_OBJECT*
+GetReplaceObject(const c8* puName)
+{
+    return GetReplaceFileBinary(puName, "model", ".sa2mdl", IsCnkModelBinary);
 }
 
 static inline NJS_MOTION*
 GetReplaceMotion(const c8* puName)
 {
-    if ( mtStrMatch(puName, "null", STR_NOMAX) )
-    {
-        return nullptr;
-    }
-    else
-    {
-        mt_saanim* p_saanim = ReplaceCacheFind(puName);
-
-        if ( !p_saanim )
-        {
-            mtStrFormat(PathBuffer, BUF_SIZE, "%s/%s", BasePath, puName);
-
-            p_saanim = mtSAAnimLoad(PathBuffer, SAANIM_NOFLAG);
-
-            ReplaceCacheAdd(puName, p_saanim);
-        }
-
-        return p_saanim->pMotion;
-    }
+    return GetReplaceFileBinary(puName, "motion/shape", ".saanim", IsMotionBinary);
 }
 
 /****** Replace Attribute ***********************************************************************/
@@ -397,18 +423,16 @@ ReplaceEventEquipment(isize ixEvent)
         {
             mtStrFormat(buf, 16, "equipment%03i", i);
 
-            /** Motion **/
+            /** Attach Node **/
 
             const c8* pu_attach = mtConfigGetString(p_cnf, buf, "attach_object", nullptr);
 
             if ( pu_attach )
             {
-                mt_samdl* p_samdl = ReplaceCacheFind( pu_attach );
+                NJS_CNK_OBJECT* p_obj = ReplaceCacheFind( pu_attach );
 
-                if ( p_samdl )
+                if ( p_obj )
                 {
-                    NJS_CNK_OBJECT* p_obj = p_samdl->pChunk;
-
                     p_equip[i].pAttachRoot = p_obj;
 
                     const i32 node0 = mtConfigGetInt(p_cnf, buf, "attach_node0", -1);
@@ -425,6 +449,8 @@ ReplaceEventEquipment(isize ixEvent)
                     }
                 }
             }
+
+            /** Equip Model **/
 
             const c8* pu_object0 = mtConfigGetString(p_cnf, buf, "object0", nullptr);
             const c8* pu_object1 = mtConfigGetString(p_cnf, buf, "object1", nullptr);
