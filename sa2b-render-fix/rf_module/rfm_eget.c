@@ -19,15 +19,27 @@
 
 #define getEmblemDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x007986A0)
 
+#define BackupScreen            FUNC_PTR(void, __cdecl, (void), 0x00458EA0)
+#define RestoreScreen           FUNC_PTR(void, __cdecl, (void), 0x00458EE0)
+
 static mt_hookinfo getEmblemDisplayerHookInfo[1];
 static void
 getEmblemDisplayerHook(task* const tp)
 {
+    NJS_MATRIX m;
+    njSetMatrix( &m, _nj_curr_matrix_ );
+
+    BackupScreen();
+
     RFRS_SetTransMode(RFRS_TRANSMD_AUTO_ATEST);
 
     mtHookInfoCall( getEmblemDisplayerHookInfo, getEmblemDisplayer(tp) );
 
     RFRS_SetTransMode(RFRS_TRANSMD_END);
+
+    RestoreScreen();
+
+    njSetMatrix( NULL, &m );
 }
 
 void
