@@ -569,7 +569,7 @@ RFU_NinjaBinaryRead(const c8* fpath, bool(*fnNameCheck)(u32 name))
     {
         p_object = mtMemAlloc(cnk_size);
 
-        if ( mtNinjaBinaryRead(nb, p_object, NULL) < NJBIN_RET_OK )
+        if ( mtNinjaBinaryRead(nb, p_object, NULL, NULL) < NJBIN_RET_OK )
         {
             // there was an error, stop
             mtFree(p_object);

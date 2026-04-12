@@ -107,11 +107,12 @@ i32     mtNinjaBinaryChunk( mt_njbin* pNb, u32* pOutName, usize* pOutSize );
 *     - pNb         : ninja binary
 *     - pDst        : chunk destination buffer
 *     - pOutName    : chunk name out                                                 [opt:NULL]
+*     - pOutSize    : chunk size out                                                 [opt:NULL]
 *
 *   Returns:
 *     Ninja binary return code.
 */
-i32     mtNinjaBinaryRead( mt_njbin* pNb, void* pDst, u32* pOutName );
+i32     mtNinjaBinaryRead( mt_njbin* pNb, void* pDst, u32* pOutName, usize* pOutSize );
 /*
 *   Description:
 *     Allocate a buffer and read the current binary chunk into it, then advance to the next
@@ -146,13 +147,19 @@ void*   mtNinjaBinaryAlloc( mt_njbin* pNb, u32* pOutName, usize* pOutSize );
 */
 mt_njbin* mtNinjaBinaryMem( const void* pMem, usize szMem );
 
+/************************************************************************************************/
+/*
+*   Additional Utils
+*
+*   Notes:
+*     - These are not required for binary reading, and their functions are already done
+*       internally. This are only for more advanced use cases, such as loading a binary file
+*       manually to use with the 'Mem' open function.
+*/
 /****** Utility *********************************************************************************/
 /*
 *   Description:
 *     Endian swap a 4 byte value, to convert raw binary chunk names to/from big endian.
-*
-*   Notes:
-*     - This is already done internally.
 *
 *   Parameters:
 *     - val         : value
@@ -161,6 +168,17 @@ mt_njbin* mtNinjaBinaryMem( const void* pMem, usize szMem );
 *     Endian swapped input value.
 */
 u32     mtNinjaBinarySwap( u32 val );
+/*
+*   Description:
+*     Check if chunk name is from a valid binary chunk.
+*
+*   Parameters:
+*     - name        : binary chunk name, eg. 'NJTL'
+*
+*   Returns:
+*     'true' if it is a valid binary chunk name; or 'false' if not.
+*/
+bool    mtNinjaBinaryCheck( u32 name );
 
 EXTERN_END
 
