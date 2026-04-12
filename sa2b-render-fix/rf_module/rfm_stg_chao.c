@@ -26,6 +26,7 @@
 /********************************/
 /****** Task ************************************************************************************/
 #define OdekakeMachineDisplayer_p       FUNC_PTR(void, __cdecl, (task*), 0x0057E060)
+#define ALO_KarateJudgeDisplayer_p      FUNC_PTR(void, __cdecl, (task*), 0x00575880)
 
 /********************************/
 /*  Source                      */
@@ -56,6 +57,19 @@ OdekakeMachineDisplayerHook(task* tp)
     OffControl3D( NJD_CONTROL_3D_CNK_CONSTANT_ATTR );
 }
 
+static mt_hookinfo ALO_KarateJudgeDisplayer_HI[1];
+static void
+KarateJudgeDisplayerHook(task* tp)
+{
+    const Uint32 ctrl3d = _nj_control_3d_flag_;
+
+    OffControl3D( NJD_CONTROL_3D_CONSTANT_TEXTURE_MATERIAL );
+
+    mtHookInfoCall( ALO_KarateJudgeDisplayer_HI, ALO_KarateJudgeDisplayer_p(tp) );
+
+    _nj_control_3d_flag_ = ctrl3d;
+}
+
 /****** Init ************************************************************************************/
 void
 RFM_ChaoInit(void)
@@ -70,4 +84,6 @@ RFM_ChaoInit(void)
 
         mtHookFunc( OdekakeMachineDisplayerHookInfo, OdekakeMachineDisplayer_p, OdekakeMachineDisplayerHook );
     }
+
+    mtHookFunc(ALO_KarateJudgeDisplayer_HI, ALO_KarateJudgeDisplayer_p, KarateJudgeDisplayerHook);
 }
