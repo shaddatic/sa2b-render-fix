@@ -62,6 +62,7 @@ static i32 MinWaitVsync;            /* minimum wait vsync count                 
 static i64 ClockStart;              /* total frame clock start                      (for vsync) */
 
 /****** Frame Time ******************************************************************************/
+static f64 VsyncTime;               /* vsync wait time                                          */
 static f64 FrameTime;               /* last frametime in milliseconds                           */
 static f64 FrameTimeTotal;          /* total last frametime in milliseconds                     */
 
@@ -149,6 +150,8 @@ RF_SysVsyncSceneStart(void)
             }
         }
 
+        VsyncTime = (vsync_ms > delta_ms) ? (vsync_ms - delta_ms) : 0.0;
+
         const f64 ftotal = (delta_ms + wait_ms);
 
         // frameskip
@@ -182,6 +185,8 @@ RF_SysVsyncSceneStart(void)
     {
         const f64 ftotal = GetMilliseconds(GetClock() - ClockStart, freq);
 
+        VsyncTime = 0.0;
+
         FrameTime      = ftotal;
         FrameTimeTotal = ftotal;
 
@@ -210,7 +215,7 @@ RF_SysVsyncSceneEnd(void)
 
         static f64 s_avg_ms;
 
-        const f64 frame_ms = GetMilliseconds(GetClock() - ClockStart, freq);
+        const f64 frame_ms = FrameTimeTotal - VsyncTime;
 
         const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / GetVsyncWaitValue()) );
 
