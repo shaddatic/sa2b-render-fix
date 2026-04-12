@@ -240,7 +240,7 @@ rjDrawLineList3D(const NJS_POINT3* const vtx, const Sint32 Count, const Float r,
 }
 
 void
-rjDrawLineStrip2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineStrip(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine2DExSetStrip(vtx, ooz, Count);
@@ -248,7 +248,7 @@ rjDrawLineStrip2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Cou
 }
 
 void
-rjDrawLineList2D(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
+rjDrawLineList(const NJS_POINT2* const vtx, const Float ooz, const Sint32 Count, const Float r, const Uint32 Color)
 {
     rjDrawLineExStart(r, Color, (Color & 0xFF000000) != 0xFF000000);
     rjDrawLine2DExSetList(vtx, ooz, Count);

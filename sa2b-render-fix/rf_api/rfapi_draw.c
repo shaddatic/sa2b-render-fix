@@ -98,8 +98,8 @@ const RFAPI_DRAW rfapi_draw =
     /** Ver 2 **/
     .DrawLineStrip3D        = rjDrawLineStrip3D,
     .DrawLineList3D         = rjDrawLineList3D,
-    .DrawLineStrip2D        = rjDrawLineStrip2D,
-    .DrawLineList2D         = rjDrawLineList2D,
+    .DrawLineStrip2D        = rjDrawLineStrip,
+    .DrawLineList2D         = rjDrawLineList,
 
     /** Ver 3 **/
     .CnkModDrawShapeMotion       = (void*) Obsolete,

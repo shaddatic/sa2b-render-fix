@@ -413,25 +413,31 @@ void    rjDrawTexture3DHEx( const NJS_TEXTUREH_VTX* p, Int count, Int trans );
 /****** Draw Line *******************************************************************************/
 /*
 *   Description:
-*     Draw a line in either strip or list mode, in screen space.
+*     Draw a line strip or list, in hardware space.
+* 
+*   Notes:
+*     - Translucency drawing is determined from the alpha component of the line color
 *
 *   Parameters:
 *     - vtx         : list of line vertexes
-*     - ooz         : 1/z, 'z' being the 3D depth of the line
-*     - Count       : number of line vertexes
-*     - r           : radius, in 480p pixels
+*     - ooz         : one over z                                                      [1.f~0.f]
+*     - Count       : vertex count
+*     - r           : line width, in pixels
 *     - Color       : line color                                                [0xAA'RR'GG'BB]
 */
-void    rjDrawLineStrip2D( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
-void    rjDrawLineList2D(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+void    rjDrawLineStrip( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+void    rjDrawLineList(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
 /*
 *   Description:
-*     Draw a line in either strip or list mode, in world space.
+*     Draw a line strip or list, in world space.
+* 
+*   Notes:
+*     - Translucency drawing is determined from the alpha component of the line color
 *
 *   Parameters:
 *     - vtx         : list of line vertexes
-*     - Count       : number of line vertexes
-*     - r           : radius, in 480p pixels
+*     - Count       : vertex count
+*     - r           : line width, in pixels
 *     - Color       : line color                                                [0xAA'RR'GG'BB]
 */
 void    rjDrawLineStrip3D( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );

@@ -32,8 +32,8 @@ const RFAPI_NJDRAW rfapi_njdraw =
     .DrawTexture3DEx  = rjDrawTexture3DEx,
     .DrawTexture3DHEx = rjDrawTexture3DHEx,
 
-    .DrawLineStrip2D  = rjDrawLineStrip2D,
-    .DrawLineList2D   = rjDrawLineList2D,
+    .DrawLineStrip  = rjDrawLineStrip,
+    .DrawLineList   = rjDrawLineList,
 
     .DrawLineStrip3D  = rjDrawLineStrip3D,
     .DrawLineList3D   = rjDrawLineList3D,

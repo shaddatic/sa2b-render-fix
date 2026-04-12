@@ -33,7 +33,11 @@ typedef struct
 
     /****** Version >= 0 ********************************************************************/
 
-    /**** Direct Polygon ************************************/
+    /********************************************************/
+    /*
+    *   Polygon
+    */
+    /**** Non-Tex *******************************************/
     /*
     *   Description:
     *     Draw a non-tex polygon, in screen space.
@@ -44,6 +48,8 @@ typedef struct
     *     - trans       : translucency flag                                        [TRUE/FALSE]
     */
     void (*DrawPolygon)( const NJS_POLYGON_VTX* polygon, Int count, Int trans );
+
+    /**** Texture *******************************************/
     /*
     *   Description:
     *     Draw a textured polygon with texture GBIX parameter, in screen space.
@@ -68,7 +74,7 @@ typedef struct
     */
     void (*DrawTextureH)( const NJS_TEXTUREH_VTX* polygon, Int count, Int tex, Int flag );
 
-    /**** Polygon Ex ****************************************/
+    /**** Texture Ex ****************************************/
     /*
     *   Description:
     *     Draw a textured polygon, in screen space.
@@ -96,7 +102,11 @@ typedef struct
     */
     void (*DrawTextureHEx)( const NJS_TEXTUREH_VTX* polygon, Int count, Int trans );
 
-    /**** Polygon 3D ****************************************/
+    /********************************************************/
+    /*
+    *   Polygon 3D
+    */
+    /**** Non-Tex *******************************************/
     /*
     *   Description:
     *     Draw a non-tex polygon, in world space.
@@ -107,6 +117,8 @@ typedef struct
     *     - trans       : translucency flag                                        [TRUE/FALSE]
     */
     void (*DrawPolygon3DEx)( const NJS_POLYGON_VTX* p, Int count, Int trans );
+
+    /**** Texture *******************************************/
     /*
     *   Description:
     *     Draw a textured polygon, in world space.
@@ -134,35 +146,49 @@ typedef struct
     */
     void (*DrawTexture3DHEx)( const NJS_TEXTUREH_VTX* p, Int count, Int trans );
 
-    /**** Line 2D ********************************************/
+    /********************************************************/
     /*
-    *   Description:
-    *     Draw a line in either strip or list mode, in screen space.
-    *
-    *   Parameters:
-    *     - vtx         : list of line vertexes
-    *     - ooz         : 1/z, 'z' being the 3D depth of the line
-    *     - Count       : number of line vertexes
-    *     - r           : radius, in 480p pixels
-    *     - Color       : line color to draw                                    [0xAA'RR'GG'BB]
+    *   Line
     */
-    void (*DrawLineStrip2D)( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
-    void (*DrawLineList2D)(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
-
-    /**** Line 3D ********************************************/
+    /**** Hw ************************************************/
     /*
     *   Description:
-    *     Draw a line in either strip or list mode, in world space.
+    *     Draw a line strip or list, in hardware space.
+    * 
+    *   Notes:
+    *     - Translucency drawing is determined from the alpha component of the line color
     *
     *   Parameters:
     *     - vtx         : list of line vertexes
-    *     - Count       : number of line vertexes
-    *     - r           : radius, in 480p pixels
-    *     - Color       : line color to draw                                    [0xAA'RR'GG'BB]
+    *     - ooz         : one over z                                                  [1.f~0.f]
+    *     - Count       : vertex count
+    *     - r           : line width, in pixels
+    *     - Color       : line color                                            [0xAA'RR'GG'BB]
+    */
+    void (*DrawLineStrip)( const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+    void (*DrawLineList)(  const NJS_POINT2* vtx, Float ooz, Sint32 Count, Float r, Uint32 Color );
+
+    /**** 3D ************************************************/
+    /*
+    *   Description:
+    *     Draw a line strip or list, in world space.
+    * 
+    *   Notes:
+    *     - Translucency drawing is determined from the alpha component of the line color
+    *
+    *   Parameters:
+    *     - vtx         : list of line vertexes
+    *     - Count       : vertex count
+    *     - r           : line width, in pixels
+    *     - Color       : line color                                            [0xAA'RR'GG'BB]
     */
     void (*DrawLineStrip3D)( const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
     void (*DrawLineList3D)(  const NJS_POINT3* vtx, Sint32 Count, Float r, Uint32 Color );
 
+    /********************************************************/
+    /*
+    *   Sprite
+    */
     /**** Sprite ********************************************/
     /*
     *   Description:
@@ -186,7 +212,11 @@ typedef struct
     */
     void (*DrawSprite3D)( const NJS_SPRITE* sp, Int n, Uint32 attr );
 
-    /**** Draw 2D *******************************************/
+    /********************************************************/
+    /*
+    *   Polygon 2D
+    */
+    /**** Non-Tex *******************************************/
     /*
     *   Description:
     *     Draw a non-tex polygon, with Ninja '2D draw' params.
