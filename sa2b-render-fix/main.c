@@ -113,7 +113,6 @@ OnRenderDeviceLost(void)
     RJ_OnDeviceLost();
 }
 
-
 EXPORT_DLL
 void __cdecl
 OnRenderDeviceReset(void)
