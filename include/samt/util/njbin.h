@@ -50,6 +50,41 @@ mt_njbin* mtNinjaBinaryOpen( const c8* puFile );
 */
 i32     mtNinjaBinaryClose( mt_njbin* pNb );
 
+/****** Open File *******************************************************************************/
+/*
+*   Description:
+*     Open a binary file from an already open file stream.
+*
+*   Notes:
+*     - Managing the file stream after reading is completed is left up to you, not mt.
+*
+*   Parameters:
+*     - f           : file stream
+*
+*   Returns:
+*     Ninja binary reference; or 'nullptr' on failure.
+*/
+mt_njbin* mtNinjaBinaryFile( FILE* f );
+
+/****** Open Memory *****************************************************************************/
+/*
+*   Description:
+*     Open a binary file that's already loaded in memory.
+*
+*   Notes:
+*     - While a memory size of '0' is accepted, it will prevent mt from catching EOF errors
+*       early. Only read what you know the binary file contains, and no more.
+*     - Managing the input memory after reading is completed is left up to you, not mt.
+*
+*   Parameters:
+*     - pMem        : binary memory buffer
+*     - szMem       : binary size                                                       [opt:0]
+*
+*   Returns:
+*     Ninja binary reference; or 'nullptr' on failure.
+*/
+mt_njbin* mtNinjaBinaryMem( const void* pMem, usize szMem );
+
 /****** Seek ************************************************************************************/
 /*
 *   Description:
@@ -127,25 +162,6 @@ i32     mtNinjaBinaryRead( mt_njbin* pNb, void* pDst, u32* pOutName, usize* pOut
 *     Allocated buffer with binary data; or 'nullptr' on error.
 */
 void*   mtNinjaBinaryAlloc( mt_njbin* pNb, u32* pOutName, usize* pOutSize );
-
-/****** Open Memory *****************************************************************************/
-/*
-*   Description:
-*     Open a binary file that's already loaded in memory.
-*
-*   Notes:
-*     - While a memory size of '0' is accepted, it will prevent mt from catching EOF errors
-*       early. Only read what you know the binary file contains, and no more.
-*     - Managing the input memory after reading is completed is left up to you, not mt.
-*
-*   Parameters:
-*     - pMem        : binary memory buffer
-*     - szMem       : binary size                                                       [opt:0]
-*
-*   Returns:
-*     Ninja binary reference; or 'nullptr' on failure.
-*/
-mt_njbin* mtNinjaBinaryMem( const void* pMem, usize szMem );
 
 /************************************************************************************************/
 /*

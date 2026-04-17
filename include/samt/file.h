@@ -124,9 +124,9 @@ bool    mtFileClose( FILE* f );
 *     - sz      : size of read, in bytes
 *
 *   Returns:
-*     Number of bytes written to the buffer; or '0' on failure.
+*     Number of bytes read into the buffer; or '-1' on failure.
 */
-isize   mtFileRead( FILE* f, void* pDst, usize sz );
+lsize   mtFileRead( FILE* f, void* pDst, usize sz );
 /*
 *   Description:
 *     Write to an open file stream, and advance the seek offset.
@@ -137,24 +137,9 @@ isize   mtFileRead( FILE* f, void* pDst, usize sz );
 *     - sz      : size of write, in bytes
 *
 *   Returns:
-*     Number of bytes written to the buffer; or '0' on failure.
+*     Number of bytes written to the file; or '-1' on failure.
 */
-isize   mtFileWrite( FILE* f, const void* pSrc, usize sz );
-/*
-*   Description:
-*     Write the same section of a source buffer to an open file stream multiple
-*   times, and advance the seek offset.
-*
-*   Parameters:
-*     - f       : open file stream
-*     - pSrc    : write source
-*     - sz      : size of write, in bytes
-*     - nb      : number of times to repeat
-*
-*   Returns:
-*     Number of bytes written to the buffer; or '0' on failure.
-*/
-isize   mtFileWriteMulti( FILE* f, const void* pSrc, usize sz, usize nb );
+lsize   mtFileWrite( FILE* f, const void* pSrc, usize sz );
 
 /****** File Seek *******************************************************************************/
 /*
@@ -168,7 +153,7 @@ isize   mtFileWriteMulti( FILE* f, const void* pSrc, usize sz, usize nb );
 *   Returns:
 *     'true' on success; or 'false' on failure.
 */
-bool    mtFileSeekSet( FILE* f, i32 offset );
+bool    mtFileSeekSet( FILE* f, lsize offset );
 /*
 *   Description:
 *     Move the seek offset relative to its current position
@@ -180,7 +165,7 @@ bool    mtFileSeekSet( FILE* f, i32 offset );
 *   Returns:
 *     'true' on success; or 'false' on failure.
 */
-bool    mtFileSeekAdvance( FILE* f, i32 offset );
+bool    mtFileSeekAdvance( FILE* f, lsize offset );
 /*
 *   Description:
 *     Get the current seek offset
@@ -191,7 +176,7 @@ bool    mtFileSeekAdvance( FILE* f, i32 offset );
 *   Returns:
 *     The current seek offset of the file stream.
 */
-i32     mtFileSeekGet( FILE* f );
+lsize   mtFileSeekGet( FILE* f );
 /*
 *   Description:
 *     Set seek offset to the start of the file
@@ -234,7 +219,7 @@ bool    mtFileEof( FILE* f );
 *   Returns:
 *     The total size of the open file stream, in bytes.
 */
-isize   mtFileSize( FILE* f );
+lsize   mtFileSize( FILE* f );
 
 /************************************************************************************************/
 /*
@@ -243,11 +228,11 @@ isize   mtFileSize( FILE* f );
 /****** File Load *******************************************************************************/
 /*
 *   Description:
-*     Load an entire file into a buffer, with an optional returned size parameter.
+*     Load an entire file into a new allocated buffer, with an optional returned size parameter.
 *
 *   Parameters:
 *     - puPath      : file path
-*     - pOptOutSize : return size of loaded file                                  [opt:nullptr]
+*     - pOptOutSize : return size of loaded file                                     [opt:NULL]
 *
 *   Returns:
 *     Memory buffer containing the entire file; or 'nullptr' on failure, with the size set to
@@ -265,12 +250,12 @@ void*   mtFileLoad( const c8* puPath, isize* pOptOutSize );
 *     Read the 'nb' bytes of a file at 'fpath' into 'pBuf'
 *
 *   Parameters:
-*     - fpath   : path to file encoded in ASCII or UTF-8
-*     - pBuf    : buffer to read into from file
-*     - nb      : number of bytes to read into 'pBuf'
+*     - puPath      : path to file
+*     - pDst        : destination buffer to read into
+*     - sz          : size of read, in bytes
 *
 *   Returns:
-*     Number of bytes written to the buffer, 0 indicates an error
+*     Number of bytes read into the buffer; or '-1' on failure.
 */
 isize   mtFileReadEx( const c8* puPath, void* pDst, usize sz );
 /*
@@ -278,12 +263,12 @@ isize   mtFileReadEx( const c8* puPath, void* pDst, usize sz );
 *     Create & write 'nb' bytes into a file at 'fpath' from 'pBuf'
 *
 *   Parameters:
-*     - fpath   : path to file encoded in ASCII or UTF-8
-*     - pBuf    : buffer to write to file
-*     - nb      : number of bytes to write out
+*     - puPath      : path to file
+*     - pSrc        : source buffer to write into file
+*     - sz          : size of write, in bytes
 *
 *   Returns:
-*     Number of bytes written to the file, 0 indicates an error
+*     Number of bytes written to the file; or '-1' on failure.
 */
 isize   mtFileWriteEx( const c8* puPath, const void* pSrc, usize sz );
 /*
@@ -291,12 +276,12 @@ isize   mtFileWriteEx( const c8* puPath, const void* pSrc, usize sz );
 *     Write 'nb' bytes to the end of a file at 'fpath' from 'pBuf'
 *
 *   Parameters:
-*     - fpath   : path to file encoded in ASCII or UTF-8
-*     - pBuf    : buffer to write out to file
-*     - nb      : number of bytes to write out
+*     - puPath      : path to file
+*     - pSrc        : source buffer to append onto file
+*     - sz          : size of write, in bytes
 *
 *   Returns:
-*     Number of bytes written to the file, 0 indicates an error
+*     Number of bytes written to the file; or '-1' on failure.
 */
 isize   mtFileAppendEx( const c8* puPath, const void* pSrc, usize sz );
 
