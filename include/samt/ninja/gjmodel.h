@@ -22,14 +22,42 @@ EXTERN_START
 /********************************/
 /*  Constants                   */
 /********************************/
+/************************************************************************************************/
+/*
+*   Vlist
+*/
 /****** Vlist Type ******************************************************************************/
-#define GJD_VLIST_BASIC             (  0) /* vlist no weights entry, same as full weight        */
-#define GJD_VLIST_START             (  1) /* vlist weight start entry                           */
-#define GJD_VLIST_MIDDLE            (  2) /* vlist weight middle entry                          */
-#define GJD_VLIST_END               (  3) /* vlist end, no data                                 */
+#define GJD_VLIST_BASIC             (0) /* vlist no weights entry, same as full weight          */
+#define GJD_VLIST_START             (1) /* vlist weight start entry                             */
+#define GJD_VLIST_MIDDLE            (2) /* vlist weight middle entry                            */
+#define GJD_VLIST_END               (3) /* vlist end, no data                                   */
+
+/************************************************************************************************/
+/*
+*   Flag STrip 1
+*/
+/****** Channel Num *****************************************************************************/
+#define GJD_FST_CHAN_SHIFT          (0) /* channel count shift                                  */
+#define GJD_FST_CHAN_MASK           (0x3<<GJD_FST_CHAN_SHIFT)
+
+/****** Tex Gen Num *****************************************************************************/
+#define GJD_FST_TEXGEN_SHIFT        (4) /* tex gen count shift                                  */
+#define GJD_FST_TEXGEN_MASK         (0xF<<GJD_FST_TEXGEN_SHIFT)
 
 /****** Strip Flags *****************************************************************************/
-#define GJD_FST_DB               (0x8000) /* double sided                                       */
+#define GJD_FST_SHIFT               (8) /* strip flag shift                                     */
+#define GJD_FST_IL                  (0x01<<GJD_FST_SHIFT) /* ignore lighting                    */
+#define GJD_FST_IS                  (0x02<<GJD_FST_SHIFT) /* ignore specular           (unused) */
+#define GJD_FST_IA                  (0x04<<GJD_FST_SHIFT) /* ignore ambient            (unused) */
+#define GJD_FST_VM                  (0x08<<GJD_FST_SHIFT) /* src color from vertex              */
+#define GJD_FST_VA                  (0x10<<GJD_FST_SHIFT) /* src ambient from vertex            */
+#define GJD_FST_UA                  (0x20<<GJD_FST_SHIFT) /* use translucent drawing            */
+#define GJD_FST_NPT                 (0x40<<GJD_FST_SHIFT) /* disable punchthrough               */
+#define GJD_FST_DB                  (0x80<<GJD_FST_SHIFT) /* double sided                       */
+
+/****** Tev Stage Num ***************************************************************************/
+#define GJD_FST_TEVSTG_SHIFT        (16) /* tev stage count shift                               */
+#define GJD_FST_TEVSTG_MASK         (0xF<<GJD_FST_TEVSTG_SHIFT)
 
 /********************************/
 /*  Enums                       */
