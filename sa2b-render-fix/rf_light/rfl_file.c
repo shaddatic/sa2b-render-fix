@@ -175,11 +175,11 @@ LoadLightFile_RF(const char* pcFileName)
 
         LIGHT* p_lights = (void*) &GlobalBuffer[0x400];
 
-        if ( mtFileReadEx(pu_light_dc, p_lights, SIZEOF_LIGHTBIN) )
+        if ( mtFileReadEx(pu_light_dc, p_lights, SIZEOF_LIGHTBIN) > 0 )
         {
             ByteswapLights(p_lights);
 
-            mtMemCopy(Lights, p_lights, SIZEOF_LIGHTBIN);
+            mtMemCopy32(Lights, p_lights, SIZEOF_LIGHTBIN / sizeof(u32));
 
             has_dc_file = true;
         }
@@ -191,11 +191,11 @@ LoadLightFile_RF(const char* pcFileName)
 
         LIGHT_GC* p_lights = (void*) &GlobalBuffer[0x400];
 
-        if ( mtFileReadEx(pu_light_gc, p_lights, SIZEOF_LIGHTBIN_GC) )
+        if ( mtFileReadEx(pu_light_gc, p_lights, SIZEOF_LIGHTBIN_GC) > 0 )
         {
             ByteswapLightsGC(p_lights);
 
-            mtMemCopy(LightsGC, p_lights, SIZEOF_LIGHTBIN_GC);
+            mtMemCopy32(LightsGC, p_lights, SIZEOF_LIGHTBIN_GC / sizeof(u32));
 
             has_gc_file = true;
         }
@@ -205,7 +205,7 @@ LoadLightFile_RF(const char* pcFileName)
 
     if ( has_dc_file && !has_gc_file )
     {
-        mtMemSet(LightsGC, 0x00, SIZEOF_LIGHTBIN_GC);
+        mtMemSet32(LightsGC, 0x00, SIZEOF_LIGHTBIN_GC / sizeof(u32));
     }
 }
 
