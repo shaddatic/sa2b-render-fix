@@ -70,7 +70,7 @@ IsCnkModelBinary(u32 name)
 static bool
 IsMotionBinary(u32 name)
 {
-    return (name == 'NMDM' || name == 'NSSM');
+    return (name == 'NMDM' || name == 'NCAM' || name == 'NSSM');
 }
 
 /****** Cache ***********************************************************************************/
