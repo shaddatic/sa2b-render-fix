@@ -364,33 +364,33 @@ i8      SE_Call_Event( i32 tone );
 */
 i8      SE_Call_Ring( i8 pno );
 
+#ifdef SAMT_INCL_FUNCPTRS
+
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef SAMT_INCL_FUNCPTRS
-
 /****** Standard ********************************************************************/
 #define SE_Stop_All_p           FUNC_PTR(void, __cdecl, (void), 0x00437E90)
 #define SE_Call_Ring_p          FUNC_PTR(i8  , __cdecl, (i8)  , 0x004377D0)
 
 /****** Usercall ********************************************************************/
-#define SE_Call_p               (0x00437260) /*  AL(ESI, STK, STK, STK)             */
-#define SE_CallV2_p             (0x004372E0) /*  AL(EDI, STK, STK, STK, ESI)        */
-#define SE_Call_Loop_p          (0x00437360) /*  AL(ESI, STK, STK)                  */
-#define SE_CallV2_Loop_p        (0x00437420) /*  AL(EDI, EBX, STK, ESI)             */
-#define SE_Call_Timer_p         (0x004374D0) /*  AL(ESI, STK, STK, STK, STK)        */
-#define SE_CallV2_Timer_p       (0x00437590) /*  AL(EDI, EBX, STK, STK, STK, ESI)   */
-#define SE_Call_SCLoop_p        (0x00437640) /*  AL(###, STK, ###, ###, EAX)        */
-#define SE_CallV2_SCLoop_p      (0x00437710) /*  AL(EDI, EBX, STK, STK, STK, ESI)   */
-#define SE_Stop_Tone_p          (0x00437DD0) /* ###(EDX)                            */
-#define SE_Stop_ID_p            (0x00437E10) /* ###(EDX)                            */
-#define SE_Stop_p               (0x00437E50) /* ###(ESI, EDX)                       */
-#define SE_Change_Volume_p      (0x00437F60) /* ###(ESI, EDI, EDX)                  */
-#define SE_Change_Pan_p         (0x00437FB0) /* ###(ESI, EDI, EDX)                  */
-#define SE_Change_Pitch_p       (0x00438000) /* ###(ESI, EDI, EDX)                  */
-#define SE_Calc_Pan_p           (0x00438050) /* ###(ESI, EDX)                       */
-#define SE_Calc_Pitch_p         (0x00438090) /* ###(EDI, ESI, ECX)                  */
-#define SE_Call_Event_p         (0x00437960) /*  AL(ESI)                            */
+#define SE_Call_p               0x00437260 /*  AL(ESI, STK, STK, STK)               */
+#define SE_CallV2_p             0x004372E0 /*  AL(EDI, STK, STK, STK, ESI)          */
+#define SE_Call_Loop_p          0x00437360 /*  AL(ESI, STK, STK)                    */
+#define SE_CallV2_Loop_p        0x00437420 /*  AL(EDI, EBX, STK, ESI)               */
+#define SE_Call_Timer_p         0x004374D0 /*  AL(ESI, STK, STK, STK, STK)          */
+#define SE_CallV2_Timer_p       0x00437590 /*  AL(EDI, EBX, STK, STK, STK, ESI)     */
+#define SE_Call_SCLoop_p        0x00437640 /*  AL(###, STK, ###, ###, EAX)          */
+#define SE_CallV2_SCLoop_p      0x00437710 /*  AL(EDI, EBX, STK, STK, STK, ESI)     */
+#define SE_Stop_Tone_p          0x00437DD0 /* ###(EDX)                              */
+#define SE_Stop_ID_p            0x00437E10 /* ###(EDX)                              */
+#define SE_Stop_p               0x00437E50 /* ###(ESI, EDX)                         */
+#define SE_Change_Volume_p      0x00437F60 /* ###(ESI, EDI, EDX)                    */
+#define SE_Change_Pan_p         0x00437FB0 /* ###(ESI, EDI, EDX)                    */
+#define SE_Change_Pitch_p       0x00438000 /* ###(ESI, EDI, EDX)                    */
+#define SE_Calc_Pan_p           0x00438050 /* ###(ESI, EDX)                         */
+#define SE_Calc_Pitch_p         0x00438090 /* ###(EDI, ESI, ECX)                    */
+#define SE_Call_Event_p         0x00437960 /*  AL(ESI)                              */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

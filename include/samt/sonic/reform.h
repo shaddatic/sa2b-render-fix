@@ -81,8 +81,8 @@ void    ExecReform( reformwk* rwp );
 #define CreateReform_p                  FUNC_PTR(reformwk*, __cdecl, (const NJS_CNK_OBJECT*), 0x00447580)
 
 /****** Usercall Pointers ***********************************************************************/
-#define FreeReform_p                    ((void*)0x00447910)
-#define ExecReform_p                    ((void*)0x004479E0)
+#define FreeReform_p                    0x00447910 /* ###(ESI)                                  */
+#define ExecReform_p                    0x004479E0 /* ###(EAX)                                  */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

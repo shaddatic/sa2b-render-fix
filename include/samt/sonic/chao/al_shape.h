@@ -194,7 +194,7 @@ EXTERN_END
 #   define GetList_p                    FUNC_PTR(int32_t    , __cdecl, (AL_OBJECT*, AL_OBJECT**, int32_t)             , 0x0056BC90)
 
 /** User-Function ptrs **/
-#   define AL_GetObjectList_p           ((void*)0x0056BCD0)
+#   define AL_GetObjectList_p           0x0056BCD0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -140,11 +140,11 @@ i32     LoadPrsMEM( const char* fname, NJS_TEXLIST* ptlo );
 #define texCreateTexlist_p               FUNC_PTR(NJS_TEXLIST*, __fastcall, (const char*)              , 0x0044C510)
 
 /****** Usercall Pointers ***********************************************************************/
-#define texLoadTexturePvmList_p          ((void*)0x0044C7B0) /* ###(EAX,STK)                    */
-#define texReleaseTexturePvmList_p       ((void*)0x0044C810) /* ###(ECX,EAX)                    */
-#define texCopyTexture_p                 ((void*)0x0044C880) /* ###(ECX,STK)                    */
-#define LoadPakMEM_p                     ((void*)0x00430B10) /* EAX(EAX,STK)                    */
-#define LoadPrsMEM_p                     ((void*)0x0044C620) /* EAX(STK,ECX)                    */
+#define texLoadTexturePvmList_p          0x0044C7B0 /* ###(EAX,STK)                             */
+#define texReleaseTexturePvmList_p       0x0044C810 /* ###(ECX,EAX)                             */
+#define texCopyTexture_p                 0x0044C880 /* ###(ECX,STK)                             */
+#define LoadPakMEM_p                     0x00430B10 /* EAX(EAX,STK)                             */
+#define LoadPrsMEM_p                     0x0044C620 /* EAX(STK,ECX)                             */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

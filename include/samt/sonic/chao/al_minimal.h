@@ -296,8 +296,8 @@ void    AL_MinimalDestructor( task* tp );
 */
 
 /****** Exec Functions **************************************************************/
-#define AL_MinimalHeldP_p            ((void*)0x00548730)/* ###(EDI)                 */
-#define AL_MinimalHeldC_p            ((void*)0x00548870)/* ###(EAX)                 */
+#define AL_MinimalHeldP_p            0x00548730/* ###(EDI)                          */
+#define AL_MinimalHeldC_p            0x00548870/* ###(EAX)                          */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

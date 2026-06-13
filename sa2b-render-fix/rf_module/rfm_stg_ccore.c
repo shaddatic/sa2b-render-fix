@@ -2,7 +2,7 @@
 #include <samt/model.h>
 
 /** Game **/
-#include <samt/sonic/landtable.h>
+#include <samt/sonic/land.h>
 #include <samt/sonic/datadll.h>
 
 /** Std **/

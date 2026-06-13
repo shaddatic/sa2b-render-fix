@@ -8,6 +8,6 @@
 
 void    njPtclPolygonStart(Uint32 col);
 void    njPtclPolygonEnd(void);
-void    njPtclDrawPolygon(NJS_POINT3* p, Sint32 n, Float h);
+void    njPtclDrawPolygon(const NJS_POINT3* p, Sint32 n, Float h);
 
 #endif/*_NINJA_PTCL_H_*/

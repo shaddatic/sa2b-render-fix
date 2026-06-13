@@ -43,7 +43,7 @@ EXTERN_END
 #   define ALO_HorseDestructor_p    FUNC_PTR(void, __cdecl, (task*), 0x0057B9B0)
 
 /** User-Function ptrs **/
-#   define ALO_HorseCreate_p        ((void*)0x00580F30)
+#   define ALO_HorseCreate_p        0x00580F30
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

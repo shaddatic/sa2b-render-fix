@@ -33,8 +33,8 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** Function ptrs **/
-#   define AL_GeneCreate_p          ((void*)0x005506B0)
-#   define AL_GeneAnalyzeCommon_p   ((void*)0x00551DA0)
+#   define AL_GeneCreate_p          0x005506B0
+#   define AL_GeneAnalyzeCommon_p   0x00551DA0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

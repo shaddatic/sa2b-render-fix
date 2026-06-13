@@ -72,7 +72,7 @@ void    UvChangeCnk( NJS_CNK_MODEL* pModel, UVCHANGEINFO* pUvcInfo, i32 frame );
 /*  Function Pointers           */
 /********************************/
 /****** Usercall Pointers ***********************************************************************/
-#define UvChangeCnk_p               ((void*)0x00795790) /* ###(STK, ESI, STK)                   */
+#define UvChangeCnk_p               0x00795790 /* ###(STK, ESI, STK)                            */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

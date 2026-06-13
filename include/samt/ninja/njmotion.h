@@ -352,12 +352,12 @@ typedef struct
     NJF_MOTION_INT_F3_FUNC*  int_f3_func_p;  /* Float[3] function                               */
     NJF_MOTION_INT_A3_FUNC*  int_a3_func_p;  /* Angle[3] function                               */
     NJF_MOTION_INT_A1_FUNC*  int_a1_func_p;  /* Angle[1] function                               */
-    NJF_MOTION_INT_SA3_FUNC* int_sa3_func_p; /* Sangle[3] function                              */
 
     /** For GetMotion functions **/
-    int (*get_pos_func_p)( Float pos[3] ); /* get position                                      */
-    int (*get_ang_func_p)( Angle ang[3] ); /* get angle                                         */
-    int (*get_scl_func_p)( Float scl[3] ); /* get scale                                         */
+    int (*get_pos_func_p)( Float pos[3] );        /* get position                               */
+    int (*get_ang_func_p)( Angle ang[3] );        /* get angle                                  */
+    int (*get_scl_func_p)( Float scl[3] );        /* get scale                                  */
+    int (*get_qua_func_p)( NJS_QUATERNION* qua ); /* get quat                                   */
 }
 NJS_CUR_MOTION_INFO;
 

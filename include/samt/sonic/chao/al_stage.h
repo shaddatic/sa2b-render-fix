@@ -167,7 +167,7 @@ void    AL_WaitForSaveHookRemove( task* tp );
 #   define AL_ChangeStage_p     FUNC_PTR(void, __cdecl, (eCHAO_STAGE_NUMBER), 0x0052B5B0)
 
 /****** Usercall Pointers ***********************************************************/
-#   define AL_GetLocalChaoCount_p       ((void*)0x005319F0)
+#   define AL_GetLocalChaoCount_p       0x005319F0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

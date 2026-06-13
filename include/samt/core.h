@@ -19,16 +19,44 @@
 
 /****** Core Errors *****************************************************************************/
 #ifndef SAMT_NO_COREERR
-#   if !defined(_MSC_VER)
-#       error "SAMT is designed for the MSVC compiler"
-#   endif
+#   if defined(__clang__)
 
-#   if !defined(_M_IX86)
-#       error "Mod is being built for a non-x86 platform, please change your platform target to x86"
-#   endif
+#       define MT_C_CLANG   1
+#       define MT_CNAME     "clang"
 
-#   if !defined(__clang__)
+#       if !defined(__i386__)
+#           error "Mod is being built for a non-x86 platform, please change your platform target to x86"
+#       endif
+#       if defined(__cplusplus) && (__cplusplus < 202002L)
+#           error "SAMT is designed for C++20 or later, please change the project's C++ standard target"
+#       endif
+#       if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 202311L)
+#           error "SAMT is designed for C23 or later, please change the project's C standard target"
+#       endif
 
+#   elif defined(__GNUC__)
+
+#       define MT_C_GCC     1
+#       define MT_CNAME     "gnuc"
+
+#       if !defined(__i386__)
+#           error "Mod is being built for a non-x86 platform, please change your platform target to x86"
+#       endif
+#       if defined(__cplusplus) && (__cplusplus < 202002L)
+#           error "SAMT is designed for C++20 or later, please change the project's C++ standard target"
+#       endif
+#       if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 202311L)
+#           error "SAMT is designed for C23 or later, please change the project's C standard target"
+#       endif
+
+#   elif defined(_MSC_VER)
+
+#       define MT_C_MSVC    1
+#       define MT_CNAME     "msvc"
+
+#       if !defined(_M_IX86)
+#           error "Mod is being built for a non-x86 platform, please change your platform target to x86"
+#       endif
 #       if defined(_MSVC_TRADITIONAL) && (_MSVC_TRADITIONAL != 0)
 #           error "SAMT is designed for the standard conforming MSVC preprocessor, please enable either in your project's settings"
 #       endif
@@ -39,16 +67,9 @@
 #           error "SAMT for MSVC is designed for C17 or later, please change the project's C standard target"
 #       endif
 
-#   else/*__clang__*/
-
-#       if defined(__cplusplus) && (__cplusplus < 202002L)
-#           error "SAMT is designed for C++20 or later, please change the project's C++ standard target"
-#       endif
-#       if defined(__STDC_VERSION__) && (__STDC_VERSION__ < 202311L)
-#           error "SAMT for Clang is designed for C23 or later, please change the project's C standard target"
-#       endif
-
-#   endif/*__clang__*/
+#   else
+#       error "Unknown compiler! Support for this compiler should be explicitly supported before attempting to build!"
+#   endif/*__clang__, __GNUC__, _MSC_VER*/
 #endif/*SAMT_DONT_COREERR*/
 
 /****** C++ Debug Fix ***************************************************************************/

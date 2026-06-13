@@ -50,8 +50,8 @@ void    GX_SetPointSize(uint8_t pxSize);
 #   define GX_SetCullMode_p             FUNC_PTR(void, __fastcall, (int32_t), 0x00420440)
 
 /** User-function ptrs **/
-#   define GX_SetBlendMode_p            ((void*)0x00420480)
-#   define GX_SetPointSize_p            ((void*)0x004203F0)
+#   define GX_SetBlendMode_p            0x00420480
+#   define GX_SetPointSize_p            0x004203F0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -52,7 +52,7 @@ ODEKAKE_WORK;
 /*  Functions           */
 /************************/
 EXTERN_START
-void    ALO_OdekakeMachineCreate(NJS_POINT3* pPos, Angle angy);
+void    ALO_OdekakeMachineCreate(const NJS_POINT3* pPos, Angle angy);
 
 /** Task functions **/
 void    ALO_OdekakeMachine(task* tp);
@@ -73,7 +73,7 @@ EXTERN_END
 #   define ALO_OdekakeMachineDestructor_p           FUNC_PTR(void, __cdecl, (task*), 0x0057E040)
 
 /** User-Function ptrs **/
-#   define ALO_OdekakeMachineCreate_p               ((void*)0x0057E4F0)
+#   define ALO_OdekakeMachineCreate_p               0x0057E4F0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

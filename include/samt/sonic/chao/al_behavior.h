@@ -50,8 +50,8 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-#   define AL_SetBehaviorWithTimer_p    ((void*)0x0053D890)
-#   define AL_SetNextBehavior_p         ((void*)0x0053D970)
+#   define AL_SetBehaviorWithTimer_p    0x0053D890
+#   define AL_SetNextBehavior_p         0x0053D970
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

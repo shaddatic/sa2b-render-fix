@@ -116,24 +116,26 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-#   define MotionInit_p             ((void*)0x00793880)
-#   define MotionControl_p          ((void*)0x007938D0)
-#   define SetMotionLink_p          ((void*)0x00793C40)
-#   define SetMotionLinkStep_p      ((void*)0x00793D30)
-#   define DrawMotion_p             ((void*)0x00793F90)
-#   define DrawGinjaMotion_p        ((void*)0x00794010)
+#   define MotionInit_p             0x00793880
+#   define MotionControl_p          0x007938D0
+#   define SetMotionLink_p          0x00793C40
+#   define SetMotionLinkStep_p      0x00793D30
+#   define DrawMotion_p             0x00793F90
+#   define DrawGinjaMotion_p        0x00794010
 
-#   define IsMotionEnd_p            ((void*)0x00793F70)
-#   define IsMotionStop_p           ((void*)0x00793F80)
+#   define SetMotionFrame_p         0x00794070
 
-#   define SetMotionLinkSync_p      ((void*)0x00793D90)
+#   define IsMotionEnd_p            0x00793F70
+#   define IsMotionStop_p           0x00793F80
 
-#   define SetMotionChange_p        ((void*)0x00793EA0)
-#   define SetMotionSkip_p          ((void*)0x00793E40)
+#   define SetMotionLinkSync_p      0x00793D90
 
-#   define SetMotionNext_p          ((void*)0x00793CB0)
+#   define SetMotionChange_p        0x00793EA0
+#   define SetMotionSkip_p          0x00793E40
 
-#   define SetMotionNum_p           ((void*)0x00793F10)
+#   define SetMotionNext_p          0x00793CB0
+
+#   define SetMotionNum_p           0x00793F10
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

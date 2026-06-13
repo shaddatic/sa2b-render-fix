@@ -109,7 +109,7 @@ typedef enum
     GJ_POS_XYZ,                     /* position, xyz                                            */
     GJ_NRM_XYZ,                     /* normal, xyz                                              */
     GJ_NRM_NBT,                     /* normal, normal/binormal/tangent                          */
-    GJ_NRM_NBT3,                    /* normal, normal/binormal/tangent (3?)                     */
+    GJ_NRM_NBT3,                    /* normal, normal/binormal/tangent as 3 components          */
     GJ_CLR_RGB,                     /* color, rgb                                               */
     GJ_CLR_RGBA,                    /* color, rgba                                              */
     GJ_TEX_S,                       /* uv, s (?)                                                */

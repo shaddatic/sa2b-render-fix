@@ -782,20 +782,20 @@ i32     GetRivalPlayerNumber( i32 pno );
 #define CountCharacters_p                   FUNC_PTR(i32, __cdecl, (void), 0x0046DD60)
 
 /****** Usercall Pointers ***********************************************************************/
-#define SetVelocityP_p                      ((void*)0x0046C020) /* ###(ECX, STK, STK, STK)      */
-#define SetPositionP_p                      ((void*)0x0046C6D0) /* ###(EAX, STK, STK, STK)      */
-#define SetAccelerationP_p                  ((void*)0x0046C6B0) /* ###(EAX, STK, STK, STK)      */
-#define GetTaskPlayerNumber_p               ((void*)0x0046DCC0) /* EAX(EAX)                     */
-#define GetTheNearestPlayerNumber_p         ((void*)0x0046DDC0) /* EAX(EDI)                     */
-#define GetRivalPlayerNumber_p              ((void*)0x0046DE60) /* EAX(EDX)                     */
-#define GetSpeedUpP_p                       ((void*)0x0046E120) /* ###(EAX)                     */
-#define GetThunderBarrierP_p                ((void*)0x0046E180) /* ###(EAX)                     */
-#define GetBarrierP_p                       ((void*)0x0046E2E0) /* ###(EAX)                     */
-#define GetInvincibleBodyForAMomentP_p      ((void*)0x0046E440) /* ###(EAX)                     */
-#define HoldTaskP_p                         ((void*)0x0046E5B0) /* ###(ECX, STK)                */
+#define SetVelocityP_p                      0x0046C020 /* ###(ECX,STK,STK,STK)                  */
+#define SetPositionP_p                      0x0046C6D0 /* ###(EAX,STK,STK,STK)                  */
+#define SetAccelerationP_p                  0x0046C6B0 /* ###(EAX,STK,STK,STK)                  */
+#define GetTaskPlayerNumber_p               0x0046DCC0 /* EAX(EAX)                              */
+#define GetTheNearestPlayerNumber_p         0x0046DDC0 /* EAX(EDI)                              */
+#define GetRivalPlayerNumber_p              0x0046DE60 /* EAX(EDX)                              */
+#define GetSpeedUpP_p                       0x0046E120 /* ###(EAX)                              */
+#define GetThunderBarrierP_p                0x0046E180 /* ###(EAX)                              */
+#define GetBarrierP_p                       0x0046E2E0 /* ###(EAX)                              */
+#define GetInvincibleBodyForAMomentP_p      0x0046E440 /* ###(EAX)                              */
+#define HoldTaskP_p                         0x0046E5B0 /* ###(ECX,STK)                          */
 
 /****** Inlined Pointers ************************************************************************/
-#define StopHoldingTaskP_inl_p              ((void*)0x0046E5E0) /* ###(EAX, EDX)                */
+#define StopHoldingTaskP_inl_p              0x0046E5E0 /* ###(EAX,EDX)                          */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

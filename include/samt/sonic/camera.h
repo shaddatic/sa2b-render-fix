@@ -627,12 +627,12 @@ void    StopCameraShake( i32 pno );
 /*  Function Pointers           */
 /********************************/
 /****** Usercall Pointers ***********************************************************************/
-#define SetCameraMode_p                     ((void*)0x004EBB40) /* EAX(EAX, STK, STK)           */
-#define SetCameraUserMode_p                 ((void*)0x004EBC50) /* EAX(EAX, ESI, STK)           */
-#define SetCameraNextMode_p                 ((void*)0x004EBBE0) /* EAX(EAX, EDX)                */
-#define SetCameraNextUserMode_p             ((void*)0x004EBCB0) /* EAX(EAX, EDX)                */
-#define ReleaseCameraMode_p                 ((void*)0x004EBD30) /* ###(ECX, EAX)                */
-#define SetAdjustMode_p                     ((void*)0x004EBCD0) /* EAX(ECX, EAX, EDI)           */
+#define SetCameraMode_p             0x004EBB40 /* EAX(EAX, STK, STK)                            */
+#define SetCameraUserMode_p         0x004EBC50 /* EAX(EAX, ESI, STK)                            */
+#define SetCameraNextMode_p         0x004EBBE0 /* EAX(EAX, EDX)                                 */
+#define SetCameraNextUserMode_p     0x004EBCB0 /* EAX(EAX, EDX)                                 */
+#define ReleaseCameraMode_p         0x004EBD30 /* ###(ECX, EAX)                                 */
+#define SetAdjustMode_p             0x004EBCD0 /* EAX(ECX, EAX, EDI)                            */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

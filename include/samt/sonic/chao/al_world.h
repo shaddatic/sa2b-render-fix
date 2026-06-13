@@ -399,8 +399,8 @@ u16     ALW_GetKind( task* tp );
 #define ALW_ClearEntry_p            FUNC_PTR(void, __cdecl, (void), 0x00530370)
 
 /****** User-Function Pointer *******************************************************************/
-#define ALW_Entry2_p                ((void*)0x00530750) /* EAX( CX, EBX, EAX, STK)              */
-#define ALW_CancelEntry_p           ((void*)0x005307F0) /* ###(###)                             */
+#define ALW_Entry2_p                0x00530750 /* EAX(ECX,EBX,EAX,STK)                          */
+#define ALW_CancelEntry_p           0x005307F0 /* EAX(ESI)                                      */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

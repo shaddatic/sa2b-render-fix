@@ -17,6 +17,18 @@ typedef struct task     task;
 #include <samt/sonic/shadow.h>
 
 /************************/
+/*  Constants           */
+/************************/
+#define MOVE_FLAG_STOP          (0x0010) /* on the floor, not touching a wall, & not moving     */
+#define MOVE_FLAG_0100          (0x0100) /* unknown                                             */
+#define MOVE_FLAG_0200          (0x0200) /* unknown                                             */
+#define MOVE_FLAG_FLOOR         (0x0400) /* object is touching floor                            */
+#define MOVE_FLAG_WALL          (0x0800) /* object is touching wall                             */
+#define MOVE_FLAG_1000          (0x1000) /* unknown                                             */
+#define MOVE_FLAG_WATER         (0x2000) /* water is in object shadow                           */
+#define MOVE_FLAG_FRONTWALL     (0x4000) /* object is touching wall, and facing it              */
+
+/************************/
 /*  Structures          */
 /************************/
 typedef struct
@@ -109,12 +121,13 @@ EXTERN_END
 #define MOV_CalcPlayerAngle_p       FUNC_PTR(Angle, __fastcall, (task*, int), 0x007969B0)
 
 /** User-Function ptrs **/
-#define MOV_Control_p               ((void*)0x00796780)
-#define MOV_TurnToAim2_p            ((void*)0x00796910)
-#define MOV_GetShadowPosXYZ_p       ((void*)0x00797E10)
-#define MOV_CheckFloor_p            ((void*)0x00796B20)
-#define MOV_CheckWall_p             ((void*)0x00796CA0)
-#define MOV_TurnToPlayer2_p         ((void*)0x00796CA0)
+#define MOV_Control_p               0x00796780
+#define MOV_TurnToAim2_p            0x00796910
+#define MOV_DetectCollision_p       0x00798300
+#define MOV_GetShadowPosXYZ_p       0x00797E10
+#define MOV_CheckFloor_p            0x00796B20
+#define MOV_CheckWall_p             0x00796CA0
+#define MOV_TurnToPlayer2_p         0x00796CA0
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

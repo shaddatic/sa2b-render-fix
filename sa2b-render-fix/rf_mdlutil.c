@@ -7,7 +7,7 @@
 
 /** Source **/
 #include <samt/sonic/texture.h>
-#include <samt/sonic/landtable.h>
+#include <samt/sonic/land.h>
 
 /** Std **/
 #include <stdio.h>

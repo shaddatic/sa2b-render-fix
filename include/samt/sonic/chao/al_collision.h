@@ -26,7 +26,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-#   define AL_DetectCollisionStandard_p     ((void*)0x0053E020)
+#   define AL_DetectCollisionStandard_p     0x0053E020
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

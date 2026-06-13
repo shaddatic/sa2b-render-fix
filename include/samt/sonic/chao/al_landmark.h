@@ -88,8 +88,8 @@ EXTERN_END
 #   define AL_InitLandMark_p            FUNC_PTR(void, __cdecl, (void), 0x00534EF0)
 
 /** User-Function ptrs **/
-#   define AL_GetCurrLandAttr_p         ((void*)0x00535010)
-#   define AL_GetRandomAttrPos_inl_p    ((void*)0x00534F80)
+#   define AL_GetCurrLandAttr_p         0x00535010
+#   define AL_GetRandomAttrPos_inl_p    0x00534F80
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

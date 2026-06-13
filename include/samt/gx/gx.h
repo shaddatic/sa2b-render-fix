@@ -93,7 +93,7 @@ EXTERN_END
 #   define GX_End_p                     FUNC_PTR(void, __cdecl   , (void)              , 0x0041C070)
 
 /****** User-Function Pointer *******************************************************/
-#   define GX_SetTexMtx_p               ((void*)0x00424480)
+#   define GX_SetTexMtx_p               0x00424480
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

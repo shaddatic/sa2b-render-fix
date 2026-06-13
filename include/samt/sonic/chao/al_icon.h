@@ -25,7 +25,7 @@ EXTERN_END
 /************************/
 #ifdef  SAMT_INCL_FUNCPTRS
 /** User-Function ptrs **/
-#   define AL_CalcIconColor_p       ((void*)0x0053B940)
+#   define AL_CalcIconColor_p       0x0053B940
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

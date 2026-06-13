@@ -212,24 +212,25 @@ i32     ADX_TaskInit( void );
 */
 void    ADX_Close( void );
 
-/************************/
-/*  Function Ptrs       */
-/************************/
 #ifdef SAMT_INCL_FUNCPTRS
-/****** Function Pointers ***********************************************************/
-#   define BGM_Replay_p             FUNC_PTR(void, __cdecl, (void), 0x00442D90)
-#   define BGM_Stop_p               FUNC_PTR(void, __cdecl, (void), 0x00442F50)
-#   define BGM_FadeOut_p            FUNC_PTR(void, __cdecl, (void), 0x00443090)
-#   define Jingle_Stop_p            FUNC_PTR(void, __cdecl, (void), 0x004432D0)
-#   define Serif_Stop_p             FUNC_PTR(void, __cdecl, (void), 0x004431B0)
-#   define ADX_TaskInit_p           FUNC_PTR(i32 , __cdecl, (void), 0x00442490)
 
-/****** Usercall Pointers ***********************************************************/
-#   define BGM_Volume_p             ((void*)0x00443030)/* ###(EAX)                  */
-#   define BGM_SetFile_p            ((void*)0x00442CF0)/* ###(EDI)                  */
-#   define Jingle_Play_p            ((void*)0x00443480)/* ###(EBX)                  */
-#   define Serif_PlayPri_p          ((void*)0x00443130)/* EAX(EDX, STK)             */
-#   define Serif_StopNum_p          ((void*)0x00443200)/* ###(EAX)                  */
+/********************************/
+/*  Function Ptrs               */
+/********************************/
+/****** Function Pointers ***********************************************************************/
+#define BGM_Replay_p                FUNC_PTR(void, __cdecl, (void), 0x00442D90)
+#define BGM_Stop_p                  FUNC_PTR(void, __cdecl, (void), 0x00442F50)
+#define BGM_FadeOut_p               FUNC_PTR(void, __cdecl, (void), 0x00443090)
+#define Jingle_Stop_p               FUNC_PTR(void, __cdecl, (void), 0x004432D0)
+#define Serif_Stop_p                FUNC_PTR(void, __cdecl, (void), 0x004431B0)
+#define ADX_TaskInit_p              FUNC_PTR(i32 , __cdecl, (void), 0x00442490)
+
+/****** Usercall Pointers ***********************************************************************/
+#define BGM_Volume_p                0x00443030 /* ###(EAX)                                      */
+#define BGM_SetFile_p               0x00442CF0 /* ###(EDI)                                      */
+#define Jingle_Play_p               0x00443480 /* ###(EBX)                                      */
+#define Serif_PlayPri_p             0x00443130 /* EAX(EDX, STK)                                 */
+#define Serif_StopNum_p             0x00443200 /* ###(EAX)                                      */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

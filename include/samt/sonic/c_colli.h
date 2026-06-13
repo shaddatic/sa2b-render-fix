@@ -302,11 +302,11 @@ b32     CCL_IsPushed( const task* tp );
 #define CCL_IsHitKindEx_p       FUNC_PTR(CCL_HIT_INFO*, __cdecl, (task*, u8), 0x00486760)
 
 /****** Usercall ********************************************************************/
-#define CCL_Init_p              ((void*)0x0047E520)/* EAX(EAX,STK,STK,STK)          */
-#define CCL_Entry_p             ((void*)0x0047E750)/* ###(ESI)                      */
-#define CCL_ClearInfo_p         ((void*)0x0047E6C0)/* ###(EAX)                      */
-#define CCL_Enable_p            ((void*)0x00486CD0)/* ###(EAX,ECX)                  */
-#define CCL_Disable_p           ((void*)0x00486D00)/* ###(EAX,ECX)                  */
+#define CCL_Init_p              0x0047E520 /* EAX(EAX,STK,STK,STK)                  */
+#define CCL_Entry_p             0x0047E750 /* ###(ESI)                              */
+#define CCL_ClearInfo_p         0x0047E6C0 /* ###(EAX)                              */
+#define CCL_Enable_p            0x00486CD0 /* ###(EAX,ECX)                          */
+#define CCL_Disable_p           0x00486D00 /* ###(EAX,ECX)                          */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

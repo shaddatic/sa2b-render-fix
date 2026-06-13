@@ -133,10 +133,10 @@ EXTERN_END
 #   define AL_RemoveItemAllSub_p        FUNC_PTR(void, __cdecl, (AL_OBJECT *pObject), 0x00566AF0)
 
 /** User-Function ptrs **/
-#   define AL_SetItem_p                 ((void*)0x005669B0)
-#   define AL_SetItemOffset_p           ((void*)0x00566A20)
-#   define AL_SetMiminalParts_p         ((void*)0x005668B0)
-#   define AL_ClearParts_p              ((void*)0x00566850)
+#   define AL_SetItem_p                 0x005669B0
+#   define AL_SetItemOffset_p           0x00566A20
+#   define AL_SetMiminalParts_p         0x005668B0
+#   define AL_ClearParts_p              0x00566850
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

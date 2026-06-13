@@ -200,16 +200,12 @@ EventByteSwapMainFile(EVENT_HEADER* pEvHead)
 static void
 EventFixTexlist(NJS_TEXLIST** pptls)
 {
-    OutputPointer(*pptls);
-
     const bool be = !( (u32)(*pptls) & 0x00007FFF );
 
     if ( be )
     {
         EndianSwap32( &(*pptls) );
     }
-
-    OutputPointer(*pptls);
 
     NJS_TEXLIST* ptls = GET_PTR(*pptls, pptls);
 

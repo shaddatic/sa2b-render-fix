@@ -90,7 +90,7 @@ void    VibTaskDest( task* tp );    /* destructor                               
 #   define VibTaskDest_p        FUNC_PTR(void, __cdecl, (task*), 0x00438C90)
 
 /****** User-Function Pointer *******************************************************/
-#   define SetVibTask_p         ((void*)0x00438DC0)
+#   define SetVibTask_p         0x00438DC0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

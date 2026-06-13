@@ -42,7 +42,7 @@ EXTERN_END
 #   define ALBHV_Dead_p         BHVFUNC_PTR(0x00568F60)
 
 /** User-Function ptrs **/
-#   define CreateMayu_p         ((void*)0x00568CD0)
+#   define CreateMayu_p         0x00568CD0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -17,6 +17,19 @@
 /** Returned when theres no ground shadow info **/
 #define SHADOW_Y_NONE   (-10000000.0f)
 
+
+enum
+{
+    XYZS_ASS_XL,
+    XYZS_ASS_XU,
+    XYZS_ASS_YL,
+    XYZS_ASS_YU,
+    XYZS_ASS_ZL,
+    XYZS_ASS_ZU,
+
+    XYZS_ASS_NMB
+};
+
 /************************/
 /*  Structures          */
 /************************/
@@ -55,6 +68,13 @@ typedef struct zxsdwstr
     xssunit    upper;
 }
 zxsdwstr;
+
+typedef struct xyyzzxsdwstr
+{
+    NJS_POINT3  pos;
+    xssunit     hit[XYZS_ASS_NMB];
+}
+xyyzzxsdwstr;
 
 /************************/
 /*  Functions           */

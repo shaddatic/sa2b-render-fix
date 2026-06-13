@@ -2,62 +2,85 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/chao/al_texload.h'
 *
 *   Description:
-*       Contains enums, structs, data, and functions related to Chao World's texture loading engine.
+*     Chao World's texture loading helper system.
 */
-#ifndef _SA2B_CHAO_TEXLOAD_H_
-#define _SA2B_CHAO_TEXLOAD_H_
+#ifndef H_SA2B_CHAO_TEXLOAD
+#define H_SA2B_CHAO_TEXLOAD
 
-/************************/
-/*  Includes            */
-/************************/
-#include <samt/ninja/njcommon.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/njcommon.h>    /* ninja common                                             */
 
-/************************/
-/*  Enums               */
-/************************/
+EXTERN_START
+
+/********************************/
+/*  Enums                       */
+/********************************/
+/****** Texture Level ***************************************************************************/
 enum 
 { 
-    TEX_LEV_COMMON,
-    TEX_LEV_STAGE,
-    TEX_LEV_LAND,
-    TEX_LEV_OTHER,
-    NB_TEX_LEV,
+    TEX_LEV_COMMON,                 /* load texture for entire chao world                       */
+    TEX_LEV_STAGE,                  /* load texture for just this chao stage                    */
+    TEX_LEV_LAND,                   /* load texture for just this land table   [acts as COMMON] */
+    TEX_LEV_OTHER,                  /* load texture for other purpose          [acts as COMMON] */
+
+    NB_TEX_LEV,                     /* enum count                                               */
 };
 
-/************************/
-/*  Structures          */
-/************************/
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Texture Info ****************************************************************************/
 typedef struct 
 {
-    char*        filename;
-    NJS_TEXLIST* pTexlist;
+    char*        filename;          /* texture pvm file name                                    */
+    NJS_TEXLIST* pTexlist;          /* texture list                                             */
 }
 LOADED_TEX_INFO;
 
-/************************/
-/*  Data                */
-/************************/
-#define TexEntry            DATA_ARY(LOADED_TEX_INFO, 0x01DCD600, [4][256])
+/********************************/
+/*  Data                        */
+/********************************/
+/****** Texture Entries **************************************************************************/
+#define TexEntry                    DATA_ARY(LOADED_TEX_INFO, 0x01DCD600, [4][256])
 
-/************************/
-/*  Functions           */
-/************************/
-EXTERN_START
-/** Load textures at a given level **/
-int32_t    AL_LoadTex( const char* filename, NJS_TEXLIST* pTexlist, uint16_t lev );
-/** Release all textures at the given level **/
-int32_t    AL_ReleaseTex( uint16_t lev );
+/********************************/
+/*  Functions                   */
+/********************************/
+/****** Load/Release ****************************************************************************/
+/*
+*   Description:
+*     Load a new texture file at a texture level.
+* 
+*   Parameters:
+*     - lev         : texture level
+* 
+*   Returns:
+*     'TRUE' on success; or 'FALSE' on failure.
+*/
+i32     AL_LoadTex( const c7* filename, NJS_TEXLIST* pTexlist, u16 lev );
+/*
+*   Description:
+*     Release all textures at the given level.
+* 
+*   Parameters:
+*     - lev         : texture level
+*/
+void    AL_ReleaseTex( u16 lev );
 
-EXTERN_END
+#ifdef SAMT_INCL_FUNCPTRS
 
 /************************/
 /*  Function Ptrs       */
 /************************/
-#ifdef  SAMT_INCL_FUNCPTRS
-/** User-Function ptrs **/
-#   define AL_LoadTex_p         ((void*)0x00530280)
-#   define AL_ReleaseTex_p      ((void*)0x005302D0)
+/****** Usercall ********************************************************************/
+#define AL_LoadTex_p            0x00530280 /* EAX(EAX, STK, EBX)                    */
+#define AL_ReleaseTex_p         0x005302D0 /* ###(EAX)                              */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 
-#endif/*_SA2B_CHAO_TEXLOAD_H_*/
+EXTERN_END
+
+#endif/*H_SA2B_CHAO_TEXLOAD*/

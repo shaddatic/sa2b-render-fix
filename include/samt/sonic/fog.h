@@ -141,8 +141,8 @@ void    SetMultiFog( FOG_DATA* pFogA, FOG_DATA* pFogB, f32 ratio );
 #define FreeFogManager_p            FUNC_PTR(void, __cdecl, (void), 0x006DFE10)
 
 /****** Usercall ********************************************************************/
-#define LoadFogFile_p               ((void*)0x006DF840)
-#define FogManagerCreateEx_p        ((void*)0x006DFF00)
+#define LoadFogFile_p               0x006DF840
+#define FogManagerCreateEx_p        0x006DFF00
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

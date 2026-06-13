@@ -49,8 +49,8 @@ EXTERN_END
 #   define AL_FreeObject_p                  FUNC_PTR(void           , __cdecl, (NJS_CNK_OBJECT*), 0x0055EDF0)
 
 /** User-Function ptrs **/
-#   define AL_MatSetChaoColor_p             ((void*)0x0055EA00)
-#   define AL_MatChangeModelTexture_p       ((void*)0x0055EA00)
+#   define AL_MatSetChaoColor_p             0x0055E8D0
+#   define AL_MatChangeModelTexture_p       0x0055EA00
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

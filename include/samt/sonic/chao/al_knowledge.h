@@ -26,8 +26,8 @@ EXTERN_END
 #   define AL_KW_GetPlayerCharacterNum_p        FUNC_PTR(int32_t, __cdecl, (void), 0x0053E0C0)
 
 /** User-function ptrs **/
-#   define AL_KW_MeetPlayer_p                   ((void*)0x0053E280)
-#   define AL_KW_AddPlayerLike_p                ((void*)0x0053E120)
+#   define AL_KW_MeetPlayer_p                   0x0053E280
+#   define AL_KW_AddPlayerLike_p                0x0053E120
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -262,7 +262,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 
     if ( !file )
     {
-        OutputString("Render Fix: Font file not found, aborting load!");
+        RF_DbgWarn("Font file not found, aborting load!");
         return nullptr;
     }
 
@@ -275,7 +275,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 
         if (fsize < KANJI_32_SIZE)
         {
-            OutputString("Render Fix: Kanji RGBA font file is too small, aborting load!");
+            RF_DbgWarn("Kanji RGBA font file is too small, aborting load!");
             mtMemFree(file);
             return nullptr;
         }
@@ -289,7 +289,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 
         if (fsize < ASCII_32_SIZE)
         {
-            OutputString("Render Fix: ASCII RGBA font file is too small, aborting load!");
+            RF_DbgWarn("ASCII RGBA font file is too small, aborting load!");
             mtMemFree(file);
             return nullptr;
         }
@@ -303,7 +303,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
 
         if (fsize < KANJI_01_SIZE)
         {
-            OutputString("Render Fix: Kanji SADX font file is too small, aborting load!");
+            RF_DbgWarn("Kanji SADX font file is too small, aborting load!");
             mtMemFree(file);
             return nullptr;
         }
@@ -325,7 +325,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
         }
         else
         {
-            OutputString("Render Fix: ASCII SADX font file is too small, aborting load!");
+            RF_DbgWarn("ASCII SADX font file is too small, aborting load!");
             mtMemFree(file);
             return nullptr;
         }
@@ -334,7 +334,7 @@ RF_FontLoadFile(const c8* fpath, RFE_FONT_FTYPE ftype)
         break;
 
     default: // Incorrect type
-        OutputString("Render Fix: Incorrect font type, aborting load!");
+        RF_DbgWarn("Incorrect font type, aborting load!");
         mtMemFree(file);
         return nullptr;
     }

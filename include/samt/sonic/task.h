@@ -178,7 +178,7 @@ void    DestroyTask( task* tp );
 #define DestroyTask_p                       FUNC_PTR(void , __cdecl, (task*)                , 0x0046F720)
 
 /****** Usercall Pointers ***********************************************************************/
-#define CreateElementalTask_p               ((void*)0x0046F610)
+#define CreateElementalTask_p               0x0046F610 /* EAX(STK,ECX,EDI,EAX) */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

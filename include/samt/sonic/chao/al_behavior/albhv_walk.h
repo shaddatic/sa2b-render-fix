@@ -30,7 +30,7 @@ EXTERN_END
 #   define ALBHV_Move_p         BHVFUNC_PTR(0x00562D20)
 
 /** User-Function ptrs **/
-#   define AL_WalkSelect_p      ((void*)0x005A3650)
+#   define AL_WalkSelect_p      0x005A3650
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

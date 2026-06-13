@@ -63,11 +63,11 @@ EXTERN_END
 #   define _chCnkDrawObject_p           FUNC_PTR(void  , __cdecl, (NJS_CNK_OBJECT*), 0x0056DF50)
 
 /** User-Function ptrs **/
-#   define chSetRareMaterial_p          ((void*)0x0056D470)
-#   define chRareEggDrawModel_p         ((void*)0x0056D540)
-#   define chRareEggDrawObject_p        ((void*)0x0056D590)
-#   define chRareEggDrawMotion_p        ((void*)0x0056D600)
-#   define chCnkDrawObject_p            ((void*)0x0056E210)
+#   define chSetRareMaterial_p          0x0056D470
+#   define chRareEggDrawModel_p         0x0056D540
+#   define chRareEggDrawObject_p        0x0056D590
+#   define chRareEggDrawMotion_p        0x0056D600
+#   define chCnkDrawObject_p            0x0056E210
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

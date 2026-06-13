@@ -63,8 +63,8 @@ EXTERN_END
 /************************/
 #ifdef SAMT_INCL_FUNCPTRS
 /** User-Function ptr **/
-#   define AddNumRing_p        ((void*)0x0044CE10)
-#   define AddNumPlayer_p      ((void*)0x0044CB10)
+#   define AddNumRing_p        0x0044CE10
+#   define AddNumPlayer_p      0x0044CB10
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

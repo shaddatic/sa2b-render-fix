@@ -93,6 +93,6 @@ ___SetPlayerLightIndex_RF(void)
 void
 RFL_SetLightInit(void)
 {
-    WriteJump(SetLightIndex_p, ___SetLightIndex_RF);
-    WriteJump(0x00486E50     , ___SetPlayerLightIndex_RF);
+    WriteJump(SetLight_p, ___SetLightIndex_RF);
+    WriteJump(0x00486E50, ___SetPlayerLightIndex_RF);
 }

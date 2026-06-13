@@ -89,7 +89,7 @@ EXTERN_END
 #   define ParamFukidasiDestructor_p        FUNC_PTR(void, __cdecl   , (task*), 0x005659C0)
 
 /** User-Function ptrs **/
-#   define AL_OpenParameterFukidasi_p       ((void*)0x005659E0)
+#   define AL_OpenParameterFukidasi_p       0x005659E0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -67,7 +67,7 @@ EXTERN_END
 #   define AL_AllocateShadowTex_p       FUNC_PTR(void, __cdecl, (void)             , 0x00541020)
 
 /** User-Function ptrs **/
-#   define AL_EntryShadowTex_p          ((void*)0x00540FD0);
+#   define AL_EntryShadowTex_p          0x00540FD0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

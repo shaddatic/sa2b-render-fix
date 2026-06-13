@@ -68,12 +68,12 @@ EXTERN_END
 #   define AL_BuyoBuyoControl_p             FUNC_PTR(void, __cdecl, (task*)            , 0x0056FC20)
 
 /** User-Function ptrs **/
-#   define AL_InitCalcMotionMatrix_p        ((void*)0x0056E9C0);
-#   define AL_CalcMotionMartix_p            ((void*)0x0056EF80);
-#   define AL_CalcMotionMatrixTranslate_p   ((void*)0x0056EA30);
-#   define AL_CalcMotionMatrixRotation_p    ((void*)0x0056ED40);
-#   define AL_SetCurrMatrix_p               ((void*)0x0056F0E0);
-#   define AL_CalcShadowPos_p               ((void*)0x0056F180);
+#   define AL_InitCalcMotionMatrix_p        0x0056E9C0
+#   define AL_CalcMotionMartix_p            0x0056EF80
+#   define AL_CalcMotionMatrixTranslate_p   0x0056EA30
+#   define AL_CalcMotionMatrixRotation_p    0x0056ED40
+#   define AL_SetCurrMatrix_p               0x0056F0E0
+#   define AL_CalcShadowPos_p               0x0056F180
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -15,7 +15,7 @@
 #include <samt/sonic/light.h>       /* setlight                                     */
 
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/landtable.h>   /* landtable                                    */
+#include <samt/sonic/land.h>        /* landtable                                    */
 #undef SAMT_INCL_FUNCPTRS
 
 /****** Render Fix ******************************************************************/

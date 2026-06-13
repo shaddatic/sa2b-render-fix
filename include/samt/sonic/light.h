@@ -223,7 +223,7 @@ void    SetDefaultPlayerLight( i32 n );
 #define LoadLightFile_p             FUNC_PTR(i32, __fastcall, (const char*), 0x006C3AE0)
 
 /****** Usercall Pointers ***********************************************************************/
-#define SetLightIndex_p             ((void*)0x00487060) /* ###(EAX)                             */
+#define SetLight_p                  0x00487060 /* ###(EAX)                                      */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

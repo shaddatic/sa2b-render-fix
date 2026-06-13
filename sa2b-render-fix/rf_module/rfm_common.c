@@ -19,7 +19,7 @@
 #include <samt/sonic/game.h>        /* stagenumber                                              */
 
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/landtable.h>   /* landtable                                                */
+#include <samt/sonic/land.h>        /* landtable                                                */
 #undef SAMT_INCL_FUNCPTRS
 
 /****** Render Fix ******************************************************************************/

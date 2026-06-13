@@ -55,7 +55,7 @@ EXTERN_END
 #   define Extra_Get_p             FUNC_PTR(EXTRA_LIST*, __fastcall, (int32_t), 0x00487260)
 
 /** User-Function ptrs **/
-#   define AddExtraDisplay_p       ((void*)0x004872F0)
+#   define AddExtraDisplay_p       0x004872F0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -203,10 +203,10 @@ void    ObjectGenericExec(task* tp);
 #   define CheckViewV_p                 FUNC_PTR(b32 , __cdecl, (const NJS_POINT3*, f32)        , 0x007983F0)
 
 /** User-Function ptr **/
-#   define LoadSetFile_p                ((void*)0x00488DD0)
-#   define LoadSetFileEx_p              ((void*)0x00488F60)
-#   define CheckRangeOut_p              ((void*)0x00488C50)
-#   define CheckRangeOutWithR_p         ((void*)0x00488C80)
+#   define LoadSetFile_p                0x00488DD0
+#   define LoadSetFileEx_p              0x00488F60
+#   define CheckRangeOut_p              0x00488C50
+#   define CheckRangeOutWithR_p         0x00488C80
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

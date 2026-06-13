@@ -43,7 +43,7 @@ EXTERN_END
 #   define AL_PathSearch_p      FUNC_PTR(int32_t, __cdecl, (task* tp), 0x0053E3E0)
 
 /** User-Function ptrs **/
-#   define CrossProduct_p       ((void*)0x0053E390)
+#   define CrossProduct_p       0x0053E390
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

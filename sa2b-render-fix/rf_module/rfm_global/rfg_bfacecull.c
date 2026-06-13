@@ -9,7 +9,7 @@
 #include <samt/gx/gx.h>
 
 /** Source **/
-#include <samt/sonic/landtable.h>
+#include <samt/sonic/land.h>
 #include <samt/sonic/datadll.h>
 #include <samt/sonic/njctrl.h>
 

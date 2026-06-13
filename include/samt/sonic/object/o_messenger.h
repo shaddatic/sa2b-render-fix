@@ -37,7 +37,7 @@ EXTERN_END
 #   define FreeMessengerFile_p              FUNC_PTR(int32_t, __cdecl, (), 0x006BD5D0)
 
 /** User-Function ptr **/
-#   define LoadMessengerFile_p              ((void*)0x006BD650);
+#   define LoadMessengerFile_p              0x006BD650
 
 #endif /* SAMT_INCL_FUNCPTRS */
 

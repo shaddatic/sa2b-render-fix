@@ -352,12 +352,12 @@ void    AL_CalculateWaterAction( task* tp, f32 radius );
 #define AL_InterpolateObject_p       FUNC_PTR(void, __cdecl, (const NJS_CNK_OBJECT*, const NJS_CNK_OBJECT*, NJS_CNK_OBJECT*, f32), 0x0054AEB0)
 
 /****** Usercall ********************************************************************/
-#define AL_IsOnScreen3_p             ((void*)0x0054AC70)/* EAX(EAX, STK, STK, STK)  */
-#define AL_LoadSetFile_p             ((void*)0x0054B190)/* EAX(EDX)                 */
-#define AL_IsHitKindWithNum_p        ((void*)0x0054B1F0)/* EAX(EDX, ECX, STK)       */
-#define AL_InterpolateAngle_p        ((void*)0x0054A770)/* ###(EAX, ECX, ESI, STK)  */
-#define AL_InterpolateSAngle_p       ((void*)0x0054A900)/* ###(EAX, ECX, ESI, STK)  */
-#define AL_CalculateWaterAction_p    ((void*)0x0054B230)/* ###(EAX, STK)            */
+#define AL_IsOnScreen3_p             0x0054AC70/* EAX(EAX,STK,STK,STK)              */
+#define AL_LoadSetFile_p             0x0054B190/* EAX(EDX)                          */
+#define AL_IsHitKindWithNum_p        0x0054B1F0/* EAX(EDX,ECX,STK)                  */
+#define AL_InterpolateAngle_p        0x0054A770/* ###(EAX,ECX,ESI,STK)              */
+#define AL_InterpolateSAngle_p       0x0054A900/* ###(EAX,ECX,ESI,STK)              */
+#define AL_CalculateWaterAction_p    0x0054B230/* ###(EAX,STK)                      */
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

@@ -50,8 +50,8 @@ EXTERN_END
 #   define ALO_NestFlowerDisplayer_p        FUNC_PTR(void, __cdecl, (task*), 0x005AAC60)
 
 /** User-Function ptrs **/
-#   define ALO_CreateNest_p                 ((void*)0x005AAF60)
-#   define ALO_NestFlowerCreate_p           ((void*)0x005AAD90)
+#   define ALO_CreateNest_p                 0x005AAF60
+#   define ALO_NestFlowerCreate_p           0x005AAD90
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

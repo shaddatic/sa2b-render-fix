@@ -114,7 +114,7 @@ void    SetShaderIndex( SHADER_INDEX index );
 #define SetShaderIndex_p         FUNC_PTR(void, __stdcall, (i32), 0x00424050)
 
 /****** User-Function Ptrs **********************************************************************/
-#define SetShaderType_p          ((void*)0x0041B1F0)
+#define SetShaderType_p          0x0041B1F0
 
 #endif/*SAMT_INCL_FUNCPTRS*/
 

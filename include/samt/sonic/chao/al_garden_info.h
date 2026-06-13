@@ -2,7 +2,7 @@
 *   SAMT for Sonic Adventure 2 (PC, 2012) - '/sonic/chao/al_garden_info.h'
 *
 *   Description:
-*       Contains functions, structs, and data related to Chao
+*     Contains functions, structs, and data related to Chao
 *   Garden saves.
 */
 #ifndef _SA2B_CHAO_GARDENINFO_H_
@@ -17,9 +17,10 @@
 #include <samt/sonic/chao/al_chao_info.h>
 #include <samt/sonic/chao/al_itemshop.h>
 
-/************************/
-/*  Defines             */
-/************************/
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Garden Flags ****************************************************************************/
 #define FLAG_GARDEN_PLAY            (0x01)
 #define FLAG_GARDEN_NEUT_PLAY       (0x02)
 #define FLAG_GARDEN_KINDER_OPEN     (0x04)
@@ -29,13 +30,39 @@
 #define FLAG_GARDEN_DARK_OPEN       (0x40)
 #define FLAG_GARDEN_DARK_PLAY       (0x80)
 
-#define FLAG_TOY_TV                 (0x01)
-#define FLAG_TOY_RADICASE           (0x02)
-#define FLAG_TOY_BOX                (0x04)
-#define FLAG_TOY_BALL_N             (0x08)
-#define FLAG_TOY_BALL_H             (0x10)
-#define FLAG_TOY_BALL_D             (0x20)
-#define FLAG_TOY_HORSE              (0x40)
+/****** Large Toy *******************************************************************************/
+typedef enum 
+{ 
+    AL_LTOY_TV,                     /* television                                               */
+    AL_LTOY_RADICASE,               /* radio                                                    */
+    AL_LTOY_BOX,                    /* jack box                                                 */
+    AL_LTOY_BALL_N,                 /* chao ball neut                                           */
+    AL_LTOY_BALL_H,                 /* chao ball hero                                           */
+    AL_LTOY_BALL_D,                 /* chao ball dark                                           */
+    AL_LTOY_HORSE,                  /* rocking horse                                            */
+    AL_LTOY_UKIWA,                  /* swim ring                                                */
+    AL_LTOY_DUCK,                   /* duck boat                                                */
+    AL_LTOY_KANOKE,                 /* coffin                                                   */
+    AL_LTOY_PIANO,                  /* piano                                                    */
+    AL_LTOY_ORGAN,                  /* organ                                                    */
+
+    NB_AL_LTOY                      /* enum count                                               */
+}
+eAL_LTOY;
+
+/****** Large Toy Flags *************************************************************************/
+#define FLAG_LTOY_TV                (1<<AL_LTOY_TV)       /* tv unlocked                        */
+#define FLAG_LTOY_RADICASE          (1<<AL_LTOY_RADICASE) /* radio unlocked                     */
+#define FLAG_LTOY_BOX               (1<<AL_LTOY_BOX)      /* jack box unlocked                  */
+#define FLAG_LTOY_BALL_N            (1<<AL_LTOY_BALL_N)   /* chao ball neut unlocked            */
+#define FLAG_LTOY_BALL_H            (1<<AL_LTOY_BALL_H)   /* chao ball hero unlocked            */
+#define FLAG_LTOY_BALL_D            (1<<AL_LTOY_BALL_D)   /* chao ball dark unlocked            */
+#define FLAG_LTOY_HORSE             (1<<AL_LTOY_HORSE)    /* rocking horse unlocked             */
+#define FLAG_LTOY_UKIWA             (1<<AL_LTOY_UKIWA)    /* swim ring unlocked                 */
+#define FLAG_LTOY_DUCK              (1<<AL_LTOY_DUCK)     /* duck boat unlocked                 */
+#define FLAG_LTOY_KANOKE            (1<<AL_LTOY_KANOKE)   /* coffin unlocked                    */
+#define FLAG_LTOY_PIANO             (1<<AL_LTOY_PIANO)    /* piano unlocked                     */
+#define FLAG_LTOY_ORGAN             (1<<AL_LTOY_ORGAN)    /* organ unlocked                     */
 
 /************************/
 /*  Structures          */
