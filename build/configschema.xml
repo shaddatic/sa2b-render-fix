@@ -182,6 +182,14 @@ Enhanced versions of the original Dreamcast events, fixing oversights, timing is
 Dreamcast:
 Pure ports of the Dreamcast events, as they originally appeared in 2001.</HelpText>
       </Property>
+      <Property name="intro" display="Game Intro" type="EV_INTRO" defaultvalue="0">
+        <HelpText>Change the game intro Event.
+
+Auto: select event based on DLC status (or mods)
+Battle: use Battle intro, version dependant on language
+Dreamcast: use Dreamcast intro
+FMV: use the old FMV recording of Dreamcast intro (e401_m.sfd), if one of your mods uses it for a custom intro</HelpText>
+      </Property>
       <Property name="vsync_mode" display="Framerate Mode" type="EV_VSYNC" defaultvalue="1">
         <HelpText>Change the framerate of Events. 
 
@@ -505,6 +513,12 @@ This is useful for modders who wish to stress test their code over long periods,
       <EnumMember name="2" display="Clamp"></EnumMember>
       <EnumMember name="3" display="Mirror"></EnumMember>
       <EnumMember name="4" display="Crop/Fill"></EnumMember>
+    </Enum>
+    <Enum name="EV_INTRO">
+      <EnumMember name="0" display="Auto"></EnumMember>
+      <EnumMember name="1" display="Battle"></EnumMember>
+      <EnumMember name="2" display="Dreamcast"></EnumMember>
+      <EnumMember name="3" display="FMV"></EnumMember>
     </Enum>
     <Enum name="PAUSE_FONT_COL">
       <EnumMember name="1" display="DC/GC"></EnumMember>
