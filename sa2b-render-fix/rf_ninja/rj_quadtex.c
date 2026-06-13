@@ -43,10 +43,39 @@ static Sint32 _rj_quad_trans_;
 static Uint32 _rj_quad_col_;
 static Uint32 _rj_quad_off_;
 
+/****** Quad Attr *******************************************************************************/
+static NJS_SYS_ATTR _rj_quad_syattr_;
+
 /********************************/
 /*  Source                      */
 /********************************/
 /****** Static **********************************************************************************/
+static void
+___SetQuadSyattr(void)
+{
+    njGetSystemAttr(&_rj_quad_syattr_);
+}
+
+static bool
+___CheckQuadSyattr(void)
+{
+    NJS_SYS_ATTR attr;
+    njGetSystemAttr(&attr);
+
+    NJS_CONTEXT* quattr = (NJS_CONTEXT*) &_rj_quad_syattr_;
+    NJS_CONTEXT* syattr = (NJS_CONTEXT*) &attr;
+
+    if ( quattr->tspparam != syattr->tspparam
+    ||   quattr->ispparam != syattr->ispparam )
+    {
+        quattr->tspparam = syattr->tspparam;
+        quattr->ispparam = syattr->ispparam;
+        return true;
+    }
+
+    return false;
+}
+
 static void
 ___StartChangeQuadTexAttr(void)
 {
@@ -82,6 +111,8 @@ ___SetQuadTexHColor(Uint32 col, Uint32 off)
 void
 rjQuadTextureStart(Sint32 trans)
 {
+    ___SetQuadSyattr();
+
     _rj_quad_trans_ = trans;
 }
 
@@ -137,25 +168,39 @@ rjSetQuadTextureH(Sint32 texid, Uint32 col, Uint32 off)
 void
 rjSetQuadTextureColor(Uint32 col)
 {
-    ___StartChangeQuadTexAttr();
+    if ( ___CheckQuadSyattr() )
+    {
+        ___StartChangeQuadTexAttr();
 
-    rjSetHwTextureParamCtx();
+        rjSetHwTextureParamCtx();
 
-    ___SetQuadTexColor(col);
+        ___SetQuadTexColor(col);
 
-    ___EndChangeQuadTexAttr();
+        ___EndChangeQuadTexAttr();
+    }
+    else // no texture param changes, just change color (fast!)
+    {
+        ___SetQuadTexColor(col);
+    }
 }
 
 void
 rjSetQuadTextureHColor(Uint32 col, Uint32 off)
 {
-    ___StartChangeQuadTexAttr();
+    if ( ___CheckQuadSyattr() )
+    {
+        ___StartChangeQuadTexAttr();
 
-    rjSetHwTextureParamCtx();
+        rjSetHwTextureParamCtx();
 
-    ___SetQuadTexHColor(col, off);
+        ___SetQuadTexHColor(col, off);
 
-    ___EndChangeQuadTexAttr();
+        ___EndChangeQuadTexAttr();
+    }
+    else // no texture param changes, just change color (fast!)
+    {
+        ___SetQuadTexHColor(col, off);
+    }
 }
 
 /****** Quad Texture ****************************************************************************/
