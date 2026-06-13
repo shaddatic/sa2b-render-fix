@@ -46,7 +46,7 @@ RFM_EventInit(void)
         }
         case CNFE_EVENT_INTRO_FMV:
         {
-            WriteShortJump(0x004589F5, 0x00458A12); // force Dreamcast intro
+            WriteNOP(0x00458A09, 0x00458A12); // force Dreamcast intro
             break;
         }
     }
