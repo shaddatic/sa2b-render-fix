@@ -396,7 +396,6 @@ This is useful for modders who wish to stress test their code over long periods,
     <Enum name="GFX_MULTISAMPLE">
       <EnumMember name="0" display="None"></EnumMember>
       <EnumMember name="2" display="MSAA (x2)"></EnumMember>
-      <EnumMember name="3" display="MSAA (x3)"></EnumMember>
       <EnumMember name="4" display="MSAA (x4)"></EnumMember>
       <EnumMember name="8" display="MSAA (x8)"></EnumMember>
     </Enum>
