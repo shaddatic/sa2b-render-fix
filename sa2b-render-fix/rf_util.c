@@ -570,8 +570,12 @@ RFU_NinjaBinaryRead(mt_njbin* nb, bool(*fnNameCheck)(u32 name))
     {
         mem = mtMemAlloc(cnk_size);
 
-        if ( mtNinjaBinaryRead(nb, mem, NULL, NULL) < NJBIN_RET_OK )
+        const i32 code = mtNinjaBinaryRead(nb, mem, NULL, NULL);
+
+        if ( code < NJBIN_RET_OK )
         {
+            RF_DbgWarn("Failed to read Ninja Binary chunk, error code '%i'", code);
+
             // there was an error, stop
             mtFree(mem);
             mem = nullptr;
