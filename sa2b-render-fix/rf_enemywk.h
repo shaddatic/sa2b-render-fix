@@ -22,13 +22,6 @@
 /************************/
 /*  Structures           */
 /************************/
-typedef struct
-{
-    NJS_POINT3 pos;
-    xssunit    hit[6];
-}
-xyyzzxsdwstr;
-
 typedef struct 
 {
     NJS_MOTION* mtnp;
