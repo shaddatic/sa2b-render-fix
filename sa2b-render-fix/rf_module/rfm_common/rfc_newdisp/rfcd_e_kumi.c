@@ -17,6 +17,7 @@
 #include <samt/sonic/set.h>         /* checkview                                                */
 #include <samt/sonic/light.h>       /* setlightindex                                            */
 #include <samt/sonic/score.h>       /* gametimer                                                */
+#include <samt/sonic/uvcng.h>       /* uv change                                                */
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
@@ -48,23 +49,6 @@ static void*
 FalseAlloc(void)
 {
     return syCalloc( 8, 1 );
-}
-
-static void
-CnkScrollTexture(NJS_CNK_MODEL* pModel, void* pUvcinfo, u32 scroll)
-{
-    static const pint fptr = 0x00795790;
-
-    __asm
-    {
-        push        [scroll]
-        mov esi,    [pUvcinfo]
-        push        [pModel]
-
-        call        fptr
-
-        add esp, 8
-    }
 }
 
 /****** Disp ************************************************************************************/
@@ -162,7 +146,7 @@ EnemyKumiDisp_RF(task* tp)
 
             njSetTexture( &KumiPikaTexlists[ewp->field_46] );
 
-            CnkScrollTexture( model_e_kumi_pika, (void*)0x0147EBE4, ewp->scroll );
+            UvChangeCnk( model_e_kumi_pika, (void*)0x0147EBE4, ewp->scroll );
 
             njCnkEasyDrawObject( object_e_kumi_pika );
 
