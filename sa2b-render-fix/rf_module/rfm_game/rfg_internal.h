@@ -1,11 +1,8 @@
 /*
-*   SA2 Render Fix - '/rfm_global/rfg_internal.h'
+*   SA2 Render Fix - '/rfm_game/rfg_internal.h'
 *
 *   Description:
-*       Header for the Global feature module.
-*
-*   Contributors:
-*   -   Shaddatic
+*     Header for the 'Game' feature module.
 */
 #ifndef _RFM_GLOBAL_INTERNAL_H_
 #define _RFM_GLOBAL_INTERNAL_H_

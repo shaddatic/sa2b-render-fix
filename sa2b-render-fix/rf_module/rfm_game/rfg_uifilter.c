@@ -22,7 +22,7 @@
 #include <rfu_file.h>               /* core                                                     */
 
 /****** Self ************************************************************************************/
-#include <rf_module/rfm_global/rfg_internal.h> /* parent & siblings                             */
+#include <rf_module/rfm_game/rfg_internal.h> /* parent & siblings                               */
 
 #define HudDraw_p                       FUNC_PTR(void, __cdecl, (void) , 0x0044E9C0)
 #define ActionWindowDisp_p              FUNC_PTR(void, __cdecl, (task*), 0x007951A0)

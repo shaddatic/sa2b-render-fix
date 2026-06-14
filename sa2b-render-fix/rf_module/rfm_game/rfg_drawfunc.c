@@ -14,7 +14,7 @@
 #include <rf_njcnk.h>               /* cnkdraw                                                  */
 
 /****** Self ************************************************************************************/
-#include <rf_module/rfm_global/rfg_internal.h> /* parent & siblings                             */
+#include <rf_module/rfm_game/rfg_internal.h> /* parent & siblings                               */
 
 /********************************/
 /*  Source                      */

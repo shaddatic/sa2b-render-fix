@@ -24,7 +24,7 @@
     <ClCompile Include="rf_module\rfm_menus.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_mdltint.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_mdltint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_bigbogy.c">
@@ -33,7 +33,7 @@
     <ClCompile Include="rf_module\rfm_stg_ccore.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_envmap.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_envmap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_cart.c">
@@ -51,7 +51,7 @@
     <ClCompile Include="rf_module\rfm_shadows\chs_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_taskdisp.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_taskdisp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_ninja.c">
@@ -132,7 +132,7 @@
     <ClCompile Include="rf_module\rfm_stg_cescape.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_bfacecull.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_bfacecull.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_mdlutil.c">
@@ -168,7 +168,7 @@
     <ClCompile Include="rf_module\rfm_shadows\shd_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global.c">
+    <ClCompile Include="rf_module\rfm_game.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_shader.c">
@@ -177,7 +177,7 @@
     <ClCompile Include="rf_module\rfm_stg_mstreet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_3dsprite.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_3dsprite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_cgadget.c">
@@ -357,7 +357,7 @@
     <ClCompile Include="rf_util\rfu_model.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_uifilter.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_uifilter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_bullet.c">
@@ -390,7 +390,7 @@
     <ClCompile Include="rf_module\rfm_stg_chao.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_global\rfg_drawfunc.c">
+    <ClCompile Include="rf_module\rfm_game\rfg_drawfunc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_movie.c">
@@ -509,7 +509,7 @@
     <ClInclude Include="rf_module\rfm_shadows\shd_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_module\rfm_global\rfg_internal.h">
+    <ClInclude Include="rf_module\rfm_game\rfg_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_shader.h">

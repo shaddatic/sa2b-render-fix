@@ -30,7 +30,7 @@
 #include <rfu_float.h>              /* replaceflaot                                             */
 
 /****** Self ************************************************************************************/
-#include <rf_module/rfm_global/rfg_internal.h> /* children                                      */
+#include <rf_module/rfm_game/rfg_internal.h> /* children                                        */
 
 /********************************/
 /*  Prototypes                  */

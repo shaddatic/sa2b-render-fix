@@ -38,7 +38,7 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_blare.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_debug.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_exec.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_drawfunc.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_drawfunc.c" />
     <ClCompile Include="rf_module\rfm_menus\rfmenu_cart.c" />
     <ClCompile Include="rf_module\rfm_stg_amine.c" />
     <ClCompile Include="rf_module\rfm_stg_cgadget.c" />
@@ -61,14 +61,14 @@
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_task.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_texanim.c" />
     <ClCompile Include="rf_module\rfm_event\ev_renderer\evr_vsync.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_bfacecull.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_bfacecull.c" />
     <ClCompile Include="rf_module\rfm_stg_bigbogy.c" />
     <ClCompile Include="rf_module\rfm_stg_ccore.c" />
     <ClCompile Include="rf_module\rfm_stg_cescape.c" />
     <ClCompile Include="rf_module\rfm_stg_cart.c" />
-    <ClCompile Include="rf_module\rfm_global.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_3dsprite.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_uifilter.c" />
+    <ClCompile Include="rf_module\rfm_game.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_3dsprite.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_uifilter.c" />
     <ClCompile Include="rf_module\rfm_stg_chao.c" />
     <ClCompile Include="rf_module\rfm_stg_mstreet.c" />
     <ClCompile Include="rf_module\rfm_player.c" />
@@ -98,7 +98,7 @@
     <ClCompile Include="rf_module\rfm_shadows\chs_o_searchbox.c" />
     <ClCompile Include="rf_module\rfm_shadows\chs_o_udreel.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_e_jet.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_envmap.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_envmap.c" />
     <ClCompile Include="rf_module\rfm_event.c" />
     <ClCompile Include="rf_module\rfm_common\rfc_transparancy\rfct_e_explosion.c" />
     <ClCompile Include="rf_module\rfm_eget.c" />
@@ -160,8 +160,8 @@
     <ClCompile Include="rf_module\rfm_shadows.c" />
     <ClCompile Include="rf_module\rfm_shadows\shd_player.c" />
     <ClCompile Include="rf_module\rfm_menus.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_taskdisp.c" />
-    <ClCompile Include="rf_module\rfm_global\rfg_mdltint.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_taskdisp.c" />
+    <ClCompile Include="rf_module\rfm_game\rfg_mdltint.c" />
     <ClCompile Include="rf_module\rfm_stg_wjungle.c" />
     <ClCompile Include="rf_util\rfu_draw.c" />
     <ClCompile Include="rf_util\rfu_model.c" />
@@ -178,7 +178,7 @@
     <ClInclude Include="rf_module\rfm_common\rfc_newdisp\rfcd_internal.h" />
     <ClInclude Include="rf_module\rfm_common\rfc_transparancy\rfct_internal.h" />
     <ClInclude Include="rf_module\rfm_event\ev_renderer\evr_internal.h" />
-    <ClInclude Include="rf_module\rfm_global\rfg_internal.h" />
+    <ClInclude Include="rf_module\rfm_game\rfg_internal.h" />
     <ClInclude Include="rf_module\rfm_menus\rfmenu_internal.h" />
     <ClInclude Include="rf_module\rfm_player\rfpl_internal.h" />
     <ClInclude Include="rf_module\rfm_shadows\chs_internal.h" />
