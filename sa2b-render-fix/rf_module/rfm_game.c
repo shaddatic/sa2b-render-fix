@@ -33,6 +33,12 @@
 #include <rf_module/rfm_game/rfg_internal.h> /* children                                        */
 
 /********************************/
+/*  Vars                        */
+/********************************/
+/****** Static **********************************************************************************/
+static const i32 NoBattle;
+
+/********************************/
 /*  Prototypes                  */
 /********************************/
 /****** Static **********************************************************************************/
@@ -68,7 +74,19 @@ RFM_GlobalInit(void)
     RFG_UiFilterInit();
     RFG_DrawFunctionInit();
 
-    if ( CNF_GetInt(CNF_GLOBAL_IGBIX) )
+    if ( CNF_GetInt(CNF_GAME_NOBTL) )
+    {
+        WritePointer(0x00458A09 +2, &NoBattle); // game intro,          cmp val
+        WritePointer(0x00667A6E +2, &NoBattle); // screen effect tex,   cmp reg
+        WritePointer(0x00667F0B +2, &NoBattle); // screen effect,       mov
+        WritePointer(0x006682D2 +2, &NoBattle); // screen effect txt,   cmp reg
+        WritePointer(0x0066F8D3 +2, &NoBattle); // menu bg,             cmp val
+        WritePointer(0x0066FEA1 +2, &NoBattle); // alpha title,         cmp val
+        WritePointer(0x00670443 +2, &NoBattle); // alpha title tex,     cmp reg
+        WritePointer(0x0067B717 +2, &NoBattle); // sound test tex,      cmp val
+        WritePointer(0x00688B04 +2, &NoBattle); // 2p stage sel,        cmp val
+    }
+
     if ( CNF_GetInt(CNF_GAME_IGBIX) )
     {
         WriteJump(0x0042FAD0, njSearchTexMemList_);

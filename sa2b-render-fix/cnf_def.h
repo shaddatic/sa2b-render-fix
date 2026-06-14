@@ -194,16 +194,6 @@ CNFE_CART_CARTSPRITE;
 /*
 *   Event
 */
-/****** Intro Type ******************************************************************************/
-typedef enum
-{
-    CNFE_EVENT_INTRO_AUTO,
-    CNFE_EVENT_INTRO_BATTLE,
-    CNFE_EVENT_INTRO_DREAMCAST,
-    CNFE_EVENT_INTRO_FMV,
-}
-CNFE_EVENT_INTRO;
-
 /****** Vsync Mode ******************************************************************************/
 typedef enum
 {
@@ -312,6 +302,7 @@ CNFE_MISC_SHDWRES;
 #define CNF_GAME_IGBIX              CNFO_INT(   CNFS_GAME           , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
 #define CNF_GAME_CHSMD              CNFO_INT(   CNFS_GAME           , "mod_shadow"          , CNFE_GAME_CHSMD_ENABLED               )   /* Cheap Shadow setting */
 #define CNF_GAME_CNKSPEC            CNFO_INT(   CNFS_GAME           , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
+#define CNF_GAME_NOBTL              CNFO_INT(   CNFS_GAME           , "nobtl"               , CNFE_BOOL_DISABLED                    )   /* no battle branding */
 
 /** Font section **/
 #define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */
@@ -345,7 +336,6 @@ CNFE_MISC_SHDWRES;
 #define CNF_CART_ZANKI              CNFO_INT(   CNFS_CART           , "zanki"               , CNFE_BOOL_ENABLED                     )   /* Zanki Position Fix */
 
 /** Event section **/
-#define CNF_EVENT_INTRO             CNFO_INT(   CNFS_EVENT          , "intro"               , CNFE_EVENT_INTRO_AUTO                 )   /* game intro */
 #define CNF_EVENT_VSYNC             CNFO_INT(   CNFS_EVENT          , "vsync_mode"          , CNFE_EVENT_VSYNC_EVSET                )   /* Vsync Mode */
 #define CNF_EVENT_43MD              CNFO_INT(   CNFS_EVENT          , "43_mode"             , CNFE_EVENT_43MD_NOINTRO               )   /* Enforce 4:3 Mode */
 #define CNF_EVENT_OVERLAYFIT        CNFO_INT(   CNFS_EVENT          , "overlay_fit"         , CNFE_EVENT_MOVIE_STRETCH              )   /* Overlay Fill Mode */
