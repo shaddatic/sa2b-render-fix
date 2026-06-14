@@ -69,6 +69,7 @@ RFM_GlobalInit(void)
     RFG_DrawFunctionInit();
 
     if ( CNF_GetInt(CNF_GLOBAL_IGBIX) )
+    if ( CNF_GetInt(CNF_GAME_IGBIX) )
     {
         WriteJump(0x0042FAD0, njSearchTexMemList_);
     }

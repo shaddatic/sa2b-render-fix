@@ -52,13 +52,13 @@ RFF_BackFaceCulling(void)
 bool
 RFF_CheapShadow(void)
 {
-    return CheapShadowMode != CNFE_GLOBAL_CHSMD_DISABLED;
+    return CheapShadowMode != CNFE_GAME_CHSMD_DISABLED;
 }
 
 bool
 RFF_CheapShadowPerformance(void)
 {
-    return CheapShadowMode == CNFE_GLOBAL_CHSMD_PERFORMANCE;
+    return CheapShadowMode == CNFE_GAME_CHSMD_PERFORMANCE;
 }
 
 bool
@@ -111,7 +111,7 @@ void
 RFF_Init(void)
 {
     CheapShadowPlayer = ( CNF_GetInt(CNF_PLAYER_SHADOWMD) == CNFE_PLAYER_SHADOWMD_MODIFIER );
-    CheapShadowMode   = CNF_GetInt(CNF_GLOBAL_CHSMD);
+    CheapShadowMode   = CNF_GetInt(CNF_GAME_CHSMD);
 
     Chaos0TexAnim     = ( CNF_GetInt(CNF_PLAYER_CHAOS0ANIM) == CNFE_BOOL_ENABLED );
 

@@ -205,7 +205,7 @@ RJ_TextureInit(void)
 {
     /****** Expand Textures *****************************************************************/
 
-    ChangeTextureLimit(TEXSYS_INITSIZE * CNF_GetInt(CNF_GLOBAL_TEXSYSSIZE));
+    ChangeTextureLimit(TEXSYS_INITSIZE * CNF_GetInt(CNF_GAME_TEXSYSSIZE));
 
     /****** Tex Error ***********************************************************************/
 

@@ -67,7 +67,15 @@ Mipmaps are lower resolution duplicates of a texture that are used at further di
 Only recommended for very specific reasons or with the use of full scene antialiasing, like supersampling.</HelpText>
       </Property>
     </Group>
-    <Group name="main" display="Global Render Settings">
+    <Group name="main" display="Game Settings">
+      <Property name="intro" display="Intro Type" type="EV_INTRO" defaultvalue="0">
+        <HelpText>Change the game intro Event.
+
+Auto: select event based on DLC status (or mods)
+Battle: use Battle intro, version dependant on language
+Dreamcast: use Dreamcast intro
+FMV: use the old FMV recording of Dreamcast intro (e401_m.sfd), if one of your mods uses it for a custom intro</HelpText>
+      </Property>
       <Property name="texsys_size" display="Texture Limit" type="GB_TEXSYSSIZE" defaultvalue="2">
         <HelpText>Changes the maximum* number of textures the game can load at once. Higher values will require more memory, but will avoid crashes if the vanilla limit of 2048 is hit. Especially if GBIX values are ignored.
 
@@ -181,14 +189,6 @@ Enhanced versions of the original Dreamcast events, fixing oversights, timing is
 
 Dreamcast:
 Pure ports of the Dreamcast events, as they originally appeared in 2001.</HelpText>
-      </Property>
-      <Property name="intro" display="Game Intro" type="EV_INTRO" defaultvalue="0">
-        <HelpText>Change the game intro Event.
-
-Auto: select event based on DLC status (or mods)
-Battle: use Battle intro, version dependant on language
-Dreamcast: use Dreamcast intro
-FMV: use the old FMV recording of Dreamcast intro (e401_m.sfd), if one of your mods uses it for a custom intro</HelpText>
       </Property>
       <Property name="vsync_mode" display="Framerate Mode" type="EV_VSYNC" defaultvalue="1">
         <HelpText>Change the framerate of Events. 

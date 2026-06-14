@@ -26,25 +26,25 @@ RFM_EventInit(void)
     EV_FileInit();
 
     // set game intro
-    switch ( CNF_GetInt(CNF_EVENT_INTRO) )
+    switch ( CNF_GetInt(CNF_GAME_INTRO) )
     {
-        case CNFE_EVENT_INTRO_AUTO:
+        case CNFE_GAME_INTRO_AUTO:
         {
             WriteData(0x00458A18, 350, i32); // force play E0350
             break;
         }
-        case CNFE_EVENT_INTRO_BATTLE:
+        case CNFE_GAME_INTRO_BATTLE:
         {
             WriteShortJump(0x004589F5, 0x00458A28); // force Battle intro
             break;
         }
-        case CNFE_EVENT_INTRO_DREAMCAST:
+        case CNFE_GAME_INTRO_DREAMCAST:
         {
             WriteData(0x00458A18, 350, i32); // force play E0350
 
 //          [[fallthrough]];
         }
-        case CNFE_EVENT_INTRO_FMV:
+        case CNFE_GAME_INTRO_FMV:
         {
             WriteNOP(0x00458A09, 0x00458A12); // force Dreamcast intro
             break;

@@ -225,7 +225,7 @@ RF_RenderStateInit(void)
         RFRS_SetDefaultAlphaTestRef(64);
     }
 
-    if ( CNF_GetInt(CNF_GLOBAL_CNKSPEC) == CNFE_BOOL_DISABLED )
+    if ( CNF_GetInt(CNF_GAME_CNKSPEC) == CNFE_BOOL_DISABLED )
     {
         RFRS_SetDefaultCnkSpecMode(RFRS_CNKSPECMD_NONE);
     }

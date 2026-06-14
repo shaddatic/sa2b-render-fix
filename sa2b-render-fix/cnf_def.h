@@ -73,16 +73,26 @@ CNFE_GFX_MIPDADJ;
 
 /************************************************************************************************/
 /*
-*   Global
+*   Game
 */
+/****** Intro Type ******************************************************************************/
+typedef enum
+{
+    CNFE_GAME_INTRO_AUTO,
+    CNFE_GAME_INTRO_BATTLE,
+    CNFE_GAME_INTRO_DREAMCAST,
+    CNFE_GAME_INTRO_FMV,
+}
+CNFE_GAME_INTRO;
+
 /****** Cheap Shadow Mode ***********************************************************************/
 typedef enum
 {
-    CNFE_GLOBAL_CHSMD_DISABLED,
-    CNFE_GLOBAL_CHSMD_PERFORMANCE,
-    CNFE_GLOBAL_CHSMD_ENABLED,
+    CNFE_GAME_CHSMD_DISABLED,
+    CNFE_GAME_CHSMD_PERFORMANCE,
+    CNFE_GAME_CHSMD_ENABLED,
 }
-CNFE_GLOBAL_CHSMD;
+CNFE_GAME_CHSMD;
 
 /************************************************************************************************/
 /*
@@ -257,7 +267,7 @@ CNFE_MISC_SHDWRES;
 */
 /****** Main ************************************************************************************/
 #define CNFS_GFX            "graphics"
-#define CNFS_GLOBAL         "main"
+#define CNFS_GAME           "main"
 #define CNFS_FONT           "font"
 #define CNFS_PLAYER         "player"
 #define CNFS_COMMON         "common"
@@ -297,10 +307,11 @@ CNFE_MISC_SHDWRES;
 #define CNF_GFX_MIPMAPS             CNFO_INT(   CNFS_GFX            , "mipmaps"             , CNFE_BOOL_ENABLED                     )   /* Use Mipmaps */
 
 /** Global section **/
-#define CNF_GLOBAL_TEXSYSSIZE       CNFO_INT(   CNFS_GLOBAL         , "texsys_size"         , 2                                     )   /* Texture Limit */
-#define CNF_GLOBAL_IGBIX            CNFO_INT(   CNFS_GLOBAL         , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
-#define CNF_GLOBAL_CHSMD            CNFO_INT(   CNFS_GLOBAL         , "mod_shadow"          , CNFE_GLOBAL_CHSMD_ENABLED             )   /* Cheap Shadow setting */
-#define CNF_GLOBAL_CNKSPEC          CNFO_INT(   CNFS_GLOBAL         , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
+#define CNF_GAME_INTRO              CNFO_INT(   CNFS_GAME           , "intro"               , CNFE_GAME_INTRO_AUTO                  )   /* game intro */
+#define CNF_GAME_TEXSYSSIZE         CNFO_INT(   CNFS_GAME           , "texsys_size"         , 2                                     )   /* Texture Limit */
+#define CNF_GAME_IGBIX              CNFO_INT(   CNFS_GAME           , "gidx_ignore"         , CNFE_BOOL_ENABLED                     )   /* Ignore Global Texture Index */
+#define CNF_GAME_CHSMD              CNFO_INT(   CNFS_GAME           , "mod_shadow"          , CNFE_GAME_CHSMD_ENABLED               )   /* Cheap Shadow setting */
+#define CNF_GAME_CNKSPEC            CNFO_INT(   CNFS_GAME           , "cnk_spec"            , CNFE_BOOL_ENABLED                     )   /* Specular Highlights */
 
 /** Font section **/
 #define CNF_FONT_KANJI              CNFO_INT(   CNFS_FONT           , "kanji"               , CNFE_FONT_KANJI_VANILLA               )   /* Japanese Script Font */

@@ -127,7 +127,7 @@ RFM_ShadowsInit(void)
         return;
     }
 
-    const CNFE_GLOBAL_CHSMD chs_mode = CNF_GetInt(CNF_GLOBAL_CHSMD);
+    const CNFE_GAME_CHSMD chs_mode = CNF_GetInt(CNF_GAME_CHSMD);
 
     /****** Global Shadow Mode ******/
 
@@ -135,7 +135,7 @@ RFM_ShadowsInit(void)
     {
         case CNFE_PLAYER_SHADOWMD_MODIFIER:
         {
-            if ( chs_mode == CNFE_GLOBAL_CHSMD_DISABLED )
+            if ( chs_mode == CNFE_GAME_CHSMD_DISABLED )
                 break;
 
             CHS_PlayerInit();
@@ -163,7 +163,7 @@ RFM_ShadowsInit(void)
 
     /** Init cheap shadows **/
 
-    if ( chs_mode == CNFE_GLOBAL_CHSMD_DISABLED )
+    if ( chs_mode == CNFE_GAME_CHSMD_DISABLED )
     {
         RFG_ForceShadowMaps();
         return;
