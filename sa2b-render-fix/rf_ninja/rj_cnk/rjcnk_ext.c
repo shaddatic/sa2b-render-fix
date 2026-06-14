@@ -4,6 +4,9 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
 
@@ -23,27 +26,24 @@
 /*  Source              */
 /************************/
 /****** Extern **********************************************************************/
-#pragma optimize("", off)
+ASM_FUNC
 static int
 CnkVListShadow_Ext(const Sint32* vlist, void* njvtxbuf, int is_not_broken)
 {
-    static const uintptr_t p = 0x0042D270;
+    // arguments
+    ASM_MOVE( eax, ASM_ESP(3+0) ); // is_not_broken
+    ASM_PUSH(      ASM_ESP(2+0) ); // njvtxbuf
+    ASM_MOVE( ecx, ASM_ESP(1+1) ); // vlist
 
-    int result;
+    // call
+    ASM_CALL_R( edx, 0x0042D270 );
 
-    __asm
-    {
-        mov eax, [is_not_broken]
-        push [njvtxbuf]
-        mov ecx, [vlist]
-        call p
-        add esp, 4
-        mov [result], eax
-    }
+    // end arguments
+    ASM_ESP_ADD( 1 );
 
-    return result;
+    // return
+    ASM_RET( 0 );
 }
-#pragma optimize("", on)
 
 static void
 CnkPListShadow_Ext(const Sint16* plist, const void* njvtxbuf)

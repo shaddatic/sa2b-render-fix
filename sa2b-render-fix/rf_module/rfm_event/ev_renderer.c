@@ -6,6 +6,9 @@
 #include <samt/writeop.h>       /* writejump                                        */
 #include <samt/string.h>        /* strformat                                        */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Game ************************************************************************/
 #include <samt/sonic/texture.h> /* texcreatetexture                                 */
 
@@ -101,21 +104,23 @@ DrawTailsPlainWithPillar(void)
     RF_SysCtrlResetPillar();
 }
 
+ASM_FUNC
 static void
 LoadTexPrs_WithExt(char* filename, NJS_TEXLIST* ptlo, void* buffer)
 {
-    const void* const fptr = (void*) 0x0044C410;
+    // arguments
+    ASM_PUSH(      ASM_ESP(3+0) ); // buffer
+    ASM_MOVE( edx, ASM_ESP(2+1) ); // ptlo
+    ASM_MOVE( ecx, ASM_ESP(1+1) ); // filename
 
-    __asm
-    {
-        push [buffer]
-        mov edx, [ptlo]
-        mov ecx, [filename]
+    // call
+    ASM_CALL_R( eax, 0x0044C410 );
 
-        call fptr
+    // end arguments
+    ASM_ESP_ADD( 1 );
 
-        add esp, 4
-    }
+    // return
+    ASM_RET( 0 );
 }
 
 static void __cdecl

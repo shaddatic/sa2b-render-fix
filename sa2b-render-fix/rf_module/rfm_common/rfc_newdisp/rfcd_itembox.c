@@ -5,6 +5,9 @@
 #include <samt/core.h>              /* core                                                     */
 #include <samt/writeop.h>           /* writejump                                                */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/ninja.h>       /* ninja                                                    */
 
@@ -112,25 +115,30 @@ ObjectItemBoxGotDisp_RF(task* tp)
     njPopMatrixEx();
 }
 
-static const void* const DrawItemBoxItemTexture_p = (void*)0x006DF030;
-static int32_t
-DrawItemBoxItemTexture(int texid, NJS_POINT3* pos, Angle angy, float scl)
+ASM_FUNC
+static i32
+DrawItemBoxItemTexture(i32 texid, NJS_POINT3* pos, Angle angy, f32 scl)
 {
-    int32_t result;
-    __asm
-    {
-        push [scl]
-        push [angy]
-        mov edi, [pos]
-        mov ecx, [texid]
+    // save regs
+    ASM_PUSH( edi );
 
-        call DrawItemBoxItemTexture_p
+    // arguments
+    ASM_PUSH(      ASM_ESP(4+0 +1) ); // scl
+    ASM_PUSH(      ASM_ESP(3+1 +1) ); // angy
+    ASM_MOVE( edi, ASM_ESP(2+2 +1) ); // pos
+    ASM_MOVE( ecx, ASM_ESP(1+2 +1) ); // texid
 
-        add esp, 8
+    // call
+    ASM_CALL_R( edx, 0x006DF030 );
 
-        mov [result], eax
-    }
-    return result;
+    // end arguments
+    ASM_ESP_ADD( 2 );
+
+    // pull regs
+    ASM_POP( edi );
+
+    // return
+    ASM_RET( 0 );
 }
 
 static void

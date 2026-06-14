@@ -4,8 +4,9 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>          /* core                                             */
 
-/****** Utility *********************************************************************/
-#include <samt/util/cnkmdl.h>   /* chunk model                                      */
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+#include <samt/util/cnkmdl.h>       /* chunk model                                              */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
@@ -531,18 +532,22 @@ EV_CnkSimpleMultiDrawShapeMotion(NJS_CNK_OBJECT* object, NJS_MOTION* motion, NJS
 }
 
 /****** Static **********************************************************************/
+ASM_FUNC
 static void
 EventScrollTexture(const int nbScene, const int nbEntry)
 {
-    static const uintptr_t p = 0x005F9640;
+    // argument
+    ASM_PUSH(      ASM_ESP(2+0) ); // nbEntry
+    ASM_MOVE( eax, ASM_ESP(1+1) ); // nbScene
 
-    __asm
-    {
-        push [nbEntry]
-        mov eax, [nbScene]
-        call p
-        add esp, 4
-    }
+    // call
+    ASM_CALL_R( edx, 0x005F9640 );
+
+    // end argument
+    ASM_ESP_ADD( 1 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 void

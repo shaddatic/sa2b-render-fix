@@ -5,6 +5,9 @@
 #include <samt/core.h>              /* core                                                     */
 #include <samt/writeop.h>           /* writejump                                                */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** SoC *************************************************************************************/
 #include <samt/soc/shader.h>        /* shader                                                   */
 
@@ -144,17 +147,25 @@ typedef struct
 TEXTURE_INFO;
 
 /****** Usercall ********************************************************************************/
+ASM_FUNC
 static void
 SetPaletteShader(void* pTex, const TEXTURE_INFO* pTexInfo/* CWE only param */)
 {
-    static const uintptr_t fptr = 0x004243F0;
+    // save regs
+    ASM_PUSH( edi );
 
-    __asm
-    {
-        mov edx, [pTex]
-        mov edi, [pTexInfo]
-        call fptr
-    }
+    // arguments
+    ASM_MOVE( edi, ASM_ESP(2+0 +1) ); // pTexInfo
+    ASM_MOVE( edx, ASM_ESP(1+0 +1) ); // pTex
+
+    // call
+    ASM_CALL_R( eax, 0x004243F0 );
+
+    // pull regs
+    ASM_POP( edi );
+
+    // return
+    ASM_RET( 0 );
 }
 
 /****** Extern **********************************************************************/
@@ -240,7 +251,7 @@ GX_SetTexture_Hook(const TEXTURE_INFO* restrict pTex, int index)
 }
 
 /****** Usercall Hook ***************************************************************/
-__declspec(naked)
+ASM_FUNC
 static void
 ___SetTexture(void)
 {

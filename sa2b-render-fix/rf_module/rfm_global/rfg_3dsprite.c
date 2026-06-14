@@ -3,6 +3,9 @@
 #include <samt/funchook.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -95,15 +98,18 @@ GX_SetViewportHook(float X, float Y, float W, float H, float MinZ, float MaxZ)
     SendScreenRatioToShader(_nj_screen_.w, _nj_screen_.h);
 }
 
-static const int HintTextDisplayer_p = 0x006B5350;
+#define HintTextDisplayer_p             0x006B5350
+ASM_FUNC
 static void
 HintTextDisplayer(void* p)
 {
-    __asm
-    {
-        mov eax, [p]
-        call HintTextDisplayer_p
-    }
+    // arguments
+    ASM_MOVE( eax, ASM_ESP(1+0) ); // p
+
+    // call
+    ASM_CALL_R( edx, HintTextDisplayer_p );
+
+    ASM_RET( 0 );
 }
 
 static mt_hookinfo HintTextDisplayerHookInfo[1];

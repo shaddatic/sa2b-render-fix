@@ -5,6 +5,9 @@
 #include <samt/core.h>          /* core                                             */
 #include <samt/writeop.h>       /* writejump                                        */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h>   /* ninja                                            */
 
@@ -63,7 +66,7 @@ SetPlayerLightIndex_RF(i32 pno)
 }
 
 /****** Naked ***********************************************************************/
-__declspec(naked)
+ASM_FUNC
 static void
 ___SetLightIndex_RF(void)
 {
@@ -76,7 +79,7 @@ ___SetLightIndex_RF(void)
     }
 }
 
-__declspec(naked)
+ASM_FUNC
 static void
 ___SetPlayerLightIndex_RF(void)
 {

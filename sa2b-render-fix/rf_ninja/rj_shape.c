@@ -4,8 +4,9 @@
 /****** Core Toolkit ****************************************************************/
 #include <samt/core.h>      /* core                                                 */
 
-/****** Utility *********************************************************************/
-#include <samt/util/endian.h> /* swapendian                                         */
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+#include <samt/util/endian.h>       /* swap endian                                              */
 
 /****** Ninja ***********************************************************************/
 #include <samt/ninja/ninja.h> /* ninja                                              */
@@ -28,23 +29,35 @@
 /*  Source              */
 /************************/
 /****** Static **********************************************************************/
+ASM_FUNC
 static void
 njGetMotionLinearKeys(const void* key, int KeySize, int nbkeys, Float frame, const void* pKey1, const void *pKey2, Float *pRate)
 {
-    static const void* const fptr = (void*)0x0042C2C0;
+    // save regs
+    ASM_PUSH( edi );
+    ASM_PUSH( esi );
 
-    __asm
-    {
-        push [pRate]
-        push [pKey2]
-        push [pKey1]
-        push [frame]
-        push [nbkeys]
-        mov esi, [key]
-        mov edi, [KeySize]
-        call fptr
-        add esp, 20
-    }
+    // arguments
+    ASM_PUSH(      ASM_ESP(7+0 +2) ); // pRate
+    ASM_PUSH(      ASM_ESP(6+1 +2) ); // pKey2
+    ASM_PUSH(      ASM_ESP(5+2 +2) ); // pKey1
+    ASM_PUSH(      ASM_ESP(4+3 +2) ); // frame
+    ASM_PUSH(      ASM_ESP(3+4 +2) ); // nbkeys
+    ASM_MOVE( edi, ASM_ESP(2+5 +2) ); // KeySize
+    ASM_MOVE( esi, ASM_ESP(1+5 +2) ); // key
+
+    // call
+    ASM_CALL_R( edx, 0x0042C2C0 );
+
+    // end arguments
+    ASM_ESP_ADD( 5 );
+
+    // pull regs
+    ASM_POP( esi );
+    ASM_POP( edi );
+
+    // return
+    ASM_RET( 0 );
 }
 
 /****** Extern **********************************************************************/

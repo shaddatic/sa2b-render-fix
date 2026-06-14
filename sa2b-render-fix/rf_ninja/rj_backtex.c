@@ -6,6 +6,9 @@
 #include <samt/writeop.h>           /* writejump                                                */
 #include <samt/funchook.h>          /* function hook                                            */
 
+/****** Util ************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Game ************************************************************************************/
 #include <samt/sonic/display.h>     /* display ratio                                            */
 
@@ -77,24 +80,26 @@ static RJS_BACK_VTX _rj_back_vtx_[RJ_NB_BACK_NUM];
 /*  Source                      */
 /********************************/
 /****** Magic Thiscall **************************************************************************/
-#pragma optimize("", off)
+ASM_FUNC
 static void
 MagicClear(void* self, u32 flag, u32 color, f32 depth, u32 stencil)
 {
-    const pint fptr = 0x00867B20;
+    // arguments
+    ASM_PUSH(      ASM_ESP(5+0) ); // stencil
+    ASM_PUSH(      ASM_ESP(4+1) ); // depth
+    ASM_PUSH(      ASM_ESP(3+2) ); // color
+    ASM_PUSH(      ASM_ESP(2+3) ); // flag
+    ASM_MOVE( ecx, ASM_ESP(1+4) ); // this
 
-    __asm
-    {
-        push        [stencil]
-        push        [depth]
-        push        [color]
-        push        [flag]
-        mov ecx,    [self]
+    // call
+    ASM_CALL_R( edx, 0x00867B20 );
 
-        call fptr
-    }
+    // end arguments
+//  ASM_ESP_ADD( 4 ) // __thiscall
+
+    // return
+    ASM_RET( 0 );
 }
-#pragma optimize("", on)
 
 /****** Draw Backtex ****************************************************************************/
 static void
@@ -233,8 +238,7 @@ SetBackColor(uint32_t b, uint32_t g, uint32_t r)
 }
 
 /****** Usercall Hook ***************************************************************************/
-#pragma optimize("", off)
-__declspec(naked)
+ASM_FUNC
 static void
 ___SetBackColor(void)
 {
@@ -252,7 +256,7 @@ ___SetBackColor(void)
 
 #pragma warning( push )
 #pragma warning( disable : 4409 )
-__declspec(naked)
+ASM_FUNC
 static void
 ___SetBackColorSingle(void)
 {
@@ -282,7 +286,6 @@ ___SetBackColorSingle(void)
     }
 }
 #pragma warning( pop )
-#pragma optimize("", on)
 
 #define UnloadRELFile       FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
 

@@ -5,7 +5,8 @@
 #include <samt/writeop.h>
 #include <samt/model.h>
 
-/** Util **/
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
 #include <samt/util/endian.h>
 
 /** Ninja **/
@@ -31,40 +32,57 @@ EV_IsByteswapped(const void* p)
     return ( (uintptr_t)(&EventData) <= (uintptr_t)(p) && (uintptr_t)(0x0241FE20) > (uintptr_t)(p) );
 }
 
-const int EventAnimateTexture_p = 0x006021A0;
+ASM_FUNC
 static void
 EventAnimateTexture(EVENT_TEXANIM_CHUNKDATA* a1, int a2, int a3)
 {
-    __asm
-    {
-        push[a3]
-        mov edi, [a2]
-        mov edx, [a1]
-        call EventAnimateTexture_p
-        add esp, 4
-    }
+    // save regs
+    ASM_PUSH( edi );
+
+    // arguments
+    ASM_PUSH(      ASM_ESP(3+0 +1) ); // a3
+    ASM_MOVE( edi, ASM_ESP(2+1 +1) ); // a2
+    ASM_MOVE( edx, ASM_ESP(1+1 +1) ); // a1
+
+    // call
+    ASM_CALL_R( eax, 0x006021A0 );
+
+    // end arguments
+    ASM_ESP_ADD( 1 );
+
+    // pull regs
+    ASM_POP( edi );
+
+    // return
+    ASM_RET( 0 );
 }
 
-const int EndiswapEventTexAnim1_p = 0x005FE8A0;
+ASM_FUNC
 static void
 EndiswapEventTexAnim1(EVENT_TEXANIM_CHUNKDATA* a1)
 {
-    __asm
-    {
-        mov eax, [a1]
-        call EndiswapEventTexAnim1_p
-    }
+    // arguments
+    ASM_MOVE( eax, ASM_ESP(1+0) ); // a1
+
+    // call
+    ASM_CALL_R( edx, 0x005FE8A0 );
+
+    // return
+    ASM_RET( 0 );
 }
 
-const int EndiswapEventTexAnim0_p = 0x005FE670;
+ASM_FUNC
 static void
 EndiswapEventTexAnim0(EVENT_TEXANIM_TEXIDS* a1)
 {
-    __asm
-    {
-        mov eax, [a1]
-        call EndiswapEventTexAnim0_p
-    }
+    // arguments
+    ASM_MOVE( eax, ASM_ESP(1+0) ); // a1
+
+    // call
+    ASM_CALL_R( edx, 0x005FE670 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 static void

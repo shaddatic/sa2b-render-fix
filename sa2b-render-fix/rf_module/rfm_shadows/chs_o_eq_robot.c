@@ -2,6 +2,9 @@
 #include <samt/writemem.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -14,20 +17,23 @@
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 
-static const void* const ObjectRobotModifyVList_p = (void*)0x00693AC0;
+ASM_FUNC
 void
 ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
 {
-    __asm
-    {
-        push [pVList]
-        mov ecx, [angx]
-        mov eax, [angz]
+    // arguments
+    ASM_PUSH(      ASM_ESP(3+0) ); // pVList
+    ASM_MOVE( ecx, ASM_ESP(2+1) ); // angx
+    ASM_MOVE( eax, ASM_ESP(1+1) ); // angz
 
-        call ObjectRobotModifyVList_p
+    // call
+    ASM_CALL_R( edx, 0x00693AC0 );
 
-        add esp, 4
-    }
+    // end arguments
+    ASM_ESP_ADD( 1 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 #define object_o_eq_robot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1])

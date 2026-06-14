@@ -2,6 +2,9 @@
 #include <samt/memory.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -67,18 +70,29 @@ TaskDisplayDisplayer(task* btpl)
     while (tp != base_tp);
 }
 
-const void* const TaskDisplayDispSortedList_p = (void*)0x00470D20;
+ASM_FUNC
+static void
+___TaskDisplayDispSort(task* btpl)
+{
+    // arguments
+    ASM_MOVE( eax, ASM_ESP(1+0) ); // btpl
+
+    // call
+    ASM_CALL_R( edx, 0x00470D20 );
+
+    // return
+    ASM_RET( 0 );
+}
+
 static void
 TaskDisplayDispSort(task* btpl)
 {
-    if (!btpl)
-        return;
-
-    __asm
+    if ( !btpl )
     {
-        mov eax, [btpl]
-        call TaskDisplayDispSortedList_p
+        return;
     }
+
+    ___TaskDisplayDispSort(btpl);
 }
 
 static void

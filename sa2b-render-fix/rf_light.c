@@ -5,6 +5,9 @@
 #include <samt/core.h>          /* core                                             */
 #include <samt/writeop.h>       /* WriteJump                                        */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** GX **************************************************************************/
 #include <samt/gx/gxlight.h>    /* gxlight                                          */
 
@@ -73,17 +76,19 @@ RX_LIGHT;
 /*  Source              */
 /************************/
 /****** Usercall ********************************************************************/
+ASM_FUNC
 static void
 GX_LoadLightObjImm(const RX_LIGHT_ATTR* pAttr, int num)
 {
-    static const void* const GX_LoadLightObjImm_p = (void*)0x004240D0;
+    // arguments
+    ASM_MOVE( ecx, ASM_ESP(2+0) ); // num
+    ASM_MOVE( eax, ASM_ESP(1+0) ); // pAttr
 
-    __asm
-    {
-        mov ecx, [num]
-        mov eax, [pAttr]
-        call GX_LoadLightObjImm_p
-    }
+    // call
+    ASM_CALL_R( edx, 0x004240D0 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 static void
@@ -227,7 +232,7 @@ gjLoadLight_Hook(Int light)
     GX_LoadLightObjImm(_gj_light_list_[light].pAttr, light);
 }
 
-__declspec(naked)
+ASM_FUNC
 static void
 ___gjLoadLight_Hook(void)
 {

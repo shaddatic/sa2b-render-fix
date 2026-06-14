@@ -7,6 +7,9 @@
 #include <samt/writeop.h>           /* writecall                                                */
 #include <samt/string.h>            /* strformat                                                */
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/ninja.h>       /* ninja                                                    */
 
@@ -63,26 +66,22 @@ static c7 LangFileChars[NUM_LANGUAGE] =
 /*  Source                      */
 /********************************/
 /****** Sound Struct Vals ***********************************************************************/
-static int
+ASM_FUNC
+static i32
 LoadAndDecompressPrs(const c7* pcPrsFile, void* pDstAddr)
 {
-    static const pint LoadAndDecompressPrs_p = 0x00454980;
+    // arguments
+    ASM_PUSH(      ASM_ESP(2+0) ); // pDstAddr
+    ASM_MOVE( eax, ASM_ESP(1+1) ); // pcPrsFile
 
-    int result;
+    // call
+    ASM_CALL_R( edx, 0x00454980 );
 
-    __asm
-    {
-        push            [pDstAddr]
-        mov eax,        [pcPrsFile]
+    // end arguments
+    ASM_ESP_ADD( 1 );
 
-        call            LoadAndDecompressPrs_p
-
-        add esp,        4
-
-        mov [result],   eax
-    }
-
-    return result;
+    // return
+    ASM_RET( 0 );
 }
 
 /****** Load Effect File ************************************************************************/

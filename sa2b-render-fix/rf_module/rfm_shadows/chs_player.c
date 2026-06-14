@@ -4,6 +4,9 @@
 #include <samt/writemem.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -819,25 +822,26 @@ KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
 
 #define KnucklesDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x0072EF20)
 
-
-static const void* const sub_446960_p = (void*)0x00446960;
+ASM_FUNC
 static Sangle
 sub_446960(Angle ang1, Angle ang2, Sangle sang)
 {
-    Angle result;
+    // save regs
+    ASM_PUSH( ebx );
 
-    __asm
-    {
-        mov cx , [sang]
-        mov edx, [ang2]
-        mov eax, [ang1]
+    // arguments
+    ASM_MOVE( ecx, ASM_ESP(3+0 +1) ); // sang
+    ASM_MOVE( edx, ASM_ESP(3+0 +1) ); // ang2
+    ASM_MOVE( eax, ASM_ESP(3+0 +1) ); // ang1
 
-        call sub_446960_p
+    // call
+    ASM_CALL_R( ebx, 0x00446960 );
 
-        mov [result], eax
-    }
+    // pull regs
+    ASM_POP( ebx );
 
-    return (Sangle)result;
+    // return
+    ASM_RET( 0 );
 }
 
 static void

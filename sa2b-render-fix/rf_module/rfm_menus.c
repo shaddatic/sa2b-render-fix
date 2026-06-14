@@ -4,6 +4,9 @@
 #include <samt/writemem.h>
 #include <samt/funchook.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -23,28 +26,31 @@
 #include <rf_module/rfm_menus/rfmenu_internal.h>
 
 /****/
-static const int SOCDisplaySprite_p = 0x0041DC80;
+ASM_FUNC
 static void
 SOCDisplaySprite(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uint32_t color)
 {
-    __asm
-    {
-        push[color]
-        push[V]
-        push[U]
-        push[a8]
-        push[a7]
-        push[pri]
-        push[Height]
-        push[Width]
-        push[PosY]
-        push[PosX]
-        mov eax, [a1]
+    // arguments
+    ASM_PUSH(      ASM_ESP(11+0 ) ); // color
+    ASM_PUSH(      ASM_ESP(10+1 ) ); // V
+    ASM_PUSH(      ASM_ESP( 9+2 ) ); // U
+    ASM_PUSH(      ASM_ESP( 8+3 ) ); // a8
+    ASM_PUSH(      ASM_ESP( 7+4 ) ); // a7
+    ASM_PUSH(      ASM_ESP( 6+5 ) ); // pri
+    ASM_PUSH(      ASM_ESP( 5+6 ) ); // Height
+    ASM_PUSH(      ASM_ESP( 4+7 ) ); // Width
+    ASM_PUSH(      ASM_ESP( 3+8 ) ); // PosY
+    ASM_PUSH(      ASM_ESP( 2+9 ) ); // PosX
+    ASM_MOVE( eax, ASM_ESP( 1+10) ); // a1
 
-        call SOCDisplaySprite_p
+    // call
+    ASM_CALL_R( edx, 0x0041DC80 );
 
-        add esp, 40
-    }
+    // end arguments
+    ASM_ESP_ADD( 10 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 typedef union

@@ -2,6 +2,9 @@
 #include <samt/writemem.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 #include <samt/ninja/ninja.h>
 
 #include <samt/sonic/task.h>
@@ -12,21 +15,26 @@
 
 #define njDrawSomethingStart    FUNC_PTR(void, __cdecl, (int), 0x00491160)
 
-const int njDrawSomeSprite_p = 0x00491600;
+ASM_FUNC
 static void
-njDrawSomeSprite(NJS_POINT3* p, int n, float pri, float w, float h, Uint32 col)
+njDrawSomeSprite(NJS_POINT3* p, i32 n, f32 pri, f32 w, f32 h, Uint32 col)
 {
-    __asm
-    {
-        push[col]
-        push[h]
-        push[w]
-        push[pri]
-        push[n]
-        mov eax, [p]
-        call njDrawSomeSprite_p
-        add esp, 20
-    }
+    // arguments
+    ASM_PUSH(      ASM_ESP(6+0) ); // col
+    ASM_PUSH(      ASM_ESP(5+1) ); // h
+    ASM_PUSH(      ASM_ESP(4+2) ); // w
+    ASM_PUSH(      ASM_ESP(3+3) ); // pri
+    ASM_PUSH(      ASM_ESP(2+4) ); // n
+    ASM_MOVE( eax, ASM_ESP(1+5) ); // p
+
+    // call
+    ASM_CALL_R( edx, 0x00491600 );
+
+    // end arguments
+    ASM_ESP_ADD( 5 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 #define texlist_mizugomi_am     DATA_ARY(NJS_TEXLIST, 0x0162DD08, [1])

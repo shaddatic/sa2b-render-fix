@@ -2,6 +2,9 @@
 #include <samt/writemem.h>
 #include <samt/writeop.h>
 
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
+
 /** Ninja **/
 #include <samt/ninja/ninja.h>
 
@@ -24,22 +27,30 @@
 
 static NJS_CNK_OBJECT* object_o_board_mod;
 
-static const void* const BoardGetAttributes_p = (void*)0x005EBBC0;
-
+ASM_FUNC
 static void
 BoardGetAttributes(uintptr_t* ppUnk, NJS_TEXLIST** ppTexList, NJS_CNK_OBJECT** ppObject, int pno)
 {
-    __asm
-    {
-        push[pno]
-        mov ecx, [ppObject]
-        mov edx, [ppTexList]
-        mov eax, [ppUnk]
+    // save regs
+    ASM_PUSH( ebx );
 
-        call BoardGetAttributes_p
+    // arguments
+    ASM_PUSH(      ASM_ESP(4+0 +1) ); // pno
+    ASM_MOVE( ecx, ASM_ESP(3+1 +1) ); // ppObject
+    ASM_MOVE( edx, ASM_ESP(2+1 +1) ); // ppTexList
+    ASM_MOVE( eax, ASM_ESP(1+1 +1) ); // ppUnk
 
-        add esp, 4
-    }
+    // call
+    ASM_CALL_R( ebx, 0x005EBBC0 );
+
+    // end aguments
+    ASM_ESP_ADD( 1 );
+
+    // pull regs
+    ASM_POP( ebx );
+
+    // return
+    ASM_RET( 0 );
 }
 
 static void
