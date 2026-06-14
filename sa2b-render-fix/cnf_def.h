@@ -353,7 +353,6 @@ CNFE_MISC_SHDWRES;
 
 /** Experimental section **/
 #define CNF_EXP_UIFILTER            CNFO_INT(   CNFS_EXP            , "uifilter"            , CNFE_BOOL_DISABLED                    )   /* Dreamcast UI Filtering */
-#define CNF_EXP_DCMENUFADE          CNFO_INT(   CNFS_EXP            , "dc_menu_fade"        , CNFE_BOOL_DISABLED                    )   /* DC Main Menu Fading Fix */
 
 /** Compatibility section **/
 #define CNF_COMPAT_PLBROKENFIX      CNFO_INT(   CNFS_COMPAT         , "pl_brokenfix"        , CNFE_BOOL_DISABLED                    )   /* Broken Character Model Fix */

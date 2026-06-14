@@ -286,9 +286,6 @@ Shadow maps are no longer actively supported, and may be removed in the future.<
       <Property name="uifilter" display="Dreamcast UI Filtering" type="BINT" defaultvalue="0">
         <HelpText>Use point sampling on some UI textures, such as the in-game HUD, to match the Dreamcast version.</HelpText>
       </Property>
-      <Property name="dc_menu_fade" display="DC Main Menu Fading Fix" type="BINT" defaultvalue="0">
-        <HelpText>This re-enables fading effects for the Dreamcast main menu background, however causes it to draw much darker than intended.</HelpText>
-      </Property>
     </Group>
     <Group name="compatibility" display="Compatibility Settings">
       <Property name="pl_brokenfix" display="Broken Character Models" type="BWARN" defaultvalue="0">

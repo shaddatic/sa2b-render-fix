@@ -3,6 +3,7 @@
 #include <samt/writeop.h>
 #include <samt/writemem.h>
 #include <samt/funchook.h>
+#include <samt/modinfo.h>
 
 /****** Utl *************************************************************************************/
 #include <samt/util/asm.h>          /* asm helper                                               */
@@ -63,8 +64,10 @@ typedef union
 }
 uARGB;
 
+#define FadeValues                      DATA_ARY(f32, 0x00C769F4, [2])
+
 static void __cdecl
-SOCDrawSpriteWithConstMat(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uARGB color)
+SOCDrawSpriteConstMat(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uARGB color)
 {
     color.a = (uint8_t)((f32)color.a * _nj_constant_material_.a);
     color.r = (uint8_t)((f32)color.r * _nj_constant_material_.r);
@@ -76,7 +79,7 @@ SOCDrawSpriteWithConstMat(void* a1, float PosX, float PosY, float Width, float H
 
 __declspec(naked)
 static void
-__SOCDrawSpriteWithConstMat(void)
+___SOCDrawSpriteConstMat(void)
 {
     __asm
     {
@@ -92,7 +95,7 @@ __SOCDrawSpriteWithConstMat(void)
         push[esp + 28h]
         push eax
 
-        call SOCDrawSpriteWithConstMat
+        call SOCDrawSpriteConstMat
 
         pop eax
         add esp, 40
@@ -101,43 +104,15 @@ __SOCDrawSpriteWithConstMat(void)
     }
 }
 
-static void __cdecl
-SOCDrawSpriteOnlyConstMat(void* a1, float PosX, float PosY, float Width, float Height, float pri, float a7, float a8, float U, float V, uARGB color)
+static u32
+SetDreamcastMenuOpacity(void)
 {
-    color.a = (uint8_t)(255.0f * _nj_constant_material_.a);
-    color.r = (uint8_t)(255.0f * _nj_constant_material_.r);
-    color.g = (uint8_t)(255.0f * _nj_constant_material_.g);
-    color.b = (uint8_t)(255.0f * _nj_constant_material_.b);
+    FadeValues[0] = 0.5f; // set opacity value to half, from 0.3f
 
-    SOCDisplaySprite(a1, PosX, PosY, Width, Height, pri, a7, a8, U, V, color.col);
+    return 0xFFFFFFFF; // force sprite color to white
+
 }
 
-__declspec(naked)
-static void
-__SOCDrawSpriteOnlyConstMat(void)
-{
-    __asm
-    {
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push[esp + 28h]
-        push eax
-
-        call SOCDrawSpriteOnlyConstMat
-
-        pop eax
-        add esp, 40
-
-        retn
-    }
-}
 
 #define DisplayStageMap                 FUNC_PTR(void, __cdecl, (float, float), 0x00675DF0)
 
@@ -254,22 +229,21 @@ RFM_MenusInit(void)
     mtHookFunc(HookInfoDisplayStageMap , DisplayStageMap , DisplayStageMapHook);  // Set Const Mat
     mtHookFunc(HookInfoScreenEffectDisp, screenEffectDisp, screenEffectDispHook); // ^
 
-    WriteCall(0x00675EA8, __SOCDrawSpriteWithConstMat); // Stage Map
-    WriteCall(0x00675F58, __SOCDrawSpriteWithConstMat); // ^
-    WriteCall(0x00676080, __SOCDrawSpriteWithConstMat); // ^
-    WriteCall(0x0067619F, __SOCDrawSpriteWithConstMat); // ^
+    WriteCall(0x00675EA8, ___SOCDrawSpriteConstMat); // Stage Map
+    WriteCall(0x00675F58, ___SOCDrawSpriteConstMat); // ^
+    WriteCall(0x00676080, ___SOCDrawSpriteConstMat); // ^
+    WriteCall(0x0067619F, ___SOCDrawSpriteConstMat); // ^
 
-    WriteCall(0x0066FA8F, __SOCDrawSpriteWithConstMat); // Title
-    WriteCall(0x0066FB28, __SOCDrawSpriteWithConstMat); // ^
+    WriteCall(0x0066FA8F, ___SOCDrawSpriteConstMat); // Title
+    WriteCall(0x0066FB28, ___SOCDrawSpriteConstMat); // ^
 
-    if ( CNF_GetInt(CNF_EXP_DCMENUFADE) )
-    {
-        WriteCall(0x0066F9C7, __SOCDrawSpriteOnlyConstMat); // Title (DC)
-    }
+    WriteNOP( 0x0066F8E3, 0x0066F904);               // Title (DC)
+    WriteCall(0x0066F8E3, SetDreamcastMenuOpacity);  // ^
+    WriteCall(0x0066F9C7, ___SOCDrawSpriteConstMat); // ^
 
-    WriteCall(0x0067C21F, __SOCDrawSpriteWithConstMat); // Story Something
+    WriteCall(0x0067C21F, ___SOCDrawSpriteConstMat); // Story Something
 
-    WriteCall(0x00668222, __SOCDrawSpriteWithConstMat); // BTL Custom Backgrounds
+    WriteCall(0x00668222, ___SOCDrawSpriteConstMat); // BTL Custom Backgrounds
 
     // text bar
     WriteJump(0x00675D50, DrawMapTextBackdrop);
