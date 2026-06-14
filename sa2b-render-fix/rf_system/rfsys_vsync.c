@@ -427,7 +427,7 @@ RF_SysVsyncInit(void)
         RF_MsgWarn(
             "Frame Controller",
 
-            "It is recommeneded that you disable the Mod Loader's 'Limit Framerate' patch, as "
+            "It is recommeneded that you disable the Mod Loader's 'Lock Framerate' patch, as "
             "it will conflict with Render Fix's own frame controller and frameskipping systems.\n\n"
 
             "It can be found in the Mod Manager at: Game Config > Patches > Limit Framerate."
