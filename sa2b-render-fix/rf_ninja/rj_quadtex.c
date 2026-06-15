@@ -53,11 +53,20 @@ static NJS_SYS_ATTR _rj_quad_syattr_;
 static void
 ___SetQuadSyattr(void)
 {
-    njGetSystemAttr(&_rj_quad_syattr_);
+    NJS_SYS_ATTR attr;
+    njGetSystemAttr(&attr);
+
+    NJS_CONTEXT* quattr = (NJS_CONTEXT*) &_rj_quad_syattr_;
+    NJS_CONTEXT* syattr = (NJS_CONTEXT*) &attr;
+
+    quattr->pad32 = TRUE;
+
+    quattr->tspparam = syattr->tspparam;
+    quattr->ispparam = syattr->ispparam;
 }
 
 static bool
-___CheckQuadSyattr(void)
+___CheckAndSetQuadSyattr(void)
 {
     NJS_SYS_ATTR attr;
     njGetSystemAttr(&attr);
@@ -65,9 +74,12 @@ ___CheckQuadSyattr(void)
     NJS_CONTEXT* quattr = (NJS_CONTEXT*) &_rj_quad_syattr_;
     NJS_CONTEXT* syattr = (NJS_CONTEXT*) &attr;
 
-    if ( quattr->tspparam != syattr->tspparam
+    if ( quattr->pad32 == FALSE
+    ||   quattr->tspparam != syattr->tspparam
     ||   quattr->ispparam != syattr->ispparam )
     {
+        quattr->pad32 = TRUE;
+
         quattr->tspparam = syattr->tspparam;
         quattr->ispparam = syattr->ispparam;
         return true;
@@ -111,7 +123,7 @@ ___SetQuadTexHColor(Uint32 col, Uint32 off)
 void
 rjQuadTextureStart(Sint32 trans)
 {
-    ___SetQuadSyattr();
+    _rj_quad_syattr_ = (NJS_SYS_ATTR){ 0 };
 
     _rj_quad_trans_ = trans;
 }
@@ -128,6 +140,8 @@ rjQuadTextureEnd(void)
 void
 rjSetQuadTexture(Sint32 texid, Uint32 col)
 {
+    ___SetQuadSyattr();
+
     ___StartChangeQuadTexAttr();
 
     rjSetTextureNum(texid);
@@ -141,6 +155,8 @@ rjSetQuadTexture(Sint32 texid, Uint32 col)
 void
 rjSetQuadTextureG(Sint32 gid, Uint32 col)
 {
+    ___SetQuadSyattr();
+
     ___StartChangeQuadTexAttr();
 
     rjSetTextureNumG(gid);
@@ -154,6 +170,8 @@ rjSetQuadTextureG(Sint32 gid, Uint32 col)
 void
 rjSetQuadTextureH(Sint32 texid, Uint32 col, Uint32 off)
 {
+    ___SetQuadSyattr();
+
     ___StartChangeQuadTexAttr();
 
     rjSetTextureNum(texid);
@@ -168,7 +186,7 @@ rjSetQuadTextureH(Sint32 texid, Uint32 col, Uint32 off)
 void
 rjSetQuadTextureColor(Uint32 col)
 {
-    if ( ___CheckQuadSyattr() )
+    if ( ___CheckAndSetQuadSyattr() )
     {
         ___StartChangeQuadTexAttr();
 
@@ -187,7 +205,7 @@ rjSetQuadTextureColor(Uint32 col)
 void
 rjSetQuadTextureHColor(Uint32 col, Uint32 off)
 {
-    if ( ___CheckQuadSyattr() )
+    if ( ___CheckAndSetQuadSyattr() )
     {
         ___StartChangeQuadTexAttr();
 
