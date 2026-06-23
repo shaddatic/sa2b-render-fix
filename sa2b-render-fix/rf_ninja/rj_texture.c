@@ -192,6 +192,18 @@ ChangeTextureLimit(Int ntex)
     RF_DbgInfo("Expanded texture limit to %i, from %i!", ntex, texmemsize);
 }
 
+static void
+ResetTexSystem(void)
+{
+    njInitTexSystem(TexSystemBuf, _nj_texsyssize);
+}
+
+static void
+ResetTexManage(void)
+{
+    njInitTexManage(TexManageBuf, _nj_texmanagesize);
+}
+
 /****** Conversion ******************************************************************************/
 static Sint32 __fastcall
 ___SetTextureNum(Uint32 n)
@@ -210,12 +222,14 @@ RJ_TextureInit(void)
     /****** Tex Error ***********************************************************************/
 
     // backup current tex memory
+    const Int           nb_tex    = _nj_tex_count;
     const Int           nb_texsys = _nj_texsyssize;
     const Int           nb_texman = _nj_texmanagesize;
     NJS_TEXSYSTEM* const p_texsys = _nj_texsys;
     NJS_TEXMANAGE* const p_texman = _nj_texmanage;
 
     // put texerr memory
+    _nj_tex_count     = 0;
     _nj_texmanagesize = ARYLEN( TexerrTexsys );
     _nj_texsyssize    = ARYLEN( TexerrTexman );
     _nj_texsys        = TexerrTexsys;
@@ -224,6 +238,7 @@ RJ_TextureInit(void)
     njLoadTexture(texlist_rf_texerr);
 
     // restore tex memory
+    _nj_tex_count     = nb_tex;
     _nj_texsyssize    = nb_texsys;
     _nj_texmanagesize = nb_texman;
     _nj_texsys        =  p_texsys;
@@ -233,6 +248,9 @@ RJ_TextureInit(void)
     TexerrTexsys[0].globalIndex = -1;
 
     /****** Func Hook ***********************************************************************/
+
+    WriteCall(0x00434D7A, ResetTexManage);
+    WriteCall(0x00434D84, ResetTexSystem);
 
     WriteJump(0x0042ED30, ___SetTextureNum);
 }
