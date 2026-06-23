@@ -104,34 +104,34 @@ DrawTailsPlainWithPillar(void)
     RF_SysCtrlResetPillar();
 }
 
-ASM_FUNC
-static void
-LoadTexPrs_WithExt(char* filename, NJS_TEXLIST* ptlo, void* buffer)
-{
-    // arguments
-    ASM_PUSH(      ASM_ESP(3+0) ); // buffer
-    ASM_MOVE( edx, ASM_ESP(2+1) ); // ptlo
-    ASM_MOVE( ecx, ASM_ESP(1+1) ); // filename
-
-    // call
-    ASM_CALL_R( eax, 0x0044C410 );
-
-    // end arguments
-    ASM_ESP_ADD( 1 );
-
-    // return
-    ASM_RET( 0 );
-}
-
 static void __cdecl
-LoadEventTextures(char* filename, NJS_TEXLIST* ptlo, void* buffer)
+LoadEventTextures(char* fname, NJS_TEXLIST* ptlo, void* buf)
 {
-    LoadTexPrs_WithExt(filename, ptlo, buffer);
+    isize  sz_strbuf = ARYLEN(GlobalBuffer);
+    c7* const strbuf = GlobalBuffer;
+
+    // remove extension from fname so we can call the normal texload.
+    // we can't call the original function because it destroys the stack for some reason
+    if ( !fname )
+    {
+        return;
+    }
+
+    mtStrCopy(strbuf, fname, sz_strbuf);
+
+    const isize ix_ext = mtPathGetExtension(strbuf, sz_strbuf);
+
+    if ( ix_ext != STR_NOINDEX )
+    {
+        strbuf[ix_ext] = '\0';
+    }
+
+    texLoadTexturePvmFile(strbuf, ptlo);
+
+    // load extra big textures
+    mtStrFormat(strbuf, sz_strbuf, "e%04ibigtex", EventNum);
     
-    c7 buf[16];
-    mtStrFormat(buf, ARYLEN(buf), "e%04ibigtex", EventNum);
-    
-    EvBigTexture = texCreateTexlist(buf);
+    EvBigTexture = texCreateTexlist(strbuf);
     
     if ( EvBigTexture && !EvBigTexture->nbTexture )
     {
@@ -141,21 +141,23 @@ LoadEventTextures(char* filename, NJS_TEXLIST* ptlo, void* buffer)
     }
 }
 
-__declspec(naked)
+ASM_FUNC
 static void
 ___LoadEventTextures(void)
 {
-    __asm
-    {
-        push [esp+4]
-        push edx
-        push ecx
+    // arguments
+    ASM_PUSH(      ASM_ESP(1+0) ); // buffer
+    ASM_PUSH( edx               ); // ptlo
+    ASM_PUSH( ecx               ); // filename
 
-        call LoadEventTextures
+    // call
+    ASM_CALL( LoadEventTextures );
 
-        add esp, 12
-        retn
-    }
+    // end arguments
+    ASM_ESP_ADD( 3 );
+
+    // return
+    ASM_RET( 0 );
 }
 
 static void
