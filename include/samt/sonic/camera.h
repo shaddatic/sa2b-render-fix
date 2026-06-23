@@ -183,12 +183,14 @@ typedef struct
     f32         dist_max;           /* max distance                                             */
     NJS_POINT3  pos_hit;            /* land hit position (?)                                    */
 
-    i8 gap2C[40];
-    NJS_POINT3 field_54[2][5];
-    i8 gapCC[58];
-    NJS_POINT3 dir;
-    i32 gap114[36];
-    i32 field_138;
+    f32 flt_2C[10];
+    NJS_POINT3 pnt_54[2][5];
+    i8 gap_CC[58];
+
+    NJS_POINT3 vec;
+
+    i8 gap_114[36];
+    i32 int_138;
 }
 camcolwk;
 
