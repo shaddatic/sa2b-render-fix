@@ -26,19 +26,20 @@ typedef struct task     task;
 
 typedef struct 
 {
-    float inv_radius;
-    int32_t HeldAng;
-    int32_t RotSpd;
-    NJS_POINT3 axis;
-    NJS_MATRIX mat;
+    f32         inv_radius;
+    Angle       HeldAng;
+    Angle       RotSpd;
+    NJS_POINT3  axis;
+    NJS_MATRIX  mat;
 }
 BALL_WORK;
 
 /************************/
 /*  Data                */
 /************************/
-#define BallUsable              DATA_REF(int32_t, 0x01DBE574)
-#define ALO_BallTaskPointer     DATA_REF(task*  , 0x01DBE570)
+#define pBallTask                   DATA_REF(task*, 0x01DBE570)
+#define BallFlag                    DATA_REF(b32  , 0x01DBE574)
+#define BallWaterFlag               DATA_REF(b32  , 0x01DBE56C)
 
 /************************/
 /*  Functions           */

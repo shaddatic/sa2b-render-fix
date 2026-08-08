@@ -21,7 +21,7 @@ typedef struct task     task;
 /************************/
 /*  Data                */
 /************************/
-#define ALO_RadicaseTaskPointer     DATA_REF(task*, 0x01AED2E0)
+#define pRadicaseTask           DATA_REF(task*, 0x01AED2E0)
 
 /************************/
 /*  Functions           */

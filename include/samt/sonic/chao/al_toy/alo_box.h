@@ -21,7 +21,7 @@ typedef struct task     task;
 /************************/
 /*  Data                */
 /************************/
-#define ALO_BoxTaskPointer      DATA_REF(task*, 0x01AED32C)
+#define pBoxTask                DATA_REF(task*, 0x01AED32C)
 
 /************************/
 /*  Functions           */

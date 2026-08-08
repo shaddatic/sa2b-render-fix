@@ -101,7 +101,7 @@ typedef struct
     uint8_t crc1;
     uint8_t pre0;
     uint8_t crc3;
-    uint8_t stPost;
+    uint8_t post;
     uint8_t pre1;
     uint8_t crc0;
     uint8_t pre2;
@@ -228,6 +228,9 @@ void    AL_CreateGardenInfo( void );
 
 /** Internal functions **/
 b32     AL_CheckSaveDataCrc2(CHAO_GARDEN_INFO* info);
+
+// get item save info
+ITEM_SAVE_INFO* AL_GetItemSaveInfo( task* tp );
 
 EXTERN_END
 

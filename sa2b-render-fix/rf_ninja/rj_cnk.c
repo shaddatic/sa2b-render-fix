@@ -38,7 +38,7 @@ rjCnkBeginShadowTex(void)
 {
     if ( _nj_control_3d_flag_ & 0x80000 )
     {
-        NJS_MATRIX m = *_nj_curr_matrix_;
+        NJS_MATRIX m = *_nj_matrix_;
 
         njInvertMatrix(&m);
 

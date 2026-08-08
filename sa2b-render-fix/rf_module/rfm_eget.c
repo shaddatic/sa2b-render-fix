@@ -27,7 +27,7 @@ static void
 getEmblemDisplayerHook(task* const tp)
 {
     NJS_MATRIX m;
-    njSetMatrix( &m, _nj_curr_matrix_ );
+    njSetMatrix( &m, _nj_matrix_ );
 
     BackupScreen();
 

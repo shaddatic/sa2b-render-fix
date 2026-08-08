@@ -808,7 +808,7 @@ ALO_BoxCreateHook(NJS_POINT3* pPos)
 {
     mtHookInfoCall( BoxHookInfo, ALO_BoxCreate(pPos) );
 
-    task* const tp = ALO_BoxTaskPointer;
+    task* const tp = pBoxTask;
 
     if ( tp && !tp->disp_shad )
     {
@@ -893,7 +893,7 @@ ALO_RadicaseCreateHook(NJS_POINT3* pPos)
 {
     mtHookInfoCall( RadicaseHookInfo, ALO_RadicaseCreate(pPos) );
 
-    task* const tp = ALO_RadicaseTaskPointer;
+    task* const tp = pRadicaseTask;
 
     if ( tp && !tp->disp_shad )
     {
@@ -937,7 +937,7 @@ ALO_TVCreateHook(NJS_POINT3* pPos)
 {
     mtHookInfoCall( TVHookInfo, ALO_TVCreate(pPos) );
 
-    task* const tp = ALO_TVTaskPointer;
+    task* const tp = pTVTask;
 
     if ( tp && !tp->disp_shad )
     {

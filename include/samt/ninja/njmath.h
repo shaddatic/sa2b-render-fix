@@ -129,9 +129,7 @@ Float   njSqrt( Float n );
 Float   njTan( Angle n );
 
 /****** Other ***********************************************************************************/
-
 Sint32  njCombination( Sint32 n, Sint32 k );
-
 void    njLinear(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
 void    njHermiteSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);
 void    njCardinalSpline(Float* idata, Float* odata, NJS_SPLINE* attr, Float frame);

@@ -217,6 +217,7 @@ typedef enum
 ENUM_GOLEM_PARTS;
 
 /****** Advertise Element "LiST" (?) ************************************************************/
+#if 0
 enum
 {
     LST_E_SPACE,
@@ -525,6 +526,7 @@ enum
 
 //  LST_MAX, duplicate
 };
+#endif
 
 /****** Sound Test ******************************************************************************/
 enum
@@ -622,11 +624,13 @@ enum
     TEX_KARTRACE_WAKU1,
 };
 
+#if 0
 enum
 {
     TEX_AD_EMBLEM_MINI,
     TEX_FILESELECT_SUUJI,
 };
+#endif
 
 enum
 {

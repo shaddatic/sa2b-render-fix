@@ -90,7 +90,7 @@ typedef struct
     uint16_t Flag;
     uint16_t MoodTimer;
     uint16_t IllTimer;
-    uint16_t loc_timer;
+    uint16_t Timer;
     uint8_t Mood[8];
     uint16_t State[11];
     int8_t Personality[13];
@@ -252,11 +252,9 @@ CHAO_SAVE_INFO;
 /************************/
 #define pSelectedChaoSaveInfoList   DATA_REF(CHAO_SAVE_INFO*, 0x01A5CC00)
 #define pHoldingChaoSaveInfo        DATA_REF(CHAO_SAVE_INFO*, 0x01A5CA5C)
-#define HoldingFront                DATA_REF(b32       , 0x01A5CAB4)
+#define HoldingFront                DATA_REF(b32            , 0x01A5CAB4)
 
-#define ChaoSetPositionNeut         DATA_ARY(NJS_POINT3     , 0x01366260, [16])
-#define ChaoSetPositionHero         DATA_ARY(NJS_POINT3     , 0x01366320, [16])
-#define ChaoSetPositionDark         DATA_ARY(NJS_POINT3     , 0x013663E0, [16])
+#define ChaoSetPos                  DATA_ARY(NJS_POINT3     , 0x01366260, [3][16])
 
 /************************/
 /*  Functions           */

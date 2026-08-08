@@ -21,7 +21,7 @@ typedef struct task     task;
 /************************/
 /*  Data                */
 /************************/
-#define ALO_TVTaskPointer       DATA_REF(task*, 0x01AED288)
+#define pTVTask                 DATA_REF(task*, 0x01AED288)
 
 /************************/
 /*  Functions           */

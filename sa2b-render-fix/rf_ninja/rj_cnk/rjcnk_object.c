@@ -33,7 +33,7 @@ ___rjCnkObjectRotateBase(void)
 static inline void
 ___rjCnkObjectRotateSet(void)
 {
-    NJS_MATRIX* m = _nj_curr_matrix_;
+    NJS_MATRIX* m = _nj_matrix_;
 
     m->m[0][0] = _nj_cnk_rotbase_matrix_.m[0][0];
     m->m[0][1] = _nj_cnk_rotbase_matrix_.m[0][1];

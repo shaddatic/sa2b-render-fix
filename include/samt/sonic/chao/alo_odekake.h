@@ -31,7 +31,7 @@ typedef struct // AnyWk
     task*   pChaotask;
     i32     FileFlag;
     i32     BuyoFlag;
-    i32     BuyoPhase;
+    Angle   BuyoPhase;
     i32     MonitorMode;
     i32     MonitorCount;
     i32     MonitorTimer;
@@ -39,11 +39,44 @@ typedef struct // AnyWk
 }
 ODEKAKE_WORK;
 
+enum 
+{
+    MD_ODEKAKE_INIT = 0x0,
+    MD_ODEKAKE_INIT_WAIT = 0x1,
+    MD_ODEKAKE_CHECK_GBA = 0x2,
+    MD_ODEKAKE_NORMAL = 0x3,
+    MD_ODEKAKE_JOY_COPY_CONFIRM_00 = 0x4,
+    MD_ODEKAKE_JOY_COPY_CONFIRM_005 = 0x5,
+    MD_ODEKAKE_JOY_COPY_CONFIRM_01 = 0x6,
+    MD_ODEKAKE_JOY_COPY_CONFIRM_02 = 0x7,
+    MD_ODEKAKE_ODE_COPY_CONFIRM_00 = 0x8,
+    MD_ODEKAKE_ODE_COPY_CONFIRM_005 = 0x9,
+    MD_ODEKAKE_ODE_COPY_CONFIRM_01 = 0xA,
+    MD_ODEKAKE_ODE_COPY_CONFIRM_02 = 0xB,
+    MD_ODEKAKE_ODEKAKE_START = 0xC,
+    MD_ODEKAKE_ODEKAKE_WAIT = 0xD,
+    MD_ODEKAKE_ODEKAKE_FILESAVE_START = 0xE,
+    MD_ODEKAKE_ODEKAKE_FILESAVE_WAIT = 0xF,
+    MD_ODEKAKE_JOYBOOT_START = 0x10,
+    MD_ODEKAKE_JOYBOOT_WAIT = 0x11,
+    MD_ODEKAKE_JOYBOOT_FILESAVE_START = 0x12,
+    MD_ODEKAKE_JOYBOOT_FILESAVE_WAIT = 0x13,
+    MD_ODEKAKE_WARNING = 0x14,
+    MD_ODEKAKE_DECIDE = 0x15,
+    MD_ODEKAKE_END_WAIT = 0x16,
+    MD_ODEKAKE_END_WAIT2 = 0x17,
+    MD_ODEKAKE_END = 0x18,
+    MD_ODEKAKE_WHITE_OUT = 0x19,
+};
+
 /************************/
 /*  Data                */
 /************************/
-#define OdekakeTaskPointer      DATA_REF(task*, 0x01AED318)
-#define EnteringOdekake         DATA_REF(b32  , 0x01AED31C)
+#define OdekakeMachineTask      DATA_REF(task*, 0x01AED318)
+
+#define OdekakeInitPosFlag      DATA_REF(b32  , 0x01AED314)
+#define OdekakeMenuFlag         DATA_REF(b32  , 0x01AED31C)
+#define GetChaoFlag             DATA_REF(b32  , 0x01AED310)
 
 /** Crappy, half-baked, replacement case model by SOC **/
 #define pSOCOdekakeModel        DATA_REF(void*, 0x1AED320)

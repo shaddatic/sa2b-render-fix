@@ -65,14 +65,14 @@ typedef struct _SE_TBL
     i16         timer;              /* timer                                                    */
     i16         range;              /* sound range                                              */
 }
-SE_TBL; // _SE_TBL
+SE_TBL;
 
 typedef struct _SE_ENTRY
 {
     u8          entry_num;          /* sound entry count                                        */
     SE_TBL*     se_tbl;             /* sound entry table                                        */
 }
-SE_ENTRY; // _SE_ENTRY
+SE_ENTRY;
 
 #ifdef SAMT_INCL_INTERNAL
 

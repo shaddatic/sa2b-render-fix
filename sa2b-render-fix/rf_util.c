@@ -104,7 +104,7 @@ bool
 RFU_CalcInvertedMatrix(const NJS_MATRIX* m)
 {
     if (!m)
-        m = _nj_curr_matrix_;
+        m = _nj_matrix_;
 
     NJS_VECTOR x1 = { m->m[0][0], m->m[1][0], m->m[2][0] };
     NJS_VECTOR y1 = { m->m[0][1], m->m[1][1], m->m[2][1] };

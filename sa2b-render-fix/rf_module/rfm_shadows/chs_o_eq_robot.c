@@ -52,7 +52,7 @@ ObjectRobotDisplayerMod(task* tp)
     NJS_MATRIX* p_mat = (NJS_MATRIX*)awp[5].work.ul[0];
 
     if (!p_mat)
-        p_mat = _nj_curr_matrix_;
+        p_mat = _nj_matrix_;
 
     njMultiMatrix(NULL, p_mat);
 

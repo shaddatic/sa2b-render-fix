@@ -56,7 +56,7 @@ NJS_MATRIX44;
 /*  Global Variables            */
 /********************************/
 /****** Current Matrix **************************************************************************/
-#define _nj_curr_matrix_            DATA_REF(NJS_MATRIX*, 0x01A557FC)
+#define _nj_matrix_                 DATA_REF(NJS_MATRIX*, 0x01A557FC)
 
 /****** Matrix Stack Limits *********************************************************************/
 #define _nj_min_matrix_             DATA_REF(NJS_MATRIX*, 0x0267053C)
