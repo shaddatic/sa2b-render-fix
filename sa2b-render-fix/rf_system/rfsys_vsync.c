@@ -8,6 +8,7 @@
 #include <samt/writemem.h>          /* writedata                                                */
 #include <samt/os.h>                /* highresclock                                             */
 #include <samt/modloader.h>         /* debugprint                                               */
+#include <samt/arch.h>              /* arch                                                     */
 
 /****** Game ************************************************************************************/
 #include <samt/sonic/display.h>     /* display ratio                                            */
@@ -24,6 +25,9 @@
 
 /****** Std *************************************************************************************/
 #include <math.h>                   /* fmax                                                     */
+
+/****** OS **************************************************************************************/
+#include <windows.h>
 
 /****** Self ************************************************************************************/
 #include <rf_system/rfsys_internal.h> /* parent & siblings                                      */
@@ -49,6 +53,9 @@
 /********************************/
 /*  Data                        */
 /********************************/
+/****** Windows Vars ****************************************************************************/
+static HANDLE HdlTimer;             /* windows timer handle                                     */
+
 /****** User Settings ***************************************************************************/
 static bool UseFrameController;     /* enable/disable vsync/frameskip calculations              */
 static bool FastVsync;              /* use fast but unnacurate vsync calcs                      */
@@ -108,10 +115,14 @@ RF_SysVsyncSceneStart(void)
     // vsync
     if ( UseFrameController )
     {
+        // clock now
+        const i64 start_clock = GetClock();
+
+        // how long we want this frame to take
         const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
 
-        const i64 start_clock = GetClock();
-        const f64 delta_ms    = GetMilliseconds(start_clock - ClockStart, freq);
+        // how long this frame has already taken
+        const f64 delta_ms = GetMilliseconds(start_clock - ClockStart, freq);
 
         f64 wait_ms = 0.f;
 
@@ -128,25 +139,21 @@ RF_SysVsyncSceneStart(void)
 
         if ( wait_ms > 0.f )
         {
-            if ( FastVsync )
-            {
-                u32 sleep_ms = (u32)floor(wait_ms);
+            const i32 sleep_ms = (i32)floor(wait_ms - SLEEP_GRACE_MS);
 
-                if ( sleep_ms >= 1 )
-                {
-                    // sleep to release CPU cycles
-                    osSleep( sleep_ms );
-                }
+            // sleep most of the time first to release CPU cycles
+            if ( sleep_ms > 0 )
+            {
+                const LARGE_INTEGER timer = { .QuadPart = (i64)(wait_ms - 1.0) };
+
+                SetWaitableTimerEx(    HdlTimer, &timer, 0, NULL, NULL, NULL, 0 );
+                WaitForSingleObjectEx( HdlTimer, INFINITE, FALSE );
             }
-            else // accurate
+
+            // wait for the remaining time
+            while ( wait_ms > GetFrameTime(start_clock, freq) )
             {
-                const i32 sleep_ms = (i32)floor(wait_ms - SLEEP_GRACE_MS);
-
-                // sleep most of the time first to release CPU cycles
-                if ( sleep_ms > 0 ) osSleep( (u32) sleep_ms );
-
-                // wait for the remaining time
-                while ( wait_ms > GetFrameTime(start_clock, freq) );
+                mtArcYield();
             }
         }
 
@@ -436,4 +443,6 @@ RF_SysVsyncInit(void)
 
     // start the clock on a reasonable value
     ClockStart = GetClock();
+
+    HdlTimer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
 }
