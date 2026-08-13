@@ -268,4 +268,7 @@ RFM_MenusInit(void)
     WriteData(0x00680485, NJD_SPRITE_SCALE|NJD_SPRITE_COLOR, u8);
     WriteData(0x0068048F, NJD_SPRITE_SCALE|NJD_SPRITE_COLOR, u8);
     WriteData(0x0068051A, NJD_SPRITE_SCALE|NJD_SPRITE_COLOR, u8);
+
+    // faster widescreen scrolling for battle title background
+    WriteData(0x0066FB3E +1, 2, i32);
 }
