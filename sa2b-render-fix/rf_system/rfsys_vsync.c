@@ -36,7 +36,7 @@
 /*  Constants                   */
 /********************************/
 /****** Basic Constants *************************************************************************/
-#define SLEEP_GRACE_MS              (0.5)             /* sleep call grace time                  */
+#define SLEEP_GRACE_MS              (1.0)             /* sleep call grace time                  */
 #define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
 #define TARGET_MS(wait)             (MS_PER_SEC/(60.0/(f64)(wait))) /* target performance       */
 
