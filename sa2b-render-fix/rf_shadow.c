@@ -317,7 +317,8 @@ RF_ShadowInit(void)
     object_bunchin_mod = RF_GetCnkObject("object/bunchin_mod");
 
     // object, board
-    object_ce_board_mod = object_mh_board_mod = RF_GetCnkObject("object/board_mod");
+    object_ce_board_mod = DATA_ARY(NJS_CNK_OBJECT, 0x0108ACB8, [1]);
+    object_mh_board_mod = DATA_ARY(NJS_CNK_OBJECT, 0x00AE7B10, [1]);
 
     // object, egg quaters
     object_eq_robot_mod = DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1]);
