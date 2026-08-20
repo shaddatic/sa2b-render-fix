@@ -87,8 +87,6 @@ NJS_CNK_OBJECT*                     CartObjectList[CART_NUM][CART_DLC_NUM];
 NJS_CNK_OBJECT*                     object_modmod_hex;
 NJS_CNK_OBJECT*                     object_modmod_box;
 
-NJS_CNK_OBJECT*                     object_bunchin_mod;
-
 NJS_CNK_OBJECT*                     object_ce_board_mod;
 NJS_CNK_OBJECT*                     object_mh_board_mod;
 
@@ -97,8 +95,6 @@ NJS_CNK_OBJECT*                     object_eq_robot_mod;
 NJS_CNK_OBJECT*                     object_md_contbox_mod;
 NJS_CNK_OBJECT*                     object_md_meteo_mod;
 NJS_CNK_OBJECT*                     object_md_tank_mod;
-
-NJS_CNK_OBJECT*                     object_cc_block_mod;
 
 /****** Enemy ***********************************************************************************/
 NJS_CNK_OBJECT*                     object_e_shouko_mod;
@@ -159,8 +155,6 @@ static NJS_CNK_OBJECT** const ShadowList[RF_NB_SHADOW] =
     [RF_SHADOW_OBJECT_MODMOD_HEX] = &object_modmod_hex,
     [RF_SHADOW_OBJECT_MODMOD_BOX] = &object_modmod_box,
 
-    [RF_SHADOW_OBJECT_BUNCHIN] = &object_bunchin_mod,
-
     [RF_SHADOW_OBJECT_CE_BOARD] = &object_ce_board_mod,
     [RF_SHADOW_OBJECT_MH_BOARD] = &object_mh_board_mod,
 
@@ -169,8 +163,6 @@ static NJS_CNK_OBJECT** const ShadowList[RF_NB_SHADOW] =
     [RF_SHADOW_OBJECT_MD_CONTBOX] = &object_md_contbox_mod,
     [RF_SHADOW_OBJECT_MD_METEO]   = &object_md_meteo_mod,
     [RF_SHADOW_OBJECT_MD_TANK]    = &object_md_tank_mod,
-
-    [RF_SHADOW_OBJECT_CC_BLOCK2]  = &object_cc_block_mod,
 
     [RF_SHADOW_ENEMY_SHOUKO] = &object_e_shouko_mod,
 
@@ -314,9 +306,6 @@ RF_ShadowInit(void)
     object_modmod_hex = DATA_ARY(NJS_CNK_OBJECT, 0x00B4D414, [1]);
     object_modmod_box = DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1]);
 
-    // object, bunchin
-    object_bunchin_mod = RF_GetCnkObject("object/bunchin_mod");
-
     // object, board
     object_ce_board_mod = DATA_ARY(NJS_CNK_OBJECT, 0x0108ACB8, [1]);
     object_mh_board_mod = DATA_ARY(NJS_CNK_OBJECT, 0x00AE7B10, [1]);
@@ -325,12 +314,9 @@ RF_ShadowInit(void)
     object_eq_robot_mod = DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1]);
 
     // object, meteor herd
-    object_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod");
-    object_md_meteo_mod   = RF_GetCnkObject("object/md_meteo_mod");
-    object_md_tank_mod    = RF_GetCnkObject("object/md_tank_mod");
-
-    // object, cannons core
-    object_cc_block_mod = RF_GetCnkObject("object/cc_block_mod");
+    object_md_contbox_mod = DATA_ARY(NJS_CNK_OBJECT, 0x01146E9C, [1]);
+    object_md_meteo_mod   = DATA_ARY(NJS_CNK_OBJECT, 0x01153A60, [1]);
+    object_md_tank_mod    = DATA_ARY(NJS_CNK_OBJECT, 0x01149C74, [1]);
 
     // enemy
     object_e_shouko_mod = DATA_ARY(NJS_CNK_OBJECT, 0x014D0C68, [1]);
@@ -341,6 +327,6 @@ RF_ShadowInit(void)
     object_b_hotshot_body_mod  = DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1]);
     object_b_hotshot_foot_mod  = DATA_ARY(NJS_CNK_OBJECT, 0x01134E30, [1]);
     object_b_grobo_missile_mod = DATA_ARY(NJS_CNK_OBJECT, 0x01118F30, [1]);
-    object_b_fdog_body_mod     = RF_GetCnkObject("boss/fdog/fdog_mod");
+    object_b_fdog_body_mod     = DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1]);
     object_b_bigbogy_mod       = RF_GetCnkObject("boss/bigbogy/bigbogy_mod");
 }

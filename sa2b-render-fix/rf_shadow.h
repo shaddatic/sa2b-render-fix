@@ -65,18 +65,14 @@ typedef enum
     RF_SHADOW_OBJECT_MODMOD_HEX,    /* modmod object shadow, hexagon                            */
     RF_SHADOW_OBJECT_MODMOD_BOX,    /* modmod object shadow, cube                               */
 
-    RF_SHADOW_OBJECT_BUNCHIN,       /* falling weight hazard shadow                             */
-
     RF_SHADOW_OBJECT_CE_BOARD,      /* player snow board shadow, city escape                    */
     RF_SHADOW_OBJECT_MH_BOARD,      /* player snow board shadow, metal harbor                   */
 
-    RF_SHADOW_OBJECT_EQ_ROBOT,      /* egg quaters robot shadow                                 */
+    RF_SHADOW_OBJECT_EQ_ROBOT,      /* egg quaters robot beetle shadow                          */
 
-    RF_SHADOW_OBJECT_MD_CONTBOX,    /* meteor herd floating box shadow                          */
+    RF_SHADOW_OBJECT_MD_CONTBOX,    /* meteor herd large blue container shadow                  */
     RF_SHADOW_OBJECT_MD_METEO,      /* meteor herd meteor shadow                                */
-    RF_SHADOW_OBJECT_MD_TANK,       /* meteor herd large tank shadow                            */
-
-    RF_SHADOW_OBJECT_CC_BLOCK2,     /* cannons core floating block shadow                       */
+    RF_SHADOW_OBJECT_MD_TANK,       /* meteor herd small overhead tank shadow                   */
 
     RF_SHADOW_ENEMY_SHOUKO,         /* enemy jet shadow                                         */
 
@@ -136,8 +132,6 @@ EXTERN NJS_CNK_OBJECT*              CartObjectList[CART_NUM][CART_DLC_NUM];
 EXTERN NJS_CNK_OBJECT*              object_modmod_hex;
 EXTERN NJS_CNK_OBJECT*              object_modmod_box;
 
-EXTERN NJS_CNK_OBJECT*              object_bunchin_mod;
-
 EXTERN NJS_CNK_OBJECT*              object_ce_board_mod;
 EXTERN NJS_CNK_OBJECT*              object_mh_board_mod;
 
@@ -146,8 +140,6 @@ EXTERN NJS_CNK_OBJECT*              object_eq_robot_mod;
 EXTERN NJS_CNK_OBJECT*              object_md_contbox_mod;
 EXTERN NJS_CNK_OBJECT*              object_md_meteo_mod;
 EXTERN NJS_CNK_OBJECT*              object_md_tank_mod;
-
-EXTERN NJS_CNK_OBJECT*              object_cc_block_mod;
 
 /****** Enemy ***********************************************************************************/
 EXTERN NJS_CNK_OBJECT*              object_e_shouko_mod;
@@ -325,8 +317,9 @@ void    ObjectFireBallShadow( task* tp );
 void    ObjectTankShadow( task* tp );
 /*
 *   Description:
-*     Floating Cannons Core block shadow displayer.
+*     Floating Cannons Core block shadow displayers.
 */
+void    ObjectBlockShadow( task* tp );
 void    ObjectBlock2Shadow( task* tp );
 
 /****** Enemy ***********************************************************************************/

@@ -34,7 +34,7 @@ ObjectBlock2Shadow(task* tp)
 
     njScale(NULL, scl, scl, scl);
 
-    njCnkModDrawObject(object_cc_block_mod);
+    njCnkModDrawObject(object_modmod_box);
 
     njPopMatrixEx();
 }
@@ -51,8 +51,8 @@ ObjectBlock2Hook(task* tp)
         tp->disp_shad = ObjectBlock2Shadow;
 }
 
-static void
-ObjectBlockDisplayerMod(task* tp)
+void
+ObjectBlockShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     anywk* const awp = tp->awp;
@@ -69,7 +69,7 @@ ObjectBlockDisplayerMod(task* tp)
 
     njScale(NULL, scl, scl, scl);
 
-    njCnkModDrawObject(object_cc_block_mod);
+    njCnkModDrawObject(object_modmod_box);
 
     njPopMatrixEx();
 }
@@ -82,7 +82,7 @@ ObjectBlockHook(task* tp)
     mtHookInfoCall( HookInfoObjectBlock, ObjectBlock(tp) );
 
     if (tp->disp)
-        tp->disp_shad = ObjectBlockDisplayerMod;
+        tp->disp_shad = ObjectBlockShadow;
 }
 
 void

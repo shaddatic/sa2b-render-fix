@@ -52,7 +52,7 @@ ObjectBunchinShadow(task* tp)
 
     njScale(NULL, scl_x , scl_y * 0.06666667f, scl_z);
 
-    njCnkModDrawModel(object_bunchin_mod->model);
+    njCnkModDrawModel(object_modmod_box->model);
     njPopMatrixEx();
 }
 
