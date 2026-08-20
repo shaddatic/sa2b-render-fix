@@ -29,6 +29,7 @@
 /****** ModMod **********************************************************************************/
 enum
 {
+    OBJECT_MODMOD_HEX_DEBUG,
     OBJECT_MODMOD_HEX,
     OBJECT_MODMOD_BOX_DEBUG,
     OBJECT_MODMOD_BOX,
@@ -40,7 +41,7 @@ enum
 /*  Game Refs                   */
 /********************************/
 /****** ModMod **********************************************************************************/
-#define ModModModels                DATA_ARY(NJS_CNK_MODEL*, 0x00B4D830, [OBJECT_MODMOD_NUM])
+#define ModModModels                DATA_ARY(NJS_CNK_MODEL*, 0x00B4D82C, [OBJECT_MODMOD_NUM])
 
 /********************************/
 /*  Variables                   */

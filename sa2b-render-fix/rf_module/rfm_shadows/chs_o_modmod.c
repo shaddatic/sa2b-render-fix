@@ -14,14 +14,12 @@
 #include <rf_ninja.h>
 #include <rf_util.h>
 
-#define ModModModelList     DATA_ARY(NJS_CNK_MODEL*, 0x00B4D830, [3])
+#define ModModModelList     DATA_ARY(NJS_CNK_MODEL*, 0x00B4D82C, [4])
 
 static void
 ObjectModModDisplayer(task* tp)
 {
     taskwk* const twp = tp->twp;
-
-    ___TODO("Don't draw when wtimer == 1! This is a debug object!");
 
     njPushMatrixEx();
 
@@ -29,7 +27,15 @@ ObjectModModDisplayer(task* tp)
     njRotateX(NULL, twp->ang.x);
     njRotateY(NULL, twp->ang.y);
     njScale(NULL, twp->scl.x + 1.0f, twp->scl.y + 1.0f, twp->scl.z + 1.0f);
-    njCnkModDrawModel(ModModModelList[twp->wtimer]);
+
+    i32 ix = twp->wtimer;
+
+    if ( ix == 0 || ix == 2 )
+    {
+        ix++;
+    }
+
+    njCnkModDrawModel(ModModModelList[ix]);
 
     njPopMatrixEx();
 }
