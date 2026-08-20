@@ -17,9 +17,8 @@
 #include <rf_util.h>
 #include <rfu_draw.h>
 
-
-static void
-ObjectUdreelDisplayerMod(task* tp)
+void
+ObjectUdreelShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -33,8 +32,8 @@ ObjectUdreelDisplayerMod(task* tp)
     njPopMatrixEx();
 }
 
-static void
-ObjectGolemUdreelDisplayerMod(task* tp)
+void
+ObjectGolemUdreelShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -58,13 +57,13 @@ ObjectGolemUdreelHook(task* tp)
     mtHookInfoCall(HookInfoGolemUdreel, ObjectGolemUdreel(tp));
 
     if (tp->disp)
-        tp->disp_shad = ObjectGolemUdreelDisplayerMod;
+        tp->disp_shad = ObjectGolemUdreelShadow;
 }
 
 void
 CHS_UdreelInit(void)
 {
-    WriteJump(0x006E6320, ObjectUdreelDisplayerMod);
+    WriteJump(0x006E6320, ObjectUdreelShadow);
     SwitchDisplayer(0x006E56A2, DISP_SHAD);
 
     mtHookFunc(HookInfoGolemUdreel, ObjectGolemUdreel, ObjectGolemUdreelHook);

@@ -17,10 +17,9 @@
 #include <rf_ninja.h>
 #include <rf_util.h>
 #include <rf_renderstate.h>
+#include <rf_shadow.h>
 
 #define ModTurnVertex       FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
-
-#define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
 
 static bool
 IsCarFlipped(Angle3* pAng)
@@ -45,7 +44,7 @@ DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
 {
     ModTurnVertex(sizeX, sizeZ, pAng);
 
-    NJS_CNK_MODEL* car_model = object_car_mod->model;
+    NJS_CNK_MODEL* car_model = object_modmod_box->model;
 
     const float r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
 
@@ -99,8 +98,8 @@ PosInRange(NJS_POINT3* pPos, f32 maxRange, f32* pAnsDist)
 
 #define stru_10D9810    DATA_ARY(CAR_INFO, 0x010D9810, [30])
 
-static void
-ObjectCECarDisplayerMod(task* tp)
+void
+ObjectCarShadow_CE(task* tp)
 {
     if (DisableCars)
         return;
@@ -150,11 +149,11 @@ ObjectCECarHook(task* tp)
 
     /** If successfully loaded **/
     if (tp->mwp)
-        tp->disp_shad = ObjectCECarDisplayerMod;
+        tp->disp_shad = ObjectCarShadow_CE;
 }
 
-static void
-ObjectCECarCrashDisplayerMod(task* tp)
+void
+ObjectCarCrashShadow_CE(task* tp)
 {
     taskwk*   const twp   = tp->twp;
     CAR_INFO* const carip = (CAR_INFO*)tp->awp;
@@ -169,8 +168,8 @@ ObjectCECarCrashDisplayerMod(task* tp)
 
 #define stru_1195F80    DATA_ARY(CAR_INFO, 0x01195F80, [15])
 
-static void
-ObjectMSCarDisplayerMod(task* tp)
+void
+ObjectCarShadow_MS(task* tp)
 {
     if (DisableCars)
         return;
@@ -220,11 +219,11 @@ ObjectMSCar2Hook(task* tp)
 
     /** If successfully loaded **/
     if (tp->mwp)
-        tp->disp_shad = ObjectMSCarDisplayerMod;
+        tp->disp_shad = ObjectCarShadow_MS;
 }
 
-static void
-ObjectMSCarCrashDisplayerMod(task* tp)
+void
+ObjectCarCrashShadow_MS(task* tp)
 {
     taskwk* const twp = tp->twp;
     CAR_INFO* const carip = (CAR_INFO*)tp->awp;
@@ -243,13 +242,13 @@ CHS_CarInit(void)
     /** City Escape **/
     mtHookFunc(ObjectCECarHookInfo, ObjectCECar, ObjectCECarHook);
 
-    WriteJump(0x005E2930, ObjectCECarCrashDisplayerMod);
+    WriteJump(0x005E2930, ObjectCarCrashShadow_CE);
     KillCall(0x005E150F); // SetStencilInfo
 
     /** Mission Street **/
     mtHookFunc(ObjectMSCar2HookInfo, ObjectMSCar2, ObjectMSCar2Hook);
 
-    WriteJump(0x005B75C0, ObjectMSCarCrashDisplayerMod);
+    WriteJump(0x005B75C0, ObjectCarCrashShadow_MS);
     KillCall(0x005B6148); // SetStencilInfo
 
     /** Leftover DC Code **/

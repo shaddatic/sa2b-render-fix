@@ -12,11 +12,12 @@
 
 /****** Game ************************************************************************/
 #include <samt/sonic/task.h>    /* task                                             */
+#include <samt/sonic/njctrl.h>
 
 /****** Render Fix ******************************************************************/
 #include <rf_core.h>            /* core                                             */
 #include <rf_ninja.h>           /* set cheap shadow intensity                       */
-#include <rf_model.h>           /* file load                                        */
+#include <rf_shadow.h>          /* cheap shadow                                     */
 
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
@@ -49,10 +50,6 @@ EXTERN void     RFG_ForceShadowMaps( void );
 /****** Shadow Map Resolution *******************************************************/
 static const uint32_t ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
 
-/****** Mod Shadow ******************************************************************/
-static NJS_CNK_MODEL* model_basic_shadow;
-static NJS_CNK_MODEL* model_al_mod;
-
 /************************/
 /*  Source              */
 /************************/
@@ -82,13 +79,13 @@ CHS_ObjectMDContWood(void)
 void
 DrawBasicShadow(void)
 {
-    njCnkModDrawModel(model_basic_shadow);
+    njCnkModDrawModel(object_shadow->model);
 }
 
 void
 AL_ShadowDraw(void)
 {
-    njCnkModDrawModel(model_al_mod);
+    njCnkModDrawModel(object_kage_marukage_marukage->model);
 }
 
 /****** Set Shadow Intensity ********************************************************/
@@ -117,10 +114,6 @@ AL_DestructorHook(task* tp)
 void
 RFM_ShadowsInit(void)
 {
-    /** shadow model **/
-    model_basic_shadow = RF_GetCnkModel("common/basic_mod");
-    model_al_mod       = RF_GetCnkModel("chao/al_mod");
-
     if ( CNF_GetInt(CNF_MISC_NOSHADOWS) )
     {
         WriteRetn(0x0046FBC0); // Disable all shadows

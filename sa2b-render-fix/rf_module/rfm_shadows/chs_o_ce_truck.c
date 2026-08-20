@@ -11,7 +11,9 @@
 #include <samt/sonic/njctrl.h>
 
 /** Render Fix **/
+#include <rf_core.h>
 #include <rf_ninja.h>
+#include <rf_shadow.h>
 
 typedef union
 {
@@ -23,10 +25,7 @@ typedef union
     int32_t si;
     f32     f;
 }
-GLOBAL_BUFFER;
-
-#define GlobalBuffer        DATA_ARY(GLOBAL_BUFFER , 0x01DEFE20, [1])
-#define object_car_mod      DATA_ARY(NJS_CNK_OBJECT, 0x00B4D254, [1])
+ANY_DATA;
 
 static void
 TruckTranslateModVertex(float sizeX, float sizeZ, Angle3* pAng)
@@ -64,15 +63,17 @@ TruckTranslateModVertex(float sizeX, float sizeZ, Angle3* pAng)
 
     njPopMatrixEx();
 
-    NJS_CNK_MODEL* car_mod = object_car_mod->model;
+    NJS_CNK_MODEL* car_mod = object_modmod_box->model;
 
-    GlobalBuffer[0].si = car_mod->vlist[0];
-    GlobalBuffer[1].si = car_mod->vlist[1];
+    ANY_DATA* buf = (void*) GlobalBuffer;
+
+    buf[0].si = car_mod->vlist[0];
+    buf[1].si = car_mod->vlist[1];
 
     float* verts_src = (float*)&car_mod->vlist[2];
-    float* verts_dst = &GlobalBuffer[2].f;
+    float* verts_dst = &buf[2].f;
 
-    int nb_vert = GlobalBuffer[1].us[1];
+    int nb_vert = buf[1].us[1];
 
     int hi_idx = 0;
     int lo_idx = 0;
@@ -125,7 +126,7 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
 {
     TruckTranslateModVertex(sizeX, sizeZ, pAng);
 
-    NJS_CNK_MODEL* car_model = object_car_mod->model;
+    NJS_CNK_MODEL* car_model = object_modmod_box->model;
 
     const float r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
 
@@ -143,8 +144,8 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
     OffControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
-static void
-ObjectTruckDisplayerMod(task* tp)
+void
+ObjectTruckShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     anywk* const trkwp = TO_ANYWK(tp->mwp);
@@ -162,6 +163,6 @@ ObjectTruckDisplayerMod(task* tp)
 void
 CHS_TruckInit(void)
 {
-    WriteJump(0x005E85B0, ObjectTruckDisplayerMod);
+    WriteJump(0x005E85B0, ObjectTruckShadow);
     KillCall(0x005E4CE7); // Kill SetStencilInfo
 }

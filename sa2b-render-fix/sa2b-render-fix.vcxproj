@@ -16,6 +16,7 @@
     <ClCompile Include="rf_api\rfapi_ninja.c" />
     <ClCompile Include="rf_api\rfapi_chunk.c" />
     <ClCompile Include="rf_api\rfapi_njdraw.c" />
+    <ClCompile Include="rf_api\rfapi_shadow.c" />
     <ClCompile Include="rf_feature.c" />
     <ClCompile Include="rf_fixhistory.c" />
     <ClCompile Include="rf_graphics.c" />
@@ -154,6 +155,7 @@
     <ClCompile Include="rf_ninja.c" />
     <ClCompile Include="rf_mdlutil.c" />
     <ClCompile Include="rf_shader.c" />
+    <ClCompile Include="rf_shadow.c" />
     <ClCompile Include="rf_system.c" />
     <ClCompile Include="rf_system\rfsys_vsync.c" />
     <ClCompile Include="rf_util.c" />
@@ -209,6 +211,7 @@
     <ClInclude Include="rf_ninja.h" />
     <ClInclude Include="rf_mdlutil.h" />
     <ClInclude Include="rf_shader.h" />
+    <ClInclude Include="rf_shadow.h" />
     <ClInclude Include="rf_system.h" />
     <ClInclude Include="rf_nja\tls\rf_texerr.tls" />
     <ClInclude Include="rf_system\rfsys_internal.h" />

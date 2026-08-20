@@ -477,6 +477,12 @@
     <ClCompile Include="rf_module\rfm_stg_pumpkin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_api\rfapi_shadow.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rf_shadow.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -621,6 +627,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rfu_njbin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_shadow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

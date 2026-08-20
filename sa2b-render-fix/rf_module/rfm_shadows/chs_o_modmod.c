@@ -10,6 +10,7 @@
 #include <samt/sonic/debug.h>
 
 /** Render Fix **/
+#include <rf_core.h>
 #include <rf_ninja.h>
 #include <rf_util.h>
 
@@ -19,6 +20,8 @@ static void
 ObjectModModDisplayer(task* tp)
 {
     taskwk* const twp = tp->twp;
+
+    ___TODO("Don't draw when wtimer == 1! This is a debug object!");
 
     njPushMatrixEx();
 

@@ -83,6 +83,7 @@ Init(const c8* puPath, const ml_helpfuncs* pHelpFuncs, usize ixMod)
     RF_LightInit();
     RF_ShaderInit();
     RF_SysInit();
+    RF_ShadowInit();
 
     RFF_Init();
 

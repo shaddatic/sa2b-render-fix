@@ -16,8 +16,8 @@
 /** RF Util **/
 #include <rfu_draw.h>
 
-static void
-ObjectPickUpDisplayerMod(task* tp)
+void
+ObjectPickUpShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -40,7 +40,7 @@ static void
 ObjectPickUpInitDisplayers(task* tp)
 {
     tp->disp = ObjectPickUpDisplayer;
-    tp->disp_shad = ObjectPickUpDisplayerMod;
+    tp->disp_shad = ObjectPickUpShadow;
 }
 
 __declspec(naked)

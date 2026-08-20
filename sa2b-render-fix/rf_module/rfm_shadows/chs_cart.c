@@ -12,6 +12,7 @@
 #include <samt/sonic/camera.h>
 #include <samt/sonic/njctrl.h>
 #include <samt/sonic/debug.h>
+#include <samt/sonic/cart/cartcar.h>
 
 /** Render Fix **/
 #include <rf_core.h>
@@ -19,6 +20,7 @@
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_mdlutil.h>
+#include <rf_shadow.h>
 
 /** RF Util **/
 #include <rfu_draw.h>
@@ -60,12 +62,10 @@ CARTWK;
 
 #define PlayerCartSelected      DATA_ARY(i8, 0x0174B021, [2])
 
-static NJS_CNK_OBJECT* CartObjectList[8][2];
-
 #define SQR(x)          ((x)*(x))
 
-static void
-cartDisplayerMod(task* tp)
+void
+cartShadow(task* tp)
 {
     CARTWK* const cwp = GET_CARTWK(tp);
 
@@ -162,72 +162,11 @@ courseDisplayDisplayerHook(task* tp)
 
 void* CreateNoStencilTexture(void);
 
-#define ARY_X2(a, b)         ((a*2)+b)
-
 void
 CHS_CartInit(void)
 {
-    WriteJump(0x0061CB80, cartDisplayerMod);
+    WriteJump(0x0061CB80, cartShadow);
     WriteCall(0x0061C60F, CreateNoStencilTexture);
 
     mtHookFunc(HookInfoCourseDisplayDisplayer, courseDisplayDisplayer, courseDisplayDisplayerHook);
-
-    RFS_OBJFILE obj_list[8 * 2] =
-    {
-        { .puPath = "cart/cart_tails_big_mod" },
-        { .puPath = nullptr },
-
-        { .puPath = "cart/cart_rouge_big_mod" },
-        { .puPath = nullptr },
-
-        { .puPath = "cart/cart_sonic_mod" },
-        { .puPath = "cart/cart_sonic_alt_mod" },
-
-        { .puPath = "cart/cart_knuckles_mod" },
-        { .puPath = "cart/cart_knuckles_alt_mod" },
-
-        { .puPath = "cart/cart_tails_mod" },
-        { .puPath = "cart/cart_chao_mod" },
-
-        { .puPath = "cart/cart_eggman_mod" },
-        { .puPath = "cart/cart_eggman_alt_mod" },
-
-        { .puPath = "cart/cart_shadow_mod" },
-        { .puPath = "cart/cart_shadow_alt_mod" },
-
-        { .puPath = "cart/cart_rouge_mod" },
-        { .puPath = "cart/cart_eggrobo_mod" },
-    };
-
-    RF_GetCnkObjectList( obj_list, ARYLEN(obj_list) );
-
-#pragma warning(push)
-#pragma warning(disable : 6011) // annoying warning
-
-    /** Models **/
-    CartObjectList[0][0] = obj_list[ARY_X2(0, 0)].pObject;
-//  CartObjectList[0][1] = mdl_list[ARY_X2(0, 1)].pObject;
-
-    CartObjectList[1][0] = obj_list[ARY_X2(1, 0)].pObject;
-//  CartObjectList[1][1] = mdl_list[ARY_X2(1, 0)].pObject;
-
-    CartObjectList[2][0] = obj_list[ARY_X2(2, 0)].pObject;
-    CartObjectList[2][1] = obj_list[ARY_X2(2, 1)].pObject;
-
-    CartObjectList[3][0] = obj_list[ARY_X2(3, 0)].pObject;
-    CartObjectList[3][1] = obj_list[ARY_X2(3, 1)].pObject;
-
-    CartObjectList[4][0] = obj_list[ARY_X2(4, 0)].pObject;
-    CartObjectList[4][1] = obj_list[ARY_X2(4, 1)].pObject;
-
-    CartObjectList[5][0] = obj_list[ARY_X2(5, 0)].pObject;
-    CartObjectList[5][1] = obj_list[ARY_X2(5, 1)].pObject;
-
-    CartObjectList[6][0] = obj_list[ARY_X2(6, 0)].pObject;
-    CartObjectList[6][1] = obj_list[ARY_X2(6, 1)].pObject;
-
-    CartObjectList[7][0] = obj_list[ARY_X2(7, 0)].pObject;
-    CartObjectList[7][1] = obj_list[ARY_X2(7, 1)].pObject;
-
-#pragma warning(pop)
 }

@@ -74,8 +74,8 @@ static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
 /*  Source                      */
 /********************************/
 /****** Chao Shadow *****************************************************************************/
-static void
-ChaoDisplayerMod(task* tp)
+void
+ChaoShadow(task* tp)
 {
     chaowk*               const cwp = GET_CHAOWK(tp);
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -222,14 +222,14 @@ CreateChaoExtraHook(CHAO_PARAM_GC* pParamGC, b32 IsParamCopy, AL_SHAPE_ELEMENT* 
         return NULL;
 
     if (!tp->disp_shad)
-        tp->disp_shad = ChaoDisplayerMod;
+        tp->disp_shad = ChaoShadow;
 
     return tp;
 }
 
 /****** Tree Shadow *****************************************************************************/
-static void
-ALO_GrowTreeDisplayerMod(task* tp)
+void
+ALO_GrowTreeShadow(task* tp)
 {
     const TREE_WORK* const twp = GET_TREE_WORK(tp);
 
@@ -316,14 +316,14 @@ ALO_GrowTreeCreateHook(NJS_POINT3* pPos, TREE_SAVE_INFO* pInfo)
     if (!tp)
         return NULL;
 
-    tp->disp_shad = ALO_GrowTreeDisplayerMod;
+    tp->disp_shad = ALO_GrowTreeShadow;
 
     return tp;
 }
 
 /****** Race Tree Shadow ************************************************************************/
-static void
-ALO_RaceTreeDisplayerMod(task* tp)
+void
+ALO_RaceTreeShadow(task* tp)
 {
     const TREE_WORK* const twp = GET_TREE_WORK(tp);
 
@@ -374,12 +374,12 @@ ALO_RaceTreeHook(task* tp)
 {
     mtHookInfoCall( HookInfoALO_RaceTree, ALO_RaceTree(tp) );
 
-    tp->disp_shad = ALO_RaceTreeDisplayerMod;
+    tp->disp_shad = ALO_RaceTreeShadow;
 }
 
 /****** Chao Egg Shadow ************************************************************************/
-static void
-AL_EggDisplayerMod(task* tp)
+void
+AL_EggShadow(task* tp)
 {
     const chaowk*         const cwp   = GET_CHAOWK(tp);
     const EGG_WORK*       const eggwp = GET_EGG_WORK(tp);
@@ -436,14 +436,14 @@ CreateEggHook(AL_GENE* pGene, CHAO_PARAM_GC* pParamGC, int32_t IsParamCopy, cons
     if (!tp)
         return NULL;
 
-    tp->disp_shad = AL_EggDisplayerMod;
+    tp->disp_shad = AL_EggShadow;
 
     return tp;
 }
 
 /****** Chaos Drive Shadow **********************************************************************/
-static void
-ALO_ChaosDriveDisplayerMod(task* tp)
+void
+ALO_ChaosDriveShadow(task* tp)
 {
     const AL_CHAOSDRIVE_WORK* const cdwp = GET_AL_CHAOSDRIVE_WORK(tp);
 
@@ -481,14 +481,14 @@ ALO_ChaosDriveCreateHook(uint8_t kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM
     if (!tp)
         return NULL;
 
-    tp->disp_shad = ALO_ChaosDriveDisplayerMod;
+    tp->disp_shad = ALO_ChaosDriveShadow;
 
     return tp;
 }
 
 /****** Obake Head Shadow ***********************************************************************/
-static void
-ALO_ObakeHeadDisplayerMod(task* tp)
+void
+ALO_ObakeHeadShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -529,14 +529,14 @@ ALO_ObakeHeadCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECT
     if (!tp)
         return NULL;
 
-    tp->disp_shad = ALO_ObakeHeadDisplayerMod;
+    tp->disp_shad = ALO_ObakeHeadShadow;
 
     return tp;
 }
 
 /****** Seed Shadow *****************************************************************************/
-static void
-ALO_SeedDisplayerMod(task* tp)
+void
+ALO_SeedShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -574,14 +574,14 @@ ALO_SeedCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, NJS_VECTOR* pVelo, ITEM_S
     if (!tp)
         return NULL;
 
-    tp->disp_shad = ALO_SeedDisplayerMod;
+    tp->disp_shad = ALO_SeedShadow;
 
     return tp;
 }
 
 /****** Fruit Shadow ****************************************************************************/
-static void
-ALO_FruitDisplayerMod(task* tp)
+void
+ALO_FruitShadow(task* tp)
 {
     const taskwk* const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -630,14 +630,14 @@ ALO_FruitCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR* 
     if (!tp)
         return NULL;
 
-    tp->disp_shad = ALO_FruitDisplayerMod;
+    tp->disp_shad = ALO_FruitShadow;
 
     return tp;
 }
 
 /****** Minimal Shadow **************************************************************************/
-static void
-AL_MinimalDisplayerMod(task* tp)
+void
+AL_MinimalShadow(task* tp)
 {
     const MINIMAL_WORK*   const miniwp = GET_MINIMAL_WORK(tp);
     const ALW_ENTRY_WORK* const ewp    = GET_ALW_ENTRY_WORK(tp);
@@ -682,14 +682,14 @@ AL_MinimalCreateHook(eHEAD_PARTS kind, NJS_POINT3* pPos, Angle AngY, NJS_VECTOR*
     if (!tp)
         return NULL;
 
-    tp->disp_shad = AL_MinimalDisplayerMod;
+    tp->disp_shad = AL_MinimalShadow;
 
     return tp;
 }
 
 /****** Race Fruit Shadow ***********************************************************************/
-static void
-ALO_RaceFruitDisplayerMod(task* tp)
+void
+ALO_RaceFruitShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -731,12 +731,12 @@ ALO_RaceFruitHook(task* tp)
 {
     mtHookInfoCall( HookInfoALO_RaceFruit, ALO_RaceFruit(tp) );
 
-    tp->disp_shad = ALO_RaceFruitDisplayerMod;
+    tp->disp_shad = ALO_RaceFruitShadow;
 }
 
 /****** Chao Ball Shadow ************************************************************************/
-static void
-ALO_BallDisplayerMod(task* tp)
+void
+ALO_BallShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -776,12 +776,12 @@ ALO_BallHook(task* tp)
 {
     mtHookInfoCall( HookInfoALO_Ball, ALO_Ball(tp) );
 
-    tp->disp_shad = ALO_BallDisplayerMod;
+    tp->disp_shad = ALO_BallShadow;
 }
 
 /****** Box Shadow ******************************************************************************/
-static void
-ALO_BoxDisplayerMod(task* tp)
+void
+ALO_BoxShadow(task* tp)
 {
     const taskwk* const twp = tp->twp;
 
@@ -812,13 +812,13 @@ ALO_BoxCreateHook(NJS_POINT3* pPos)
 
     if ( tp && !tp->disp_shad )
     {
-        tp->disp_shad = ALO_BoxDisplayerMod;
+        tp->disp_shad = ALO_BoxShadow;
     }
 }
 
 /****** Horse Shadow ****************************************************************************/
-static void
-ALO_HorseDisplayerMod(task* tp)
+void
+ALO_HorseShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -851,12 +851,12 @@ ALO_HorseHook(task* tp)
 {
     mtHookInfoCall( HookInfoALO_Horse, ALO_Horse(tp) );
 
-    tp->disp_shad = ALO_HorseDisplayerMod;
+    tp->disp_shad = ALO_HorseShadow;
 }
 
 /****** Radicase Shadow *************************************************************************/
-static void
-ALO_RadicaseDisplayerMod(task* tp)
+void
+ALO_RadicaseShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -897,13 +897,13 @@ ALO_RadicaseCreateHook(NJS_POINT3* pPos)
 
     if ( tp && !tp->disp_shad )
     {
-        tp->disp_shad = ALO_RadicaseDisplayerMod;
+        tp->disp_shad = ALO_RadicaseShadow;
     }
 }
 
 /****** TV Shadow *******************************************************************************/
-static void
-ALO_TVDisplayerMod(task* tp)
+void
+ALO_TVShadow(task* tp)
 {
     const taskwk*         const twp = tp->twp;
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
@@ -941,7 +941,7 @@ ALO_TVCreateHook(NJS_POINT3* pPos)
 
     if ( tp && !tp->disp_shad )
     {
-        tp->disp_shad = ALO_TVDisplayerMod;
+        tp->disp_shad = ALO_TVShadow;
     }
 }
 

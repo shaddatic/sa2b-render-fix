@@ -16,6 +16,7 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
 ASM_FUNC
 void
@@ -35,8 +36,6 @@ ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
     // return
     ASM_RET( 0 );
 }
-
-#define object_o_eq_robot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x00C42144, [1])
 
 static void
 ObjectRobotDisplayerMod(task* tp)
@@ -60,7 +59,7 @@ ObjectRobotDisplayerMod(task* tp)
     njRotateX(NULL, -twp->ang.x);
     njRotateY(NULL, 0x8000);
 
-    NJS_CNK_MODEL* p_model = object_o_eq_robot_mod->model;
+    NJS_CNK_MODEL* p_model = object_eq_robot_mod->model;
 
     const float model_r = p_model->r;
 
@@ -72,7 +71,7 @@ ObjectRobotDisplayerMod(task* tp)
     if (*(uint16_t*)p_model->vlist == 34)
         ModModifyVList(twp->ang.z, twp->ang.x, p_model->vlist);
 
-    njCnkModDrawObject(object_o_eq_robot_mod);
+    njCnkModDrawObject(object_eq_robot_mod);
 
     p_model->r = model_r;
 

@@ -17,8 +17,8 @@
 #include <rfu_draw.h>
 #include <rf_util.h>
 
-static void
-ObjectIronBall2DisplayerMod(task* tp)
+void
+ObjectIronBall2Shadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -58,5 +58,5 @@ CHS_IronBall2Init(void)
 {
     WriteNOP(0x006D3C7C, 0x006D3C82);
     SwitchDisplayer(0x006D3C82, DISP_SHAD);
-    WriteJump(0x006D4340, ObjectIronBall2DisplayerMod);
+    WriteJump(0x006D4340, ObjectIronBall2Shadow);
 }

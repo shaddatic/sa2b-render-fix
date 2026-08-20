@@ -18,8 +18,8 @@
 
 #define ObjectSearchBox     FUNC_PTR(void, __cdecl, (task*), 0x006E7F60)
 
-static void
-ObjectSearchBoxDisplayerMod(task* tp)
+void
+ObjectSearchBoxShadow(task* tp)
 {
     njPushMatrixEx();
 
@@ -43,7 +43,7 @@ ObjectSearchBoxHook(task* tp)
     mtHookInfoSwitch(HookInfoObjectSearchBox, ON);
 
     if (tp->disp)
-        tp->disp_shad = ObjectSearchBoxDisplayerMod;
+        tp->disp_shad = ObjectSearchBoxShadow;
 }
 
 void

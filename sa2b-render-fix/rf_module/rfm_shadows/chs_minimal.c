@@ -17,8 +17,8 @@
 
 #define dword_1945E08   DATA_REF(int, 0x1945E08)
 
-static void
-MinimalDisplayerMod(task* tp)
+void
+MinimalShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     anywk*  const awp = tp->awp;
@@ -68,7 +68,7 @@ ObjectMinimalHook(task* tp)
 {
     mtHookInfoCall( HookInfoObjectMinimal, ObjectMinimal(tp) );
 
-    tp->disp_shad = MinimalDisplayerMod;
+    tp->disp_shad = MinimalShadow;
 }
 
 #define MinimalCreate       FUNC_PTR(task*, __cdecl, (f32, f32, f32, int, uint32_t), 0x0048AAD0)
@@ -81,7 +81,7 @@ MinimalCreateHook(f32 posX, f32 posY, f32 posZ, int num, uint32_t flag)
 
     mtHookInfoCall( HookInfoMinimalCreate, minitp = MinimalCreate(posX, posY, posZ, num, flag) );
 
-    minitp->disp_shad = MinimalDisplayerMod;
+    minitp->disp_shad = MinimalShadow;
 
     return minitp;
 }

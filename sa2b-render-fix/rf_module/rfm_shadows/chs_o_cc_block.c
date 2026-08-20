@@ -14,11 +14,10 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
-static NJS_CNK_OBJECT* object_o_cc_block_mod;
-
-static void
-ObjectBlock2DisplayerMod(task* tp)
+void
+ObjectBlock2Shadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     anywk*  const awp = tp->awp;
@@ -35,7 +34,7 @@ ObjectBlock2DisplayerMod(task* tp)
 
     njScale(NULL, scl, scl, scl);
 
-    njCnkModDrawObject(object_o_cc_block_mod);
+    njCnkModDrawObject(object_cc_block_mod);
 
     njPopMatrixEx();
 }
@@ -49,7 +48,7 @@ ObjectBlock2Hook(task* tp)
     mtHookInfoCall( HookInfoObjectBlock2, ObjectBlock2(tp) );
 
     if (tp->disp)
-        tp->disp_shad = ObjectBlock2DisplayerMod;
+        tp->disp_shad = ObjectBlock2Shadow;
 }
 
 static void
@@ -70,7 +69,7 @@ ObjectBlockDisplayerMod(task* tp)
 
     njScale(NULL, scl, scl, scl);
 
-    njCnkModDrawObject(object_o_cc_block_mod);
+    njCnkModDrawObject(object_cc_block_mod);
 
     njPopMatrixEx();
 }
@@ -91,6 +90,4 @@ CHS_CCBlockInit(void)
 {
     mtHookFunc(HookInfoObjectBlock2, ObjectBlock2, ObjectBlock2Hook);
     mtHookFunc(HookInfoObjectBlock , ObjectBlock , ObjectBlockHook);
-
-    object_o_cc_block_mod = RF_GetCnkObject("object/cc_block_mod");
 }

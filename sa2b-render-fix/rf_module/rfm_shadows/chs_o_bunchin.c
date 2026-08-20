@@ -13,19 +13,17 @@
 #include <rf_core.h>
 #include <rf_model.h>
 #include <rf_ninja.h>
-#include <rf_enemywk.h>
+#include <rf_shadow.h>
 
-static NJS_CNK_OBJECT* object_o_bunchin_mod;
-
-static void
-ObjectBunchinDisplayerMod(task* tp)
+void
+ObjectBunchinShadow(task* tp)
 {
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
+    taskwk*   const twp = tp->twp;
+    motionwk* const mwp = tp->mwp;
 
     njPushMatrixEx();
 
-    float scl_y = ewp->work.f * 0.5f;
+    float scl_y = mwp->work.f * 0.5f;
 
     if (scl_y > 100.0f)
         scl_y = 100.f;
@@ -54,16 +52,14 @@ ObjectBunchinDisplayerMod(task* tp)
 
     njScale(NULL, scl_x , scl_y * 0.06666667f, scl_z);
 
-    njCnkModDrawModel(object_o_bunchin_mod->model);
+    njCnkModDrawModel(object_bunchin_mod->model);
     njPopMatrixEx();
 }
 
 void
 CHS_BunchinInit(void)
 {
-    WriteJump(0x006DCBE0, ObjectBunchinDisplayerMod);
+    WriteJump(0x006DCBE0, ObjectBunchinShadow);
 
     KillCall(0x006DBC9C); // Kill SetStencilInfo
-
-    object_o_bunchin_mod = RF_GetCnkObject("object/bunchin_mod");
 }

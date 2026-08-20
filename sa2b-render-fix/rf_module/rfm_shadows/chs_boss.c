@@ -19,6 +19,7 @@
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_util.h>
+#include <rf_shadow.h>
 
 /** RF Util **/
 #include <rfu_draw.h>
@@ -37,12 +38,10 @@ BOSSWK;
 
 #define BossBogyGlassCheapShadow    FUNC_PTR(void, __cdecl, (int), 0x00613F20)
 
-static NJS_CNK_OBJECT* object_b_bigbogy_mod;
-
 #define motion_b_bigbogy_mod        DATA_ARY(NJS_MOTION, 0x010131E4, [1])
 
-static void
-BossBogyDisplayerMod(task* tp)
+void
+BossBogyShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     BOSSWK* const bwp = GET_BOSSWK(tp);
@@ -67,9 +66,6 @@ BossBogyDisplayerMod(task* tp)
     BossBogyGlassCheapShadow(unk->work.ul[3]);
 }
 
-#define object_grobo_body_mod       DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1])
-#define object_grobo_foot_mod       DATA_ARY(NJS_CNK_OBJECT, 0x01134E30, [1])
-
 #define BossBigFootBodyPos          DATA_REF(NJS_POINT3, 0x01A27E84)
 #define BossBigFootLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27F44)
 #define BossBigFootRightFootPos     DATA_REF(NJS_POINT3, 0x01A27EFC)
@@ -85,21 +81,21 @@ BossBigFootDrawMod(task* tp)
 
     njTranslateEx(&BossBigFootBodyPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_grobo_body_mod);
+    njCnkModDrawObject(object_b_bigfoot_body_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossBigFootLeftFootPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_grobo_foot_mod);
+    njCnkModDrawObject(object_b_bigfoot_foot_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossBigFootRightFootPos);
     njRotateY(NULL, twp->ang.y + 0xC000);
-    njCnkModDrawObject(object_grobo_foot_mod);
+    njCnkModDrawObject(object_b_bigfoot_foot_mod);
 
     njPopMatrixEx();
 
@@ -109,8 +105,8 @@ BossBigFootDrawMod(task* tp)
 #define BossBigFootInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27E90)
 #define BossBigFootInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27E54)
 
-static void
-BossBigFootDisplayerMod(task* tp)
+void
+BossBigFootShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
@@ -172,21 +168,21 @@ BossHotShotDrawMod(task* tp)
 
     njTranslateEx(&BossHotShotBodyPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_grobo_body_mod);
+    njCnkModDrawObject(object_b_hotshot_body_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossHotShotLeftFootPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_grobo_foot_mod);
+    njCnkModDrawObject(object_b_hotshot_foot_mod);
 
     njPopMatrixEx();
     njPushMatrixEx();
 
     njTranslateEx(&BossHotShotRightFootPos);
     njRotateY(NULL, twp->ang.y + 0xC000);
-    njCnkModDrawObject(object_grobo_foot_mod);
+    njCnkModDrawObject(object_b_hotshot_foot_mod);
 
     njPopMatrixEx();
 
@@ -196,8 +192,8 @@ BossHotShotDrawMod(task* tp)
 #define BossHotShotInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27D40)
 #define BossHotShotInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27D04)
 
-static void
-BossHotShotDisplayerMod(task* tp)
+void
+BossHotShotShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
@@ -244,8 +240,6 @@ BossHotShotDisplayerMod(task* tp)
     BossHotShotDrawMod(tp);
 }
 
-static NJS_CNK_OBJECT* object_b_fdog_mod;
-
 #define BossFlyingDogBodyPos    DATA_REF(NJS_POINT3, 0x01A27FBC)
 
 static void
@@ -258,7 +252,7 @@ BossFlyingDogDrawMod(task* tp)
     njTranslateEx(&BossFlyingDogBodyPos);
     njRotateY(NULL, twp->ang.y + 0x4000);
 
-    njCnkModDrawObject(object_b_fdog_mod);
+    njCnkModDrawObject(object_b_fdog_body_mod);
 
     njPopMatrixEx();
 }
@@ -266,8 +260,8 @@ BossFlyingDogDrawMod(task* tp)
 #define BossFlyingDogInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27FC8)
 #define BossFlyingDogInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27F8C)
 
-static void
-BossFlyingDogDispMod(task* tp)
+void
+BossFlyingDogShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
@@ -305,10 +299,8 @@ BossFlyingDogDispMod(task* tp)
     BossFlyingDogDrawMod(tp);
 }
 
-#define object_grobo_missile_mod        DATA_ARY(NJS_CNK_OBJECT, 0x01118F30, [1])
-
-static void
-GRoboMissileDispMod(task* tp)
+void
+GRoboMissileShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -326,7 +318,7 @@ GRoboMissileDispMod(task* tp)
 
     njRotateY(NULL, 0x4000);
 
-    njCnkModDrawObject(object_grobo_missile_mod);
+    njCnkModDrawObject(object_b_grobo_missile_mod);
 
     njPopMatrixEx();
 
@@ -340,13 +332,13 @@ __GRoboMissileMovHook(void)
     __asm
     {
         mov dword ptr[esi+14h], 005D6AA0h
-        mov dword ptr[esi+2Ch], offset GRoboMissileDispMod
+        mov dword ptr[esi+2Ch], offset GRoboMissileShadow
         retn
     }
 }
 
-static void
-BossLastEnergyDispMod(task* tp)
+void
+BossLastEnergyShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -388,7 +380,7 @@ __BossLastEnergyMovHook(void)
     __asm
     {
         mov dword ptr[eax+1Ch], 00523070h
-        mov dword ptr[eax+2Ch], offset BossLastEnergyDispMod
+        mov dword ptr[eax+2Ch], offset BossLastEnergyShadow
         retn
     }
 }
@@ -399,27 +391,23 @@ void
 CHS_BossInit(void)
 {
     /** King Boom Boo **/
-    WriteJump(0x006133C0, BossBogyDisplayerMod);
+    WriteJump(0x006133C0, BossBogyShadow);
     WriteCall(0x0060B5EE, CreateNoStencilTexture); // Kill GetStencilInfo
 
     WriteCall(0x00613FD0, DrawBasicShadow); // Sand Timer
     KillCall(0x00612F70);
 
-    object_b_bigbogy_mod = RF_GetCnkObject("boss/bigbogy/bigbogy_mod");
-
     /** Big Foot **/
-    WriteJump(0x005D0B30, BossBigFootDisplayerMod);
+    WriteJump(0x005D0B30, BossBigFootShadow);
     WriteCall(0x005CC509, CreateNoStencilTexture); // Kill GetStencilInfo
 
     /** Hot Shot **/
-    WriteJump(0x005CC110, BossHotShotDisplayerMod);
+    WriteJump(0x005CC110, BossHotShotShadow);
     WriteCall(0x005C7329, CreateNoStencilTexture); // Kill GetStencilInfo
 
     /** Flying Dog **/
-    WriteJump(0x005D4410, BossFlyingDogDispMod);
+    WriteJump(0x005D4410, BossFlyingDogShadow);
     WriteCall(0x005D0F86, CreateNoStencilTexture); // Kill GetStencilInfo
-
-    object_b_fdog_mod = RF_GetCnkObject("boss/fdog/fdog_mod");
 
     /** Gun Robot Missiles **/
     WriteCallToMovDwordPtr(0x005D6393, __GRoboMissileMovHook);

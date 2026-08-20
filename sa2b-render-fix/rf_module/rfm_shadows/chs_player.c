@@ -34,6 +34,7 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
 /** RF Util **/
 #include <rfu_draw.h>
@@ -45,30 +46,6 @@
 
 /** Constant **/
 #define SonicDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00720090)
-
-static NJS_CNK_OBJECT* object_sonic_head_mod;
-static NJS_CNK_OBJECT* object_amy_head_mod;
-
-static NJS_CNK_OBJECT* object_terios_head_mod;
-static NJS_CNK_OBJECT* object_metalsonic_head_mod;
-
-static NJS_CNK_OBJECT* object_miles_head_mod;
-
-static NJS_CNK_OBJECT* object_eggman_head_mod;
-
-static NJS_CNK_OBJECT* object_knuckles_head_mod;
-static NJS_CNK_OBJECT* object_rouge_head_mod;
-static NJS_CNK_OBJECT* object_tikal_head_mod;
-static NJS_CNK_OBJECT* object_chaos_head_mod;
-
-static NJS_CNK_OBJECT* object_twalker_body_mod;
-static NJS_CNK_OBJECT* object_twalker_foot_mod;
-static NJS_CNK_OBJECT* object_cwalker_body_mod;
-static NJS_CNK_OBJECT* object_cwalker_foot_mod;
-static NJS_CNK_OBJECT* object_ewalker_body_mod;
-static NJS_CNK_OBJECT* object_ewalker_foot_mod;
-static NJS_CNK_OBJECT* object_dwalker_body_mod;
-static NJS_CNK_OBJECT* object_dwalker_foot_mod;
 
 static bool MilesTailModifiers; /* Draw Tails' tail modifiers                           */
 static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below the floor */
@@ -323,8 +300,8 @@ MetalSonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
 #define AmyMotionCallBack_p             FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
 #define MetalSonicMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
 
-static void __cdecl
-SonicDisplayerShadowHook(task* tp)
+void
+SonicShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     sonicwk* const swp = GET_SONICWK(tp);
@@ -584,8 +561,8 @@ MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-static void
-MilesDisplayerShadowHook(task* tp)
+void
+MilesShadow(task* tp)
 {
     taskwk*  const     twp = tp->twp;
     mileswk* const mileswp = GET_MILESWK(tp);
@@ -706,8 +683,8 @@ EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-static void
-EggmanDisplayerShadowHook(task* tp)
+void
+EggmanShadow(task* tp)
 {
     taskwk*   const      twp = tp->twp;
     eggmanwk* const eggmanwp = GET_EGGMANWK(tp);
@@ -1014,8 +991,8 @@ ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-static void
-KnucklesDisplayerShadowHook(task* tp)
+void
+KnucklesShadow(task* tp)
 {
     taskwk*     const twp = tp->twp;
     knuckleswk* const knwp = GET_KNUCKLESWK(tp);
@@ -1338,8 +1315,8 @@ DarkChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
 #define ChaoWalkerMotionCallBack_p      ((void*)0x00745CC0)
 #define DarkChaoWalkerMotionCallBack_p  ((void*)0x00746B00)
 
-static void
-EggWalkerDisplayerShadowHook(task* tp)
+void
+EggWalkerShadow(task* tp)
 {
     taskwk*   const twp = tp->twp;
     walkerwk* const wwp = GET_WALKERWK(tp);
@@ -1475,51 +1452,28 @@ void
 CHS_PlayerInit(void)
 {
     /** Sonic/Shadow/Amy/Metal **/
-    object_sonic_head_mod      = RF_GetCnkObject("figure/sonic_head_mod");
-    object_amy_head_mod        = RF_GetCnkObject("figure/amy_head_mod");
-    object_terios_head_mod     = RF_GetCnkObject("figure/terios_head_mod");
-    object_metalsonic_head_mod = RF_GetCnkObject("figure/metalsonic_head_mod");
-
-    WriteJump(0x0071E520, SonicDisplayerShadowHook);
+    WriteJump(0x0071E520, SonicShadow);
 
     /** Miles **/
-    object_miles_head_mod = RF_GetCnkObject("figure/miles_head_mod");
-
     WriteRetn(0x00750C40);
-    WriteJump(0x0074FF20, MilesDisplayerShadowHook);
+    WriteJump(0x0074FF20, MilesShadow);
 
     MilesTailModifiers = CNF_GetInt(CNF_PLAYER_MILESTAILMOD);
 
     /** Eggman **/
-    object_eggman_head_mod = RF_GetCnkObject("figure/eggman_head_mod");
-
     WriteRetn(0x0073F1A0);
-    WriteJump(0x0073E8B0, EggmanDisplayerShadowHook);
+    WriteJump(0x0073E8B0, EggmanShadow);
 
     /** Knuckles/Rouge/Tikal/Chaos **/
-    object_knuckles_head_mod = RF_GetCnkObject("figure/knuckles_head_mod");
-    object_rouge_head_mod    = RF_GetCnkObject("figure/rouge_head_mod");
-    object_tikal_head_mod    = RF_GetCnkObject("figure/tikal_head_mod");
-    object_chaos_head_mod    = RF_GetCnkObject("figure/chaos_head_mod");
-
     WriteRetn(0x00730100);
-    WriteJump(0x0072DCE0, KnucklesDisplayerShadowHook);
+    WriteJump(0x0072DCE0, KnucklesShadow);
     WriteRetn(0x007311E0);
-    WriteJump(0x0072E390, KnucklesDisplayerShadowHook);
+    WriteJump(0x0072E390, KnucklesShadow);
 
     /** Mech Walkers **/
-    object_twalker_body_mod = RF_GetCnkObject("figure/twalker_body_mod");
-    object_twalker_foot_mod = RF_GetCnkObject("figure/twalker_foot_mod");
-    object_ewalker_body_mod = RF_GetCnkObject("figure/ewalker_body_mod");
-    object_ewalker_foot_mod = RF_GetCnkObject("figure/ewalker_foot_mod");
-    object_cwalker_body_mod = RF_GetCnkObject("figure/cwalker_body_mod");
-    object_cwalker_foot_mod = RF_GetCnkObject("figure/cwalker_foot_mod");
-    object_dwalker_body_mod = RF_GetCnkObject("figure/dwalker_body_mod");
-    object_dwalker_foot_mod = RF_GetCnkObject("figure/dwalker_foot_mod");
-
     WriteRetn(0x00748AF0);
     WriteRetn(0x00745310);
-    WriteJump(0x00745910, EggWalkerDisplayerShadowHook);
+    WriteJump(0x00745910, EggWalkerShadow);
 
     TornadoFootFix = CNF_GetInt(CNF_PLAYER_TWALKFOOTMOD);
 

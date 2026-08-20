@@ -14,11 +14,10 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
-static NJS_CNK_OBJECT* object_o_md_contbox_mod;
-
-static void
-ObjectMDContainerBoxDisplayerMod(task* tp)
+void
+ObjectContainerBoxShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -27,7 +26,7 @@ ObjectMDContainerBoxDisplayerMod(task* tp)
     njTranslateEx(&twp->pos);
     njRotateY(NULL, twp->ang.y);
 
-    njCnkModDrawObject(object_o_md_contbox_mod);
+    njCnkModDrawObject(object_md_contbox_mod);
 
     njPopMatrixEx();
 }
@@ -41,13 +40,11 @@ ObjectMDContainerBoxHook(task* tp)
     mtHookInfoCall( HookInfoObjectMDContainerBox, ObjectMDContainerBox(tp) );
 
     if (tp->disp)
-        tp->disp_shad = ObjectMDContainerBoxDisplayerMod;
+        tp->disp_shad = ObjectContainerBoxShadow;
 }
 
 void
 CHS_MDContainerBoxInit(void)
 {
     mtHookFunc(HookInfoObjectMDContainerBox, ObjectMDContainerBox, ObjectMDContainerBoxHook);
-
-    object_o_md_contbox_mod = RF_GetCnkObject("object/md_contbox_mod");
 }

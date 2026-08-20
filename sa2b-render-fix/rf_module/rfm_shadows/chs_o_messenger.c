@@ -15,8 +15,8 @@
 /** RF Util **/
 #include <rfu_draw.h>
 
-static void
-ObjectMessengerDisplayerMod(task* tp)
+void
+ObjectMessengerShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -41,7 +41,7 @@ ObjectMessengerDisplayerMod(task* tp)
 void
 CHS_MessengerInit(void)
 {
-    WriteJump(0x006C0CE0, ObjectMessengerDisplayerMod);
+    WriteJump(0x006C0CE0, ObjectMessengerShadow);
 
     KillCall(0x006C0815); // Kill SetStencilInfo
 }

@@ -74,6 +74,11 @@ void    RF_SysInit( void );
 *     Init Render Fix feature check system.
 */
 void    RFF_Init( void );
+/*
+*   Description:
+*     Init Render Fix cheap shadow module.
+*/
+void    RF_ShadowInit( void );
 
 /****** Mod Compat Checker **********************************************************************/
 /*

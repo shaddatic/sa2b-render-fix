@@ -18,8 +18,8 @@
 
 #define dword_1945E08   DATA_REF(int, 0x1945E08)
 
-static void
-ChaosDriveDisplayerMod(task* tp)
+void
+ChaosDriveShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -55,7 +55,7 @@ __ChaosDriveMovHook(void)
     __asm
     {
         mov dword ptr[esi+1Ch], 0048F0E0h
-        mov dword ptr[esi+2Ch], offset ChaosDriveDisplayerMod
+        mov dword ptr[esi+2Ch], offset ChaosDriveShadow
         retn
     }
 }

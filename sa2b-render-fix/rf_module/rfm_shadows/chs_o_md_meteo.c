@@ -15,11 +15,10 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
-static NJS_CNK_OBJECT* object_o_md_meteo_mod;
-
-static void
-ObjectMDFireBallDisplayerMod(task* tp)
+void
+ObjectFireBallShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -28,7 +27,7 @@ ObjectMDFireBallDisplayerMod(task* tp)
     njTranslateEx(&twp->pos);
     njRotateY(NULL, twp->ang.y);
 
-    njCnkModDrawObject(object_o_md_meteo_mod);
+    njCnkModDrawObject(object_md_meteo_mod);
 
     njPopMatrixEx();
 }
@@ -41,18 +40,18 @@ ObjectMDFireBallHook(task* tp)
 {
     mtHookInfoCall(HookInfoObjectMDFireBall, ObjectMDFireBall(tp));
 
-    tp->disp_shad = ObjectMDFireBallDisplayerMod;
+    tp->disp_shad = ObjectFireBallShadow;
 }
 
-static void
-ObjectMeteoBigDisplayerMod(task* tp)
+void
+ObjectMeteoBigShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
     njPushMatrixEx();
 
     njTranslateEx(&twp->pos);
-    njCnkModDrawObject(object_o_md_meteo_mod);
+    njCnkModDrawObject(object_md_meteo_mod);
 
     njPopMatrixEx();
 }
@@ -62,8 +61,6 @@ CHS_MeteoBigInit(void)
 {
     mtHookFunc(HookInfoObjectMDFireBall, ObjectMDFireBall, ObjectMDFireBallHook);
 
-    WriteJump(0x005C5120, ObjectMeteoBigDisplayerMod);
+    WriteJump(0x005C5120, ObjectMeteoBigShadow);
     KillCall(0x005C4E04); // Kill SetStencilInfo
-
-    object_o_md_meteo_mod = RF_GetCnkObject("object/md_meteo_mod");
 }

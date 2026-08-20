@@ -18,14 +18,13 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>
 
 /** RF Util **/
 #include <rfu_draw.h>
 
 #define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
 #define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)
-
-static NJS_CNK_OBJECT* object_o_board_mod;
 
 ASM_FUNC
 static void
@@ -53,8 +52,8 @@ BoardGetAttributes(uintptr_t* ppUnk, NJS_TEXLIST** ppTexList, NJS_CNK_OBJECT** p
     ASM_RET( 0 );
 }
 
-static void
-ObjectBoardCEDisplayerMod(task* tp)
+void
+ObjectBoardShadow_CE(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -133,7 +132,7 @@ ObjectBoardCEDisplayerMod(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    njCnkModDrawObject(object_o_board_mod);
+    njCnkModDrawObject(object_ce_board_mod);
 
     njPopMatrixEx();
 }
@@ -141,7 +140,7 @@ ObjectBoardCEDisplayerMod(task* tp)
 #define object_board_mh     DATA_ARY(NJS_CNK_OBJECT, 0x00AE79A4, [1])
 
 void
-ObjectBoardMHDisplayerMod(task* tp)
+ObjectBoardShadow_MH(task* tp)
 {
     taskwk* const twp = tp->twp;
 
@@ -214,27 +213,25 @@ ObjectBoardMHDisplayerMod(task* tp)
 
     njCnkSetMotionCallback(NULL);
 
-    njCnkModDrawObject(object_o_board_mod);
+    njCnkModDrawObject(object_mh_board_mod);
 
     njPopMatrixEx();
 }
 
 void
-ObjectBoardMHHook(task* tp)
+ObjectBoardHook_MH(task* tp)
 {
     tp->twp->smode = tp->twp->ang.x & 1;
     tp->exec = (void*)0x006F7AF0;
     tp->dest = (void*)0x006FE430;
     tp->disp = (void*)0x006F7BE0;
-    tp->disp_shad = ObjectBoardMHDisplayerMod;
+    tp->disp_shad = ObjectBoardShadow_MH;
 }
 
 void
 CHS_BoardInit(void)
 {
     KillCall(0x005EBC9B);
-    WriteJump(0x005EBFC0, ObjectBoardCEDisplayerMod);
-    WriteJump(0x006F7AC0, ObjectBoardMHHook);
-
-    object_o_board_mod = RF_GetCnkObject("object/board_mod");
+    WriteJump(0x005EBFC0, ObjectBoardShadow_CE);
+    WriteJump(0x006F7AC0, ObjectBoardHook_MH);
 }
