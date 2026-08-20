@@ -244,8 +244,8 @@ void
 RF_ShadowInit(void)
 {
     // common
-    object_shadow                 = RF_GetCnkObject("common/basic_mod"); // DATA_ARY(NJS_CNK_OBJECT, 0x017165F4, [1])
-    object_kage_marukage_marukage = RF_GetCnkObject("chao/al_mod");      // DATA_ARY(NJS_CNK_OBJECT, 0x01349D9C, [1])
+    object_shadow                 = DATA_ARY(NJS_CNK_OBJECT, 0x017165F4, [1]);
+    object_kage_marukage_marukage = DATA_ARY(NJS_CNK_OBJECT, 0x01349D9C, [1]);
 
     // player, action
     object_sonic_head_mod      = RF_GetCnkObject("figure/sonic_head_mod");
@@ -331,7 +331,7 @@ RF_ShadowInit(void)
     object_cc_block_mod = RF_GetCnkObject("object/cc_block_mod");
 
     // enemy
-    object_e_shouko_mod = RF_GetCnkObject("enemy/shouko_mod"); // DATA_ARY((NJS_CNK_OBJECT, 0x014D0C68, [1])
+    object_e_shouko_mod = DATA_ARY(NJS_CNK_OBJECT, 0x014D0C68, [1]);
 
     // boss
     object_b_bigfoot_body_mod  = DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1]);
