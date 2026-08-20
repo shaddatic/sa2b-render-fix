@@ -12,9 +12,9 @@
 
 /****** Game ************************************************************************************/
 #include <samt/sonic/task.h>        /* task                                                     */
-#include <samt/sonic/move.h>
-#include <samt/sonic/motion.h>
-#include <samt/sonic/njctrl.h>
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
+#include <samt/sonic/move.h>        /* move work                                                */
+#include <samt/sonic/motion.h>      /* motion control                                           */
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
@@ -382,7 +382,7 @@ BossLastEnergyShadow(task* tp)
     njPopMatrixEx();
 }
 
-/****** Assembly ********************************************************************************/
+/****** Hooks ***********************************************************************************/
 __declspec(naked)
 static void
 __GRoboMissileMovHook(void)

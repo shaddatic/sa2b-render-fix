@@ -12,6 +12,7 @@
 
 /****** Game ************************************************************************************/
 #include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */

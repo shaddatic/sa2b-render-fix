@@ -1,32 +1,43 @@
-#include <samt/core.h>
-#include <samt/memory.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 #include <samt/sonic/camera.h>
-#include <samt/sonic/njctrl.h>
-#include <samt/sonic/debug.h>
 #include <samt/sonic/cart/cartcar.h>
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_model.h>
-#include <rf_ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_mdlutil.h>
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
 
-/** RF Util **/
-#include <rfu_draw.h>
+/****** RF Util *********************************************************************************/
+#include <rfu_draw.h>               /* animate motion                                           */
 
-#define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
+/********************************/
+/*  Macro                       */
+/********************************/
+/****** Square **********************************************************************************/
+#define SQR(x)                      ((x)*(x))
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Cart Work *******************************************************************************/
 typedef struct
 {
     char gap0[8];
@@ -60,10 +71,21 @@ typedef struct
 }
 CARTWK;
 
-#define PlayerCartSelected      DATA_ARY(i8, 0x0174B021, [2])
+#define GET_CARTWK(_tp)     ((CARTWK*)_tp->mwp)
 
-#define SQR(x)          ((x)*(x))
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Cart ************************************************************************************/
+#define PlayerCartSelected          DATA_ARY(i8, 0x0174B021, [2])
 
+/****** Course **********************************************************************************/
+#define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00623E10)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Displayers ******************************************************************************/
 void
 cartShadow(task* tp)
 {
@@ -137,7 +159,8 @@ cartShadow(task* tp)
         case 8:
         {
             njScale(NULL, 5.0f, 1.0f, 5.0f);
-            DrawBasicShadow();
+
+            njCnkModDrawObject( object_shadow );
             break;
         }
     }
@@ -147,8 +170,7 @@ cartShadow(task* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define courseDisplayDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00623E10)
-
+/****** Hooks *****************************************************************************/
 static mt_hookinfo HookInfoCourseDisplayDisplayer[1];
 static void
 courseDisplayDisplayerHook(task* tp)
@@ -160,8 +182,7 @@ courseDisplayDisplayerHook(task* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-void* CreateNoStencilTexture(void);
-
+/****** Init ******************************************************************************/
 void
 CHS_CartInit(void)
 {
