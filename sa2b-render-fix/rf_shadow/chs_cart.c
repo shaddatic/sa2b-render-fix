@@ -128,43 +128,47 @@ cartShadow(task* tp)
     }
 
     njPushMatrixEx();
-
-    njTranslate(NULL, p_pos->x, p_pos->y + 0.01f - 2.0f, p_pos->z);
-
-    njRotateZ(NULL, cwp->ang.z);
-    njRotateX(NULL, cwp->ang.x);
-    njRotateY(NULL, cwp->ang.y + cwp->angSlide - 0x8000);
-
-    njRotateZ(NULL, cwp->ang2.z + cwp->ang3.z);
-    njRotateX(NULL, cwp->ang2.x + cwp->ang3.x);
-    njRotateY(NULL, cwp->ang2.y + cwp->ang3.y);
-
-    NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
-
-    switch (cwp->character)
     {
-        case 0:
-        {
-            njRotateY(NULL, 0x4000);
-            njCnkModDrawObject(p_obj);
-            break;
-        }
-        case 1:
-        case 2: case 3: case 4:
-        case 5: case 6: case 7:
-        {
-            njCnkModDrawObject(p_obj);
-            break;
-        }
-        case 8:
-        {
-            njScale(NULL, 5.0f, 1.0f, 5.0f);
+        njTranslate(NULL, p_pos->x, p_pos->y + 0.01f - 2.0f, p_pos->z);
 
-            njCnkModDrawObject( object_shadow );
-            break;
+        njRotateZ(NULL, cwp->ang.z);
+        njRotateX(NULL, cwp->ang.x);
+        njRotateY(NULL, cwp->ang.y + cwp->angSlide - NJM_DEG_ANG(180.f));
+
+        njRotateZ(NULL, cwp->ang2.z + cwp->ang3.z);
+        njRotateX(NULL, cwp->ang2.x + cwp->ang3.x);
+        njRotateY(NULL, cwp->ang2.y + cwp->ang3.y);
+
+        NJS_CNK_OBJECT* const p_obj = CartObjectList[cwp->character][alt];
+
+        switch ( cwp->character )
+        {
+            case CART_CAR_TAILS_SPECIAL:
+            {
+                njRotateY( NULL, NJM_DEG_ANG(90.f) );
+
+//          [[fallthrough]];
+            }
+            case CART_CAR_ROUGE_SPECIAL:
+            case CART_CAR_SONIC:
+            case CART_CAR_KNUCKLES:
+            case CART_CAR_TAILS:
+            case CART_CAR_EGGMAN:
+            case CART_CAR_SHADOW:
+            case CART_CAR_ROUGE:
+            {
+                njCnkModDrawObject( p_obj );
+                break;
+            }
+            default:
+            {
+                njScale( NULL, 5.0f, 1.0f, 5.0f );
+
+                njCnkModDrawObject( object_shadow );
+                break;
+            }
         }
     }
-
     njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);

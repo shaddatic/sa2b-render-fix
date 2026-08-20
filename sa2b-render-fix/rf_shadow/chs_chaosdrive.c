@@ -13,8 +13,6 @@
 /****** Game ************************************************************************************/
 #include <samt/sonic/task.h>        /* task                                                     */
 #include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
-#include <samt/sonic/camera.h>
-#include <samt/sonic/cart/cartcar.h>
 
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
@@ -43,31 +41,35 @@ ChaosDriveShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
     njPushMatrixEx();
-
-    njTranslateV( NULL, &twp->pos );
-
-    switch ( dword_1945E08 )
     {
-        case 0: case 1:
+        njTranslateV( NULL, &twp->pos );
+
+        switch ( dword_1945E08 )
         {
-            njRotateZ( NULL, NJM_DEG_ANG(90.f) );
-            break;
+            case 0: case 1:
+            {
+                njRotateZ( NULL, NJM_DEG_ANG(90.f) );
+                break;
+            }
+            case 4: case 5:
+            {
+                njRotateX( NULL, NJM_DEG_ANG(90.f) );
+                break;
+            }
         }
-        case 4: case 5:
-        {
-            njRotateX( NULL, NJM_DEG_ANG(90.f) );
-            break;
-        }
+
+        njRotateY( NULL, twp->ang.y );
+        njScale(   NULL, twp->scl.z, twp->scl.z, twp->scl.z );
+        njScale(   NULL, 1.6f, 0.5f, 2.6f );
+
+        njCnkModDrawModel( object_shadow->model );
     }
-
-    njRotateY( NULL, twp->ang.y );
-    njScale(   NULL, twp->scl.z, twp->scl.z, twp->scl.z );
-    njScale(   NULL, 1.6f, 0.5f, 2.6f );
-
-    njCnkModDrawModel( object_shadow->model );
-
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 /****** Hooks ***********************************************************************************/

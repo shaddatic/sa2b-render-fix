@@ -47,9 +47,6 @@ bosswk;
 /********************************/
 /*  Game Refs                   */
 /********************************/
-/****** Big Bogy Glass **************************************************************************/
-#define BossBogyGlassCheapShadow    FUNC_PTR(void, __cdecl, (i32), 0x00613F20)
-
 /****** Big Foot ********************************************************************************/
 #define BossBigFootBodyPos          DATA_REF(NJS_POINT3, 0x01A27E84)
 #define BossBigFootLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27F44)
@@ -84,7 +81,7 @@ BossBigFootDrawMod(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
 
@@ -108,7 +105,7 @@ BossBigFootDrawMod(task* tp)
 
     njPopMatrixEx();
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 static void
@@ -116,7 +113,7 @@ BossHotShotDrawMod(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
 
@@ -140,7 +137,7 @@ BossHotShotDrawMod(task* tp)
 
     njPopMatrixEx();
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 static void
@@ -148,41 +145,80 @@ BossFlyingDogDrawMod(task* tp)
 {
     taskwk* const twp = tp->twp;
 
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
     njPushMatrixEx();
+    {
+        njTranslateV( NULL, &BossFlyingDogBodyPos );
+        njRotateY(    NULL, twp->ang.y + NJM_DEG_ANG(90.f) );
 
-    njTranslateEx(&BossFlyingDogBodyPos);
-    njRotateY(NULL, twp->ang.y + 0x4000);
-
-    njCnkModDrawObject(object_b_fdog_body_mod);
-
+        njCnkModDrawObject(object_b_fdog_body_mod);
+    }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 /****** Displayers ******************************************************************************/
-void
-BossBogyShadow(task* tp)
+static void
+BigBogySandGlassShadow(task* tp)
 {
-    taskwk* const twp = tp->twp;
-    bosswk* const bwp = GET_BOSSWK(tp);
-    MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
-
-    anywk* const unk = (anywk*)bwp->pOtherWork;
-
-    if (unk->work.ub[1] == 2)
+    if ( !tp || !tp->twp )
     {
-        njPushMatrixEx();
-
-        njTranslateEx(&twp->pos);
-        njRotateY(NULL, twp->ang.z);
-        njRotateX(NULL, twp->ang.x);
-        njScale(NULL, twp->scl.x, twp->scl.x, twp->scl.x);
-
-        njCnkModDrawMotion(object_b_bigbogy_mod, motion_b_bigbogy_mod, mwp->BoundFriction);
-
-        njPopMatrixEx();
+        return;
     }
 
-    BossBogyGlassCheapShadow(unk->work.ul[3]);
+    NJS_POINT3 pos = tp->twp->pos;
+
+    pos.y -= 5.f;
+
+    if ( pos.y < (-40.f + 0.2f) )
+    {
+        pos.y = (-40.f + 0.2f);
+    }
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njPushMatrixEx();
+    {
+        njTranslateV( NULL, &pos );
+        njScale(      NULL, 9.f, 1.f, 9.f );
+
+        njCnkModDrawObject( object_shadow );
+    }
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+void
+BigBogyShadow(task* tp)
+{
+    taskwk*    const twp = tp->twp;
+    bosswk*    const bwp = GET_BOSSWK(tp);
+    MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
+
+    anywk* const unk = (anywk*) bwp->pOtherWork;
+
+    if ( unk->work.ub[1] == 2 )
+    {
+        OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+        njPushMatrixEx();
+        {
+            njTranslateV( NULL, &twp->pos );
+            njRotateY(    NULL, twp->ang.z );
+            njRotateX(    NULL, twp->ang.x );
+            njScale(      NULL, twp->scl.x, twp->scl.x, twp->scl.x );
+
+            njCnkModDrawMotion( object_b_bigbogy_mod, motion_b_bigbogy_mod, mwp->BoundFriction );
+        }
+        njPopMatrixEx();
+
+        OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+    }
+
+    BigBogySandGlassShadow( (task*)unk->work.ul[3] );
 }
 
 void
@@ -200,32 +236,32 @@ BossBigFootShadow(task* tp)
     njCnkSetMotionCallback((void*)0x005D0330);
 
     njPushMatrixEx();
-
-    njTranslateEx(&twp->pos);
-    njRotateY(NULL, twp->ang.y);
-
-    if (twp->flag & 0x01)
     {
-        njTranslate(NULL, 0.0f, 35.0f, 0.0f);
-        njRotateZ(NULL, twp->ang.z);
-        njRotateX(NULL, twp->ang.x);
+        njTranslateV( NULL, &twp->pos );
+        njRotateY(    NULL, twp->ang.y );
+
+        if (twp->flag & 0x01)
+        {
+            njTranslate( NULL, 0.0f, 35.0f, 0.0f );
+            njRotateZ(  NULL, twp->ang.z );
+            njRotateX(  NULL, twp->ang.x );
+        }
+        else
+        {
+            njTranslate( NULL, 0.0f, njSin(mwp->Phase.y) * 0.9f + 35.0f, 0.0f );
+            njRotateZ(   NULL, twp->ang.z - NJM_DEG_ANG(njSin(mwp->Phase.z) * 1.5f) );
+            njRotateX(   NULL, twp->ang.x - NJM_DEG_ANG(njSin(mwp->Phase.x) * 0.8f) );
+        }
+
+        njTranslate(NULL, 0.0f, -35.0f, 0.0f);
+
+        njGetMatrix(&BossBigFootInvTransMatrix);
+        njInvertMatrix(&BossBigFootInvTransMatrix);
+
+        njRotateY( NULL, NJM_DEG_ANG(90.f) );
+
+        AnimateMotion((void*)0x01116FC8, mtn_ctrl);
     }
-    else
-    {
-        njTranslate(NULL, 0.0f, njSin(mwp->Phase.y) * 0.9f + 35.0f, 0.0f);
-        njRotateZ(NULL, twp->ang.z - (Angle)(njSin(mwp->Phase.z) * 1.5f * -182.0444488525391f));
-        njRotateX(NULL, twp->ang.x - (Angle)(njSin(mwp->Phase.x) * 0.8f * -182.0444488525391f));
-    }
-
-    njTranslate(NULL, 0.0f, -35.0f, 0.0f);
-
-    njGetMatrix(&BossBigFootInvTransMatrix);
-    njInvertMatrix(&BossBigFootInvTransMatrix);
-
-    njRotateY(NULL, 0x4000);
-
-    AnimateMotion((void*)0x01116FC8, mtn_ctrl);
-
     njPopMatrixEx();
 
     njCnkSetMotionCallback(NULL);
@@ -242,38 +278,38 @@ BossHotShotShadow(task* tp)
 
     MOTION_CTRL* mtn_ctrl = bwp->pMtnCtrl;
 
-    njGetMatrix(&BossHotShotInvMatrix);
-    njInvertMatrix(&BossHotShotInvMatrix);
+    njGetMatrix( &BossHotShotInvMatrix );
+    njInvertMatrix( &BossHotShotInvMatrix );
 
-    njCnkSetMotionCallback((void*)0x005CB840);
+    njCnkSetMotionCallback( (void*)0x005CB840 );
 
     njPushMatrixEx();
-
-    njTranslateEx(&twp->pos);
-    njRotateY(NULL, twp->ang.y);
-
-    if (twp->flag & 0x01)
     {
-        njTranslate(NULL, 0.0f, 35.0f, 0.0f);
-        njRotateZ(NULL, twp->ang.z);
-        njRotateX(NULL, twp->ang.x);
+        njTranslateV( NULL, &twp->pos );
+        njRotateY(    NULL, twp->ang.y );
+
+        if ( twp->flag & 0x01 )
+        {
+            njTranslate(NULL, 0.0f, 35.0f, 0.0f);
+            njRotateZ(NULL, twp->ang.z);
+            njRotateX(NULL, twp->ang.x);
+        }
+        else
+        {
+            njTranslate( NULL, 0.0f, njSin(mwp->Phase.y) * 0.9f + 35.0f, 0.0f );
+            njRotateZ(   NULL, twp->ang.z - NJM_DEG_ANG(njSin(mwp->Phase.z) * 1.5f) );
+            njRotateX(   NULL, twp->ang.x - NJM_DEG_ANG(njSin(mwp->Phase.x) * 0.8f) );
+        }
+
+        njTranslate( NULL, 0.0f, -35.0f, 0.0f );
+
+        njGetMatrix( &BossHotShotInvTransMatrix );
+        njInvertMatrix( &BossHotShotInvTransMatrix );
+
+        njRotateY( NULL, NJM_DEG_ANG(90.f) );
+
+        AnimateMotion((void*)0x011320F8, mtn_ctrl);
     }
-    else
-    {
-        njTranslate(NULL, 0.0f, njSin(mwp->Phase.y) * 0.9f + 35.0f, 0.0f);
-        njRotateZ(NULL, twp->ang.z - (Angle)(njSin(mwp->Phase.z) * 1.5f * -182.0444488525391f));
-        njRotateX(NULL, twp->ang.x - (Angle)(njSin(mwp->Phase.x) * 0.8f * -182.0444488525391f));
-    }
-
-    njTranslate(NULL, 0.0f, -35.0f, 0.0f);
-
-    njGetMatrix(&BossHotShotInvTransMatrix);
-    njInvertMatrix(&BossHotShotInvTransMatrix);
-
-    njRotateY(NULL, 0x4000);
-
-    AnimateMotion((void*)0x011320F8, mtn_ctrl);
-
     njPopMatrixEx();
 
     njCnkSetMotionCallback(NULL);
@@ -328,7 +364,7 @@ GRoboMissileShadow(task* tp)
     if (twp->mode != 1)
         return;
 
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
 
@@ -343,7 +379,7 @@ GRoboMissileShadow(task* tp)
 
     njPopMatrixEx();
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 void
@@ -351,20 +387,28 @@ BossLastEnergyShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    if (twp->mode != 3)
+    if ( twp->mode != 3 )
+    {
         return;
+    }
 
-    float pos_y = twp->pos.y - 40.0f;
-    float scl;
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    f32 pos_y = twp->pos.y - 40.0f;
+    f32 scl;
 
     /** I'm aware this is logically incorrect,
-    this is just how it's written. Idk. **/
-    if (pos_y >= 10.2f)
+        this is just how it's written. Idk. **/
+    if ( pos_y >= 10.2f )
     {
-        if (pos_y <= 0.0f)
+        if ( pos_y <= 0.0f )
+        {
             scl = 40.0f - -pos_y * twp->scl.x;
+        }
         else
+        {
             scl = 40.f * twp->scl.x;
+        }
     }
     else
     {
@@ -373,13 +417,15 @@ BossLastEnergyShadow(task* tp)
     }
 
     njPushMatrixEx();
+    {
+        njTranslate( NULL, twp->pos.x, pos_y, twp->pos.z );
+        njScale(     NULL, scl, 1.0f, scl );
 
-    njTranslate(NULL, twp->pos.x, pos_y, twp->pos.z);
-    njScale(NULL, scl, 1.0f, scl);
-
-    njCnkModDrawModel(object_shadow->model);
-
+        njCnkModDrawModel( object_shadow->model );
+    }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 /****** Hooks ***********************************************************************************/
@@ -412,11 +458,9 @@ void
 CHS_BossInit(void)
 {
     /** King Boom Boo **/
-    WriteJump(0x006133C0, BossBogyShadow);
+    WriteJump(0x006133C0, BigBogyShadow);
     WriteCall(0x0060B5EE, CreateNoStencilTexture); // Kill GetStencilInfo
-
-    WriteCall(0x00613FD0, DrawBasicShadow); // Sand Timer
-    KillCall(0x00612F70);
+    KillCall(0x00612F70);                          // sand glass
 
     /** Big Foot **/
     WriteJump(0x005D0B30, BossBigFootShadow);
