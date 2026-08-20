@@ -305,12 +305,12 @@ void    ObjectCarCrashShadow_CE( task* tp );
 void    ObjectCarCrashShadow_MS( task* tp );
 /*
 *   Description:
-*     Meteor Herd floating container shadow displayer.
+*     Meteor Herd huge blue container shadow displayer.
 */
 void    ObjectContainerBoxShadow(task* tp);
 /*
 *   Description:
-*     Meteor Herd meteor shadow displayer.
+*     Meteor Herd moveable meteor shadow displayer.
 */
 void    ObjectMeteoBigShadow( task* tp );
 /*
@@ -320,7 +320,7 @@ void    ObjectMeteoBigShadow( task* tp );
 void    ObjectFireBallShadow( task* tp );
 /*
 *   Description:
-*     Meteor Herd big tank shadow displayer.
+*     Meteor Herd small overhead tank shadow displayer.
 */
 void    ObjectTankShadow( task* tp );
 /*
