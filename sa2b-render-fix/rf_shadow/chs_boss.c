@@ -1,32 +1,38 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/funchook.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
 #include <samt/sonic/move.h>
 #include <samt/sonic/motion.h>
 #include <samt/sonic/njctrl.h>
-#include <samt/sonic/debug.h>
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_model.h>
-#include <rf_ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_util.h>
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
 
-/** RF Util **/
-#include <rfu_draw.h>
+/****** RF Util *********************************************************************************/
+#include <rfu_draw.h>               /* animate motion                                           */
 
-#define GET_BOSSWK(_tp)     ((BOSSWK*)_tp->awp)
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
-typedef struct bosswk
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Boss ************************************************************************************/
+typedef struct
 {
     char gap0[8];
     MOVE_WORK* move_work;
@@ -34,42 +40,45 @@ typedef struct bosswk
     void* pOtherWork;
     char gap2[14];
 }
-BOSSWK;
+bosswk;
 
-#define BossBogyGlassCheapShadow    FUNC_PTR(void, __cdecl, (int), 0x00613F20)
+#define GET_BOSSWK(_tp)     ((bosswk*)_tp->awp)
 
-#define motion_b_bigbogy_mod        DATA_ARY(NJS_MOTION, 0x010131E4, [1])
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Big Bogy Glass **************************************************************************/
+#define BossBogyGlassCheapShadow    FUNC_PTR(void, __cdecl, (i32), 0x00613F20)
 
-void
-BossBogyShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-    BOSSWK* const bwp = GET_BOSSWK(tp);
-    MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
-
-    anywk* const unk = (anywk*)bwp->pOtherWork;
-
-    if (unk->work.ub[1] == 2)
-    {
-        njPushMatrixEx();
-
-        njTranslateEx(&twp->pos);
-        njRotateY(NULL, twp->ang.z);
-        njRotateX(NULL, twp->ang.x);
-        njScale(NULL, twp->scl.x, twp->scl.x, twp->scl.x);
-
-        njCnkModDrawMotion(object_b_bigbogy_mod, motion_b_bigbogy_mod, mwp->BoundFriction);
-
-        njPopMatrixEx();
-    }
-
-    BossBogyGlassCheapShadow(unk->work.ul[3]);
-}
-
+/****** Big Foot ********************************************************************************/
 #define BossBigFootBodyPos          DATA_REF(NJS_POINT3, 0x01A27E84)
 #define BossBigFootLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27F44)
 #define BossBigFootRightFootPos     DATA_REF(NJS_POINT3, 0x01A27EFC)
 
+#define BossBigFootInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27E90)
+#define BossBigFootInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27E54)
+
+/****** Hot Shot ********************************************************************************/
+#define BossHotShotBodyPos          DATA_REF(NJS_POINT3, 0x01A27D34)
+#define BossHotShotLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27E00)
+#define BossHotShotRightFootPos     DATA_REF(NJS_POINT3, 0x01A27DB8)
+
+#define BossHotShotInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27D40)
+#define BossHotShotInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27D04)
+
+/****** Flying Dog ******************************************************************************/
+#define BossFlyingDogBodyPos        DATA_REF(NJS_POINT3, 0x01A27FBC)
+
+#define BossFlyingDogInvMatrix      DATA_REF(NJS_MATRIX, 0x01A27FC8)
+#define BossFlyingDogInvTransMatrix DATA_REF(NJS_MATRIX, 0x01A27F8C)
+
+/****** Big Bogy ********************************************************************************/
+#define motion_b_bigbogy_mod        DATA_ARY(NJS_MOTION, 0x010131E4, [1])
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Draw Modifier ***************************************************************************/
 static void
 BossBigFootDrawMod(task* tp)
 {
@@ -102,15 +111,86 @@ BossBigFootDrawMod(task* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define BossBigFootInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27E90)
-#define BossBigFootInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27E54)
+static void
+BossHotShotDrawMod(task* tp)
+{
+    taskwk* const twp = tp->twp;
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njPushMatrixEx();
+
+    njTranslateEx(&BossHotShotBodyPos);
+    njRotateY(NULL, twp->ang.y + 0x4000);
+    njCnkModDrawObject(object_b_hotshot_body_mod);
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&BossHotShotLeftFootPos);
+    njRotateY(NULL, twp->ang.y + 0x4000);
+    njCnkModDrawObject(object_b_hotshot_foot_mod);
+
+    njPopMatrixEx();
+    njPushMatrixEx();
+
+    njTranslateEx(&BossHotShotRightFootPos);
+    njRotateY(NULL, twp->ang.y + 0xC000);
+    njCnkModDrawObject(object_b_hotshot_foot_mod);
+
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+BossFlyingDogDrawMod(task* tp)
+{
+    taskwk* const twp = tp->twp;
+
+    njPushMatrixEx();
+
+    njTranslateEx(&BossFlyingDogBodyPos);
+    njRotateY(NULL, twp->ang.y + 0x4000);
+
+    njCnkModDrawObject(object_b_fdog_body_mod);
+
+    njPopMatrixEx();
+}
+
+/****** Displayers ******************************************************************************/
+void
+BossBogyShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+    bosswk* const bwp = GET_BOSSWK(tp);
+    MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
+
+    anywk* const unk = (anywk*)bwp->pOtherWork;
+
+    if (unk->work.ub[1] == 2)
+    {
+        njPushMatrixEx();
+
+        njTranslateEx(&twp->pos);
+        njRotateY(NULL, twp->ang.z);
+        njRotateX(NULL, twp->ang.x);
+        njScale(NULL, twp->scl.x, twp->scl.x, twp->scl.x);
+
+        njCnkModDrawMotion(object_b_bigbogy_mod, motion_b_bigbogy_mod, mwp->BoundFriction);
+
+        njPopMatrixEx();
+    }
+
+    BossBogyGlassCheapShadow(unk->work.ul[3]);
+}
 
 void
 BossBigFootShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
-    BOSSWK*    const bwp = GET_BOSSWK(tp);
+    bosswk*    const bwp = GET_BOSSWK(tp);
 
     MOTION_CTRL* mtn_ctrl = bwp->pMtnCtrl;
 
@@ -153,51 +233,12 @@ BossBigFootShadow(task* tp)
     BossBigFootDrawMod(tp);
 }
 
-#define BossHotShotBodyPos          DATA_REF(NJS_POINT3, 0x01A27D34)
-#define BossHotShotLeftFootPos      DATA_REF(NJS_POINT3, 0x01A27E00)
-#define BossHotShotRightFootPos     DATA_REF(NJS_POINT3, 0x01A27DB8)
-
-static void
-BossHotShotDrawMod(task* tp)
-{
-    taskwk* const twp = tp->twp;
-
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    njTranslateEx(&BossHotShotBodyPos);
-    njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_hotshot_body_mod);
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslateEx(&BossHotShotLeftFootPos);
-    njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_b_hotshot_foot_mod);
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslateEx(&BossHotShotRightFootPos);
-    njRotateY(NULL, twp->ang.y + 0xC000);
-    njCnkModDrawObject(object_b_hotshot_foot_mod);
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-#define BossHotShotInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27D40)
-#define BossHotShotInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27D04)
-
 void
 BossHotShotShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
-    BOSSWK*    const bwp = GET_BOSSWK(tp);
+    bosswk*    const bwp = GET_BOSSWK(tp);
 
     MOTION_CTRL* mtn_ctrl = bwp->pMtnCtrl;
 
@@ -240,32 +281,12 @@ BossHotShotShadow(task* tp)
     BossHotShotDrawMod(tp);
 }
 
-#define BossFlyingDogBodyPos    DATA_REF(NJS_POINT3, 0x01A27FBC)
-
-static void
-BossFlyingDogDrawMod(task* tp)
-{
-    taskwk* const twp = tp->twp;
-
-    njPushMatrixEx();
-
-    njTranslateEx(&BossFlyingDogBodyPos);
-    njRotateY(NULL, twp->ang.y + 0x4000);
-
-    njCnkModDrawObject(object_b_fdog_body_mod);
-
-    njPopMatrixEx();
-}
-
-#define BossFlyingDogInvMatrix        DATA_REF(NJS_MATRIX, 0x01A27FC8)
-#define BossFlyingDogInvTransMatrix   DATA_REF(NJS_MATRIX, 0x01A27F8C)
-
 void
 BossFlyingDogShadow(task* tp)
 {
     taskwk*    const twp = tp->twp;
     MOVE_WORK* const mwp = GET_MOVE_WORK(tp);
-    BOSSWK*    const bwp = GET_BOSSWK(tp);
+    bosswk*    const bwp = GET_BOSSWK(tp);
 
     MOTION_CTRL* mtn_ctrl = bwp->pMtnCtrl;
 
@@ -325,18 +346,6 @@ GRoboMissileShadow(task* tp)
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-__declspec(naked)
-static void
-__GRoboMissileMovHook(void)
-{
-    __asm
-    {
-        mov dword ptr[esi+14h], 005D6AA0h
-        mov dword ptr[esi+2Ch], offset GRoboMissileShadow
-        retn
-    }
-}
-
 void
 BossLastEnergyShadow(task* tp)
 {
@@ -349,7 +358,7 @@ BossLastEnergyShadow(task* tp)
     float scl;
 
     /** I'm aware this is logically incorrect,
-        this is just how it's written. Idk. **/
+    this is just how it's written. Idk. **/
     if (pos_y >= 10.2f)
     {
         if (pos_y <= 0.0f)
@@ -368,9 +377,22 @@ BossLastEnergyShadow(task* tp)
     njTranslate(NULL, twp->pos.x, pos_y, twp->pos.z);
     njScale(NULL, scl, 1.0f, scl);
 
-    DrawBasicShadow();
+    njCnkModDrawModel(object_shadow->model);
 
     njPopMatrixEx();
+}
+
+/****** Assembly ********************************************************************************/
+__declspec(naked)
+static void
+__GRoboMissileMovHook(void)
+{
+    __asm
+    {
+        mov dword ptr[esi+14h], 005D6AA0h
+        mov dword ptr[esi+2Ch], offset GRoboMissileShadow
+        retn
+    }
 }
 
 __declspec(naked)
@@ -385,8 +407,7 @@ __BossLastEnergyMovHook(void)
     }
 }
 
-void* CreateNoStencilTexture(void);
-
+/****** Init ************************************************************************************/
 void
 CHS_BossInit(void)
 {

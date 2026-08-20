@@ -21,7 +21,6 @@ RF_ModuleInit(void)
 {
     // core
     RFM_GlobalInit();
-    RFM_ShadowsInit();
     RFM_CommonInit();
     RFM_PlayerInit();
 

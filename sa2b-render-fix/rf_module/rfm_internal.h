@@ -20,11 +20,6 @@ EXTERN_START
 void    RFM_GlobalInit( void );
 /*
 *   Description:
-*     Init the 'Shadow' feature module.
-*/
-void    RFM_ShadowsInit( void );
-/*
-*   Description:
 *     Init the 'Common' feature module.
 */
 void    RFM_CommonInit( void );

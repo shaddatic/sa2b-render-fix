@@ -3,6 +3,9 @@
 /********************************/
 /****** SAMT ************************************************************************************/
 #include <samt/core.h>              /* core                                                     */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/writemem.h>          /* write mem                                                */
+#include <samt/funchook.h>          /* function hook                                            */
 
 /****** Ninja ***********************************************************************************/
 #include <samt/ninja/ninja.h>       /* ninja                                                    */
@@ -13,9 +16,31 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_model.h>               /* get chunk                                                */
+#include <rf_ninja.h>               /* render fix ninja                                         */
+
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config core                                              */
 
 /****** Self ************************************************************************************/
 #include <rf_shadow.h>              /* self                                                     */
+#include <rf_shadow/chs_internal.h> /* children                                                 */
+
+/********************************/
+/*  Prototypes                  */
+/********************************/
+/****** Shadow Texture **************************************************************************/
+/*
+*   Description:
+*     Hacky Function to Force Shadow Map Drawing.
+*/
+EXTERN void     RFG_ForceShadowMaps( void );
+
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** 2D Array ********************************************************************************/
+#define AL_Constructor              FUNC_PTR(void, __cdecl, (task*), 0x0052AB60)
+#define AL_Destructor               FUNC_PTR(void, __cdecl, (task*), 0x0052AE70)
 
 /********************************/
 /*  Macro                       */
@@ -26,22 +51,9 @@
 /********************************/
 /*  Constants                   */
 /********************************/
-/****** ModMod **********************************************************************************/
-enum
-{
-    OBJECT_MODMOD_HEX_DEBUG,
-    OBJECT_MODMOD_HEX,
-    OBJECT_MODMOD_BOX_DEBUG,
-    OBJECT_MODMOD_BOX,
-
-    OBJECT_MODMOD_NUM,
-};
-
-/********************************/
-/*  Game Refs                   */
-/********************************/
-/****** ModMod **********************************************************************************/
-#define ModModModels                DATA_ARY(NJS_CNK_MODEL*, 0x00B4D82C, [OBJECT_MODMOD_NUM])
+/****** Shadow Intensity ************************************************************************/
+#define CHEAPSHDWMD_NORMAL          ( 80)
+#define CHEAPSHDWMD_CHAO            (115)
 
 /********************************/
 /*  Variables                   */
@@ -175,9 +187,64 @@ static NJS_CNK_OBJECT** const ShadowList[RF_NB_SHADOW] =
     [RF_SHADOW_BOSS_BIGBOGY]       = &object_b_bigbogy_mod,
 };
 
+/************************************************************************************************/
+/*
+*   Shadow Tex
+*/
+/****** Shadow Map Resolution *******************************************************/
+static const u16 ResolutionList[] = { 256, 512, 1024, 2048, 4096, 8192 };
+
 /********************************/
 /*  Source                      */
 /********************************/
+/****** Set Shadow Intensity ********************************************************************/
+static mt_hookinfo AL_ConstructorHookInfo[1];
+static void
+AL_ConstructorHook(task* tp)
+{
+    mtHookInfoCall( AL_ConstructorHookInfo, AL_Constructor(tp) );
+
+    rjSetCheapShadowMode(CHEAPSHDWMD_CHAO);
+}
+
+static mt_hookinfo AL_DestructorHookInfo[1];
+static void
+AL_DestructorHook(task* tp)
+{
+    mtHookInfoCall( AL_DestructorHookInfo, AL_Destructor(tp) );
+
+    rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
+}
+
+/****** Kill Displayer **************************************************************************/
+static void
+CHS_ObjectBurstInit(void)
+{
+    WriteRetn(0x004AF660); // Kill disp_shad
+    KillCall( 0x004AE522); // Kill SetStencilInfo
+}
+
+static void
+CHS_ObjectMSMadBox(void)
+{
+    WriteRetn(0x0064FD40); // Kill disp_shad
+    KillCall( 0x0064F999); // Kill SetStencilInfo
+}
+
+static void
+CHS_ObjectMDContWood(void)
+{
+    WriteRetn(0x005C43C0); // Kill disp_shad
+    KillCall( 0x005C455E); // Kill SetStencilInfo
+}
+
+/****** Kill Shadow Tex *************************************************************************/
+void* __cdecl
+CreateNoStencilTexture(void)
+{
+    return NULL;
+}
+
 /****** Get/Set *********************************************************************************/
 NJS_CNK_OBJECT*
 GetShadow(RF_SHADOW kind)
@@ -218,12 +285,12 @@ SetShadow(RF_SHADOW kind, NJS_CNK_OBJECT* object)
     {
         case RF_SHADOW_OBJECT_MODMOD_HEX:
         {
-            ModModModels[OBJECT_MODMOD_HEX] = object->model;
+            ModModModels[MODMOD_MODEL_HEX] = object->model;
             break;
         }
         case RF_SHADOW_OBJECT_MODMOD_BOX:
         {
-            ModModModels[OBJECT_MODMOD_BOX] = object->model;
+            ModModModels[MODMOD_MODEL_BOX] = object->model;
             break;
         }
     }
@@ -329,4 +396,85 @@ RF_ShadowInit(void)
     object_b_grobo_missile_mod = DATA_ARY(NJS_CNK_OBJECT, 0x01118F30, [1]);
     object_b_fdog_body_mod     = DATA_ARY(NJS_CNK_OBJECT, 0x01134BC4, [1]);
     object_b_bigbogy_mod       = RF_GetCnkObject("boss/bigbogy/bigbogy_mod");
+
+    /*
+    *   End of models section
+    */
+
+    if ( CNF_GetInt(CNF_MISC_NOSHADOWS) )
+    {
+        WriteRetn(0x0046FBC0); // Disable all shadows
+        return;
+    }
+
+    const bool chs_enabled = CNF_GetInt(CNF_GAME_CHSMD) != CNFE_GAME_CHSMD_DISABLED;
+    const i32  md_player  = CNF_GetInt(CNF_PLAYER_SHADOWMD);
+
+    // init cheap shadows
+    if ( chs_enabled )
+    {
+        if ( CNF_GetInt(CNF_DEBUG_MODIFIER) )
+        {
+            rjCheapShadowDebug( ON );
+        }
+
+        if ( md_player == CNFE_PLAYER_SHADOWMD_MODIFIER )
+        {
+            CHS_PlayerInit();
+        }
+        else // player uses shadow tex
+        {
+            RFG_ForceShadowMaps();
+        }
+
+        CHS_BoardInit();
+        CHS_MessengerInit();
+        CHS_BunchinInit();
+        CHS_ModModInit();
+        CHS_UdreelInit();
+        CHS_SearchBoxInit();
+        CHS_GoalRingInit();
+        CHS_EnemyInit();
+        CHS_IronBall2Init();
+        CHS_EggQuatersRobotInit();
+        CHS_ChaosDriveInit();
+        CHS_MinimalInit();
+        CHS_PickUpInit();
+        CHS_TankInit();
+        CHS_MDContainerBoxInit();
+        CHS_MeteoBigInit();
+        CHS_CCBlockInit();
+        CHS_BossInit();
+        CHS_CartInit();
+        CHS_ChaoWorldInit();
+        CHS_TruckInit();
+        CHS_CarInit();
+        CHS_ObjectBurstInit();
+        CHS_ObjectMSMadBox();
+        CHS_ObjectMDContWood();
+
+        // set default shadow intensity
+        rjSetCheapShadowMode(CHEAPSHDWMD_NORMAL);
+
+        // shadow intensity change funcs
+        mtHookFunc(AL_ConstructorHookInfo, AL_Constructor, AL_ConstructorHook);
+        mtHookFunc(AL_DestructorHookInfo , AL_Destructor , AL_DestructorHook);
+    }
+    else // cheap shadows disabled
+    {
+        const CNFE_MISC_SHDWRES shdwres = CNF_GetInt(CNF_MISC_SHADOWRES);
+
+        if ( shdwres != CNFE_MISC_SHDWRES_LOW )
+        {
+            WriteData(0x0041F810, ResolutionList[shdwres], u32);
+        }
+
+        RFG_ForceShadowMaps();
+    }
+
+    // player enhanced shadow tex, legacy
+    if ( md_player == CNFE_PLAYER_SHADOWMD_ENHANCED )
+    {
+        EnhancedPlayerShadowsInit();
+    }
 }

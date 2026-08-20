@@ -34,7 +34,6 @@
 #include <rf_model.h>
 #include <rf_ninja.h>
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_shadow.h>
 
 /** RF Util **/
 #include <rfu_draw.h>
@@ -42,7 +41,8 @@
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
 
-/** Self (?) **/
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
 /** Constant **/
 #define SonicDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00720090)
@@ -1440,12 +1440,6 @@ EggWalkerShadow(task* tp)
         DarkChaoWalkerDisplayMod(twp, &wwp->pw, action);
         break;
     }
-}
-
-void* __cdecl
-CreateNoStencilTexture(void)
-{
-    return NULL;
 }
 
 void

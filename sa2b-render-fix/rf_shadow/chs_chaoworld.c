@@ -455,7 +455,7 @@ ALO_ChaosDriveShadow(task* tp)
         njRotateY(NULL, cdwp->ang.y);
         njScale(NULL, 1.1f, 1.1f, 1.1f); // ????
         njScale(NULL, 0.7f, 0.7f, 0.7f);
-        AL_ShadowDraw();
+        DrawBasicShadow();
     }
     else
     {
@@ -464,7 +464,7 @@ ALO_ChaosDriveShadow(task* tp)
         njTranslateEx(&cdwp->pos);
         njRotateY(NULL, cdwp->ang.y);
         njScale(NULL, scl * 0.65f, scl * 0.65f, scl * 1.1f);
-        AL_ShadowDraw();
+        DrawBasicShadow();
     }
 
     njPopMatrixEx();

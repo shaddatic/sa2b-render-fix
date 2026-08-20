@@ -25,7 +25,7 @@
 #include <rf_core.h>
 
 /** Self **/
-#include <rf_module/rfm_shadows/shd_internal.h>
+#include <rf_shadow/chs_internal.h>
 
 enum
 {

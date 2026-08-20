@@ -48,7 +48,7 @@
     <ClCompile Include="rf_module\rfm_stg_wjungle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_player.c">
+    <ClCompile Include="rf_shadow\chs_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_game\rfg_taskdisp.c">
@@ -57,76 +57,76 @@
     <ClCompile Include="rf_ninja.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_board.c">
+    <ClCompile Include="rf_shadow\chs_o_board.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_modmod.c">
+    <ClCompile Include="rf_shadow\chs_o_modmod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_messenger.c">
+    <ClCompile Include="rf_shadow\chs_o_messenger.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_bunchin.c">
+    <ClCompile Include="rf_shadow\chs_o_bunchin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_udreel.c">
+    <ClCompile Include="rf_shadow\chs_o_udreel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_searchbox.c">
+    <ClCompile Include="rf_shadow\chs_o_searchbox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_goalring.c">
+    <ClCompile Include="rf_shadow\chs_o_goalring.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_enemy.c">
+    <ClCompile Include="rf_shadow\chs_enemy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_ironball.c">
+    <ClCompile Include="rf_shadow\chs_o_ironball.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_eq_robot.c">
+    <ClCompile Include="rf_shadow\chs_o_eq_robot.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_ce_truck.c">
+    <ClCompile Include="rf_shadow\chs_o_ce_truck.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_chaosdrive.c">
+    <ClCompile Include="rf_shadow\chs_chaosdrive.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_udreel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_minimal.c">
+    <ClCompile Include="rf_shadow\chs_minimal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_pickup.c">
+    <ClCompile Include="rf_shadow\chs_o_pickup.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_car.c">
+    <ClCompile Include="rf_shadow\chs_o_car.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_md_tank.c">
+    <ClCompile Include="rf_shadow\chs_o_md_tank.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_md_contbox.c">
+    <ClCompile Include="rf_shadow\chs_o_md_contbox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_md_meteo.c">
+    <ClCompile Include="rf_shadow\chs_o_md_meteo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_o_cc_block.c">
+    <ClCompile Include="rf_shadow\chs_o_cc_block.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_api.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_boss.c">
+    <ClCompile Include="rf_shadow\chs_boss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_cart.c">
+    <ClCompile Include="rf_shadow\chs_cart.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\chs_chaoworld.c">
+    <ClCompile Include="rf_shadow\chs_chaoworld.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_stg_cescape.c">
@@ -162,10 +162,7 @@
     <ClCompile Include="rf_module\rfm_common\rfc_newdisp\rfcd_itembox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rf_module\rfm_shadows\shd_player.c">
+    <ClCompile Include="rf_shadow\shd_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rf_module\rfm_game.c">
@@ -497,9 +494,6 @@
     <ClInclude Include="rf_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rf_module\rfm_shadows\chs_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="rf_mdlutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -510,9 +504,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_renderstate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rf_module\rfm_shadows\shd_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_module\rfm_game\rfg_internal.h">
@@ -630,6 +621,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_shadow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rf_shadow\chs_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
