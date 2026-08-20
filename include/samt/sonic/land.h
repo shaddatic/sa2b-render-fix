@@ -130,7 +130,7 @@ typedef struct _OBJ_LANDCOLL
 {
     i32                 slAttribute; /* attributes                                              */
     NJS_OBJECT*         pObject;     /* collision object                                        */
-    task*               ptask;       /* task pointer                                 [optional] */
+    task*               pTask;       /* task pointer                                 [optional] */
 }
 OBJ_LANDCOLL;
 

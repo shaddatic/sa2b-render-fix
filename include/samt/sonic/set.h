@@ -66,10 +66,10 @@ OBJ_EDITTABLE;
 
 typedef struct _OBJ_CONDITION
 {
-    u8              scCount;
-    u8              scUserFlag;
+    i8              scCount;
+    i8              scUserFlag;
     i16             ssCondition;
-    task*           ptask;
+    task*           pTask;
     OBJ_EDITENTRY*  pObjEditEntry;
     UNION_STATUS    unionStatus;
 }
