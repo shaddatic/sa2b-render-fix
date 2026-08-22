@@ -14,6 +14,7 @@
 #include <rf_api/rfapi_internal.h>  /* parent & siblings                                        */
 #include <rf_ninja.h>               /* draw                                                     */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_shadow.h>              /* cheap shadows                                            */
 
 /********************************/
 /*  Source                      */
@@ -65,6 +66,30 @@ static void
 ___CnkDrawShapeMotionLinkBE(NJS_CNK_OBJECT* object, NJS_MOTION_LINK* motion_link, NJS_MOTION_LINK* shape_link, Float rate)
 {
     rjCnkTransformShapeMotionLinkBE(object, motion_link, shape_link, rate, rjCnkDrawModel);
+}
+
+void
+DrawBasicShadow(void)
+{
+    const u32 bak = _nj_control_3d_flag_;
+
+    _nj_control_3d_flag_ = bak | (NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njCnkModDrawModel(object_shadow->model);
+
+    _nj_control_3d_flag_ = bak;
+}
+
+void
+AL_ShadowDraw(void)
+{
+    const u32 bak = _nj_control_3d_flag_;
+
+    _nj_control_3d_flag_ = bak | (NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njCnkModDrawModel(object_kage_marukage_marukage->model);
+
+    _nj_control_3d_flag_ = bak;
 }
 
 /********************************/
