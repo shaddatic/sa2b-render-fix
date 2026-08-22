@@ -1,31 +1,49 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
 /****** Utl *************************************************************************************/
 #include <samt/util/asm.h>          /* asm helper                                               */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/player.h>
-#include <samt/sonic/debug.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
+#include <samt/sonic/player.h>      /* player                                                   */
 
-/** Render Fix **/
+/****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_model.h>
-#include <rf_ninja.h>
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
 
-/** RF Util **/
-#include <rfu_draw.h>
+/****** RF Util *********************************************************************************/
+#include <rfu_draw.h>               /* animate motion                                           */
 
-#define mtx_BoardCE     DATA_REF(NJS_MATRIX, 0x01A282F8)
-#define mtx_BoardMH     DATA_REF(NJS_MATRIX, 0x01A513B0)
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Matrix **********************************************************************************/
+#define mtx_BoardCE                 DATA_REF(NJS_MATRIX, 0x01A282F8)
+#define mtx_BoardMH                 DATA_REF(NJS_MATRIX, 0x01A513B0)
+
+/****** Model ***********************************************************************************/
+#define object_board_mh             DATA_ARY(NJS_CNK_OBJECT, 0x00AE79A4, [1])
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Get Attr ********************************************************************************/
 ASM_FUNC
 static void
 BoardGetAttributes(uintptr_t* ppUnk, NJS_TEXLIST** ppTexList, NJS_CNK_OBJECT** ppObject, int pno)
@@ -52,6 +70,7 @@ BoardGetAttributes(uintptr_t* ppUnk, NJS_TEXLIST** ppTexList, NJS_CNK_OBJECT** p
     ASM_RET( 0 );
 }
 
+/****** Displayers ******************************************************************************/
 void
 ObjectBoardShadow_CE(task* tp)
 {
@@ -59,8 +78,10 @@ ObjectBoardShadow_CE(task* tp)
 
     playerwk* pwp = playerpwp[twp->smode];
 
-    if (!pwp)
+    if ( !pwp )
+    {
         return;
+    }
 
     NJS_CNK_OBJECT* p_object;
     NJS_TEXLIST* p_texlist;
@@ -70,74 +91,76 @@ ObjectBoardShadow_CE(task* tp)
 
     njCnkSetMotionCallback((void*)0x005EBCC0);
 
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
     njPushMatrixEx();
-
-    if (twp->mode != 1)
     {
-        njTranslateEx(&twp->pos);
-        njRotateZ(NULL, twp->ang.z);
-        njRotateX(NULL, twp->ang.x);
-        njRotateY(NULL, twp->ang.y);
-
-        njRotateZ(NULL, p_object->ang[2]);
-        njRotateY(NULL, p_object->ang[1]);
-        njRotateX(NULL, p_object->ang[0]);
-
-        njGetMatrix(&mtx_BoardCE);
-    }
-    else
-    {
-        uint32_t v11 = *(uint32_t*)((uintptr_t)tp->mwp + 24) + 24;
-
-        NJS_MOTION* p_motion = plmotions[pwp->m.action + 24].mot;
-
-        if (p_motion)
+        if (twp->mode != 1)
         {
             njTranslateEx(&twp->pos);
             njRotateZ(NULL, twp->ang.z);
             njRotateX(NULL, twp->ang.x);
             njRotateY(NULL, twp->ang.y);
 
-            if (pwp->m.mtnmode == 2)
-            {
-                if (v11 - 145 > 0x17)
-                {
-                    njRotateZ(NULL, p_object->ang[2]);
-                    njRotateY(NULL, p_object->ang[1]);
-                    njRotateX(NULL, p_object->ang[0]);
+            njRotateZ(NULL, p_object->ang[2]);
+            njRotateY(NULL, p_object->ang[1]);
+            njRotateX(NULL, p_object->ang[0]);
 
-                    njGetMatrix(&mtx_BoardCE);
+            njGetMatrix(&mtx_BoardCE);
+        }
+        else
+        {
+            uint32_t v11 = *(uint32_t*)((uintptr_t)tp->mwp + 24) + 24;
+
+            NJS_MOTION* p_motion = plmotions[pwp->m.action + 24].mot;
+
+            if (p_motion)
+            {
+                njTranslateEx(&twp->pos);
+                njRotateZ(NULL, twp->ang.z);
+                njRotateX(NULL, twp->ang.x);
+                njRotateY(NULL, twp->ang.y);
+
+                if (pwp->m.mtnmode == 2)
+                {
+                    if (v11 - 145 > 0x17)
+                    {
+                        njRotateZ(NULL, p_object->ang[2]);
+                        njRotateY(NULL, p_object->ang[1]);
+                        njRotateX(NULL, p_object->ang[0]);
+
+                        njGetMatrix(&mtx_BoardCE);
+                    }
+                    else
+                    {
+                        NJS_MOTION_LINK motion_link;
+
+                        motion_link.motion[0] = plmotions[v11].mot;
+                        motion_link.frame[0] = *(float*)((uintptr_t)tp->mwp + 28);
+
+                        motion_link.motion[1] = p_motion;
+                        motion_link.frame[1] = 0.0f;
+
+                        njCnkAnimateMotionLink(p_object, &motion_link, pwp->m.nframe);
+                    }
                 }
                 else
                 {
-                    NJS_MOTION_LINK motion_link;
-
-                    motion_link.motion[0] = plmotions[v11].mot;
-                    motion_link.frame[0] = *(float*)((uintptr_t)tp->mwp + 28);
-
-                    motion_link.motion[1] = p_motion;
-                    motion_link.frame[1] = 0.0f;
-
-                    njCnkAnimateMotionLink(p_object, &motion_link, pwp->m.nframe);
+                    njCnkAnimateMotion(p_object, p_motion, pwp->m.nframe);
                 }
             }
-            else
-            {
-                njCnkAnimateMotion(p_object, p_motion, pwp->m.nframe);
-            }
         }
+
+        njSetMatrix(NULL, &mtx_BoardCE);
+
+        njCnkSetMotionCallback(NULL);
+
+        njCnkModDrawObject(object_ce_board_mod);
     }
-
-    njSetMatrix(NULL, &mtx_BoardCE);
-
-    njCnkSetMotionCallback(NULL);
-
-    njCnkModDrawObject(object_ce_board_mod);
-
     njPopMatrixEx();
-}
 
-#define object_board_mh     DATA_ARY(NJS_CNK_OBJECT, 0x00AE79A4, [1])
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+}
 
 void
 ObjectBoardShadow_MH(task* tp)
@@ -218,6 +241,7 @@ ObjectBoardShadow_MH(task* tp)
     njPopMatrixEx();
 }
 
+/****** Hooks ***********************************************************************************/
 void
 ObjectBoardHook_MH(task* tp)
 {
@@ -228,6 +252,7 @@ ObjectBoardHook_MH(task* tp)
     tp->disp_shad = ObjectBoardShadow_MH;
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_BoardInit(void)
 {

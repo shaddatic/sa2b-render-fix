@@ -1,58 +1,77 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Render Fix **/
-#include <rf_ninja.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
-/** RF Util **/
-#include <rfu_draw.h>
-#include <rf_util.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_util.h>                /* switch displayer                                         */
 
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Displayers ******************************************************************************/
 void
 ObjectIronBall2Shadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    njPushMatrixEx();
-
-    njTranslate(NULL, twp->pos.x, twp->pos.y + 0.1f, twp->pos.z);
-    njRotateY(NULL, twp->ang.y);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
+    {
+        const f32 trans_x = (twp->scl.x + 1) * 20.0f;
 
-    njScale(NULL, 5.0f, 1.0f, 5.0f);
-    DrawBasicShadow();
+        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.1f, twp->pos.z);
+        njRotateY(NULL, twp->ang.y);
 
+        njPushMatrixEx();
+        {
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
+
+            njCnkModDrawModel( object_shadow->model );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslate(NULL, trans_x, 0.0f, 0.0f);
+            njScale(NULL, 10.0f, 1.0f, 10.0f);
+
+            njCnkModDrawModel( object_shadow->model );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslate(NULL, -trans_x, 0.0f, 0.0f);
+            njScale(NULL, 10.0f, 1.0f, 10.0f);
+
+            njCnkModDrawModel( object_shadow->model );
+        }
+        njPopMatrixEx();
+    }
     njPopMatrixEx();
-    njPushMatrixEx();
 
-    const float trans_x = (twp->scl.x + 1) * 20.0f;
-
-    njTranslate(NULL, trans_x, 0.0f, 0.0f);
-    njScale(NULL, 10.0f, 1.0f, 10.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslate(NULL, -trans_x, 0.0f, 0.0f);
-    njScale(NULL, 10.0f, 1.0f, 10.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-
-    njPopMatrixEx();
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_IronBall2Init(void)
 {

@@ -1,41 +1,63 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
-/** Render Fix **/
-#include <rf_ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_util.h>                /* switch displayer                                         */
 
-/** RF Util **/
-#include <rfu_draw.h>
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Displayer *******************************************************************************/
+#define ObjectPickUpDisplayer       FUNC_PTR(void, __cdecl, (task*), 0x006BC7A0)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Displayers ******************************************************************************/
 void
 ObjectPickUpShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    if (twp->flag & 0x8000)
+    if ( twp->flag & 0x8000 )
+    {
         return;
+    }
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
+    {
+        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.1f, twp->pos.z);
+        njScale(NULL, 3.0f, 1.0f, 3.0f);
 
-    njTranslate(NULL, twp->pos.x, twp->pos.y + 0.1f, twp->pos.z);
-    njScale(NULL, 3.0f, 1.0f, 3.0f);
-
-    DrawBasicShadow();
-
+        njCnkModDrawModel( object_shadow->model );
+    }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define ObjectPickUpDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x006BC7A0)
-
+/****** Hooks ***********************************************************************************/
 static void
 ObjectPickUpInitDisplayers(task* tp)
 {
@@ -56,6 +78,7 @@ __ObjectPickUpInitDisplayers(task* tp)
     }
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_PickUpInit(void)
 {

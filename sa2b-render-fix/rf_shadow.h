@@ -274,6 +274,11 @@ void    ObjectUdreelShadow( task* tp );
 void    ObjectGolemUdreelShadow( task* tp );
 /*
 *   Description:
+*     Goal Ring (& lost Chao) shadow displayer..
+*/
+void    ObjectGoalRingShadow( task* tp );
+/*
+*   Description:
 *     Snow board shadow displayer.
 */
 void    ObjectBoardShadow_CE( task* tp );
@@ -295,6 +300,11 @@ void    ObjectCarShadow_MS( task* tp );
 */
 void    ObjectCarCrashShadow_CE( task* tp );
 void    ObjectCarCrashShadow_MS( task* tp );
+/*
+*   Description:
+*     Egg Quaters robot beetle shadow displayer.
+*/
+void    ObjectRobotShadow(task* tp);
 /*
 *   Description:
 *     Meteor Herd huge blue container shadow displayer.

@@ -20,9 +20,6 @@
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
 #include <rf_util.h>                /* switch displayer                                         */
 
-/****** RF Util *********************************************************************************/
-#include <rfu_draw.h>               /* animate motion                                           */
-
 /****** Self ************************************************************************************/
 #include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
@@ -34,6 +31,8 @@ void
 ObjectModModShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
     {
@@ -52,6 +51,8 @@ ObjectModModShadow(task* tp)
         njCnkModDrawModel( ModModModels[ix] );
     }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 /****** Init ************************************************************************************/

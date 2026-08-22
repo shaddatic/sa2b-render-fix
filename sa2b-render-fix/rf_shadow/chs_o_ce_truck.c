@@ -1,20 +1,32 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
-#include <samt/sonic/njctrl.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_ninja.h>
-#include <rf_shadow.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_util.h>                /* switch displayer                                         */
 
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
+
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Any Data ********************************************************************************/
 typedef union
 {
     uint8_t ub[4];
@@ -27,6 +39,10 @@ typedef union
 }
 ANY_DATA;
 
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** Draw ************************************************************************************/
 static void
 TruckTranslateModVertex(float sizeX, float sizeZ, Angle3* pAng)
 {
@@ -128,7 +144,7 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
 
     NJS_CNK_MODEL* car_model = object_modmod_box->model;
 
-    const float r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
+    const f32 r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
 
     NJS_CNK_MODEL model = {
         .vlist = (Sint32*)GlobalBuffer,
@@ -137,13 +153,14 @@ DrawTruckShadow(float sizeX, float sizeZ, Angle3* pAng)
         .r = (r * 2) + 300.0f
     };
 
-    OnControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 
     njCnkModDrawModel(&model);
 
-    OffControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
+/****** Displayers ******************************************************************************/
 void
 ObjectTruckShadow(task* tp)
 {
@@ -151,15 +168,17 @@ ObjectTruckShadow(task* tp)
     anywk* const trkwp = TO_ANYWK(tp->mwp);
 
     njPushMatrixEx();
+    {
+        const f32 trans_y = (trkwp[13].work.f[2] + 10.0f) + twp->pos.y - 5.0f + trkwp[20].work.f[1];
 
-    const float trans_y = (trkwp[13].work.f[2] + 10.0f) + twp->pos.y - 5.0f + trkwp[20].work.f[1];
+        njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
 
-    njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
-    DrawTruckShadow(70.0f, 60.0f, &twp->ang);
-
+        DrawTruckShadow(70.0f, 60.0f, &twp->ang);
+    }
     njPopMatrixEx();
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_TruckInit(void)
 {

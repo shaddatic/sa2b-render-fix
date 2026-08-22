@@ -1,47 +1,71 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
-#include <samt/sonic/njctrl.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
-/** Render Fix **/
+/****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_ninja.h>
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_model.h>
-#include <rf_enemywk.h>
-#include <rf_renderstate.h>
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
+#include <rf_enemywk.h>             /* enemy work                                               */
 
-/** RF Util **/
-#include <rfu_draw.h>
+/****** RF Util *********************************************************************************/
+#include <rfu_draw.h>               /* animate motion                                           */
 
-void
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
+
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Range Out *******************************************************************************/
+#define OutOfRange                  FUNC_PTR(i32, __cdecl, (NJS_POINT3*, f32), 0x007983F0)
+
+/****** Enemy Init *****************************************************************************/
+#define EnemyAIInit                 FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x004FE050)
+#define EnemyPathInit               FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x00504610)
+#define EnemyE1000Init              FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x0050C510)
+#define EnemyGhoraInit              FUNC_PTR(void, __cdecl, (task*)         , 0x0050E750)
+#define EnemyKyokoInit              FUNC_PTR(void, __cdecl, (task*)         , 0x004FAE40)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Draw Shadow *****************************************************************************/
+static void
 EnemyShadowDraw(taskwk* twp, enemywk* ewp)
 {
-    const float mod_scl   = ewp->shadow_scl;
-    const float mod_scl_z = ewp->shadow_scl_ratio * mod_scl;
+    const f32 mod_scl   = ewp->shadow_scl;
+    const f32 mod_scl_z = ewp->shadow_scl_ratio * mod_scl;
 
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
     njPushMatrixEx();
+    {
+        njTranslate( NULL, twp->pos.x, twp->pos.y + 0.01f, twp->pos.z );
+        njRotateY(   NULL, twp->ang.y );
+        njScale(     NULL, mod_scl, 1.0f, mod_scl_z );
 
-    njTranslate(NULL, twp->pos.x, twp->pos.y + 0.01f, twp->pos.z);
-    njRotateY(NULL, twp->ang.y);
-    njScale(NULL, mod_scl, 1.0f, mod_scl_z);
-
-    DrawBasicShadow();
-
+        njCnkModDrawObject( object_shadow );
+    }
     njPopMatrixEx();
 
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
+/****** Displayers ******************************************************************************/
 void
 EnemyShadow(task* tp)
 {
@@ -51,13 +75,195 @@ EnemyShadow(task* tp)
     EnemyShadowDraw(twp, ewp);
 }
 
+void
+EnemyGoldShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( twp->mode != 2 )
+    {
+        const f32 sclchk = twp->scl.x - floorf(twp->scl.x);
+
+        if ( sclchk == 0.f && ewp->shadow_scl > 0.f )
+        {
+            EnemyShadowDraw(twp, ewp);
+        }
+    }
+}
+
+void
+EnemyNamieShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( twp->btimer )
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyNamieRocketShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( tp->ptp->twp->btimer == 1 )
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyPathShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ((twp->btimer & 2) && (twp->smode == 0 || twp->smode == 1))
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+
+void
+EnemyChaosPathShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if (twp->mode != 1 && twp->btimer & 2)
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyAkahigeRocketShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if (tp->ptp->twp->btimer == 1)
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyAkahigeShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( twp->btimer )
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyBataBeeShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( twp->mode != 1 )
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyKumiShadow(task* tp)
+{
+    taskwk*  const twp = tp->twp;
+    enemywk* const ewp = GET_ENEMYWK(tp);
+
+    if ( twp->mode != 2 )
+    {
+        EnemyShadowDraw(twp, ewp);
+    }
+}
+
+void
+EnemyKyokoShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+
+    if ( OutOfRange(&twp->pos, 40.0f) )
+    {
+        return;
+    }
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    njPushMatrixEx();
+    {
+        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.01f, twp->pos.z);
+        njRotateY(NULL, twp->ang.y);
+
+        njPushMatrixEx();
+        {
+            njTranslate(NULL, -13.0f, 0.0f, 0.0f);
+            njScale(NULL, 20.0f, 1.0f, 20.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslate(NULL, 0.0f, 0.0f, -13.0f);
+            njScale(NULL, 8.0f, 1.0f, 8.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslate(NULL, 0.0f, 0.0f, 13.0f);
+            njScale(NULL, 8.0f, 1.0f, 8.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+void
+EnemyShoukoShadow(task* tp)
+{
+    taskwk* const twp = tp->twp;
+
+    if (twp->mode == 1)
+        return;
+
+    /** The shouko's modifier model is inverted by default, was on Dreamcast too.
+        So, set the mirror model 3D flag. **/
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
+
+    njPushMatrixEx();
+    {
+        njTranslateV( NULL, &twp->pos );
+        njRotateY(    NULL, twp->ang.y + NJM_DEG_ANG(90.f) );
+
+        njCnkModDrawObject( object_e_shouko_mod );
+    }
+    njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
+}
+
+/****** Hooks ***********************************************************************************/
 static void
 EnemyGenericModInit(task* tp)
 {
     tp->disp_shad = EnemyShadow;
 }
-
-#define EnemyAIInit     FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x004FE050)
 
 static void
 EnemyAIInitHook(task* tp, taskwk* twp)
@@ -86,21 +292,6 @@ __ObjectBigTheCatInitHook(void)
     }
 }
 
-void
-EnemyGoldShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->mode != 2)
-    {
-        const float sclchk = twp->scl.x - (float)(int)twp->scl.x;
-
-        if (sclchk == 0.0f && ewp->shadow_scl > 0.0f)
-            EnemyShadowDraw(twp, ewp);
-    }
-}
-
 static void
 EnemyGoldModInit(task* tp)
 {
@@ -120,16 +311,6 @@ __EnemyGoldInitHook(void)
         add esp, 4
         retn
     }
-}
-
-void
-EnemyNamieShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->btimer)
-        EnemyShadowDraw(twp, ewp);
 }
 
 static void
@@ -153,16 +334,6 @@ __EnemyNamieInitHook(void)
     }
 }
 
-void
-EnemyNamieRocketShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (tp->ptp->twp->btimer == 1)
-        EnemyShadowDraw(twp, ewp);
-}
-
 static void
 EnemyNamieRocketModInit(task* tp)
 {
@@ -184,39 +355,18 @@ __EnemyNamieRocketInitHook(void)
     }
 }
 
-void
-EnemyPathShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if ((twp->btimer & 2) && (twp->smode == 0 || twp->smode == 1))
-        EnemyShadowDraw(twp, ewp);
-}
-
 static void
 EnemyPathModInit(task* tp)
 {
     tp->disp_shad = EnemyPathShadow;
 }
 
-#define EnemyPathInit       FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x00504610)
+
 static void
 EnemyPathInitHook(task* tp, taskwk* twp)
 {
     EnemyPathInit(tp, twp);
     EnemyPathModInit(tp);
-}
-
-
-void
-EnemyChaosPathShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->mode != 1 && twp->btimer & 2)
-        EnemyShadowDraw(twp, ewp);
 }
 
 static void
@@ -240,16 +390,12 @@ __EnemyChaosPathInitHook(void)
     }
 }
 
-
-#define EnemyE1000Init      FUNC_PTR(void, __cdecl, (task*, taskwk*), 0x0050C510)
 static void
 EnemyE1000InitHook(task* tp, taskwk* twp)
 {
     EnemyE1000Init(tp, twp);
     EnemyGenericModInit(tp);
 }
-
-
 
 static const void* const EnemySaruInit_p = (void*)0x0050D8A0;
 __declspec(naked)
@@ -266,16 +412,12 @@ __EnemySaruInitHook(void)
     }
 }
 
-
-#define EnemyGhoraInit      FUNC_PTR(void, __cdecl, (task*), 0x0050E750)
-
 static void
 EnemyGhoraInitHook(task* tp)
 {
     EnemyGhoraInit(tp);
     EnemyGenericModInit(tp);
 }
-
 
 static const void* const EnemySpikeOrbiterInit_p = (void*)0x0050F560;
 __declspec(naked)
@@ -307,16 +449,6 @@ __EnemyFireballOrbiterInitHook(void)
     }
 }
 
-void
-EnemyAkahigeRocketShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (tp->ptp->twp->btimer == 1)
-        EnemyShadowDraw(twp, ewp);
-}
-
 static void
 EnemyAkahigeRocketModInit(task* tp)
 {
@@ -338,17 +470,6 @@ __EnemyAkahigeRocketInitHook(void)
     }
 }
 
-
-void
-EnemyAkahigeShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->btimer)
-        EnemyShadowDraw(twp, ewp);
-}
-
 static void
 EnemyAkahigeModInit(task* tp)
 {
@@ -368,17 +489,6 @@ __EnemyAkahigeInitHook(void)
         add esp, 4
         retn
     }
-}
-
-
-void
-EnemyBataBeeShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->mode != 1)
-        EnemyShadowDraw(twp, ewp);
 }
 
 static void
@@ -417,16 +527,6 @@ __EnemyBeetonInitHook(void)
     }
 }
 
-void
-EnemyKumiShadow(task* tp)
-{
-    taskwk*  const twp = tp->twp;
-    enemywk* const ewp = GET_ENEMYWK(tp);
-
-    if (twp->mode != 2)
-        EnemyShadowDraw(twp, ewp);
-}
-
 static void
 EnemyKumiModInit(task* tp)
 {
@@ -448,81 +548,11 @@ __EnemyKumiInitHook(void)
     }
 }
 
-#define OutOfRange      FUNC_PTR(int32_t, __cdecl, (NJS_POINT3*, f32), 0x007983F0)
-
-void
-EnemyKyokoShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-
-    if (OutOfRange(&twp->pos, 40.0f))
-        return;
-
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    njTranslate(NULL, twp->pos.x, twp->pos.y + 0.01f, twp->pos.z);
-    njRotateY(NULL, twp->ang.y);
-
-    njPushMatrixEx();
-
-    njTranslate(NULL, -13.0f, 0.0f, 0.0f);
-    njScale(NULL, 20.0f, 1.0f, 20.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslate(NULL, 0.0f, 0.0f, -13.0f);
-    njScale(NULL, 8.0f, 1.0f, 8.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslate(NULL, 0.0f, 0.0f, 13.0f);
-    njScale(NULL, 8.0f, 1.0f, 8.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-}
-
-#define EnemyKyokoInit      FUNC_PTR(void, __cdecl, (task*), 0x004FAE40)
-
 static void
 EnemyKyokoInitHook(task* tp)
 {
     EnemyKyokoInit(tp);
     tp->disp_shad = EnemyKyokoShadow;
-}
-
-void
-EnemyShoukoShadow(task* tp)
-{
-    taskwk* const twp = tp->twp;
-
-    if (twp->mode == 1)
-        return;
-
-    /** The shouko's modifier model is inverted by default, was on Dreamcast too.
-        So, set the mirror model 3D flag. **/
-    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
-
-    njPushMatrixEx();
-
-    njTranslateEx(&twp->pos);
-    njRotateY(NULL, twp->ang.y + 0x4000);
-    njCnkModDrawObject(object_e_shouko_mod);
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
 }
 
 static void
@@ -548,6 +578,7 @@ __EnemyShoukoInitHook(void)
     }
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_EnemyInit(void)
 {

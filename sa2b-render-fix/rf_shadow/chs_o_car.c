@@ -1,70 +1,34 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
-#include <samt/sonic/c_colli.h>
-#include <samt/sonic/score.h>
-#include <samt/sonic/njctrl.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
+#include <samt/sonic/c_colli.h>     /* core collision                                           */
+#include <samt/sonic/score.h>       /* score and time                                           */
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_ninja.h>
-#include <rf_util.h>
-#include <rf_renderstate.h>
-#include <rf_shadow.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
+#include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_util.h>                /* switch displayer                                         */
 
-#define ModTurnVertex       FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
-static bool
-IsCarFlipped(Angle3* pAng)
-{
-    size_t nb = 0;
-
-    const Sangle x = pAng->x;
-
-    if (x > 0x4000 || x < -0x4000)
-        ++nb;
-
-    const Sangle z = pAng->z;
-
-    if (z > 0x4000 || z < -0x4000)
-        ++nb;
-
-    return (nb % 2);
-}
-
-static void
-DrawCarShadow(float sizeX, float sizeZ, Angle3* pAng)
-{
-    ModTurnVertex(sizeX, sizeZ, pAng);
-
-    NJS_CNK_MODEL* car_model = object_modmod_box->model;
-
-    const float r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
-
-    NJS_CNK_MODEL model = {
-        .vlist  = (Sint32*)GlobalBuffer,
-        .plist  = car_model->plist,
-        .center = car_model->center,
-        .r      = (r * 2) + car_model->r
-    };
-
-    if ( IsCarFlipped(pAng) )
-    {
-        OnControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
-    }
-
-    njCnkModDrawModel(&model);
-
-    OffControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
-}
-
+/********************************/
+/*  Structures                  */
+/********************************/
+/****** Car Info ********************************************************************************/
 typedef struct 
 {
     const char* name;
@@ -83,7 +47,77 @@ typedef struct
 }
 CAR_INFO;
 
-#define DisableCars     DATA_REF(b32, 0x1AEDC40)
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Model Reform ****************************************************************************/
+#define ReformModifier              FUNC_PTR(void, __cdecl, (f32, f32, Angle3*), 0x005B44E0)
+
+/****** Car Flag ********************************************************************************/
+#define DisableCars                 DATA_REF(b32, 0x1AEDC40)
+
+/****** Item Funcs ******************************************************************************/
+#define ObjectCECar                 FUNC_PTR(void, __cdecl, (task*), 0x005DE4E0)
+#define ObjectMSCar2                FUNC_PTR(void, __cdecl, (task*), 0x005B4850)
+
+/****** Car Info ********************************************************************************/
+#define stru_10D9810                DATA_ARY(CAR_INFO, 0x010D9810, [30])
+#define stru_1195F80                DATA_ARY(CAR_INFO, 0x01195F80, [15])
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Angle Turnover **************************************************************************/
+static bool
+IsCarFlipped(Angle3* pAng)
+{
+    size_t nb = 0;
+
+    const Sangle x = pAng->x;
+
+    if ( x > NJM_DEG_ANG(90.f) || x < NJM_DEG_ANG(-90.f) )
+    {
+        ++nb;
+    }
+
+    const Sangle z = pAng->z;
+
+    if ( z > NJM_DEG_ANG(90.f) || z < NJM_DEG_ANG(-90.f) )
+    {
+        ++nb;
+    }
+
+    return (nb % 2);
+}
+
+/****** Shadow Modifier *************************************************************************/
+static void
+DrawCarShadow(f32 sizeX, f32 sizeZ, Angle3* pAng)
+{
+    ReformModifier(sizeX, sizeZ, pAng);
+
+    NJS_CNK_MODEL* car_model = object_modmod_box->model;
+
+    const f32 r = sqrtf((sizeX * sizeX) + (sizeZ * sizeZ));
+
+    NJS_CNK_MODEL model = {
+        .vlist  = (Sint32*)GlobalBuffer,
+        .plist  = car_model->plist,
+        .center = car_model->center,
+        .r      = (r * 2) + car_model->r
+    };
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    if ( IsCarFlipped(pAng) )
+    {
+        OnControl3D(NJD_CONTROL_3D_MIRROR_MODEL);
+    }
+
+    njCnkModDrawModel(&model);
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER|NJD_CONTROL_3D_MIRROR_MODEL);
+}
 
 static bool
 PosInRange(NJS_POINT3* pPos, f32 maxRange, f32* pAnsDist)
@@ -96,8 +130,7 @@ PosInRange(NJS_POINT3* pPos, f32 maxRange, f32* pAnsDist)
     return -maxRange <= -p3.z;
 }
 
-#define stru_10D9810    DATA_ARY(CAR_INFO, 0x010D9810, [30])
-
+/****** Displayers ******************************************************************************/
 void
 ObjectCarShadow_CE(task* tp)
 {
@@ -113,60 +146,31 @@ ObjectCarShadow_CE(task* tp)
     if (twp->smode < 0 || !carip)
         return;
 
-    const float range = carip->pObject->model->r + 30.0f;
+    const f32 range = carip->pObject->model->r + 30.0f;
 
-    float distance;
-  
+    f32 distance;
+
     if (!PosInRange(&twp->pos, range, &distance) || distance > 700.0f)
         return;
 
     njPushMatrixEx();
+    {
+        anywk* const carwp = TO_ANYWK(tp->mwp);
 
-    anywk* const carwp = TO_ANYWK(tp->mwp);
+        const float trans_y = twp->pos.y + carwp[5].work.f[1] + 1.0f + carwp[6].work.f[2];
 
-    const float trans_y = twp->pos.y + carwp[5].work.f[1] + 1.0f + carwp[6].work.f[2];
+        njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
 
-    njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
+        Angle3 ang = {
+            .x = twp->ang.x + carwp[4].work.ul[1],
+            .y = twp->ang.y + carwp[4].work.ul[2],
+            .z = twp->ang.z + carwp[4].work.ul[3],
+        };
 
-    Angle3 ang = {
-        .x = twp->ang.x + carwp[4].work.ul[1],
-        .y = twp->ang.y + carwp[4].work.ul[2],
-        .z = twp->ang.z + carwp[4].work.ul[3],
-    };
-
-    DrawCarShadow(carip->a5[0], carip->a5[2], &ang);
-
+        DrawCarShadow(carip->a5[0], carip->a5[2], &ang);
+    }
     njPopMatrixEx();
 }
-
-#define ObjectCECar         FUNC_PTR(void, __cdecl, (task*), 0x005DE4E0)
-
-static mt_hookinfo ObjectCECarHookInfo[1];
-void
-ObjectCECarHook(task* tp)
-{
-    mtHookInfoCall( ObjectCECarHookInfo, ObjectCECar(tp) );
-
-    /** If successfully loaded **/
-    if (tp->mwp)
-        tp->disp_shad = ObjectCarShadow_CE;
-}
-
-void
-ObjectCarCrashShadow_CE(task* tp)
-{
-    taskwk*   const twp   = tp->twp;
-    CAR_INFO* const carip = (CAR_INFO*)tp->awp;
-
-    njPushMatrixEx();
-
-    njTranslateEx(&twp->pos);
-    DrawCarShadow(carip->a5[0], carip->a5[2], &twp->ang);
-
-    njPopMatrixEx();
-}
-
-#define stru_1195F80    DATA_ARY(CAR_INFO, 0x01195F80, [15])
 
 void
 ObjectCarShadow_MS(task* tp)
@@ -183,33 +187,73 @@ ObjectCarShadow_MS(task* tp)
     if (twp->smode < 0 || !carip)
         return;
 
-    const float range = carip->pObject->model->r + 30.0f;
+    const f32 range = carip->pObject->model->r + 30.0f;
 
-    float distance;
+    f32 distance;
 
     if (!PosInRange(&twp->pos, range, &distance) || distance > 700.0f)
         return;
 
     njPushMatrixEx();
+    {
+        anywk* const carwp = TO_ANYWK(tp->mwp);
 
-    anywk* const carwp = TO_ANYWK(tp->mwp);
+        const float trans_y = twp->pos.y + carwp[2].work.f[3] + 1.0f + carwp[4].work.f[0];
 
-    const float trans_y = twp->pos.y + carwp[2].work.f[3] + 1.0f + carwp[4].work.f[0];
+        njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
 
-    njTranslate(NULL, twp->pos.x, trans_y, twp->pos.z);
+        Angle3 ang = {
+            .x = twp->ang.x + carwp[1].work.ul[3],
+            .y = twp->ang.y + carwp[2].work.ul[0],
+            .z = twp->ang.z + carwp[2].work.ul[1],
+        };
 
-    Angle3 ang = {
-        .x = twp->ang.x + carwp[1].work.ul[3],
-        .y = twp->ang.y + carwp[2].work.ul[0],
-        .z = twp->ang.z + carwp[2].work.ul[1],
-    };
-
-    DrawCarShadow(carip->a5[0], carip->a5[2], &ang);
-
+        DrawCarShadow(carip->a5[0], carip->a5[2], &ang);
+    }
     njPopMatrixEx();
 }
 
-#define ObjectMSCar2        FUNC_PTR(void, __cdecl, (task*), 0x005B4850)
+void
+ObjectCarCrashShadow_CE(task* tp)
+{
+    taskwk*   const twp   = tp->twp;
+    CAR_INFO* const carip = (CAR_INFO*)tp->awp;
+
+    njPushMatrixEx();
+    {
+        njTranslateV( NULL, &twp->pos );
+
+        DrawCarShadow( carip->a5[0], carip->a5[2], &twp->ang );
+    }
+    njPopMatrixEx();
+}
+
+void
+ObjectCarCrashShadow_MS(task* tp)
+{
+    taskwk* const twp = tp->twp;
+    CAR_INFO* const carip = (CAR_INFO*)tp->awp;
+
+    njPushMatrixEx();
+    {
+        njTranslateV( NULL, &twp->pos );
+
+        DrawCarShadow( carip->a5[0], carip->a5[2], &twp->ang );
+    }
+    njPopMatrixEx();
+}
+
+/****** Hooks ***********************************************************************************/
+static mt_hookinfo ObjectCECarHookInfo[1];
+void
+ObjectCECarHook(task* tp)
+{
+    mtHookInfoCall( ObjectCECarHookInfo, ObjectCECar(tp) );
+
+    /** If successfully loaded **/
+    if (tp->mwp)
+        tp->disp_shad = ObjectCarShadow_CE;
+}
 
 static mt_hookinfo ObjectMSCar2HookInfo[1];
 void
@@ -222,20 +266,7 @@ ObjectMSCar2Hook(task* tp)
         tp->disp_shad = ObjectCarShadow_MS;
 }
 
-void
-ObjectCarCrashShadow_MS(task* tp)
-{
-    taskwk* const twp = tp->twp;
-    CAR_INFO* const carip = (CAR_INFO*)tp->awp;
-
-    njPushMatrixEx();
-
-    njTranslateEx(&twp->pos);
-    DrawCarShadow(carip->a5[0], carip->a5[2], &twp->ang);
-
-    njPopMatrixEx();
-}
-
+/****** Init ************************************************************************************/
 void
 CHS_CarInit(void)
 {

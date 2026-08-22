@@ -1,23 +1,41 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
 /****** Utl *************************************************************************************/
 #include <samt/util/asm.h>          /* asm helper                                               */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
 
-/** Render Fix **/
+/****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_ninja.h>
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
 
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
+
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Task Init *******************************************************************************/
+#define ObjectRobotInit             FUNC_PTR(void, __cdecl, (task*), 0x00691720)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Reform **********************************************************************************/
 ASM_FUNC
 void
 ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
@@ -37,56 +55,67 @@ ModModifyVList(Angle angz, Angle angx, Sint32* pVList)
     ASM_RET( 0 );
 }
 
-static void
-ObjectRobotDisplayerMod(task* tp)
+/****** Displayers ******************************************************************************/
+void
+ObjectRobotShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
     anywk*  const awp = tp->awp;
 
-    if (!awp[10].work.ul[3])
+    if ( !awp[10].work.ul[3] )
+    {
         return;
+    }
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
+    {
+        NJS_MATRIX* p_mat = (NJS_MATRIX*)awp[5].work.ul[0];
 
-    NJS_MATRIX* p_mat = (NJS_MATRIX*)awp[5].work.ul[0];
+        if ( !p_mat )
+        {
+            p_mat = _nj_matrix_;
+        }
 
-    if (!p_mat)
-        p_mat = _nj_matrix_;
+        njMultiMatrix(NULL, p_mat);
 
-    njMultiMatrix(NULL, p_mat);
+        njRotateZ(NULL, -twp->ang.z);
+        njRotateX(NULL, -twp->ang.x);
+        njRotateY(NULL, NJM_DEG_ANG(180.f));
 
-    njRotateZ(NULL, -twp->ang.z);
-    njRotateX(NULL, -twp->ang.x);
-    njRotateY(NULL, 0x8000);
+        NJS_CNK_MODEL* p_model = object_eq_robot_mod->model;
 
-    NJS_CNK_MODEL* p_model = object_eq_robot_mod->model;
+        const f32 model_r = p_model->r;
 
-    const float model_r = p_model->r;
+        p_model->r *= 1.2f;
 
-    p_model->r *= 1.2f;
+        njTranslate(NULL, 0.0f, -14.0f, 0.0f);
+        njScale(NULL, 1.0f, 1.2f, 1.0f);
 
-    njTranslate(NULL, 0.0f, -14.0f, 0.0f);
-    njScale(NULL, 1.0f, 1.2f, 1.0f);
+        if (*(uint16_t*)p_model->vlist == 34)
+        {
+            ModModifyVList(twp->ang.z, twp->ang.x, p_model->vlist);
+        }
 
-    if (*(uint16_t*)p_model->vlist == 34)
-        ModModifyVList(twp->ang.z, twp->ang.x, p_model->vlist);
+        njCnkModDrawObject(object_eq_robot_mod);
 
-    njCnkModDrawObject(object_eq_robot_mod);
-
-    p_model->r = model_r;
-
+        p_model->r = model_r;
+    }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define ObjectRobotInit     FUNC_PTR(void, __cdecl, (task*), 0x00691720)
-
+/****** Hooks ***********************************************************************************/
 static void
 ObjectRobotInitHook(task* tp)
 {
     ObjectRobotInit(tp);
-    tp->disp_shad = ObjectRobotDisplayerMod;
+    tp->disp_shad = ObjectRobotShadow;
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_EggQuatersRobotInit(void)
 {

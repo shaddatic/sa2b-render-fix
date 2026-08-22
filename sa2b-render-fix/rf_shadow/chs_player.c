@@ -1,124 +1,156 @@
-#include <samt/core.h>
-#include <samt/memory.h>
-#include <samt/funchook.h>
-#include <samt/writemem.h>
-#include <samt/writeop.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
 /****** Utl *************************************************************************************/
 #include <samt/util/asm.h>          /* asm helper                                               */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/player.h>
-#include <samt/sonic/c_colli.h>
-#include <samt/sonic/njctrl.h>
-#include <samt/sonic/debug.h>
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
+#include <samt/sonic/player.h>      /* player                                                   */
+#include <samt/sonic/c_colli.h>     /* core collision                                           */
 
-/** Figure **/
+/****** Player **********************************************************************************/
 #define SAMT_INCL_FUNCPTRS
-#include <samt/sonic/figure/sonic.h>
-#include <samt/sonic/figure/shadow.h>
-#include <samt/sonic/figure/miles.h>
-#include <samt/sonic/figure/eggman.h>
-#include <samt/sonic/figure/knuckles.h>
-#include <samt/sonic/figure/rouge.h>
-#include <samt/sonic/figure/ewalker.h>
-#include <samt/sonic/figure/twalker.h>
+#include <samt/sonic/figure/sonic.h>    /* sonic                                                */
+#include <samt/sonic/figure/shadow.h>   /* shadow                                               */
+#include <samt/sonic/figure/miles.h>    /* miles                                                */
+#include <samt/sonic/figure/eggman.h>   /* eggman                                               */
+#include <samt/sonic/figure/knuckles.h> /* knuckles                                             */
+#include <samt/sonic/figure/rouge.h>    /* rouge                                                */
+#include <samt/sonic/figure/ewalker.h>  /* egg walker                                           */
+#include <samt/sonic/figure/twalker.h>  /* tails walker                                         */
 #undef  SAMT_INCL_FUNCPTRS
 
-/** Render Fix **/
-#include <rf_core.h>
-#include <rf_model.h>
-#include <rf_ninja.h>
+/****** Render Fix ******************************************************************************/
+#include <rf_core.h>                /* core                                                     */
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
+#include <rf_util.h>                /* switch displayer                                         */
+#include <rfu_draw.h>               /* animate motion                                           */
 
-/** RF Util **/
-#include <rfu_draw.h>
-
-/****** Config **********************************************************************/
-#include <cnf.h>                /* config get                                       */
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* config get                                               */
 
 /****** Self ************************************************************************************/
 #include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
 
-/** Constant **/
-#define SonicDisplayer      FUNC_PTR(void, __cdecl, (task*), 0x00720090)
+/********************************/
+/*  Constants                   */
+/********************************/
+/****** Ball Object *****************************************************************************/
+#define BALL_OBJ_NUM_SONIC          (6)
+#define BALL_OBJ_NUM_SHADOW         (71)
+#define BALL_OBJ_NUM_AMY            (401)
 
-static bool MilesTailModifiers; /* Draw Tails' tail modifiers                           */
-static bool TornadoFootFix;     /* Fix Tornado's foot modifiers drawing below the floor */
+/****** Ball Flag *******************************************************************************/
+#define BALL_FLAG                   (0x100)
 
-#define flt_1DEB070         DATA_REF(f32   , 0x01DEB070)
-#define MultiIntroPno       DATA_REF(int8_t, 0x0174B009)
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Motion Callback *************************************************************************/
+#define AmyMotionCallBack_p             FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
+#define MetalSonicMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
 
-#define BALL_OBJ_NUM_SONIC      (6)
-#define BALL_OBJ_NUM_SHADOW     (71)
-#define BALL_OBJ_NUM_AMY        (401)
+#define ChaoWalkerMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x00745CC0)
+#define DarkChaoWalkerMotionCallBack_p  FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x00746B00)
 
+/****** Vars ************************************************************************************/
+#define flt_1DEB070                     DATA_REF(f32   , 0x01DEB070)
+#define MultiIntroPno                   DATA_REF(int8_t, 0x0174B009)
+
+/********************************/
+/*  Macro                       */
+/********************************/
+/****** Get Player Model ************************************************************************/
+#define GET_MODEL(_num, _def)       (plobjects[(_num)].obj ? plobjects[(_num)].obj : (_def))
+#define GET_PLANG(_ang)             (NJM_DEG_ANG(180.f) - (_ang))
+
+/********************************/
+/*  Variables                   */
+/********************************/
+/****** Config **********************************************************************************/
+static bool MilesTailModifiers;     /* draw tails' tail modifiers                               */
+static bool TornadoFootFix;         /* fix tornado's foot modifiers drawing below the floor     */
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Draw Player Shadow **********************************************************************/
 static void
 SonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    njPushMatrixEx();
-
-    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SONIC)
+    if ( pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SONIC )
     {
-        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 5.0f, 1.0f, 5.0f);
+        njPushMatrixEx();
+        {
+            njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
 
-        DrawBasicShadow();
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
     }
-    else
+    else // normal
     {
-        NJS_CNK_OBJECT* mod_head = plobjects[7].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_sonic_head_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
         njPushMatrixEx();
+        {
+            NJS_CNK_OBJECT* const object_head_mod = GET_MODEL(7, object_sonic_head_mod);
 
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
 
+            njCnkModDrawObject(object_head_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
         njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
     }
-
-    njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
@@ -128,60 +160,61 @@ TeriosDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    njPushMatrixEx();
-
-    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SHADOW)
+    if ( pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_SHADOW )
     {
-        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 5.0f, 1.0f, 5.0f);
-        DrawBasicShadow();
+        njPushMatrixEx();
+        {
+            njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
     }
-    else
+    else // normal
     {
-        NJS_CNK_OBJECT* mod_head = plobjects[72].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_terios_head_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
         njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
 
-        njTranslateEx(&pwp->righthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
+            njCnkModDrawObject( GET_MODEL(72, object_terios_head_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
 
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
         njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
     }
-
-    njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
@@ -191,58 +224,63 @@ AmyDrawMod(taskwk* twp, playerwk* pwp, int motion)
 {
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
-    njPushMatrixEx();
-
-    if (pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_AMY)
+    if ( pwp->m.plactptr[motion].objnum == BALL_OBJ_NUM_AMY )
     {
-        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 5.0f, 1.0f, 5.0f);
+        njPushMatrixEx();
+        {
+            njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
 
-        DrawBasicShadow();
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
     }
     else
     {
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_amy_head_mod);
-
-        njPopMatrixEx();
         njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
 
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
+            njCnkModDrawObject(object_amy_head_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
 
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -1.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
         njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -1.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
     }
-
-    njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
@@ -253,53 +291,628 @@ MetalSonicDrawMod(taskwk* twp, playerwk* pwp, int motion)
     OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
+    {
+        njTranslateEx(&pwp->user0_pos);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
 
-    njTranslateEx(&pwp->user0_pos);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
-    njCnkModDrawObject(object_metalsonic_head_mod);
+        njCnkModDrawObject(object_metalsonic_head_mod);
+    }
+    njFastPopPushMatrix();
+    {
+        njTranslateEx(&pwp->righthand_pos);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
+        njScale(NULL, 1.0f, 1.0f, 0.7f);
 
-    njPopMatrixEx();
-    njPushMatrixEx();
+        njCnkModDrawObject( object_shadow );
+    }
+    njFastPopPushMatrix();
+    {
+        njTranslateEx(&pwp->lefthand_pos);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
+        njScale(NULL, 1.0f, 1.0f, 0.7f);
 
-    njTranslateEx(&pwp->righthand_pos);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
-    njScale(NULL, 1.0f, 1.0f, 0.7f);
-    DrawBasicShadow();
+        njCnkModDrawObject( object_shadow );
+    }
+    njFastPopPushMatrix();
+    {
+        njTranslateEx(&pwp->rightfoot_pos);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
+        njScale(NULL, 2.6f, 1.0f, 1.0f);
 
-    njPopMatrixEx();
-    njPushMatrixEx();
+        njCnkModDrawObject( object_shadow );
+    }
+    njFastPopPushMatrix();
+    {
+        njTranslateEx(&pwp->leftfoot_pos);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
+        njScale(NULL, 2.6f, 1.0f, 1.0f);
 
-    njTranslateEx(&pwp->lefthand_pos);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
-    njScale(NULL, 1.0f, 1.0f, 0.7f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslateEx(&pwp->rightfoot_pos);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
-    njScale(NULL, 2.6f, 1.0f, 1.0f);
-    DrawBasicShadow();
-
-    njPopMatrixEx();
-    njPushMatrixEx();
-
-    njTranslateEx(&pwp->leftfoot_pos);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
-    njScale(NULL, 2.6f, 1.0f, 1.0f);
-    DrawBasicShadow();
-
+        njCnkModDrawObject( object_shadow );
+    }
     njPopMatrixEx();
 
     OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define BALL_FLAG   (0x100)
 
-#define AmyMotionCallBack_p             FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071F040)
-#define MetalSonicMotionCallBack_p      FUNC_PTR(void, __cdecl, (NJS_CNK_OBJECT*), 0x0071FBE0)
+static void
+MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 
+    const int objnum = pwp->m.plactptr[motion].objnum;
+
+    if (objnum == 6)
+    {
+        njPushMatrixEx();
+        {
+            njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 5.0f, 1.0f, 5.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+    else if (objnum == 208)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(214, object_miles_head_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.0f, 1.0f, 0.7f);
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.0f);
+            njCnkModDrawObject( object_shadow );
+        }
+
+        if (MilesTailModifiers)
+        {
+            njFastPopPushMatrix();
+            {
+                mileswk* const mileswp = (mileswk*)pwp;
+
+                njTranslateV(NULL, &pwp->tails_pos);
+
+                Angle ang_adj  =  0x1200;
+                Angle ang_spin = -mileswp->TailsAngX;
+                f32   scl_x    =  3.2f;
+                f32   add_y    = -2.5f;
+
+                const Angle ang_main = njArcTan2(pwp->tails_vec.z, pwp->tails_vec.x);
+
+                switch (motion)
+                {
+                    case 8: case 9:
+                    {
+                        ang_adj = 0x4000;
+                        scl_x = njAbs( njSin(ang_spin + NJM_DEG_ANG(90.f)) ) * 3.2f;
+                        ang_spin = 0;
+                        break;
+                    }
+                    case 90:
+                    {
+                        add_y = 1.5f;
+                        //  [[fallthrough]];
+                    }
+                    case 91: case 93:
+                    {
+                        ang_adj = 0x4000;
+                        break;
+                    }
+                }
+
+                njPushMatrixEx();
+                {
+                    njRotateY(NULL, ((0x8000 + ang_adj) - ang_main) + ang_spin);
+                    njTranslate(NULL, scl_x, add_y, 0.0f);
+                    njScale(NULL, scl_x, 1.0f, 1.0f);
+
+                    njCnkModDrawObject( object_shadow );
+                }
+                njFastPopPushMatrix();
+                {
+                    njRotateY(NULL, ((0x8000 - ang_adj) - ang_main) + ang_spin);
+                    njTranslate(NULL, scl_x, add_y, 0.0f);
+                    njScale(NULL, scl_x, 1.0f, 1.0f);
+
+                    njCnkModDrawObject( object_shadow );
+                }
+                njPopMatrixEx();
+            }
+        }
+
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 230)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(236, object_eggman_head_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.6f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.6f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }        
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.2f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.2f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[motion].objnum;
+
+    if (objnum == 142)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(148, object_knuckles_head_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+ASM_FUNC
+static Sangle
+sub_446960(Angle ang1, Angle ang2, Sangle sang)
+{
+    // save regs
+    ASM_PUSH( ebx );
+
+    // arguments
+    ASM_MOVE( ecx, ASM_ESP(3+0 +1) ); // sang
+    ASM_MOVE( edx, ASM_ESP(3+0 +1) ); // ang2
+    ASM_MOVE( eax, ASM_ESP(3+0 +1) ); // ang1
+
+    // call
+    ASM_CALL_R( ebx, 0x00446960 );
+
+    // pull regs
+    ASM_POP( ebx );
+
+    // return
+    ASM_RET( 0 );
+}
+
+static void
+RougeDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 171)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(178, object_rouge_head_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.2f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.2f, 1.0f, 0.7f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.0f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.0f, 1.0f, 1.0f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+TikalDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 483)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_tikal_head_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 507)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_chaos_head_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->righthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->lefthand_pos);
+            njTranslate(NULL, 0.0f, -2.0f, 0.0f);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 1.4f, 1.0f, 1.1f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+            njScale(NULL, 2.6f, 1.0f, 1.2f);
+
+            njCnkModDrawObject( object_shadow );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 293)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(297, object_twalker_body_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+
+            if (TornadoFootFix)
+            {
+                njTranslate(NULL, 0.0f, 0.4f, 0.0f);
+            }
+
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(300, object_twalker_foot_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+
+            if (TornadoFootFix)
+            {
+                njTranslate(NULL, 0.0f, 0.4f, 0.0f);
+            }
+
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(301, object_twalker_foot_mod) );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+
+static void
+EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 248)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(252, object_ewalker_body_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(255, object_ewalker_foot_mod) );
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject( GET_MODEL(255, object_ewalker_foot_mod) );
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+ChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 450)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_cwalker_body_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_cwalker_foot_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_cwalker_foot_mod);
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+static void
+DarkChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
+{
+    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+
+    const int objnum = pwp->m.plactptr[mtnnum].objnum;
+
+    if (objnum == 473)
+    {
+        njPushMatrixEx();
+        {
+            njTranslateEx(&pwp->user0_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_dwalker_body_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->rightfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_dwalker_foot_mod);
+        }
+        njFastPopPushMatrix();
+        {
+            njTranslateEx(&pwp->leftfoot_pos);
+            njRotateY(NULL, GET_PLANG(twp->ang.y));
+
+            njCnkModDrawObject(object_dwalker_foot_mod);
+        }
+        njPopMatrixEx();
+    }
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
+}
+
+/****** Displayers ******************************************************************************/
 void
 SonicShadow(task* tp)
 {
@@ -373,7 +986,7 @@ SonicShadow(task* tp)
     {
         njRotateZ(NULL, twp->ang.z);
         njRotateX(NULL, twp->ang.x);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
 
         if (action == 11 && twp->flag & 3)
         {
@@ -386,7 +999,7 @@ SonicShadow(task* tp)
         }
     }
     else
-        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
 
     njScaleEx(&twp->scl);
 
@@ -440,127 +1053,6 @@ SonicShadow(task* tp)
     }
 }
 
-static void
-MilesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[motion].objnum;
-
-    if (objnum == 208)
-    {
-        NJS_CNK_OBJECT* mod_head = plobjects[214].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_miles_head_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.0f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        /** Miles Tails **/
-        if (MilesTailModifiers)
-        {
-            njPopMatrixEx();
-            njPushMatrixEx();
-
-            mileswk* const mileswp = (mileswk*)pwp;
-
-            njTranslateV(NULL, &pwp->tails_pos);
-
-            Angle ang_adj  =  0x1200;
-            Angle ang_spin = -mileswp->TailsAngX;
-            f32   scl_x    =  3.2f;
-            f32   add_y    = -2.5f;
-
-            const Angle ang_main = njArcTan2(pwp->tails_vec.z, pwp->tails_vec.x);
-
-            switch (motion)
-            {
-                case 8: case 9:
-                {
-                    ang_adj = 0x4000;
-                    scl_x = njAbs( njSin(ang_spin + NJM_DEG_ANG(90.f)) ) * 3.2f;
-                    ang_spin = 0;
-                    break;
-                }
-                case 90:
-                {
-                    add_y = 1.5f;
-                //  [[fallthrough]];
-                }
-                case 91: case 93:
-                {
-                    ang_adj = 0x4000;
-                    break;
-                }
-            }
-
-            njPushMatrixEx();
-
-            njRotateY(NULL, ((0x8000 + ang_adj) - ang_main) + ang_spin);
-            njTranslate(NULL, scl_x, add_y, 0.0f);
-            njScale(NULL, scl_x, 1.0f, 1.0f);
-            DrawBasicShadow();
-
-            njPopMatrixEx();
-            njPushMatrixEx();
-
-            njRotateY(NULL, ((0x8000 - ang_adj) - ang_main) + ang_spin);
-            njTranslate(NULL, scl_x, add_y, 0.0f);
-            njScale(NULL, scl_x, 1.0f, 1.0f);
-            DrawBasicShadow();
-
-            njPopMatrixEx();
-        }
-    }
-    else if (objnum == 6)
-    {
-        njTranslate(NULL, twp->pos.x, twp->pos.y + 0.3f, twp->pos.z);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 5.0f, 1.0f, 5.0f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
 void
 MilesShadow(task* tp)
 {
@@ -581,7 +1073,7 @@ MilesShadow(task* tp)
     njTranslateEx(&twp->pos);
     njRotateZ(NULL, twp->ang.z);
     njRotateX(NULL, twp->ang.x);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njRotateY(NULL, GET_PLANG(twp->ang.y));
 
     if (action == 11 && twp->flag & 0x03)
     {
@@ -623,66 +1115,6 @@ MilesShadow(task* tp)
     MilesDisplayMod(twp, &mileswp->pw, action);
 }
 
-static void
-EggmanDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 230)
-    {
-        NJS_CNK_OBJECT* mod_head = plobjects[236].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_eggman_head_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.6f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.6f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.2f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.2f, 1.0f, 0.7f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
 void
 EggmanShadow(task* tp)
 {
@@ -703,7 +1135,7 @@ EggmanShadow(task* tp)
     njTranslateEx(&twp->pos);
     njRotateZ(NULL, twp->ang.z);
     njRotateX(NULL, twp->ang.x);
-    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njRotateY(NULL, GET_PLANG(twp->ang.y));
     njScaleEx(&twp->scl);
 
     if (twp->mode == 54 && eggmanwp->pw.motion_list)
@@ -735,260 +1167,6 @@ EggmanShadow(task* tp)
     njCnkSetMotionCallback(NULL);
 
     EggmanDisplayMod(twp, &eggmanwp->pw, action);
-}
-
-static void
-KnucklesDisplayMod(taskwk* twp, playerwk* pwp, int motion)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[motion].objnum;
-
-    if (objnum == 142)
-    {
-        NJS_CNK_OBJECT* mod_head = plobjects[148].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_knuckles_head_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-#define PlayerNumCheck      DATA_REF(bool, 0x0174B009)
-
-#define KnucklesDisplayer   FUNC_PTR(void, __cdecl, (task*), 0x0072EF20)
-
-ASM_FUNC
-static Sangle
-sub_446960(Angle ang1, Angle ang2, Sangle sang)
-{
-    // save regs
-    ASM_PUSH( ebx );
-
-    // arguments
-    ASM_MOVE( ecx, ASM_ESP(3+0 +1) ); // sang
-    ASM_MOVE( edx, ASM_ESP(3+0 +1) ); // ang2
-    ASM_MOVE( eax, ASM_ESP(3+0 +1) ); // ang1
-
-    // call
-    ASM_CALL_R( ebx, 0x00446960 );
-
-    // pull regs
-    ASM_POP( ebx );
-
-    // return
-    ASM_RET( 0 );
-}
-
-static void
-RougeDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 171)
-    {
-        NJS_CNK_OBJECT* mod_head = plobjects[178].obj;
-
-        if (mod_head == nullptr)
-            mod_head = object_rouge_head_mod;
-        
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_head);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.2f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.2f, 1.0f, 0.7f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.0f, 1.0f, 1.0f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.0f, 1.0f, 1.0f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-static void
-TikalDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 483)
-    {
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_tikal_head_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-static void
-ChaosDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 507)
-    {
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_chaos_head_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->righthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->lefthand_pos);
-        njTranslate(NULL, 0.0f, -2.0f, 0.0f);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 1.4f, 1.0f, 1.1f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njScale(NULL, 2.6f, 1.0f, 1.2f);
-        DrawBasicShadow();
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
 void
@@ -1065,7 +1243,7 @@ KnucklesShadow(task* tp)
     {
         njRotateZ(NULL, twp->ang.z);
         njRotateX(NULL, twp->ang.x);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
 
         /** Flying **/
         if (action == 105)
@@ -1087,7 +1265,7 @@ KnucklesShadow(task* tp)
         }
     }
     else
-        njRotateY(NULL, 0x8000 - twp->ang.y);
+        njRotateY(NULL, GET_PLANG(twp->ang.y));
 
     njScaleEx(&twp->scl);
 
@@ -1137,183 +1315,6 @@ KnucklesShadow(task* tp)
         break;
     }
 }
-
-static void
-TornadoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 293)
-    {
-        NJS_CNK_OBJECT* mod_body = plobjects[297].obj;
-
-        if (mod_body == nullptr)
-            mod_body = object_twalker_body_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_body);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        NJS_CNK_OBJECT* mod_foot1 = plobjects[300].obj;
-
-        if (mod_foot1 == nullptr)
-            mod_foot1 = object_twalker_foot_mod;
-
-        njTranslateEx(&pwp->rightfoot_pos);
-
-        if (TornadoFootFix)
-            njTranslate(NULL, 0.0f, 0.4f, 0.0f);
-
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_foot1);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        NJS_CNK_OBJECT* mod_foot2 = plobjects[301].obj;
-
-        if (mod_foot2 == nullptr)
-            mod_foot2 = object_twalker_foot_mod;
-
-        njTranslateEx(&pwp->leftfoot_pos);
-
-        if (TornadoFootFix)
-            njTranslate(NULL, 0.0f, 0.4f, 0.0f);
-
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_foot2);
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-
-static void
-EggWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 248)
-    {
-        NJS_CNK_OBJECT* mod_body = plobjects[252].obj;
-
-        if (mod_body == nullptr)
-            mod_body = object_ewalker_body_mod;
-
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_body);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        NJS_CNK_OBJECT* mod_foot = plobjects[255].obj;
-
-        if (mod_foot == nullptr)
-            mod_foot = object_ewalker_foot_mod;
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_foot);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(mod_foot);
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-static void
-ChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 450)
-    {
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_cwalker_body_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_cwalker_foot_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_cwalker_foot_mod);
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-static void
-DarkChaoWalkerDisplayMod(taskwk* twp, playerwk* pwp, int mtnnum)
-{
-    OnControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-
-    njPushMatrixEx();
-
-    const int objnum = pwp->m.plactptr[mtnnum].objnum;
-
-    if (objnum == 473)
-    {
-        njTranslateEx(&pwp->user0_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_dwalker_body_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->rightfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_dwalker_foot_mod);
-
-        njPopMatrixEx();
-        njPushMatrixEx();
-
-        njTranslateEx(&pwp->leftfoot_pos);
-        njRotateY(NULL, 0x8000 - twp->ang.y);
-        njCnkModDrawObject(object_dwalker_foot_mod);
-    }
-
-    njPopMatrixEx();
-
-    OffControl3D(NJD_CONTROL_3D_SHADOW | NJD_CONTROL_3D_TRANS_MODIFIER);
-}
-
-#define ChaoWalkerMotionCallBack_p      ((void*)0x00745CC0)
-#define DarkChaoWalkerMotionCallBack_p  ((void*)0x00746B00)
 
 void
 EggWalkerShadow(task* tp)
@@ -1391,7 +1392,7 @@ EggWalkerShadow(task* tp)
         njRotateX(NULL, twp->ang.x);
     }
     
-    njRotateY(NULL, 0x8000 - twp->ang.y);
+    njRotateY(NULL, GET_PLANG(twp->ang.y));
     
     njScaleEx(&twp->scl);
 
@@ -1442,6 +1443,7 @@ EggWalkerShadow(task* tp)
     }
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_PlayerInit(void)
 {

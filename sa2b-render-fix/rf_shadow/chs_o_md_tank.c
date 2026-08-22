@@ -1,41 +1,66 @@
-#include <samt/core.h>
-#include <samt/writemem.h>
-#include <samt/funchook.h>
+/********************************/
+/*  Includes                    */
+/********************************/
+/****** SAMT ************************************************************************************/
+#include <samt/core.h>              /* core                                                     */
+#include <samt/writemem.h>          /* write memory                                             */
+#include <samt/writeop.h>           /* write op                                                 */
+#include <samt/funchook.h>          /* function hook                                            */
 
-/** Ninja **/
-#include <samt/ninja/ninja.h>
+/****** Utl *************************************************************************************/
+#include <samt/util/asm.h>          /* asm helper                                               */
 
-/** Source **/
-#include <samt/sonic/task.h>
-#include <samt/sonic/debug.h>
+/****** Ninja ***********************************************************************************/
+#include <samt/ninja/ninja.h>       /* ninja                                                    */
 
-/** Render Fix **/
+/****** Game ************************************************************************************/
+#include <samt/sonic/task.h>        /* task                                                     */
+#include <samt/sonic/njctrl.h>      /* ninja control funcs                                      */
+
+/****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
-#include <rf_model.h>
-#include <rf_ninja.h>
+#include <rf_ninja.h>               /* render fix ninja                                         */
 #include <rf_njcnk.h>               /* ninja chunk draw                                         */
-#include <rf_shadow.h>
+#include <rf_util.h>                /* switch displayer                                         */
 
+/****** Self ************************************************************************************/
+#include <rf_shadow/chs_internal.h> /* parent & siblings                                        */
+
+/********************************/
+/*  Game Refs                   */
+/********************************/
+/****** Item Func *******************************************************************************/
+#define ObjectTank                  FUNC_PTR(void, __cdecl, (task*), 0x005C37A0)
+
+/********************************/
+/*  Source                      */
+/********************************/
+/****** Displayers ******************************************************************************/
 void
 ObjectTankShadow(task* tp)
 {
     taskwk* const twp = tp->twp;
 
-    if (twp->smode)
+    if ( twp->smode )
+    {
         return;
+    }
+
+    OnControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 
     njPushMatrixEx();
+    {
+        njTranslateV(NULL, &twp->pos);
+        njRotateY(NULL, twp->ang.y);
 
-    njTranslateEx(&twp->pos);
-    njRotateY(NULL, twp->ang.y);
-
-    njCnkModDrawObject(object_md_tank_mod);
-
+        njCnkModDrawObject(object_md_tank_mod);
+    }
     njPopMatrixEx();
+
+    OffControl3D(NJD_CONTROL_3D_SHADOW|NJD_CONTROL_3D_TRANS_MODIFIER);
 }
 
-#define ObjectTank      FUNC_PTR(void, __cdecl, (task*), 0x005C37A0)
-
+/****** Hooks ***********************************************************************************/
 static mt_hookinfo HookInfoObjectTank[1];
 static void
 ObjectTankHook(task* tp)
@@ -46,6 +71,7 @@ ObjectTankHook(task* tp)
         tp->disp_shad = ObjectTankShadow;
 }
 
+/****** Init ************************************************************************************/
 void
 CHS_TankInit(void)
 {

@@ -278,7 +278,7 @@ BossHotShotShadow(task* tp)
 
     MOTION_CTRL* mtn_ctrl = bwp->pMtnCtrl;
 
-    njGetMatrix( &BossHotShotInvMatrix );
+    njGetMatrix(    &BossHotShotInvMatrix );
     njInvertMatrix( &BossHotShotInvMatrix );
 
     njCnkSetMotionCallback( (void*)0x005CB840 );
@@ -290,9 +290,9 @@ BossHotShotShadow(task* tp)
 
         if ( twp->flag & 0x01 )
         {
-            njTranslate(NULL, 0.0f, 35.0f, 0.0f);
-            njRotateZ(NULL, twp->ang.z);
-            njRotateX(NULL, twp->ang.x);
+            njTranslate( NULL, 0.0f, 35.0f, 0.0f );
+            njRotateZ(   NULL, twp->ang.z );
+            njRotateX(   NULL, twp->ang.x );
         }
         else
         {
@@ -303,12 +303,12 @@ BossHotShotShadow(task* tp)
 
         njTranslate( NULL, 0.0f, -35.0f, 0.0f );
 
-        njGetMatrix( &BossHotShotInvTransMatrix );
+        njGetMatrix(    &BossHotShotInvTransMatrix );
         njInvertMatrix( &BossHotShotInvTransMatrix );
 
         njRotateY( NULL, NJM_DEG_ANG(90.f) );
 
-        AnimateMotion((void*)0x011320F8, mtn_ctrl);
+        AnimateMotion( (void*)0x011320F8, mtn_ctrl );
     }
     njPopMatrixEx();
 
