@@ -12,6 +12,7 @@
 *     - v1.4.0.1        : Version 4, added 'SetCheapShadowColor'
 *     - v1.5.0.0        : Version 5, most functions were depricated - although many are still
 *                         fully functional, there's just a newer way to access them now.
+*     - v1.5.5.0        : Version 6, depricated  'DrawBasicShadow' and 'AL_ShadowDraw'
 * 
 *   Availability:
 *     - Before Init     : No
@@ -25,7 +26,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_DRAW_VER              (5) /* draw api version                                     */
+#define RFAPI_DRAW_VER              (6) /* draw api version                                     */
 
 /********************************/
 /*  API Structures              */
@@ -189,6 +190,13 @@ typedef struct rfapi_draw
 
     /**** Modifier Common Draw ******************************/
     /*
+    *   [[ DEPRICATED : Version 6 ]]
+    * 
+    *   Deprication Info:
+    *     - state           : fully functional
+    *     - reason          : there's now a dedicated 'Shadow' API module
+    *     - alternative     : use the 'Shadow' API module to get the shadow models, then draw them manually
+    * 
     *   Description:
     *     Draw common modifier models.
     */
