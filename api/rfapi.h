@@ -31,24 +31,24 @@ typedef NJS_OBJECT                  NJS_CNK_OBJECT; /* Mod Loader 'Object' compa
 *     Macro for checking the current Render Fix version against a given version.
 * 
 *   Examples:
-*     - if (!RFD_CHECKVER(pApiCore, 1,4,1,0) ) // check if RF version too low
-*     - if ( RFD_CHECKVER(pApiCore, 1,4,1,0) ) // check if RF version equal to, or higher
+*     - if (!RFD_CHECKVER(pApi, 1,4,1,0) ) // check if RF version too low
+*     - if ( RFD_CHECKVER(pApi, 1,4,1,0) ) // check if RF version equal to, or higher
 *
 *   Parameters:
 *     - api         : core api pointer
-*     - rel         : minimum release part value
-*     - maj         : minimum major part value 
-*     - sem         : minimum semi-major part value 
-*     - min         : minimum minor part value 
+*     - rel         : minimum release part
+*     - maj         : minimum major part
+*     - min         : minimum minor part
+*     - hot         : minimum hotfix part
 * 
 *   Returns:
 *     'true' if the current version is '>=' the given version; or 'false' if not.
 */
-#define RFAPI_CHECKVER(api, rel, maj, sem, min) \
-    ( (int)(api)->modver.release   > (rel) || ( (int)(api)->modver.release   == (rel) && \
-    ( (int)(api)->modver.major     > (maj) || ( (int)(api)->modver.major     == (maj) && \
-    ( (int)(api)->modver.semimajor > (sem) || ( (int)(api)->modver.semimajor == (sem) && \
-    ( (int)(api)->modver.minor     > (min) || ( (int)(api)->modver.minor     == (min) ))))))) )
+#define RFAPI_CHECKVER(api, rel, maj, min, hot) \
+    ( (int)(api)->modver.release > (rel) || ( (int)(api)->modver.release == (rel) && \
+    ( (int)(api)->modver.major   > (maj) || ( (int)(api)->modver.major   == (maj) && \
+    ( (int)(api)->modver.minor   > (min) || ( (int)(api)->modver.minor   == (min) && \
+    ( (int)(api)->modver.hotfix  > (hot) || ( (int)(api)->modver.hotfix  == (hot) ))))))) )
 
 /********************************/
 /*  Internal Includes           */

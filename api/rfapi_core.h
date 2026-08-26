@@ -37,8 +37,8 @@ typedef struct
     {
         uint8_t release;            /* release version part           (eg. the '1' in v1.2.3.4) */
         uint8_t major;              /* major version part             (eg. the '2' in v1.2.3.4) */
-        uint8_t semimajor;          /* semi-major version part        (eg. the '3' in v1.2.3.4) */
-        uint8_t minor;              /* minor version part             (eg. the '4' in v1.2.3.4) */
+        uint8_t minor;              /* minor version part             (eg. the '3' in v1.2.3.4) */
+        uint8_t hotfix;             /* hotfix version part            (eg. the '4' in v1.2.3.4) */
     }
     modver;
 
