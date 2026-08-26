@@ -70,9 +70,13 @@ ObjectUDReelCnkDisplayer(task* tp)
         njFogDisable();
 
     if ( GetGameTime() % 46 >= 23 && !(twp->mode & 0x1) )
+    {
         njCnkEasyDrawModel(obj->model);
-    else
+    }
+    else // use direct
+    {
         njCnkDirectDrawModel(obj->model);
+    }
 
     if (DisableObjectFog)
         njFogEnable();
