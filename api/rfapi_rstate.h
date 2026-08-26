@@ -162,7 +162,7 @@ RFRS_CNKSPECMD;
 /*  API Structures              */
 /********************************/
 /****** Render State API ************************************************************************/
-typedef struct
+typedef struct rfapi_rstate
 {
     int32_t version;                /* structure version                                        */
 

@@ -26,7 +26,7 @@
 /*  API Structures              */
 /********************************/
 /****** Feature API *****************************************************************************/
-typedef struct
+typedef struct rfapi_feature
 {
     int32_t version;                /* structure version                                        */
 

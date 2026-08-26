@@ -98,7 +98,7 @@ RF_SHADOW;
 /*  API Structures              */
 /********************************/
 /****** Shadow API ******************************************************************************/
-typedef struct
+typedef struct rfapi_shadow
 {
     int32_t version;                /* structure version                                        */
 

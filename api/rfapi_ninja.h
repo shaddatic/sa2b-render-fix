@@ -91,7 +91,7 @@
 /*  API Structures              */
 /********************************/
 /****** Ninja API *******************************************************************************/
-typedef struct
+typedef struct rfapi_ninja
 {
     int32_t version;                /* structure version                                        */
 

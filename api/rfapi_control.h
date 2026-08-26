@@ -28,7 +28,7 @@
 /*  API Structures              */
 /********************************/
 /****** Control API *****************************************************************************/
-typedef struct
+typedef struct rfapi_ctrl
 {
     int32_t version;                /* structure version                                        */
 

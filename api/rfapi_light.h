@@ -50,7 +50,7 @@ RJ_LIGHT;
 /*  API Structures              */
 /********************************/
 /****** Light API *******************************************************************************/
-typedef struct
+typedef struct rfapi_light
 {
     int32_t version;                /* structure version                                        */
 

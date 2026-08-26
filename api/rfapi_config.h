@@ -29,7 +29,7 @@
 /*  API Structures              */
 /********************************/
 /****** Config API ******************************************************************************/
-typedef struct
+typedef struct rfapi_config
 {
     int32_t version;                /* structure version                                        */
 

@@ -72,7 +72,7 @@ RJ_CNK_MATCOLOR;
 /*  API Structures              */
 /********************************/
 /****** Chunk API *******************************************************************************/
-typedef struct
+typedef struct rfapi_cnk
 {
     int32_t version;                /* structure version                                        */
 

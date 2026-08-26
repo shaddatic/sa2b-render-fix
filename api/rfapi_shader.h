@@ -79,7 +79,7 @@ RFS_MACRO;
 /*  API Structures              */
 /********************************/
 /****** Shader API ******************************************************************************/
-typedef struct
+typedef struct rfapi_shader
 {
     int32_t version;                /* structure version                                        */
 

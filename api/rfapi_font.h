@@ -69,7 +69,7 @@ RFE_FONT_TYPE;
 /*  API Structures              */
 /********************************/
 /****** Font API ********************************************************************************/
-typedef struct
+typedef struct rfapi_font
 {
     int32_t version;                /* structure version                                        */
 

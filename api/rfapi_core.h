@@ -25,7 +25,7 @@
 /*  API Structures              */
 /********************************/
 /****** Core API ********************************************************************************/
-typedef struct
+typedef struct rfapi
 {
     int32_t version;                /* structure version                                        */
 
@@ -44,7 +44,7 @@ typedef struct
 
     /**** API Modules ***************************************/
 
-    const RFAPI_CONTROL*        api_control;    /* control module                               */
+    const RFAPI_CONTROL*        api_ctrl;       /* control module                               */
     const RFAPI_CONFIG*         api_config;     /* config module                                */
     const RFAPI_FEATURE*        api_feature;    /* feature check module                         */
     const RFAPI_DRAW*           api_draw;       /* draw module                                  */

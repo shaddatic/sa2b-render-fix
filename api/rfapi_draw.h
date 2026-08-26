@@ -31,7 +31,7 @@
 /*  API Structures              */
 /********************************/
 /****** Draw API ********************************************************************************/
-typedef struct
+typedef struct rfapi_draw
 {
     int32_t version;                /* structure version                                        */
 

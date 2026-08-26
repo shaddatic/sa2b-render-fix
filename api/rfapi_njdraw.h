@@ -27,7 +27,7 @@
 /*  API Structures              */
 /********************************/
 /****** Ninja Draw API **************************************************************************/
-typedef struct
+typedef struct rfapi_njdraw
 {
     int32_t version;                /* structure version                                        */
 
