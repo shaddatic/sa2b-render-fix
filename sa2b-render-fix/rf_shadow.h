@@ -22,6 +22,8 @@ typedef struct enemywk              enemywk;
 /********************************/
 /*  Constants                   */
 /********************************/
+#ifndef H_RFAPI_SHADOW
+
 /****** Object **********************************************************************************/
 typedef enum
 {
@@ -87,6 +89,8 @@ typedef enum
     RF_NB_SHADOW,                   /* enum count                                               */
 }
 RF_SHADOW;
+
+#endif/*H_RFAPI_SHADOW*/
 
 /****** Cart Shadow *****************************************************************************/
 #define CART_NUM                    (8) /* cart number                                          */
@@ -231,7 +235,7 @@ void    cartShadow( task* tp );
 *   Description:
 *     Minimal shadow displayer.
 */
-void    MinimalShadow( task* tp );
+void    Minimal_Shad( task* tp );
 /*
 *   Description:
 *     Chaos Drive shadow displayer.
@@ -304,12 +308,12 @@ void    ObjectCarCrashShadow_MS( task* tp );
 *   Description:
 *     Egg Quaters robot beetle shadow displayer.
 */
-void    ObjectRobotShadow(task* tp);
+void    ObjectRobotShadow( task* tp );
 /*
 *   Description:
 *     Meteor Herd huge blue container shadow displayer.
 */
-void    ObjectContainerBoxShadow(task* tp);
+void    ObjectContainerBoxShadow( task* tp );
 /*
 *   Description:
 *     Meteor Herd moveable meteor shadow displayer.
@@ -341,7 +345,10 @@ void    ObjectBlock2Shadow( task* tp );
 *     - Not to be directly exported to API, apply seperately to enemies that use it:
 *       
 *       - AI            (hunter)
-*       - Ghora         (Ghola)
+*       - Saru          (monkey)
+*       - Uni           (unidus and ghola)
+*       - UniTogeA      (unidus ball)
+*       - UniTogeB      (ghola ball)
 *       - E1000
 *       - Big the Cat
 */
@@ -489,7 +496,7 @@ void    ALO_ObakeHeadShadow( task* tp );
 *   Description:
 *     King Boom Boo shadow displayer.
 */
-void    BossBogyShadow( task* tp );
+void    BigBogyShadow( task* tp );
 /*
 *   Description:
 *     Guard robot Big Foot shadow displayer.
@@ -505,8 +512,6 @@ void    BossHotShotShadow( task* tp );
 *     Guard robot Flying Dog shadow displayer.
 */
 void    BossFlyingDogShadow( task* tp );
-
-/****** Boss Misc *******************************************************************************/
 /*
 *   Description:
 *     Guard robot boss missile shadow displayer.

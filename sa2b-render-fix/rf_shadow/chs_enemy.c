@@ -413,7 +413,7 @@ __EnemySaruInitHook(void)
 }
 
 static void
-EnemyGhoraInitHook(task* tp)
+EnemyUnidusInitHook(task* tp)
 {
     EnemyGhoraInit(tp);
     EnemyGenericModInit(tp);
@@ -422,7 +422,7 @@ EnemyGhoraInitHook(task* tp)
 static const void* const EnemySpikeOrbiterInit_p = (void*)0x0050F560;
 __declspec(naked)
 static void
-__EnemySpikeOrbiterInitHook(void)
+__UniTogeAInitHook(void)
 {
     __asm
     {
@@ -437,7 +437,7 @@ __EnemySpikeOrbiterInitHook(void)
 static const void* const EnemyFireballOrbiterInit_p = (void*)0x0050FBC0;
 __declspec(naked)
 static void
-__EnemyFireballOrbiterInitHook(void)
+__UniTogeBInitHook(void)
 {
     __asm
     {
@@ -591,9 +591,9 @@ CHS_EnemyInit(void)
     WriteCall(0x0050C42E, __EnemyChaosPathInitHook);        // Chaos Path
     WriteCall(0x0050D7D8, EnemyE1000InitHook);              // e1000
     WriteCall(0x0050E525, __EnemySaruInitHook);             // Saru
-    WriteCall(0x0050F19B, EnemyGhoraInitHook);              // Ghora 
-    WriteCall(0x0050F664, __EnemySpikeOrbiterInitHook);     // Enemy Spike Orbiter
-    WriteCall(0x0050FCF2, __EnemyFireballOrbiterInitHook);  // Enemy Fireball Orbiter
+    WriteCall(0x0050F19B, EnemyUnidusInitHook);              // Ghora 
+    WriteCall(0x0050F664, __UniTogeAInitHook);              // Enemy Spike Orbiter
+    WriteCall(0x0050FCF2, __UniTogeBInitHook);              // Enemy Fireball Orbiter
     WriteCall(0x007A016F, __EnemyAkahigeRocketInitHook);    // Akahige (Phoenix) Rocket
     WriteCall(0x007A0D70, __EnemyAkahigeInitHook);          // Akahige (Phoenix)
     WriteCall(0x007A164F, __EnemyBatabataInitHook);         // Batabata
