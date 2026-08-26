@@ -287,16 +287,7 @@ ___SetBackColorSingle(void)
 }
 #pragma warning( pop )
 
-#define UnloadRELFile       FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
 
-static mt_hookinfo HookInfoUnloadRELFile[1];
-static void
-UnloadRELFileHook(void)
-{
-    mtHookInfoCall( HookInfoUnloadRELFile, UnloadRELFile() );
-
-    rjSetBackColor(0, 0, 0);
-}
 
 /****** Set Backtex *****************************************************************************/
 void
@@ -366,9 +357,6 @@ RJ_BackTextureInit(void)
     KillCall(0x0043AE09); // Pause
     KillCall(0x0043B2C4); // Unpause
     KillCall(0x0043B146); // Unk Menu
-
-    /** Always reset back color on level exit **/
-    mtHookFunc(HookInfoUnloadRELFile, UnloadRELFile, UnloadRELFileHook);
 
     // Add missing 'njSetBackColor' calls (inlined)
     WriteNOP( 0x006A2462, 0x006A2481);

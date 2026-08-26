@@ -86,6 +86,12 @@ EXTERN NJS_CNK_MODEL model_e_s_ai_shield[];
 /****** Game Hud ********************************************************************************/
 #define DrawGameHUD                 FUNC_PTR(void, __cdecl, (void), 0x0044E9C0)
 
+/****** Stage Exit ******************************************************************************/
+#define UnloadRELFile               FUNC_PTR(void, __cdecl, (void), 0x00454CC0)
+
+/****** Fog Flag ********************************************************************************/
+#define ObjectFogFlag               DATA_REF(b32        , 0x01AEFE64)
+
 /********************************/
 /*  Source                      */
 /********************************/
@@ -140,6 +146,19 @@ ___DrawEmeraldKey(void)
         add esp,    4
         retn
     }
+}
+
+static mt_hookinfo HookInfoUnloadRELFile[1];
+static void
+OnStageExit(void)
+{
+    mtHookInfoCall( HookInfoUnloadRELFile, UnloadRELFile() );
+
+    // disable fog flag
+    ObjectFogFlag = FALSE;
+
+    // reset back texture/color
+    rjSetBackColor(0, 0, 0);
 }
 
 /****** Init ************************************************************************************/
@@ -226,4 +245,7 @@ RFM_CommonInit(void)
             if (data[i].extra)      RF_CnkObjectMaterialFlagOff(data[i].extra     , NJD_FST_IA);
         }
     }
+
+    // fix params on stage exit
+    mtHookFunc(HookInfoUnloadRELFile, UnloadRELFile, OnStageExit);
 }
