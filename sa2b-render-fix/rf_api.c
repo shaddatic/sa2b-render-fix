@@ -36,19 +36,19 @@ const RFAPI_CORE rfapi_core =
 
     .modver = { 1,5,5,0 },
 
-    .pControl     = &rfapi_control,
-    .pConfig      = &rfapi_config,
-    .pFeature     = &rfapi_feature,
-    .pDraw        = &rfapi_draw,
-    .pRenderState = &rfapi_rstate,
-    .pShader      = &rfapi_shader,
+    .api_control    = &rfapi_control,
+    .api_config     = &rfapi_config,
+    .api_feature    = &rfapi_feature,
+    .api_draw       = &rfapi_draw,
+    .api_rstate     = &rfapi_rstate,
+    .api_shader     = &rfapi_shader,
 
-    .pFont = &rfapi_font,
+    .api_font       = &rfapi_font,
 
-    .pNinja          = &rfapi_ninja,
-    .pNjDraw         = &rfapi_njdraw,
-    .pChunk          = &rfapi_chunk,
-    .pLight          = &rfapi_light,
+    .api_ninja      = &rfapi_ninja,
+    .api_njdraw     = &rfapi_njdraw,
+    .api_chunk      = &rfapi_chunk,
+    .api_light      = &rfapi_light,
 
     .api_shadow     = &rfapi_shadow,
 };

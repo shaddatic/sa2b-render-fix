@@ -44,23 +44,23 @@ typedef struct
 
     /**** API Modules ***************************************/
 
-    const RFAPI_CONTROL*     pControl;          /* control module                               */
-    const RFAPI_CONFIG*      pConfig;           /* config module                                */
-    const RFAPI_FEATURE*     pFeature;          /* feature check module                         */
-    const RFAPI_DRAW*        pDraw;             /* draw module                                  */
-    const RFAPI_RENDERSTATE* pRenderState;      /* render state module                          */
-    const RFAPI_SHADER*      pShader;           /* shader module                                */
+    const RFAPI_CONTROL*        api_control;    /* control module                               */
+    const RFAPI_CONFIG*         api_config;     /* config module                                */
+    const RFAPI_FEATURE*        api_feature;    /* feature check module                         */
+    const RFAPI_DRAW*           api_draw;       /* draw module                                  */
+    const RFAPI_RENDERSTATE*    api_rstate;     /* render state module                          */
+    const RFAPI_SHADER*         api_shader;     /* shader module                                */
 
     /****** Version >= 1 ************************************************************************/
 
-    const RFAPI_FONT*        pFont;             /* font module                                  */
+    const RFAPI_FONT*           api_font;       /* font module                                  */
 
     /****** Version >= 2 ************************************************************************/
 
-    const RFAPI_NINJA*       pNinja;            /* ninja system module                          */
-    const RFAPI_NJDRAW*      pNjDraw;           /* ninja draw module                            */
-    const RFAPI_CHUNK*       pChunk;            /* chunk model module                           */
-    const RFAPI_LIGHT*       pLight;            /* lighting module                              */
+    const RFAPI_NINJA*          api_ninja;      /* ninja system module                          */
+    const RFAPI_NJDRAW*         api_njdraw;     /* ninja draw module                            */
+    const RFAPI_CHUNK*          api_chunk;      /* chunk model module                           */
+    const RFAPI_LIGHT*          api_light;      /* lighting module                              */
 
     /****** Version >= 3 ************************************************************************/
 
