@@ -74,7 +74,7 @@ RJ_CNK_MATCOLOR;
 /****** Chunk API *******************************************************************************/
 typedef struct
 {
-    uint32_t version;               /* structure version                                        */
+    int32_t version;                /* structure version                                        */
 
     /****** Version >= 0 ********************************************************************/
 

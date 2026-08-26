@@ -164,7 +164,7 @@ RFRS_CNKSPECMD;
 /****** Render State API ************************************************************************/
 typedef struct
 {
-    uint32_t version;               /* structure version                                        */
+    int32_t version;                /* structure version                                        */
 
     /****** Version >= 0 ************************************************************************/
 
