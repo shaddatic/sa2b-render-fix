@@ -32,7 +32,7 @@ typedef struct
 RING_OBJECT;
 
 #define DrawThingBitMask        DATA_REF(i8 , 0x0174AFFD)
-#define DisableObjectFog        DATA_REF(i32, 0x01AEFE64)
+#define ObjectFogFlag        DATA_REF(i32, 0x01AEFE64)
 
 #define texlist_ring            DATA_ARY(NJS_TEXLIST, 0x00B56360, [1])
 #define texlist_ringshadow      DATA_ARY(NJS_TEXLIST, 0x00B56374, [1])
@@ -55,7 +55,7 @@ CNK_RingModelDisp(const task* tp)
     if (DrawThingBitMask)
         return;
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     njSetTexture(texlist_ring);
@@ -118,7 +118,7 @@ CNK_RingModelDisp(const task* tp)
         njPopMatrixEx();
     }
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 }
 

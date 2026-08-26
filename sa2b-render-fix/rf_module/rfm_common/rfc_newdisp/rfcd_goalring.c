@@ -44,7 +44,7 @@ LOSTCHAOWK;
 /*  Game Data           */
 /************************/
 /****** Fog ********************************************************************/
-#define DisableObjectFog            DATA_REF(i32, 0x01AEFE64)
+#define ObjectFogFlag            DATA_REF(i32, 0x01AEFE64)
 
 /****** Goalring ********************************************************************/
 #define texlist_goalring            DATA_ARY(NJS_TEXLIST, 0x00B4DA90, [1])
@@ -107,7 +107,7 @@ ObjectGoalringDisp_LostChao(const task* tp)
 
     njRotateY(NULL, twp->ang.y);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     LostChaoWorkP = lcwp;
@@ -143,7 +143,7 @@ ObjectGoalringDisp_LostChao(const task* tp)
 
     LostChaoWorkP = nullptr;
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 
     njPopMatrixEx();
@@ -154,7 +154,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 {
     const taskwk* twp = tp->twp;
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     /** draw ground shadow **/
@@ -240,7 +240,7 @@ ObjectGoalringDisp_Goalring(const task* tp)
 
     njPopMatrixEx();
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 }
 

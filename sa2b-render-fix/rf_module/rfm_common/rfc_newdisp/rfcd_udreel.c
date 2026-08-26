@@ -15,7 +15,7 @@
 #include <rf_ninja.h>       /* rf ninja                                             */
 #include <rf_njcnk.h>
 
-#define DisableObjectFog        DATA_REF(b32        , 0x01AEFE64)
+#define ObjectFogFlag        DATA_REF(b32        , 0x01AEFE64)
 #define texlist_udreel          DATA_ARY(NJS_TEXLIST, 0x00B129F8, [1])
 
 static NJS_CNK_OBJECT* object_udreel;
@@ -66,7 +66,7 @@ ObjectUDReelCnkDisplayer(task* tp)
 
     njTranslate(NULL, 0.0f, rwp[4].work.f[0], 0.0f);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     if ( GetGameTime() % 46 >= 23 && !(twp->mode & 0x1) )
@@ -78,7 +78,7 @@ ObjectUDReelCnkDisplayer(task* tp)
         njCnkDirectDrawModel(obj->model);
     }
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 
     njPopMatrixEx();
@@ -132,7 +132,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
 
     njTranslate(NULL, 0.0f, rwp[4].work.f[0], 0.0f);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     if ( GetGameTime() % 46 >= 23 && !(twp->mode & 0x1) )
@@ -140,7 +140,7 @@ ObjectUDReelGolemCnkDisplayer(task* tp)
     else
         njCnkDirectDrawModel(obj->model);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 
     njPopMatrixEx();

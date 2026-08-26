@@ -57,7 +57,7 @@ ITEMBOX_INFO;
 #define ItemBoxAirInfoList          DATA_ARY(ITEMBOX_INFO, 0x00B493A0, [11])
 
 /****** Disable Fog *****************************************************************************/
-#define DisableObjectFog            DATA_REF(b32         , 0x01AEFE64)
+#define ObjectFogFlag            DATA_REF(b32         , 0x01AEFE64)
 
 /********************************/
 /*  Source                      */
@@ -81,13 +81,13 @@ ObjectItemBoxDisp_RF(task* tp)
     njRotateZ(NULL, twp->ang.z);
     njScale(NULL, twp->scl.z, twp->scl.z, twp->scl.z);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     njCnkDirectDrawModel(obj_base->model);
     njCnkDirectDrawModel(obj_top->model);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 
     njPopMatrixEx();
@@ -157,7 +157,7 @@ ObjectItemBoxDispSort_RF(task* tp)
     njRotateZ(NULL, twp->ang.z);
     njScale(NULL, twp->scl.z, twp->scl.z, twp->scl.z);
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogDisable();
 
     njSetTexture(texlist_itembox);
@@ -191,7 +191,7 @@ ObjectItemBoxDispSort_RF(task* tp)
     rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_MODEL );
     rjCnkSetControl( ~0, RJD_CNK_CTRL_MASK_CULL );
 
-    if (DisableObjectFog)
+    if (ObjectFogFlag)
         njFogEnable();
 
     njPopMatrixEx();
@@ -295,7 +295,7 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
 
     njSetTexture(texlist_itemboxballoon);
 
-    if (twp->mode == 4 || DisableObjectFog)
+    if (twp->mode == 4 || ObjectFogFlag)
     {
         njFogDisable();
     }
@@ -343,7 +343,7 @@ ObjectItemBoxBalloonDisplayer_RF(task* tp)
     LoadConstantAttr();
     LoadControl3D();
 
-    if (twp->mode == 4 || DisableObjectFog)
+    if (twp->mode == 4 || ObjectFogFlag)
     {
         njFogEnable();
     }
