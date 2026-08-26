@@ -49,6 +49,8 @@ const RFAPI_CORE rfapi_core =
     .pNjDraw         = &rfapi_njdraw,
     .pChunk          = &rfapi_chunk,
     .pLight          = &rfapi_light,
+
+    .api_shadow     = &rfapi_shadow,
 };
 
 /********************************/

@@ -10,6 +10,7 @@
 *     - v1.3.0.0        : Version 0, initial release
 *     - v1.3.1.0        : Version 1, added Font API module
 *     - v1.5.0.0        : Version 2, added Ninja, Ninja Draw, Chunk, & Light API modules
+*     - v1.5.5.0        : Version 3, added Shadow API module
 */
 #ifndef H_RFAPI_CORE
 #define H_RFAPI_CORE
@@ -18,7 +19,7 @@
 /*  Constants                   */
 /********************************/
 /****** API Module Version **********************************************************************/
-#define RFAPI_CORE_VER              (2) /* core api version                                     */
+#define RFAPI_CORE_VER              (3) /* core api version                                     */
 
 /********************************/
 /*  API Structures              */
@@ -51,13 +52,19 @@ typedef struct
     const RFAPI_SHADER*      pShader;           /* shader module                                */
 
     /****** Version >= 1 ************************************************************************/
+
     const RFAPI_FONT*        pFont;             /* font module                                  */
 
     /****** Version >= 2 ************************************************************************/
+
     const RFAPI_NINJA*       pNinja;            /* ninja system module                          */
     const RFAPI_NJDRAW*      pNjDraw;           /* ninja draw module                            */
     const RFAPI_CHUNK*       pChunk;            /* chunk model module                           */
     const RFAPI_LIGHT*       pLight;            /* lighting module                              */
+
+    /****** Version >= 3 ************************************************************************/
+
+    const RFAPI_SHADOW*         api_shadow;     /* cheap shadow module                          */
 }
 RFAPI, RFAPI_CORE;
 

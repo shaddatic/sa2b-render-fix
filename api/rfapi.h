@@ -65,6 +65,7 @@ typedef NJS_OBJECT                  NJS_CNK_OBJECT; /* Mod Loader 'Object' compa
 #include "rfapi_njdraw.h"           /* ninja draw api module                                    */
 #include "rfapi_chunk.h"            /* chunk model api module                                   */
 #include "rfapi_light.h"            /* lighting api module                                      */
+#include "rfapi_shadow.h"           /* cheap shadow api module                                  */
 
 /****** Core API ********************************************************************************/
 #include "rfapi_core.h"             /* api core                                                 */

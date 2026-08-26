@@ -31,5 +31,6 @@ EXTERN const RFAPI_NINJA            rfapi_ninja;
 EXTERN const RFAPI_NJDRAW           rfapi_njdraw;
 EXTERN const RFAPI_CHUNK            rfapi_chunk;
 EXTERN const RFAPI_LIGHT            rfapi_light;
+EXTERN const RFAPI_SHADOW           rfapi_shadow;
 
 #endif/*H_RF_API_INTERNAL*/
