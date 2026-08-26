@@ -54,7 +54,7 @@ Over time, the API will be expanded to support new features. When this happens t
 ```c
 typedef struct
 {
-    uint32_t version;                   /* structure version                                    */
+    int32_t version;                    /* structure version                                    */
     
     /****** Version >= 0 ************************************************************************/
     /*
@@ -71,6 +71,8 @@ typedef struct
 ```
 
 You can also see here the large span comments seperating what each version supports. These versions start at `0`, indicating no changes since release. In this case, a `version` of `1` indicates `example_v0` and `example_v1` are available, but a `version` of `0` means only `example_v0` is available and that attempting to use `example_v1` will likely crash. It's important you refer to the version variable when calling API functions, as the user may have an older version that doesn't include the function you wish to call yet.
+
+In future, a `version` value of `-1` may occur if the API module as a whole is ever depricated and removed. In this case, calling any of the functions will likely crash. Always check the module version, even if the function is available in version `0`.
 
 With this, you can also enforce a minimum API version that your mod will work with. Try not to just set this to the latest version though, take a second to see what the lowest version you can use is so as many people as possible can enjoy your mod!
 
