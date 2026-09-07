@@ -153,7 +153,7 @@ RF_SysVsyncSceneStart(void)
             // wait for the remaining time
             while ( wait_ms > GetFrameTime(start_clock, freq) )
             {
-                mtArcYield();
+                mtArchYield();
             }
         }
 

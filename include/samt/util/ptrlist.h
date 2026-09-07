@@ -15,8 +15,9 @@ EXTERN_START
 /****** Pointer List ****************************************************************************/
 typedef struct mt_ptrlist
 {
-    usize       max;                /* maximum number of pointers                               */
-    const void* ptrs[];             /* pointer list, null terminated                            */
+    usize           max;            /* maximum number of pointers                               */
+    usize           num;            /* current number of pointers                               */
+    const void**    ptrs;           /* pointer list, null terminated                            */
 }
 mt_ptrlist;
 
@@ -29,12 +30,12 @@ mt_ptrlist;
 *     Create a new pointer list.
 *
 *   Parameters:
-*     - nbPtr       : fixed size of the pointer list
+*     - nbInit      : initial size of the pointer list
 *
 *   Returns:
 *     New pointer list.
 */
-mt_ptrlist* mtPtrListCreate( usize nbPtr );
+mt_ptrlist* mtPtrListCreate( usize nbInit );
 /*
 *   Description:
 *     Free a pointer list.

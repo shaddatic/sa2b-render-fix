@@ -23,7 +23,7 @@ EXTERN_START
 *   Description:
 *     Yield this processor thread.
 */
-void    mtArcYield( void );
+void    mtArchYield( void );
 
 EXTERN_END
 

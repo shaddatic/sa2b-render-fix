@@ -248,6 +248,7 @@ isize   mtMotGetMdata( const NJS_MOTION* pMotion, const void** ppOutMkey, const 
 *
 *   Notes:
 *     - Remember to free the pointer list after use.
+*     - Pointers sorted inside the function.
 *
 *   Parameters:
 *     - pMotion     : motion structure
@@ -255,6 +256,18 @@ isize   mtMotGetMdata( const NJS_MOTION* pMotion, const void** ppOutMkey, const 
 *     - nj2         : ninja2 motion key types, over 'VERT' and 'NORM'
 */
 mt_ptrlist* mtMotGetPointers( const NJS_MOTION* pMotion, usize nbNode, bool nj2 );
+/*
+*   Description:
+*     Add all pointers in a motion to an unsorted pointer list. This can be used to determine
+*   the size of shape motion data, which is not stored in the motion itself.
+*
+*   Parameters:
+*     - pPtrList    : pointer list
+*     - pMotion     : motion structure
+*     - nbNode      : number of motion nodes
+*     - nj2         : ninja2 motion key types, over 'VERT' and 'NORM'
+*/
+i32     mtMotAddPointers( mt_ptrlist* pPtrList, const NJS_MOTION* pMotion, usize nbNode, bool nj2 );
 
 EXTERN_END
 
