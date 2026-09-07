@@ -115,7 +115,7 @@ EVR_FixShapes(void)
     RF_DbgExtra("Fixing shape data...");
 
     RF_FIXHIST* fxwk = RF_FixHistCreate();
-    mt_ptrlist* mtwk = mtPtrListCreate( 1024 );
+    mt_ptrlist* mtwk = mtPtrListCreate( 8192 );
 
     for ( isize ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
     {
