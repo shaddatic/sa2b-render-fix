@@ -167,6 +167,7 @@ typedef struct
     EVENT_EQUIPMENT*  pEquipment;
     EVENT_TEXANIM*    pTexAnims;
     int               dropShadow;
+    byte              buf[3997652];
 }
 EVENT_HEADER;
 

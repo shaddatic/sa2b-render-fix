@@ -65,6 +65,7 @@ isize   mtPtrListFind( const mt_ptrlist* pPtrList, const void* p );
 *     Add a pointer to the pointer list.
 *
 *   Notes:
+*     - Pointer list will be automatically increased if the maximum size is reached.
 *     - Duplicates will be ignored.
 *
 *   Parameters:

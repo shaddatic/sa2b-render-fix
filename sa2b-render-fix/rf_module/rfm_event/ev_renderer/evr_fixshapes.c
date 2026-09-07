@@ -33,14 +33,36 @@ FixShapeData(NJS_MKEY_P* mkey, usize nb, const mt_ptrlist* mtwk, RF_FIXHIST* fxw
     {
         NJS_POINT3* p = mkey[i].key;
 
-        const isize ix_ptr = mtPtrListFind( mtwk, p );
-
-        if ( ix_ptr < 0 || RF_FixHistAdd(fxwk, p) )
+        if ( !p || RF_FixHistAdd(fxwk, p) )
         {
             continue;
         }
 
-        const void* p_next = mtwk->ptrs[ix_ptr+1];
+        const isize ix_ptr = mtPtrListFind( mtwk, p );
+
+        if ( ix_ptr < 0 )
+        {
+            continue;
+        }
+
+        const void* p_next;
+
+        if ( ix_ptr+1 >= (isize)mtwk->num )
+        {
+            if ( (pint)p > (pint)EV_MTNBUF_START && (pint)p < (pint)EV_MTNBUF_END )
+            {
+                // byteswap entire buffer from here, no other choice
+                p_next = EV_MTNBUF_END;
+            }
+            else // pointer is outside of buffer somehow? nothing can be done
+            {
+                continue;
+            }
+        }
+        else // not end of the list
+        {
+            p_next = mtwk->ptrs[ix_ptr+1];
+        }
 
         for ( ; (pint)p < (pint)p_next; ++p )
         {
@@ -52,7 +74,7 @@ FixShapeData(NJS_MKEY_P* mkey, usize nb, const mt_ptrlist* mtwk, RF_FIXHIST* fxw
 }
 
 static void
-FixShape(NJS_MOTION* pShape, usize nbNode, RF_FIXHIST* fxwk)
+FixShape(NJS_MOTION* pShape, usize nbNode, const mt_ptrlist* mtwk, RF_FIXHIST* fxwk)
 {
     void** pp;
     usize* pnb;
@@ -66,8 +88,6 @@ FixShape(NJS_MOTION* pShape, usize nbNode, RF_FIXHIST* fxwk)
 
     u8 mtypes[16];
     mtMotGetMtypes(pShape, mtypes);
-
-    mt_ptrlist* mtwk = mtMotGetPointers(pShape, nbNode, false);
 
     for ( usize ix_node = 0; ix_node < nbNode; ++ix_node )
     {
@@ -85,33 +105,91 @@ FixShape(NJS_MOTION* pShape, usize nbNode, RF_FIXHIST* fxwk)
         pp  += nb_elem; // skip over 'nb' list
         pnb += nb_elem; // skip over 'p' list
     }
-
-    mtPtrListFree(mtwk);
-
 }
 
 void
 EVR_FixShapes(void)
 {
-    const int nb_scene = EventData.nbScene+1;
+    const isize nb_scene = EventData.nbScene+1;
 
     RF_DbgExtra("Fixing shape data...");
 
     RF_FIXHIST* fxwk = RF_FixHistCreate();
+    mt_ptrlist* mtwk = mtPtrListCreate( 1024 );
 
-    for ( int ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
+    for ( isize ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
     {
         const EVENT_SCENE* const p_scene = &SceneData[ix_scene];
 
-        const int nb_entry = p_scene->nbEntry;
+        const isize nb_cam = p_scene->nbCameraMotion;
 
-        for (int ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
+        for ( isize ix_cam = 0; nb_cam < ix_cam; ++ix_cam )
+        {
+            NJS_MOTION* p_mtn = p_scene->pCameraMotions[ix_cam];
+
+            if ( p_mtn )
+            {
+                mtMotAddPointers( mtwk, p_mtn, 1, false );
+            }
+        }
+
+        const isize nb_entry = p_scene->nbEntry;
+
+        for (isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
+        {
+            EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
+
+            if ( p_entry->pMotion )
+            {
+                mtMotAddPointers( mtwk, p_entry->pMotion, mtCnkNodeCount(p_entry->pObject), false );
+            }
+
+            if ( p_entry->pShape )
+            {
+                mtMotAddPointers( mtwk, p_entry->pShape, mtCnkNodeCount(p_entry->pObject), false );
+            }
+        }
+
+        EVENT_BIG* p_big = p_scene->pBig;
+
+        if ( p_big && p_big->nbMotion )
+        {
+            const isize nb_mot  = p_big->nbMotion;
+            const usize nb_node = mtCnkNodeCount(p_big->pObject);
+
+            EVENT_BIG_MOTION* p_mot = p_big->pMotions;
+
+            for ( isize i = 0; i < nb_mot; ++i )
+            {
+                if ( p_mot[i].pMotion )
+                {
+                    mtMotAddPointers( mtwk, p_mot[i].pMotion, nb_node, false );
+                }
+
+                if ( p_mot[i].pShape )
+                {
+                    mtMotAddPointers( mtwk, p_mot[i].pShape, nb_node, false );
+                }
+            }
+        }
+    }
+
+    // sort pointers for next step
+    mtPtrListSort( mtwk );
+
+    for ( isize ix_scene = 0; ix_scene < nb_scene; ++ix_scene )
+    {
+        const EVENT_SCENE* const p_scene = &SceneData[ix_scene];
+
+        const isize nb_entry = p_scene->nbEntry;
+
+        for (isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
         {
             EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
 
             if ( p_entry->pShape )
             {
-                FixShape(p_entry->pShape, mtCnkNodeCount(p_entry->pObject), fxwk);
+                FixShape( p_entry->pShape, mtCnkNodeCount(p_entry->pObject), mtwk, fxwk );
             }
         }
 
@@ -128,11 +206,12 @@ EVR_FixShapes(void)
             {
                 if ( p_mot[i].pShape )
                 {
-                    FixShape(p_mot[i].pShape, nb_node, fxwk);
+                    FixShape( p_mot[i].pShape, nb_node, mtwk, fxwk );
                 }
             }
         }
     }
 
+    mtPtrListFree(mtwk);
     RF_FixHistFree(fxwk);
 }

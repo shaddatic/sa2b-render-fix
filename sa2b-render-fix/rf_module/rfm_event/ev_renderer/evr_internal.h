@@ -59,6 +59,10 @@ EXTERN_START
 #define EV_PILLARBOX_MAX        (609)
 #define EV_PILLARBOX_NB         (EV_PILLARBOX_MAX+1)
 
+/****** Buffer **********************************************************************/
+#define EV_MTNBUF_START         (void*)(0x0204FE20 + offsetof(EVENT_HEADER, buf))
+#define EV_MTNBUF_END           (void*)(0x0241FE20)
+
 /************************/
 /*  Opaque Types        */
 /************************/
