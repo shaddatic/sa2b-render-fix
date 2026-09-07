@@ -112,7 +112,7 @@ EVR_FixShapes(void)
 {
     const isize nb_scene = EventData.nbScene+1;
 
-    RF_DbgExtra("Fixing shape data...");
+    RF_DbgExtra("Fixing Event shape data...");
 
     RF_FIXHIST* fxwk = RF_FixHistCreate();
     mt_ptrlist* mtwk = mtPtrListCreate( 8192 );
@@ -214,4 +214,6 @@ EVR_FixShapes(void)
 
     mtPtrListFree(mtwk);
     RF_FixHistFree(fxwk);
+
+    RF_DbgExtra("Event shape data fixed to little endian!");
 }

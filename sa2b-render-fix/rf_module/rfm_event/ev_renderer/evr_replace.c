@@ -495,6 +495,8 @@ EVR_EndReplaceAttr(void)
 void
 EVR_StartReplaceAttr(void)
 {
+    RF_DbgExtra("Event replace system start...");
+
     EVR_EndReplaceAttr();
 
     MemCacheCount = 0;
@@ -540,4 +542,6 @@ EVR_StartReplaceAttr(void)
     }
 
     MemCacheList = p_mem;
+
+    RF_DbgExtra("Event replace system done!");
 }

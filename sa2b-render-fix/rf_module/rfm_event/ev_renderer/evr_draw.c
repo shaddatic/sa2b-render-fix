@@ -272,6 +272,8 @@ EVR_ScanEvent(void)
             p_entry->attr |= GetObjectAttrFlags(p_entry);
         }
     }
+
+    RF_DbgExtra("Event entry attributes scanned and flags set!");
 }
 
 /****** Draw Mode *******************************************************************/
