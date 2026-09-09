@@ -269,7 +269,7 @@ static const CHKMOD CheckModList[] =
 
             "Recommended (SA2 Input Controls)",
 
-            "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
+            "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Specifically for Input Controls' many input bug fixes, extra button support, and analog control improvements!\n\n"
             "Please install and enable the 'SA2 Input Controls' mod!"
         ),
 
@@ -316,8 +316,8 @@ ___ChkByName(const c8* puName, const c8* puAuthor)
 static bool
 InputControlsCheck(void)
 {
-    // if frame controller is enabled, flag that Input Controls is needed!
-    return CNF_GetInt( CNF_GFX_VSYNC ) == CNFE_BOOL_ENABLED;
+    // if frame controller is enabled, or event debug mode, flag that Input Controls is needed!
+    return ( CNF_GetInt( CNF_GFX_VSYNC ) == CNFE_BOOL_ENABLED || CNF_GetInt( CNF_DEBUG_EVENT ) == CNFE_BOOL_ENABLED );
 }
 
 /****** Init ************************************************************************************/
