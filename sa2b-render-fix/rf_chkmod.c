@@ -241,6 +241,16 @@ static const CHKMOD CheckModList[] =
             "Please disable the 'Stage Atmosphere Tweaks' mod!"
         ),
     },
+    // No Battle, by Main Memory
+    {
+        CHKMOD_DLL( OFF, "nobattle", MSG_WARN,
+
+            "Conflict (No Battle, by MainMemory)",
+
+            "The 'No Battle' mod is obsolete! Render Fix now has it's own 'Battle Branding' setting!\n\n"
+            "Please disable the 'No Battle' mod!"
+        ),
+    },
     /*
     *   Enable Check
     */
