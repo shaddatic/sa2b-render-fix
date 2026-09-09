@@ -9,6 +9,9 @@
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 
+/****** Config **********************************************************************************/
+#include <cnf.h>                    /* core                                                     */
+
 /********************************/
 /*  Enums                       */
 /********************************/
@@ -71,6 +74,12 @@ CHKMOD;
 \
                 .chk_type = CHK_NAME, .chk_if = check, .chk_name = name, .chk_author = author,  \
                 .msg_type = msgtype, .msg_head = head, .msg_body = body
+
+/********************************/
+/*  Forward Refs                */
+/********************************/
+/****** Mod Check *******************************************************************************/
+bool    InputControlsCheck( void );
 
 /********************************/
 /*  Data                        */
@@ -255,15 +264,17 @@ static const CHKMOD CheckModList[] =
     *   Enable Check
     */
     // SA2 Input Controls
-//  {
-//      CHKMOD_ID( ON, "sa2-input-controls", MSG_WARN
-//
-//          "Recommended (SA2 Input Controls)",
-//
-//          "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
-//          "Please install and enable the 'SA2 Input Controls' mod!"
-//      ),
-//  },
+    {
+        CHKMOD_ID( ON, "sa2-input-controls", MSG_WARN,
+
+            "Recommended (SA2 Input Controls)",
+
+            "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
+            "Please install and enable the 'SA2 Input Controls' mod!"
+        ),
+
+        .chk_fn = InputControlsCheck,
+    },
 };
 
 /********************************/
@@ -299,6 +310,14 @@ ___ChkByName(const c8* puName, const c8* puAuthor)
     }
 
     return false;
+}
+
+/****** Additional Logic ************************************************************************/
+static bool
+InputControlsCheck(void)
+{
+    // if frame controller is enabled, flag that Input Controls is needed!
+    return CNF_GetInt( CNF_GFX_VSYNC ) == CNFE_BOOL_ENABLED;
 }
 
 /****** Init ************************************************************************************/
