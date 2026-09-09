@@ -87,8 +87,11 @@ void    RF_ShadowInit( void );
 *
 *   Notes:
 *     - This should be called after all other modules have been.
+*
+*   Returns:
+*     '0' on success; or '-1' on mod check error and '1' on a simple warning.
 */
-void    RF_ModCheckInit( void );
+i32     RF_ModCheckInit( void );
 
 /************************************************************************************************/
 /*

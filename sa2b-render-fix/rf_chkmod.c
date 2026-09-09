@@ -15,190 +15,245 @@
 /****** Check Mod *******************************************************************************/
 typedef enum
 {
-    RF_CHKMOD_ID,                   /* check mod by mod id (mod-id)                             */
-    RF_CHKMOD_DLL,                  /* check mod by dll name (name.dll)                         */
-    RF_CHKMOD_NAMEANDAUTHOR,        /* check mod by name and author (name, author)              */
+    CHK_ID,                         /* check mod by mod id (mod-id)                             */
+    CHK_DLL,                        /* check mod by dll name (name.dll)                         */
+    CHK_NAME,                       /* check mod by name and author (name, author)              */
 }
-RF_CHKTYPE;
+CHKMOD_TYPE;
+
+typedef enum
+{
+    MSG_INFO,                       /* info message box                                         */
+    MSG_WARN,                       /* warning message box                                      */
+    MSG_ERROR,                      /* error message box                                        */
+}
+CHKMOD_MSG;
 
 /********************************/
 /*  Structures                  */
 /********************************/
 /****** Check Mod *******************************************************************************/
-#define CHKMOD_ID(id)                       .type = RF_CHKMOD_ID,            .puID   = id
-#define CHKMOD_DLL(dllname)                 .type = RF_CHKMOD_DLL,           .puDll  = dllname ".dll"
-#define CHKMOD_NAMEANDAUTHOR(name, author)  .type = RF_CHKMOD_NAMEANDAUTHOR, .puName = name, .puAuthor = author
-
 typedef struct
 {
-    RF_CHKTYPE type     : 16;       /* check type                                               */
-    Bool       invchk   : 16;       /* invert check (alert when NOT found)                      */
+    CHKMOD_TYPE     chk_type :8;    /* check type                                               */
+    CHKMOD_MSG      msg_type :8;    /* message type                                             */
+    Bool            chk_if   :8;    /* check if mod is ON/OFF                                   */
 
     union
     {
-        const c8* puID;             /* mod id                                                   */
-        const c8* puDll;            /* mod dll name                                             */
-        const c8* puName;           /* mod name                                                 */
+        const c8*   chk_id;         /* mod id                                                   */
+        const c8*   chk_dll;        /* mod dll name                                             */
+        const c8*   chk_name;       /* mod name                                                 */
     };
     union
     {
-        const c8* puAuthor;         /* mod author                                               */
+        const c8*   chk_author;     /* mod author                                               */
     };
 
-    const c8* puHead;               /* alert header                                             */
-    const c8* puBody;               /* alert body                                               */
+    const c8*       msg_head;       /* message header                                           */
+    const c8*       msg_body;       /* message body                                             */
+
+    bool(*chk_fn)( void );          /* additional check logic                                   */
 }
-RFS_CHKMOD;
+CHKMOD;
+
+#define CHKMOD_ID(   check, id,           msgtype, head, body)                                  \
+                                                                                                \
+                .chk_type = CHK_ID, .chk_if = check, .chk_id = id,                              \
+                .msg_type = msgtype, .msg_head = head, .msg_body = body
+
+#define CHKMOD_DLL(  check, dllname,      msgtype, head, body) \
+\
+                .chk_type = CHK_DLL,.chk_if = check, .chk_dll = dllname ".dll",                 \
+                .msg_type = msgtype, .msg_head = head, .msg_body = body
+
+#define CHKMOD_NAME( check, name, author, msgtype, head, body) \
+\
+                .chk_type = CHK_NAME, .chk_if = check, .chk_name = name, .chk_author = author,  \
+                .msg_type = msgtype, .msg_head = head, .msg_body = body
 
 /********************************/
 /*  Data                        */
 /********************************/
 /****** Check Mod List **************************************************************************/
-static const RFS_CHKMOD CheckModList[] =
+static const CHKMOD CheckModList[] =
 {
     // Highest Quality Textures, by Speeps
     {
-        CHKMOD_NAMEANDAUTHOR("High Quality Textures", "Speeps"),
+        CHKMOD_NAME( OFF, "High Quality Textures", "Speeps", MSG_WARN,
 
-        .puHead   = "Conflict (Highest Quality Textures, by Speeps)",
-        .puBody   = "The 'High Quality Textures' mod is obsolete and has been superseded by Render Fix!\n\n"
-                    "Please disable the 'High Quality Textures' mod!"
+            "Conflict (Highest Quality Textures, by Speeps)",
+
+            "The 'High Quality Textures' mod is obsolete and has been superseded by Render Fix!\n\n"
+            "Please disable the 'High Quality Textures' mod!"
+        ),
     },
     // Rendering Fixes, by End User
     {
-        CHKMOD_NAMEANDAUTHOR("Rendering Fixes", "End User"),
+        CHKMOD_NAME( OFF, "Rendering Fixes", "End User", MSG_WARN,
 
-        .puHead   = "Conflict (Rendering Fixes, by End User)",
-        .puBody   = "The 'Rendering Fixes' mod is obsolete and has been superseded by Render Fix!\n\n"
-                    "Please disable the 'Rendering Fixes' mod!"
+            "Conflict (Rendering Fixes, by End User)",
+
+            "The 'Rendering Fixes' mod is obsolete and has been superseded by Render Fix!\n\n"
+            "Please disable the 'Rendering Fixes' mod!"
+        ),
     },
     // Enhanced Shadows by "The greatest programmer who ever lived" - Shaddatic, 2025
     {
-        CHKMOD_DLL("enhanced-shadows"),
+        CHKMOD_DLL( OFF, "enhanced-shadows", MSG_WARN,
 
-        .puHead   = "Conflict (Enhanced Shadows, by Shaddatic)",
-        .puBody   = "The 'Enhanced Shadows' mod is obsolete and has been superseded by Render Fix!\n\n"
-                    "Please disable the 'Enhanced Shadows' mod!"
+            "Conflict (Enhanced Shadows, by Shaddatic)",
+
+            "The 'Enhanced Shadows' mod is obsolete and has been superseded by Render Fix!\n\n"
+            "Please disable the 'Enhanced Shadows' mod!"
+        ),
     },
     // No Model Tinting, by Speeps
     {
-        CHKMOD_DLL("NoTinting"),
+        CHKMOD_DLL( OFF, "NoTinting", MSG_WARN,
 
-        .puHead   = "Conflict (No Model Tinting, by Speeps)",
-        .puBody   = "The 'No Model Tinting' mod is obsolete and has been superseded by Render Fix!\n\n"
-                    "Please disable the 'No Model Tinting' mod!"
+            "Conflict (No Model Tinting, by Speeps)",
+
+            "The 'No Model Tinting' mod is obsolete and has been superseded by Render Fix!\n\n"
+            "Please disable the 'No Model Tinting' mod!"
+        ),
     },
     // Restored GUN Logos, by Speeps
     {
-        CHKMOD_DLL("RestoredGUNLogos"),
+        CHKMOD_DLL( OFF, "RestoredGUNLogos", MSG_WARN,
 
-        .puHead   = "Conflict (Restored GUN Logos, by Speeps)",
-        .puBody   = "The 'Restored GUN Logos' mod is obsolete and has been superseded by Render Fix!\n\n"
-                    "Please disable the 'Restored GUN Logos' mod!"
+            "Conflict (Restored GUN Logos, by Speeps)",
+
+            "The 'Restored GUN Logos' mod is obsolete and has been superseded by Render Fix!\n\n"
+            "Please disable the 'Restored GUN Logos' mod!"
+        ),
     },
     // Dreamcast Shadows, by Exant
     {
-        CHKMOD_DLL("sa2-dc-lighting"),
+        CHKMOD_DLL( OFF, "sa2-dc-lighting", MSG_WARN,
 
-        .puHead   = "Conflict (DC Shadows, by Exant)",
-        .puBody   = "The 'Dreamcast Shadows' mod is obsolete! Render Fix now has it's own version called 'Modifier Shadows'!\n\n"
-                    "Please disable the 'DC Shadows' mod!"
+            "Conflict (DC Shadows, by Exant)",
+
+            "The 'Dreamcast Shadows' mod is obsolete! Render Fix now has it's own version called 'Modifier Shadows'!\n\n"
+            "Please disable the 'DC Shadows' mod!"
+        ),
     },
     // Eggman Lighting Fix, by Exant
     {
-        CHKMOD_DLL("NoLightingPatch"),
+        CHKMOD_DLL( OFF, "NoLightingPatch", MSG_WARN,
 
-        .puHead   = "Conflict (Eggman Lighting Fix, by Exant)",
-        .puBody   = "The 'Eggman Lighting Fix' mod is obsolete! Render Fix now includes an improved version this fix - with the help of Exant!\n\n"
-                    "Please disable the 'Eggman Lighting Fix' mod!"
+            "Conflict (Eggman Lighting Fix, by Exant)",
+
+            "The 'Eggman Lighting Fix' mod is obsolete! Render Fix now includes an improved version this fix - with the help of Exant!\n\n"
+            "Please disable the 'Eggman Lighting Fix' mod!"
+        ),
     },
     // Cutscene Revamp, by Speeps
     {
-        CHKMOD_NAMEANDAUTHOR("Cutscene Revamp", "Speeps/End User"),
+        CHKMOD_NAME( OFF, "Cutscene Revamp", "Speeps/End User", MSG_WARN,
 
-        .puHead   = "Conflict (Cutscene Revamp, by Speeps & End User)",
-        .puBody   = "The 'Cutscene Revamp' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is!\n\n"
-                    "Because of this, Cutscene Revamp is now non-functional and will likely crash! If you're only interested in the Dreamcast events, just use Render Fix!\n\n"
-                    "If you're looking for the other features of Cutscene Revamp, there are other mods including these features that use Render Fix's event port as a base.\n\n"
-                    "Please disable the 'Cutscene Revamp' mod!"
+            "Conflict (Cutscene Revamp, by Speeps & End User)",
+
+            "The 'Cutscene Revamp' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is!\n\n"
+            "Because of this, Cutscene Revamp is now non-functional and will likely crash! If you're only interested in the Dreamcast events, just use Render Fix!\n\n"
+            "If you're looking for the other features of Cutscene Revamp, there are other mods including these features that use Render Fix's event port as a base.\n\n"
+            "Please disable the 'Cutscene Revamp' mod!"
+        ),
     },
     // Dreamcast Object Lighting, by Firebow59
     {
-        CHKMOD_NAMEANDAUTHOR("DC Object Lighting", "Firebow59"),
+        CHKMOD_NAME( OFF, "DC Object Lighting", "Firebow59", MSG_WARN,
 
-        .puHead   = "Conflict (DC Object Lighting, by Firebow59)",
-        .puBody   = "The 'DC Object Lighting' mod is obsolete! Render Fix already uses the Dreamcast lighting files!\n\n"
-                    "Please disable the 'DC Object Lighting' mod!"
+            "Conflict (DC Object Lighting, by Firebow59)",
+
+            "The 'DC Object Lighting' mod is obsolete! Render Fix already uses the Dreamcast lighting files!\n\n"
+            "Please disable the 'DC Object Lighting' mod!"
+        ),
     },
     // E0211 Fix, by Firebox59
     {
-        CHKMOD_NAMEANDAUTHOR("e0211 Fix", "Firebow59"),
+        CHKMOD_NAME( OFF, "e0211 Fix", "Firebow59", MSG_WARN,
 
-        .puHead   = "Conflict (e0211 Fix, by Firebow59)",
-        .puBody   = "The 'E0211 Fix' mod is obsolete! Render Fix has already fixed this oversight!\n\n"
-                    "Please disable the 'e0211 Fix' mod!"
+            "Conflict (e0211 Fix, by Firebow59)",
+
+            "The 'E0211 Fix' mod is obsolete! Render Fix has already fixed this oversight!\n\n"
+            "Please disable the 'e0211 Fix' mod!"
+        ),
     },
     // Knuckles Animation Fix, by Shaddatic
     {
-        CHKMOD_NAMEANDAUTHOR("Knuckles' Animation Fix", "Shaddatic"),
+        CHKMOD_NAME( OFF, "Knuckles' Animation Fix", "Shaddatic", MSG_WARN,
 
-        .puHead   = "Conflict (Knuckles Anim Fix, by Shaddatic)",
-        .puBody   = "The 'Knuckles' Animation Fix' mod is obsolete! Render Fix restores the original player mtn files from GameCube!\n\n"
-                    "Please disable the 'Knuckles' Animation Fix' mod!"
+            "Conflict (Knuckles Anim Fix, by Shaddatic)",
+
+            "The 'Knuckles' Animation Fix' mod is obsolete! Render Fix restores the original player mtn files from GameCube!\n\n"
+            "Please disable the 'Knuckles' Animation Fix' mod!"
+        ),
     },
     // Event Timescale Fix, by Luks_18
     {
-        CHKMOD_NAMEANDAUTHOR("Event Timescale Fix", "Luks_18"),
+        CHKMOD_NAME( OFF, "Event Timescale Fix", "Luks_18", MSG_WARN,
 
-        .puHead   = "Conflict (Event Timescale Fix, by Luks_18)",
-        .puBody   = "The 'Event Timescale Fix' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
-                    "Please disable the 'Event Timescale Fix' mod!"
+            "Conflict (Event Timescale Fix, by Luks_18)",
+
+            "The 'Event Timescale Fix' mod is obsolete! Render Fix has restored the Dreamcast event/cutscene rendering logic, and ported the Dreamcast events as-is - including lag emulation!\n\n"
+            "Please disable the 'Event Timescale Fix' mod!"
+        ),
     },
     // No Level-of-Detail models, by SF94
     {
-        CHKMOD_NAMEANDAUTHOR("No Level-of-Detail models", "SonicFreak94"), // explicitly don't check for DLL, in case another mod uses it
-    
-        .puHead   = "Conflict (No LOD Models, by SonicFreak94)",
-        .puBody   = "The 'No Level-of-Detail Models' mod is obsolete! Render Fix has options for disabling player LOD models in the config settings menu!\n\n"
-                    "Please disable the 'No Level-of-Detail Models' mod!"
+        CHKMOD_NAME( OFF, "No Level-of-Detail models", "SonicFreak94", MSG_WARN,
+
+            "Conflict (No LOD Models, by SonicFreak94)",
+
+            "The 'No Level-of-Detail Models' mod is obsolete! Render Fix has options for disabling player LOD models in the config settings menu!\n\n"
+            "Please disable the 'No Level-of-Detail Models' mod!"
+        ),
+        // explicitly don't check for DLL, in case another mod uses it
     },
     // Tails Cyclone Fix, by Broly#4302 & Samuel555v
     {
-        CHKMOD_DLL("TailsFix"),
+        CHKMOD_DLL( OFF, "TailsFix", MSG_WARN,
 
-        .puHead   = "Conflict (Tails Cyclone Fix, by Broly#4302 & Samuel555v)",
-        .puBody   = "The 'Tails Cyclone Fix' mod is obsolete! Render Fix fixes all model tinting issues by restoring a rendering flag left out of Battle!\n\n"
-                    "Please disable the 'Tails Cyclone Fix' mod!"
+            "Conflict (Tails Cyclone Fix, by Broly#4302 & Samuel555v)",
+
+            "The 'Tails Cyclone Fix' mod is obsolete! Render Fix fixes all model tinting issues by restoring a rendering flag left out of Battle!\n\n"
+            "Please disable the 'Tails Cyclone Fix' mod!"
+        ),
     },
     // E0129 Music Restoration, by HedgeWedge
     {
-        CHKMOD_NAMEANDAUTHOR("E0129 Music Restoration", "HedgeWedge"),
+        CHKMOD_NAME( OFF, "E0129 Music Restoration", "HedgeWedge", MSG_WARN,
 
-        .puHead   = "Conflict (E0129 Music Restoration, by HedgeWedge)",
-        .puBody   = "The 'E0129 Music Restoration' mod is obsolete and non-functional! Render Fix has ported the Dreamcast events as-is - including music and effect files!\n\n"
-                    "Please disable the 'E0129 Music Restoration' mod!"
+            "Conflict (E0129 Music Restoration, by HedgeWedge)",
+
+            "The 'E0129 Music Restoration' mod is obsolete and non-functional! Render Fix has ported the Dreamcast events as-is - including music and effect files!\n\n"
+            "Please disable the 'E0129 Music Restoration' mod!"
+        ),
     },
     // Stage Atmosphere Tweaks, by Hoppy
     {
-        CHKMOD_NAMEANDAUTHOR("Stage Atmosphere Tweaks", "HoppyBoppyBunny"),
+        CHKMOD_NAME( OFF, "Stage Atmosphere Tweaks", "HoppyBoppyBunny", MSG_WARN,
 
-        .puHead   = "Conflict (Stage Atmosphere Tweaks, by HoppyBoppyBunny)",
-        .puBody   = "The 'Stage Atmosphere Tweaks' mod is non-functional in the latest versions of Render Fix, and causes models to become pitch black! This is due to broken lighting and fog files that the vanilla game, through luck, ends up with semi-normal values!\n\n"
-                    "Please disable the 'Stage Atmosphere Tweaks' mod!"
+            "Conflict (Stage Atmosphere Tweaks, by HoppyBoppyBunny)",
+
+            "The 'Stage Atmosphere Tweaks' mod is non-functional in the latest versions of Render Fix, and causes models to become pitch black! This is due to broken lighting and fog files that the vanilla game, through luck, ends up with semi-normal values!\n\n"
+            "Please disable the 'Stage Atmosphere Tweaks' mod!"
+        ),
     },
     /*
     *   Enable Check
     */
     // SA2 Input Controls
-    //{
-    //    CHKMOD_ID("sa2-input-controls"),
-    //
-    //    .invchk   = true,
-    //
-    //    .puHead   = "Recommended (SA2 Input Controls)",
-    //    .puBody   = "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
-    //                "Please install and enable the 'SA2 Input Controls' mod!"
-    //},
+//  {
+//      CHKMOD_ID( ON, "sa2-input-controls", MSG_WARN
+//
+//          "Recommended (SA2 Input Controls)",
+//
+//          "The 'SA2 Input Controls' mod is needed for some features in Render Fix to work correctly! Without it many text dialogs may break with custom fonts, analog controls will feel odd, and some buttons will not work!\n\n"
+//          "Please install and enable the 'SA2 Input Controls' mod!"
+//      ),
+//  },
 };
 
 /********************************/
@@ -218,7 +273,7 @@ ___ChkByDll(const c8* puDll)
 }
 
 static bool
-___ChkByNameAndAuthor(const c8* puName, const c8* puAuthor)
+___ChkByName(const c8* puName, const c8* puAuthor)
 {
     const isize nb_mod = miGetModCount();
 
@@ -237,9 +292,11 @@ ___ChkByNameAndAuthor(const c8* puName, const c8* puAuthor)
 }
 
 /****** Init ************************************************************************************/
-void
+i32
 RF_ModCheckInit(void)
 {
+    i32 retcode = 0;
+
     /** Check Render Fix's mod-list position **/
 
     const ml_modinfo* mhp = miGetInfoByIndex(0);
@@ -260,32 +317,58 @@ RF_ModCheckInit(void)
 
     for ( int i = 0; i < ARYLEN(CheckModList); ++i )
     {
-        const RFS_CHKMOD* restrict p_chkmod = &CheckModList[i];
+        const CHKMOD* restrict p_chkmod = &CheckModList[i];
 
         bool found = false;
 
-        switch ( p_chkmod->type )
+        switch ( p_chkmod->chk_type )
         {
-            case RF_CHKMOD_ID:
+            case CHK_ID:
             {
-                found = ___ChkByID(p_chkmod->puID);
+                found = ___ChkByID(p_chkmod->chk_id);
                 break;
             }
-            case RF_CHKMOD_DLL:
+            case CHK_DLL:
             {
-                found = ___ChkByDll(p_chkmod->puDll);
+                found = ___ChkByDll(p_chkmod->chk_dll);
                 break;
             }
-            case RF_CHKMOD_NAMEANDAUTHOR:
+            case CHK_NAME:
             {
-                found = ___ChkByNameAndAuthor(p_chkmod->puName, p_chkmod->puAuthor);
+                found = ___ChkByName(p_chkmod->chk_name, p_chkmod->chk_author);
                 break;
             }
         }
 
-        if ( found != p_chkmod->invchk )
+        if ( found != p_chkmod->chk_if
+        && ( !p_chkmod->chk_fn || p_chkmod->chk_fn() ) )
         {
-            RF_MsgWarn(p_chkmod->puHead, p_chkmod->puBody);
+            switch ( p_chkmod->msg_type )
+            {
+                case MSG_INFO:
+                {
+                    RF_MsgInfo(p_chkmod->msg_head, p_chkmod->msg_body);
+                    break;
+                }
+                case MSG_WARN:
+                {
+                    if ( !retcode ) retcode = 1;
+
+                    RF_MsgWarn(p_chkmod->msg_head, p_chkmod->msg_body);
+                    break;
+                }
+                case MSG_ERROR:
+                {
+                    retcode = -1;
+
+                    RF_MsgError(p_chkmod->msg_head, p_chkmod->msg_body);
+                    break;
+                }
+            }
+
+            RF_MsgWarn(p_chkmod->msg_head, p_chkmod->msg_body);
         }
     }
+
+    return retcode;
 }
