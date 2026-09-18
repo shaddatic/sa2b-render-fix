@@ -116,9 +116,12 @@ enum
 
 #define CIF_ATTR_NOOUT              (0x0000'0004) /* cannot send info to other objects          */
 #define CIF_ATTR_NOIN               (0x0000'0008) /* cannot recive object collision info        */
+#define CIF_ATTR_UNIT_TRANS         (0x0000'0020) /* no transform                               */
 #define CIF_ATTR_UNK40              (0x0000'0040) /* unknown                                    */
 #define CIF_ATTR_UNK80              (0x0000'0080) /* unknown                                    */
+#define CIF_ATTR_XZY_ANG            (0x0000'0200) /* xzy rotation order, else yxz               */
 #define CIF_ATTR_NOPUSH             (0x0000'4000) /* cannot be pushed                           */
+#define CIF_ATTR_UNIT_ANG           (0x0000'8000) /* no rotation                                */
 #define CIF_ATTR_NOPLAYER           (0x0004'0000) /* cannot collide player                      */
 #define CIF_ATTR_NOENEMY            (0x0008'0000) /* cannot collide enemy                       */
 #define CIF_ATTR_NOOBJECT           (0x0010'0000) /* cannot collide object                      */

@@ -116,7 +116,7 @@ task;
 *     - 'Elemental' means 'foundational', as in 'not a child task'.
 *
 *   Parameters:
-*     - im          : init mask                                                          [IM_#]
+*     - im          : init mode                                                          [IM_#]
 *     - level       : task level
 *     - exec        : task executor                                               [opt:nullptr]
 *     - name        : task name

@@ -45,7 +45,6 @@ typedef struct
     int8_t EggColor;
     uint8_t FormNum;
     uint8_t FormSubNum;        // Animal
-    uint8_t UNDEF0;
 }
 AL_BODY_INFO;
 
@@ -117,8 +116,6 @@ typedef struct
     uint8_t fear;
     uint16_t distance;
     uint16_t meet;
-    uint8_t UNDEF0;
-    uint8_t UNDEF1;
 }
 AL_KNOWLEDGE_CHAO;
 
@@ -147,8 +144,6 @@ typedef struct al_gene
 {
     int8_t IsAnalyzed;
     int8_t EggColor;
-    uint8_t UNDEF0;
-    uint8_t UNDEF1;
     CHAO_ID MotherID;
     CHAO_ID FatherID;
     char    MotherName[8];

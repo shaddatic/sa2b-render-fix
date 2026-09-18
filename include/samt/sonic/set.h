@@ -98,6 +98,13 @@ OBJ_ITEMTABLE;
 /************************/
 #define SetObjectTaskP          DATA_REF(task*, 0x01A5A340)
 
+#define pObjEditTable           DATA_REF(OBJ_EDITTABLE*, 0x01DDE26C)
+#define pNumEditEntry           DATA_REF(u32           , 0x01DDE274)
+#define pObjEditEntry           DATA_REF(OBJ_EDITENTRY*, 0x01DDE278)
+
+#define numStatusEntry          DATA_REF(i16           , 0x01DDE270)
+#define objStatusEntry          DATA_ARY(OBJ_CONDITION , 0x01DDE280, [1535])
+
 /************************/
 /*  Functions           */
 /************************/
