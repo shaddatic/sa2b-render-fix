@@ -139,14 +139,21 @@ EVR_FixShapes(void)
         {
             EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
 
+            if ( !p_entry->pObject )
+            {
+                continue;
+            }
+
+            const i32 nbnode = mtCnkNodeCount(p_entry->pObject);
+
             if ( p_entry->pMotion )
             {
-                mtMotAddPointers( mtwk, p_entry->pMotion, mtCnkNodeCount(p_entry->pObject), false );
+                mtMotAddPointers( mtwk, p_entry->pMotion, nbnode, false );
             }
 
             if ( p_entry->pShape )
             {
-                mtMotAddPointers( mtwk, p_entry->pShape, mtCnkNodeCount(p_entry->pObject), false );
+                mtMotAddPointers( mtwk, p_entry->pShape, nbnode, false );
             }
         }
 
@@ -211,6 +218,8 @@ EVR_FixShapes(void)
             }
         }
     }
+
+    RF_DbgInfo("3...");
 
     mtPtrListFree(mtwk);
     RF_FixHistFree(fxwk);
