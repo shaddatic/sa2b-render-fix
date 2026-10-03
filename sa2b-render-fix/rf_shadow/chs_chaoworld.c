@@ -89,7 +89,7 @@ static const float LeafSclList[11] = { 3.0f, 3.0f, 4.0f, 4.0f };
 void
 ChaoShadow(task* tp)
 {
-    chaowk*               const cwp = GET_CHAOWK(tp);
+    const chaowk*         const cwp = GET_CHAOWK(tp);
     const ALW_ENTRY_WORK* const ewp = GET_ALW_ENTRY_WORK(tp);
 
     if ( (cwp->ChaoFlag & CHAO_FLG_DRAW) == 0 || !AL_IsOnScreen3(tp, 5.2f, 4.5f, 2.9f) )
@@ -107,9 +107,9 @@ ChaoShadow(task* tp)
 
         njPushMatrixEx();
         {
-            njTranslateV( NULL, &cwp->Shape.HeadPos);
-            njRotateY(    NULL, cwp->ang.y);
-            njScale(      NULL, 1.6f, 0.7f, 1.5f);
+            njTranslateV( NULL, &cwp->Shape.HeadPos );
+            njRotateY(    NULL, cwp->ang.y );
+            njScale(      NULL, 1.6f, 0.7f, 1.5f );
 
             njCnkModDrawModel( model_kage_marukage_marukage );
         }
@@ -153,12 +153,14 @@ ChaoShadow(task* tp)
 
     njPushMatrixEx();
     {
+        NJS_POINT3 handpos = cwp->Shape.LeftHandPos;
+
         if ( cwp->Shape.Flag & SHAPE_FLG_SHADOW )
         {
-            cwp->Shape.LeftHandPos.y = cwp->pos.y + 0.01f;
+            handpos.y = cwp->pos.y + 0.01f;
         }
 
-        njTranslateV( NULL, &cwp->Shape.LeftHandPos );
+        njTranslateV( NULL, &handpos );
         njRotateY(    NULL, cwp->ang.y );
         njScale(      NULL, 0.65f, 0.60f, 0.65f );
 
@@ -166,12 +168,14 @@ ChaoShadow(task* tp)
     }
     njFastPopPushMatrix();
     {
+        NJS_POINT3 handpos = cwp->Shape.RightHandPos;
+
         if ( cwp->Shape.Flag & SHAPE_FLG_SHADOW )
         {
-            cwp->Shape.RightHandPos.y = cwp->pos.y + 0.01f;
+            handpos.y = cwp->pos.y + 0.01f;
         }
 
-        njTranslateV( NULL, &cwp->Shape.RightHandPos );
+        njTranslateV( NULL, &handpos );
         njRotateY(    NULL, cwp->ang.y );
         njScale(      NULL, 0.65f, 0.60f, 0.65f );
 
