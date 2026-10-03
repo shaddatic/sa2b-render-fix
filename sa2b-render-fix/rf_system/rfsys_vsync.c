@@ -409,27 +409,8 @@ RF_SysVsyncInit(void)
 
     RF_SysSetWaitVsyncCount( 0 - game_speed );
 
-    const int frame_limit = CNF_GetInt( CNF_GFX_VSYNC );
-
-    switch ( frame_limit )
-    {
-        case CNFE_GFX_VSYNC_DISABLED:
-        {
-            break;
-        }
-        case CNFE_GFX_VSYNC_FAST:
-        {
-            FastVsync = true;
-//          [[fallthrough]];
-        }
-        case CNFE_GFX_VSYNC_ENABLED:
-        {
-            UseFrameController = true;
-            break;
-        }
-    }
-
-    if ( frame_limit != CNFE_GFX_VSYNC_DISABLED && p_mlset->limitfps )
+    if ( (UseFrameController = CNF_GetInt( CNF_GFX_VSYNC ))
+    &&   p_mlset->limitfps )
     {
         RF_MsgWarn(
             "Frame Controller",
