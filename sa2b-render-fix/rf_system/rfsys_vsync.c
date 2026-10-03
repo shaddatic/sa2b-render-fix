@@ -36,7 +36,7 @@
 /*  Constants                   */
 /********************************/
 /****** Basic Constants *************************************************************************/
-#define SLEEP_GRACE_MS              (1.0)             /* sleep call grace time                  */
+#define SLEEP_GRACE_MS              (0.8)             /* sleep call grace time                  */
 #define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
 #define TARGET_MS(wait)             (MS_PER_SEC/(60.0/(f64)(wait))) /* target performance       */
 
@@ -58,7 +58,6 @@ static HANDLE HdlTimer;             /* windows timer handle                     
 
 /****** User Settings ***************************************************************************/
 static bool UseFrameController;     /* enable/disable vsync/frameskip calculations              */
-static bool FastVsync;              /* use fast but unnacurate vsync calcs                      */
 
 /****** Target Vsync Mode ***********************************************************************/
 static i32 WaitVsyncCount;          /* target vsync wait count                                  */
@@ -93,7 +92,7 @@ GetMilliseconds(i64 clock, i64 freq)
 }
 
 static f64
-GetFrameTime(i64 last_clock, i64 freq)
+GetFrameTimeNow(i64 last_clock, i64 freq)
 {
     return ((f64)(osHighResolutionClock() - last_clock) / (f64)freq) * MS_PER_SEC;
 }
@@ -116,50 +115,60 @@ RF_SysVsyncSceneStart(void)
     if ( UseFrameController )
     {
         // clock now
-        const i64 start_clock = GetClock();
+        const i64 start_time = GetClock();
 
         // how long we want this frame to take
         const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
 
         // how long this frame has already taken
-        const f64 delta_ms = GetMilliseconds(start_clock - ClockStart, freq);
+        const f64 delta_time = GetMilliseconds(start_time - ClockStart, freq);
 
         f64 wait_ms = 0.f;
 
-        if ( vsync_ms > delta_ms )
+        if ( vsync_ms > delta_time )
         {
             // if the frame was too fast, wait a bit
-            wait_ms = (vsync_ms - delta_ms);
+            wait_ms = (vsync_ms - delta_time);
         }
         else
         {
             // if the frame was too slow, wait until the next frame
-            wait_ms = TARGET_MS(1) - fmod(delta_ms, TARGET_MS(1));
+            wait_ms = TARGET_MS(1) - fmod(delta_time, TARGET_MS(1));
         }
 
         if ( wait_ms > 0.f )
         {
-            const i32 sleep_ms = (i32)floor(wait_ms - SLEEP_GRACE_MS);
+            const f64 target_ms = wait_ms - SLEEP_GRACE_MS;
 
-            // sleep most of the time first to release CPU cycles
-            if ( sleep_ms > 0 )
+            f64 now_time = GetFrameTimeNow(start_time, freq);
+
+            for ( ; ; )
             {
-                const LARGE_INTEGER timer = { .QuadPart = (i64)(wait_ms - 1.0) };
+                // sleep most of the time first to release CPU cycles
+                const LARGE_INTEGER timer = { .QuadPart = (i64)floor( wait_ms - now_time ) };
 
-                SetWaitableTimerEx(    HdlTimer, &timer, 0, NULL, NULL, NULL, 0 );
-                WaitForSingleObjectEx( HdlTimer, INFINITE, FALSE );
+                SetWaitableTimerEx(  HdlTimer, &timer, 0, NULL, NULL, NULL, 0 );
+                WaitForSingleObject( HdlTimer, INFINITE );
+
+                // update 'now' time
+                now_time = GetFrameTimeNow(start_time, freq);
+
+                if ( target_ms < now_time )
+                {
+                    break;
+                }
             }
 
             // wait for the remaining time
-            while ( wait_ms > GetFrameTime(start_clock, freq) )
+            while ( wait_ms > GetFrameTimeNow(start_time, freq) )
             {
                 mtArchYield();
             }
         }
 
-        VsyncTime = (vsync_ms > delta_ms) ? (vsync_ms - delta_ms) : 0.0;
+        VsyncTime = (vsync_ms > delta_time) ? (vsync_ms - delta_time) : 0.0;
 
-        const f64 ftotal = (delta_ms + wait_ms);
+        const f64 ftotal = (delta_time + wait_ms);
 
         // frameskip
 
@@ -185,7 +194,7 @@ RF_SysVsyncSceneStart(void)
         TaskExecLoop2 = frameskip;
 
         // end
-        FrameTime      = delta_ms;
+        FrameTime      = delta_time;
         FrameTimeTotal = ftotal;
     }
     else // frame controller is disabled
