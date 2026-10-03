@@ -91,8 +91,8 @@ RFM_GlobalInit(void)
         WritePointer(0x00581891 +2, &BattleFlag2); // chao cave menu,       mov reg
         WritePointer(0x0058A047 +2, &BattleFlag2); // bmarket themes,       cmp val
         WritePointer(0x0058B8F8 +2, &BattleFlag2); // bmarket themes 2,     cmp val
-        WritePointer(0x005A882E +2, &BattleFlag2); // chao cave arrows,     cmp reg
-        WritePointer(0x005A894D +2, &BattleFlag2); // chao cave arrows,     cmp reg
+        WritePointer(0x005A8828 +2, &BattleFlag2); // chao cave arrows,     cmp reg
+        WritePointer(0x005A894D +2, &BattleFlag2); // chao cave arrows,     cmp val
 //      WritePointer(0x00667A6E +2, &BattleFlag2); // screen effect tex,    cmp reg
 //      WritePointer(0x00667F0B +2, &BattleFlag2); // screen effect,        mov reg
 //      WritePointer(0x006682D2 +2, &BattleFlag2); // screen effect txt,    cmp reg
