@@ -127,6 +127,11 @@ void    RF_SysSetWaitVsyncCount( i32 count );
 *     Get the current vsync wait count.
 */
 i32     RF_SysGetWaitVsyncCount( void );
+/*
+*   Description:
+*     Reset the frame clock timer.
+*/
+void    RF_SysResetFrameClock( void );
 
 EXTERN_END
 

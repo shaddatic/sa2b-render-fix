@@ -292,6 +292,12 @@ RFGX_Init(void)
             DX9_SetMSAAEnable(TRUE);
         }
 
+        // not that it does anything anyway
+        if ( CNF_GetInt(CNF_GFX_VSYNC) )
+        {
+            dinfo.Vsync = false;
+        }
+
         RF_MagicSetRenderDeviceInitInfo(&dinfo);
     }
 

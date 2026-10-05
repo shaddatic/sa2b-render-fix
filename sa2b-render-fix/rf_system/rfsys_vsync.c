@@ -13,6 +13,9 @@
 /****** Game ************************************************************************************/
 #include <samt/sonic/display.h>     /* display ratio                                            */
 
+/****** Dx9ctrl *********************************************************************************/
+#include <dx9ctrl/dx9ctrl.h>        /* dx9ctrl                                                  */
+
 /****** Render Fix ******************************************************************************/
 #include <rf_core.h>                /* core                                                     */
 #include <rf_util.h>                /* replacefloat                                             */
@@ -39,6 +42,7 @@
 #define SLEEP_GRACE_MS              (0.8)             /* sleep call grace time                  */
 #define MS_PER_SEC                  (1000.0)          /* milliseconds per second                */
 #define TARGET_MS(wait)             (MS_PER_SEC/(60.0/(f64)(wait))) /* target performance       */
+#define CLOCK_INC(freq)             ((freq)/60)
 
 /********************************/
 /*  Game Defs                   */
@@ -61,19 +65,20 @@ static bool UseFrameController;     /* enable/disable vsync/frameskip calculatio
 
 /****** Target Vsync Mode ***********************************************************************/
 static i32 WaitVsyncCount;          /* target vsync wait count                                  */
-static i32 SkipVsyncCount;          /* debug skip vsync                                         */
 static i32 MinWaitVsync;            /* minimum wait vsync count                                 */
 
 /****** Clock ***********************************************************************************/
-static i64 ClockStart;              /* total frame clock start                      (for vsync) */
+static i64 FrameClockStart;         /* start of frame                                           */
+static i64 FrameClock;              /* rigidly incremented clock                    (for vsync) */
 
 /****** Frame Time ******************************************************************************/
-static f64 VsyncTime;               /* vsync wait time                                          */
-static f64 FrameTime;               /* last frametime in milliseconds                           */
-static f64 FrameTimeTotal;          /* total last frametime in milliseconds                     */
+static f64 FrameTime;               /* total last frametime in milliseconds                     */
 
-/****** Settings ********************************************************************************/
-static bool DebugFrameInfo;         /* debug frametime info                                     */
+/****** Debug ***********************************************************************************/
+static i32 DbgSkipVsync;            /* debug skip vsync                                         */
+static bool DbgFrameInfo;           /* debug frametime info                                     */
+static f64  DbgFrameDelta;          /* last delta time in milliseconds                          */
+static i32  DbgFrameSkip;           /* debug frame skip value                                   */
 
 /********************************/
 /*  Source                      */
@@ -103,151 +108,155 @@ GetVsyncWaitValue(void)
     return (f64)WaitVsyncCount;
 }
 
-/****** Extern **********************************************************************************/
-void
-RF_SysVsyncSceneStart(void)
+static void
+SleepUntil(i64 tgtclock)
 {
-    static i32 LastFrameskip = 0;
+    // if the time has already passed, do nothing
+    if ( tgtclock <= GetClock() )
+    {
+        return;
+    }
 
     const i64 freq = osHighResolutionFrequency();
 
-    // vsync
-    if ( UseFrameController )
+    for ( ; ; )
     {
-        // clock now
-        const i64 start_time = GetClock();
+        const f64 ms_sleep = GetMilliseconds(tgtclock - GetClock(), freq) - SLEEP_GRACE_MS;
 
-        // how long we want this frame to take
-        const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
-
-        // how long this frame has already taken
-        const f64 delta_time = GetMilliseconds(start_time - ClockStart, freq);
-
-        f64 wait_ms = 0.f;
-
-        if ( vsync_ms > delta_time )
+        // if the time to sleep is non-positive, stop
+        if ( ms_sleep <= 0.0 )
         {
-            // if the frame was too fast, wait a bit
-            wait_ms = (vsync_ms - delta_time);
-        }
-        else
-        {
-            // if the frame was too slow, wait until the next frame
-            wait_ms = TARGET_MS(1) - fmod(delta_time, TARGET_MS(1));
+            break;
         }
 
-        if ( wait_ms > 0.f )
-        {
-            const f64 target_ms = wait_ms - SLEEP_GRACE_MS;
+        // sleep most of the time first to release CPU cycles
+        const LARGE_INTEGER timer = { .QuadPart = (i64)floor( (ms_sleep) / 0.9 ) };
 
-            f64 now_time = GetFrameTimeNow(start_time, freq);
-
-            for ( ; ; )
-            {
-                // sleep most of the time first to release CPU cycles
-                const LARGE_INTEGER timer = { .QuadPart = (i64)floor( wait_ms - now_time ) };
-
-                SetWaitableTimerEx(  HdlTimer, &timer, 0, NULL, NULL, NULL, 0 );
-                WaitForSingleObject( HdlTimer, INFINITE );
-
-                // update 'now' time
-                now_time = GetFrameTimeNow(start_time, freq);
-
-                if ( target_ms < now_time )
-                {
-                    break;
-                }
-            }
-
-            // wait for the remaining time
-            while ( wait_ms > GetFrameTimeNow(start_time, freq) )
-            {
-                mtArchYield();
-            }
-        }
-
-        VsyncTime = (vsync_ms > delta_time) ? (vsync_ms - delta_time) : 0.0;
-
-        const f64 ftotal = (delta_time + wait_ms);
-
-        // frameskip
-
-        i32 frameskip = (i32) round( ftotal / TARGET_MS(1) );
-
-        // if this is a sudden lag spike that's lasted longer than a quater of a second (in
-        // gametime), then reuse the previous frameskip value
-        if ( frameskip >= (LastFrameskip + 15) )
-        {
-            frameskip      = LastFrameskip;
-            LastFrameskip += 1;
-        }
-        else
-        {
-            LastFrameskip = frameskip;
-        }
-
-        // include vsync frameskips
-        frameskip += SkipVsyncCount;
-
-        // set frameskip
-        TaskExecLoop1 = frameskip;
-        TaskExecLoop2 = frameskip;
-
-        // end
-        FrameTime      = delta_time;
-        FrameTimeTotal = ftotal;
+        SetWaitableTimerEx(  HdlTimer, &timer, 0, NULL, NULL, NULL, 0 );
+        WaitForSingleObject( HdlTimer, INFINITE );
     }
-    else // frame controller is disabled
+
+    // spin for the remaining time
+    while ( tgtclock > GetClock() )
     {
-        const f64 ftotal = GetMilliseconds(GetClock() - ClockStart, freq);
+        mtArchYield();
+    }
+}
 
-        VsyncTime = 0.0;
+/****** Extern **********************************************************************************/
+void
+RF_SysResetFrameClock(void)
+{
+    FrameClock = 0;
+}
 
-        FrameTime      = ftotal;
-        FrameTimeTotal = ftotal;
+void
+RF_SysVsyncSceneStart(void)
+{
+    const i64 clock_vsync_start = GetClock();
 
+    // if the frame controller is disabled
+    if ( !UseFrameController )
+    {
         // set frameskip
         TaskExecLoop1 = 1;
         TaskExecLoop2 = 1;
+        return;
     }
 
-    // get the end of this frame clock for vsync calculations
-    ClockStart = GetClock();
+    // start frame clock
+    if ( !FrameClock )
+    {
+        // wait for vblank
+        while ( DX9_InVBlank() == FALSE )
+        {
+            mtArchYield();
+        }
+        
+        // wait for end of vblank
+        while ( DX9_InVBlank() == TRUE )
+        {
+            mtArchYield();
+        }
+
+        // now set frame clock
+        FrameClock = GetClock();
+    }
+
+    // frequency
+    const i64 freq = osHighResolutionFrequency();
+
+    // wait for vsync and get frameskip count
+    const i32 nb_vsync = WaitVsyncCount;
+    i32 fskip = 0;
+
+    // wait for vsync interval
+    do 
+    {
+        SleepUntil(FrameClock);
+
+        // set next frame clock
+        FrameClock += CLOCK_INC(freq);
+
+        // inc frameskip
+        fskip++;
+    }
+    while ( (fskip < nb_vsync) || (FrameClock < clock_vsync_start) );
+
+    // set frame time
+    FrameTime = (f64)fskip * TARGET_MS(1);
+
+    // frameskip
+    if ( fskip > 15 )
+    {
+        // if that frame took longer than a quater-second, clamp fskip
+        fskip = 15;
+    }
+
+    // include debug game speed
+    fskip += DbgSkipVsync;
+
+    // set frameskip
+    TaskExecLoop1 = fskip;
+    TaskExecLoop2 = fskip;
+
+    // set debug info
+    DbgFrameDelta = GetMilliseconds(clock_vsync_start - FrameClockStart, freq);
+    DbgFrameSkip  = fskip;
+
+    // get the start of this frame for vsync calculations
+    FrameClockStart = GetClock();
 }
 
 void
 RF_SysVsyncSceneEnd(void)
 {
+    static f64 DbgAvgMs;
+
 #if 0
-    osSleep(33);
+    Sleep(20);
 #endif
 
     // frametime debug
-    if ( DebugFrameInfo )
+    if ( DbgFrameInfo )
     {
         const i64 freq = osHighResolutionFrequency();
 
         const f64 vsync_ms = TARGET_MS( GetVsyncWaitValue() );
 
-        static f64 s_avg_ms;
+        const f64 frame_ms = DbgFrameDelta;
 
-        const f64 frame_ms = FrameTimeTotal - VsyncTime;
-
-        const f64 avg_ms = s_avg_ms + ( (frame_ms - s_avg_ms) / (64.0 / GetVsyncWaitValue()) );
-
-        s_avg_ms = avg_ms;
-
-        const f64 frameskip = round(FrameTimeTotal / TARGET_MS(1));
+        DbgAvgMs = DbgAvgMs + ( (frame_ms - DbgAvgMs) / (64.0 / GetVsyncWaitValue()) );
 
         mlDebugSetScale( 8 );
         mlDebugSetColor( (frame_ms > vsync_ms) ? 0xFFFF7F7F : 0xFFFFFFFF );
 
         const i32 x_offset = (i32) roundf(46.f * GetDisplayRatio());
 
-        mlDebugPrintC( NJM_LOCATION( 10+x_offset, 1),   "IMM /      AVG /    TGT" );
-        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / avg_ms, MS_PER_SEC / vsync_ms );
-        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 4),   "FMS:%9.02f /%9.02f /%7.02f", frame_ms, avg_ms, vsync_ms );
-        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 6), "FSKIP:%9.02f", frameskip );
+        mlDebugPrintC( NJM_LOCATION(10 +x_offset, 1),   "IMM /      AVG /    TGT" );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 3),   "FPS:%9.02f /%9.02f /%7.02f", MS_PER_SEC / frame_ms, MS_PER_SEC / DbgAvgMs, MS_PER_SEC / vsync_ms );
+        mlDebugPrint(  NJM_LOCATION( 0 +x_offset, 4),   "FMS:%9.02f /%9.02f /%7.02f", frame_ms, DbgAvgMs, vsync_ms );
+        mlDebugPrint(  NJM_LOCATION(-2 +x_offset, 6), "FSKIP:%9.02f", (f32)DbgFrameSkip );
     }
 }
 
@@ -263,7 +272,7 @@ GetFrameTimeMidi(void)
 {
     // Give the game the actual frametime in ms, it will then do 'ft - 0.f' because we set the
     // start time to 0 and continue on as normal with the correct frametime info
-    return FrameTimeTotal;
+    return FrameTime;
 }
 
 static void
@@ -281,12 +290,12 @@ SetWaitVsyncCount(i32 count)
 {
     if ( count > 0 )
     {
-        SkipVsyncCount = 0;
+        DbgSkipVsync = 0;
         count          = MAX(MinWaitVsync, count);
     }
     else
     {
-        SkipVsyncCount = -count;
+        DbgSkipVsync = -count;
         count          = MinWaitVsync;
     }
 
@@ -318,7 +327,7 @@ RF_SysSetWaitVsyncCount(i32 count)
 
     // if the skip count is non-zero, eg. the game is sped up,
     // don't accept any non-negative values
-    if ( SkipVsyncCount )
+    if ( DbgSkipVsync )
     {
         if ( count < 0 )
         {
@@ -341,8 +350,6 @@ RF_SysGetWaitVsyncCount(void)
 void
 RF_SysVsyncInit(void)
 {
-    const ml_settings* p_mlset = mlGetUserSettings();
-
     WriteNOP(      0x0043CEE7, 0x0043CEED); // stop setting the exec loop count
     WriteShortJump(0x0043CEF3, 0x0043CF16); // skip over the PAL50 code stuff
 
@@ -407,19 +414,16 @@ RF_SysVsyncInit(void)
     // sequence data to play at a normal speed again, but this will work for all framerates
     RFU_ReplaceFloat(0x00436448, 8.4);
 
-    /** End **/
-
-    DebugFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO );
-
-    MinWaitVsync = CNF_GetInt( CNF_GFX_VSYNCWAIT );
-
     // set wait vsync count
     const int game_speed = CNF_GetInt( CNF_DEBUG_GAMESPEED );
 
     RF_SysSetWaitVsyncCount( 0 - game_speed );
 
-    if ( (UseFrameController = CNF_GetInt( CNF_GFX_VSYNC ))
-    &&   p_mlset->limitfps )
+    // set config
+    UseFrameController = CNF_GetInt( CNF_GFX_VSYNC );
+    MinWaitVsync       = CNF_GetInt( CNF_GFX_VSYNCWAIT );
+
+    if ( UseFrameController && mlGetUserSettings()->limitfps )
     {
         RF_MsgWarn(
             "Frame Controller",
@@ -431,8 +435,9 @@ RF_SysVsyncInit(void)
         );
     }
 
-    // start the clock on a reasonable value
-    ClockStart = GetClock();
+    // set debug info
+    DbgFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO ) && UseFrameController;
 
+    // get the timer handle
     HdlTimer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);
 }

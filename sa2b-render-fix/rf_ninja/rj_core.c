@@ -20,6 +20,7 @@
 #include <rf_core.h>                /* core                                                     */
 #include <rf_shader.h>              /* shader                                                   */
 #include <rf_magic.h>               /* magiccache                                               */
+#include <rf_system.h>              /* reset frame clock                                        */
 
 /****** SOC *************************************************************************************/
 #include <samt/soc/shader.h>        /* setshader                                                */
@@ -997,6 +998,8 @@ RJ_OnDeviceReset(void)
     {
         return;
     }
+
+    RF_SysResetFrameClock();
 
     rjResetHwCache();
 
