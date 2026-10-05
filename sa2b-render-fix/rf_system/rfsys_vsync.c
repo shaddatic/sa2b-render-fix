@@ -190,28 +190,35 @@ RF_SysVsyncSceneStart(void)
     const i32 nb_vsync = WaitVsyncCount;
     i32 fskip = 0;
 
-    // wait for vsync interval
-    do 
+    // wait for vsync interval 'n' times
+    for ( ; fskip < nb_vsync; ++fskip )
     {
         SleepUntil(FrameClock);
 
         // set next frame clock
         FrameClock += CLOCK_INC(freq);
-
-        // inc frameskip
-        fskip++;
     }
-    while ( (fskip < nb_vsync) || (FrameClock < clock_vsync_start) );
+
+    const i64 clock_target = (clock_vsync_start + CLOCK_INC(freq));
+
+    // check if we're falling behind
+    for ( ; FrameClock < clock_target; ++fskip )
+    {
+        SleepUntil(FrameClock);
+
+        // set next frame clock
+        FrameClock += CLOCK_INC(freq);
+    }
+
+    // ensure fskip is at least 1
+    fskip = MAX(1, fskip);
 
     // set frame time
     FrameTime = (f64)fskip * TARGET_MS(1);
 
-    // frameskip
-    if ( fskip > 15 )
-    {
-        // if that frame took longer than a quater-second, clamp fskip
-        fskip = 15;
-    }
+    // if that frame took a very long time, clamp fskip to stop huge time jumps
+    // 6 == 10fps
+    fskip = MIN(6, fskip);
 
     // include debug game speed
     fskip += DbgSkipVsync;
