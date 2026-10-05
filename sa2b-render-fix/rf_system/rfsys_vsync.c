@@ -79,6 +79,7 @@ static i32 DbgSkipVsync;            /* debug skip vsync                         
 static bool DbgFrameInfo;           /* debug frametime info                                     */
 static f64  DbgFrameDelta;          /* last delta time in milliseconds                          */
 static i32  DbgFrameSkip;           /* debug frame skip value                                   */
+static i32  DbgFrameLag;            /* debug emulate lag                                        */
 
 /********************************/
 /*  Source                      */
@@ -240,9 +241,11 @@ RF_SysVsyncSceneEnd(void)
 {
     static f64 DbgAvgMs;
 
-#if 0
-    Sleep(20);
-#endif
+    // emulate lag by sleeping
+    if ( DbgFrameLag > 0 )
+    {
+        Sleep(DbgFrameLag);
+    }
 
     // frametime debug
     if ( DbgFrameInfo )
@@ -444,6 +447,7 @@ RF_SysVsyncInit(void)
 
     // set debug info
     DbgFrameInfo = CNF_GetInt( CNF_DEBUG_FRAMEINFO ) && UseFrameController;
+    DbgFrameLag  = CNF_GetInt( CNF_DEBUG_EMULAGMS );
 
     // get the timer handle
     HdlTimer = CreateWaitableTimerExW(NULL, NULL, CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, TIMER_ALL_ACCESS);

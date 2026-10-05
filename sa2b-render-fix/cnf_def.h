@@ -355,6 +355,7 @@ CNFE_MISC_SHDWRES;
 
 /** Debug section **/
 #define CNF_DEBUG_FRAMEINFO         CNFO_INT(   CNFS_DEBUG          , "frametime_info"      , CNFE_BOOL_DISABLED                    )   /* Debug framtime info */
+#define CNF_DEBUG_EMULAGMS          CNFO_INT(   CNFS_DEBUG          , "emulagms"            , -1                                    )   /* Emulate Lag */
 #define CNF_DEBUG_GAMESPEED         CNFO_INT(   CNFS_DEBUG          , "game_speed"          , 0                                     )   /* Game speed modifier */
 #define CNF_DEBUG_EVENT             CNFO_INT(   CNFS_DEBUG          , "event"               , CNFE_BOOL_DISABLED                    )   /* Event debug features */
 #define CNF_DEBUG_TEXMOVIE          CNFO_INT(   CNFS_DEBUG          , "texmovie"            , CNFE_BOOL_DISABLED                    )   /* Event texture movie */

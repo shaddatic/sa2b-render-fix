@@ -339,6 +339,9 @@ FPS: Theoretical FPS value.
 FMS: Frametime in milliseconds.
 FSKIP: Frameskip value.</HelpText>
       </Property>
+      <Property name="emulagms" display="Emulate Lag (ms)" type="int" minvalue="-1" defaultvalue="-1">
+        <HelpText>Emulate real lag by adding extra time to the end of the frame, in milliseconds.</HelpText>
+      </Property>
       <Property name="extra_info" display="Extra Debug Info" type="BINT" defaultvalue="0">
         <HelpText>Print additional debug info into the game console. This is useful for getting very in-depth information on what Render Fix is doing internally.</HelpText>
       </Property>
