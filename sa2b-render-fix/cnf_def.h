@@ -279,8 +279,8 @@ CNFE_MISC_SHDWRES;
 /****************************************************************************************************************************************/
 /**                               | Type      | Section             | Key                   | Default                                  **/
 /** Graphics section **/
+#define CNF_GFX_VSYNC               CNFO_INT(   CNFS_GFX            , "vsync"               , CNFE_BOOL_ENABLED                     )   /* Frame Limiter */
 #define CNF_GFX_VSYNCWAIT           CNFO_INT(   CNFS_GFX            , "vsync_wait"          , CNFE_GFX_VSYNCWAIT_60                 )   /* Framerate */
-#define CNF_GFX_VSYNC               CNFO_INT(   CNFS_GFX            , "vsync_calc"          , CNFE_BOOL_ENABLED                     )   /* Frame Limiter */
 #define CNF_GFX_MULTISAMPLE         CNFO_INT(   CNFS_GFX            , "multisample"         , 0                                     )   /* Multi Sample Anti-Aliasing */
 #define CNF_GFX_ANISOTROPY          CNFO_INT(   CNFS_GFX            , "anisotropy"          , CNFE_GFX_ANISOTROPY_AUTO              )   /* Anisotropic Filtering */
 #define CNF_GFX_TEXFILTER           CNFO_INT(   CNFS_GFX            , "texfilter"           , CNFE_GFX_TEXFILTER_AUTO               )   /* Texture Filtering */
