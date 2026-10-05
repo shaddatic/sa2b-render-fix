@@ -219,8 +219,6 @@ EVR_FixShapes(void)
         }
     }
 
-    RF_DbgInfo("3...");
-
     mtPtrListFree(mtwk);
     RF_FixHistFree(fxwk);
 
