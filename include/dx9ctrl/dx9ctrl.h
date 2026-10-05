@@ -20,6 +20,7 @@
 #include <dx9ctrl/dx9_common.h>     /* dx9 common                                               */
 #include <dx9ctrl/dx9_init.h>       /* dx9 init                                                 */
 #include <dx9ctrl/dx9_renderstate.h>/* dx9 render state                                         */
+#include <dx9ctrl/dx9_getstate.h>   /* dx9 other state                                          */
 #include <dx9ctrl/dx9_shader.h>     /* dx9 shaders                                              */
 #include <dx9ctrl/dx9_texture.h>    /* dx9 textures                                             */
 #include <dx9ctrl/dx9_vertex.h>     /* dx9 vertex attribute                                     */
