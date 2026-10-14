@@ -135,7 +135,7 @@ EVR_FixShapes(void)
 
         const isize nb_entry = p_scene->nbEntry;
 
-        for (isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
+        for ( isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry )
         {
             EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
 
@@ -159,7 +159,7 @@ EVR_FixShapes(void)
 
         EVENT_BIG* p_big = p_scene->pBig;
 
-        if ( p_big && p_big->nbMotion )
+        if ( p_big && p_big->pObject && p_big->nbMotion )
         {
             const isize nb_mot  = p_big->nbMotion;
             const usize nb_node = mtCnkNodeCount(p_big->pObject);
@@ -190,11 +190,11 @@ EVR_FixShapes(void)
 
         const isize nb_entry = p_scene->nbEntry;
 
-        for (isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry)
+        for ( isize ix_entry = 0; ix_entry < nb_entry; ++ix_entry )
         {
             EVENT_ENTRY* const p_entry = &p_scene->pEntries[ix_entry];
 
-            if ( p_entry->pShape )
+            if ( p_entry->pShape && p_entry->pObject )
             {
                 FixShape( p_entry->pShape, mtCnkNodeCount(p_entry->pObject), mtwk, fxwk );
             }
@@ -202,7 +202,7 @@ EVR_FixShapes(void)
 
         EVENT_BIG* p_big = p_scene->pBig;
 
-        if ( p_big && p_big->nbMotion )
+        if ( p_big && p_big->pObject && p_big->nbMotion )
         {
             const isize nb_mot  = p_big->nbMotion;
             const usize nb_node = mtCnkNodeCount(p_big->pObject);
