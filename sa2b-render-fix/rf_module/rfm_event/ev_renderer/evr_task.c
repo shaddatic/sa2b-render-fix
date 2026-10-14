@@ -243,14 +243,7 @@ EventDestructor(task* tp)
 
     NearClip = twp->scl.z; // reset the near plane to 1.f
 
-    if ( EvBigTexture )
-    {
-        texFreeTexlist(EvBigTexture);
-
-        EvBigTexture = nullptr;
-    }
-
-    EVR_EndReplaceAttr();
+    EVR_EventExit();
 }
 
 static void

@@ -156,6 +156,14 @@ void    EVR_VsyncInit( void );
 */
 void    EVR_MovieInit( void );
 
+/****** Runtime Init ****************************************************************/
+/*
+*   Description:
+*     Init/Exit event.
+*/
+void    EVR_EventInit( void );
+void    EVR_EventExit( void );
+
 /****** Replace Attr ****************************************************************/
 /*
 *   Description:

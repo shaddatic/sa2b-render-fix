@@ -480,6 +480,9 @@
     <ClCompile Include="rf_shadow.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rf_util\rfu_texture.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rf_module\rfm_common\rfc_internal.h">
@@ -624,6 +627,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rf_shadow\chs_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rfu_texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

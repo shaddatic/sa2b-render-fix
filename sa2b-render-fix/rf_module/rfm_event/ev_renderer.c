@@ -17,6 +17,9 @@
 #include <rf_util.h>            /* switch displayer                                 */
 #include <rf_system.h>          /* pillarbox                                        */
 
+/****** RFU *************************************************************************/
+#include <rfu_texture.h>        /* create texlist                                   */
+
 /****** Config **********************************************************************/
 #include <cnf.h>                /* config get                                       */
 
@@ -40,6 +43,9 @@ bool            EventEquipmentEnable;
 RFE_EV_VSYNC    EventVsyncMode;
 bool            EventDebugFlag;
 bool            EventDebugMovie;
+
+/****** Init Flag *******************************************************************/
+static bool EvrInitFlag;
 
 /****** Big Tex *********************************************************************/
 NJS_TEXLIST*    EvBigTexture;
@@ -104,70 +110,44 @@ DrawTailsPlainWithPillar(void)
     RF_SysCtrlResetPillar();
 }
 
-static void __cdecl
-LoadEventTextures(char* fname, NJS_TEXLIST* ptlo, void* buf)
+void
+EVR_EventInit(void)
 {
-    isize  sz_strbuf = ARYLEN(GlobalBuffer);
-    c7* const strbuf = GlobalBuffer;
-
-    // remove extension from fname so we can call the normal texload.
-    // we can't call the original function because it destroys the stack for some reason
-    if ( !fname )
+    if ( EvrInitFlag )
     {
-        return;
+        EVR_EventExit();
     }
 
-    mtStrCopy(strbuf, fname, sz_strbuf);
-
-    const isize ix_ext = mtPathGetExtension(strbuf, sz_strbuf);
-
-    if ( ix_ext != STR_NOINDEX )
-    {
-        strbuf[ix_ext] = '\0';
-    }
-
-    texLoadTexturePvmFile(strbuf, ptlo);
+    c7 buf[32];
 
     // load extra big textures
-    mtStrFormat(strbuf, sz_strbuf, "e%04ibigtex", EventNum);
-    
-    EvBigTexture = texCreateTexlist(strbuf);
-    
-    if ( EvBigTexture && !EvBigTexture->nbTexture )
+    mtStrFormat(buf, 32, "EVENT/e%04ibigtex", EventNum);
+
+    EvBigTexture = RFU_CreateTexlist(buf);
+
+    // init event data
+    EVR_FixShapes();
+    EVR_StartReplaceAttr();
+
+    // scan event for draw flags
+    EVR_ScanEvent();
+
+    EvrInitFlag = true;
+}
+
+void
+EVR_EventExit(void)
+{
+    if ( EvBigTexture )
     {
-        texFreeTexlist(EvBigTexture);
+        RFU_FreeTexlist(EvBigTexture);
     
         EvBigTexture = nullptr;
     }
-}
 
-ASM_FUNC
-static void
-___LoadEventTextures(void)
-{
-    // arguments
-    ASM_PUSH(      ASM_ESP(1+0) ); // buffer
-    ASM_PUSH( edx               ); // ptlo
-    ASM_PUSH( ecx               ); // filename
+    EVR_EndReplaceAttr();
 
-    // call
-    ASM_CALL( LoadEventTextures );
-
-    // end arguments
-    ASM_ESP_ADD( 3 );
-
-    // return
-    ASM_RET( 0 );
-}
-
-static void
-EventPostLoad(void)
-{
-    DATA_REF(int, 0x01AEDE1C) = 0;
-
-    EVR_FixShapes();
-    EVR_StartReplaceAttr();
-    EVR_ScanEvent();
+    EvrInitFlag = false;
 }
 
 /****** Init ************************************************************************/
@@ -215,21 +195,14 @@ EV_RendererInit(void)
     EVR_MovieInit();
 
     // call for just after file load
-    WriteNOP(0x0060004A, 0x00600050);
-    WriteCall(0x0060004A, EventPostLoad);
-
-    // fix compare for credits textures
-    const u8 cmp[] = { 0x81, 0x3D, 0xF4, 0x8A, 0xA2, 0x01, 0xD2, 0x00, 0x00, 0x00 };
-    WriteMemory(0x00600050, cmp, ARYLEN(cmp));
+    WriteNOP(0x00600063, 0x0060006F);
+    WriteCall(0x00600063, EVR_EventInit);
 
     WriteJump(0x005FB4FD, 0x005FB5B9); // disable vanilla black bars
     WriteJump(0x00601938, 0x00601A0A); // ^^ movies
 
     // task loop does exec during movies, so hook this so pillars can still appear if needed
     WriteCall(0x00601A18, DrawTailsPlainWithPillar);
-
-    // Load bigtex
-    WriteCall(0x005FFE34, ___LoadEventTextures);
 
     SwitchDisplayer(0x005FB04D, DISP_SORT); // set screen effect to sorted displayer
 
